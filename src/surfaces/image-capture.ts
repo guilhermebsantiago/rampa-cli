@@ -274,10 +274,22 @@ export async function prepareImageInPage(arg: { ref: string; waitMs: number }): 
     const file = current.split(/[?#]/)[0]?.split('/').pop() ?? ''
     return /placeholder|blank|spacer|lazy|loading|transparent/i.test(file)
   }
-  if (img) {
-    while (Date.now() < deadline && (!img.complete || (lazySources(img).length > 0 && placeholder(img)))) await sleep(50)
-    if (img.complete && img.naturalWidth > 0 && typeof img.decode === 'function') {
-      await Promise.race([img.decode().catch(() => undefined), sleep(Math.max(100, deadline - Date.now()))])
+  // The pictures the capture shows: the image itself, or the img elements an element with role="img" draws with, such
+  // as a carousel slide whose picture is a lazy <img> in a div (thewhitecompany.com in the sixth real-page study, whose
+  // slide was captured blank). Those that are rendered and either have a box or wait for a lazy source must load too.
+  const pictures: HTMLImageElement[] = img
+    ? [img]
+    : Array.from(target.querySelectorAll('img')).filter((inner): inner is HTMLImageElement => {
+        if (!(inner instanceof view.HTMLImageElement)) return false
+        if (typeof inner.checkVisibility === 'function' && !inner.checkVisibility({ opacityProperty: true, visibilityProperty: true } as CheckVisibilityOptions)) return false
+        const box = inner.getBoundingClientRect()
+        return (box.width >= 8 && box.height >= 8) || lazySources(inner).length > 0
+      })
+  const pending = (picture: HTMLImageElement) => !picture.complete || (lazySources(picture).length > 0 && placeholder(picture))
+  while (Date.now() < deadline && pictures.some(pending)) await sleep(50)
+  for (const picture of pictures) {
+    if (picture.complete && picture.naturalWidth > 0 && typeof picture.decode === 'function') {
+      await Promise.race([picture.decode().catch(() => undefined), sleep(Math.max(100, deadline - Date.now()))])
     }
   }
   // A box that moves while things above it load would be cut at the wrong place: wait until it stays put.
@@ -294,10 +306,8 @@ export async function prepareImageInPage(arg: { ref: string; waitMs: number }): 
     target.scrollIntoView({ block: 'center', inline: 'center', behavior: 'instant' as ScrollBehavior })
   }
 
-  if (img) {
-    if (!img.complete || img.naturalWidth === 0) return result('not-loaded')
-    if (placeholder(img)) return result('placeholder')
-  }
+  if (pictures.some((picture) => !picture.complete || picture.naturalWidth === 0)) return result('not-loaded')
+  if (pictures.some(placeholder)) return result('placeholder')
   const rect = target.getBoundingClientRect()
   if (rect.width < 8 || rect.height < 8) return result(img ? 'not-loaded' : 'clipped')
 
@@ -406,6 +416,91 @@ export async function prepareImageInPage(arg: { ref: string; waitMs: number }): 
     if (!Number.isNaN(value)) opacity *= value
   }
   if (opacity < 0.05) return result('not-shown', source)
+
+  // What is on top where the image sits, at its centre and near its four corners (a tenth of its visible box in): content
+  // laid over the image would be captured in its place. Laid over is content in a layer fixed or sticky to the window
+  // that does not hold the image (a popup, a banner or a header that became fixed after the fixed layers were hidden),
+  // or in another branch of the page than the image's (a popup or a cookie banner added to the body); and it must paint
+  // there (a background, a picture, a control or its own text at that point), so a transparent wrapper does not count.
+  // Content of the image's own card, such as a caption, a badge or a link stretched over it, is not laid over.
+  // usereserva.com.br's product photos were captured under a prize-wheel popup, and thewhitecompany.com's candles under
+  // the cookie banner, in the sixth real-page study: such an image is left out, not judged from someone else's pixels.
+  const composedParent = (node: Element): Element | null => node.parentElement ?? ((node.parentNode as ShadowRoot | null)?.host ?? null)
+  const holds = (outer: Element, inner: Element): boolean => {
+    for (let node: Element | null = inner; node; node = composedParent(node)) if (node === outer) return true
+    return false
+  }
+  const styleOf = (node: Element) => (node.ownerDocument.defaultView ?? view).getComputedStyle(node)
+  const laidOver = (hit: Element, picture: Element): boolean => {
+    const around = new Set<Element>()
+    for (let node: Element | null = picture; node; node = composedParent(node)) around.add(node)
+    for (let node: Element | null = hit; node; node = composedParent(node)) {
+      if (around.has(node)) return node === node.ownerDocument.documentElement || node === node.ownerDocument.body
+      if (/^(fixed|sticky)$/.test(styleOf(node).position)) return true
+    }
+    return true
+  }
+  const paints = (node: Element, x: number, y: number): boolean => {
+    let alpha = 1
+    for (let up: Element | null = node; up; up = composedParent(up)) alpha *= Number.parseFloat(styleOf(up).opacity) || 0
+    if (alpha < 0.05) return false
+    if (/^(img|picture|video|canvas|iframe|embed|object|svg|input|select|textarea|button)$/.test(node.localName)) return true
+    const style = styleOf(node)
+    if (style.backgroundImage !== 'none' || (style.backdropFilter || 'none') !== 'none') return true
+    const color = /rgba?\(([^)]*)\)/.exec(style.backgroundColor)?.[1]?.split(/[\s,/]+/).filter(Boolean)
+    if (color && Number.parseFloat(color[3] ?? '1') > 0.1) return true
+    for (const child of Array.from(node.childNodes)) {
+      if (child.nodeType !== Node.TEXT_NODE || !child.textContent?.trim()) continue
+      const range = node.ownerDocument.createRange()
+      range.selectNodeContents(child)
+      if (Array.from(range.getClientRects()).some((box) => x >= box.left && x <= box.right && y >= box.top && y <= box.bottom)) return true
+    }
+    // An open shadow root draws what its host shows.
+    const inner = node.shadowRoot
+    return inner ? Array.from(inner.elementsFromPoint(x, y)).some((element) => element !== node && element.getRootNode() === inner && paints(element, x, y)) : false
+  }
+  // From the image's own tree up through its shadow hosts and frames, in each tree's coordinates.
+  const coveredAt = (pointX: number, pointY: number): boolean => {
+    let picture: Element = target
+    let x = pointX
+    let y = pointY
+    for (let depth = 0; depth < 8; depth++) {
+      const scope = picture.getRootNode() as Document | ShadowRoot
+      for (const hit of Array.from(scope.elementsFromPoint(x, y))) {
+        if (holds(picture, hit) || holds(hit, picture)) break
+        if (laidOver(hit, picture) && paints(hit, x, y)) return true
+      }
+      if ('host' in scope) {
+        picture = scope.host
+        continue
+      }
+      const frameElement = scope.defaultView?.frameElement
+      if (!frameElement) return false
+      const box = frameElement.getBoundingClientRect()
+      const style = styleOf(frameElement)
+      x += box.left + frameElement.clientLeft + (Number.parseFloat(style.paddingLeft) || 0)
+      y += box.top + frameElement.clientTop + (Number.parseFloat(style.paddingTop) || 0)
+      picture = frameElement
+    }
+    return false
+  }
+  const shownLeft = Math.max(left, 0)
+  const shownTop = Math.max(top, 0)
+  const shownRight = Math.min(right, view.innerWidth)
+  const shownBottom = Math.min(bottom, view.innerHeight)
+  if (shownRight > shownLeft && shownBottom > shownTop) {
+    const insetX = Math.max(2, (shownRight - shownLeft) / 10)
+    const insetY = Math.max(2, (shownBottom - shownTop) / 10)
+    const points: Array<[number, number]> = [
+      [(shownLeft + shownRight) / 2, (shownTop + shownBottom) / 2],
+      [shownLeft + insetX, shownTop + insetY],
+      [shownRight - insetX, shownTop + insetY],
+      [shownLeft + insetX, shownBottom - insetY],
+      [shownRight - insetX, shownBottom - insetY],
+    ]
+    if (points.some(([x, y]) => coveredAt(x, y))) return result('covered', source)
+  }
+
   const stackedWith = others.flatMap((other) => {
     const ref = refs?.get(other)
     return ref ? [ref] : []

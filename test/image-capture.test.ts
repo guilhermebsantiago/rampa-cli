@@ -113,7 +113,82 @@ context.fillStyle = 'rgb(0,128,128)'
 context.fillRect(0, 0, 200, 100)
 </script></body></html>`
 
+// Content over a picture where it sits (usereserva.com.br's prize-wheel popup over its product photos, and
+// thewhitecompany.com's cookie banner over a candle, in the sixth real-page study), and content of the picture's own card.
+const COVERED = `<!doctype html><html lang="en"><head>${STYLE}<style>
+section { height: 140px; position: relative; }
+.card { position: relative; width: 300px; height: 100px; }
+.caption { position: absolute; left: 0; bottom: 0; width: 300px; background: rgb(255,255,255); font: 14px sans-serif; }
+.stretched { position: absolute; inset: 0; }
+#banner { position: absolute; left: 0; width: 400px; height: 40px; background: rgb(20,20,20); color: white; }
+#wrapper { position: absolute; inset: 0; pointer-events: auto; }
+</style></head><body>
+<section><img id="under-popup" alt="A linen shirt" src="green.svg"></section>
+<section><img id="under-banner" alt="A large candle" src="red.svg"></section>
+<section><div class="card"><img id="captioned" alt="A blue sky" src="blue.svg"><span class="caption">Sky over the bay</span><a class="stretched" href="#sky" aria-label="Sky"></a></div></section>
+<section><img id="under-wrapper" alt="A teal door" src="teal.svg"></section>
+<div style="height: 1500px"></div>
+<section><img id="scrolled-to" alt="A teal wall" src="teal-copy.svg"></section>
+<div id="wrapper"></div>
+<div id="banner">We use cookies</div>
+<script>
+// The banner sits over the bottom of the second image only, at a corner and its centre line.
+const second = document.getElementById('under-banner').getBoundingClientRect()
+const banner = document.getElementById('banner')
+banner.style.top = (second.top + window.scrollY + 70) + 'px'
+// A popup added to the body over the first image, absolutely placed.
+const first = document.getElementById('under-popup').getBoundingClientRect()
+const popup = document.createElement('div')
+popup.id = 'popup'
+popup.style.cssText = 'position:absolute;left:0;width:320px;height:120px;background:rgb(250,200,0);top:' + (first.top + window.scrollY - 10) + 'px'
+popup.textContent = 'Spin the wheel'
+document.body.appendChild(popup)
+// A popup fixed to the window that opens once the page scrolls, after the fixed layers were hidden.
+let opened = false
+addEventListener('scroll', () => {
+  if (opened || scrollY < 300) return
+  opened = true
+  const late = document.createElement('div')
+  late.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6)'
+  document.body.appendChild(late)
+})
+</script></body></html>`
+
+// An element with role="img" drawn by an img inside it: one whose lazy source is swapped in, and one never loaded.
+const ROLE_IMG = `<!doctype html><html lang="en"><head>${STYLE}<style>.slide { width: 300px; height: 100px; } .slide img { width: 300px; height: 100px; }</style></head><body>
+<div style="height: 1200px"></div>
+<div id="loaded-slide" class="slide" role="img" title="A green field"><img class="lazy" alt="" data-src="green.svg"></div>
+<div style="height: 200px"></div>
+<div id="lazy-slide" class="slide" role="img" title="A large candle"><img alt="" data-src="red.svg"></div>
+<script>
+const observer = new IntersectionObserver((entries) => {
+  for (const entry of entries) {
+    if (!entry.isIntersecting) continue
+    observer.unobserve(entry.target)
+    setTimeout(() => { entry.target.src = entry.target.dataset.src }, 200)
+  }
+})
+for (const img of document.querySelectorAll('img.lazy')) observer.observe(img)
+</script></body></html>`
+
 describe.skipIf(!browser)('image capture', { timeout: 60_000 }, () => {
+  it('leaves out an image with other content laid over it, and captures one whose own card draws over it', async () => {
+    const nodes = await collect(COVERED)
+    const reasons = Object.fromEntries(['under-popup', 'under-banner', 'captioned', 'under-wrapper', 'scrolled-to'].map((id) => [id, imageSkipOf(nodes.get(id) as A11yNode)]))
+    expect(reasons).toEqual({ 'under-popup': 'covered', 'under-banner': 'covered', captioned: undefined, 'under-wrapper': undefined, 'scrolled-to': 'covered' })
+    expect(nodes.get('under-popup')?.image).toBeUndefined()
+    // A caption and a link stretched over the picture belong to its card; a transparent wrapper over the page paints nothing.
+    expect(colorsOf(nodes.get('captioned')?.image)).toContain('0,0,255')
+    expect(colorsOf(nodes.get('under-wrapper')?.image)).toEqual(['0,128,128'])
+  })
+
+  it('waits for the img an element with role="img" draws with, and leaves the element out when it never loads', async () => {
+    const nodes = await collect(ROLE_IMG)
+    expect(colorsOf(nodes.get('loaded-slide')?.image)).toEqual(['0,128,0'])
+    expect(nodes.get('lazy-slide')?.image).toBeUndefined()
+    expect(imageSkipOf(nodes.get('lazy-slide') as A11yNode)).toBe('not-loaded')
+  })
+
   it('crops svg and canvas images hidden from assistive technology as rendered, and leaves the decorative ones alone', async () => {
     const nodes = await collect(HIDDEN)
     expect(colorsOf(nodes.get('badge')?.image).sort()).toEqual(['0,0,255', '255,0,0'])
