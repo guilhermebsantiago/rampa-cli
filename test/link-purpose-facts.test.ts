@@ -358,6 +358,15 @@ describe('a generic link text completed by the heading of its card (H80), and a 
     const named = page([ul('top', li('t2', toggle('#about', 'About us', '#'), submenu))])
     expect(contextOf(named, '#about')?.menuToggle).toBeUndefined()
   })
+
+  it('reads a block of two links or more after a toggle as its submenu, as the "MORE" of echolive.ie opens a div of links', () => {
+    const block = (...links: A11yNode[]) => page([ul('top', li('t1', link('#home', 'Home', '/')), li('t2', toggle('#more', 'MORE', '#'), div('dropdown', ...links)))])
+    expect(contextOf(block(link('#news', 'News', '/news'), div('col', link('#sport', 'Sport', '/sport'))), '#more')?.menuToggle).toBe(true)
+    expect(groundedLink('generic', contextOf(block(link('#news', 'News', '/news'), link('#sport', 'Sport', '/sport')), '#more')!)).toBe(false)
+    // One link after it, or none, is no submenu.
+    expect(contextOf(block(link('#news', 'News', '/news')), '#more')?.menuToggle).toBeUndefined()
+    expect(contextOf(block(text('note', 'Opens at nine')), '#more')?.menuToggle).toBeUndefined()
+  })
 })
 
 /** A model that fails every link: "generic" on most, "mismatch" on a link to a part of the page. */

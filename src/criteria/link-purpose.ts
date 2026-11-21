@@ -134,8 +134,9 @@ export interface LinkPurposeContext {
    */
   cardHeading?: string | undefined
   /**
-   * The link leads nowhere (an href of "#", none, or a script) and a list follows it inside its own list item: a
-   * disclosure toggle that opens a submenu, not a link to judge (`menuToggleOf`). For verification only.
+   * The link leads nowhere (an href of "#", none, or a script) and a list, or a block of two links or more, follows it
+   * inside its own list item: a disclosure toggle that opens a submenu, not a link to judge (`menuToggleOf`). For
+   * verification only.
    */
   menuToggle?: boolean | undefined
   /**
@@ -1094,10 +1095,11 @@ export function genericCardHeading(text: string): boolean {
 }
 
 /**
- * A disclosure toggle written as a link: its href leads nowhere ("#", none, or a script) and a list follows it inside
- * its own list item, the submenu it opens (shown or not). Such a "More" names a control, not a destination: the 2.4.4
- * mismatch fact already leaves controls out, and a generic text on one is no failure of link purpose (horniman.ac.uk's
- * "More" in the fifth real-page study).
+ * A disclosure toggle written as a link: its href leads nowhere ("#", none, or a script) and a list, or a block of
+ * SUBMENU_LINKS links or more, follows it inside its own list item, the submenu it opens (shown or not). Such a "More"
+ * names a control, not a destination: the 2.4.4 mismatch fact already leaves controls out, and a generic text on one is
+ * no failure of link purpose (horniman.ac.uk's "More" in the fifth real-page study, whose submenu is a list; echolive.ie's
+ * "MORE" in the seventh, whose submenu is a `div` of 17 links).
  */
 function menuToggleOf(index: TreeIndex, node: A11yNode, href: string | undefined): boolean {
   if (isAddress(href)) return false
@@ -1107,11 +1109,20 @@ function menuToggleOf(index: TreeIndex, node: A11yNode, href: string | undefined
     if (!current) return false
     if (current.role === 'listitem') {
       const at = current.children.indexOf(child)
-      return at >= 0 && current.children.slice(at + 1).some(holdsList)
+      return at >= 0 && current.children.slice(at + 1).some((next) => holdsList(next) || linksIn(next) >= SUBMENU_LINKS)
     }
     child = current
   }
   return false
+}
+
+/** A block after a toggle with this many links is the submenu it opens; one link is a link of its own. */
+const SUBMENU_LINKS = 2
+
+function linksIn(node: A11yNode): number {
+  let count = 0
+  for (const inner of walkTree(node)) if (inner.role === 'link') count++
+  return count
 }
 
 function holdsList(node: A11yNode): boolean {
