@@ -138,6 +138,11 @@ export interface LinkPurposeContext {
    * disclosure toggle that opens a submenu, not a link to judge (`menuToggleOf`). For verification only.
    */
   menuToggle?: boolean | undefined
+  /**
+   * For a generic text: the heading the link sits under shares a word with the title or main heading of the page Rampa
+   * read at its address, the site's own name aside (`headingNamesDestination`). For verification only.
+   */
+  headingNamesDestination?: boolean | undefined
 }
 
 /** The part of the page a same-page link points to, as verification reads it. */
@@ -340,6 +345,7 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
           ...(menu ? { menu } : {}),
           ...(link.cardHeading ? { cardHeading: link.cardHeading } : {}),
           ...(genericLinkText(name) && menuToggleOf(index, node, attributes.href) ? { menuToggle: true } : {}),
+          ...(genericLinkText(name) && headingNamesDestination(link.heading, destination, siteWords) ? { headingNamesDestination: true } : {}),
           ...(inSiteChrome(index, node) ? { chrome: true } : {}),
           ...(fragment && partNode
             ? {
@@ -468,14 +474,16 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
 
 /** What `groundedLink` reads of a candidate. */
 export type LinkFacts = Pick<LinkPurposeContext, 'name' | 'sameText' | 'context' | 'headers' | 'description'> &
-  Partial<Pick<LinkPurposeContext, 'heading' | 'landmark' | 'rowSubject' | 'menu' | 'chrome' | 'target' | 'part' | 'cardHeading' | 'menuToggle' | 'destination'>>
+  Partial<
+    Pick<LinkPurposeContext, 'heading' | 'landmark' | 'rowSubject' | 'menu' | 'chrome' | 'target' | 'part' | 'cardHeading' | 'menuToggle' | 'headingNamesDestination' | 'destination'>
+  >
 
 /**
  * Whether a fail rests on a fact Rampa checked:
  * - a generic text (F84's "click here") with no programmatically determined context of its own to complete it (no
  *   sentence, paragraph, list item or cell, header cells or description), no heading of a card it sits in (H80: a news
- *   card of heading, blurb and "Leia mais", `cardHeadingOf`), and that is a link, not a disclosure toggle written as
- *   one (`menuToggleOf`);
+ *   card of heading, blurb and "Leia mais", `cardHeadingOf`), no heading above it that names the page read at its
+ *   address (`headingNamesDestination`), and that is a link, not a disclosure toggle written as one (`menuToggleOf`);
  * - a text that names only a file's format ("HTML", "EPUB", "Download PDF", generic-text.ts) and nothing in its
  *   context that could say which document: no sentence, list item or cell text, no description, no heading above it,
  *   outside the site's own header, menus and footer; or one that names only its download ("Download") in a table row
@@ -495,7 +503,7 @@ export type LinkFacts = Pick<LinkPurposeContext, 'name' | 'sameText' | 'context'
  */
 export function groundedLink(problem: (typeof LINK_PROBLEMS)[number], c: LinkFacts): boolean {
   if (problem === 'generic') {
-    return (genericLinkText(c.name) && !c.context && !c.headers && !c.description && !c.cardHeading && !c.menuToggle) || kindOnlyUncompleted(c)
+    return (genericLinkText(c.name) && !c.context && !c.headers && !c.description && !c.cardHeading && !c.menuToggle && !c.headingNamesDestination) || kindOnlyUncompleted(c)
   }
   // A raw address with a sentence of its own ("…conforme orientações previstas na página www.cnj.jus.br/comopeticionar.")
   // has a programmatically determined context that can say where it leads (G53): whether it does is the model's reading.
@@ -1059,6 +1067,25 @@ function cardHeadingOf(index: TreeIndex, node: A11yNode, heading: A11yNode | und
     ref = index.get(ref)?.parentRef
   }
   return undefined
+}
+
+/**
+ * The heading a generic link sits under (H80, "the heading the link is under") shares a word with the title or main
+ * heading of the page Rampa read at its address, as words of three letters or more that may be one word's forms
+ * (`relatedWord`), the site's own name aside (`siteWordsOf`: its host's labels and this page's title). Then the heading
+ * names where the link leads, so whether it completes "Saiba mais" is the model's reading, not a fact: portal.uel.br's
+ * "SAIBA MAIS" under "A UEL disponibiliza diversos serviços para a comunidade…" to the page "Serviços à Comunidade",
+ * and galwaycity.ie's "Read more..." under "EUI-IA WATERWAY Project" to the page of that name, were false generic
+ * findings in the seventh real-page study. A heading that shares only the site's name ("ESTATÍSTICA DO BOLDRINI" over a
+ * "Clique aqui" to a page titled "Centro Boldrini", a true finding in the sixth) or that is on the generic lists names
+ * nothing; an address that was not read, or read as a file, says nothing to compare with. Chosen on the labelled
+ * generic findings of the third to seventh studies, so in-sample.
+ */
+function headingNamesDestination(heading: string | undefined, destination: Destination | undefined, siteWords: readonly string[]): boolean {
+  if (!heading || genericCardHeading(heading) || destination?.kind !== 'page') return false
+  const site = new Set(siteWords)
+  const named = [destination.title, destination.heading].flatMap(meaningWords).filter((word) => !site.has(word))
+  return meaningWords(heading).some((word) => !site.has(word) && named.some((other) => relatedWord(word, other)))
 }
 
 /** A heading on the generic lists, for a heading or for a link: it says nothing a generic link text could take from it. */
