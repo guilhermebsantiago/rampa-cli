@@ -1,0 +1,483 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.lbc.co.uk/article/stupid-people-criticise-relationships-xi-putin-trump-5HjdnM5_2/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "de3bd13014f2",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#google_ads_iframe_\\/21824617191\\/lbc\\/article\\/stupid-people-criticise-relationships-xi-putin-trump-5HjdnM5_2_1 |> #square > div > div:nth-of-type(2) > a",
+   "message": "The link text \"Saiba Mais\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "Saiba Mais",
+   "subject": "Saiba Mais",
+   "claim": "generic",
+   "techniques": [
+    "G91"
+   ],
+   "patch": {
+    "ref": "#google_ads_iframe_\\/21824617191\\/lbc\\/article\\/stupid-people-criticise-relationships-xi-putin-trump-5HjdnM5_2_1 |> #square > div > div:nth-of-type(2) > a",
+    "kind": "set-text",
+    "from": "Saiba Mais",
+    "to": "Saiba mais sobre as condições especiais da Leapmotor",
+    "before": "<a class=\"ns-jmjnx-e-14 svg-anchor\" href=\"https://www.googleadservices.com/pagead/aclk?sa=L&amp;ai=CMi3ZXSwBa42BCNO7-LAP9PLruQTB6ayKiwGR5dLAuBahpvjz0B0QASCxn851YM2Y4IDoAqAB_76h-T3IAQGpAjtWcAcUmIY-4AIAqAMByAMKqgS2A0_QT-vfcYThKHH-9Y6eYoS36wVeDoycFfxmnnAPLDf2LD7Zma5mfvPwlbKdVWTAXoYmx2XN-JzPAFA7-M2gzDOjO6iTFmwBRIS7zYE2nb_YEUp23ukG3h6BvGKBpKGa0CFmxe8Mp0G1oLONz2AplkZNLQO-_0Vj2BdDVap8TVBmykub4OXIqcerzesxErVXTaHCLyEYnvv3MbWl0wjNYP8Gtrg4lle6Z3w4Ov6S9wbiglNOODWfqPKq-KzcFwF3xso5Ohxc21dB7X37O3WoyJDOM7YBG-ROm9lMN4Vv_oAb4TEZL0kUvhqBObmH3g-6TLZLGeBOBJLmUNqgw1TnnCpkC3w8vx_yao4G2XtQLgwuDEcDdOlKtgokShNALHEFnkRJNLWEeUAyif_lJzUh7dOHsQWCEhCvcUqeOrMsS4PQZ3A-EXp0Kk_OZxeDbLnfr1hRj9CxDbmu2lludsmz9r1RQs7LC-bdssC2MySZtqHqM0-M_wM9USGP1mZMMgnjTqkinDg31Whtv1Y9KwYQs5wDD0Cbh_WGmoGUxlWbznLYsMcU2DFlBANTnd3HA_Acz2ezZstkN8AErOHGoPAF4AQBiAW5v8O3WaAGLoAH__bx2BioB6nrsQKoB6fMsQKoB-LYsQKoB6jtsQKoB6a-G6gHzM6xAqgH89EbqAeW2BuoB7rwsQKoB6qbsQKoB_7osQKoB47OG6gHk9gbqAfw4BuoB-6WsQKoB6--sQKoB5_hsQKoB6brsQKoB9XJG6gH2baxAqgHmgaoB_-esQKoB9-fsQKoB_jCsQKoB_vCsQLYBwHSCDMIgGEQARidATIIioKAgICAgAg6D4BAgMCAgICAqIACqIOAGEi9_cE6WJn1vrmqmJgDYAGxCVUk3B4FsEqdgAoDmAsByAsBogwPKgoKCPbysQLw37ECkAEBqg0CQlLIDQHiDRMI5sC_uaqYmAMV0x0eAB10-TpH6g0TCOb9v7mqmJgDFdMdHgAddPk6R_ANAogO____________AbAO9fGVnBnYEwyIFALQFQGYFgHKFgIKAPgWAYAXAbIXEBgBKgo0MjU5ODkxMjgwUAa6FwI4AaoYFwkAAAAAYLjiQBIKNDI1OTg5MTI4MBgBshgJEgKoThguIgEA0BgBwhkCCAE&amp;ae=1&amp;gclid=EAIaIQobChMIzaPAuaqYmAMV0x0eAB10-TpHEAEYASAAEgItnPD_BwE&amp;num=1&amp;cid=CAQSsQIAogo4dXEDBYxxZ3UywisACrYy_1y6Cu-NetFu3k_XWdheF1OTZVAo9IzpIXxOR4IkzHW0Sygqt_ybRUseDXgcLiXulEFW025lDA3igMoGMWMDNTrNZF6N0YAB86VSr6b27hm7abWTs91PCU-KdMaSpmHnrP45GzlvfRk6OGNyAi3NKPR5ob8d6hLrMdgqVFd6T3I4Pt7Rv8kHzEPOiOkBl18JDnFxWtvql0WwdRCA5tp3PkciAwKueRHkCfB7Mp7rXi_zCfL_3HQH1iCWG31jUmmQLXnxpdCQCOkwEEN-ubBCFSJxE5yRcYwTuK0Z6dpwaeZIunujmWG-qsZM6o6WFcC-3gMYD5dpZLPYnVRN4afzngsnBmGtZq8HoXb3oCH4mukFoazZ5szVxH7kLnjH6hgB&amp;sig=AOD64_0rRnzQNd1Dxg-ySq8nFg_3RpBxzQ&amp;rf=4&amp;nb=8&amp;adurl=https://www.leapmotor.com.br/condicoes-especiais.html%3Fgad_source%3D5%26gad_campaignid%3D24007204793%26gclid%3DEAIaIQobChMIz\">Saiba Mais</a>",
+    "after": "<a class=\"ns-jmjnx-e-14 svg-anchor\" href=\"https://www.googleadservices.com/pagead/aclk?sa=L&amp;ai=CMi3ZXSwBa42BCNO7-LAP9PLruQTB6ayKiwGR5dLAuBahpvjz0B0QASCxn851YM2Y4IDoAqAB_76h-T3IAQGpAjtWcAcUmIY-4AIAqAMByAMKqgS2A0_QT-vfcYThKHH-9Y6eYoS36wVeDoycFfxmnnAPLDf2LD7Zma5mfvPwlbKdVWTAXoYmx2XN-JzPAFA7-M2gzDOjO6iTFmwBRIS7zYE2nb_YEUp23ukG3h6BvGKBpKGa0CFmxe8Mp0G1oLONz2AplkZNLQO-_0Vj2BdDVap8TVBmykub4OXIqcerzesxErVXTaHCLyEYnvv3MbWl0wjNYP8Gtrg4lle6Z3w4Ov6S9wbiglNOODWfqPKq-KzcFwF3xso5Ohxc21dB7X37O3WoyJDOM7YBG-ROm9lMN4Vv_oAb4TEZL0kUvhqBObmH3g-6TLZLGeBOBJLmUNqgw1TnnCpkC3w8vx_yao4G2XtQLgwuDEcDdOlKtgokShNALHEFnkRJNLWEeUAyif_lJzUh7dOHsQWCEhCvcUqeOrMsS4PQZ3A-EXp0Kk_OZxeDbLnfr1hRj9CxDbmu2lludsmz9r1RQs7LC-bdssC2MySZtqHqM0-M_wM9USGP1mZMMgnjTqkinDg31Whtv1Y9KwYQs5wDD0Cbh_WGmoGUxlWbznLYsMcU2DFlBANTnd3HA_Acz2ezZstkN8AErOHGoPAF4AQBiAW5v8O3WaAGLoAH__bx2BioB6nrsQKoB6fMsQKoB-LYsQKoB6jtsQKoB6a-G6gHzM6xAqgH89EbqAeW2BuoB7rwsQKoB6qbsQKoB_7osQKoB47OG6gHk9gbqAfw4BuoB-6WsQKoB6--sQKoB5_hsQKoB6brsQKoB9XJG6gH2baxAqgHmgaoB_-esQKoB9-fsQKoB_jCsQKoB_vCsQLYBwHSCDMIgGEQARidATIIioKAgICAgAg6D4BAgMCAgICAqIACqIOAGEi9_cE6WJn1vrmqmJgDYAGxCVUk3B4FsEqdgAoDmAsByAsBogwPKgoKCPbysQLw37ECkAEBqg0CQlLIDQHiDRMI5sC_uaqYmAMV0x0eAB10-TpH6g0TCOb9v7mqmJgDFdMdHgAddPk6R_ANAogO____________AbAO9fGVnBnYEwyIFALQFQGYFgHKFgIKAPgWAYAXAbIXEBgBKgo0MjU5ODkxMjgwUAa6FwI4AaoYFwkAAAAAYLjiQBIKNDI1OTg5MTI4MBgBshgJEgKoThguIgEA0BgBwhkCCAE&amp;ae=1&amp;gclid=EAIaIQobChMIzaPAuaqYmAMV0x0eAB10-TpHEAEYASAAEgItnPD_BwE&amp;num=1&amp;cid=CAQSsQIAogo4dXEDBYxxZ3UywisACrYy_1y6Cu-NetFu3k_XWdheF1OTZVAo9IzpIXxOR4IkzHW0Sygqt_ybRUseDXgcLiXulEFW025lDA3igMoGMWMDNTrNZF6N0YAB86VSr6b27hm7abWTs91PCU-KdMaSpmHnrP45GzlvfRk6OGNyAi3NKPR5ob8d6hLrMdgqVFd6T3I4Pt7Rv8kHzEPOiOkBl18JDnFxWtvql0WwdRCA5tp3PkciAwKueRHkCfB7Mp7rXi_zCfL_3HQH1iCWG31jUmmQLXnxpdCQCOkwEEN-ubBCFSJxE5yRcYwTuK0Z6dpwaeZIunujmWG-qsZM6o6WFcC-3gMYD5dpZLPYnVRN4afzngsnBmGtZq8HoXb3oCH4mukFoazZ5szVxH7kLnjH6hgB&amp;sig=AOD64_0rRnzQNd1Dxg-ySq8nFg_3RpBxzQ&amp;rf=4&amp;nb=8&amp;adurl=https://www.leapmotor.com.br/condicoes-especiais.html%3Fgad_source%3D5%26gad_campaignid%3D24007204793%26gclid%3DEAIaIQobChMIz\">Saiba mais sobre as condições especiais da Leapmotor</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "3197adec3d3e",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#google_ads_iframe_\\/21824617191\\/lbc\\/article\\/stupid-people-criticise-relationships-xi-putin-trump-5HjdnM5_2_1 |> html",
+   "message": "Marked as lang=\"pt\", but the text is in English (en). Read by the language identifier from 187 letters of text, with no model asked.",
+   "evidence": "Ads by Ad options Send feedback Why this ad? Seen this ad multiple times Not interested in this ad Ad",
+   "subject": "pt",
+   "techniques": [
+    "H58"
+   ],
+   "patch": {
+    "ref": "#google_ads_iframe_\\/21824617191\\/lbc\\/article\\/stupid-people-criticise-relationships-xi-putin-trump-5HjdnM5_2_1 |> html",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "from": "pt",
+    "to": "en",
+    "before": "<html amp4ads=\"\" class=\"i-amphtml-inabox i-amphtml-singledoc i-amphtml-standalone i-amphtml-iframed\" i-amphtml-layout=\"\" i-amphtml-no-boilerplate=\"\" lang=\"pt\" amp-version=\"2607210106000\">",
+    "after": "<html amp4ads=\"\" class=\"i-amphtml-inabox i-amphtml-singledoc i-amphtml-standalone i-amphtml-iframed\" i-amphtml-layout=\"\" i-amphtml-no-boilerplate=\"\" lang=\"en\" amp-version=\"2607210106000\">"
+   },
+   "confidence": "high"
+  },
+  {
+   "fingerprint": "094bb509e874",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#google_ads_iframe_\\/21824617191\\/lbc\\/article\\/stupid-people-criticise-relationships-xi-putin-trump-5HjdnM5_2_2 |> html",
+   "message": "Marked as lang=\"pt\", but the text is in English (en). Read by the language identifier from 187 letters of text, with no model asked.",
+   "evidence": "Ads by Ad options Send feedback Why this ad? Ad was inappropriate Ad covered content Seen this ad multiple",
+   "subject": "pt",
+   "techniques": [
+    "H58"
+   ],
+   "patch": {
+    "ref": "#google_ads_iframe_\\/21824617191\\/lbc\\/article\\/stupid-people-criticise-relationships-xi-putin-trump-5HjdnM5_2_2 |> html",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "from": "pt",
+    "to": "en",
+    "before": "<html amp4ads=\"\" class=\"i-amphtml-inabox i-amphtml-singledoc i-amphtml-standalone i-amphtml-iframed\" i-amphtml-layout=\"\" i-amphtml-no-boilerplate=\"\" lang=\"pt\" amp-version=\"2607210106000\">",
+    "after": "<html amp4ads=\"\" class=\"i-amphtml-inabox i-amphtml-singledoc i-amphtml-standalone i-amphtml-iframed\" i-amphtml-layout=\"\" i-amphtml-no-boilerplate=\"\" lang=\"en\" amp-version=\"2607210106000\">"
+   },
+   "confidence": "high"
+  },
+  {
+   "fingerprint": "fde9f0f2ce49",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#remixd-audio-player > div:nth-of-type(1) > iframe |> #playerPlayPause",
+   "target": "#remixd-audio-player > div:nth-of-type(1) > iframe |> #playerPlayPause",
+   "message": "The browser exposes this element as a button but computes no name for it: a screen reader announces only \"button\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role button · name \"\"",
+   "subject": "button",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<div id=\"playerPlayPause\" class=\"control-play-pause\" role=\"button\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 15
+ },
+ "groups": [
+  {
+   "id": "g-b3cc505a410d",
+   "list": "findings",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "engine",
+   "check": "link-name",
+   "count": 6,
+   "members": [
+    "c7768b7749f8",
+    "4529060ffa30",
+    "ba1fa073a65f",
+    "98a3576d73f8",
+    "3af7d08c0de8",
+    "2e17697b4917"
+   ],
+   "example": "c7768b7749f8"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#skip-to-content > aside:nth-of-type(2) > div:nth-of-type(1) > div > div > div:nth-of-type(2) > ul > li:nth-of-type(1) > a > div:nth-of-type(2) > img",
+   "message": "The text alternative \"The Prime Minister said it was a “good day for Britain and a good day for Europe”, as he met EU chiefs in Brussels to announce a package covering food and agriculture exports, emissions trading.\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Liz Truss, Rishi Sunak, and an EU official shaking hands at a summit.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (0.66), claim: yes (0.99), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#skip-to-content > article > div:nth-of-type(3) > div:nth-of-type(1) > p:nth-of-type(1) > a",
+   "message": "The link text \"Enjoy your favourite LBC shows with ad-free Catch Up, weekly competition entries and an exclusive newsletter. Subscribe to LBC Catch Up Plus from £4.99 a month\" does not match where the link leads: a page titled \"LBC launches new subscription service, LBC Catch Up Plus | LBC\".",
+   "evidence": "The model suggests: \"Read about the new LBC Catch Up Plus subscription service\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#google_ads_iframe_\\/21824617191\\/lbc\\/article\\/stupid-people-criticise-relationships-xi-putin-trump-5HjdnM5_2_2 |> #square > div > div:nth-of-type(2) > a",
+   "message": "The link text \"Acessar oferta\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Acessar oferta da [Nome do Produto/Serviço]\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > footer > div > nav > div:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+   "message": "The link text \"Help\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Frequently Asked Questions\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#skip-to-top > div:nth-of-type(2) > div:nth-of-type(1) > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "LBC logo",
+    "problem": "missing_information",
+    "imageShows": "The LBC logo featuring the letters L, B, and C in white on red, blue, and black rectangular backgrounds.",
+    "suggestedAlt": "LBC Home",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(1) > div > div:nth-of-type(2) > astro-island > div > div:nth-of-type(2) > div > astro-slot > img",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "The letters LBC in blue on white rectangular blocks.",
+    "textInImage": "LBC",
+    "verdict": "fail",
+    "evidence": "The logo for LBC",
+    "suggestedAlt": "LBC logo",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(1) > div > div:nth-of-type(3) > astro-island > div > div:nth-of-type(1) > img",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "The LBC News logo featuring the letters LBC in colored blocks above the word NEWS.",
+    "textInImage": "LBC NEWS",
+    "verdict": "fail",
+    "evidence": "LBC News logo",
+    "suggestedAlt": "LBC News logo",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(1) > div > div:nth-of-type(3) > astro-island > div > div:nth-of-type(2) > div > astro-slot > img",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "The LBC News logo featuring blue letters on white rectangular blocks.",
+    "textInImage": "LBC NEWS",
+    "verdict": "fail",
+    "evidence": "LBC NEWS",
+    "suggestedAlt": "LBC News logo",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#google_ads_iframe_\\/21824617191\\/lbc\\/article\\/stupid-people-criticise-relationships-xi-putin-trump-5HjdnM5_2_2 |> #square > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Em Oferta a R$ 137.990' (On Sale for R$ 137,990) suggests a commercial offer or a product purchase page, but the context provided is a heading 'Listen to this article', which is unrelated to a price offer.",
+    "leadsTo": "A Google Ads redirect link (likely to a product or service page based on the price).",
+    "verdict": "fail",
+    "evidence": "Em Oferta a R$ 137.990",
+    "problem": "mismatch",
+    "suggestedText": "Comprar por R$ 137.990",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#skip-to-content > aside:nth-of-type(2) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > ul > li:nth-of-type(6) > a",
+   "reason": "evidence is not the link text",
+   "output": {
+    "promises": "An article titled \"'A good day for Britain': Burnham hails UK-EU deal a 'win-win' - but row over tuition fees rolls on\"",
+    "leadsTo": "a page titled \"'A good day for Britain': Burnham hails UK-EU deal a 'win-win' - but row over tuition fees rolls on | LBC\"",
+    "verdict": "pass",
+    "evidence": "'A good day for Britain': Burnham hails UK-EU deal a 'win-win' - but row over tuition fees rolls on",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 21,
+   "judged": 21,
+   "failed": 0,
+   "passed": 16,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 54,
+   "judged": 50,
+   "failed": 1,
+   "passed": 44,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 4,
+   "suggested": 3
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 18,
+   "judged": 18,
+   "failed": 0,
+   "passed": 18,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 5,
+   "failed": 2,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 2,
+   "decidedFailed": 2
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #twitter-widget-0 (https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-0&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbi).",
+  "3 image(s) were left without a capture, so no judgment looked at them: 3 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 4 of 54 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 96,
+  "inputTokens": 96681,
+  "outputTokens": 9498,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 265,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 21
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 17,
+    "prepareMs": 0,
+    "candidates": 21,
+    "judged": 21,
+    "calls": 0,
+    "cachedCalls": 24
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 24,
+    "prepareMs": 0,
+    "candidates": 54,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 7,
+    "prepareMs": 0,
+    "candidates": 18,
+    "judged": 18,
+    "calls": 0,
+    "cachedCalls": 18
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 129,
+    "prepareMs": 127,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 32,
+    "prepareMs": 0,
+    "candidates": 5,
+    "judged": 5,
+    "calls": 0,
+    "cachedCalls": 3
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 31
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 28,
+   "notCaptured": 3,
+   "reasons": {
+    "limit": 3
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 54,
+    "capped": 4
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#twitter-widget-0",
+     "url": "https://platform.twitter.com/embed/Tweet.html?dnt=false&embedId=twitter-widget-0&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7ImJ1Y2tldCI6Im9uIiwidmVyc2lvbi",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  }
+ }
+}

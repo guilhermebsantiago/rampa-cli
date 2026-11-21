@@ -35,3 +35,19 @@ Sixth real-page study: notes of the run (2026-11-21, times UTC-3)
        T4 subset unchanged; both domains clear of data/excluded-domains.json and of recheck_domains.py (0 hits). The old
        folders are kept as DATA/pages/replaced-<slug>/. 72 of 72 pages collected. Both replaced slots are dev pages.
 02:47  Main judgment started (run-judged.sh main), block order, --concurrency 2.
+02:51  compact.py fixed before its first use: the report's field is wcagTarget, not wcag (144effb). analyze.py was
+       committed in d7a2f03 and t4.py in 4241311, before any label file and before T4.
+03:27  pass_list.ts dry-tested on a scratch copy over the 9 test pages judged by then: every page matched the main
+       run's report (counts only were printed).
+05:18  Main judgment done (02:47-05:18): 72 of 72 pages, exits 1 (71) and 0 (1), 9 to 240 s a page (median 126 s), no
+       report with an error, a time-out or an offline miss; no pause for heat or memory (GPU 52-65 C when read).
+05:23  Ablations done (run-ablation.sh, 05:18-05:23, 72 pages each): noconfirm, noverify, nop2, nollm; offline misses 0,
+       97 (noverify: the second pass of claims verification had discarded, as section 3 says), 0, 0; no errors. The nop2
+       build differs from dist/ in the one line (data/nop2-variant.diff).
+05:25  p1_facts.ts: on 3,322 dev and 3,949 test 2.4.4 candidates, no link where P1 changes the generic fact.
+       compact.py (360 compact reports), hashes.py (216 recording and screenshot files, 476 MB), sample_suggestions.py
+       (20 drawn per block and split; 4 labelled in full).
+05:30  pass_list.ts: every one of the 36 test pages matched the main run's report. pass_draw.py: 200 items (1.1.1: 60
+       passed, 20 discarded, 20 held back; 2.4.4: the same); a second run wrote the same bytes.
+05:31  packets.py: 71 packets (b3-donegaldaily-com, dev, has nothing to label), 819 items: dev 295, test 524. judge_prompt.py
+       --all: 142 prompt files in judge-prompts/, index.json largest first. No judge launched.

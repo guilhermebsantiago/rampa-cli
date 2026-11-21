@@ -1,0 +1,412 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://reports.ofsted.gov.uk/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "2324c585104f",
+   "criterion": "2.5.3",
+   "level": "A",
+   "source": "rule",
+   "ref": "#categoryAll",
+   "target": "#categoryAll",
+   "message": "The visible label \"All categories\" is not in the field's accessible name, \"Category\", which comes from aria-labelledby: people using speech input say what they see, and the field does not answer to it.",
+   "evidence": "\"All categories\" / \"Category\"",
+   "subject": "All categories / Category",
+   "confidence": "low",
+   "ruleId": "rampa/field-label-in-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html",
+   "html": "<input type=\"radio\" name=\"level_1_types\" id=\"categoryAll\" value=\"0\" checked=\"\" aria-labelledby=\"category\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "2e1b6d601c86",
+   "criterion": "2.5.3",
+   "level": "A",
+   "source": "rule",
+   "ref": "#category-1",
+   "target": "#category-1",
+   "message": "The visible label \"Education and training\" is not in the field's accessible name, \"Category\", which comes from aria-labelledby: people using speech input say what they see, and the field does not answer to it.",
+   "evidence": "\"Education and training\" / \"Category\"",
+   "subject": "Education and training / Category",
+   "confidence": "low",
+   "ruleId": "rampa/field-label-in-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html",
+   "html": "<input type=\"radio\" name=\"level_1_types\" id=\"category-1\" value=\"1\" aria-labelledby=\"category\" aria-controls=\"subcat-1\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "fbbc36fec32d",
+   "criterion": "2.5.3",
+   "level": "A",
+   "source": "rule",
+   "ref": "#category-2",
+   "target": "#category-2",
+   "message": "The visible label \"Childcare and early education\" is not in the field's accessible name, \"Category\", which comes from aria-labelledby: people using speech input say what they see, and the field does not answer to it.",
+   "evidence": "\"Childcare and early education\" / \"Category\"",
+   "subject": "Childcare and early education / Category",
+   "confidence": "low",
+   "ruleId": "rampa/field-label-in-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html",
+   "html": "<input type=\"radio\" name=\"level_1_types\" id=\"category-2\" value=\"2\" aria-labelledby=\"category\" aria-controls=\"subcat-2\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "f3e969dae183",
+   "criterion": "2.5.3",
+   "level": "A",
+   "source": "rule",
+   "ref": "#category-3",
+   "target": "#category-3",
+   "message": "The visible label \"Children's social care\" is not in the field's accessible name, \"Category\", which comes from aria-labelledby: people using speech input say what they see, and the field does not answer to it.",
+   "evidence": "\"Children's social care\" / \"Category\"",
+   "subject": "Children's social care / Category",
+   "confidence": "low",
+   "ruleId": "rampa/field-label-in-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html",
+   "html": "<input type=\"radio\" name=\"level_1_types\" id=\"category-3\" value=\"3\" aria-labelledby=\"category\" aria-controls=\"subcat-3\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "48e2ec6df846",
+   "criterion": "2.5.3",
+   "level": "A",
+   "source": "rule",
+   "ref": "#category-4",
+   "target": "#category-4",
+   "message": "The visible label \"Other organisations\" is not in the field's accessible name, \"Category\", which comes from aria-labelledby: people using speech input say what they see, and the field does not answer to it.",
+   "evidence": "\"Other organisations\" / \"Category\"",
+   "subject": "Other organisations / Category",
+   "confidence": "low",
+   "ruleId": "rampa/field-label-in-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html",
+   "html": "<input type=\"radio\" name=\"level_1_types\" id=\"category-4\" value=\"4\" aria-labelledby=\"category\" aria-controls=\"subcat-4\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 1
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > header > div:nth-of-type(1) > a > img",
+   "message": "The text alternative \"Ofsted Logo\" describes something the image does not show.",
+   "evidence": "Offline: the second pass has no cached answer, so the claim stays a suggestion",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#main > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > ul > li:nth-of-type(5) > a",
+   "message": "The link text \"Find a multi-academy trust\" does not match where the link leads: a page titled \"Search - Find an Inspection Report - Ofsted\".",
+   "evidence": "The model suggests: \"Search for multi-academy trust inspection reports\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#categoryAll",
+   "message": "The label \"Category\" does not say what to enter.",
+   "evidence": "The model suggests: \"Select a category\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#category-1",
+   "message": "The label \"Category\" does not say what to enter.",
+   "evidence": "The model suggests: \"Select a category\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#category-2",
+   "message": "The label \"Category\" does not say what to enter.",
+   "evidence": "The model suggests: \"Select a category\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#category-3",
+   "message": "The label \"Category\" does not say what to enter.",
+   "evidence": "The model suggests: \"Select a category\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#category-4",
+   "message": "The label \"Category\" does not say what to enter.",
+   "evidence": "The model suggests: \"Select a category\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > header > div:nth-of-type(1) > a > img",
+   "reason": "the alternative's words are all in the text next to the image",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Ofsted Logo",
+    "problem": "wrong_content",
+    "imageShows": "The Ofsted logo featuring the word 'Ofsted' and three stylized human figures.",
+    "suggestedAlt": "Ofsted logo",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#main > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > ul > li:nth-of-type(5) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'Find a multi-academy trust' suggests it leads to a search or directory of multi-academy trusts.",
+    "leadsTo": "A search results page for inspection reports.",
+    "verdict": "fail",
+    "evidence": "Find a multi-academy trust",
+    "problem": "mismatch",
+    "suggestedText": "Search for multi-academy trust inspection reports",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 1,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 23,
+   "judged": 23,
+   "failed": 0,
+   "passed": 22,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 11,
+   "judged": 11,
+   "failed": 0,
+   "passed": 6,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 5
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Verification was off (--no-verify): model claims whose quoted evidence is not on the page are reported as if it were. This run is for measurement only.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 37,
+  "inputTokens": 32321,
+  "outputTokens": 3122,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 190,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 15
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 8,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 0,
+    "cachedCalls": 2
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 10,
+    "prepareMs": 0,
+    "candidates": 23,
+    "judged": 23,
+    "calls": 0,
+    "cachedCalls": 23
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 4,
+    "prepareMs": 0,
+    "candidates": 11,
+    "judged": 11,
+    "calls": 0,
+    "cachedCalls": 11
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 137,
+    "prepareMs": 134,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 11
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 1,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "1.1.1",
+    "candidates": 1,
+    "offlineMisses": 1
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

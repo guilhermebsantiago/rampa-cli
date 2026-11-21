@@ -1,0 +1,442 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://aacd.org.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "bee8639ef362",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(3) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > figure:nth-of-type(2) > img",
+   "message": "The text alternative \"Banner Home 2.2\" names a label, not what the image conveys here.",
+   "evidence": "Banner Home 2.2",
+   "subject": "Banner Home 2.2",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "html > body > div:nth-of-type(3) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > figure:nth-of-type(2) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Banner Home 2.2",
+    "to": "Criança sorridente realizando exercícios de reabilitação em uma cadeira de rodas especial.",
+    "before": "<img width=\"640\" height=\"544\" src=\"https://aacd.org.br/wp-content/uploads/2026/01/aacd26-home-banner-01.jpg\" class=\"attachment-slider size-slider wp-post-image\" alt=\"Banner Home 2.2\" decoding=\"async\" srcset=\"https://aacd.org.br/wp-content/uploads/2026/01/aacd26-home-banner-01.jpg 640w, https://aacd.org.br/wp-content/uploads/2026/01/aacd26-home-banner-01-300x255.jpg 300w\" sizes=\"(max-width: 640px) 100vw, 640px\">",
+    "after": "<img width=\"640\" height=\"544\" src=\"https://aacd.org.br/wp-content/uploads/2026/01/aacd26-home-banner-01.jpg\" class=\"attachment-slider size-slider wp-post-image\" alt=\"Criança sorridente realizando exercícios de reabilitação em uma cadeira de rodas especial.\" decoding=\"async\" srcset=\"https://aacd.org.br/wp-content/uploads/2026/01/aacd26-home-banner-01.jpg 640w, https://aacd.org.br/wp-content/uploads/2026/01/aacd26-home-banner-01-300x255.jpg 300w\" sizes=\"(max-width: 640px) 100vw, 640px\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999324180784483
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "13c988a5782d",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(3) > div > div > div:nth-of-type(1) > div:nth-of-type(3) > div > figure:nth-of-type(1) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Reforma concluída, mais conforto para você! Acesso para internação retomado\".",
+   "evidence": "Reforma concluída, mais conforto para você! Acesso para internação retomado",
+   "subject": "hidden AACD-Fim-da-reforma-Hospital-banner-site01-1.png",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "3b619e7e74a6",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#footer-bottom > div > div:nth-of-type(1) > div:nth-of-type(2) > figure:nth-of-type(1) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Certification seal: 'Excellence in Person Centered Care' by Planetree\".",
+   "evidence": "Certification seal: 'Excellence in Person Centered Care' by Planetree",
+   "subject": "hidden certificado-person-centred-care.png",
+   "patch": {
+    "ref": "#footer-bottom > div > div:nth-of-type(1) > div:nth-of-type(2) > figure:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Certificação de Excelência em Cuidado Centrado na Pessoa pela Planetree",
+    "before": "<img src=\"https://aacd.org.br/wp-content/themes/wp-aacd-2026/assets/images/certificacoes/certificado-person-centred-care.png\" alt=\"\">",
+    "after": "<img src=\"https://aacd.org.br/wp-content/themes/wp-aacd-2026/assets/images/certificacoes/certificado-person-centred-care.png\" alt=\"Certificação de Excelência em Cuidado Centrado na Pessoa pela Planetree\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "fcf4f84da43a",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#footer-bottom > div > div:nth-of-type(1) > div:nth-of-type(2) > figure:nth-of-type(2) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Acreditado Qmentum 1ª Categoria Diamond\".",
+   "evidence": "Acreditado Qmentum 1ª Categoria Diamond",
+   "subject": "hidden certificado-diamond.png",
+   "patch": {
+    "ref": "#footer-bottom > div > div:nth-of-type(1) > div:nth-of-type(2) > figure:nth-of-type(2) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Selo de certificação Diamond da Qmentum, 1ª Categoria",
+    "before": "<img src=\"https://aacd.org.br/wp-content/themes/wp-aacd-2026/assets/images/certificacoes/certificado-diamond.png\" alt=\"\">",
+    "after": "<img src=\"https://aacd.org.br/wp-content/themes/wp-aacd-2026/assets/images/certificacoes/certificado-diamond.png\" alt=\"Selo de certificação Diamond da Qmentum, 1ª Categoria\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "9d010280e0db",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#footer-bottom > div > div:nth-of-type(1) > div:nth-of-type(2) > figure:nth-of-type(3) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Certification badge: 'Melhores Empresas Para Trabalhar Saúde' Brasil 2024\".",
+   "evidence": "Certification badge: 'Melhores Empresas Para Trabalhar Saúde' Brasil 2024",
+   "subject": "hidden certificado-melhores-empresas-para-trabalhar-saude.png",
+   "patch": {
+    "ref": "#footer-bottom > div > div:nth-of-type(1) > div:nth-of-type(2) > figure:nth-of-type(3) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Selo de certificação Melhores Empresas Para Trabalhar Saúde - Great Place To Work Brasil 2024",
+    "before": "<img src=\"https://aacd.org.br/wp-content/themes/wp-aacd-2026/assets/images/certificacoes/certificado-melhores-empresas-para-trabalhar-saude.png\" alt=\"\">",
+    "after": "<img src=\"https://aacd.org.br/wp-content/themes/wp-aacd-2026/assets/images/certificacoes/certificado-melhores-empresas-para-trabalhar-saude.png\" alt=\"Selo de certificação Melhores Empresas Para Trabalhar Saúde - Great Place To Work Brasil 2024\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "241408c65d00",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > main > div > section:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div:nth-of-type(1)",
+   "target": "html > body > main > div > section:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div:nth-of-type(1)",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<div class=\"imagem-destaque ciano\" role=\"link\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "001838bacf12",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > main > div > section:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div",
+   "target": "html > body > main > div > section:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<div class=\"imagem-destaque \" role=\"link\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 12
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 8,
+   "members": [
+    "fd869191e69f",
+    "954c82c42dae",
+    "8a33254523e8",
+    "378ef7c5d074",
+    "fa40d1c50c23",
+    "9385843e3b67",
+    "9debf329047d",
+    "52f22e2e869e"
+   ],
+   "example": "fd869191e69f"
+  }
+ ],
+ "needsReview": [],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > main > div > section:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div:nth-of-type(2) > figure > img",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "A healthcare professional in a white coat interacts with an elderly man in a specialized rehabilitation suit.",
+    "textInImage": "Centro de Reabilitação AACD Ibirapuera",
+    "verdict": "fail",
+    "evidence": "Centro de Reabilitação AACD Ibirapuera",
+    "suggestedAlt": "Centro de Reabilitação AACD Ibirapuera: profissional auxiliando paciente em reabilitação.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > main > div > section:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div > figure > img:nth-of-type(1)",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "A woman in a white vest with an AACD logo assisting a young boy with a physical disability.",
+    "textInImage": "Faça sua parte, doe para AACD. Cada doação contribui ainda mais para um atendimento de qualidade. Quero doar",
+    "verdict": "fail",
+    "evidence": "Faça sua parte, doe para AACD. Quero doar",
+    "suggestedAlt": "Faça sua parte, doe para AACD. Cada doação contribui ainda mais para um atendimento de qualidade. Quero doar",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 12,
+   "judged": 12,
+   "failed": 5,
+   "passed": 5,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 99,
+   "judged": 50,
+   "failed": 0,
+   "passed": 50,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 49
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 15,
+   "judged": 15,
+   "failed": 0,
+   "passed": 15,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 49 of 99 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 81,
+  "cachedCalls": 0,
+  "inputTokens": 76193,
+  "outputTokens": 8113,
+  "latencyMs": 243236
+ },
+ "timings": {
+  "totalMs": 125661,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 15
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 25617,
+    "prepareMs": 0,
+    "candidates": 12,
+    "judged": 12,
+    "calls": 15,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 80103,
+    "prepareMs": 0,
+    "candidates": 99,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 18678,
+    "prepareMs": 0,
+    "candidates": 15,
+    "judged": 15,
+    "calls": 15,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 185,
+    "prepareMs": 182,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 1032,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 27
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 20,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 99,
+    "capped": 49
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

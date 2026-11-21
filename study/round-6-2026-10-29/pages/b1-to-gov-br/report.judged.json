@@ -1,0 +1,355 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.to.gov.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 11
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > section:nth-of-type(5) > div:nth-of-type(1) > div > div > ul:nth-of-type(2) > li:nth-of-type(1) > a",
+   "message": "The link text \"Venha, Conheça o Tocantins arrow_forward\" does not match where the link leads: a page titled \"Secretaria da Cultura - SECULT-TO\".",
+   "evidence": "The model suggests: \"Secretaria da Cultura (SECULT-TO)\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > section:nth-of-type(5) > div:nth-of-type(1) > div > div > ul:nth-of-type(3) > li:nth-of-type(2) > a",
+   "message": "The link text \"Bico do papagaio\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Saiba mais sobre a vistoria no Bico do Papagaio\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > section:nth-of-type(5) > div:nth-of-type(1) > div > div > ul:nth-of-type(3) > li:nth-of-type(3) > a",
+   "message": "The link text \"Bico do papagaio\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Saiba mais sobre o Bico do Papagaio\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > section:nth-of-type(5) > div:nth-of-type(1) > div > div > ul:nth-of-type(3) > li:nth-of-type(4) > a",
+   "message": "The link text \"Bico do papagaio\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Visite o Bico do Papagaio\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > section:nth-of-type(3) > div > div > div:nth-of-type(3) > ul > li:nth-of-type(1) > a",
+   "reason": "evidence is not the link text",
+   "output": {
+    "promises": "The link text 'CIPTEA - Carteira de Identifica...' and its context suggest it leads to a service or information regarding the CIPTEA identification card.",
+    "leadsTo": "https://servicos.to.gov.br/servico_detalhado.aspx?cod_assunto_documento_tipo=2",
+    "verdict": "pass",
+    "evidence": "CIPTEA - Carteira de Identifica...",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > section:nth-of-type(4) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A link text 'EDUCAÇÃO' in the context of 'Educação today 19/11/2026' under the heading 'Últimas notícias' suggests it leads to a category page or a list of news related to Education.",
+    "leadsTo": "A page titled 'Governo do Tocantins' with the main heading 'Notícias'.",
+    "verdict": "fail",
+    "evidence": "EDUCAÇÃO",
+    "problem": "mismatch",
+    "suggestedText": "Notícias de Educação",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > section:nth-of-type(4) > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A category tag for 'Cidadania e Justiça' (Citizenship and Justice) related to a news article.",
+    "leadsTo": "A news listing page for the 'Governo do Tocantins' (Government of Tocantins).",
+    "verdict": "fail",
+    "evidence": "CIDADANIA E JUSTIÇA",
+    "problem": "mismatch",
+    "suggestedText": "Notícias de Cidadania e Justiça",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > section:nth-of-type(4) > div > div > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(2) > div > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A category tag for 'Trabalho e Assistência Social' (Work and Social Assistance).",
+    "leadsTo": "A general news page for the Government of Tocantins.",
+    "verdict": "fail",
+    "evidence": "TRABALHO E ASSISTÊNCIA SOCIAL",
+    "problem": "mismatch",
+    "suggestedText": "Notícias de Trabalho e Assistência Social",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > section:nth-of-type(4) > div > div > div:nth-of-type(2) > div:nth-of-type(4) > div:nth-of-type(2) > div > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'ITERTINS' and its context (a news item about the government delivering trucks) suggest it leads to a page about the 'ITERTINS' organization or a specific news category related to it.",
+    "leadsTo": "A page titled 'Governo do Tocantins' under the 'Notícias' section.",
+    "verdict": "fail",
+    "evidence": "ITERTINS",
+    "problem": "mismatch",
+    "suggestedText": "Governo do Tocantins",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 6,
+   "judged": 6,
+   "failed": 0,
+   "passed": 6,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 36,
+   "judged": 36,
+   "failed": 0,
+   "passed": 27,
+   "cannotTell": 0,
+   "discarded": 5,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 4
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 13,
+   "judged": 13,
+   "failed": 0,
+   "passed": 13,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "2 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #barra-topo (https://barra.to.gov.br/topo.php?to.gov.br), #barra-base (https://barra.to.gov.br/base.php?to.gov.br&ati=1).",
+  "2 image(s) were left without a capture, so no judgment looked at them: 2 outside the page (an off-canvas menu). The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 54,
+  "cachedCalls": 3,
+  "inputTokens": 58473,
+  "outputTokens": 7288,
+  "latencyMs": 210290
+ },
+ "timings": {
+  "totalMs": 109343,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 16
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 18450,
+    "prepareMs": 0,
+    "candidates": 6,
+    "judged": 6,
+    "calls": 5,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1359,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 66121,
+    "prepareMs": 0,
+    "candidates": 36,
+    "judged": 36,
+    "calls": 34,
+    "cachedCalls": 2
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 21810,
+    "prepareMs": 0,
+    "candidates": 13,
+    "judged": 13,
+    "calls": 13,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 1541,
+    "prepareMs": 173,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 8,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 38
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 12,
+   "notCaptured": 2,
+   "reasons": {
+    "outside-page": 2
+   }
+  }
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#barra-topo",
+     "url": "https://barra.to.gov.br/topo.php?to.gov.br",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "#barra-base",
+     "url": "https://barra.to.gov.br/base.php?to.gov.br&ati=1",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  }
+ }
+}

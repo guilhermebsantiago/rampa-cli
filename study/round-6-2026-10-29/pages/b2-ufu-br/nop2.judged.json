@@ -1,0 +1,463 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://ufu.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "50681b2f7fcb",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#block-ufu-views-block-destaques-bloco-grid > div > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > a > img",
+   "message": "The text alternative \"Questão de ética\" is all its link holds, and does not say where the link leads.",
+   "evidence": "Questão de ética",
+   "subject": "Questão de ética",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "#block-ufu-views-block-destaques-bloco-grid > div > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Questão de ética",
+    "to": "Comissão de Ética",
+    "before": "<img src=\"/sites/default/files/2025-08/gover-acessibilidade-e-questao-de-etica-04.png\" alt=\"Questão de ética\" class=\"img-fluid\">",
+    "after": "<img src=\"/sites/default/files/2025-08/gover-acessibilidade-e-questao-de-etica-04.png\" alt=\"Comissão de Ética\" class=\"img-fluid\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9948882061418092
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "c108d989528d",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#block-ufu-views-block-destaques-bloco-grid > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > a > img",
+   "message": "The text alternative \"Governança\" is all its link holds, and does not say where the link leads.",
+   "evidence": "Governança",
+   "subject": "Governança",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "#block-ufu-views-block-destaques-bloco-grid > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Governança",
+    "to": "Comitê de Governança, Gestão de Riscos, Controles e Integridade",
+    "before": "<img src=\"/sites/default/files/2025-08/gover-acessibilidade-e-questao-de-etica-05.png\" alt=\"Governança\" class=\"img-fluid\">",
+    "after": "<img src=\"/sites/default/files/2025-08/gover-acessibilidade-e-questao-de-etica-05.png\" alt=\"Comitê de Governança, Gestão de Riscos, Controles e Integridade\" class=\"img-fluid\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9986115944831555
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "40281bee303a",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#menu-barra-brasil > ul > li:nth-of-type(4) > a",
+   "message": "The link text \"ACESSO À INFORMAÇÃO\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "ACESSO À INFORMAÇÃO",
+   "subject": "ACESSO À INFORMAÇÃO",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#menu-barra-brasil > ul > li:nth-of-type(4) > a",
+    "kind": "set-text",
+    "from": "ACESSO À INFORMAÇÃO",
+    "to": "Acesso à Informação (Portal de Transparência)",
+    "before": "<a href=\"http://www.gov.br/acessoainformacao/\" class=\"link-barra link-externo-barra\">ACESSO À INFORMAÇÃO</a>",
+    "after": "<a href=\"http://www.gov.br/acessoainformacao/\" class=\"link-barra link-externo-barra\">Acesso à Informação (Portal de Transparência)</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 40
+ },
+ "groups": [
+  {
+   "id": "g-a5ea3b6c2dce",
+   "list": "findings",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "engine",
+   "check": "image-alt",
+   "count": 16,
+   "members": [
+    "3aaccf1e473c",
+    "de484b6bf17d",
+    "8086811c6795",
+    "e5711a3e65d0",
+    "0ba93a199ce1",
+    "0659f620c862",
+    "870785cd4cc3",
+    "bcc3e2fc6caa",
+    "24660985f413",
+    "ad0ffab35e11",
+    "614a1a4d29ee",
+    "c25ef0753f41",
+    "b8f71e58b464",
+    "13f8e4dba3f3",
+    "a80cc76ee4ae",
+    "b8029b41ea16"
+   ],
+   "example": "3aaccf1e473c"
+  },
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 9,
+   "members": [
+    "2e91c4a69512",
+    "7bff8a888dd0",
+    "e7a6f4b0aa80",
+    "4db3e8d248ca",
+    "56cceeb4a029",
+    "a9f2ec231dcf",
+    "fd130832bfb6",
+    "ce48cc18569f",
+    "1f6e9541cc5d"
+   ],
+   "example": "2e91c4a69512"
+  },
+  {
+   "id": "g-a08e6bc444ec",
+   "list": "findings",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "engine",
+   "check": "aria-hidden-focus",
+   "count": 11,
+   "members": [
+    "1203717b69f4",
+    "bef3b052972d",
+    "c05df8b6cf93",
+    "a227a2188b4a",
+    "94b4e47e6553",
+    "d1933fc0641e",
+    "2c0a17acd062",
+    "4210eb5b1b4a",
+    "9de3ec54a487",
+    "1ff25dbe5981",
+    "4a6d02676dbb"
+   ],
+   "example": "1203717b69f4"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#resetarZoom",
+   "message": "The link text \"A\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Diminuir zoom\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(2) > main > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div > div > div > div:nth-of-type(1) > div > p:nth-of-type(4) > a",
+   "message": "The link text \"Leia mais\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Leia mais sobre diversidade racial na ciência\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#block-ufu-rodape-menu",
+   "message": "The heading \"UFU\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Sobre a UFU\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#block-ufu-rodape-7-menu",
+   "message": "The heading \"SERVIÇOS UFU\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Serviços da UFU\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#block-ufu-views-block-perfis-bloco-perfis-botoes > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > div > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Ilustração de pessoas da comunidade",
+    "problem": "missing_information",
+    "imageShows": "Uma ilustração circular de quatro pessoas de diferentes etnias e idades sob um céu noturno com lua e estrelas.",
+    "suggestedAlt": "Comunidade",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 6,
+   "judged": 6,
+   "failed": 2,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 2
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 120,
+   "judged": 50,
+   "failed": 1,
+   "passed": 47,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 70,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 8,
+   "judged": 8,
+   "failed": 0,
+   "passed": 6,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "25 image(s) were left without a capture, so no judgment looked at them: 5 outside the page (an off-canvas menu); 20 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 70 of 120 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 71,
+  "inputTokens": 64837,
+  "outputTokens": 7506,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 245,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 20
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 12,
+    "prepareMs": 0,
+    "candidates": 6,
+    "judged": 6,
+    "calls": 0,
+    "cachedCalls": 12
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 30,
+    "prepareMs": 0,
+    "candidates": 120,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 4,
+    "prepareMs": 0,
+    "candidates": 8,
+    "judged": 8,
+    "calls": 0,
+    "cachedCalls": 8
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 133,
+    "prepareMs": 130,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 12,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 28
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 20,
+   "notCaptured": 25,
+   "reasons": {
+    "outside-page": 5,
+    "limit": 20
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 120,
+    "capped": 70
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

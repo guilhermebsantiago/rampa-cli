@@ -1,0 +1,400 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.migalhas.com.br/quentes/467452/listas-de-boicote-a-comerciantes-podem-configurar-crime",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "31ca493e0c83",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > app-root > app-quentes-leitura > div > main > div > div > app-base-widget > app-view > app-wt-view-v01 > section > app-base-asset > app-no-v11 > div > article > app-compartilhamento-topo > nav > div:nth-of-type(1) > div > a:nth-of-type(5) > div > img",
+   "target": "html > body > app-root > app-quentes-leitura > div > main > div > div > app-base-widget > app-view > app-wt-view-v01 > section > app-base-asset > app-no-v11 > div > article > app-compartilhamento-topo > nav > div:nth-of-type(1) > div > a:nth-of-type(5) > div > img",
+   "message": "The text alternative \"e-mail\" repeats the image's file name: a screen reader reads it in place of the image. Describe what the image conveys, or use alt=\"\" if it is decorative.",
+   "evidence": "alt=\"e-mail\"",
+   "subject": "e-mail",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-alt",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F30",
+   "html": "<img _ngcontent-app-root-c55=\"\" loading=\"lazy\" width=\"12\" height=\"12\" class=\"fa-envelope icone--topo icones-svg\" src=\"../../../assets/images/icones/e-mail.svg?v=1.0\" title=\"e-mail\" alt=\"e-mail\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "fd3fc1b07ceb",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > app-root > app-quentes-leitura > div > main > div > div > app-base-widget > app-view > app-wt-view-v01 > section > app-base-asset > app-no-v11 > div > article > app-compartilhamento-baixo > nav > div:nth-of-type(2) > a:nth-of-type(5) > div > img",
+   "target": "html > body > app-root > app-quentes-leitura > div > main > div > div > app-base-widget > app-view > app-wt-view-v01 > section > app-base-asset > app-no-v11 > div > article > app-compartilhamento-baixo > nav > div:nth-of-type(2) > a:nth-of-type(5) > div > img",
+   "message": "The text alternative \"e-mail\" repeats the image's file name: a screen reader reads it in place of the image. Describe what the image conveys, or use alt=\"\" if it is decorative.",
+   "evidence": "alt=\"e-mail\"",
+   "subject": "e-mail",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-alt",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F30",
+   "html": "<img _ngcontent-app-root-c58=\"\" loading=\"lazy\" width=\"14\" height=\"14\" class=\"fa-envelope icone--topo icones-svg\" src=\"../../../assets/images/icones/e-mail.svg?v=1.0\" title=\"e-mail\" alt=\"e-mail\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "5f008663a0ec",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > app-root > app-quentes-leitura > div > main > div > div > app-base-widget > app-view > app-wt-view-v01 > section > app-base-asset > app-no-v11 > div > article > div > div > p:nth-of-type(25) > img",
+   "message": "The text alternative \"(Imagem: Magnific)\" describes something the image does not show.",
+   "evidence": "(Imagem: Magnific)",
+   "subject": "(Imagem: Magnific)",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "html > body > app-root > app-quentes-leitura > div > main > div > div > app-base-widget > app-view > app-wt-view-v01 > section > app-base-asset > app-no-v11 > div > article > div > div > p:nth-of-type(25) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "(Imagem: Magnific)",
+    "to": "Livreto do Ministério do Trabalho e da Previdência Social sendo entregue.",
+    "before": "<img alt=\" (Imagem: Magnific)\" title=\"Liberdade de convicção política também deve ser respeitada nas relações de trabalho.\" width=\"878\" height=\"494\" loading=\"lazy\" src=\"https://medproc.migalhas.com.br/https__img5.migalhas.com.br__SL__gf_base__SL__empresas__SL__miga__SL__imagens__SL__2026__SL__10__SL__28__SL__cropped_4kkq0axo.na2.png._PROC_CP65.png\" style=\"font-size: 18.6667px; display: block; margin-left: auto; margin-right: auto;\">",
+    "after": "<img alt=\"Livreto do Ministério do Trabalho e da Previdência Social sendo entregue.\" title=\"Liberdade de convicção política também deve ser respeitada nas relações de trabalho.\" width=\"878\" height=\"494\" loading=\"lazy\" src=\"https://medproc.migalhas.com.br/https__img5.migalhas.com.br__SL__gf_base__SL__empresas__SL__miga__SL__imagens__SL__2026__SL__10__SL__28__SL__cropped_4kkq0axo.na2.png._PROC_CP65.png\" style=\"font-size: 18.6667px; display: block; margin-left: auto; margin-right: auto;\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999249873350773
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 15
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 10,
+   "members": [
+    "36b60948bae9",
+    "70947dd3eb3e",
+    "3800d8a2e474",
+    "fc663994107f",
+    "b1b06eaac0da",
+    "75a27ca35329",
+    "2ff0ce1a98c1",
+    "4685fd3df40e",
+    "2fb230187743",
+    "4bc84b3c9989"
+   ],
+   "example": "36b60948bae9"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > app-root > app-quentes-leitura > div > main > div > div > app-base-widget > app-view > app-wt-view-v01 > section > app-base-asset > app-no-v11 > div > article > div > div > p:nth-of-type(9) > img",
+   "message": "The text alternative \"(Imagem: Arte Migalhas)\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Ilustração de um celular com lista de contatos e uma loja com símbolo de proibição, representando boicote.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: yes (0.95), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > app-root > app-quentes-leitura > div > main > div > div > app-base-widget > app-view > app-wt-view-v01 > section > app-base-asset > app-no-v11 > div > article > div > div > p:nth-of-type(7) > a",
+   "message": "The link text \"CP\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Código Penal\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > app-root > app-quentes-leitura > div > main > div > div > app-base-widget > app-view > app-wt-view-v01 > section > app-base-asset > app-no-v11 > div > article > div > div > p:nth-of-type(27) > a",
+   "message": "The link text \"reconheceu\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Empresa que induziu empregados a não votarem no PT pagará R$ 4 milhões\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > app-root > app-quentes-leitura > div > app-base-widget:nth-of-type(1) > app-cabecalho > div > nav > div:nth-of-type(1) > div:nth-of-type(1) > a > img",
+   "reason": "the alternative is a logo that leads to the site's home page",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Migalhas",
+    "problem": "missing_information",
+    "imageShows": "O logotipo da marca 'Mig' em vermelho.",
+    "suggestedAlt": "Migalhas",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > app-root > app-quentes-leitura > div > app-base-widget:nth-of-type(1) > app-cabecalho > header > div:nth-of-type(1) > div > div:nth-of-type(3) > nav > a:nth-of-type(5) > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "twitter",
+    "problem": "missing_information",
+    "imageShows": "O logotipo atual da rede social X (antigo Twitter).",
+    "suggestedAlt": "X (Twitter)",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > app-root > app-quentes-leitura > div > main > div > div > app-base-widget > app-view > app-wt-view-v01 > section > app-base-asset > app-no-v11 > div > article > app-compartilhamento-topo > nav > div:nth-of-type(1) > div > a:nth-of-type(2) > div > img",
+   "reason": "the model's description of the image keeps every word of the current alternative",
+   "output": {
+    "verdict": "fail",
+    "evidence": "twitter",
+    "problem": "wrong_content",
+    "imageShows": "Um ícone de 'X' (antigo Twitter).",
+    "suggestedAlt": "X",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 21,
+   "judged": 21,
+   "failed": 1,
+   "passed": 16,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 95,
+   "judged": 50,
+   "failed": 0,
+   "passed": 48,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 45,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 4,
+   "judged": 4,
+   "failed": 0,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "30 image(s) were left without a capture, so no judgment looked at them: 2 still loading after the wait; 28 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 45 of 95 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 82,
+  "cachedCalls": 0,
+  "inputTokens": 76472,
+  "outputTokens": 7768,
+  "latencyMs": 244797
+ },
+ "timings": {
+  "totalMs": 127603,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 16
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 33214,
+    "prepareMs": 0,
+    "candidates": 21,
+    "judged": 21,
+    "calls": 27,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1331,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 86900,
+    "prepareMs": 0,
+    "candidates": 95,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 5896,
+    "prepareMs": 0,
+    "candidates": 4,
+    "judged": 4,
+    "calls": 4,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 174,
+    "prepareMs": 170,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 50,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 21
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 23,
+   "notCaptured": 30,
+   "reasons": {
+    "not-loaded": 2,
+    "limit": 28
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 95,
+    "capped": 45
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

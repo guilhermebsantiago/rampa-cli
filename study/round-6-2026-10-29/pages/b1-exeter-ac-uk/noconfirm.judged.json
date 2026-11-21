@@ -1,0 +1,534 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.exeter.ac.uk/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "a8cb24e3adf2",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main-col > section:nth-of-type(4) > div > img",
+   "message": "The text alternative \"A smiling woman holding the hand of an old man sitting on a sofa in a sunny room.\" describes something the image does not show.",
+   "evidence": "A smiling woman holding the hand of an old man sitting on a sofa in a sunny room.",
+   "subject": "A smiling woman holding the hand of an old man sitting on a sofa in a sunny room.",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#main-col > section:nth-of-type(4) > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "A smiling woman holding the hand of an old man sitting on a sofa in a sunny room.",
+    "to": "A golden sunset over a field of crops.",
+    "before": "<img loading=\"lazy\" decoding=\"async\" class=\"header-image\" src=\"https://www.exeter.ac.uk/v8media/recruitmentsites/images/homepage/banner-THE-Impact-2026.webp\" alt=\"A smiling woman holding the hand of an old man sitting on a sofa in a sunny room.\">",
+    "after": "<img loading=\"lazy\" decoding=\"async\" class=\"header-image\" src=\"https://www.exeter.ac.uk/v8media/recruitmentsites/images/homepage/banner-THE-Impact-2026.webp\" alt=\"A golden sunset over a field of crops.\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "0cea30c07a39",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main-col > section:nth-of-type(5) > div > div > div:nth-of-type(4) > p > a > img",
+   "message": "The text alternative \"THE Impact Ratings\" is all its link holds, and does not say where the link leads.",
+   "evidence": "THE Impact Ratings",
+   "subject": "THE Impact Ratings",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "#main-col > section:nth-of-type(5) > div > div > div:nth-of-type(4) > p > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "THE Impact Ratings",
+    "to": "Sustainable Development Goals",
+    "before": "<img loading=\"lazy\" decoding=\"async\" fetchpriority=\"low\" src=\"https://www.exeter.ac.uk/v8media/recruitmentsites/images/homepage/sdg.svg\" alt=\"THE Impact Ratings\">",
+    "after": "<img loading=\"lazy\" decoding=\"async\" fetchpriority=\"low\" src=\"https://www.exeter.ac.uk/v8media/recruitmentsites/images/homepage/sdg.svg\" alt=\"Sustainable Development Goals\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "a4a34d250681",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#feature-1 > div > img",
+   "message": "The text alternative \"UK Social Mobility Awards logo\" describes something the image does not show.",
+   "evidence": "UK Social Mobility Awards logo",
+   "subject": "UK Social Mobility Awards logo",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#feature-1 > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "UK Social Mobility Awards logo",
+    "to": "Students collaborating in a modern university common area",
+    "before": "<img loading=\"lazy\" decoding=\"async\" class=\"header-image\" src=\"https://www.exeter.ac.uk/v8media/recruitmentsites/images/homepage/homepage-banner-SOMO2.webp\" alt=\"UK Social Mobility Awards logo\">",
+    "after": "<img loading=\"lazy\" decoding=\"async\" class=\"header-image\" src=\"https://www.exeter.ac.uk/v8media/recruitmentsites/images/homepage/homepage-banner-SOMO2.webp\" alt=\"Students collaborating in a modern university common area\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "5fac09564217",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#onetrust-policy > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Company Logo\" describes something the image does not show.",
+   "evidence": "Company Logo",
+   "subject": "Company Logo",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#onetrust-policy > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Company Logo",
+    "to": "University of Eastern Europe in Cyprus",
+    "before": "<img class=\"ot-bnr-logo\" src=\"https://cdn-ukwest.onetrust.com/logos/7df3e28c-9ad3-422f-9da1-52f114f103cb/018f3e1d-b383-76f2-856c-0b48a854b7e0/a7525491-cd84-4683-aaaf-8883e8a09c0e/uoe-logo-square.jpg\" title=\"Company Logo\" alt=\"Company Logo\">",
+    "after": "<img class=\"ot-bnr-logo\" src=\"https://cdn-ukwest.onetrust.com/logos/7df3e28c-9ad3-422f-9da1-52f114f103cb/018f3e1d-b383-76f2-856c-0b48a854b7e0/a7525491-cd84-4683-aaaf-8883e8a09c0e/uoe-logo-square.jpg\" title=\"Company Logo\" alt=\"University of Eastern Europe in Cyprus\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "b6653ed5de2e",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#testimonial-carousel > ol",
+   "target": "#testimonial-carousel > ol",
+   "message": "None of the 10 tabs in this list is exposed as selected: a screen reader does not say which panel is open. Mark the current tab with aria-selected=\"true\" (and the others with \"false\").",
+   "evidence": "10 tabs, none selected",
+   "subject": "10 tabs",
+   "confidence": "low",
+   "ruleId": "rampa/tab-state",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<ol class=\"carousel-indicators\" role=\"tablist\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 10
+ },
+ "groups": [
+  {
+   "id": "g-6fad9dd0d3ea",
+   "list": "findings",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "engine",
+   "check": "aria-tab-name",
+   "count": 10,
+   "members": [
+    "bfc0f78f85bb",
+    "55d36d423240",
+    "10bd89ec33d7",
+    "19a0def70b7b",
+    "37392f0d9847",
+    "94f63c695d44",
+    "f25ac184cf14",
+    "4c9b1498d3c2",
+    "28259b92613a",
+    "0f843384a74a"
+   ],
+   "example": "bfc0f78f85bb"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#main-col > section:nth-of-type(4) > div > div > p:nth-of-type(2) > a",
+   "message": "The link text \"Find out more \" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Find out more about our progress towards the UN SDGs\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#feature-4 > div > div > p:nth-of-type(2) > a",
+   "message": "The link text \"Find out more \" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Find out more about our Teaching Excellence Framework (TEF) rating\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#footer > div:nth-of-type(1) > div > div:nth-of-type(2) > ul:nth-of-type(2) > li:nth-of-type(6) > a",
+   "message": "The link text \"SID\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"SID Portal\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#footer-navbar > ul > li:nth-of-type(5) > a",
+   "message": "The link text \"Data Protection\" does not match where the link leads: a page titled \"Make an information request | About our site | University of Exeter\".",
+   "evidence": "The model suggests: \"Make an information request\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#ugTab",
+   "message": "The label \"Undergraduate\" does not say what to enter.",
+   "evidence": "The model suggests: \"Undergraduate courses\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#onlineTab",
+   "message": "The label \"Online\" does not say what to enter.",
+   "evidence": "The model suggests: \"Online courses\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#main-col > section:nth-of-type(5) > div > div > div:nth-of-type(1) > p > img",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Top 150 icon",
+    "problem": "wrong_content",
+    "imageShows": "A teal graphic featuring the number 150 and a globe icon with the word 'TOP' oriented vertically.",
+    "suggestedAlt": "Top 150 ranking logo",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#main-col > section:nth-of-type(5) > div > div > div:nth-of-type(2) > p > img",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Top 20 icon.",
+    "problem": "wrong_content",
+    "imageShows": "A white rosette badge with the number 20 inside it.",
+    "suggestedAlt": "Top 20 award badge",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#feature-4 > div > img",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "TEF 2023 logo",
+    "problem": "wrong_content",
+    "imageShows": "A logo for the Teaching Excellence Framework (TEF) 2023 showing 'Gold' ratings for overall, student experience, and student outcomes.",
+    "suggestedAlt": "TEF 2023 logo showing Gold ratings for overall, student experience, and student outcomes",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#hero-header-section > div > div > div > p:nth-of-type(2) > a",
+   "reason": "evidence is not the link text",
+   "output": {
+    "promises": "The link text 'Explore our undergraduate courses' clearly states that the link leads to a page where the user can view or explore undergraduate course options.",
+    "leadsTo": "A page titled 'Undergraduate Degrees and Courses | University of Exeter' which lists undergraduate degrees for 2027 entry.",
+    "verdict": "pass",
+    "evidence": "Explore our undergraduate courses α",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#stlukes-campus > a:nth-of-type(1)",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Find us' combined with the preceding text 'St Luke's Campus' suggests it leads to information about finding or contacting the St Luke's Campus.",
+    "leadsTo": "A page titled 'St Luke's Campus | University of Exeter' providing details about the campus location.",
+    "verdict": "fail",
+    "evidence": " Find us",
+    "problem": "ambiguous",
+    "suggestedText": "Find St Luke's Campus",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "3.3.2",
+   "ref": "#ugTab",
+   "reason": "fail verdict while quoting visible text that says what the options choose",
+   "output": {
+    "shown": "Undergraduate / Postgraduate Taught / Postgraduate Research / Degree Apprenticeship / Online",
+    "rule": "fail",
+    "verdict": "fail",
+    "problem": "no_visible_label",
+    "evidence": "Undergraduate / Postgraduate Taught / Postgraduate Research / Degree Apprenticeship / Online",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 19,
+   "judged": 19,
+   "failed": 4,
+   "passed": 12,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 50,
+   "judged": 50,
+   "failed": 0,
+   "passed": 44,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 4
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 25,
+   "judged": 25,
+   "failed": 0,
+   "passed": 23,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "A layer lay over the viewport when the page was read (div, on top at 89% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 97,
+  "inputTokens": 86613,
+  "outputTokens": 8823,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 241,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 19
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 13,
+    "prepareMs": 0,
+    "candidates": 19,
+    "judged": 19,
+    "calls": 0,
+    "cachedCalls": 19
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 0,
+    "cachedCalls": 2
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 20,
+    "prepareMs": 0,
+    "candidates": 50,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 6,
+    "prepareMs": 0,
+    "candidates": 25,
+    "judged": 25,
+    "calls": 0,
+    "cachedCalls": 25
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 140,
+    "prepareMs": 137,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 13,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   }
+  ],
+  "otherMs": 25
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "overlay": {
+   "selector": "div",
+   "coverage": 0.89,
+   "hidden": true
+  },
+  "images": {
+   "captured": 19,
+   "notCaptured": 0,
+   "reasons": {}
+  }
+ },
+ "coverage": {
+  "reach": {
+   "overlay": {
+    "ref": "#onetrust-consent-sdk > div:nth-of-type(1)",
+    "selector": "div",
+    "coverage": 0.89,
+    "hidden": true
+   }
+  }
+ }
+}

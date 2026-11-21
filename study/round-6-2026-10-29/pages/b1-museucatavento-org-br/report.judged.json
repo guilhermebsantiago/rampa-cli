@@ -1,0 +1,706 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://museucatavento.org.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "0ac515f76816",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(5) > div > div:nth-of-type(3) > form > div:nth-of-type(1) > div:nth-of-type(1) > div > input",
+   "message": "The field \"digite o seu e-mail para se cadastrar...\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "digite o seu e-mail para se cadastrar...",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "html > body > div:nth-of-type(5) > div > div:nth-of-type(3) > form > div:nth-of-type(1) > div:nth-of-type(1) > div > input",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input style=\"height:45px;border-color:white\" type=\"text\" name=\"cmp1\" placeholder=\"digite o seu e-mail para se cadastrar...\" format=\"\" class=\"type_EMAIL field-required  input-field flex-fill px-5\" maxlength=\"80\">",
+    "after": "<input style=\"height:45px;border-color:white\" type=\"text\" name=\"cmp1\" placeholder=\"digite o seu e-mail para se cadastrar...\" format=\"\" class=\"type_EMAIL field-required  input-field flex-fill px-5\" maxlength=\"80\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "29d1dbd974a9",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#topbarGlobal > nav > a:nth-of-type(1)",
+   "target": "#topbarGlobal > nav > a:nth-of-type(1)",
+   "message": "The text \"SP + Digital\" has at most 3.98:1 contrast with what is behind it (#007bff on #f6f6f6…#ffffff), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#007bff on #ffffff; #f6f6f6…#ffffff · 3.98:1 at best, 3.68:1 at worst · 12px, 400",
+   "subject": "SP + Digital",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a class=\"govsp-link digital\" href=\"https://spmaisdigital.sp.gov.br\" title=\"site SP + Digital\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "a846cb17f2d7",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#govsp-dropdown > li:nth-of-type(1) > a",
+   "target": "#govsp-dropdown > li:nth-of-type(1) > a",
+   "message": "The text \"SP + Digital\" has at most 3.68:1 contrast with what is behind it (#007bff on #f6f6f6), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#007bff on #f6f6f6 · 3.68:1 at best, 3.68:1 at worst · 12px, 400",
+   "subject": "SP + Digital",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a class=\"govsp-link digital\" role=\"button\" href=\"https://spmaisdigital.sp.gov.br\" title=\"Site SP + Digital\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "e06c66a8f315",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#block-museucatavento-main-menu > ul > li:nth-of-type(1) > a",
+   "target": "#block-museucatavento-main-menu > ul > li:nth-of-type(1) > a",
+   "message": "The text \"exposições\" has at most 2.64:1 contrast with what is behind it (#999999 on #f6f6f6), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#999999 on #f6f6f6 · 2.64:1 at best, 2.64:1 at worst · 11.5px, 700",
+   "subject": "exposições",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "3e41c12bcef2",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#block-museucatavento-main-menu > ul > li:nth-of-type(2) > a",
+   "target": "#block-museucatavento-main-menu > ul > li:nth-of-type(2) > a",
+   "message": "The text \"acervo\" has at most 2.64:1 contrast with what is behind it (#999999 on #f6f6f6), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#999999 on #f6f6f6 · 2.64:1 at best, 2.64:1 at worst · 11.5px, 700",
+   "subject": "acervo",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "c4e74d77c1af",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#block-museucatavento-main-menu > ul > li:nth-of-type(3) > a",
+   "target": "#block-museucatavento-main-menu > ul > li:nth-of-type(3) > a",
+   "message": "The text \"visitação\" has at most 2.85:1 contrast with what is behind it (#999999 on #f6f6f6…#ffffff), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#999999 on #ffffff; #f6f6f6…#ffffff · 2.85:1 at best, 2.64:1 at worst · 11.5px, 700",
+   "subject": "visitação",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "d8df00781102",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#block-museucatavento-main-menu > ul > li:nth-of-type(4) > a",
+   "target": "#block-museucatavento-main-menu > ul > li:nth-of-type(4) > a",
+   "message": "The text \"novidades\" has at most 2.85:1 contrast with what is behind it (#999999 on #ffffff), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#999999 on #ffffff · 2.85:1 at best, 2.85:1 at worst · 11.5px, 700",
+   "subject": "novidades",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "f100b91f0c29",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#block-museucatavento-main-menu > ul > li:nth-of-type(5) > a",
+   "target": "#block-museucatavento-main-menu > ul > li:nth-of-type(5) > a",
+   "message": "The text \"como chegar\" has at most 2.85:1 contrast with what is behind it (#999999 on #ffffff), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#999999 on #ffffff · 2.85:1 at best, 2.85:1 at worst · 11.5px, 700",
+   "subject": "como chegar",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"/como-chegar\" data-drupal-link-system-path=\"node/32\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "869d250c624c",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#block-museucatavento-main-menu > ul > li:nth-of-type(6) > a",
+   "target": "#block-museucatavento-main-menu > ul > li:nth-of-type(6) > a",
+   "message": "The text \"mapa interno\" has at most 2.85:1 contrast with what is behind it (#999999 on #ffffff), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#999999 on #ffffff · 2.85:1 at best, 2.85:1 at worst · 11.5px, 700",
+   "subject": "mapa interno",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"/mapa-interno-do-museu-catavento\" data-drupal-link-system-path=\"node/1976\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "7398ef20b69b",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#block-museucatavento-main-menu > ul > li:nth-of-type(7) > a",
+   "target": "#block-museucatavento-main-menu > ul > li:nth-of-type(7) > a",
+   "message": "The text \"apoie\" has at most 2.85:1 contrast with what is behind it (#999999 on #ffffff), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#999999 on #ffffff · 2.85:1 at best, 2.85:1 at worst · 11.5px, 700",
+   "subject": "apoie",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"/apoiadores\" data-drupal-link-system-path=\"node/1307\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "ea6c2f2e91d1",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#block-museucatavento-main-menu > ul > li:nth-of-type(8) > a",
+   "target": "#block-museucatavento-main-menu > ul > li:nth-of-type(8) > a",
+   "message": "The text \"loja\" has at most 2.85:1 contrast with what is behind it (#999999 on #ffffff), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#999999 on #ffffff · 2.85:1 at best, 2.85:1 at worst · 11.5px, 700",
+   "subject": "loja",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"/loja-do-museu-catavento\" data-drupal-link-system-path=\"node/2025\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "ae41d1039bcb",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#block-museucatavento-main-menu > ul > li:nth-of-type(9) > a",
+   "target": "#block-museucatavento-main-menu > ul > li:nth-of-type(9) > a",
+   "message": "The text \"estúdio de tv\" has at most 2.85:1 contrast with what is behind it (#999999 on #ffffff), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#999999 on #ffffff · 2.85:1 at best, 2.85:1 at worst · 11.5px, 700",
+   "subject": "estúdio de tv",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"/estudio-tv\" data-drupal-link-system-path=\"node/1862\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "f1780a7330e5",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#block-museucatavento-main-menu > ul > li:nth-of-type(10) > a",
+   "target": "#block-museucatavento-main-menu > ul > li:nth-of-type(10) > a",
+   "message": "The text \"política de privacidade\" has at most 2.85:1 contrast with what is behind it (#999999 on #ffffff), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#999999 on #ffffff · 2.85:1 at best, 2.85:1 at worst · 11.5px, 700",
+   "subject": "política de privacidade",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"/politica-de-privacidade\" data-drupal-link-system-path=\"node/1905\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "57881a6aeb33",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(1) > div > span > div",
+   "target": "html > body > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(1) > div > span > div",
+   "message": "The text \"8 milhões de visitantes\" has at most 3.96:1 contrast with what is behind it (#cd5f3f on #f6f6f6…#ffffff), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#cd5f3f on #ffffff; #f6f6f6…#ffffff · 3.96:1 at best, 3.66:1 at worst · 18px, 900",
+   "subject": "8 milhões de visitantes",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<div class=\"field field--name-field-numero-de-visitantes field--type-string field--label-hidden field__item\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "08edb620710e",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > span > div > a:nth-of-type(1)",
+   "target": "html > body > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > span > div > a:nth-of-type(1)",
+   "message": "The text \"CLIQUE AQUI\" has at most 3.98:1 contrast with what is behind it (#007bff on #f6f6f6…#ffffff), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#007bff on #f6f6f6; #f6f6f6…#ffffff · 3.98:1 at best, 3.68:1 at worst · 16px, 400",
+   "subject": "CLIQUE AQUI",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a target=\"_blank\" href=\"https://museucatavento.org.br/agendamento-geral\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "c46d698966a6",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > span > div > a:nth-of-type(2)",
+   "target": "html > body > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > span > div > a:nth-of-type(2)",
+   "message": "The text \"CLIQUE AQUI\" has at most 3.98:1 contrast with what is behind it (#007bff on #f6f6f6…#ffffff), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#007bff on #ffffff; #f6f6f6…#ffffff · 3.98:1 at best, 3.68:1 at worst · 16px, 400",
+   "subject": "CLIQUE AQUI",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a target=\"_blank\" href=\"https://megapass.com.br/catavento/eventos\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "1c7a488a7595",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > span > div > a:nth-of-type(3)",
+   "target": "html > body > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > span > div > a:nth-of-type(3)",
+   "message": "The text \"CLIQUE AQUI\" has at most 3.98:1 contrast with what is behind it (#007bff on #f6f6f6…#ffffff), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#007bff on #f6f6f6; #f6f6f6…#ffffff · 3.98:1 at best, 3.68:1 at worst · 16px, 400",
+   "subject": "CLIQUE AQUI",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a target=\"_blank\" href=\"https://megapass.com.br/catavento/atracoes\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "6161714d7198",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > span > div > a:nth-of-type(1)",
+   "message": "The link text \"CLIQUE AQUI\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+   "evidence": "CLIQUE AQUI",
+   "subject": "CLIQUE AQUI",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "html > body > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > span > div > a:nth-of-type(1)",
+    "kind": "set-text",
+    "from": "CLIQUE AQUI",
+    "to": "Agendamento Geral",
+    "before": "<a target=\"_blank\" href=\"https://museucatavento.org.br/agendamento-geral\">CLIQUE AQUI</a>",
+    "after": "<a target=\"_blank\" href=\"https://museucatavento.org.br/agendamento-geral\">Agendamento Geral</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "0cf5bed9aba6",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > span > div > a:nth-of-type(2)",
+   "message": "The link text \"CLIQUE AQUI\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+   "evidence": "CLIQUE AQUI",
+   "subject": "CLIQUE AQUI",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "html > body > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > span > div > a:nth-of-type(2)",
+    "kind": "set-text",
+    "from": "CLIQUE AQUI",
+    "to": "Eventos Catavento",
+    "before": "<a target=\"_blank\" href=\"https://megapass.com.br/catavento/eventos\">CLIQUE AQUI</a>",
+    "after": "<a target=\"_blank\" href=\"https://megapass.com.br/catavento/eventos\">Eventos Catavento</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "70e66ea3f16a",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > span > div > a:nth-of-type(3)",
+   "message": "The link text \"CLIQUE AQUI\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+   "evidence": "CLIQUE AQUI",
+   "subject": "CLIQUE AQUI",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "html > body > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > span > div > a:nth-of-type(3)",
+    "kind": "set-text",
+    "from": "CLIQUE AQUI",
+    "to": "Atrações do Catavento",
+    "before": "<a target=\"_blank\" href=\"https://megapass.com.br/catavento/atracoes\">CLIQUE AQUI</a>",
+    "after": "<a target=\"_blank\" href=\"https://megapass.com.br/catavento/atracoes\">Atrações do Catavento</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "ea8baa45dbeb",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#popupe > div > img",
+   "target": "#popupe > div > img",
+   "message": "This element listens to click, so it works as a control, but the browser exposes it as img, with no control role: a screen reader does not announce it as a button or a link (F59). Use the native element (button, a) or give it the role of the control it is.",
+   "evidence": "role img · click",
+   "subject": "img click",
+   "confidence": "low",
+   "ruleId": "rampa/custom-control",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F59",
+   "html": "<img class=\"mb-2\" style=\"width: 27px; height: 27px; cursor: pointer;\" onclick=\"fecharpop()\" src=\"https://museucatavento.org.br//sites/default/files/fechar-botao.svg\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 8
+ },
+ "groups": [
+  {
+   "id": "g-6ed0ab07ef69",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "check": "rampa/pixel-contrast",
+   "count": 16,
+   "members": [
+    "29d1dbd974a9",
+    "a846cb17f2d7",
+    "e06c66a8f315",
+    "3e41c12bcef2",
+    "c4e74d77c1af",
+    "d8df00781102",
+    "f100b91f0c29",
+    "869d250c624c",
+    "7398ef20b69b",
+    "ea6c2f2e91d1",
+    "ae41d1039bcb",
+    "f1780a7330e5",
+    "57881a6aeb33",
+    "08edb620710e",
+    "c46d698966a6",
+    "1c7a488a7595"
+   ],
+   "example": "29d1dbd974a9"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > div:nth-of-type(5) > div > div:nth-of-type(3) > div:nth-of-type(4) > div:nth-of-type(1) > a:nth-of-type(4)",
+   "message": "The link text \"ESTACIONAMENTO\" does not match where the link leads: a page titled \"Horários e Preços | Museu Catavento\".",
+   "evidence": "The model suggests: \"Horários e Preços\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > div:nth-of-type(5) > div > div:nth-of-type(3) > div:nth-of-type(4) > div:nth-of-type(2) > div > p > a:nth-of-type(1)",
+   "message": "The link text \"Estacionamento no local\" does not match where the link leads: a page titled \"Horários e Preços | Museu Catavento\".",
+   "evidence": "The model suggests: \"Horários e Preços\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#govsp-rodape > div:nth-of-type(1) > div > div:nth-of-type(3) > a",
+   "message": "The link text \"SIC\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Acesse o SIC (Serviço de Informação ao Cidadão)\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#glowCookies-banner > p > a",
+   "message": "The link text \"clique aqui!\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"política de privacidade\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "2.4.6",
+   "ref": "#block-museucatavento-main-menu-menu",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Navegação principal",
+    "verdict": "fail",
+    "evidence": "N…",
+    "problem": "generic",
+    "suggestedText": "Menu principal",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 0,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 38,
+   "judged": 38,
+   "failed": 3,
+   "passed": 31,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 4
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "A layer lay over the viewport when the page was read (div#popupe, on top at 89% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 46,
+  "cachedCalls": 0,
+  "inputTokens": 43007,
+  "outputTokens": 4773,
+  "latencyMs": 135684
+ },
+ "timings": {
+  "totalMs": 71720,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 15
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 4971,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 3,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1332,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 60296,
+    "prepareMs": 0,
+    "candidates": 38,
+    "judged": 38,
+    "calls": 38,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 3824,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 3,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 1257,
+    "prepareMs": 177,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 19
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "overlay": {
+   "selector": "div#popupe",
+   "coverage": 0.89,
+   "hidden": true
+  },
+  "images": {
+   "captured": 8,
+   "notCaptured": 0,
+   "reasons": {}
+  }
+ },
+ "coverage": {
+  "reach": {
+   "overlay": {
+    "ref": "#popupe",
+    "selector": "div#popupe",
+    "coverage": 0.89,
+    "hidden": true
+   }
+  }
+ }
+}

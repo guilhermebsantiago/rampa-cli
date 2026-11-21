@@ -1,0 +1,348 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://filarmonica.art.br/fale-conosco/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "2e43a5325075",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(1) > footer > div > div:nth-of-type(3) > img:nth-of-type(1)",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Logos for Lei Rouanet, Governo de Minas, and others.\".",
+   "evidence": "Logos for Lei Rouanet, Governo de Minas, and others.",
+   "subject": "hidden img",
+   "patch": {
+    "ref": "html > body > div:nth-of-type(1) > footer > div > div:nth-of-type(3) > img:nth-of-type(1)",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Logotipos de patrocinadores e órgãos governamentais, incluindo Lei Rouanet e Governo de Minas.",
+    "before": "<img data-lazyloaded=\"1\" src=\"data:…\" data-src=\"https://filarmonica.art.br/wp-content/uploads/2026/11/2026_Grid_Site-v5.png\" class=\"logoh\" alt=\"\" width=\"2188\" height=\"150\">",
+    "after": "<img data-lazyloaded=\"1\" src=\"data:…\" data-src=\"https://filarmonica.art.br/wp-content/uploads/2026/11/2026_Grid_Site-v5.png\" class=\"logoh\" alt=\"Logotipos de patrocinadores e órgãos governamentais, incluindo Lei Rouanet e Governo de Minas.\" width=\"2188\" height=\"150\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 13
+ },
+ "groups": [
+  {
+   "id": "g-b3cc505a410d",
+   "list": "findings",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "engine",
+   "check": "link-name",
+   "count": 13,
+   "members": [
+    "23cc4e5278df",
+    "e10b38729be8",
+    "561c7eed66c6",
+    "d7ed4d5127e5",
+    "19deaa5df11e",
+    "735f3ca2edbe",
+    "84e60d719ec8",
+    "d4b681d4ad32",
+    "930014742aea",
+    "f4ca6741dea4",
+    "be32d4cb7bb4",
+    "5a7dd243b379",
+    "92a301f6769e"
+   ],
+   "example": "23cc4e5278df"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#cookies > p > a:nth-of-type(1)",
+   "message": "The link text \"fil.mg/lgpd\" is an address, not a purpose.",
+   "evidence": "The model suggests: \"Política de Privacidade\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div > div > h1",
+   "message": "The heading \"22\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Agenda de Concertos\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#skip-content-select",
+   "message": "The label \"Skip To Content\" does not say what to enter.",
+   "evidence": "The model suggests: \"Selecione o conteúdo\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(1) > footer > div > div:nth-of-type(4) > img:nth-of-type(1)",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "A row of logos including Minas, Instituto Cultural Filarmônica, Governo de Minas, Funarte, and Ministério da Cultura.",
+    "textInImage": "Minas INSTITUTO CULTURAL FILARMÔNICA GOVERNO DE MINAS REALIZAÇÃO FUNDAÇÃO NACIONAL DAS ARTES funarte 50 anos MINISTÉRIO DA CULTURA GOVERNO DO BRASIL",
+    "verdict": "fail",
+    "evidence": "Logos for Minas, Instituto Cultural Filarmônica, Governo de Minas, Funarte, Ministério da Cultura",
+    "suggestedAlt": "Logotipos do Minas, Instituto Cultural Filarmônica, Governo de Minas, Funarte e Ministério da Cultura.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(4) > div > div:nth-of-type(2) > div > div:nth-of-type(6) > div > p:nth-of-type(1) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text and its context suggest it is an email address for event inquiries.",
+    "leadsTo": "mailto:alugueasala@filarmonica.art.br",
+    "verdict": "fail",
+    "evidence": "eventos@filarmonica.art.br",
+    "problem": "mismatch",
+    "suggestedText": "Enviar e-mail para alugueasala@filarmonica.art.br",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 69,
+   "judged": 50,
+   "failed": 0,
+   "passed": 48,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 19,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 23,
+   "judged": 23,
+   "failed": 0,
+   "passed": 21,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "2 image(s) were left without a capture, so no judgment looked at them: 2 still a lazy-load placeholder. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 19 of 69 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 78,
+  "inputTokens": 73352,
+  "outputTokens": 7646,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 221,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 19
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 6,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 0,
+    "cachedCalls": 2
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 18,
+    "prepareMs": 0,
+    "candidates": 69,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 6,
+    "prepareMs": 0,
+    "candidates": 23,
+    "judged": 23,
+    "calls": 0,
+    "cachedCalls": 23
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 138,
+    "prepareMs": 135,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 7,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 23
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 5,
+   "notCaptured": 2,
+   "reasons": {
+    "placeholder": 2
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 69,
+    "capped": 19
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

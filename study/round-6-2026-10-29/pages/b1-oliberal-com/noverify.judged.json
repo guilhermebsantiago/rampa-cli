@@ -1,0 +1,588 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.oliberal.com/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "718efaa9e311",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > section:nth-of-type(2) > ul > li:nth-of-type(3) > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Castanhal\" describes something the image does not show.",
+   "evidence": "Castanhal",
+   "subject": "Castanhal",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > section:nth-of-type(2) > ul > li:nth-of-type(3) > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Castanhal",
+    "to": "Logotipo da Liberal FM",
+    "before": "<img alt=\"Castanhal\" class=\"h-full w-full object-contain\" loading=\"lazy\" src=\"/image/policy:1.1173724:1790484905/liberal fm castanhal.jfif?\">",
+    "after": "<img alt=\"Logotipo da Liberal FM\" class=\"h-full w-full object-contain\" loading=\"lazy\" src=\"/image/policy:1.1173724:1790484905/liberal fm castanhal.jfif?\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9995112852611895
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "9f4bdcf1c0bd",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > a > img",
+   "message": "The text alternative \"A imagem em destaque mostra a vítima do homicídio.\" is all its link holds, and does not say where the link leads.",
+   "evidence": "A imagem em destaque mostra a vítima do homicídio.",
+   "subject": "A imagem em destaque mostra a vítima do homicídio.",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "#__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > a > img",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "A imagem em destaque mostra a vítima do homicídio.",
+    "to": "Notícia sobre o assassinato de 'Cara de Burro' em Palestina do Pará"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9995444165819986
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "2085e64d7aae",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(8) > div:nth-of-type(1) > div > div:nth-of-type(2) > a:nth-of-type(2)",
+   "message": "The link text \"VER MAIS\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "VER MAIS",
+   "subject": "VER MAIS",
+   "claim": "generic",
+   "techniques": [
+    "G91"
+   ],
+   "patch": {
+    "ref": "#__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(8) > div:nth-of-type(1) > div > div:nth-of-type(2) > a:nth-of-type(2)",
+    "kind": "set-text",
+    "from": "VER MAIS",
+    "to": "Ver mais sobre como ser membro LIBCLUB+",
+    "before": "<a class=\"inline-flex items-center gap-2 whitespace-nowrap font-primary text-[12px] font-bold uppercase leading-[16px] tracking-[0.12em] no-underline transition hover:underline\" style=\"color:#0B1426;font-family:'Sora', 'Magistral', system-ui, sans-serif\" href=\"/play\">VER MAIS</a>",
+    "after": "<a class=\"inline-flex items-center gap-2 whitespace-nowrap font-primary text-[12px] font-bold uppercase leading-[16px] tracking-[0.12em] no-underline transition hover:underline\" style=\"color:#0B1426;font-family:'Sora', 'Magistral', system-ui, sans-serif\" href=\"/play\">Ver mais sobre como ser membro LIBCLUB+</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "98f4bc367455",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(9) > div:nth-of-type(1) > div > div:nth-of-type(2) > div > a",
+   "message": "The link text \"VER MAIS\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "VER MAIS",
+   "subject": "VER MAIS",
+   "claim": "generic",
+   "techniques": [
+    "G91"
+   ],
+   "patch": {
+    "ref": "#__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(9) > div:nth-of-type(1) > div > div:nth-of-type(2) > div > a",
+    "kind": "set-text",
+    "from": "VER MAIS",
+    "to": "Ver mais sobre o spray de pimenta gratuito",
+    "before": "<a class=\"inline-flex shrink-0 items-center gap-2 whitespace-nowrap font-primary text-[12px] font-bold uppercase leading-[16px] tracking-[0.12em] no-underline transition hover:underline\" style=\"color:#0B1426;font-family:'Sora', 'Magistral', system-ui, sans-serif\" href=\"/estudio\">VER MAIS</a>",
+    "after": "<a class=\"inline-flex shrink-0 items-center gap-2 whitespace-nowrap font-primary text-[12px] font-bold uppercase leading-[16px] tracking-[0.12em] no-underline transition hover:underline\" style=\"color:#0B1426;font-family:'Sora', 'Magistral', system-ui, sans-serif\" href=\"/estudio\">Ver mais sobre o spray de pimenta gratuito</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 29
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 11,
+   "members": [
+    "147f81005626",
+    "5ab12855234d",
+    "18da77acd3a9",
+    "23aed20df821",
+    "261b0fd8de90",
+    "19d57a9f2183",
+    "e6613ea6f3f8",
+    "c712356779c0",
+    "8de8dd39a296",
+    "b33b6e7c08c1",
+    "59d9051a4d1e"
+   ],
+   "example": "147f81005626"
+  },
+  {
+   "id": "g-caa6eccc5028",
+   "list": "findings",
+   "criterion": "2.5.3",
+   "level": "A",
+   "source": "engine",
+   "check": "label-content-name-mismatch",
+   "count": 11,
+   "members": [
+    "3006c4c0bcde",
+    "49e7f2027075",
+    "3d716a97e707",
+    "ad44ff3fdeb7",
+    "5cba8850d558",
+    "0c56811f6b45",
+    "c33b747786e8",
+    "5595ff6faeb1",
+    "f860cf331337",
+    "88d0fc1c312d",
+    "be6197a83cd1"
+   ],
+   "example": "3006c4c0bcde"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#__next > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(1) > a:nth-of-type(1) > img",
+   "message": "The text alternative \"Logo de 80 anos\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"Página inicial\" · Offline: the second pass has no cached answer, so the claim stays a suggestion",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#__next > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(1) > a:nth-of-type(2) > img",
+   "message": "The text alternative \"Logo Liberal na Cor Azul\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"O Liberal\" · Offline: the second pass has no cached answer, so the claim stays a suggestion",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(7) > div:nth-of-type(2) > div:nth-of-type(1) > div > a > img",
+   "message": "The text alternative \"Ex-presidente Jair Bolsonaro.\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"Notícia sobre obstrução intestinal de Jair Bolsonaro\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (0.96), claim: yes (0.97), reversed: yes (0.23))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#__next > div > div > h1",
+   "message": "The heading \"O Liberal: notícias do Pará e da Amazônia\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"O Liberal: notícias do Pará e da Amazônia\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > section:nth-of-type(1) > div:nth-of-type(1) > div > h2",
+   "message": "The heading \"LIBPLAY\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Vídeos do LIBPLAY\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > section:nth-of-type(2) > ul > li:nth-of-type(3) > div:nth-of-type(2) > h3",
+   "message": "The heading \"Castanhal\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Castanhal FM\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > section:nth-of-type(3) > div > div > div:nth-of-type(1) > a > article > div:nth-of-type(2) > h3",
+   "message": "The heading \"LIBCLUB+\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Assinatura LIBCLUB+\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > section:nth-of-type(3) > div > div > div:nth-of-type(3) > a > article > div:nth-of-type(2) > h3",
+   "message": "The heading \"LibMed\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Telemedicina\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > section:nth-of-type(3) > div > div > div:nth-of-type(4) > a > article > div:nth-of-type(2) > h3",
+   "message": "The heading \"LibAcademy\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Cursos EAD\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > section:nth-of-type(3) > div > div > div:nth-of-type(5) > a > article > div:nth-of-type(2) > h3",
+   "message": "The heading \"LibClassificados\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Classificados\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#__next > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(1) > a:nth-of-type(1) > img",
+   "reason": "the alternative is a logo that leads to the site's home page",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Logo de 80 anos",
+    "problem": "missing_information",
+    "imageShows": "Um logotipo azul com o número 80 e a palavra ANOS.",
+    "suggestedAlt": "Página inicial",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#__next > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(1) > a:nth-of-type(2) > img",
+   "reason": "the alternative is a logo that leads to the site's home page",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Logo Liberal na Cor Azul",
+    "problem": "missing_information",
+    "imageShows": "O logotipo da O Liberal na cor azul com o domínio .com.",
+    "suggestedAlt": "O Liberal",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#__next > div > div > h1",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "O Liberal: notícias do Pará e da Amazônia",
+    "verdict": "fail",
+    "evidence": "O…",
+    "problem": "generic",
+    "suggestedText": "O Liberal: notícias do Pará e da Amazônia",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 12,
+   "judged": 12,
+   "failed": 2,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 2,
+   "suggested": 3,
+   "unconfirmed": 3,
+   "confirmed": 2
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 222,
+   "judged": 50,
+   "failed": 2,
+   "passed": 48,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 172
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 41,
+   "judged": 41,
+   "failed": 0,
+   "passed": 34,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 7
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Verification was off (--no-verify): model claims whose quoted evidence is not on the page are reported as if it were. This run is for measurement only.",
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > section:nth-of-type(1) > div:nth-of-type(2) > iframe (https://www.youtube-nocookie.com/embed/ERQ2hPK8f48?autoplay=1&mute=1&playsinline=1&controls=1&rel=0&modestbranding=1).",
+  "4 frame(s) were not checked at all, so whatever they hold was missed: #__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(8) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div > iframe (not-loaded), #__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(8) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > iframe (not-loaded), #__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(8) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div > iframe (not-loaded), #__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(8) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(4) > div > iframe (not-loaded).",
+  "57 image(s) were left without a capture, so no judgment looked at them: 57 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 172 of 222 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 113,
+  "inputTokens": 101914,
+  "outputTokens": 10356,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 368,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 40
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 15,
+    "prepareMs": 0,
+    "candidates": 12,
+    "judged": 12,
+    "calls": 0,
+    "cachedCalls": 21
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 101,
+    "prepareMs": 0,
+    "candidates": 222,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 12,
+    "prepareMs": 0,
+    "candidates": 41,
+    "judged": 41,
+    "calls": 0,
+    "cachedCalls": 41
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 125,
+    "prepareMs": 122,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 33,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 36
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 25,
+   "notCaptured": 57,
+   "reasons": {
+    "limit": 57
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "1.1.1",
+    "candidates": 12,
+    "offlineMisses": 2
+   },
+   {
+    "criterion": "2.4.4",
+    "candidates": 222,
+    "capped": 172
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > section:nth-of-type(1) > div:nth-of-type(2) > iframe",
+     "url": "https://www.youtube-nocookie.com/embed/ERQ2hPK8f48?autoplay=1&mute=1&playsinline=1&controls=1&rel=0&modestbranding=1",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "#__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(8) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div > iframe",
+     "url": "https://www.youtube.com/embed/d2tng1LzgqU",
+     "collected": false,
+     "reason": "not-loaded",
+     "engine": true
+    },
+    {
+     "ref": "#__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(8) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > iframe",
+     "url": "https://www.youtube.com/embed/yR1_fNEqV0g",
+     "collected": false,
+     "reason": "not-loaded",
+     "engine": true
+    },
+    {
+     "ref": "#__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(8) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div > iframe",
+     "url": "https://www.youtube.com/embed/DAceWUGvM6k",
+     "collected": false,
+     "reason": "not-loaded",
+     "engine": true
+    },
+    {
+     "ref": "#__next > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(8) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(4) > div > iframe",
+     "url": "https://www.youtube.com/embed/UN-jZSWIegg",
+     "collected": false,
+     "reason": "not-loaded",
+     "engine": true
+    }
+   ]
+  }
+ }
+}

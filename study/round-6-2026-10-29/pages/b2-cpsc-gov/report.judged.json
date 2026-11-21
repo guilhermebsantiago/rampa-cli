@@ -1,0 +1,572 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.cpsc.gov/Recalls",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "b04d7417745c",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#block-footersocialmediaconnectrightside > div > div > div:nth-of-type(2) > ul > li:nth-of-type(1) > a",
+   "message": "The link text \" facebook\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": " facebook",
+   "subject": " facebook",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#block-footersocialmediaconnectrightside > div > div > div:nth-of-type(2) > ul > li:nth-of-type(1) > a",
+    "kind": "set-text",
+    "from": " facebook",
+    "to": "CPSC Facebook page",
+    "before": "<a href=\"https://www.facebook.com/USCPSC/\" title=\"CPSC Facebook\"> facebook</a>",
+    "after": "<a href=\"https://www.facebook.com/USCPSC/\" title=\"CPSC Facebook\">CPSC Facebook page</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "a9aa98b1d1cc",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#block-footersocialmediaconnectrightside > div > div > div:nth-of-type(2) > ul > li:nth-of-type(4) > a",
+   "message": "The link text \" Twitter\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": " Twitter",
+   "subject": " Twitter",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#block-footersocialmediaconnectrightside > div > div > div:nth-of-type(2) > ul > li:nth-of-type(4) > a",
+    "kind": "set-text",
+    "from": " Twitter",
+    "to": "CPSC Twitter",
+    "before": "<a href=\"https://twitter.com/USCPSC\" title=\"CPSC Twitter\"> Twitter</a>",
+    "after": "<a href=\"https://twitter.com/USCPSC\" title=\"CPSC Twitter\">CPSC Twitter</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "91316b255b88",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#block-footersocialmediaconnectrightside > div > div > div:nth-of-type(4) > ul > li:nth-of-type(1) > a",
+   "message": "The link text \" facebook\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": " facebook",
+   "subject": " facebook",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#block-footersocialmediaconnectrightside > div > div > div:nth-of-type(4) > ul > li:nth-of-type(1) > a",
+    "kind": "set-text",
+    "from": " facebook",
+    "to": "Facebook en Español",
+    "before": "<a href=\"https://www.facebook.com/USCPSCenEspanol\" title=\"CPSC Facebook en Español\"> facebook</a>",
+    "after": "<a href=\"https://www.facebook.com/USCPSCenEspanol\" title=\"CPSC Facebook en Español\">Facebook en Español</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "c87be2f48805",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#block-footersocialmediaconnectrightside > div > div > div:nth-of-type(4) > ul > li:nth-of-type(2) > a",
+   "message": "The link text \" Twitter\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": " Twitter",
+   "subject": " Twitter",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#block-footersocialmediaconnectrightside > div > div > div:nth-of-type(4) > ul > li:nth-of-type(2) > a",
+    "kind": "set-text",
+    "from": " Twitter",
+    "to": "Twitter (@seguridadconsum)",
+    "before": "<a href=\"https://twitter.com/seguridadconsum\" title=\"CPSC Twitter en EspaÃ±ol\"> Twitter</a>",
+    "after": "<a href=\"https://twitter.com/seguridadconsum\" title=\"CPSC Twitter en EspaÃ±ol\">Twitter (@seguridadconsum)</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "67e0e2441e54",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#es > a",
+   "target": "#es > a",
+   "message": "\"Español\" is in Spanish, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"es\" to the link.",
+   "evidence": "Español",
+   "subject": "Español",
+   "patch": {
+    "ref": "#es > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "es",
+    "before": "<a href=\"/es/Noticias\" title=\"View this page in Español\">",
+    "after": "<a href=\"/es/Noticias\" title=\"View this page in Español\" lang=\"es\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/es/Noticias\" title=\"View this page in Español\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "909a98fb67f2",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#zh-hans > a",
+   "target": "#zh-hans > a",
+   "message": "\"简体中文\" is in Simplified Chinese, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"zh-Hans\" to the link.",
+   "evidence": "简体中文",
+   "subject": "简体中文",
+   "patch": {
+    "ref": "#zh-hans > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "zh-Hans",
+    "before": "<a href=\"/zh-CN/Recalls\" title=\"View this page in 简体中文\">",
+    "after": "<a href=\"/zh-CN/Recalls\" title=\"View this page in 简体中文\" lang=\"zh-Hans\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/zh-CN/Recalls\" title=\"View this page in 简体中文\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "82208d2c5cef",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#zh-hant > a",
+   "target": "#zh-hant > a",
+   "message": "\"繁體中文\" is in Traditional Chinese, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"zh-Hant\" to the link.",
+   "evidence": "繁體中文",
+   "subject": "繁體中文",
+   "patch": {
+    "ref": "#zh-hant > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "zh-Hant",
+    "before": "<a href=\"/zhT-CN/Recalls\" title=\"View this page in 繁體中文\">",
+    "after": "<a href=\"/zhT-CN/Recalls\" title=\"View this page in 繁體中文\" lang=\"zh-Hant\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/zhT-CN/Recalls\" title=\"View this page in 繁體中文\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "3f5c29938c9a",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#main-content-section",
+   "target": "#main-content-section",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a id=\"main-content-section\" tabindex=\"0\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 5
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#header > div:nth-of-type(1) > div > div > div:nth-of-type(1) > a > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"CPSC logo\" names a label, not what the image conveys here.",
+   "evidence": "The model suggests: \"United States Consumer Product Safety Commission logo\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.00), claim: no (0.00), reversed: yes (0.44))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#recalls_content > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > a",
+   "message": "The link text \"https://southerntelecom.com/recall-2026-11-19/\" is an address, not a purpose.",
+   "evidence": "The model suggests: \"Southern Telecom Recall Notice (November 19, 2026)\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#recalls_content > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > p:nth-of-type(2) > a",
+   "message": "The link text \"children’s sleepwear\" does not match where the link leads: a page titled \"Flammable Fabrics Act (FFA) | CPSC.gov\".",
+   "evidence": "The model suggests: \"Flammable Fabrics Act (FFA) safety standards\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#recalls_content > div:nth-of-type(1) > div > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(3) > p:nth-of-type(2) > a",
+   "message": "The link text \"www.HG2026.expertinquiry.com\" is an address, not a purpose.",
+   "evidence": "The model suggests: \"Upload a photograph of the product for a refund\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#recalls_content > div:nth-of-type(1) > div > div:nth-of-type(3) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > a",
+   "message": "The link text \"http://www.hg2026.expertinquiry.com/\" is an address, not a purpose.",
+   "evidence": "The model suggests: \"Visit the Recalls & Product Safety Warnings website\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#recalls_content > div:nth-of-type(1) > div > div:nth-of-type(6) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(3) > p:nth-of-type(2) > a:nth-of-type(2)",
+   "message": "The link text \"https://xentrawahelp.com/xentrawave-bed-rail-safety-recall/\" is an address, not a purpose.",
+   "evidence": "The model suggests: \"Submit your bed rail photo online for a refund\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#recalls_content > div:nth-of-type(1) > div > div:nth-of-type(6) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > a",
+   "message": "The link text \"https://xentrawahelp.com/xentrawave-bed-rail-safety-recall/\" is an address, not a purpose.",
+   "evidence": "The model suggests: \"Xentrawave Bed Rail Safety Recall\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#recalls_content > div:nth-of-type(1) > div > div:nth-of-type(7) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > a",
+   "message": "The link text \"https://dealer.vanderhallusa.com/contact\" is an address, not a purpose.",
+   "evidence": "The model suggests: \"Contact Us\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#recalls_content > div:nth-of-type(1) > div > div:nth-of-type(8) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(3) > p:nth-of-type(2) > a",
+   "message": "The link text \"www.fidlock.us/pages/recall\" is an address, not a purpose.",
+   "evidence": "The model suggests: \"Recall information and photo submission page\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#recalls_content > div:nth-of-type(1) > div > div:nth-of-type(8) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > a",
+   "message": "The link text \"http://www.fidlock.us/pages/recall\" is an address, not a purpose.",
+   "evidence": "The model suggests: \"Recalls & Product Safety Warnings\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#recalls_content > div:nth-of-type(1) > div > div:nth-of-type(9) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > a",
+   "message": "The link text \"http://ororowear.com/pd10k-pro-recall\" is an address, not a purpose.",
+   "evidence": "The model suggests: \"PD10K Pro Recall Information\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#extended-search-field-small",
+   "message": "The label \"Search\" does not say what to enter.",
+   "evidence": "The model suggests: \"Search site content\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#tab1",
+   "message": "The label \"Search\" does not say what to enter.",
+   "evidence": "The model suggests: \"Select a recall category\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#edit-field-rc-recall-by-product-target-id",
+   "message": "The label \"Category\" does not say what to enter.",
+   "evidence": "The model suggests: \"Recall Category\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 5,
+   "failed": 0,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 6,
+   "judged": 6,
+   "failed": 0,
+   "passed": 6,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 92,
+   "judged": 50,
+   "failed": 4,
+   "passed": 36,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 42,
+   "suggested": 10
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 14,
+   "judged": 14,
+   "failed": 0,
+   "passed": 11,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 3
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 49,
+   "judged": 49,
+   "failed": 0,
+   "passed": 49,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 14
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 42 of 92 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 114,
+  "cachedCalls": 0,
+  "inputTokens": 86534,
+  "outputTokens": 9547,
+  "latencyMs": 284888
+ },
+ "timings": {
+  "totalMs": 147286,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 44
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 7675,
+    "prepareMs": 0,
+    "candidates": 5,
+    "judged": 5,
+    "calls": 8,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 7448,
+    "prepareMs": 0,
+    "candidates": 6,
+    "judged": 6,
+    "calls": 6,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1473,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 83831,
+    "prepareMs": 0,
+    "candidates": 92,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 16992,
+    "prepareMs": 0,
+    "candidates": 14,
+    "judged": 14,
+    "calls": 14,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 177,
+    "prepareMs": 174,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 29609,
+    "prepareMs": 0,
+    "candidates": 49,
+    "judged": 49,
+    "calls": 35,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 34
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 16,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 92,
+    "capped": 42
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}
