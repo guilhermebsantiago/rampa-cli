@@ -116,3 +116,17 @@ study/round-8-run.
        dist/ (24 files) combined SHA-256 c675d283c3256eadf6a33f394b9190338a5ce5d6d2c46f82c5aff6b67b5eb8a1 (data/build.json);
        src/ identical to 2f5f88f. At the freeze: the seventh study's data/t4.json exists (its T4 ended 17:12), Ollama has no
        model loaded and no node process runs: no other Rampa or Ollama run is active.
+17:49  Collection started (collect.sh main), blocks 1 to 5 in order, one page at a time.
+18:31  Collection loop done (17:49-18:31, 42 min; the seventh study took 25 min): 60 of 60 pages saved a snapshot on the
+       first attempt; no attempt 2, no network error in any console. Every collection exits 2 (an offline run that judges
+       nothing; the snapshot is saved), as in the seventh study. Capture notes (check_collect.py; counts only):
+       b5-startribune-com saved a bot check, not the page ("Vercel Security Checkpoint", HTTP 429): a refusal by section
+       6. Cut at 5,000 elements (reported, not a refusal): b2-barnesandnoble-com, b3-alone-ie, b4-kilkennydesign-com,
+       b5-kent-ac-uk (the last has no destination read and 3 judged 2.4.4 candidates: the cut leaves little to judge; it
+       stays as captured). b2-puc-campinas-edu-br's load reached the 30 s time-out (recorded in its capture; the page
+       stays). No page read as unstyled by the collection report.
+18:33  The refused attempt of b5-startribune-com set aside in DATA/pages/b5-startribune-com/discarded-1/; it is tried once
+       more after 18:41 (10 minutes after the refusal). Main judgment started at 18:33 (run-judged.sh main), block order,
+       --concurrency 2, gemma4:12b on local Ollama, so as not to idle the GPU for those 10 minutes: the page comes 59th,
+       so its retry ends long before the run reaches it; the retry's one-minute collection overlaps the judgment of an
+       early page (noted for the time figures).
