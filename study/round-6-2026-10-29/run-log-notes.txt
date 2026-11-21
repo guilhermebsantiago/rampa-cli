@@ -12,3 +12,26 @@ Sixth real-page study: notes of the run (2026-11-21, times UTC-3)
        (data/screen-8.json). The Public Suffix List file of 2026-10-29 is no longer on disk: pick.py and redact.py ran
        with a list of the six suffixes these hosts need (uk, co.uk, org.uk, com, org, ie), which gives the same
        registrable domains for them; recheck_domains.py uses a suffix rule (pre-registration, section 2).
+02:13  Collection started (collect.sh main).
+02:15  b1-ufam-edu-br (dev): the server answered HTTP 500 (an error page of 2 nodes; the screen at 01:57 had a 200). Read
+       as a refusal (section 6 names 403, 429 and 503 pages; a 500 error page in place of the page is the same kind of
+       answer): set aside, tried once more after at least 10 minutes.
+02:18  b1-graacc-org-br (dev): net::ERR_TOO_MANY_REDIRECTS on both attempts of collect.sh, no snapshot (the screen at
+       01:57 had a 200). A net::ERR_* failure: the attempts do not count; tried again up to three more times.
+02:27  b2-santacasabh-org-br (dev): the collector crashed on both attempts, no snapshot ("page.evaluate: Cannot serialize
+       result: object reference chain is too long."). A crash that saves no snapshot (section 6): tried once more after
+       at least 10 minutes; if it crashes again, its slot's next backup that passed the screen replaces it.
+02:44  Collection loop done (02:13-02:43, 72 pages, one at a time). Attempts set aside in DATA/pages/<slug>/discarded-1/.
+       b1-ufam-edu-br, tried once more: collected (892 nodes, its home page).
+       b1-graacc-org-br: net::ERR_TOO_MANY_REDIRECTS again on two attempts; curl shows the server answering HTTP 301 to its
+       own address, a loop on the server, not a connection drop. After four attempts in 26 minutes it was read as refused
+       again and replaced by its slot's next backup that passed the screen: aacd.org.br (b2; hospitalmaterdei.com.br, the
+       primary, had not resolved on 2026-10-29). Strictly the network rule allows three more tries; the fourth was not
+       spent, since the loop was the server's answer.
+       b2-santacasabh-org-br: the collector crashed again on both attempts; replaced by its slot's next backup that
+       passed the screen: hospitaldeamor.com.br (b1).
+       Both backups screened again (data/screen-9.json, scripts/candidates-replace.tsv) and collected at 02:46.
+       scripts/pages.tsv, selection.tsv and data/pages-input.json (split.py) updated: slots, blocks, splits, coins and the
+       T4 subset unchanged; both domains clear of data/excluded-domains.json and of recheck_domains.py (0 hits). The old
+       folders are kept as DATA/pages/replaced-<slug>/. 72 of 72 pages collected. Both replaced slots are dev pages.
+02:47  Main judgment started (run-judged.sh main), block order, --concurrency 2.
