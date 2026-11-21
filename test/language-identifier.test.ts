@@ -227,6 +227,47 @@ describe('3.1.2 with the identifier', () => {
     expect(report.findings.filter((f) => f.criterion === '3.1.2')).toEqual([])
   })
 
+  // lbc.co.uk's ad frames in the sixth real-page study: <html lang="pt"> of a frame whose ad copy sits in its own
+  // lang="pt" box, and whose English feedback panel is aria-hidden and placed beside the frame. A snapshot recorded
+  // before the collector left such text out still holds it in langText.
+  const adFrame = (panel: 'beside' | 'inside' | 'shown') => {
+    const at = { beside: { x: 697, y: 1127 }, inside: { x: 400, y: 1380 }, shown: { x: 697, y: 1127 } }[panel]
+    const english = (ref: string, text: string, i: number) =>
+      node({ ref, text, states: panel === 'shown' ? [] : ['aria-hidden'], bounds: { x: at.x, y: at.y + 30 * i, width: 240, height: 28 } })
+    const frameRoot = node({
+      ref: 'iframe |> html',
+      role: 'document',
+      lang: 'pt',
+      bounds: { x: 397, y: 1377, width: 300, height: 250 },
+      native: { tag: 'html', html: '<html lang="pt">', langText: ENGLISH_LONG },
+      children: [
+        node({
+          ref: 'iframe |> body',
+          native: { tag: 'body' },
+          children: [
+            node({ ref: 'iframe |> #square', lang: 'pt', bounds: { x: 397, y: 1377, width: 300, height: 250 }, native: { tag: 'div', langText: PORTUGUESE }, text: PORTUGUESE }),
+            node({ ref: 'iframe |> #abgc', states: panel === 'shown' ? [] : ['aria-hidden'], children: ENGLISH_LONG.split('. ').map((sentence, i) => english(`iframe |> #abgc span:nth-of-type(${i + 1})`, sentence, i)) }),
+          ],
+        }),
+      ],
+    })
+    return page('en', [paragraph('p.intro', ENGLISH_LONG), node({ ref: 'iframe', native: { tag: 'iframe' }, bounds: { x: 397, y: 1377, width: 300, height: 250 }, children: [frameRoot] })])
+  }
+
+  it('leaves out text hidden from assistive technology and placed outside its frame, even from an older snapshot', async () => {
+    const candidates = languageOfParts.candidates(adFrame('beside'), NO_ENGINE)
+    expect(candidates.map((c) => c.ref)).toEqual(['iframe |> #square'])
+    const report = await checkSnapshot(adFrame('beside'), NO_ENGINE, { ...options(silent), criteria: [languageOfParts] })
+    expect(report.findings).toEqual([])
+  })
+
+  it('still reads that text when it sits inside the frame or is not hidden from assistive technology, and fails the frame', async () => {
+    for (const panel of ['inside', 'shown'] as const) {
+      const report = await checkSnapshot(adFrame(panel), NO_ENGINE, { ...options(silent), criteria: [languageOfParts] })
+      expect(report.findings.map((f) => [f.ref, f.message.split('.')[0]]), panel).toEqual([['iframe |> html', 'Marked as lang="pt", but the text is in English (en)']])
+    }
+  })
+
   it('fails a long element marked with the wrong language without a model', async () => {
     const snapshot = page('en', [paragraph('p.wrong', PORTUGUESE, 'es')], ENGLISH_LONG)
     const report = await checkSnapshot(snapshot, NO_ENGINE, { ...options(silent), criteria: [languageOfParts] })
