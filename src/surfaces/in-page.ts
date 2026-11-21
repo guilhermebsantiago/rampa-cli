@@ -448,10 +448,31 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     return null
   }
 
+  /** The element an element shows in: the slot it is assigned to, its parent, the host of its shadow root, or its frame. */
+  const flatParent = (el: Element): Element | null => {
+    if (el.assignedSlot) return el.assignedSlot
+    if (el.parentElement) return el.parentElement
+    const parent = el.parentNode
+    return isShadowRoot(parent) ? parent.host : isDocument(parent) ? frameOf(parent) : null
+  }
+  /**
+   * Whether an element is rendered, as checkVisibility tells (display: none, visibility: hidden, content-visibility),
+   * except that an element with display: contents, as a `<slot>` has by default, has no box of its own, so
+   * checkVisibility says false while its children show: it is rendered when the element it shows in is. chop.edu's
+   * footer links sat under slots, were recorded as hidden and were never followed in the seventh real-page study.
+   */
+  const rendered = (el: Element): boolean => {
+    if (typeof el.checkVisibility !== 'function') return true
+    if (el.checkVisibility({ visibilityProperty: true, checkVisibilityCSS: true } as CheckVisibilityOptions)) return true
+    const style = styleOf(el)
+    if (style.display !== 'contents' || style.visibility === 'hidden') return false
+    const parent = flatParent(el)
+    return parent !== null && rendered(parent)
+  }
+
   const statesOf = (el: Element): string[] => {
     const states: string[] = []
-    const visible = typeof el.checkVisibility === 'function' ? el.checkVisibility({ visibilityProperty: true, checkVisibilityCSS: true } as CheckVisibilityOptions) : true
-    if (!visible) states.push('hidden')
+    if (!rendered(el)) states.push('hidden')
     else {
       const rect = pageRect(el)
       const left = rect.right + window.scrollX
