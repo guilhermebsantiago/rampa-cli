@@ -599,3 +599,35 @@ describe('an unread link to an address read under another spelling', () => {
     expect(facts(pair('/terms-of-use', undefined)).map((c) => c.sameText?.places)).toEqual([2, 2])
   })
 })
+
+// portal.uel.br and galwaycity.ie in the seventh real-page study: "SAIBA MAIS" and "Read more..." under a heading that
+// names the page they lead to; boldrini.org.br in the sixth: "Clique aqui" under a heading that shares only the site's name.
+describe('a generic link text under a heading that names the page it leads to', () => {
+  // Three levels below the section's heading, in a section of more than 250 characters: no card heading, no sentence.
+  const blurb = p('blurb', text('blurb-text', 'Atendimento à população em saúde, cultura, esporte e assistência jurídica, com projetos de extensão abertos ao público. '.repeat(3)))
+  const section = (heading: string, destination: A11ySnapshot['destinations']) => ({
+    ...page([div('section', h3('h', heading), blurb, div('list', div('item', link('#more', 'SAIBA MAIS', '/servicos-a-comunidade'))))], 'https://portal.uel.example/'),
+    title: 'Universidade Estadual de Londrina - UEL',
+    ...(destination ? { destinations: destination } : {}),
+  })
+  const services = { '/servicos-a-comunidade': { kind: 'page' as const, title: 'Serviços à Comunidade - Universidade Estadual de Londrina', heading: 'Serviços à Comunidade' } }
+
+  it('grounds no generic claim when the heading shares a word with the title or main heading read at the address', async () => {
+    const named = section('A UEL disponibiliza diversos serviços para a comunidade interna e externa.', services)
+    expect(contextOf(named, '#more')).toMatchObject({ heading: 'A UEL disponibiliza diversos serviços para a comunidade interna e externa.', headingNamesDestination: true })
+    expect(contextOf(named, '#more')).not.toHaveProperty('cardHeading')
+    expect(groundedLink('generic', contextOf(named, '#more')!)).toBe(false)
+    expect(await findingsAs('generic', named)).toEqual([])
+    // A word in another form counts: "serviço" and "Serviços".
+    expect(generic(section('Conheça cada serviço', services))).toEqual([false])
+  })
+
+  it("keeps the fact when the address was not read, the heading shares only the site's name, or names nothing", async () => {
+    expect(generic(section('A UEL disponibiliza diversos serviços', undefined))).toEqual([true])
+    expect(await findingsAs('generic', section('A UEL disponibiliza diversos serviços', undefined))).toEqual(['#more'])
+    expect(generic(section('Estatística da UEL em Londrina', services))).toEqual([true])
+    expect(generic(section('Section 2', { '/servicos-a-comunidade': { kind: 'page', title: 'Section 2 services' } }))).toEqual([true])
+    expect(generic(section('Serviços', { '/servicos-a-comunidade': { kind: 'file', contentType: 'application/pdf' } }))).toEqual([true])
+    expect(contextOf(section('Notícias', services), '#more')).not.toHaveProperty('headingNamesDestination')
+  })
+})
