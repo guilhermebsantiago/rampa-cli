@@ -38,7 +38,7 @@ for page in pages():
         engine = Counter(lst for lst in ("findings", "belowThreshold", "beyondTarget") for x in r.get(lst) or [] if x.get("source") == "engine")
         judged = {
             "rampaVersion": r.get("rampaVersion"), "target": r.get("target"), "model": r.get("model"),
-            "minConfidence": r.get("minConfidence"), "wcag": r.get("wcag"),
+            "minConfidence": r.get("minConfidence"), "wcagTarget": r.get("wcagTarget"),
             "findings": keep(r.get("findings")), "belowThreshold": keep(r.get("belowThreshold")), "beyondTarget": keep(r.get("beyondTarget")),
             "engineFindings": dict(engine), "groups": r.get("groups"),
             "needsReview": [x for x in r.get("needsReview") or [] if x.get("model")],
