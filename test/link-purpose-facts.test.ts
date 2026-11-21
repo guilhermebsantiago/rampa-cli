@@ -418,7 +418,12 @@ const sharedFindings = (snapshot: A11ySnapshot) => findingsAs('ambiguous', snaps
 // marksandspencer.com in the sixth real-page study: a banner's "Free returns for online orders" carried a campaign tag in
 // its fragment, the footer's did not, and both lead to the same help page.
 describe('a fragment of parameters on a shared text', () => {
-  const pair = (bannerHref: string) => page([div('banner', link('#banner', 'Free returns for online orders', bannerHref)), ul('footer', li('f1', link('#footer', 'Free returns for online orders', '/help/returns')))], 'https://shop.example/women')
+  // Both addresses read, so a claim on the pair can rest on what was read (`pairRead`).
+  const help = (href: string) => (href.includes('refunds') ? { kind: 'page' as const, title: 'Refunds', heading: 'Refunds' } : { kind: 'page' as const, title: 'Returns', heading: 'Returns' })
+  const pair = (bannerHref: string) => ({
+    ...page([div('banner', link('#banner', 'Free returns for online orders', bannerHref)), ul('footer', li('f1', link('#footer', 'Free returns for online orders', '/help/returns')))], 'https://shop.example/women'),
+    destinations: { [bannerHref]: help(bannerHref), '/help/returns': help('/help/returns') },
+  })
 
   it('makes no other place, so a model that fails both as shared reports neither', async () => {
     expect(await sharedFindings(pair('https://shop.example/help/returns#intid=cms_banner_free-returns_pos-3_1'))).toEqual([])
@@ -435,10 +440,17 @@ describe('a title on links that share a text (H33)', () => {
   const footer = (titles: [string, string] | undefined) => {
     const social = (ref: string, href: string, title: string | undefined) =>
       node({ ref, role: 'link', name: 'facebook', native: { tag: 'a', attributes: { href, ...(title ? { title } : {}) } }, children: [text(`${ref}-text`, 'facebook')] })
-    return page([
-      ul('en', li('en1', social('#en', 'https://www.facebook.com/USCPSC/', titles?.[0]))),
-      ul('es', li('es1', social('#es', 'https://www.facebook.com/USCPSCenEspanol', titles?.[1]))),
-    ])
+    return {
+      ...page([
+        ul('en', li('en1', social('#en', 'https://www.facebook.com/USCPSC/', titles?.[0]))),
+        ul('es', li('es1', social('#es', 'https://www.facebook.com/USCPSCenEspanol', titles?.[1]))),
+      ]),
+      // Both pages read, so a claim on the pair can rest on what was read (`pairRead`).
+      destinations: {
+        'https://www.facebook.com/USCPSC/': { kind: 'page' as const, title: 'U.S. Consumer Product Safety Commission', heading: 'U.S. Consumer Product Safety Commission' },
+        'https://www.facebook.com/USCPSCenEspanol': { kind: 'page' as const, title: 'CPSC en Español', heading: 'CPSC en Español' },
+      },
+    }
   }
 
   it('tells the links apart, so a model that fails both as shared reports neither', async () => {
@@ -479,16 +491,20 @@ describe('the context of a link in a heading, a longer notice or a line of its o
   })
 
   it('tells "CLIQUE AQUI" links apart by the lines the collector recorded, and keeps the fact on a snapshot without them', async () => {
-    const block = (lines: string[] | undefined) =>
-      page([
+    const labels = ['AGENDAMENTO DE GRUPOS', 'GARANTA SEU INGRESSO INDIVIDUAL', 'DISPONIBILIDADE DE SENHAS']
+    const block = (lines: string[] | undefined) => ({
+      ...page([
         div(
           'hours',
-          ...['AGENDAMENTO DE GRUPOS', 'GARANTA SEU INGRESSO INDIVIDUAL', 'DISPONIBILIDADE DE SENHAS'].map((label, i) => {
+          ...labels.map((label, i) => {
             const a = link(`#line${i}`, 'CLIQUE AQUI', `https://museu.example/destino-${i}`)
             return lines ? { ...a, native: { ...a.native, lineText: `${label} CLIQUE AQUI` } } : a
           }),
         ),
-      ])
+      ]),
+      // Every address read, so a claim on a pair can rest on what was read (`pairRead`).
+      destinations: Object.fromEntries(labels.map((label, i) => [`https://museu.example/destino-${i}`, { kind: 'page' as const, title: label, heading: label }])),
+    })
     expect(await sharedFindings(block(['recorded']))).toEqual([])
     expect(await sharedFindings(block(undefined))).toEqual(['#line0', '#line1', '#line2'])
   })
@@ -498,9 +514,12 @@ describe('the context of a link in a heading, a longer notice or a line of its o
 describe('a shared text that names its destination', () => {
   // correio.braziliense's header menu in the third real-page study: "Direito e Justiça" to its section, and another
   // "Direito e Justiça" further down to an article.
-  const shared = (destinations: A11ySnapshot['destinations']) => {
+  // The article is read too unless a test says otherwise, so a claim on the pair can rest on what was read (`pairRead`).
+  const article = { '/artigo/123': { kind: 'page' as const, title: 'Juiz nega recurso em caso de herança', heading: 'Juiz nega recurso em caso de herança' } }
+  const shared = (destinations: A11ySnapshot['destinations'], withArticle = true) => {
     const snapshot = page([ul('menu', li('m1', link('#section', 'Direito e Justiça', '/direito-e-justica/')), li('m2', link('#article', 'Direito e Justiça', '/artigo/123')))])
-    return destinations ? { ...snapshot, destinations } : snapshot
+    const read = { ...(withArticle ? article : {}), ...destinations }
+    return Object.keys(read).length > 0 ? { ...snapshot, destinations: read } : snapshot
   }
   const ambiguous = (snapshot: A11ySnapshot) => facts(snapshot).map((c) => groundedLink('ambiguous', c))
 
@@ -519,7 +538,9 @@ describe('a shared text that names its destination', () => {
   })
 
   it('keeps the fact when the destination was not read, is a file, or only holds the text', () => {
-    expect(ambiguous(shared(undefined))).toEqual([true, true])
+    // Not read, it names nothing; but then the pair was not read at both ends, so neither claim rests on a fact.
+    expect(namesOwnDestination(facts(shared(undefined))[0]!)).toBe(false)
+    expect(ambiguous(shared(undefined))).toEqual([false, false])
     expect(ambiguous(shared({ '/direito-e-justica/': { kind: 'page', title: 'Notícias jurídicas' } }))).toEqual([true, true])
     expect(ambiguous(shared({ '/direito-e-justica/': { kind: 'file', contentType: 'application/pdf' } }))).toEqual([true, true])
     // A title that begins with the text or holds it names something narrower: two "Contact" links to "Contact sales" and
@@ -669,5 +690,52 @@ describe('a link to a part that holds only a heading', () => {
     const snapshot = page([more, products, footer], 'https://www.mt.example/')
     expect(at(snapshot, '#f1')?.part).toMatchObject({ text: 'Produtos Digitais Serviços digitais do estado' })
     expect(at(snapshot, '#f1')?.part).not.toHaveProperty('name')
+  })
+})
+
+// sboc.org.br in the sixth real-page study (one post at two addresses) and avoca.com in the seventh ("SHOP NOW" to five
+// addresses, none read): places that differ by their addresses alone.
+describe('a shared text whose pair was never read at both ends', () => {
+  const posts = (destinations: A11ySnapshot['destinations'], second = '/2025/09/comunicado-oficial-2') => ({
+    ...page([ul('news', li('n1', link('#a', 'COMUNICADO OFICIAL', '/2025/09/comunicado-oficial'))), ul('more', li('m1', link('#b', 'COMUNICADO OFICIAL', second)))], 'https://www.sboc.example/'),
+    ...(destinations ? { destinations } : {}),
+  })
+  const post = (title: string) => ({ kind: 'page' as const, title, heading: title })
+  const ambiguous = (snapshot: A11ySnapshot) => facts(snapshot).map((c) => groundedLink('ambiguous', c))
+
+  it('makes the claim a suggestion when neither address, or only one, was read', async () => {
+    for (const read of [undefined, { '/2025/09/comunicado-oficial': post('Comunicado oficial sobre a assembleia') }]) {
+      expect(facts(posts(read)).map((c) => [c.sameText?.places, c.sameText?.apart, c.sameTextUnread])).toEqual([[2, false, true], [2, false, true]])
+      expect(ambiguous(posts(read))).toEqual([false, false])
+      expect(await sharedFindings(posts(read))).toEqual([])
+    }
+  })
+
+  it('keeps the fact when both were read and differ, or the pair is two parts of this page', async () => {
+    const both = posts({ '/2025/09/comunicado-oficial': post('Comunicado oficial sobre a assembleia'), '/2025/09/comunicado-oficial-2': post('Comunicado oficial sobre a gincana') })
+    expect(facts(both).map((c) => c.sameTextUnread)).toEqual([undefined, undefined])
+    expect(await sharedFindings(both)).toEqual(['#a', '#b'])
+    // An unread address read under another spelling counts as read (`sharePlaces`).
+    const spelled = {
+      ...page(
+        [
+          ul('news', li('n1', link('#a', 'COMUNICADO OFICIAL', '/2025/09/comunicado-oficial'))),
+          ul('more', li('m1', link('#b', 'COMUNICADO OFICIAL', '/2025/09/comunicado-oficial-2'))),
+          p('g', link('#c', 'Gincana', 'https://www.sboc.example/2025/09/comunicado-oficial-2/')),
+        ],
+        'https://www.sboc.example/',
+      ),
+      destinations: { '/2025/09/comunicado-oficial': post('Comunicado oficial sobre a assembleia'), 'https://www.sboc.example/2025/09/comunicado-oficial-2/': post('Comunicado oficial sobre a gincana') },
+    }
+    expect(ambiguous(spelled)).toEqual([true, true, false])
+    // Two parts of this page are known without reading anything.
+    const parts = page([ul('toc', li('t1', link('#p1', 'Details', '#shipping'))), ul('toc2', li('t2', link('#p2', 'Details', '#returns')))], 'https://shop.example/help')
+    expect(ambiguous(parts)).toEqual([true, true])
+  })
+
+  it('says so in the claim it leaves for review', async () => {
+    const report = await checkSnapshot(posts(undefined), NO_ENGINE, { criteria: [linkPurpose], llm: true, provider: failsAs('ambiguous'), runs: 1, cache: memoryCache(), offline: false, locale: 'en', minConfidence: 'low', concurrency: 1 })
+    expect(report.findings).toEqual([])
+    expect(report.needsReview?.map((entry) => entry.ref)).toEqual(['#a', '#b'])
   })
 })
