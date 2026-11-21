@@ -55,6 +55,12 @@ export interface NonTextContentContext {
   functional?: FunctionalImage | undefined
   /** The visible text of the link or button the image sits in, without the image, when it holds some. Not in the prompt. */
   controlText?: string | undefined
+  /**
+   * Set when the image is all a link or button holds and that control has its own name from aria-label, other than the
+   * image's alternative: the control is announced by that name, and the alternative is not its name. Not in the prompt,
+   * which already gives the control's name.
+   */
+  namedControl?: { control: 'link' | 'button'; name: string } | undefined
   /** Set when the page hides the image from assistive technology: the question is then whether it carries information. */
   hidden?: HiddenImageFacts | undefined
 }
@@ -598,18 +604,29 @@ export function namesNetworkOfLink(alt: string, f: Pick<FunctionalImage, 'contro
   return words.some((word) => word.length >= NETWORK_WORD_MIN && labels.some((label) => editDistance(word, label) <= NETWORK_EDITS))
 }
 
+/** The kinds of claim that compare the alternative with what the model reads in the picture; the others rest on the alternative's own text. */
+const READS_PICTURE: ReadonlySet<AltClaim> = new Set(['functional_link', 'functional_button', 'missing_information', 'short_alternative', 'wrong_content', 'decorative'])
+
 /**
- * Whether a verified fail rests on more than the model's reading of a picture it cannot tell from the network it names:
- * false for a reading claim (wrong content, or a functional image's missing information, as the second pass asks) on
- * an image that is all its link to a social network holds and whose alternative names that network
- * (`namesNetworkOfLink`). A file name, a placeholder or a generic word names nothing, so its claim stays.
+ * Whether a verified fail rests on more than the model's reading of a picture, by the kind of claim `altClaim` makes
+ * of it, in `altClaim`'s order (a placeholder or a generic word first, so such a claim always stays):
+ * - false for a functional image's claim (`functional_link`, `functional_button`) on an image that is all its link to a
+ *   social network holds and whose alternative names that network (`namesNetworkOfLink`);
+ * - false for any claim that reads the picture (`READS_PICTURE`) on an image that is all a link or button holds when
+ *   that control has its own name from aria-label, other than the alternative (`namedControl`): the control is
+ *   announced by that name, so the alternative serves as nobody's text alternative there (technique ARIA6), whatever
+ *   the picture shows. liverpoolecho.co.uk's header logo with alt "liverpoolecho" in a link labelled "Subscribe to
+ *   premium membership" was a false finding in the sixth real-page study.
+ * Such a claim is the model's suggestion, asked of no second pass. A file name, a placeholder or a generic word names
+ * nothing, so its claim stays.
  */
 export function groundedImage(output: NonTextContentOutput, c: NonTextContentContext, snapshot: A11ySnapshot): boolean {
-  if (c.hidden || !c.functional) return true
+  if (c.hidden) return true
   const answer = output as NonTextContentJudgment
-  if (answer.verdict !== 'fail' || (answer.problem !== 'wrong_content' && answer.problem !== 'missing_information')) return true
-  if (looksLikePlaceholder(c.alt, c.src) || isGenericAlt(c.alt)) return true
-  return !namesNetworkOfLink(c.alt, c.functional, snapshot)
+  if (answer.verdict !== 'fail') return true
+  const kind = altClaim(answer, c, MESSAGE_WORDINGS)
+  if ((kind === 'functional_link' || kind === 'functional_button') && c.functional) return !namesNetworkOfLink(c.alt, c.functional, snapshot)
+  return !(c.namedControl && READS_PICTURE.has(kind))
 }
 
 /**
@@ -645,6 +662,19 @@ function textWithout(root: A11yNode, left: A11yNode): string {
 /** The control holds nothing a person reads but this image: no text, no other named image. */
 function onlyContent(control: A11yNode, image: A11yNode): boolean {
   return textWithout(control, image) === ''
+}
+
+/**
+ * The link or button an image is all of, when the control has its own name from aria-label: the control is announced
+ * by that name, not by the image's alternative (`NonTextContentContext.namedControl`). An aria-label that repeats the
+ * alternative, case and spaces aside, makes a claim about the alternative one about the control's name, so it is left
+ * out: arezzo.com.br's banners repeat a CMS code ("ARZ - QUARTETO1 - DESK") in both, true findings in the sixth
+ * real-page study. An image button is its own control, named by its own alternative, and is left out too.
+ */
+function namedControlOf(control: A11yNode, image: A11yNode, alt: string): NonTextContentContext['namedControl'] {
+  const label = attributesOf(control)['aria-label']?.trim()
+  if (control === image || !label || normalizeForMatch(label) === normalizeForMatch(alt) || !onlyContent(control, image)) return undefined
+  return { control: control.role === 'button' ? 'button' : 'link', name: control.name?.trim() || label }
 }
 
 /**
@@ -946,6 +976,7 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
       const functional = imageButton ? functionalImage(node, node, index, snapshot, siteOnce) : control ? functionalImage(control, node, index, snapshot, siteOnce) : undefined
       // What the control says in words besides this image, for an image that is not all it holds.
       const controlText = control && !functional && !imageButton ? truncate(textWithout(control, node), 500) || undefined : undefined
+      const namedControl = control && !functional && !imageButton ? namedControlOf(control, node, alt) : undefined
       const attributes = (node.native.attributes ?? {}) as Record<string, string>
       // Native nodes have no markup; their source is the node as the platform's tools show it.
       const markup = typeof node.native.html === 'string' ? node.native.html.replace(/src="data:[^"]{40,}"/, 'src="data:…"') : typeof node.native.source === 'string' ? node.native.source : ''
@@ -962,6 +993,7 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
           image: node.image,
           ...(functional ? { functional } : {}),
           ...(controlText ? { controlText } : {}),
+          ...(namedControl ? { namedControl } : {}),
         },
       })
     }
