@@ -128,7 +128,7 @@ export const languageOfParts: Criterion<LanguageOfPartsContext, LanguageOfPartsJ
       // Invalid tags are the engine's job; only valid tags reach the model.
       if (!canonicalLanguageTag(declared)) continue
       if (node.states.includes('hidden')) continue
-      const text = typeof node.native.langText === 'string' ? node.native.langText : textInheritingLang(node)
+      const text = langTextOf(node, frameBoxOf(index, node, snapshot.root))
       if (letterCount(text) < 4) continue
       const judged = truncate(text, 1200)
       candidates.push({
@@ -322,6 +322,55 @@ function unmarkedPassages(snapshot: A11ySnapshot, index: ReturnType<typeof index
     .slice(0, MAX_UNMARKED)
     .sort((a, b) => a.order - b.order)
     .map(({ ref, context }) => ({ ref, context }))
+}
+
+type Box = NonNullable<A11yNode['bounds']>
+
+/** For a node in a frame, the box the frame shows: the box of the frame document's root; undefined in the page itself. */
+function frameBoxOf(index: ReturnType<typeof indexTree>, node: A11yNode, root: A11yNode): Box | undefined {
+  for (let current: A11yNode | undefined = node; current && current !== root; ) {
+    if (current.role === 'document' && current.native.tag === 'html') return current.bounds
+    const parentRef: string | undefined = index.get(current.ref)?.parentRef
+    current = parentRef === undefined ? undefined : index.get(parentRef)?.node
+  }
+  return undefined
+}
+
+/**
+ * Hidden from assistive technology and wholly out of sight: before the page's top or left edge (the state
+ * "offscreen"), or outside the box of the frame it sits in. A node with no box, or an empty one, says nothing.
+ */
+function unseenNode(node: A11yNode, frame: Box | undefined): boolean {
+  if (!node.states.includes('aria-hidden')) return false
+  if (node.states.includes('offscreen')) return true
+  const box = node.bounds
+  if (!frame || !box || (box.width === 0 && box.height === 0)) return false
+  return box.x + box.width <= frame.x || box.y + box.height <= frame.y || box.x >= frame.x + frame.width || box.y >= frame.y + frame.height
+}
+
+/**
+ * The text that inherits a marked element's language, as the identifier and the model read it, without text that is
+ * hidden from assistive technology and out of sight (`unseenNode`): such text is neither in the accessibility tree nor
+ * seen, so it is in no language anyone meets (ACT off6ek reads text that is visible or in the tree). lbc.co.uk's ad
+ * frames marked lang="pt" held an English feedback panel, aria-hidden and placed beside the frame, and the identifier
+ * read the frame as English (the sixth real-page study). The collector leaves such text out of `langText` itself; a
+ * snapshot recorded before kept it, so when the element's scope holds such text, its text is read from the tree,
+ * without that text and without the names the collector reads from attributes. Otherwise it is `langText` as before.
+ */
+function langTextOf(node: A11yNode, frame: Box | undefined): string {
+  if (unseenNode(node, frame)) return ''
+  let unseen = false
+  const parts: string[] = []
+  const visit = (current: A11yNode, isRoot: boolean): void => {
+    if (!isRoot && ((current.lang ?? '').trim() !== '' || current.states.includes('hidden'))) return
+    const own = [current.text, current.role === 'img' ? current.name : undefined].filter((text): text is string => Boolean(text))
+    if (unseenNode(current, frame)) unseen ||= own.length > 0
+    else parts.push(...own)
+    for (const child of current.children) visit(child, false)
+  }
+  visit(node, true)
+  if (!unseen) return typeof node.native.langText === 'string' ? node.native.langText : textInheritingLang(node)
+  return parts.join(' ').replace(/\s+/g, ' ').trim()
 }
 
 /** Whether the closest ancestor that declares a language is the root, so the block reads in the page's language. */

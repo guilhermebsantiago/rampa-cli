@@ -42,6 +42,28 @@ describe.skipIf(!browser)('web surface', { timeout: 30_000 }, () => {
     expect(snapshot.root.native.html).toBe('<html lang="en">')
   })
 
+  it('leaves text hidden from assistive technology and out of sight out of the text that inherits a language', async () => {
+    if (!browser) return
+    // lbc.co.uk's ad frames (sixth real-page study): an English feedback panel, aria-hidden, placed beside a frame marked lang="pt".
+    const frame = (left: string) =>
+      `<html lang="pt"><body style="margin:0;overflow:hidden"><div id="square" lang="pt">Leapmotor B10 Elétrico. Saiba mais sobre o carro.</div><div aria-hidden="true" style="position:absolute;top:0;left:${left};width:240px">Why this ad? Send feedback. Seen this ad multiple times.</div></body></html>`
+    const iframe = (left: string) => `<iframe scrolling="no" style="width:300px;height:250px;border:0" srcdoc="${frame(left).replaceAll('"', '&quot;')}"></iframe>`
+    const html = `<!doctype html><html lang="en"><body>
+      ${iframe('300px')}${iframe('10px')}
+      <div id="part" lang="pt">Bem-vindo ao museu.
+        <span aria-hidden="true" style="position:absolute;left:-9999px">Skip to the English menu</span>
+        <span style="position:absolute;left:-9999px">Read in English</span>
+      </div></body></html>`
+    const dir = await mkdtemp(join(tmpdir(), 'rampa-unseen-'))
+    await writeFile(join(dir, 'page.html'), html, 'utf8')
+    const { snapshot } = await collectWeb(browser, pathToFileURL(join(dir, 'page.html')).href, { runAxe: false, locale: 'en' })
+    const frames = [...walkTree(snapshot.root)].filter((n) => n.role === 'document' && n !== snapshot.root)
+    expect(frames.map((n) => n.native.langText)).toEqual(['', 'Why this ad? Send feedback. Seen this ad multiple times.'])
+    const part = [...walkTree(snapshot.root)].find((n) => attributesOf(n).id === 'part')
+    // Text off screen that a screen reader still reads keeps its language; the aria-hidden text does not.
+    expect(part?.native.langText).toBe('Bem-vindo ao museu. Read in English')
+  })
+
   it('hands the judgment layer exactly the elements with a declared language', async () => {
     if (!browser) return
     const { snapshot, engine } = await collectWeb(browser, example('mismatch.html'), { runAxe: true, locale: 'en' })

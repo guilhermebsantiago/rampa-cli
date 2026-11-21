@@ -372,7 +372,23 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
   /** Text in reading order, without what is hidden from the accessibility tree. */
   const readingText = (el: Element): string => collapse(textInOrder(el, false))
 
+  /**
+   * An element hidden from assistive technology (aria-hidden on it or around it) whose box lies wholly out of sight:
+   * before the page's top or left edge, as the state "offscreen" says, or, in a frame, outside the frame's own box, as
+   * lbc.co.uk's ad frames placed their English feedback panel beside a frame marked lang="pt" (the sixth real-page
+   * study). A box with no size says nothing: what it holds is read on its own.
+   */
+  const unseen = (el: Element): boolean => {
+    if (!composedClosest(el, '[aria-hidden="true"]')) return false
+    const rect = el.getBoundingClientRect()
+    if (rect.width === 0 && rect.height === 0) return false
+    const view = el.ownerDocument.defaultView ?? window
+    if (frameOf(el.ownerDocument)) return rect.right <= 0 || rect.bottom <= 0 || rect.left >= view.innerWidth || rect.top >= view.innerHeight
+    return rect.right + view.scrollX <= 0 || rect.bottom + view.scrollY <= 0
+  }
+
   const textInOrder = (el: Element, stopAtLang: boolean): string => {
+    if (stopAtLang && unseen(el)) return ''
     const parts: string[] = stopAtLang ? attributeTexts(el) : []
     const walker = el.ownerDocument.createTreeWalker(el, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT)
     let node: Node | null = walker.nextNode()
@@ -389,6 +405,12 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
           continue
         }
         if (element !== el && !stopAtLang && (element.getAttribute('aria-hidden') === 'true' || element.hasAttribute('hidden'))) {
+          node = walker.nextSibling() ?? nextOutside(walker, el)
+          continue
+        }
+        // Text hidden from assistive technology and placed out of sight is neither in the accessibility tree nor seen, so
+        // it is not text in a language anyone meets (ACT ucwvc8 and off6ek read text that is visible or in the tree).
+        if (stopAtLang && unseen(element)) {
           node = walker.nextSibling() ?? nextOutside(walker, el)
           continue
         }
