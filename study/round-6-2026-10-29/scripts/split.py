@@ -11,8 +11,7 @@ Portuguese and six international pages in English, one per category, and the tes
 
 After the split, the same generator draws a proposed subset for the five uncached runs (the article's T4 runs on a
 subset): one page per stratum, from the six pages of that stratum (three blocks x home and inner), strata in sorted
-order. It is a proposal for the person running the study, who may run T4 on all 72 pages instead (see the
-pre-registration draft); drawing it changes no other draw.
+order. The pre-registration fixes it as the T4 subset; drawing it changes no other draw.
 
 Writes data/pages-input.json. Run from anywhere: python -I study/round-6-2026-10-29/scripts/split.py
 """
@@ -81,12 +80,12 @@ def main():
         r["probeRun"] = False
 
     out = {
-        "note": ("Pages of the sixth real-page study, a draft: selected on 2026-10-29 before any Rampa run; no "
+        "note": ("Pages of the sixth real-page study: selected on 2026-10-29 before any Rampa run; no "
                  "registrable domain of the first to fifth studies, the re-measure or the robustness study, and none that "
                  "any file of any branch, tag or remote-tracking ref, any commit message or any line of the history "
                  "names (data/excluded-domains.json). Only the dev split may be read for patterns; the test split is "
                  "reported once and its false positives are counted, not described."),
-        "commit": "TO BE FIXED: the frozen code's commit, after the P1 and P2 fixes are merged",
+        "commit": "df32363 (rampa-cli 0.1.2, tag v0.1.2)",
         "seed": SEED,
         "method": ("Python random.Random(seed): for block 1, 2 and 3, and within a block for each stratum in sorted "
                    "order, one random() draw; below 0.5 the home page goes to dev, else the inner page. Then, with the "

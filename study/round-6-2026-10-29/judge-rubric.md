@@ -9,8 +9,7 @@ context of a link counts. WCAG 2.1 is the target because every run of this round
 eight judged criteria are the fifth study's, and all eight are in WCAG 2.1, with the same text as in WCAG 2.2.
 
 The causes and the two roles are the fifth study's. The evidence is too, but for probe records: no run of this round
-drives the page. The same rubric, for a person labelling in Rampa Lab, is in reviewer-rubric.md and
-reviewer-rubric.pt-BR.md.
+drives the page. One kind of row is new: a row with no claim (below, "Rows with no claim").
 
 ## The task
 
@@ -98,6 +97,14 @@ it the same way.
 When the only context that would explain a link is such a visual label, answer by this rule, and start the rationale
 with `[visual context]`; these items are reported apart.
 
+## Rows with no claim
+
+Some rows have `"message": null`: Rampa judged the element for that criterion and reported nothing on it, and the row
+asks whether it fails all the same. Give `elementFails` and `captureDiffers` only (no `claimTrue`: there is no claim),
+judged as above, and the label that follows: `true_positive` when `elementFails` is `yes` (the element fails the
+criterion, and Rampa missed it), `false_positive` when it is `no`, `uncertain` when it is `cannot_tell` or competent
+auditors would reasonably disagree. The cause is `none`. For 2.4.4, the context rule above applies.
+
 ## Cause (false positives only; `none` otherwise)
 
 - `context_missing`: the checker lacked context it needed (a destination it never read, text around the element it
@@ -155,5 +162,5 @@ One JSON file per judge and page:
 }
 ```
 
-Every finding in the packet gets exactly one judgment, with all three answers, and its label follows from them by the
-rule above. When a 2.4.4 link's only context is a visual label, the rationale starts with `[visual context]`.
+Every finding in the packet gets exactly one judgment, with all three answers (a row with no claim: `elementFails` and
+`captureDiffers` only), and its label follows from them by the rule above. When a 2.4.4 link's only context is a visual label, the rationale starts with `[visual context]`.

@@ -1,11 +1,12 @@
 """Print the prompt given to one judge agent for one packet: python -I judge_prompt.py <packet name> <auditor|skeptic>
 
-The fifth study's judge_prompt.py with this round's folder and rubric (judge-rubric.md: three answers per finding, and a
-label that follows from them), and without the probe paragraph, since no run of this round drives the page.
+The fifth study's judge_prompt.py with this round's folder and rubric (judge-rubric.md: three answers per finding, two
+for a row with no claim, and a label that follows from them), and without the probe paragraph, since no run of this
+round drives the page.
 
-Not ready to give to a judge yet: this round's packets/ do not exist (packets.py is still to be adapted from the fifth
-study's), and neither does the crop script the prompt names, scripts/crop.mjs (the fifth study's, still to be copied
-here).
+python -I judge_prompt.py --all writes every packet's two prompts to judge-prompts/<packet>.<role>.txt and an index,
+judge-prompts/index.json: one entry per prompt file with its packet, role and finding count, largest packets first (the
+order the judges are launched in).
 
 python -I judge_prompt.py --self-test renders the prompt for a made-up packet held in memory, for both roles, and checks
 that every {PLACEHOLDER} was replaced and that the three answer names and their values are in the text.
@@ -79,13 +80,46 @@ def self_test():
     print(f"self-test passed: both roles rendered, no placeholder left, {', '.join(ANSWERS)} and {', '.join(VALUES)} in the text")
 
 
+def write_all():
+    out_dir = os.path.join(HERE, "judge-prompts")
+    os.makedirs(out_dir, exist_ok=True)
+    entries = []
+    for file in sorted(os.listdir(os.path.join(HERE, "packets"))):
+        if not file.endswith(".json"):
+            continue
+        name = file[:-5]
+        with open(os.path.join(HERE, "packets", file), encoding="utf-8") as f:
+            packet = json.load(f)
+        for role in ROLES:
+            text = render(name, role, packet)
+            left = sorted(set(re.findall(r"\{[A-Z_]+\}", text)))
+            if left:
+                sys.exit(f"{name} {role}: placeholders not replaced: {', '.join(left)}")
+            path = os.path.join(out_dir, f"{name}.{role}.txt")
+            with open(path, "w", encoding="utf-8", newline="\n") as f:
+                f.write(text if text.endswith("\n") else text + "\n")
+            entries.append({"file": f"judge-prompts/{name}.{role}.txt", "packet": name, "role": role, "findings": len(packet["findings"]),
+                            "labels": f"labels/{name}.{role}.json"})
+    entries.sort(key=lambda e: (-e["findings"], e["packet"], e["role"]))
+    with open(os.path.join(out_dir, "index.json"), "w", encoding="utf-8", newline="\n") as f:
+        json.dump({"note": "One prompt per judge agent (an auditor and a skeptic per packet), largest packets first. Paths are relative "
+                           "to this study's folder. Launch each agent with its prompt file's text; no model or effort is set on the agents.",
+                   "prompts": len(entries), "packets": len(entries) // 2, "findings": sum(e["findings"] for e in entries) // 2, "entries": entries},
+                  f, ensure_ascii=False, indent=2)
+        f.write("\n")
+    print(f"{len(entries)} prompt files for {len(entries) // 2} packets in judge-prompts/, index.json written")
+
+
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
     if sys.argv[1:] == ["--self-test"]:
         self_test()
         return
+    if sys.argv[1:] == ["--all"]:
+        write_all()
+        return
     if len(sys.argv) != 3 or sys.argv[2] not in ROLES:
-        sys.exit("usage: python -I judge_prompt.py <packet name> <auditor|skeptic>, or --self-test")
+        sys.exit("usage: python -I judge_prompt.py <packet name> <auditor|skeptic>, or --all, or --self-test")
     name, role = sys.argv[1], sys.argv[2]
     with open(os.path.join(HERE, "packets", f"{name}.json"), encoding="utf-8") as f:
         packet = json.load(f)
