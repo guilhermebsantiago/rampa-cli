@@ -1,0 +1,559 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.pernambucanas.com.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "73521738f9df",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#splide02-slide02 > section > div > a > div > picture > img",
+   "message": "The text alternative \"Descriptive text for the image\" is all its link holds, and does not say where the link leads.",
+   "evidence": "Descriptive text for the image",
+   "subject": "Descriptive text for the image",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "#splide02-slide02 > section > div > a > div > picture > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Descriptive text for the image",
+    "to": "Ofertas de Black Friday em eletroportáteis na Pernambucanas. Compre agora.",
+    "before": "<img src=\"https://casaspernambucanas.vtexassets.com/assets/vtex.file-manager-graphql/images/591f6446-f407-498c-981b-4b488733ebe4___87f4ab7cf8c55cb4ec1f798065a06a95.png\" alt=\"Descriptive text for the image\" width=\"auto\" height=\"auto\">",
+    "after": "<img src=\"https://casaspernambucanas.vtexassets.com/assets/vtex.file-manager-graphql/images/591f6446-f407-498c-981b-4b488733ebe4___87f4ab7cf8c55cb4ec1f798065a06a95.png\" alt=\"Ofertas de Black Friday em eletroportáteis na Pernambucanas. Compre agora.\" width=\"auto\" height=\"auto\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "6982a269f459",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#newsletter-email",
+   "message": "The field \"ex.: nome@email.com\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "ex.: nome@email.com",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#newsletter-email",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input data-fs-input=\"true\" data-testid=\"fs-input\" id=\"newsletter-email\" type=\"email\" placeholder=\" \" required=\"\" value=\"\">",
+    "after": "<input data-fs-input=\"true\" data-testid=\"fs-input\" id=\"newsletter-email\" type=\"email\" placeholder=\" \" required=\"\" value=\"\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "88602cb0ab17",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#__next > section:nth-of-type(2) > div > div:nth-of-type(2) > div > a",
+   "message": "The link text \"Confira\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "Confira",
+   "subject": "Confira",
+   "claim": "generic",
+   "techniques": [
+    "G91"
+   ],
+   "patch": {
+    "ref": "#__next > section:nth-of-type(2) > div > div:nth-of-type(2) > div > a",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "Confira",
+    "to": "Confira a coleção completa",
+    "before": "<a data-fs-link=\"true\" data-fs-link-variant=\"display\" data-fs-link-size=\"regular\" data-testid=\"fs-link\" data-fs-popup-banner-image-link=\"true\" target=\"_self\" aria-label=\"Confira\" href=\"/colecao-completa\">",
+    "after": "<a data-fs-link=\"true\" data-fs-link-variant=\"display\" data-fs-link-size=\"regular\" data-testid=\"fs-link\" data-fs-popup-banner-image-link=\"true\" target=\"_self\" aria-label=\"Confira a coleção completa\" href=\"/colecao-completa\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 11
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#__next > section:nth-of-type(3) > header > section > div:nth-of-type(2) > ul > li:nth-of-type(9) > a",
+   "message": "The link text \"ACESSÓRIOS\" does not match where the link leads: a page titled \"Relogios-Geral | FastStore PLP\".",
+   "evidence": "The model suggests: \"Relógios\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#splide02-slide02 > section > div > a",
+   "message": "The link text \"Descriptive text for the image\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Eletrônicos\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#newsletter-email",
+   "message": "The label \"ex.: nome@email.com\" does not say what to enter.",
+   "evidence": "The model suggests: \"E-mail\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "3.3.2",
+   "level": "A",
+   "ruleId": "judgment/3.3.2",
+   "ref": "#__next > section:nth-of-type(3) > header > section > div:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(1) > form > input",
+   "message": "Nothing on screen tells what to enter in the field \"O que você procura?\": its name is in aria-label, which only screen readers get.",
+   "evidence": "The model suggests: \"O que você procura?\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#__next > section:nth-of-type(6) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > a > div > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Casa",
+    "problem": "wrong_content",
+    "imageShows": "Um sofá laranja com almofadas e uma manta bege.",
+    "suggestedAlt": "Sofá laranja com almofadas e manta",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#__next > section:nth-of-type(6) > div > div:nth-of-type(2) > div > div:nth-of-type(7) > a > div > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Beleza",
+    "problem": "wrong_content",
+    "imageShows": "Uma composição de produtos de maquiagem e cuidados com a pele, incluindo um spray corporal, uma paleta de sombras e um batom.",
+    "suggestedAlt": "Produtos de beleza e maquiagem",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#__next > section:nth-of-type(15) > footer > div > div:nth-of-type(2) > section:nth-of-type(1) > div:nth-of-type(2) > nav > div:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page about institutional relations.",
+    "leadsTo": "A page titled 'Pernambucanas' which is a general store/brand page.",
+    "verdict": "fail",
+    "evidence": "Relações institucionais",
+    "problem": "mismatch",
+    "suggestedText": "Página da Pernambucanas",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#__next > section:nth-of-type(15) > footer > div > div:nth-of-type(2) > section:nth-of-type(1) > div:nth-of-type(2) > nav > div:nth-of-type(1) > ul > li:nth-of-type(3) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page about press relations (Assessoria de imprensa).",
+    "leadsTo": "A page titled 'Pernambucanas' which is a general store/home page.",
+    "verdict": "fail",
+    "evidence": "Assessoria de imprensa",
+    "problem": "mismatch",
+    "suggestedText": "Página inicial da Pernambucanas",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#__next > section:nth-of-type(15) > footer > div > div:nth-of-type(2) > section:nth-of-type(1) > div:nth-of-type(2) > nav > div:nth-of-type(1) > ul > li:nth-of-type(4) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A link text 'Trabalhe conosco' (Work with us) in a navigation menu suggests it leads to a careers or job opportunities page.",
+    "leadsTo": "A page titled 'Pernambucanas' which appears to be a general brand/home page or a general information page about the store's products.",
+    "verdict": "fail",
+    "evidence": "Trabalhe conosco",
+    "problem": "mismatch",
+    "suggestedText": "Página da Pernambucanas",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#__next > section:nth-of-type(15) > footer > div > div:nth-of-type(2) > section:nth-of-type(1) > div:nth-of-type(2) > nav > div:nth-of-type(1) > ul > li:nth-of-type(5) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page for suppliers (Fornecedores).",
+    "leadsTo": "A page titled 'Pernambucanas' describing products for home, computing, and fashion.",
+    "verdict": "fail",
+    "evidence": "Fornecedores",
+    "problem": "mismatch",
+    "suggestedText": "Página da Pernambucanas",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#__next > section:nth-of-type(15) > footer > div > div:nth-of-type(2) > section:nth-of-type(1) > div:nth-of-type(2) > nav > div:nth-of-type(1) > ul > li:nth-of-type(6) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page about Sustainability and Social Responsibility.",
+    "leadsTo": "A page titled 'Pernambucanas' describing general product offers.",
+    "verdict": "fail",
+    "evidence": "Sustentabilidade e Responsabilidade social",
+    "problem": "mismatch",
+    "suggestedText": "Pernambucanas",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#__next > section:nth-of-type(15) > footer > div > div:nth-of-type(2) > section:nth-of-type(1) > div:nth-of-type(2) > nav > div:nth-of-type(1) > ul > li:nth-of-type(8) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page about Black Friday offers.",
+    "leadsTo": "A page titled 'Black Friday 2026: Ofertas Imperdíveis | Pernambucanas' featuring discounts on fashion, cell phones, appliances, and home goods.",
+    "verdict": "fail",
+    "evidence": "Black Friday",
+    "problem": "ambiguous",
+    "suggestedText": "Ofertas Black Friday 2026",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#__next > section:nth-of-type(15) > footer > div > div:nth-of-type(2) > section:nth-of-type(1) > div:nth-of-type(2) > nav > div:nth-of-type(2) > ul > li:nth-of-type(1) > a",
+   "reason": "suggested text equals the current one",
+   "output": {
+    "promises": "A página de Central de atendimento e Ouvidoria",
+    "leadsTo": "A página inicial da Pernambucanas",
+    "verdict": "fail",
+    "evidence": "Central de atendimento e Ouvidoria",
+    "problem": "mismatch",
+    "suggestedText": "Central de atendimento e Ouvidoria",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#__next > section:nth-of-type(15) > footer > div > div:nth-of-type(2) > section:nth-of-type(1) > div:nth-of-type(2) > nav > div:nth-of-type(2) > ul > li:nth-of-type(4) > a",
+   "reason": "suggested text equals the current one",
+   "output": {
+    "promises": "A page about exchanges and returns (Trocas e Devoluções).",
+    "leadsTo": "A page titled 'Pernambucanas' which is a general store landing page.",
+    "verdict": "fail",
+    "evidence": "Trocas e Devoluções",
+    "problem": "mismatch",
+    "suggestedText": "Trocas e Devoluções",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#__next > section:nth-of-type(15) > footer > div > div:nth-of-type(2) > section:nth-of-type(1) > div:nth-of-type(2) > nav > div:nth-of-type(2) > ul > li:nth-of-type(5) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page about LGPD (Lei Geral de Proteção de Dados).",
+    "leadsTo": "A page titled 'Pernambucanas' which is a general store homepage/description.",
+    "verdict": "fail",
+    "evidence": "LGPD",
+    "problem": "mismatch",
+    "suggestedText": "Política de Privacidade e LGPD",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#__next > section:nth-of-type(15) > footer > div > div:nth-of-type(2) > section:nth-of-type(1) > div:nth-of-type(2) > nav > div:nth-of-type(3) > ul > li:nth-of-type(1) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page about financial services (Serviços financeiros).",
+    "leadsTo": "A page titled 'Pernambucanas' describing a retail store for home products, electronics, and clothing.",
+    "verdict": "fail",
+    "evidence": "Serviços financeiros",
+    "problem": "mismatch",
+    "suggestedText": "Produtos Pernambucanas",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#__next > section:nth-of-type(15) > footer > div > div:nth-of-type(2) > section:nth-of-type(1) > div:nth-of-type(2) > nav > div:nth-of-type(3) > ul > li:nth-of-type(2) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page about 'Cartões' (Cards) within a list of financial services.",
+    "leadsTo": "A page titled 'Pernambucanas' which is a general retail store page.",
+    "verdict": "fail",
+    "evidence": "Cartões",
+    "problem": "mismatch",
+    "suggestedText": "Pernambucanas",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 10,
+   "judged": 10,
+   "failed": 1,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 1,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 61,
+   "judged": 50,
+   "failed": 1,
+   "passed": 36,
+   "cannotTell": 0,
+   "discarded": 11,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 11,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 5,
+   "failed": 0,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 0,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  }
+ ],
+ "notes": [
+  "A layer lay over the viewport when the page was read (div, on top at 89% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "29 image(s) were left without a capture, so no judgment looked at them: 3 outside the page (an off-canvas menu); 26 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 11 of 61 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 72,
+  "inputTokens": 69292,
+  "outputTokens": 7153,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 233,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 22
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 9,
+    "prepareMs": 0,
+    "candidates": 10,
+    "judged": 10,
+    "calls": 0,
+    "cachedCalls": 10
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 0,
+    "cachedCalls": 2
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 25,
+    "prepareMs": 0,
+    "candidates": 61,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 5,
+    "judged": 5,
+    "calls": 0,
+    "cachedCalls": 5
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 129,
+    "prepareMs": 126,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 6,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 0,
+    "cachedCalls": 3
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   }
+  ],
+  "otherMs": 33
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "overlay": {
+   "selector": "div",
+   "coverage": 0.89,
+   "hidden": true
+  },
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 22,
+   "notCaptured": 29,
+   "reasons": {
+    "outside-page": 3,
+    "limit": 26
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 61,
+    "capped": 11
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "overlay": {
+    "ref": "#__next > section:nth-of-type(2) > div > div:nth-of-type(1)",
+    "selector": "div",
+    "coverage": 0.89,
+    "hidden": true
+   }
+  }
+ }
+}

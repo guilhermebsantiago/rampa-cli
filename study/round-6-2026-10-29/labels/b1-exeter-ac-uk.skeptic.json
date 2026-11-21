@@ -1,0 +1,62 @@
+{
+  "page": "https://www.exeter.ac.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "b6653ed5de2e",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the testimonial carousel's ol.carousel-indicators (role=tablist) with 10 li role=tab dots, which Bootstrap 3.4.1 makes clickable through data-slide-to. In the snapshot the first li has class \"active\" and is drawn as the filled dot, but all ten tabs are exposed with selected=false and none has aria-selected, so the claim holds for the capture. The live HTML has the same markup. Bootstrap 3.4.1's carousel only moves the .active class, and the page's own script only plays and pauses the carousel, so on the page users receive no tab is ever exposed as selected while one is shown as current visually. The screenshot shows a later slide (Hugo) than the snapshot's active one only because the carousel rotates, which does not change this. I looked for a reason it could pass: the tabs are not hidden from assistive technology, and the author's role=tab takes on tab semantics, so a state that is visible but not exposed fails 4.1.2. The dots also have no accessible name and cannot be reached by keyboard (more 4.1.2, and 2.1.1). The claim does not mention those, but it does name a real failure."
+    },
+    {
+      "fingerprint": "sd5019a2a695",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the checked radio button #ugTab, wrapped in a label whose text is \"Undergraduate\". It is one of five study-level options (Undergraduate, Postgraduate Taught, Postgraduate Research, Degree Apprenticeship, Online) right under the h2 \"Search for a course\", above the course search box. A radio button takes no typed entry: its only input is choosing it, and \"Undergraduate\" says exactly what choosing it means. So the claim that the label does not say what to enter does not hold. Under 2.4.6 the label only has to describe the option's purpose, and in a course-search group a study level does that. The live HTML is the same as the capture, and the screenshot shows the same labelled radios. The checker applied a text-field rule (say what to enter) to a radio option. The group has no fieldset or legend, which is a possible 1.3.1 matter but not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "a8cb24e3adf2",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the full-width header image in the Impact section (banner-THE-Impact-2026.webp). Its alt is \"A smiling woman holding the hand of an old man sitting on a sofa in a sunny room.\" I downloaded the image file: it shows a field at sunset beside green and dark curved brand lines, with no people. The screenshot and the crop the model saw show the same field. The alt describes a different photo, so the claim is true. Whether the image counts as informative (the alt is then not equivalent) or decorative (it then should have an empty alt, and a misleading description cannot be ignored), it fails 1.1.1. The live HTML has the same src and alt. The snapshot gives the img a height of 0 (a lazy-load timing artefact), but that does not touch the alt or the image content. I found no technique or context that would make it pass."
+    },
+    {
+      "fingerprint": "5fac09564217",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the logo in the OneTrust cookie consent banner (img.ot-bnr-logo, alt and title \"Company Logo\"). The crop shows the University of Exeter crest, which has the university's name in its ring. The image really is the organisation's logo, so the claim that the alt describes something the image does not show is false as worded. What is wrong is that the alt is OneTrust's generic placeholder: it never says whose logo it is, which is the F30 kind of failure (placeholder text), or a non-empty alt on what is in effect a decorative logo. So I lean that it fails 1.1.1. But competent auditors split on a generic logo alt inside a consent dialog on the owner's own site, and also on whether \"describes something the image does not show\" names a placeholder defect. The banner is injected by the OneTrust script, which my raw fetch cannot run. The live page loads it from the same OneTrust CDN, and the screenshot shows the same stock banner. Nothing suggests people get different markup."
+    },
+    {
+      "fingerprint": "s5abde00f1ae",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the \"Find out more\" button-styled link in the TEF section, alone in its paragraph, pointing to /about/tef/. It has no title or aria attributes. The heading just before it in document order is the h3 \"Exeter's 'solid gold' standard for teaching excellence amongst best in the UK.\", under the h2 \"Education\". This round counts that heading as link context (H80). Read with it, the link means find out more about Exeter's TEF Gold rating, and the destination is the \"Teaching Excellence Framework (TEF) 2023\" page. So the purpose can be determined from the link and its context, and the claim that nothing around it tells where it goes is false. The packet carries this heading and the ancestor text, so the checker had the context and judged wrongly. The live HTML is the same (the same h3 right before the same link), and the screenshot matches."
+    },
+    {
+      "fingerprint": "s59cd27fc3e7",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the radio button #onlineTab, wrapped in a label whose text is \"Online\". It is the fifth study-level option in the \"Search for a course\" form, after Undergraduate, Postgraduate Taught, Postgraduate Research and Degree Apprenticeship. A radio button takes no typed entry, so the claim that the label does not say what to enter misdescribes the control. In this group, under the heading \"Search for a course\", \"Online\" plainly means online courses, which describes the option's purpose as 2.4.6 asks. The live HTML is the same, and the screenshot shows the same labelled radio. The checker applied a text-field rule to a radio option. The missing fieldset or legend is a possible 1.3.1 point, not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "a4a34d250681",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the full-width header image in the Social Mobility Education section (homepage-banner-SOMO2.webp). Its alt is \"UK Social Mobility Awards logo\". I downloaded the image file: it is a photo of four students laughing around a cafe table with a tablet and drinks, beside curved brand lines. There is no logo anywhere in it, and the screenshot and the crop the model saw show the same photo. The alt describes a logo the image does not contain, so the claim is true. The alternative is neither equivalent (if the image is informative) nor ignorable (if decorative), so it fails 1.1.1 either way. The live HTML has the same src and alt. The snapshot's height of 0 for the img is a lazy-load timing artefact and does not affect this. I found nothing that would make it pass."
+    },
+    {
+      "fingerprint": "0cea30c07a39",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the SDG-wheel icon (sdg.svg, alt \"THE Impact Ratings\") in the fourth KPI card. The source wraps the img and the following h3 in one link inside a p. Because an h3 cannot sit inside a p, the HTML parser closes the p and the link, so the DOM has one link holding only the image and a cloned link inside the h3, with the same href, holding \"We're ranked joint 20th globally for our work to meet the UN Sustainable Development Goals\". Browsers parse the page users receive the same way, which matches the snapshot and the screenshot (the underlined h3). So \"is all its link holds\" is true. The alt names a ranking rather than the SDG page, so the claim's wording is true of the capture. Against a failure: the destination's opening line is \"We're rated in the top 20 globally in the 2026 Times Higher Education Sustainability Impact Ratings\", so the alt names what the link leads to, and the next link carries the full purpose. I lean that the functional alt meets 1.1.1. Competent auditors could still hold that an unexpanded \"THE Impact Ratings\" does not convey that the link opens the University's SDG page, so the label is uncertain."
+    }
+  ]
+}

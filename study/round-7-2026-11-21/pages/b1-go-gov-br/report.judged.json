@@ -1,0 +1,289 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.go.gov.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "534fede9aaa6",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#vlibras-access-wrapper >>> div > img",
+   "message": "This image is hidden from screen readers (inside aria-hidden=\"true\"), but it conveys what the text around it does not say: \"The image says \"acessível com VLibras\"\".",
+   "evidence": "The image says \"acessível com VLibras\"",
+   "subject": "hidden vlibras-popup.webp",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "b4dc7cd5c3af",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#mat-dialog-0 > main > section:nth-of-type(1) > ex-tag > button > div > span",
+   "target": "#mat-dialog-0 > main > section:nth-of-type(1) > ex-tag > button > div > span",
+   "message": "The text \"WhatsApp\" has at most 2.17:1 contrast with what is behind it (#2fbd5d on #247865…#237864), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#2fbd5d on #247865; #247865…#237864 · 2.17:1 at best, 2.17:1 at worst · 12.3px, 500",
+   "subject": "WhatsApp",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<span class=\"ex-fs-c1-heavy\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "85a3cf569461",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > app-root > app-home > main > ex-page-container > article > section > div > ex-core-search > div > div:nth-of-type(2) > div > section > div > section > ex-core-speech-to-text > section > ex-action-button > button",
+   "target": "html > body > app-root > app-home > main > ex-page-container > article > section > div > ex-core-search > div > div:nth-of-type(2) > div > section > div > section > ex-core-speech-to-text > section > ex-action-button > button",
+   "message": "The icon of this button (\"Permissão de acesso ao microfone não concedida\") has at most 2.51:1 contrast with the pixels next to it (#939cad on #f4f4f4). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#939cad on #f4f4f4 · 2.51:1 at best, 2.51:1 at worst",
+   "subject": "Permissão de acesso ao microfone não concedida",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<button _ngcontent-fql-c262=\"\" fxlayout=\"column\" fxlayoutalign=\"center center\" type=\"button\" class=\"mat-tooltip-trigger ex-action-button--disabled ex-action-button ex-border-primary ex-br-4xl ex-bw-md ex-bs-solid ex-action-button--standard ex-action-button--lg ng-star-inserted\" aria-label=\"Permissão de acesso ao microfone não concedida\" role=\"button\" style=\"flex-direction: column; box-sizing: border-box; display: flex; place-content: center; align-items: center;\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {},
+ "groups": null,
+ "needsReview": [],
+ "discarded": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "A layer lay over the viewport when the page was read (div, on top at 89% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "6 image(s) were left without a capture, so no judgment looked at them: 6 outside the page (an off-canvas menu). The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 2,
+  "cachedCalls": 0,
+  "inputTokens": 1352,
+  "outputTokens": 157,
+  "latencyMs": 3016
+ },
+ "timings": {
+  "totalMs": 3197,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 13
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 1973,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1053,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 135,
+    "prepareMs": 132,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 19
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "overlay": {
+   "selector": "div",
+   "coverage": 0.89,
+   "hidden": true
+  },
+  "images": {
+   "captured": 5,
+   "notCaptured": 6,
+   "reasons": {
+    "outside-page": 6
+   }
+  }
+ },
+ "coverage": {
+  "reach": {
+   "overlay": {
+    "ref": "html > body > div:nth-of-type(3) > div:nth-of-type(1)",
+    "selector": "div",
+    "coverage": 0.89,
+    "hidden": true
+   }
+  }
+ }
+}

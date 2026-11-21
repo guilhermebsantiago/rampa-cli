@@ -1,0 +1,227 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.cpsc.gov/Recalls",
+ "model": null,
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "67e0e2441e54",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#es > a",
+   "target": "#es > a",
+   "message": "\"Español\" is in Spanish, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"es\" to the link.",
+   "evidence": "Español",
+   "subject": "Español",
+   "patch": {
+    "ref": "#es > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "es",
+    "before": "<a href=\"/es/Noticias\" title=\"View this page in Español\">",
+    "after": "<a href=\"/es/Noticias\" title=\"View this page in Español\" lang=\"es\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/es/Noticias\" title=\"View this page in Español\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "909a98fb67f2",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#zh-hans > a",
+   "target": "#zh-hans > a",
+   "message": "\"简体中文\" is in Simplified Chinese, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"zh-Hans\" to the link.",
+   "evidence": "简体中文",
+   "subject": "简体中文",
+   "patch": {
+    "ref": "#zh-hans > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "zh-Hans",
+    "before": "<a href=\"/zh-CN/Recalls\" title=\"View this page in 简体中文\">",
+    "after": "<a href=\"/zh-CN/Recalls\" title=\"View this page in 简体中文\" lang=\"zh-Hans\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/zh-CN/Recalls\" title=\"View this page in 简体中文\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "82208d2c5cef",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#zh-hant > a",
+   "target": "#zh-hant > a",
+   "message": "\"繁體中文\" is in Traditional Chinese, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"zh-Hant\" to the link.",
+   "evidence": "繁體中文",
+   "subject": "繁體中文",
+   "patch": {
+    "ref": "#zh-hant > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "zh-Hant",
+    "before": "<a href=\"/zhT-CN/Recalls\" title=\"View this page in 繁體中文\">",
+    "after": "<a href=\"/zhT-CN/Recalls\" title=\"View this page in 繁體中文\" lang=\"zh-Hant\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/zhT-CN/Recalls\" title=\"View this page in 繁體中文\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "3f5c29938c9a",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#main-content-section",
+   "target": "#main-content-section",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a id=\"main-content-section\" tabindex=\"0\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 5
+ },
+ "groups": null,
+ "needsReview": [],
+ "discarded": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 6,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 92,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 14,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 49,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 0,
+  "inputTokens": 0,
+  "outputTokens": 0,
+  "latencyMs": 0
+ },
+ "timings": null,
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 16,
+   "notCaptured": 0,
+   "reasons": {}
+  }
+ },
+ "coverage": {
+  "reach": null
+ }
+}

@@ -1,0 +1,333 @@
+{
+  "page": "https://www.denverpost.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "6fdca816f48f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A WordPress emoji image (twemoji 1f378) inside the trending link 'Pop-up holiday bars'. The crop and the screenshot show a cocktail glass, and the alt is the emoji character itself, which screen readers announce as 'cocktail glass': it says exactly what the image shows, so the claim is false and 1.1.1 is met. captureDiffers: no; the live HTML has the emoji as text that wp-emoji swaps for this image in browsers lacking the glyph, and either way the element passes. The model had the right crop and judged wrongly."
+    },
+    {
+      "fingerprint": "p0b2d334e404",
+      "answers": {
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "A 300x250 banner, the only content of a link (new window) to seasontoshare.com/donate. The image is mostly text: 'You can make a difference, helping our neighbors in need', 'Your gift matched 50%', 'Donate here', 'The Denver Post Season to Share'. Its alt 'Season to Share Promo' names the campaign but neither the text nor the action (donate), and 'Promo' is meta wording; by G82/H30 and the image-of-text rule I lean to a failure. Others would accept it as identifying the destination well enough for a linked banner, so competent auditors could disagree: uncertain. captureDiffers: no, the live page has the same banner and alt."
+    },
+    {
+      "fingerprint": "9272ec5f422e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of the story card's photo link; its alt, the photo caption (Bo Nix scoring a touchdown against the Cardinals on Oct. 25), is the link's accessible name, while the headline 'PHOTOS: Denver Broncos defeat Arizona Cardinals 30-16 in NFL Week 7' is only in the link's title attribute and in the separate headline link of the same card. claimTrue: yes, the link holds only this image and the caption describes the photo, not the destination; it names the game but not that the link opens its photo gallery. elementFails: yes by my reading. Competent auditors split on this pattern: by G82/H30 (an image that is the only content of a link should identify the link's purpose) the photo caption fails, while others accept the caption as the alternative of an informative photo and leave link purpose to 2.4.4, where the link's title and the card's own headline link convey it. My own reading leans to a failure; the label is uncertain because of that disagreement. captureDiffers: no, the live homepage serves the same card with the same alt and title."
+    },
+    {
+      "fingerprint": "8f81afb59f6e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of the story card's photo link; its alt, the photo caption (Nick Bolton stopping Jonah Coleman short of the end zone in the Chiefs game), is the link's accessible name, while the headline 'Broncos midseason report: Grades, awards and burning questions for a Super Bowl contender' is only in the link's title attribute and in the separate headline link of the same card. claimTrue: yes, the link holds only this image and the caption describes the photo, not the destination; one play of one game says nothing of a midseason report. elementFails: yes by my reading. Competent auditors split on this pattern: by G82/H30 (an image that is the only content of a link should identify the link's purpose) the photo caption fails, while others accept the caption as the alternative of an informative photo and leave link purpose to 2.4.4, where the link's title and the card's own headline link convey it. My own reading leans to a failure; the label is uncertain because of that disagreement. captureDiffers: no, the live homepage serves the same card with the same alt and title."
+    },
+    {
+      "fingerprint": "s87cc3fa3dae",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The story card's photo link to the Tomorrowland Colorado article. Its accessible name is the image alt (a caption of performers at Tomorrowland in Belgium, 2025), which indeed does not describe the article, so the sentence holds of the capture. But the link has title='Tomorrowland confirms talks are underway to bring winter EDM festival to Colorado' (H33, counted as context in this round), which states the purpose exactly, so 2.4.4 is met. captureDiffers: no, the live page has the same link, alt and title. The title was in the element's HTML; the model ignored it."
+    },
+    {
+      "fingerprint": "720edaad9eb5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of the story card's photo link; its alt, the photo caption (a snowboarder on opening day at Arapahoe Basin, Oct. 28), is the link's accessible name, while the headline 'PHOTOS: Arapahoe Basin opens, kicking off the Colorado ski season' is only in the link's title attribute and in the separate headline link of the same card. claimTrue: yes, the link holds only this image and the caption describes the photo, not the destination; it overlaps the topic (A-Basin opening day) but does not say the link opens a photo gallery. elementFails: yes by my reading. Competent auditors split on this pattern: by G82/H30 (an image that is the only content of a link should identify the link's purpose) the photo caption fails, while others accept the caption as the alternative of an informative photo and leave link purpose to 2.4.4, where the link's title and the card's own headline link convey it. My own reading leans to a failure; the label is uncertain because of that disagreement. captureDiffers: no, the live homepage serves the same card with the same alt and title."
+    },
+    {
+      "fingerprint": "e5adbb18e797",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of the story card's photo link; its alt, the photo caption (Dane Le leading chants at the QTS data center protest), is the link's accessible name, while the headline 'Aurora data center faces mounting opposition as city leaders prepare for renewed debate' is only in the link's title attribute and in the separate headline link of the same card. claimTrue: yes, the link holds only this image and the caption describes the photo, not the destination; it is related to the story's subject but does not identify it. elementFails: yes by my reading. Competent auditors split on this pattern: by G82/H30 (an image that is the only content of a link should identify the link's purpose) the photo caption fails, while others accept the caption as the alternative of an informative photo and leave link purpose to 2.4.4, where the link's title and the card's own headline link convey it. My own reading leans to a failure; the label is uncertain because of that disagreement. captureDiffers: no, the live homepage serves the same card with the same alt and title."
+    },
+    {
+      "fingerprint": "a005ec336a79",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of the story card's photo link; its alt, the photo caption (Abdinasir Hassan leading the Class 5A boys state cross-country race), is the link's accessible name, while the headline 'PHOTOS: 2026 Colorado high school cross-country state championships' is only in the link's title attribute and in the separate headline link of the same card. claimTrue: yes, the link holds only this image and the caption describes the photo, not the destination; it overlaps the topic (the state championship) but does not say the link opens a photo gallery. elementFails: yes by my reading. Competent auditors split on this pattern: by G82/H30 (an image that is the only content of a link should identify the link's purpose) the photo caption fails, while others accept the caption as the alternative of an informative photo and leave link purpose to 2.4.4, where the link's title and the card's own headline link convey it. My own reading leans to a failure; the label is uncertain because of that disagreement. captureDiffers: no, the live homepage serves the same card with the same alt and title."
+    },
+    {
+      "fingerprint": "169aed8869f1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of the story card's photo link; its alt, the photo caption (Justin Herbert sacked as the Broncos celebrate, Oct. 11), is the link's accessible name, while the headline 'PHOTOS: Denver Broncos top Los Angeles Chargers 23-17 in NFL Week 5' is only in the link's title attribute and in the separate headline link of the same card. claimTrue: yes, the link holds only this image and the caption describes the photo, not the destination; it names the game but not that the link opens its photo gallery. elementFails: yes by my reading. Competent auditors split on this pattern: by G82/H30 (an image that is the only content of a link should identify the link's purpose) the photo caption fails, while others accept the caption as the alternative of an informative photo and leave link purpose to 2.4.4, where the link's title and the card's own headline link convey it. My own reading leans to a failure; the label is uncertain because of that disagreement. captureDiffers: no, the live homepage serves the same card with the same alt and title."
+    },
+    {
+      "fingerprint": "a48d13b4f09d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A WordPress emoji image (twemoji 1faa9) inside the trending link 'Tomorrowland Colorado?'. The crop shows a mirror ball (disco ball), and the alt is that emoji character, which screen readers announce as 'mirror ball': it matches the image, so the claim is false and 1.1.1 is met. captureDiffers: no; the live HTML has the emoji as text that wp-emoji swaps for this image where the glyph is missing, and either way the element passes. The model had the right crop and judged wrongly."
+    },
+    {
+      "fingerprint": "48c8ace28bf7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of the story card's photo link; its alt, the photo caption (Joseph Williams scoring against Houston on Nov. 13), is the link's accessible name, while the headline 'CU Buffs vs. Cincinnati football: How to watch, keys to the game, odds, staff predictions' is only in the link's title attribute and in the separate headline link of the same card. claimTrue: yes, the link holds only this image and the caption describes the photo, not the destination; a photo of the previous game does not identify a preview of the next one. elementFails: yes by my reading. Competent auditors split on this pattern: by G82/H30 (an image that is the only content of a link should identify the link's purpose) the photo caption fails, while others accept the caption as the alternative of an informative photo and leave link purpose to 2.4.4, where the link's title and the card's own headline link convey it. My own reading leans to a failure; the label is uncertain because of that disagreement. captureDiffers: no, the live homepage serves the same card with the same alt and title."
+    },
+    {
+      "fingerprint": "95cdc29a02ec",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of the story card's photo link; its alt, the photo caption (performers at Tomorrowland in Boom, Belgium, 2025), is the link's accessible name, while the headline 'Tomorrowland confirms talks are underway to bring winter EDM festival to Colorado' is only in the link's title attribute and in the separate headline link of the same card. claimTrue: yes, the link holds only this image and the caption describes the photo, not the destination; it shares only the festival's name with the story. elementFails: yes by my reading. Competent auditors split on this pattern: by G82/H30 (an image that is the only content of a link should identify the link's purpose) the photo caption fails, while others accept the caption as the alternative of an informative photo and leave link purpose to 2.4.4, where the link's title and the card's own headline link convey it. My own reading leans to a failure; the label is uncertain because of that disagreement. captureDiffers: no, the live homepage serves the same card with the same alt and title."
+    },
+    {
+      "fingerprint": "e590207af684",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of the story card's photo link; its alt, the photo caption (Bonitto and Allen sacking Sam Darnold in the Seahawks overtime win), is the link's accessible name, while the headline 'PHOTOS: Denver Broncos survive Seattle Seahawks to win in OT, NFL Week 6' is only in the link's title attribute and in the separate headline link of the same card. claimTrue: yes, the link holds only this image and the caption describes the photo, not the destination; it names the game but not that the link opens its photo gallery. elementFails: yes by my reading. Competent auditors split on this pattern: by G82/H30 (an image that is the only content of a link should identify the link's purpose) the photo caption fails, while others accept the caption as the alternative of an informative photo and leave link purpose to 2.4.4, where the link's title and the card's own headline link convey it. My own reading leans to a failure; the label is uncertain because of that disagreement. captureDiffers: no, the live homepage serves the same card with the same alt and title."
+    },
+    {
+      "fingerprint": "3179cdd4d838",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of the feature photo link, which has no title; its alt, the photo caption (Ja'quan McMillian reacting after breaking up a pass, Sept. 20), is the link's only name, and the headline 'Renck: Broncos extending Riley Moss makes no sense if they don't re-sign Ja'Quan McMillian' is the h3 just before it, in the same article. claimTrue: yes, the link holds only this image and the caption describes the photo, not the destination; it names the player the column is about, nothing more. elementFails: yes by my reading. Competent auditors split on this pattern: by G82/H30 (an image that is the only content of a link should identify the link's purpose) the photo caption fails, while others accept the caption as the alternative of an informative photo, the link being a redundant copy of the headline link just before it. My own reading leans to a failure; the label is uncertain because of that disagreement. captureDiffers: no, the live homepage serves the same card with the same alt and title. (A hidden copy of the photo link inside the header does carry the title; the visible one has none, here and on the live page.)"
+    },
+    {
+      "fingerprint": "pd6d5b508d0e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The header link 'Digital Replica Edition' to enewspaper.denverpost.com, with title 'Link to E-Edition opens in a new window'. Its text alone names the newspaper's digital replica (e-edition), and the title adds that it opens a new window: the purpose is clear, 2.4.4 is met. captureDiffers: no, the live header has the same link."
+    },
+    {
+      "fingerprint": "4d4bbb1a26c8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "yes"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of the story card's photo link; its alt, the photo caption (Jim Mora conferring with his defensive coordinator against Boise State), is the link's accessible name, while the headline 'CSU Rams defense reaching historically bad lows, with Fresno State up next' is only in the link's title attribute and in the separate headline link of the same card. claimTrue: yes, the link holds only this image and the caption describes the photo, not the destination; it relates to the CSU defense story only loosely. elementFails: yes by my reading. Competent auditors split on this pattern: by G82/H30 (an image that is the only content of a link should identify the link's purpose) the photo caption fails, while others accept the caption as the alternative of an informative photo and leave link purpose to 2.4.4, where the link's title and the card's own headline link convey it. My own reading leans to a failure; the label is uncertain because of that disagreement. captureDiffers: yes, the live homepage has since rotated this story out of the section's image slot (it is now a text-only headline), so the element is no longer on the page users receive now; judged on the capture."
+    },
+    {
+      "fingerprint": "s41decca3ca0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The story card's photo link to the CBI evidence-technician article. Its accessible name is the image alt (a caption of the Colorado Bureau of Investigation building), which does not describe the article, so the sentence holds of the capture. But the link has title='CBI evidence technician under investigation amid allegations she staged photos' (H33, counted as context in this round), which states the purpose, so 2.4.4 is met. captureDiffers: no, the live page has the same link, alt and title. The title was in the element's HTML; the model ignored it."
+    },
+    {
+      "fingerprint": "sd03d9ac0c33",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The Colorado News card's photo link whose name is the image alt 'missing person people child generic'. The claim says nothing around it tells where it goes, which is false of the capture: the link has title='Missing Arvada girl, 15, last seen getting into unknown vehicle' (H33, counted as context), which states the purpose, so 2.4.4 is met. captureDiffers: yes, the live homepage has since replaced this card's photo slot with another story, so the element is gone now; judged on the capture, where it passes. The title was in the element's HTML; the model ignored it."
+    },
+    {
+      "fingerprint": "s030ff52644b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The section heading h2 'Travel' (shown uppercase by CSS) over a block of stories: a new Clear Creek Canyon trail, a restaurant from the Royal Gorge railroad owners, Snowmass's on-mountain food hall, Christmas tree cutting permits, a ski resort opening. These are Colorado getaway and outdoor-trip pieces, the Post's travel section, and the heading links to /things-to-do/travel/; it describes the content, so the claim is false and 2.4.6 is met. captureDiffers: no, the live section has the same heading and nearly the same stories (plus a Thanksgiving travel piece)."
+    },
+    {
+      "fingerprint": "f11770198fb5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of the story card's photo link; its alt, the photo caption (the lit City and County Building at the 2020 Christkindlmarket), is the link's accessible name, while the headline 'Denver's $5 downtown parking deal returns for holidays' is only in the link's title attribute and in the separate headline link of the same card. claimTrue: yes, the link holds only this image and the caption describes the photo, not the destination; it has nothing to do with a parking deal. elementFails: yes by my reading. Competent auditors split on this pattern: by G82/H30 (an image that is the only content of a link should identify the link's purpose) the photo caption fails, while others accept the caption as the alternative of an informative photo and leave link purpose to 2.4.4, where the link's title and the card's own headline link convey it. My own reading leans to a failure; the label is uncertain because of that disagreement. captureDiffers: no, the live homepage serves the same card with the same alt and title."
+    },
+    {
+      "fingerprint": "44abeb6e2f0b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "yes"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of the story card's photo link; its alt, the photo caption (people waiting for luggage at LaGuardia), is the link's accessible name, while the headline 'Outlook, FAA, bank outage, oh my! How to practice 'cyber hygiene' in the AI age' is only in the link's title attribute and in the separate headline link of the same card. claimTrue: yes, the link holds only this image and the caption describes the photo, not the destination; it has nothing to do with cyber hygiene. elementFails: yes by my reading. Competent auditors split on this pattern: by G82/H30 (an image that is the only content of a link should identify the link's purpose) the photo caption fails, while others accept the caption as the alternative of an informative photo and leave link purpose to 2.4.4, where the link's title and the card's own headline link convey it. My own reading leans to a failure; the label is uncertain because of that disagreement. captureDiffers: yes, the live homepage has since rotated this story out of the section's image slot (it is now a text-only headline), so the element is no longer on the page users receive now; judged on the capture."
+    },
+    {
+      "fingerprint": "e42676d30c18",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'next' arrow of the slick carousel in the CitySpark 'Denver Events' iframe: <a class='next icon-arrow-right slick-arrow'> with no href and no content. The snapshot's browser tree gives it role link and name U+E601, the icon-font glyph from CSS, exactly as the claim says. A private-use glyph is not a usable name, so this control has no programmatically determinable name: it fails 4.1.2, and the claim names that failure. captureDiffers: no; the screenshot shows the arrow glyph, and the widget is injected by the same CitySpark script for every visitor."
+    },
+    {
+      "fingerprint": "d4e8142c2207",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'previous' arrow of the slick carousel in the CitySpark 'Denver Events' iframe: <a class='prev icon-arrow-left slick-arrow slick-disabled' aria-disabled='true'> with no href and no content. The browser tree gives it role link and name U+E600, an icon-font glyph from CSS, as the claim says. Being disabled at the first slide does not remove it; it becomes active after moving forward and still has no usable name, so it fails 4.1.2 and the claim names that. captureDiffers: no; the screenshot shows the arrow, and the widget is served by the same CitySpark script to everyone."
+    },
+    {
+      "fingerprint": "8989220ab3d4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of the story card's photo link; its alt, the photo caption (clowns at the 2018 Parade of Lights), is the link's accessible name, while the headline 'Colorado winter festival guide: Parade of Lights, Christkindlmarket, skijoring, ice climbing and more' is only in the link's title attribute and in the separate headline link of the same card. claimTrue: yes, the link holds only this image and the caption describes the photo, not the destination; it shows one event the guide lists but does not identify the guide. elementFails: yes by my reading. Competent auditors split on this pattern: by G82/H30 (an image that is the only content of a link should identify the link's purpose) the photo caption fails, while others accept the caption as the alternative of an informative photo and leave link purpose to 2.4.4, where the link's title and the card's own headline link convey it. My own reading leans to a failure; the label is uncertain because of that disagreement. captureDiffers: no, the live homepage serves the same card with the same alt and title."
+    },
+    {
+      "fingerprint": "952e5f60f35e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of the story card's photo link; its alt, the photo caption (Nik Bonitto forcing a Bryce Young fumble in Charlotte, Nov. 8), is the link's accessible name, while the headline 'PHOTOS: Denver Broncos defeated the Carolina Panthers, 26-21, in NFL Week 9' is only in the link's title attribute and in the separate headline link of the same card. claimTrue: yes, the link holds only this image and the caption describes the photo, not the destination; it names the game but not that the link opens its photo gallery. elementFails: yes by my reading. Competent auditors split on this pattern: by G82/H30 (an image that is the only content of a link should identify the link's purpose) the photo caption fails, while others accept the caption as the alternative of an informative photo and leave link purpose to 2.4.4, where the link's title and the card's own headline link convey it. My own reading leans to a failure; the label is uncertain because of that disagreement. captureDiffers: no, the live homepage serves the same card with the same alt and title."
+    },
+    {
+      "fingerprint": "p45ef3fbedc9",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The top navigation link 'BestReviews' to /best-reviews/, in the list of section links (News, Sports, Business, ... BestReviews). Its text names the site's BestReviews section, the same name the homepage section heading uses, so the purpose is determinable from the text in its list context: 2.4.4 is met. captureDiffers: no, the live navigation has the same link."
+    },
+    {
+      "fingerprint": "413a23b0febf",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of the story card's photo link; its alt, the photo caption (Jaylen Waddle celebrating a two-point conversion in the 28-24 win over the Chiefs), is the link's accessible name, while the headline 'PHOTOS: Denver Broncos hang on to beat Kansas City Chiefs in NFL Week 8' is only in the link's title attribute and in the separate headline link of the same card. claimTrue: yes, the link holds only this image and the caption describes the photo, not the destination; it names the game but not that the link opens its photo gallery. elementFails: yes by my reading. Competent auditors split on this pattern: by G82/H30 (an image that is the only content of a link should identify the link's purpose) the photo caption fails, while others accept the caption as the alternative of an informative photo and leave link purpose to 2.4.4, where the link's title and the card's own headline link convey it. My own reading leans to a failure; the label is uncertain because of that disagreement. captureDiffers: no, the live homepage serves the same card with the same alt and title."
+    },
+    {
+      "fingerprint": "safeb56a114f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A Bootstrap icon <i class='bi-moon-stars' role='img' aria-label='weather icon moon-stars'> inside the weather link (aria-label 'Current temperature is 44°F, view full weather conditions in a new window'). The crop shows a crescent moon with stars, which is what the label says, so the claim is false; the label is terse and class-like but describes the condition shown, and 1.1.1 is met. captureDiffers: no; the live icon has changed with the weather (cloud-moon, labelled 'weather icon cloud-moon'), and the label still tracks the icon. The model had the right crop and judged wrongly."
+    },
+    {
+      "fingerprint": "5516ef8b256b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "yes"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of the story card's photo link; its alt, the photo caption (the stock tags 'missing person people child generic' for a graphic reading MISSING), is the link's accessible name, while the headline 'Missing Arvada girl, 15, last seen getting into unknown vehicle' is only in the link's title attribute and in the separate headline link of the same card. claimTrue: yes, the link holds only this image and the caption describes the photo, not the destination; it is a keyword string, not the story. elementFails: yes by my reading. Competent auditors split on this pattern: by G82/H30 (an image that is the only content of a link should identify the link's purpose) the photo caption fails, while others accept the caption as the alternative of an informative photo and leave link purpose to 2.4.4, where the link's title and the card's own headline link convey it. My own reading leans to a failure; the label is uncertain because of that disagreement. captureDiffers: yes, the live homepage has since rotated this story out of the section's image slot (it is now a text-only headline), so the element is no longer on the page users receive now; judged on the capture."
+    },
+    {
+      "fingerprint": "166000d587ac",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of the story card's photo link; its alt, the photo caption (the Colorado Bureau of Investigation building in Arvada), is the link's accessible name, while the headline 'CBI evidence technician under investigation amid allegations she staged photos' is only in the link's title attribute and in the separate headline link of the same card. claimTrue: yes, the link holds only this image and the caption describes the photo, not the destination; it names the agency but not the story. elementFails: yes by my reading. Competent auditors split on this pattern: by G82/H30 (an image that is the only content of a link should identify the link's purpose) the photo caption fails, while others accept the caption as the alternative of an informative photo and leave link purpose to 2.4.4, where the link's title and the card's own headline link convey it. My own reading leans to a failure; the label is uncertain because of that disagreement. captureDiffers: no, the live homepage serves the same card with the same alt and title."
+    }
+  ]
+}

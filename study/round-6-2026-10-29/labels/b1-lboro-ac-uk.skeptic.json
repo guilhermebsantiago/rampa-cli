@@ -1,0 +1,103 @@
+{
+  "page": "https://www.lboro.ac.uk/study/undergraduate/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "f333de45b152",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] London campus \"Find us\" link to lborolondon.ac.uk/about/find-us/. The footer 'Locations' column has an h3 'Locations', then a logo link whose only name is visually hidden text ('Loughborough University' or 'Loughborough University London'), then a ul of links. The logo is a sibling link, not a heading, not in the link's list item, and the ul is not nested in a list item, so by this round's rule it is not link context; the link's context is only its own text, its list item (same text) and the preceding heading 'Locations'. No title or aria-describedby. The snapshot has exactly two links with this text, to different destinations. The live HTML (fetched with curl; the styled capture matches it) has the same footer markup, so captureDiffers is no. With only \"Find us\" under \"Locations\", nothing tells a user that this one is for the London campus rather than the main one listed just before; the only distinguishing cue is the London logo, which the rule excludes. I found no technique (aria-label, title, describedby, a heading per campus) that rescues it, so it fails 2.4.4 for the reason the claim gives."
+    },
+    {
+      "fingerprint": "e42daca5eb57",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] London campus \"Contact us\" link, a mailto:london@lboro.ac.uk. The footer 'Locations' column has an h3 'Locations', then a logo link whose only name is visually hidden text ('Loughborough University' or 'Loughborough University London'), then a ul of links. The logo is a sibling link, not a heading, not in the link's list item, and the ul is not nested in a list item, so by this round's rule it is not link context; the link's context is only its own text, its list item (same text) and the preceding heading 'Locations'. No title or aria-describedby. The snapshot has exactly two links with this text, to different destinations. The live HTML (fetched with curl; the styled capture matches it) has the same footer markup, so captureDiffers is no. The email icon is an empty span with no text. Under \"Locations\", \"Contact us\" does not tell the user that it emails the London campus rather than reaching the main contact page; only the London logo distinguishes it, and the rule excludes that. It fails 2.4.4 as the claim says."
+    },
+    {
+      "fingerprint": "8e7bb91aa00f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "[visual context] Main campus \"Find us\" link to lboro.ac.uk/about/find-us/ (\"Our location\", the University-wide location page). The footer 'Locations' column has an h3 'Locations', then a logo link whose only name is visually hidden text ('Loughborough University' or 'Loughborough University London'), then a ul of links. The logo is a sibling link, not a heading, not in the link's list item, and the ul is not nested in a list item, so by this round's rule it is not link context; the link's context is only its own text, its list item (same text) and the preceding heading 'Locations'. No title or aria-describedby. The snapshot has exactly two links with this text, to different destinations. The live HTML (fetched with curl; the styled capture matches it) has the same footer markup, so captureDiffers is no. Under the rule, the two identical \"Find us\" links under \"Locations\" cannot be told apart, so I answer elementFails yes. But a concrete counter-reading holds up: on the University's own site an unqualified \"Find us\" already says what this link does (it leads to the University's general location page), and only the London twin carries a purpose its text hides. Competent auditors would reasonably disagree on whether this first link fails, so the label is uncertain."
+    },
+    {
+      "fingerprint": "56c5f36d78d3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "[visual context] Main campus \"Contact us\" link to lboro.ac.uk/contact/ (the University-wide \"Contact us\" page). The footer 'Locations' column has an h3 'Locations', then a logo link whose only name is visually hidden text ('Loughborough University' or 'Loughborough University London'), then a ul of links. The logo is a sibling link, not a heading, not in the link's list item, and the ul is not nested in a list item, so by this round's rule it is not link context; the link's context is only its own text, its list item (same text) and the preceding heading 'Locations'. No title or aria-describedby. The snapshot has exactly two links with this text, to different destinations. The live HTML (fetched with curl; the styled capture matches it) has the same footer markup, so captureDiffers is no. Under the rule, the two \"Contact us\" links under \"Locations\" cannot be told apart, so elementFails is yes. Yet an unqualified \"Contact us\" on the University's own site conventionally means its general contact page, which is exactly where this one goes; it is the London mailto twin whose purpose the text hides. Auditors would reasonably split on whether this first link fails, so uncertain."
+    },
+    {
+      "fingerprint": "s0a847d9fb45",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Card link to /study/undergraduate/fees-funding/. Its content is the card image (long descriptive alt), the h3 \"Fees and funding\" and a paragraph about tuition fees and financial support. Even the truncated browser name the claim quotes contains \"Fees and funding Get all the facts about what your\", so the claim that the text does not tell where the link goes is false of the capture. The destination is the Fees and funding page, matching the text, so the link meets 2.4.4 (the alt text at the front of the name makes it verbose, not ambiguous). Live HTML is identical. The model had the text and misjudged it."
+    },
+    {
+      "fingerprint": "0ed59b42b43a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Card image in the \"Fees and funding\" link. The crop and the screenshot show a long red-brick building with white stone trim and a central white clock tower, blue sky, a green lawn and two groups of students walking on a path, which is what the alt says (the only quibble is a few clouds against \"clear blue sky\"). The claim that it describes something the image does not show is false. Since the link has its own heading text the image could have been decorative, but an accurate descriptive alt does not fail 1.1.1. Live HTML has the same alt and image. The model saw the right crop and judged wrongly."
+    },
+    {
+      "fingerprint": "s869e1346ce7",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Page title \"Undergraduate study | Loughborough University\" on the undergraduate study landing page (h1 \"Undergraduate study at Loughborough\", banner \"Undergraduate study\", breadcrumb Study with us > Undergraduate study). The title names the page topic and the site, so it is descriptive and meets 2.4.2; the claim that it says nothing about the page is false. The cookie-banner h1 in the capture does not change that. The live page has the same title. The model had the title and h1 and misjudged."
+    },
+    {
+      "fingerprint": "pc1c55213a47",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "\"Explore our location\" button-styled link to /study/where-study-live/where-lboro/ (\"Where is Loughborough?\"). The preceding heading is the h2 \"Where is Loughborough?\", and the section text above it says \"Discover where Loughborough is and what it has to offer.\" Link text plus the preceding heading determine its purpose, matching the destination, so it meets 2.4.4 and Rampa was right to report nothing. Live HTML is the same."
+    },
+    {
+      "fingerprint": "p1f20775fe82",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Card image in the \"Applying to university\" link. The crop shows two students at a round wooden table, one holding a phone, in a bright modern library with ceiling lights and other students behind; the alt \"Two students sit together at a round wooden table in a brightly lit, modern university library.\" is accurate and adequate (the link text carries the purpose). It meets 1.1.1; Rampa was right to report nothing. Live HTML has the same alt."
+    }
+  ]
+}

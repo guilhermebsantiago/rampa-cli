@@ -1,0 +1,72 @@
+{
+  "page": "https://www.propertypriceregister.ie/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "c51bbe4e0688",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The link sits alone in a paragraph under the h3 'LPT Information' and its text is the URL https://www.revenue.ie/en/contact-us/customer-service-contact/local-property-tax-lpt.aspx. claimTrue: the text is indeed an address, as captured. elementFails: 2.4.4 does not forbid a URL as link text; it asks that the purpose be determinable from the text alone or with its programmatic context. This URL is human-readable and itself states the purpose (Revenue, contact us, customer service contact, local property tax LPT), and the preceding heading 'LPT Information', which counts as context in this round, confirms it. The sentence 'contact the Revenue Commissioners at:' is in the neighbouring paragraph and is not counted, but it is not needed. No documented 2.4.4 failure covers a meaningful URL used as link text. captureDiffers: the live HTML fetched on 2026-11-21 has the same paragraph, link and heading. Rampa applied a rule (an address is never a purpose) stricter than the criterion."
+    },
+    {
+      "fingerprint": "s7f1329fec03",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the disabled, checked 'Strictly necessary' checkbox in the Cookie Script consent dialog, with a real <label for> (shown uppercase by CSS). claimTrue: a checkbox has nothing to enter, so 'does not say what to enter' is not a meaningful statement about it; the label does say what the box is (the strictly necessary cookie category). elementFails: 2.4.6 asks that labels describe topic or purpose. Inside a dialog titled 'Are you happy to accept cookies?' whose text explains that some cookies are necessary and cannot be switched off and some are optional, the label clearly names the cookie category the checkbox governs; it is also disabled, so the user makes no choice with it. captureDiffers: the live page loads the same cookie-script.com script, whose markup holds the same checkbox and label for first-time visitors. Rampa judged the label as if it were a text field that must state what to type, a rule 2.4.6 does not set."
+    },
+    {
+      "fingerprint": "sc85b8be0660",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h3 'Information Note' under the h1 'Residential Property Price Register'. Under it are paragraphs and a list explaining what the Register contains, how prices and dates are recorded and its limits. claimTrue: the heading does say something about its content: it is an information note about the Register, and it is the proper name of that note, which the Search, Specific Downloads and Download All panels cite ('I have read and understand the clarifications given in the Information Note...'). elementFails: 2.4.6 asks for headings that describe topic or purpose, not exhaustive ones; this heading accurately labels a section of clarifications and is the anchor users are told to read, so it serves its purpose. It is generic but neither empty nor misleading. captureDiffers: the live HTML has the same heading and content. The model had the content and judged a short but accurate heading as failing."
+    },
+    {
+      "fingerprint": "9fae541a5a55",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the mailto link 'info@psr.ie' in the footer address block, 14.4px normal weight. claimTrue: the screenshot crop shows dark green text on the dark grey footer, and the live CSS confirms it: unifycustom.css sets a { color: #2e6200 }, loaded after the Unify style.css, and no more specific rule recolours links in .footer-v1 address (footer-v1.css only colours the address text and .link-list links #eee); footer-v1.css sets the footer background #272727. I computed #2e6200 on #272727 at 2.04:1, as reported. The background map image only adds grey dots, which cannot raise the ratio anywhere near 4.5:1. elementFails: normal-size text below 4.5:1 fails 1.4.3, and no exception applies (not incidental, not a logotype). captureDiffers: the only stylesheet the capture flagged, theme-colors/default.css, contains just a comment on the live site too, so nothing was lost; the live HTML and CSS match. No reason against the finding holds up."
+    },
+    {
+      "fingerprint": "0cf1f523218c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the logo image (alt ' PSRA Logo'), the only content of a link to https://psr.ie/ that opens in a new window; the image shows the authority's Irish and English names (Property Services Regulatory Authority). claimTrue: the alt is indeed all the link holds, but it names PSRA, the authority whose site psr.ie is, so it does indicate where the link leads, though it says 'Logo' rather than 'home page' or 'website'. elementFails: for an image that is a link's only content, 1.1.1 (and H30) asks the alternative to convey the link's purpose. Common practice (WebAIM, Deque) accepts the organisation's name for a logo linking to its site, the word 'Logo' being redundant; on that reading it passes, and I lean that way. A stricter auditor could fail it because the alternative describes the image, uses only the abbreviation, and does not signal that the link leaves this site for the parent authority's site, so competent auditors would reasonably disagree; hence uncertain. captureDiffers: the live HTML has the same img, alt and href."
+    },
+    {
+      "fingerprint": "se7674bae26f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the unchecked 'Performance' checkbox in the Cookie Script consent dialog, with a real <label for> (shown uppercase by CSS). claimTrue: a checkbox has nothing to enter; the label states which cookie category the box enables, so the sentence does not hold of it. elementFails: 2.4.6 asks that labels describe topic or purpose. In a dialog that asks 'Are you happy to accept cookies?' and explains that optional cookies are off by default and can be accepted, 'Performance' next to 'Strictly necessary' plainly names the optional performance-cookie category the box switches on; a 'Show cookie details' control gives more detail. captureDiffers: the live page loads the same cookie-script.com script with the same checkbox and label for first-time visitors. Rampa judged the label as if it were a text field that must state what to type, a rule 2.4.6 does not set."
+    }
+  ]
+}

@@ -1,0 +1,568 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.gosh.nhs.uk/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "e24e657e9f21",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main-content > div:nth-of-type(1) > div > a > picture > img",
+   "message": "The text alternative \"A young girl smiling. She is wearing a blue party hat and a Happy Birthday badge. She is holding a pink balloon.\" is all its link holds, and does not say where the link leads.",
+   "evidence": "A young girl smiling. She is wearing a blue party hat and a Happy Birthday badge. She is holding a pink balloon.",
+   "subject": "A young girl smiling. She is wearing a blue party hat and a Happy Birthday badge. She is holding a pink balloon.",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "#main-content > div:nth-of-type(1) > div > a > picture > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "A young girl smiling. She is wearing a blue party hat and a Happy Birthday badge. She is holding a pink balloon.",
+    "to": "Find out more about this research and Willow's story",
+    "before": "<img src=\"https://media.gosh.nhs.uk/images/GOSH_161026_willow-banner.6c7275a0.fill-1200x540.png\" alt=\"A young girl smiling. She is wearing a blue party hat and a Happy Birthday badge. She is holding a pink balloon.\" width=\"1200\" height=\"540\">",
+    "after": "<img src=\"https://media.gosh.nhs.uk/images/GOSH_161026_willow-banner.6c7275a0.fill-1200x540.png\" alt=\"Find out more about this research and Willow's story\" width=\"1200\" height=\"540\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999766839776063
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "17c276215992",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main-content > div:nth-of-type(2) > div > div > a:nth-of-type(2) > img",
+   "message": "The text alternative \"Blue and pint fingerprint\" describes something the image does not show.",
+   "evidence": "Blue and pint fingerprint",
+   "subject": "Blue and pint fingerprint",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#main-content > div:nth-of-type(2) > div > div > a:nth-of-type(2) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Blue and pint fingerprint",
+    "to": "Fingerprint logo",
+    "before": "<img src=\"https://media.gosh.nhs.uk/images/Fingerprint_logo_-_transparent_1.2e16d0ba.fill-400x400.png\" width=\"400\" height=\"400\" alt=\"Blue and pint fingerprint\" class=\"useful-info__image\">",
+    "after": "<img src=\"https://media.gosh.nhs.uk/images/Fingerprint_logo_-_transparent_1.2e16d0ba.fill-400x400.png\" width=\"400\" height=\"400\" alt=\"Fingerprint logo\" class=\"useful-info__image\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9944869252436577
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "cf5e36ab0383",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div > div:nth-of-type(2) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Buttons with text: 'Accept Additional Cookies', 'Reject Additional Cookies'\".",
+   "evidence": "Buttons with text: 'Accept Additional Cookies', 'Reject Additional Cookies'",
+   "subject": "hidden submarine.425328ed3da9.png",
+   "patch": {
+    "ref": "html > body > footer > div:nth-of-type(2) > div > div > div:nth-of-type(2) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Cartoon submarine illustration with buttons to accept, reject, or manage additional cookies.",
+    "before": "<img class=\"footer__submarine\" src=\"/static/images/submarine.425328ed3da9.png\" width=\"447\" height=\"215\" alt=\"\">",
+    "after": "<img class=\"footer__submarine\" src=\"/static/images/submarine.425328ed3da9.png\" width=\"447\" height=\"215\" alt=\"Cartoon submarine illustration with buttons to accept, reject, or manage additional cookies.\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "5abb564da253",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > a:nth-of-type(1)",
+   "target": "html > body > footer > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > a:nth-of-type(1)",
+   "message": "The icon of this link (\"Follow us on Facebook\") has at most 2.12:1 contrast with the pixels next to it (#ffffff on #7fb8e6). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#ffffff on #7fb8e6 · 2.12:1 at best, 2.12:1 at worst",
+   "subject": "Follow us on Facebook",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<a class=\"social-links__link\" href=\"https://www.facebook.com/GreatOrmondSt\" title=\"Follow us on Facebook\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "a1ebc51e0e0b",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > a:nth-of-type(2)",
+   "target": "html > body > footer > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > a:nth-of-type(2)",
+   "message": "The icon of this link (\"Follow us on Instagram\") has at most 2.12:1 contrast with the pixels next to it (#ffffff on #7fb8e6). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#ffffff on #7fb8e6 · 2.12:1 at best, 2.12:1 at worst",
+   "subject": "Follow us on Instagram",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<a class=\"social-links__link\" href=\"https://www.instagram.com/GreatOrmondSt\" title=\"Follow us on Instagram\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "383c0034bd05",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > a:nth-of-type(3)",
+   "target": "html > body > footer > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > a:nth-of-type(3)",
+   "message": "The icon of this link (\"Follow us on YouTube\") has at most 2.12:1 contrast with the pixels next to it (#ffffff on #7fb8e6). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#ffffff on #7fb8e6 · 2.12:1 at best, 2.12:1 at worst",
+   "subject": "Follow us on YouTube",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<a class=\"social-links__link\" href=\"https://www.youtube.com/user/GOSHCharity\" title=\"Follow us on YouTube\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "d89f8c386025",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > a:nth-of-type(4)",
+   "target": "html > body > footer > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > a:nth-of-type(4)",
+   "message": "The icon of this link (\"Follow us on LinkedIn\") has at most 2.12:1 contrast with the pixels next to it (#ffffff on #7fb8e6). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#ffffff on #7fb8e6 · 2.12:1 at best, 2.12:1 at worst",
+   "subject": "Follow us on LinkedIn",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<a class=\"social-links__link\" href=\"https://www.linkedin.com/company/great-ormond-street-hospital-for-children-nhs-trust\" title=\"Follow us on LinkedIn\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 3
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#main-content > div:nth-of-type(2) > div > div > a:nth-of-type(3) > img",
+   "message": "The text alternative \"Blue illustration of a stethoscope on a white background\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Medical stethoscope icon\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: no (0.00), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#main-content > div:nth-of-type(4) > div > div > a:nth-of-type(4) > img",
+   "message": "The text alternative \"A patient in a wheelchair is laughing\" describes something the image does not show.",
+   "evidence": "The model suggests: \"A child in a wheelchair laughing during a live musical performance with other children and musicians.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (0.74), claim: no (0.00), reversed: no (0.58))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#main-content > div:nth-of-type(5) > a:nth-of-type(2)",
+   "message": "The link text \"212 active clinical trials Transformational clinical trials are currently happening throughout the hospital\" does not match where the link leads: a page titled \"About research and innovation at GOSH | Great Ormond Street Hospital\".",
+   "evidence": "The model suggests: \"A guide to research and innovation at GOSH\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#main-content > div:nth-of-type(2) > div > h2",
+   "message": "The heading \"Helpful information\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Patient and visitor information\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#main-content > div:nth-of-type(2) > div > div > a:nth-of-type(4) > img",
+   "reason": "the model's description of the image keeps every word of the current alternative",
+   "output": {
+    "verdict": "fail",
+    "evidence": "microscope",
+    "problem": "wrong_content",
+    "imageShows": "A simple line drawing of a microscope with a blue lens.",
+    "suggestedAlt": "Research and innovation for patients and families",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(1) > nav > div:nth-of-type(1) > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Text that reads World's Best Specialised Hospitals Pediatrics 2025, Newsweek. The text is written in red, white and black.",
+    "problem": "missing_information",
+    "imageShows": "A Newsweek logo and ranking banner for World's Best Specialised Hospitals Pediatrics 2025, powered by Statista.",
+    "suggestedAlt": "Newsweek World's Best Specialised Hospitals 2025 Pediatrics ranking",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(1) > nav > div:nth-of-type(2) > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "The word AccessAble on a purple background",
+    "problem": "missing_information",
+    "imageShows": "The AccessAble logo featuring a stylized book icon and the word 'AccessAble' in white on a purple background.",
+    "suggestedAlt": "AccessAble - Great Ormond Street Hospital for Children",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > header > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div > nav > ul > li:nth-of-type(2) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Private Care' in a navigation menu suggests it leads to a section or page regarding private healthcare services.",
+    "leadsTo": "https://www.gosh.com.kw/",
+    "verdict": "fail",
+    "evidence": "Private Care",
+    "problem": "mismatch",
+    "suggestedText": "GOSH Hospital Kuwait",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(1) > nav > ul > li:nth-of-type(3) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page about careers at GOSH (Great Ormond Street Hospital).",
+    "leadsTo": "a page titled 'Careers at GOSH | Great Ormond Street Hospital'",
+    "verdict": "fail",
+    "evidence": "Careers",
+    "problem": "ambiguous",
+    "suggestedText": "Careers at GOSH",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(1) > nav > ul > li:nth-of-type(6) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Data Research, Innovation and Virtual Environments' suggests it leads to a page or section about those specific topics.",
+    "leadsTo": "https://www.goshdrive.com/",
+    "verdict": "fail",
+    "evidence": "Data Research, Innovation and Virtual Environments",
+    "problem": "mismatch",
+    "suggestedText": "GOSH Drive",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#desktop-search",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Search this website",
+    "verdict": "fail",
+    "evidence": "S…",
+    "problem": "generic",
+    "suggestedText": "Search site",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#main-content > h1",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Home",
+    "verdict": "fail",
+    "evidence": "H…",
+    "problem": "generic",
+    "suggestedText": "Great Ormond Street Hospital Home",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > h2",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Social media links",
+    "verdict": "fail",
+    "evidence": "S…",
+    "problem": "generic",
+    "suggestedText": "Social media links",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 20,
+   "judged": 20,
+   "failed": 3,
+   "passed": 12,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 2,
+   "suggested": 2,
+   "unconfirmed": 2
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 57,
+   "judged": 50,
+   "failed": 0,
+   "passed": 46,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 7,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 18,
+   "judged": 18,
+   "failed": 0,
+   "passed": 14,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "A layer lay over the viewport when the page was read (div, on top at 78% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 7 of 57 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 100,
+  "cachedCalls": 0,
+  "inputTokens": 87467,
+  "outputTokens": 8724,
+  "latencyMs": 275748
+ },
+ "timings": {
+  "totalMs": 143683,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 25
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 39993,
+    "prepareMs": 0,
+    "candidates": 20,
+    "judged": 20,
+    "calls": 32,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 80076,
+    "prepareMs": 0,
+    "candidates": 57,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 23364,
+    "prepareMs": 0,
+    "candidates": 18,
+    "judged": 18,
+    "calls": 18,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 171,
+    "prepareMs": 169,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 14,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 36
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "overlay": {
+   "selector": "div",
+   "coverage": 0.78,
+   "hidden": true
+  },
+  "images": {
+   "captured": 20,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 57,
+    "capped": 7
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "overlay": {
+    "ref": "#onetrust-consent-sdk > div:nth-of-type(1)",
+    "selector": "div",
+    "coverage": 0.78,
+    "hidden": true
+   }
+  }
+ }
+}

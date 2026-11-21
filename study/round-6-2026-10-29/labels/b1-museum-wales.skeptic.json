@@ -1,0 +1,174 @@
+{
+  "page": "https://museum.wales/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "f6f3ff76fe71",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Card image in the 'Tides of Treasure' display link: gold and silver coins, a brass combination lock and dividers; alt 'Ann Francis'. claimTrue no: the destination says the display is treasure from the wreck of the merchant vessel Ann Francis, so the alt names the hoard the picture shows rather than something absent; its defect is that it labels instead of describing. elementFails leans yes: to someone who cannot see the picture 'Ann Francis' sounds like a person and says nothing of coins or a lock, so it is a weak equivalent. But a concrete reason against holds up: the image is a thumbnail inside a link whose text (Display: Tides of Treasure, dates, museum) carries the purpose, and WCAG has no failure for a short identifying label on such an image (an empty alt would also pass). Competent auditors would disagree, so uncertain. The live page fetched on 2026-11-21 has the same markup for this element, and the screenshot is fully styled and matches it, so no capture difference touches this."
+    },
+    {
+      "fingerprint": "p2f6677664bc",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Header logo image, the only content of a link to the home page; alt 'Amgueddfa Cymru' reproduces the logo's text exactly (the crop reads AMGUEDDFA CYMRU). The organisation's name is an adequate alternative for a home-link logo, so the element meets 1.1.1 and Rampa was right to report nothing. The live page fetched on 2026-11-21 has the same markup for this element, and the screenshot is fully styled and matches it, so no capture difference touches this."
+    },
+    {
+      "fingerprint": "p85d6169d3fd",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Blog card image; the alt describes an old photograph of a rugby team of black and white boys with arms crossed and two teachers at either side. The crop shows exactly that (two adults flanking a school team with a ball). A typo ('the all') does not make it fail. It meets 1.1.1; Rampa was right to stay silent. The live page fetched on 2026-11-21 has the same markup for this element, and the screenshot is fully styled and matches it, so no capture difference touches this."
+    },
+    {
+      "fingerprint": "s37a6b5ba825",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "h2 'Features' (shown upper-case by CSS) heads a section of cards each stamped 'Feature' (Winter at Amgueddfa Cymru, Aberfan 60, National Slate Museum Redevelopment) plus a featured news item. claimTrue no: the heading names exactly what the section holds, featured content. 2.4.6 only asks that headings describe topic or purpose, and a single word can; this one does. The model had the section and judged wrongly. The live page fetched on 2026-11-21 has the same markup for this element, and the screenshot is fully styled and matches it, so no capture difference touches this."
+    },
+    {
+      "fingerprint": "s337874cdd2b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Footer site-map column h3 'Amgueddfa Cymru' over links to the organisation's main areas (Visiting, Collections & Research, Learn, Blog, Support Us, Shop, Venue Hire), beside columns headed Our Museums, Connect With Us, The Website and Corporate. claimTrue no: the heading tells the user these links are the organisation's own sections, as distinct from the individual museums in the next column. That describes the group's topic, which is all 2.4.6 requires. Terse, but not a failure. The live page fetched on 2026-11-21 has the same markup for this element, and the screenshot is fully styled and matches it, so no capture difference touches this."
+    },
+    {
+      "fingerprint": "pddac7265e67",
+      "answers": {
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Card image for an external CELF article about the artwork; the picture shows five girls in black mourning-style dress with hats and a fan by a stone wall. The alt is a credit line: artist, title 'It's Called Fashion (Look It Up), Merthyr' (2016), copyright, and it contains literal '<em>' markup characters. For an artwork in a link to an article about it, identifying the work by artist and title is a defensible short alternative; on the other hand it conveys none of what the photograph shows and includes stray markup. Competent auditors would disagree on whether this fails 1.1.1, so uncertain. The live page fetched on 2026-11-21 has the same markup for this element, and the screenshot is fully styled and matches it, so no capture difference touches this."
+    },
+    {
+      "fingerprint": "pe0d6afef9c9",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Header language switcher link 'Cymraeg' to amgueddfa.cymru, the Welsh-language site. Naming a language switch in the target language is the standard convention (Understanding 3.1.2 Example 2 shows such links), and the word means 'Welsh', so the purpose can be determined from the link text for the users it serves. The only heading before it is in the cookie dialogue and adds nothing, but none is needed. It meets 2.4.4; the language-of-parts problem is a separate 3.1.2 issue. The live page fetched on 2026-11-21 has the same markup for this element, and the screenshot is fully styled and matches it, so no capture difference touches this."
+    },
+    {
+      "fingerprint": "24295281b59e",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Card image in the 'Exhibition: Ffasiwn' link: a boy in a salmon-pink outfit and hat, arms crossed, on moorland; alt 'It's Called Ffasiwn', the name of the photography project the exhibition shows. claimTrue no: the alt does not describe something absent; it gives the title of the series this photograph belongs to. elementFails leans yes, because the title conveys nothing of what the picture shows. But the reason against holds up: titles are a common, defensible alternative for artworks, and the image is a thumbnail in a link whose text names the exhibition. Competent auditors would disagree, so uncertain. The live page fetched on 2026-11-21 has the same markup for this element, and the screenshot is fully styled and matches it, so no capture difference touches this."
+    },
+    {
+      "fingerprint": "p088127b091b",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Hero slide image; alt 'Two people take a selfie on a mobile phone in front of a dinosaur exhibit' matches the crop (two young men taking a selfie before a dinosaur skeleton). The slogan 'We can't tell Wales' story without you.' over it is a real HTML h2 in the slide, not text in the image, so the alt need not repeat it. It meets 1.1.1. The live page fetched on 2026-11-21 has the same markup for this element, and the screenshot is fully styled and matches it, so no capture difference touches this."
+    },
+    {
+      "fingerprint": "2334eb23475d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Blog card image showing autumn trees with orange foliage; alt 'Carbon Literacy Day cover image'. claimTrue yes: the alt names an event and the picture's role, and nothing it says is shown; the trees are not mentioned. elementFails yes: the text cannot replace the image without losing what it shows, and 'cover image' is the kind of placeholder F30 names ('image', 'picture'); read as decorative instead, the image would need a null alt, and a non-null placeholder fails by F39. The image is not hidden (unlike the feature cards, this card's image container has no aria-hidden). I found no technique, context or capture difference that makes it pass, and the claim, read in good faith, points at that defect. The live page fetched on 2026-11-21 has the same markup for this element, and the screenshot is fully styled and matches it, so no capture difference touches this."
+    },
+    {
+      "fingerprint": "pc64a11aa2cc",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Blog card image of a carved love spoon; the alt describes a wooden spoon with an intricately carved, symmetrical handle and two cut-out hearts. The crop shows exactly that. It meets 1.1.1; Rampa was right to stay silent. The live page fetched on 2026-11-21 has the same markup for this element, and the screenshot is fully styled and matches it, so no capture difference touches this."
+    },
+    {
+      "fingerprint": "p73748960faa",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "News card link whose accessible name is 'News: CT Scans Help Unlock 400-Year-Old Mystery' followed by a summary sentence and date. The link text alone states where it goes (that news story), and the destination confirms it. It meets 2.4.4. The live page fetched on 2026-11-21 has the same markup for this element, and the screenshot is fully styled and matches it, so no capture difference touches this."
+    },
+    {
+      "fingerprint": "6f4dda44d348",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Full-width background image of the 'Support Us' donate panel: a gilt-framed painting in a gallery, with a Turner wall label partly visible; alt 'Celebrating Turner 250'. claimTrue yes: the alt is a campaign title, not a description. Whether the element fails is contested: as a backdrop behind the donation text it is arguably decorative, where an extraneous but meaningful alt is not one of F39's junk examples; read as informative, the alt does tell the user the pictured work is a Turner from the Turner 250 celebration, which is a partial equivalent. Competent auditors would disagree, so uncertain. The live page fetched on 2026-11-21 has the same markup for this element, and the screenshot is fully styled and matches it, so no capture difference touches this."
+    },
+    {
+      "fingerprint": "p6872f2a68a7",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Card image for 'Winter at Amgueddfa Cymru': the alt describes the smiling boy with painted cheeks holding a jar of lights and the girl in a Christmas jumper, which the crop shows. The image also carries the words 'Gaeaf yn Amgueddfa Cymru / Winter at Amgueddfa Cymru', which the alt omits, but the same title is real text in the card's h3 inside the same link (the Welsh line is its translation), so no information is lost. Typos do not fail it. It meets 1.1.1. The live page fetched on 2026-11-21 has the same markup for this element, and the screenshot is fully styled and matches it, so no capture difference touches this."
+    },
+    {
+      "fingerprint": "11285f2a9bb8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header link 'Cymraeg' (Welsh for 'Welsh') in a page with html lang='en'; neither the link nor any ancestor has lang='cy', in the snapshot or in the live HTML (the only lang='cy' strings there are CSS selectors). claimTrue yes. Skeptic checks: the proper-name and single-word exceptions do not save it, because Understanding 3.1.2 says single words count as the surrounding language unless a change is clearly intended, and in a language switcher it is: Example 2 of that document is this very case, language links marked with lang. An English voice would mispronounce the word, so the human language of this phrase is not programmatically determined. The element fails 3.1.2 for the reason the rule states. The live page fetched on 2026-11-21 has the same markup for this element, and the screenshot is fully styled and matches it, so no capture difference touches this."
+    },
+    {
+      "fingerprint": "cec6116820bb",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Card image for the blog 'The Red Flannel Remedy': a woman with glasses holding up a piece of red cloth in front of a framed print; alt 'Red Flannel'. claimTrue no: the image does show red flannel, the cloth she holds. The alt names the image's key subject, which is what the article is about. It leaves out the woman and the print, but WCAG asks for an alternative that serves the image's purpose in context, not an exhaustive description, and for a thumbnail in a link whose text names the post, that is met. The model had the crop and judged wrongly. The live page fetched on 2026-11-21 has the same markup for this element, and the screenshot is fully styled and matches it, so no capture difference touches this."
+    }
+  ]
+}

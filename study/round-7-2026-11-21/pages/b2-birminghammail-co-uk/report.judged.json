@@ -1,0 +1,432 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.birminghammail.co.uk/news/midlands-news/crash-near-birmingham-airport-live-34947543",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "731a57aa732f",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > footer > div:nth-of-type(2) > span > a > img",
+   "message": "The text alternative \"trust project logo\" is all its link holds, and does not say where the link leads.",
+   "evidence": "trust project logo",
+   "subject": "trust project logo",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "html > body > footer > div:nth-of-type(2) > span > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "trust project logo",
+    "to": "The Trust Project",
+    "before": "<img alt=\"trust project logo\" loading=\"lazy\" width=\"153\" height=\"48\" decoding=\"async\" data-nimg=\"1\" src=\"/footer/trust-project.svg\" style=\"color: transparent;\">",
+    "after": "<img alt=\"The Trust Project\" loading=\"lazy\" width=\"153\" height=\"48\" decoding=\"async\" data-nimg=\"1\" src=\"/footer/trust-project.svg\" style=\"color: transparent;\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999563514625281
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 26
+ },
+ "groups": [
+  {
+   "id": "g-caa6eccc5028",
+   "list": "findings",
+   "criterion": "2.5.3",
+   "level": "A",
+   "source": "engine",
+   "check": "label-content-name-mismatch",
+   "count": 19,
+   "members": [
+    "0e6271ed4c2c",
+    "1ea000f35cf8",
+    "a3c28ed72a48",
+    "690b804863c5",
+    "66418e7f2c88",
+    "5f4835477636",
+    "645e99626958",
+    "6b50b4f8eba0",
+    "0c028e5a6fea",
+    "7e21f148c931",
+    "8125a83ebc09",
+    "0f66c954a47c",
+    "bf1f32435822",
+    "8f47e43a6857",
+    "031dd65295e0",
+    "59c6899c8719",
+    "3f6cc0a54e5c",
+    "98eeccecf5b1",
+    "f1065b390c07"
+   ],
+   "example": "0e6271ed4c2c"
+  },
+  {
+   "id": "g-564c4312eed6",
+   "list": "findings",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "engine",
+   "check": "nested-interactive",
+   "count": 6,
+   "members": [
+    "907f6e776237",
+    "f7a321cf1c9f",
+    "638240dd443b",
+    "27f68c41844e",
+    "c3b4c65d5996",
+    "6c5201c2c5df"
+   ],
+   "example": "907f6e776237"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#qc-cmp2-ui > div:nth-of-type(1) > div > div > figure > div > img",
+   "message": "The text alternative \"Publisher Logo\" describes something the image does not show.",
+   "evidence": "The model suggests: \"BirminghamLive\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: no (0.02), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > header > div:nth-of-type(1) > div:nth-of-type(2) > span > a > img",
+   "message": "The text alternative \"birminghammail\" names a label, not what the image conveys here.",
+   "evidence": "The model suggests: \"Subscribe\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#main-content > div > div > article > nav > ul > li:nth-of-type(1) > span > a > div > img",
+   "message": "The text alternative \"Birminghammail Live Icon\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Birmingham Mail logo\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > footer > div:nth-of-type(2) > img",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Ipso logo",
+    "problem": "wrong_content",
+    "imageShows": "A logo for Ipso featuring a teal circle with the word 'ipso.' and a white banner with the word 'Regulated'.",
+    "suggestedAlt": "Ipso Regulated logo",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#main-content > div > div > article > header > div:nth-of-type(1) > div > picture > img",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "A high-angle view of a traffic jam on a multi-lane motorway with a text overlay.",
+    "textInImage": "LIVE Updated 13 mins ago Crash near Birmingham Airport live with major delays on M42",
+    "verdict": "fail",
+    "evidence": "Crash near Birmingham Airport live with major delays on M42",
+    "suggestedAlt": "Crash near Birmingham Airport live with major delays on M42",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#qc-cmp2-ui > div:nth-of-type(1) > div > div > div > div > p:nth-of-type(1) > i > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Reach and across our entities' combined with the context of a privacy notice suggests it leads to information about the entities involved in data processing.",
+    "leadsTo": "https://www.reachplc.com/about-us/our-brands",
+    "verdict": "fail",
+    "evidence": "Reach and across our entities",
+    "problem": "mismatch",
+    "suggestedText": "Our brands and entities",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#mobile-nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(5) > span > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Business' in a navigation menu suggests a section for business-related news or information.",
+    "leadsTo": "https://www.business-live.co.uk/all-about/west-midlands",
+    "verdict": "fail",
+    "evidence": "Business",
+    "problem": "mismatch",
+    "suggestedText": "West Midlands Business News",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#mobile-nav > ul > li:nth-of-type(4) > div > span > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Villa' in a navigation menu, under a heading about privacy, is ambiguous. While it likely refers to the football club Aston Villa FC based on the destination, the context provided (the heading) does not clarify this.",
+    "leadsTo": "A page about Aston Villa FC news, transfers, and fixtures.",
+    "verdict": "fail",
+    "evidence": "Villa",
+    "problem": "ambiguous",
+    "suggestedText": "Aston Villa FC news",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 10,
+   "judged": 10,
+   "failed": 1,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 3,
+   "unconfirmed": 1,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 152,
+   "judged": 50,
+   "failed": 0,
+   "passed": 47,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 102
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 20,
+   "judged": 20,
+   "failed": 0,
+   "passed": 20,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "A layer lay over the viewport when the page was read (div, on top at 89% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 102 of 152 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 87,
+  "cachedCalls": 0,
+  "inputTokens": 79675,
+  "outputTokens": 6535,
+  "latencyMs": 229024
+ },
+ "timings": {
+  "totalMs": 118778,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 27
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 18235,
+    "prepareMs": 0,
+    "candidates": 10,
+    "judged": 10,
+    "calls": 16,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1298,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 74224,
+    "prepareMs": 0,
+    "candidates": 152,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 24761,
+    "prepareMs": 0,
+    "candidates": 20,
+    "judged": 20,
+    "calls": 20,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 175,
+    "prepareMs": 172,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 23,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 32
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "overlay": {
+   "selector": "div",
+   "coverage": 0.89,
+   "hidden": true
+  },
+  "images": {
+   "captured": 10,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 152,
+    "capped": 102
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "overlay": {
+    "ref": "#qc-cmp2-main > div",
+    "selector": "div",
+    "coverage": 0.89,
+    "hidden": true
+   }
+  }
+ }
+}

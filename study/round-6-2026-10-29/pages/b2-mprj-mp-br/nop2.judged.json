@@ -1,0 +1,302 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.mprj.mp.br/comunicacao/ouvidoria",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "8a9df3796bfa",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#_com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet_breadcrumbs-defaultScreen > ol > li:nth-of-type(1) > a > span",
+   "target": "#_com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet_breadcrumbs-defaultScreen > ol > li:nth-of-type(1) > a > span",
+   "message": "The text \"Comunicação\" has at most 2.13:1 contrast with what is behind it (#a3afbf on #fafafa), measured from pixels because axe-core could not decide (an element over or under it). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#a3afbf on #fafafa · 2.13:1 at best, 2.13:1 at worst · 14px, 500",
+   "subject": "Comunicação",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<span class=\"breadcrumb-text-truncate\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "9c0c08fc4f43",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#navigation > div > div:nth-of-type(2) > div > section > div > div:nth-of-type(2) > div > form > div > input:nth-of-type(2)",
+   "target": "#navigation > div > div:nth-of-type(2) > div > section > div > div:nth-of-type(2) > div > form > div > input:nth-of-type(2)",
+   "message": "The placeholder \"Buscar\" has a contrast of 2.26:1 with the field (#757575 on #702826). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#757575 on #702826 · 2.26:1 at best, 2.26:1 at worst · 14px, 400",
+   "subject": "Buscar",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input type=\"text\" class=\"busca-param\" name=\"_br_mp_mprj_internet_busca_web_BuscaHeaderPortlet_buscaParam\" placeholder=\"Buscar\" autocomplete=\"off\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 6
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.2",
+   "level": "A",
+   "ruleId": "judgment/2.4.2",
+   "ref": "html",
+   "message": "The page title \"Ouvidoria - MPRJ\" names a different topic than the page.",
+   "evidence": "The model suggests: \"Política de Privacidade e Cookies - Ouvidoria MPRJ\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#container-areas-atuacao > div:nth-of-type(1) > img",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "A stylized logo featuring two overlapping circles forming a profile of a face and the letter Q.",
+    "textInImage": "",
+    "verdict": "fail",
+    "evidence": "Logo of the Ouvidoria do Ministério Público do Estado do Rio de Janeiro",
+    "suggestedAlt": "Logotipo da Ouvidoria do Ministério Público do Estado do Rio de Janeiro.",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "A layer lay over the viewport when the page was read (div#modalConsentimento, on top at 89% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "22 image(s) were left without a capture, so no judgment looked at them: 1 outside the page (an off-canvas menu); 1 cut off by the box that holds it; 20 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 5,
+  "inputTokens": 4280,
+  "outputTokens": 427,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 205,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 21
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 7,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 4,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 0,
+    "cachedCalls": 2
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 141,
+    "prepareMs": 138,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 23
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "overlay": {
+   "selector": "div#modalConsentimento",
+   "coverage": 0.89,
+   "hidden": true
+  },
+  "images": {
+   "captured": 23,
+   "notCaptured": 22,
+   "reasons": {
+    "outside-page": 1,
+    "clipped": 1,
+    "limit": 20
+   }
+  }
+ },
+ "coverage": {
+  "reach": {
+   "overlay": {
+    "ref": "#modalConsentimento",
+    "selector": "div#modalConsentimento",
+    "coverage": 0.89,
+    "hidden": true
+   }
+  }
+ }
+}

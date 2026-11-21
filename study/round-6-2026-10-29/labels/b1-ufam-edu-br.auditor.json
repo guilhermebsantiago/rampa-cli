@@ -1,0 +1,97 @@
+{
+  "page": "https://www.ufam.edu.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "2abbce76cbee",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Em Destaque' link to propesp.ufam.edu.br has the text 'P ó s - G r a d u a ç ã o': real space characters between the letters, so 'Graduação' (and 'Pós') is written letter by letter, as the claim says. The live HTML served today has the same text, and in Edge the link's computed letter-spacing is 'normal' with text-transform uppercase, so the spacing seen in the screenshot comes from the spaces, not CSS. This is documented failure F32 of 1.3.2 (white space used to space letters within a word), which the claim names. No difference between capture and live page."
+    },
+    {
+      "fingerprint": "727a610ecfea",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Em Destaque' link to progesp.ufam.edu.br reads 'P e s s o a l' in both the snapshot and the live HTML: space characters between every letter, with CSS letter-spacing 'normal' (checked in Edge), so the visual spacing is made of spaces. Screen readers can read it as separate letters. This is F32, a documented failure of 1.3.2, exactly as the claim says. Capture and live page match."
+    },
+    {
+      "fingerprint": "a603a830199d",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Em Destaque' link to proplan.ufam.edu.br reads 'P l a n e j a m e n t o', letters separated by real spaces, the same in the snapshot and the live HTML; CSS letter-spacing is 'normal', so the spacing is done with white space. F32 (failure of 1.3.2) applies, and the claim names it. Capture and live page match."
+    },
+    {
+      "fingerprint": "c95b9e1354d8",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The campaign banner (Campanha_Animais...jpg) is an image of text, 'UFAM - ÁREA DE PROTEÇÃO AMBIENTAL / NÃO ABANDONE ANIMAIS NO CAMPUS!', inside a plain <p>, not a link, with alt=\"\". The crop and the screenshot show the text; the live page has the same markup, and the page's text (checked in Edge) does not contain the message anywhere else. An informative image marked as decorative leaves screen reader users without its message, so it fails 1.1.1, as the claim says. The blue VLibras icon in the crop is a page overlay and does not matter here."
+    },
+    {
+      "fingerprint": "4e5c2aaaa253",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header search input has a <label for> 'Busca:' with class 'hide' (display:none), plus title and placeholder 'Buscar no portal'. The snapshot's Chromium tree gives it an empty name. I loaded the live page in Edge (Chromium 157) and read its accessibility tree: the name is \"\", taken from the hidden label (value \"\"), and title and placeholder are marked as superseded, so neither is used. In Chrome and Edge, then, the textbox has no accessible name, which fails 4.1.2. The claim says this. Firefox may expose the hidden label's text, and a tool that reads only the markup (label plus title) might pass it, but what Chromium users receive is a textbox with no name. Live page and capture match."
+    },
+    {
+      "fingerprint": "s4c0ee80c707",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the 'Simplifique!' link in the federal government bar, injected by barra.brasil.gov.br/barra.js; the live script makes the same link, with no title or aria attributes. Its context under this round's rule is only its list item in the gov.br list; the nearest heading before it ('Seletor idioma') does not help. The text is the proper name of a federal program (Simplifique!, an Ouvidoria channel for asking that public services be simplified), and the URL ends in /ouvidoria/simplifique, so the text names the destination, like the 'Comunica BR' and 'Participe' links beside it. I lean that the link passes, which makes the claim's 'does not tell where the link goes' untrue. But it is a bare imperative ('Simplify!') that tells someone who does not know the program nothing about what is behind it, so competent auditors would reasonably disagree. The destination now redirects to a login page; that does not affect 2.4.4."
+    },
+    {
+      "fingerprint": "s3476f0fc258",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The 'A' link in the font-size controls (A+ A A-) has title=\"Voltar ao tamanho normal\" in the snapshot (the packet's link.title) and in the live HTML. Under this round's rule a title is part of a link's context (H33), and it says what the link does (reset the text size). So the claim's 'nothing around it does' is false, and the link meets 2.4.4. The title was in Rampa's own snapshot, so the model had the context and judged wrongly. Separately, it is an href=\"#\" link that acts as a button, which may matter for 4.1.2 but not for 2.4.4."
+    },
+    {
+      "fingerprint": "ebfc844bd38b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Em Destaque' link to proeg.ufam.edu.br reads 'G r a d u a ç ã o', letters separated by space characters, in both the snapshot and the live HTML; CSS letter-spacing is 'normal' and the uppercase comes from text-transform. Spacing a word's letters with white space is F32, a documented failure of 1.3.2, as the claim says. Capture and live page match."
+    },
+    {
+      "fingerprint": "25f8349e6edb",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Em Destaque' link to protec.ufam.edu.br reads 'I n o v a ç ã o' with real spaces between the letters, the same in the snapshot and the live HTML (CSS letter-spacing 'normal'). This is F32 (failure of 1.3.2): screen readers may read it letter by letter. The claim names it. Capture and live page match."
+    },
+    {
+      "fingerprint": "cc65ab937198",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Em Destaque' link to proadm.ufam.edu.br reads 'A d m i n i s t r a ç ã o', letters separated by space characters, in both the snapshot and the live HTML; CSS letter-spacing is 'normal'. White space used to space a word's letters is F32, a documented failure of 1.3.2, which the claim names. Capture and live page match."
+    },
+    {
+      "fingerprint": "59d48cd5cea8",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The search field's placeholder 'Buscar no portal' is the only visible label of the field (its <label> is display:none). In Edge on the live page, the ::placeholder color is rgb(153,153,153) at 12px on an rgb(255,255,255) field, which is 2.85:1, below the 4.5:1 that 1.4.3 requires for normal-size text. The screenshot shows the same light grey text on white. The claim is accurate and names the failure. Capture and live page match."
+    },
+    {
+      "fingerprint": "s4e26307d3b9",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h2 'Amazon Zyme' is one of three video cards in the 'Vídeos' section, alongside 'Norte Genômica' and 'Canto da luz'. In each card, an embedded YouTube video comes first, then the heading, then the shared caption 'Vídeo resultado do Projeto de Extensão ...'. YouTube's oEmbed gives the embedded video (YtC9HjJYEq8) the title 'Amazon Zyme', so the heading is the video's own title and is what tells this card apart from its siblings. A short proper-name title describes the topic, and Understanding 2.4.6 accepts short headings, so it meets 2.4.6 and the claim is false. The model had the heading, its siblings and the caption, so this is a model error. The live page matches the capture."
+    },
+    {
+      "fingerprint": "0d0416e37f02",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Em Destaque' link to proext.ufam.edu.br reads 'E x t e n s ã o', letters separated by real space characters, in both the snapshot and the live HTML; in Edge its CSS letter-spacing is 'normal' with text-transform uppercase. Spacing a word's letters with white space is F32, a documented failure of 1.3.2, as the claim says. Capture and live page match."
+    }
+  ]
+}

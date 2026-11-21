@@ -1,0 +1,654 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://imma.ie/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "a7c803994074",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#explore-collection > div:nth-of-type(2) > div > div > div:nth-of-type(10) > a > p > img",
+   "message": "The text alternative \"Lapsus Exposure\" describes something the image does not show.",
+   "evidence": "Lapsus Exposure",
+   "subject": "Lapsus Exposure",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#explore-collection > div:nth-of-type(2) > div > div > div:nth-of-type(10) > a > p > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Lapsus Exposure",
+    "to": "Four people on a stage, including two in the foreground looking at a small object.",
+    "before": "<img src=\"/wp-content/themes/imma/css/img/blank.gif\" class=\"lazy\" data-src=\"https://imma.ie/wp-content/uploads/2024/08/1706-400x301.jpg\" alt=\"Lapsus Exposure\">",
+    "after": "<img src=\"/wp-content/themes/imma/css/img/blank.gif\" class=\"lazy\" data-src=\"https://imma.ie/wp-content/uploads/2024/08/1706-400x301.jpg\" alt=\"Four people on a stage, including two in the foreground looking at a small object.\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "82705794e4f2",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#explore-collection > div:nth-of-type(2) > div > div > div:nth-of-type(12) > a > p > img",
+   "message": "The text alternative \"No More\" describes something the image does not show.",
+   "evidence": "No More",
+   "subject": "No More",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#explore-collection > div:nth-of-type(2) > div > div > div:nth-of-type(12) > a > p > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "No More",
+    "to": "A man in athletic shorts performing a movement in a studio",
+    "before": "<img src=\"/wp-content/themes/imma/css/img/blank.gif\" class=\"lazy\" data-src=\"https://imma.ie/wp-content/uploads/2024/08/8913-400x288.jpg\" alt=\"No More\">",
+    "after": "<img src=\"/wp-content/themes/imma/css/img/blank.gif\" class=\"lazy\" data-src=\"https://imma.ie/wp-content/uploads/2024/08/8913-400x288.jpg\" alt=\"A man in athletic shorts performing a movement in a studio\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "1f716f692b00",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#explore-collection > div:nth-of-type(2) > div > div > div:nth-of-type(14) > a > p > img",
+   "message": "The text alternative \"Line Writing\" describes something the image does not show.",
+   "evidence": "Line Writing",
+   "subject": "Line Writing",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#explore-collection > div:nth-of-type(2) > div > div > div:nth-of-type(14) > a > p > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Line Writing",
+    "to": "A large-scale light installation on a wooden floor in a minimalist gallery space.",
+    "before": "<img src=\"/wp-content/themes/imma/css/img/blank.gif\" class=\"lazy\" data-src=\"https://imma.ie/wp-content/uploads/2024/08/673-400x266.jpg\" alt=\"Line Writing\">",
+    "after": "<img src=\"/wp-content/themes/imma/css/img/blank.gif\" class=\"lazy\" data-src=\"https://imma.ie/wp-content/uploads/2024/08/673-400x266.jpg\" alt=\"A large-scale light installation on a wooden floor in a minimalist gallery space.\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "e5f30d6df293",
+   "criterion": "1.3.1",
+   "level": "A",
+   "source": "rule",
+   "ref": "#sign-up-input",
+   "target": "#sign-up-input",
+   "message": "The label \"Join the Mailing List\" sits beside this field but is not tied to it: a screen reader announces the field as \"Email address\", without the label.",
+   "evidence": "<label>Join the Mailing List</label>",
+   "subject": "Join the Mailing List",
+   "patch": {
+    "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(2) > form > label",
+    "kind": "set-attribute",
+    "attribute": "for",
+    "to": "sign-up-input",
+    "before": "<label>",
+    "after": "<label for=\"sign-up-input\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/orphan-label",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
+   "html": "<input type=\"email\" name=\"email\" placeholder=\"Email address\" id=\"sign-up-input\" aria-label=\"Email address\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "7849efcc6d4d",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#sign-up-input",
+   "message": "The field \"Email address\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "Email address",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#sign-up-input",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input type=\"email\" name=\"email\" placeholder=\"Email address\" id=\"sign-up-input\" aria-label=\"Email address\">",
+    "after": "<input type=\"email\" name=\"email\" placeholder=\"Email address\" id=\"sign-up-input\" aria-label=\"Email address\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "aef08b73170f",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#wrapper > div:nth-of-type(17) > div > div:nth-of-type(1) > div:nth-of-type(2) > a > div:nth-of-type(2) > div:nth-of-type(1)",
+   "target": "#wrapper > div:nth-of-type(17) > div > div:nth-of-type(1) > div:nth-of-type(2) > a > div:nth-of-type(2) > div:nth-of-type(1)",
+   "message": "The text \"19 Nov 2026 - 4 July 2027\" has at most 4.07:1 contrast with what is behind it (#ffffff on #92c764…#897e4e), measured from pixels because axe-core could not decide (an element over or under it). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #b4895f; #92c764…#897e4e · 4.07:1 at best, 1.99:1 at worst · 18px, 700",
+   "subject": "19 Nov 2026 - 4 July 2027",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<div class=\"banner_timedate\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "18bcd14908d2",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#menu-item-85068 > a",
+   "target": "#menu-item-85068 > a",
+   "message": "\"Gaeilge\" is in Irish, but it inherits the page's language (en-IE): a screen reader mispronounces the language's name. Add lang=\"ga\" to the link.",
+   "evidence": "Gaeilge",
+   "subject": "Gaeilge",
+   "patch": {
+    "ref": "#menu-item-85068 > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "ga",
+    "before": "<a href=\"https://imma.ie/ga/baile/\">",
+    "after": "<a href=\"https://imma.ie/ga/baile/\" lang=\"ga\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"https://imma.ie/ga/baile/\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "cf90feece589",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#menu-item-24814 > a",
+   "target": "#menu-item-24814 > a",
+   "message": "\"Gaeilge\" is in Irish, but it inherits the page's language (en-IE): a screen reader mispronounces the language's name. Add lang=\"ga\" to the link.",
+   "evidence": "Gaeilge",
+   "subject": "Gaeilge",
+   "patch": {
+    "ref": "#menu-item-24814 > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "ga",
+    "before": "<a href=\"https://imma.ie/ga/\">",
+    "after": "<a href=\"https://imma.ie/ga/\" lang=\"ga\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"https://imma.ie/ga/\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "9f3d4fa2dd17",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#menu-mega-nav-1 > li:nth-of-type(1) > ul > li:nth-of-type(8) > a",
+   "target": "#menu-mega-nav-1 > li:nth-of-type(1) > ul > li:nth-of-type(8) > a",
+   "message": "\"Gaeilge\" is in Irish, but it inherits the page's language (en-IE): a screen reader mispronounces the language's name. Add lang=\"ga\" to the link.",
+   "evidence": "Gaeilge",
+   "subject": "Gaeilge",
+   "patch": {
+    "ref": "#menu-mega-nav-1 > li:nth-of-type(1) > ul > li:nth-of-type(8) > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "ga",
+    "before": "<a href=\"https://imma.ie/ga/\" tabindex=\"-1\">",
+    "after": "<a href=\"https://imma.ie/ga/\" tabindex=\"-1\" lang=\"ga\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"https://imma.ie/ga/\" tabindex=\"-1\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "3bb1803c0b38",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#menu-top-right-1 > li:nth-of-type(5) > a",
+   "target": "#menu-top-right-1 > li:nth-of-type(5) > a",
+   "message": "\"Gaeilge\" is in Irish, but it inherits the page's language (en-IE): a screen reader mispronounces the language's name. Add lang=\"ga\" to the link.",
+   "evidence": "Gaeilge",
+   "subject": "Gaeilge",
+   "patch": {
+    "ref": "#menu-top-right-1 > li:nth-of-type(5) > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "ga",
+    "before": "<a href=\"https://imma.ie/ga/baile/\" tabindex=\"-1\">",
+    "after": "<a href=\"https://imma.ie/ga/baile/\" tabindex=\"-1\" lang=\"ga\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"https://imma.ie/ga/baile/\" tabindex=\"-1\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "772a98694a16",
+   "criterion": "3.3.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#search_autocomplete",
+   "target": "#search_autocomplete",
+   "message": "Nothing on screen says what to enter in this field: its name is in aria-label, which only screen readers get (\"Search\"), and no text, button or legend sits near it.",
+   "evidence": "<input class=\"search_autocomplete\" type=\"text\" value=\"\" name=\"q\" id=\"search_autocomplete\" autocomplete=\"off\" data-swplive=\"true\" aria-label=\"Search\">",
+   "subject": "Search",
+   "patch": {
+    "ref": "#search_autocomplete",
+    "kind": "replace-element",
+    "to": "Search",
+    "before": "<input class=\"search_autocomplete\" type=\"text\" value=\"\" name=\"q\" id=\"search_autocomplete\" autocomplete=\"off\" data-swplive=\"true\" aria-label=\"Search\">",
+    "after": "<label for=\"search_autocomplete\">Search</label> <input class=\"search_autocomplete\" type=\"text\" value=\"\" name=\"q\" id=\"search_autocomplete\" autocomplete=\"off\" data-swplive=\"true\" aria-label=\"Search\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/no-visible-label",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/labels-or-instructions.html",
+   "html": "<input class=\"search_autocomplete\" type=\"text\" value=\"\" name=\"q\" id=\"search_autocomplete\" autocomplete=\"off\" data-swplive=\"true\" aria-label=\"Search\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 10
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 10,
+   "members": [
+    "6fda147f7ccc",
+    "96ef8b373f13",
+    "167d2ff62764",
+    "0444308e734d",
+    "6c4dc26b47c2",
+    "8311553036e1",
+    "6c0d71259ea4",
+    "44bf12dee7b4",
+    "3ec3342a6078",
+    "79bb7399923c"
+   ],
+   "example": "6fda147f7ccc"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-item-24811 > a",
+   "message": "The link text \"VISIT\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Visitor Information\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#search_autocomplete",
+   "message": "The label \"Search\" does not say what to enter.",
+   "evidence": "The model suggests: \"Search site content\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#wrapper > div:nth-of-type(5) > div:nth-of-type(1) > a > h1",
+   "message": "The heading \"IMMA\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"IMMA Gallery\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#search_autocomplete_mega_nav",
+   "message": "The label \"Search\" does not say what to enter.",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#tag-default",
+   "message": "The label \"Any\" does not say what to enter.",
+   "evidence": "The model suggests: \"Select a tag\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#tag-family",
+   "message": "The label \"Families\" does not say what to enter.",
+   "evidence": "The model suggests: \"Select a family category\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#tag-children",
+   "message": "The label \"Children\" does not say what to enter.",
+   "evidence": "The model suggests: \"Children's content\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#tag-teens",
+   "message": "The label \"Teens\" does not say what to enter.",
+   "evidence": "The model suggests: \"Teens tag\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#tag-groups",
+   "message": "The label \"Groups\" does not say what to enter.",
+   "evidence": "The model suggests: \"Select a group\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#tag-individuals",
+   "message": "The label \"Individuals\" does not say what to enter.",
+   "evidence": "The model suggests: \"Select 'Individuals' tag\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#tag-students",
+   "message": "The label \"Students\" does not say what to enter.",
+   "evidence": "The model suggests: \"Select 'Students' tag\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#explore-imma > div:nth-of-type(3) > div > div > div:nth-of-type(4) > a > h3",
+   "message": "The heading \"IMMA HORIZONS\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"IMMA Horizons Exhibition\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 9,
+   "judged": 9,
+   "failed": 3,
+   "passed": 6,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 1,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 274,
+   "judged": 50,
+   "failed": 0,
+   "passed": 49,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 224,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 66,
+   "judged": 50,
+   "failed": 0,
+   "passed": 39,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 16,
+   "suggested": 11
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "29 image(s) were left without a capture, so no judgment looked at them: 4 outside the page (an off-canvas menu); 7 cut off by the box that holds it; 5 transparent where it sits; 13 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 224 of 274 for 2.4.4, 16 of 66 for 2.4.6. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 115,
+  "inputTokens": 105231,
+  "outputTokens": 8821,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 281,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 26
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 9,
+    "prepareMs": 0,
+    "candidates": 9,
+    "judged": 9,
+    "calls": 0,
+    "cachedCalls": 9
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 0,
+    "cachedCalls": 3
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 47,
+    "prepareMs": 0,
+    "candidates": 274,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 11,
+    "prepareMs": 0,
+    "candidates": 66,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 122,
+    "prepareMs": 120,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 29,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 0,
+    "cachedCalls": 2
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   }
+  ],
+  "otherMs": 32
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 9,
+   "notCaptured": 29,
+   "reasons": {
+    "outside-page": 4,
+    "clipped": 7,
+    "not-shown": 5,
+    "limit": 13
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 274,
+    "capped": 224
+   },
+   {
+    "criterion": "2.4.6",
+    "candidates": 66,
+    "capped": 16
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

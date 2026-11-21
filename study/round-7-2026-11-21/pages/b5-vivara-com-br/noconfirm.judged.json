@@ -1,0 +1,574 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.vivara.com.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "4e6369c75a72",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#__next > section:nth-of-type(1) > header > div:nth-of-type(1) > section > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > button > div > span:nth-of-type(1) > svg",
+   "message": "The text alternative \"Accessibility icon\" names a label, not what the image conveys here.",
+   "evidence": "Accessibility icon",
+   "subject": "Accessibility icon",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#__next > section:nth-of-type(1) > header > div:nth-of-type(1) > section > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > button > div > span:nth-of-type(1) > svg",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "Accessibility icon",
+    "to": "Acessibilidade"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "dafe5c823dc7",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#__next > section:nth-of-type(2) > div > div > a > img",
+   "message": "The text alternative \"Campanha Natal Fashion\" is all its link holds, and does not say where the link leads.",
+   "evidence": "Campanha Natal Fashion",
+   "subject": "Campanha Natal Fashion",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "#__next > section:nth-of-type(2) > div > div > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Campanha Natal Fashion",
+    "to": "Campanha Vivara com Gisele Bündchen: Feita no Brasil, com alma brasileira",
+    "before": "<img data-fs-image=\"true\" alt=\"Campanha Natal Fashion\" fetchpriority=\"high\" loading=\"eager\" width=\"1920\" height=\"1080\" decoding=\"async\" data-nimg=\"1\" src=\"https://lojavivarafsv3.vtexassets.com/assets/vtex.file-manager-graphql/images/49a5ef15-5551-453e-8550-a3038f8ab25d___7fc20b1e036c6b0f78042c6314ea3eb8.jpg\" style=\"color: transparent; width: 100%; aspect-ratio: 2560 / 650;\">",
+    "after": "<img data-fs-image=\"true\" alt=\"Campanha Vivara com Gisele Bündchen: Feita no Brasil, com alma brasileira\" fetchpriority=\"high\" loading=\"eager\" width=\"1920\" height=\"1080\" decoding=\"async\" data-nimg=\"1\" src=\"https://lojavivarafsv3.vtexassets.com/assets/vtex.file-manager-graphql/images/49a5ef15-5551-453e-8550-a3038f8ab25d___7fc20b1e036c6b0f78042c6314ea3eb8.jpg\" style=\"color: transparent; width: 100%; aspect-ratio: 2560 / 650;\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "cd21633687dd",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#__next > section:nth-of-type(3) > div > div > a > img",
+   "message": "The text alternative \"sale\" is all its link holds, and does not say where the link leads.",
+   "evidence": "sale",
+   "subject": "sale",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "#__next > section:nth-of-type(3) > div > div > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "sale",
+    "to": "Black Friday Vivara: Até 50% off",
+    "before": "<img data-fs-image=\"true\" alt=\"sale\" fetchpriority=\"high\" loading=\"eager\" width=\"1920\" height=\"1080\" decoding=\"async\" data-nimg=\"1\" style=\"color:transparent;width:100%;aspect-ratio:2560 / 150\" src=\"https://lojavivarafsv3.vtexassets.com/assets/vtex.file-manager-graphql/images/ad31f1cd-8c2f-400f-8167-26f3899a60d5___c74f85359291b3bf767c36f6ec381020.jpg\">",
+    "after": "<img data-fs-image=\"true\" alt=\"Black Friday Vivara: Até 50% off\" fetchpriority=\"high\" loading=\"eager\" width=\"1920\" height=\"1080\" decoding=\"async\" data-nimg=\"1\" style=\"color:transparent;width:100%;aspect-ratio:2560 / 150\" src=\"https://lojavivarafsv3.vtexassets.com/assets/vtex.file-manager-graphql/images/ad31f1cd-8c2f-400f-8167-26f3899a60d5___c74f85359291b3bf767c36f6ec381020.jpg\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "8564690877b9",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#custom-newsletter-form > div > input:nth-of-type(1)",
+   "message": "The field \"E-MAIL\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "E-MAIL",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#custom-newsletter-form > div > input:nth-of-type(1)",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input data-fs-input=\"true\" data-testid=\"fs-input\" type=\"email\" required=\"\" class=\"emailField\" placeholder=\"E-MAIL\">",
+    "after": "<input data-fs-input=\"true\" data-testid=\"fs-input\" type=\"email\" required=\"\" class=\"emailField\" placeholder=\"E-MAIL\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "73731ad7c4d6",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#regionalization-cep",
+   "target": "#regionalization-cep",
+   "message": "The browser exposes this element as a textbox but computes no name for it: a screen reader announces only \"textbox\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role textbox · name \"\"",
+   "subject": "textbox",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<input data-fs-input=\"true\" data-testid=\"fs-input\" id=\"regionalization-cep\" type=\"tel\" placeholder=\"Informar um CEP\" data-fs-regionalization-form-input-cep=\"true\" data-fs-regionalization-form-input-cep-error=\"false\" inputmode=\"numeric\" name=\"regionalization-cep\" value=\"\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 54
+ },
+ "groups": [
+  {
+   "id": "g-808556be00fa",
+   "list": "findings",
+   "criterion": "1.3.1",
+   "level": "A",
+   "source": "engine",
+   "check": "aria-required-parent",
+   "count": 8,
+   "members": [
+    "5d407093ff88",
+    "bb273a6c3766",
+    "ad63aa2eaabd",
+    "4dc67cf3719b",
+    "3f3ad1955cbc",
+    "0b3681f224bd",
+    "444156cafe41",
+    "30da7f172d33"
+   ],
+   "example": "5d407093ff88"
+  },
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 22,
+   "members": [
+    "768a42d03747",
+    "25294e328924",
+    "1fccc7151d97",
+    "095b8a1cb093",
+    "539134480bd6",
+    "4c2d96dba34d",
+    "ac8458036d66",
+    "cd6a35e39e2f",
+    "7aeca1cd64a7",
+    "ba32e30d44c8",
+    "c135e9bd094c",
+    "07deffa15bad",
+    "e91ab7269c5e",
+    "943e79ef309b",
+    "d51d2e3cc48d",
+    "346943b19adf",
+    "34b8a47c2fe8",
+    "58831128776d",
+    "d982d2a68e02",
+    "fed9d64776d2",
+    "a0c5408d4976",
+    "648156a5a9fe"
+   ],
+   "example": "768a42d03747"
+  },
+  {
+   "id": "g-caa6eccc5028",
+   "list": "findings",
+   "criterion": "2.5.3",
+   "level": "A",
+   "source": "engine",
+   "check": "label-content-name-mismatch",
+   "count": 9,
+   "members": [
+    "10af7fb3446f",
+    "af2747c7b1e8",
+    "8ac84819edd7",
+    "5fc946f8a41b",
+    "4c707a0ed745",
+    "3338fa776298",
+    "3e304e7c5114",
+    "989f5eb21497",
+    "46d26fe654f9"
+   ],
+   "example": "10af7fb3446f"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#__next > section:nth-of-type(5) > div > div:nth-of-type(2) > a:nth-of-type(3)",
+   "message": "The link text \"MONTE SEU PORTA-JOIAS\" does not match where the link leads: a page titled \"Joias Essenciais: Clássicos Atemporais em Ouro, Prata e Diamantes | Vivara\".",
+   "evidence": "The model suggests: \"Confira a Coleção Joias Essenciais\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#__next > section:nth-of-type(9) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > h3",
+   "message": "The heading \"JOIAS VIVARA\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"Produtos Vivara\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#__next > section:nth-of-type(9) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > h3",
+   "message": "The heading \"LIFE\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Estilo de Vida\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#__next > section:nth-of-type(9) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(5) > h3",
+   "message": "The heading \"INFORMAÇÕES\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Informações Institucionais\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#__next > section:nth-of-type(1) > header > div:nth-of-type(1) > section > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > a > svg",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Life logo",
+    "problem": "missing_information",
+    "imageShows": "O logotipo da marca Vivara Life em branco sobre um fundo preto.",
+    "suggestedAlt": "Vivara Life",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#__next > section:nth-of-type(4) > div > nav > div > div > div > div:nth-of-type(7) > div > div > button > a > img",
+   "reason": "the alternative's words are all in the text next to the image",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Imagem de Anéis e Alianças",
+    "problem": "wrong_content",
+    "imageShows": "Um anel de ouro com uma faixa larga cravejada de pequenos diamantes.",
+    "suggestedAlt": "Anel de ouro com diamantes",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#__next > section:nth-of-type(4) > div > nav > div > div > div > div:nth-of-type(8) > div > div > button > a > img",
+   "reason": "the alternative's words are all in the text next to the image",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Imagem de Brincos",
+    "problem": "wrong_content",
+    "imageShows": "Um par de brincos de ouro com detalhes em pedras brilhantes.",
+    "suggestedAlt": "Brincos de ouro com pedras brilhantes",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#__next > section:nth-of-type(4) > div > nav > div > div > div > div:nth-of-type(9) > div > div > button > a > img",
+   "reason": "the alternative's words are all in the text next to the image",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Imagem de Colares",
+    "problem": "wrong_content",
+    "imageShows": "Um colar de ouro com uma parte frontal cravejada de pedras brilhantes.",
+    "suggestedAlt": "Colar de ouro com detalhe cravejado",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#__next > section:nth-of-type(4) > div > nav > div > div > div > div:nth-of-type(10) > div > div > button > a > img",
+   "reason": "the alternative's words are all in the text next to the image",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Imagem de Pingentes",
+    "problem": "wrong_content",
+    "imageShows": "Um colar de ouro com um pingente oval cravejado de pedras brilhantes.",
+    "suggestedAlt": "Colar de ouro com pingente oval cravejado de pedras",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 9,
+   "judged": 9,
+   "failed": 3,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 5,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 4,
+   "judged": 4,
+   "failed": 1,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 90,
+   "judged": 50,
+   "failed": 0,
+   "passed": 49,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 40,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 27,
+   "judged": 27,
+   "failed": 0,
+   "passed": 24,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 3
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "A layer lay over the viewport when the page was read (div, on top at 89% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #neoassist-widget-frame-1 (loaded-late, https://cdn.atendimen.to/widget/fa14941f1190f094d23ff2bd9bfde4fe/current?v=202604).",
+  "79 image(s) were left without a capture, so no judgment looked at them: 4 outside the page (an off-canvas menu); 4 still loading after the wait; 71 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 40 of 90 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 90,
+  "inputTokens": 85959,
+  "outputTokens": 9147,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 273,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 40
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 13,
+    "prepareMs": 0,
+    "candidates": 9,
+    "judged": 9,
+    "calls": 0,
+    "cachedCalls": 9
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 4,
+    "prepareMs": 0,
+    "candidates": 4,
+    "judged": 4,
+    "calls": 0,
+    "cachedCalls": 4
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 19,
+    "prepareMs": 0,
+    "candidates": 90,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 10,
+    "prepareMs": 0,
+    "candidates": 27,
+    "judged": 27,
+    "calls": 0,
+    "cachedCalls": 27
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 143,
+    "prepareMs": 140,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 6,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 34
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "overlay": {
+   "selector": "div",
+   "coverage": 0.89,
+   "hidden": true
+  },
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 17,
+   "notCaptured": 79,
+   "reasons": {
+    "outside-page": 4,
+    "not-loaded": 4,
+    "limit": 71
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 90,
+    "capped": 40
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#neoassist-widget-frame-1",
+     "url": "https://cdn.atendimen.to/widget/fa14941f1190f094d23ff2bd9bfde4fe/current?v=202604",
+     "collected": false,
+     "reason": "loaded-late",
+     "engine": true
+    }
+   ],
+   "overlay": {
+    "ref": "html > body > div:nth-of-type(2)",
+    "selector": "div",
+    "coverage": 0.89,
+    "hidden": true
+   }
+  }
+ }
+}

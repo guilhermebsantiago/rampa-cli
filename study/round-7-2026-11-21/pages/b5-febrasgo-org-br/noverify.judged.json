@@ -1,0 +1,400 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.febrasgo.org.br/noticia/cancer-na-infancia-pode-deixar-marcas-na-fertilidade-e-essa-conversa-precisa-comecar-no-diagnostico/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "1b8534319c86",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#page-noticia > div > article > section:nth-of-type(2) > div > div > div > div:nth-of-type(5) > article > div > img",
+   "message": "This image is hidden from screen readers (inside aria-hidden=\"true\"), but it conveys what the text around it does not say: \"The image shows '2026 A DA' and two men.\".",
+   "evidence": "The image shows '2026 A DA' and two men.",
+   "subject": "hidden WhatsApp-Image-2026-11-13-at-10.37.26.jpeg",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "842081d282ba",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#privacy > div > div:nth-of-type(2) > div",
+   "target": "#privacy > div > div:nth-of-type(2) > div",
+   "message": "This element (\"Aceitar e continuar no site\") listens to click, so it works as a control, but the browser exposes it as generic, with no control role: a screen reader does not announce it as a button or a link (F59). Use the native element (button, a) or give it the role of the control it is.",
+   "evidence": "role generic · click · \"Aceitar e continuar no site\"",
+   "subject": "generic click",
+   "confidence": "low",
+   "ruleId": "rampa/custom-control",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F59",
+   "html": "<div class=\"btn aceito\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "fbf238ce71b1",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#btn-flutuante-contato > div",
+   "target": "#btn-flutuante-contato > div",
+   "message": "This element listens to click, so it works as a control, but the browser exposes it as generic, with no control role: a screen reader does not announce it as a button or a link (F59). Use the native element (button, a) or give it the role of the control it is.",
+   "evidence": "role generic · click",
+   "subject": "generic click",
+   "confidence": "low",
+   "ruleId": "rampa/custom-control",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F59",
+   "html": "<div class=\"btn-flutuante\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 15
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 6,
+   "members": [
+    "24f8cecf01d2",
+    "a70093eae51b",
+    "5dae1f0a46b0",
+    "5551e3b06d3b",
+    "f6688a835cc4",
+    "9ec1638a95de"
+   ],
+   "example": "24f8cecf01d2"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#mainNav > ul > li:nth-of-type(2) > a",
+   "message": "The link text \"Ensino\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Página de Ensino\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#mainNav > ul > li:nth-of-type(7) > a",
+   "message": "The link text \"Social\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Redes Sociais\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(3) > ul:nth-of-type(2) > li:nth-of-type(4) > a",
+   "message": "The link text \"TPI\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Teste de Progresso Individual (TPI)\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(4) > ul:nth-of-type(1) > li:nth-of-type(2) > a",
+   "message": "The link text \"Feito para ela\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Página inicial da FEBRASGO\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(2)",
+   "message": "The link text \"Termos de Uso\" does not match where the link leads: a page titled \"Política de privacidade | Febrasgo\".",
+   "evidence": "The model suggests: \"Política de Privacidade\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(3)",
+   "message": "The link text \"Cookies\" does not match where the link leads: a page titled \"Política de privacidade | Febrasgo\".",
+   "evidence": "The model suggests: \"Política de Cookies\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(4)",
+   "message": "The link text \"Acessibilidade\" does not match where the link leads: a page titled \"Política de privacidade | Febrasgo\".",
+   "evidence": "The model suggests: \"Acessibilidade\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#privacy > div > div:nth-of-type(1) > p > a:nth-of-type(1)",
+   "message": "The link text \"Para otimizar sua experiência durante a navegação, fazemos uso de cookies. Ao continuar no site consideramos que você está de acordo com a nossa\" does not match where the link leads: a page titled \"Política de privacidade | Febrasgo\".",
+   "evidence": "The model suggests: \"Política de Privacidade\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#page-noticia > div > article > section:nth-of-type(2) > div > div > div > div:nth-of-type(5) > article > div > img",
+   "reason": "the words drawn in the image are in the text around it",
+   "output": {
+    "imageShows": "Two men standing in front of a large blue sign that reads '2026' and 'A DA'.",
+    "textInImage": "2026 A DA",
+    "verdict": "fail",
+    "evidence": "The image shows '2026 A DA' and two men.",
+    "suggestedAlt": "Dois homens em frente a um letreiro azul com o texto '2026 A DA'.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(4)",
+   "reason": "suggested text equals the current one",
+   "output": {
+    "promises": "A link text 'Acessibilidade' (Accessibility) suggests it leads to an accessibility statement or information. However, the address leads to the Privacy Policy.",
+    "leadsTo": "Política de privacidade (Privacy Policy)",
+    "verdict": "fail",
+    "evidence": "Acessibilidade",
+    "problem": "mismatch",
+    "suggestedText": "Acessibilidade",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 17,
+   "judged": 17,
+   "failed": 0,
+   "passed": 16,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 50,
+   "judged": 50,
+   "failed": 0,
+   "passed": 42,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 8
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 15,
+   "judged": 15,
+   "failed": 0,
+   "passed": 15,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Verification was off (--no-verify): model claims whose quoted evidence is not on the page are reported as if it were. This run is for measurement only.",
+  "8 image(s) were left without a capture, so no judgment looked at them: 8 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 83,
+  "inputTokens": 80031,
+  "outputTokens": 8049,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 243,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 16
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 19,
+    "prepareMs": 0,
+    "candidates": 17,
+    "judged": 17,
+    "calls": 0,
+    "cachedCalls": 17
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 14,
+    "prepareMs": 0,
+    "candidates": 50,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 5,
+    "prepareMs": 0,
+    "candidates": 15,
+    "judged": 15,
+    "calls": 0,
+    "cachedCalls": 15
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 137,
+    "prepareMs": 134,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 26,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 24
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 25,
+   "notCaptured": 8,
+   "reasons": {
+    "limit": 8
+   }
+  }
+ },
+ "coverage": {
+  "reach": null
+ }
+}

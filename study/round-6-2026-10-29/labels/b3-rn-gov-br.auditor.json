@@ -1,0 +1,27 @@
+{
+  "page": "https://www.rn.gov.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "c5e5ae997b8a",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Seguir no Instagram\" button-styled link in the Instagram card's footer: white text, 14px (btn-sm), weight 600, so not large text and 4.5:1 applies. I sampled the screenshot inside its bounds: the background runs from about #ea4665 (3.78:1 with white) to #fa5775 (3.1:1) behind the glyphs, which matches the claim; even the darkest corner pixel (#e54160) only reaches 4.0:1. The live main.css sets the button's background to linear-gradient(45deg, #E4405F, #FD5B78) with color #fff, and #E4405F, the darkest stop, gives only about 4.0:1, so no part of the text reaches 4.5:1 on the page users receive. The live HTML and CSS match the capture, and the screenshot is fully styled (Montserrat, layout), so captureDiffers is no. The site has an \"Alto Contraste\" mode (contrast.css recolors this button) behind the collapsed \"Ajuda\" menu. G174 would accept that only if the alternate version met every success criterion and the control were easy to find, and neither is shown, so the default presentation fails 1.4.3. The claim names exactly this failure."
+    },
+    {
+      "fingerprint": "9d8b4587740c",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the h6 \"Instagram\" in the Instagram card header: white text, 16px, weight 600, so not large text and 4.5:1 applies. Pixel samples across its bounds go from #ed4a68 (3.63:1) at the left to #f95674 (3.18:1) at the right, which matches the claim's range and maximum. The live main.css gives .social-widget-header-instagram the background linear-gradient(45deg, #E4405F, #FD5B78, #FFDC7D) (class text-white), and its darkest stop only reaches about 4.0:1 with white, so the heading text is below 4.5:1 wherever it sits on the page users receive. The live markup and CSS match the capture, and the screenshot is styled, so captureDiffers is no. As with the button, the hidden \"Alto Contraste\" toggle does not show a fully conforming alternate version (G174), so the default presentation fails 1.4.3. The claim names this failure."
+    },
+    {
+      "fingerprint": "s8c9ab00c498",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the top-bar link \"POLI\" (href https://www.poli.control.rn.gov.br), with no title, aria-label or aria-describedby. It is a bare anchor among sibling links in a div, not in a sentence, paragraph, list item or table cell. The heading before it in document order is \"Assédio Não!\" from a modal, which says nothing about it. So the claim is true of the capture: nothing programmatically tied to the link explains it. The destination's title shows POLI means \"Plataforma de Políticas Públicas e Inovação Cidadã\", but nothing on the page says so, and sighted users see only \"POLI\" too. The live HTML has the same markup, and the offcanvas and mobile copies add only an icon. Understanding 2.4.4's exception covers links whose purpose \"cannot be determined from the link and all information of the web page\", where the disabled user \"is not at a disadvantage\". On that literal reading the link meets 2.4.4: the text names the destination platform, and no more context exists for anyone. Many competent auditors would still fail a bare, unexplained acronym, holding that the exception is for links that are ambiguous on purpose, not for poor labels. Because of that real disagreement the label is uncertain, though my own reading leans to a pass."
+    }
+  ]
+}

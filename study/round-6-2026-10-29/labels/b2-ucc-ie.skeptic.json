@@ -1,0 +1,48 @@
+{
+  "page": "https://www.ucc.ie/en/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s6319a6d4ae9",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the footer h2 'Bring me to', inside a collapse-toggle link (href #footer2). It heads a column of five links to the site's main sections: Study, Research and Innovation, Discover UCC, Business and Industry Engagement and Advancement, the same items as the main menu. 2.4.6 asks a heading to describe the topic or purpose of its section, and Understanding 2.4.6 says headings need not be long. 'Bring me to' states the purpose of the block, which is navigation to these places, so the claim that it says nothing about the content under it is not true of the capture. The live HTML has the same heading and list, and the screenshot shows the column with its links, so the capture does not differ. The checker held the heading to a stricter rule (naming the destinations' topic) than the criterion's 'topic or purpose'. The heading is terse, but it describes its section."
+    },
+    {
+      "fingerprint": "s3b5e81bc55c",
+      "answers": { "claimTrue": "yes", "elementFails": "cannot_tell", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the footer h2 'Show me', inside a collapse-toggle link (href #footer4). It heads a column of links to Sitemap, Legal, Report Abuse, Privacy, Cookies, Acceptable Use Policy, Accessibility Statement and Report an issue with the website. Unlike 'Bring me to', which states a purpose (navigation), 'Show me' on its own names neither the column's topic (legal, policy and site information) nor a clear purpose. A user moving by headings hears only 'Show me', so the claim holds for the capture. The case for a pass: it starts a sentence that each link completes ('Show me Privacy'), the same pattern as its sibling column, Understanding 2.4.6 allows very short headings, and no documented failure covers a vague heading of this kind. Whether that is enough is a judgment that competent auditors would split on, so the label is uncertain. The live HTML has the same heading and list, and the screenshot shows the column, so the capture does not differ."
+    },
+    {
+      "fingerprint": "sbfeaeabb61f",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the page's only h1, hidden visually with class sr-only but exposed to assistive technology, on the university's home page. Everything under it (the research slideshow, news, courses, contact block and footer) is about University College Cork. Naming the institution therefore describes the topic of the page, which is what 2.4.6 asks of the top heading of a home page. The next heading is 'Discover our Research', a section about UCC's research, so the claim that the h1 says nothing about the content under it does not hold in the capture. The live HTML has the same <h1 class=\"sr-only\">UCC University College Cork</h1> just before the slideshow, so the capture does not differ. The checker had the heading and the content after it and judged wrongly."
+    },
+    {
+      "fingerprint": "3ea565d0a50f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the logo image in the header of the Cookiebot consent banner (id CybotCookiebotDialogPoweredbyImage). The packet crop and the banner at the foot of the screenshot show it as the UCC crest with the text 'UCC, Coláiste na hOllscoile Corcaigh, University College Cork'. Its alt is 'logo', the generic text set in the site's Cookiebot configuration: the live cc.js for this site still sets logoAltText = 'logo'. That alt names the kind of image, not whose logo it is or the text it shows, so it is a placeholder in the sense of F30. I looked for a reason it passes and found none: the image is not inside a link, no other element labels it, and it is not aria-hidden. Even if it were judged decorative, the non-empty alt 'logo' would still fail (F38). It fails 1.1.1 either way, and the claim names the defect. The banner is a fixed overlay shown to visitors who have not yet given consent, as in the screenshot, so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "bcf5aba516a2",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "yes" },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the image of the first slideshow slide ('Discover our Research'), with the alt 'Graphic illustrating knowledge and investigation hovers above an open hand'. The full screenshot catches the fade into the next slide and shows a light-bulb graphic made of circuitry and network lines held above an open hand. That is what the alt says, so the claim that the alt describes something the image does not show is false. The crop the model saw is shifted about 175 px above the element's bounds: its top third is the survey banner and white space, and the bottom of the image, where the hand is, is cut off. That misaligned crop is the only ground for the claim, and on this point the capture differs from what users see (the whole image, with no banner over it). The live HTML has the same img and alt (with a desktop source for the same banner), and the alt describes the image, so the element meets 1.1.1."
+    },
+    {
+      "fingerprint": "82dac31bde1a",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "yes" },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the image of the second slideshow slide ('Cúrsaí Staidéir in COC'), with the alt 'A carved stone in front of a window in UCC's North Wing building'. The slick carousel marks the inactive slide aria-hidden='true' and the current one aria-hidden='false'. The image is therefore hidden only while its slide is not current, and is exposed with its alt when the slide comes round, so the first half of the claim holds in the capture but is ordinary carousel behaviour. The second half is false: the image shows Ogham stones in a stone corridor with leaded windows (screenshot and crop), not 'a banner with take the survey now! and options'. That text belongs to the separate UCC survey widget at the top of the page, which is exposed as real text. It appears in the crop only because the crop is shifted about 175 px above the element's bounds, a capture artefact that differs from what users see in that box. The live HTML has the same slide, img and alt. The element meets 1.1.1: its alt describes it, and it is hidden only while its slide is not shown."
+    }
+  ]
+}

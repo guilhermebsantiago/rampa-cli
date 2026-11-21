@@ -1,0 +1,59 @@
+{
+  "page": "https://www.to.gov.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s0fa2469cb73",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the fourth card of the last row of the 'Venha, Conheca o Tocantins' tourism grid: <a href=\"#\"> with a background image (/assets/img/visite7.jpg, a photo of fossils that repeats another card's image) and a span 'Bico do papagaio' that is invisible until hover or focus. It is one of three leftover placeholder cards with the same text and href=\"#\"; the real Bico do Papagaio card in the row above links to /bico-do-papagaio/188qs3gvjbwu. claimTrue: in the snapshot the link's href is '#', its list item holds only 'Bico do papagaio', and the nearest preceding heading is an unrelated news h4, so the sentence holds. The live page (fetched 2026-11-21) has the same hard-coded markup and the same CSS (portal.css: .visitegrid ul a .title{opacity:0}, shown only on hover or focus-visible), matching the styled screenshot, and no script attaches a handler to these anchors, so the capture does not differ. elementFails: activating the link only jumps to the top of the page, so its purpose cannot be determined from its text; the text names a destination the link does not have, and the same name is shared by three placeholders and the real Bico do Papagaio link, which Understanding 2.4.4 says links with different destinations should not do. The list item holds only the link text, there is no title or aria-describedby, and the nearest preceding heading is an unrelated news h4, so no programmatically determined context helps. The claim, that the text does not tell where the link goes and nothing around it does, names that defect, so the label is true_positive."
+    },
+    {
+      "fingerprint": "paf2ea7b8797",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the photo of a news carousel slide (a Splide clone of slide 2, not aria-hidden, same image and alt as the original): an aerial view of Palmas behind the headline 'Tocantins ocupa 3o lugar nacional...'. Its alt is word for word the slide's subtitle, which is also visible text inside the same link, so the link name reads the subtitle twice and nothing describes the photo; the article page uses the same sentence as the photo's caption. The live homepage has the same alt, so the capture does not differ. elementFails: the photo is generic illustration that adds nothing the story needs, and the link already carries its purpose in text, so I would log the redundant alt as a best-practice issue rather than a 1.1.1 failure. But competent auditors would reasonably disagree: one can treat the photo as informative (its alt does not describe it) or as decorative with a non-null alt (F39, H2). Hence uncertain."
+    },
+    {
+      "fingerprint": "s729ae644c6e",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the category tag 'Cidadania e Justica' (shown uppercase by CSS) on the second card of 'Ultimas noticias', linking to /noticias/225. claimTrue: the destination is titled 'Governo do Tocantins', but that is the site-wide title every listing page uses; the captured heading is 'Noticias', and the URL follows the same pattern as the other category tags (Educacao -> /noticias/232). So the mismatch the sentence asserts does not hold. Fetched live, /noticias/225 is a news list whose items are all tagged Cidadania e Justica, and the homepage tag is unchanged, so the capture does not differ. elementFails: the link text names the topic, and the link leads to the news on that topic, so its purpose can be determined from the link text alone, a common and understandable pattern for a category tag in a news list. It meets 2.4.4. The model had the destination heading and the news context, and judged from a generic page title. That is a model error: requiring the text to match the destination's title is not what the criterion asks."
+    },
+    {
+      "fingerprint": "p036cb4aa9aa",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the photo of the active first carousel slide ('No Dia da Consciencia Negra...'): a man and a woman dancing at night before a lit stone wall, with onlookers. Its alt, 'Manifestacoes culturais como a sussia preservam tradicoes afro-brasileiras e integram a identidade historica e cultural do Tocantins', names what the photo shows (a sussia dance, an Afro-Brazilian cultural tradition) and its role in the story. It does not repeat the headline or subtitle that are in the same link. That serves the equivalent purpose for an illustrative news photo, so the image meets 1.1.1, and Rampa was right to report nothing. The live homepage has the same image and alt, so the capture does not differ."
+    },
+    {
+      "fingerprint": "s44e9f34de0a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the second card of the last row of the 'Venha, Conheca o Tocantins' tourism grid: <a href=\"#\"> with a background image (/assets/img/visite2.jpg; the crop and the screenshot show a photographer in a boat, the same picture as the Cantao card) and a span 'Bico do papagaio' that is invisible until hover or focus. It is one of three leftover placeholder cards with the same text and href=\"#\"; the real Bico do Papagaio card in the row above links to /bico-do-papagaio/188qs3gvjbwu. claimTrue: in the snapshot the link's href is '#', its list item holds only 'Bico do papagaio', and the nearest preceding heading is an unrelated news h4, so the sentence holds. The live page (fetched 2026-11-21) has the same hard-coded markup and the same CSS (portal.css: .visitegrid ul a .title{opacity:0}, shown only on hover or focus-visible), matching the styled screenshot, and no script attaches a handler to these anchors, so the capture does not differ. elementFails: activating the link only jumps to the top of the page, so its purpose cannot be determined from its text; the text names a destination the link does not have, and the same name is shared by three placeholders and the real Bico do Papagaio link, which Understanding 2.4.4 says links with different destinations should not do. The list item holds only the link text, there is no title or aria-describedby, and the nearest preceding heading is an unrelated news h4, so no programmatically determined context helps. The claim, that the text does not tell where the link goes and nothing around it does, names that defect, so the label is true_positive."
+    }
+  ]
+}

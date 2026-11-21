@@ -1,0 +1,83 @@
+{
+  "page": "https://conecta.recife.pe.gov.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s2e0e244b297",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is a card link in the Destaques carousel whose only content is an image with alt and title \"Academia Recife\". The snapshot does hold 4 links with that name: three Owl Carousel copies pointing to /redirecionamento/servico/858, and one in \"Serviços mais acessados\" pointing to /redirecionamento/maisAcessado/858. The two hrefs are redirect routes for the same service 858, not two places. The readable pair for service 352 resolves to the same final URL (cadunico.recife.pe.gov.br) from both routes, and so does 458. Live, both 858 routes redirect to the sign-in-gated /acesso/ version of the same route. So the part about \"2 different places\" is false (claimTrue no). Links that share a text and lead to the same service meet 2.4.4. \"Academia Recife\" names the service the link opens, so elementFails is no. The live HTML has the same links, titles and hrefs, and Owl clones the carousel items client-side just as in the capture, so captureDiffers is no. Rampa could not read the destination behind the sign-in and compared URLs, so the cause is context_missing."
+    },
+    {
+      "fingerprint": "pbd932fae376",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the image that is the sole content of a carousel link (an Owl clone) to /redirecionamento/servico/1423, which resolves to agendamentodecoleta.recife.pe.gov.br (\"Agendamento de coleta\"). The crop shows a truck loaded with debris, the text \"Agendamento de Coleta\" and a woman holding a phone. The alt \"Coleta RCC e Volumosos\" (collection of construction debris and bulky waste) names the service the link opens. For an image that is a link's only content, the alt has to convey the link's purpose (H30), and it does that, more specifically than the image text. It is not a filename or placeholder (F30). It passes 1.1.1, so the label is false_positive (Rampa was right not to report it). The live HTML has the same src and alt, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "02d81ef3f48c",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the icon-only voice-search button (#buttonRec, title \"Microfone\") inside the search field. Pixels from the screenshot give a solid fill of #4f97ff on #ffffff, 2.92:1, and the live CSS sets exactly that (#buscaServicosCampo .btn-light-border{color:#4f97ff} on a white button). So the claim is true of the capture (claimTrue yes), and in the default presentation the icon misses 3:1 (no rounding). The skeptic's reason: Understanding 1.4.11 lists G174 (a sufficient-contrast control that switches to a sufficient-contrast presentation) for Situation A, color used to identify user interface components, and this icon is what identifies the control. The page has such a control. The \"Alto contraste\" link in the top bar is #f2f5f7 on #0062ea, about 4.9:1, with accesskey 5. Its presentation loads appAcessibilidade.css, where .header-banner #buscaServicosCampo .btn-light-border{color:#000} outranks the default rule, so the icon becomes black on white. Under G174 the button passes, so I lean elementFails no. Many auditors judge only the default presentation, though, and the finding itself cites G207 (Situation C), where G174 is not listed. Competent auditors would reasonably disagree, so the label is uncertain. The live page matches the capture, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "s01fb0528a74",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a carousel card link whose image alt and title are \"Plataforma Recife sem Racismo\". It goes to /redirecionamento/servico/845, which resolves to semracismo.recife.pe.gov.br/denrs/, titled \"Denuncia Racismo\". The destination's title is as captured, but saying the text \"does not match\" is false (claimTrue no). The host is semracismo, and the live destination page has a section headed \"Plataforma Recife Sem Racismo\" that describes the platform as the city's digital service for reporting racism. The link text names exactly where the link leads, and 2.4.4 does not require the text to repeat the destination's title. So elementFails is no. The live HTML has the same link, title and href, and the destination still has the same title, so captureDiffers is no. Rampa had the destination URL and title, both plainly consistent with the link text, and still judged a mismatch: model_error."
+    },
+    {
+      "fingerprint": "pf81d0051b35",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the image that is the sole content of a carousel link to /redirecionamento/servico/1240 (behind the city sign-in). The crop shows a mother and baby and the text \"Caderneta da Criança do Recife\". The alt \"caderneta da criança\" carries the image's text, apart from the redundant \"do Recife\", and names the service the link opens. So it serves the equivalent purpose under 1.1.1 (H30, H37), and elementFails is no. The live HTML has the same src and alt, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "p0df40fbd1b2",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is a carousel card link whose only content is an image with alt \"Conecta Patinhas\" and title \"Conecta Patinhas\". The page has no headings at all (\"Destaques\" is a styled <p>), so the link text and title are the only context. They are enough, because the text names the city service the link opens. Every link with this name goes to the same href, /redirecionamento/servico/1152, so the name is never ambiguous on the page. A program name that a user may not know is still a link purpose determinable from the text: the link opens that service. 2.4.4 is met, so elementFails is no and the label is false_positive (Rampa was right not to report it). The live HTML has the same link, title and alt, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "s2c5514a28ee",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the \"A\" link in the accessibility bar, between \"A+\" and \"A-\" (href \"#\", onclick standardZoom(), accesskey 7). Its text \"A\" is not self-explanatory, but the claim says nothing around it tells its purpose, and that part is false. The link has title=\"Zoom padrão\" (\"default zoom\"), which is its accessible description. This rubric counts that as context (H33), and it states the link's purpose exactly. So claimTrue is no and elementFails is no. The live HTML has the same markup and title, so captureDiffers is no. Rampa had the title in the element's attributes and ignored it: model_error. It is an action control marked up as a link, which could be raised under 4.1.2 but is not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "pcb298190ab2",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the same image as another carousel copy: the sole content of a link to /redirecionamento/servico/1423, which resolves to agendamentodecoleta.recife.pe.gov.br (\"Agendamento de coleta\"). The crop shows a debris truck, the text \"Agendamento de Coleta\" and a woman with a phone. The alt \"Coleta RCC e Volumosos\" names the collection service the link opens, which is what a link image's text alternative has to convey (H30). It is a meaningful alternative, not a placeholder. It passes 1.1.1, so elementFails is no. The live HTML has the same src and alt, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "p08a855832f5",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the image that is the sole content of a carousel link to /redirecionamento/servico/901 (behind sign-in; the same service is listed as \"Meus Registros de Saúde\" under most-accessed). The crop shows the \"Minha Saúde Conectada\" logo above large text, \"ACESSAR MEUS REGISTROS DE SAÚDE\", and a man with a phone. The alt \"Minha Saúde Conectada\" names the service the link opens, which meets H30's requirement that a link image's alternative convey the link's purpose. On that reading it passes, and I lean elementFails no. But the image's most prominent text, the call to action, is left out of the alt. Auditors who expect an image of text's alternative to carry its meaningful text would flag it, so competent auditors would reasonably disagree, and the label is uncertain. The live HTML has the same src and alt, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "s8b655f52ecf",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is an Owl Carousel clone of the \"Academia Recife\" card link (/redirecionamento/servico/858; image alt and title \"Academia Recife\"). Of the 4 links with that name, three go to /redirecionamento/servico/858 and one, in \"Serviços mais acessados\", goes to /redirecionamento/maisAcessado/858. These are two redirect routes to the same service 858. The readable pairs 352 and 458 resolve to identical final URLs from either route, and live, both 858 routes redirect to the gated /acesso/ version of the same route. So \"2 different places\" is false (claimTrue no). Same text for the same service meets 2.4.4, and the text names the service, so elementFails is no. The live HTML matches the capture, carousel cloning included, so captureDiffers is no. Rampa could not read past the sign-in and compared URLs: context_missing."
+    },
+    {
+      "fingerprint": "sc3472fd8a09",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a carousel clone of the \"Plataforma Recife sem Racismo\" card link (image alt and title as captured) to /redirecionamento/servico/845. That resolves to semracismo.recife.pe.gov.br/denrs/, titled \"Denuncia Racismo\". The live destination presents itself as the \"Plataforma Recife Sem Racismo\" (a section with that heading describes the platform) on the semracismo host. The link text matches its destination, so the claim of a mismatch is false (claimTrue no), and 2.4.4 is met (elementFails no). The live HTML and the destination are unchanged from the capture, so captureDiffers is no. Rampa had a title and URL consistent with the text and still judged a mismatch: model_error."
+    }
+  ]
+}

@@ -1,0 +1,399 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.wexfordopera.com/our-story/contact-us",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "8604e12eaff3",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#footer > div > div > div > div:nth-of-type(5) > div:nth-of-type(6) > figure > a > img",
+   "message": "The text alternative \"Safe to create\" is all its link holds, and does not say where the link leads.",
+   "evidence": "Safe to create",
+   "subject": "Safe to create",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "#footer > div > div > div > div:nth-of-type(5) > div:nth-of-type(6) > figure > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Safe to create",
+    "to": "Dignity at Work Policy",
+    "before": "<img class=\"logo logo-custom\" data-w1=\"desktop, img: 2669x2622, tform: 320x60, output: 61x60\" src=\"https://www.wexfordopera.com/content/logos/_640x120_fit_center-center_96_none_ns/ITI_S2C_WeSupport_Blk_FrameOnly_1080x1080px_300dpi.png?v=1793616190\" width=\"61\" height=\"60\" alt=\"Safe to create\">",
+    "after": "<img class=\"logo logo-custom\" data-w1=\"desktop, img: 2669x2622, tform: 320x60, output: 61x60\" src=\"https://www.wexfordopera.com/content/logos/_640x120_fit_center-center_96_none_ns/ITI_S2C_WeSupport_Blk_FrameOnly_1080x1080px_300dpi.png?v=1793616190\" width=\"61\" height=\"60\" alt=\"Dignity at Work Policy\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9982016136630143
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {},
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#footer > div > div > div > div:nth-of-type(2) > div > figure > a > img",
+   "message": "The text alternative \"Investors in Diversity Bronze\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"Irish Centre for Diversity\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.01), claim: yes (0.98), reversed: no (0.94))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#primary > li:nth-of-type(2) > a",
+   "message": "The link text \"Your visit\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Privacy Policy\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#primary > li:nth-of-type(5) > a",
+   "message": "The link text \"Our story\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Read our company story\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#footer > div > div > div > div:nth-of-type(5) > div:nth-of-type(1) > figure > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "The Arts Council Funding Opera Logo",
+    "problem": "missing_information",
+    "imageShows": "The Arts Council logo next to the text 'funding opera'.",
+    "suggestedAlt": "Arts Council of Ireland",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#footer > div > div > div > div:nth-of-type(5) > div:nth-of-type(3) > figure > a > img",
+   "reason": "suggested alternative only rewords the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Wexford County Council Logo",
+    "problem": "missing_information",
+    "imageShows": "The Wexford County Council logo featuring a stylized figure and text.",
+    "suggestedAlt": "Wexford County Council",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#footer > div > div > div > div:nth-of-type(5) > div:nth-of-type(4) > figure > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Irelands Ancient East Logo",
+    "problem": "missing_information",
+    "imageShows": "The logo for Ireland's Ancient East featuring a stylized double spiral and the tagline 'Wander Through Time'.",
+    "suggestedAlt": "Ireland's Ancient East",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#footer > div > div > div > div:nth-of-type(5) > div:nth-of-type(5) > figure > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Department of Culture, Communications and Sport Logo",
+    "problem": "missing_information",
+    "imageShows": "The logo of the Department of Culture, Communications and Sport, featuring a harp and text in Irish and English.",
+    "suggestedAlt": "Department of Culture, Communications and Sport",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#primary > li:nth-of-type(1) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Programmes & Tickets' suggests it leads to a page or section containing information about available programmes and ticket purchasing.",
+    "leadsTo": "The href is '#', which indicates a placeholder or a jump to the top of the current page.",
+    "verdict": "fail",
+    "evidence": "Programmes & Tickets",
+    "problem": "mismatch",
+    "suggestedText": "View Programmes & Tickets",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#primary > li:nth-of-type(4) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Wexford Factory' suggests it leads to a page or section about a factory in Wexford.",
+    "leadsTo": "The href is '#', which indicates a placeholder or a link to the current page.",
+    "verdict": "fail",
+    "evidence": "Wexford Factory",
+    "problem": "mismatch",
+    "suggestedText": "Wexford Factory page",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#footer > div > div > div > div:nth-of-type(7) > div:nth-of-type(1) > div:nth-of-type(2) > a:nth-of-type(1)",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'IT' suggests a language switch to Italian, but the destination is a specific page about the festival in Italian.",
+    "leadsTo": "A page titled 'Benvenuti al Festival dell’Opera di Wexford' (the Italian version of the festival's welcome page).",
+    "verdict": "fail",
+    "evidence": "IT",
+    "problem": "ambiguous",
+    "suggestedText": "Benvenuti al Festival dell’Opera di Wexford (Italian)",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#footer > div > div > div > div:nth-of-type(7) > div:nth-of-type(1) > div:nth-of-type(2) > a:nth-of-type(2)",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'FR' suggests a language switch to French, but the destination is a specific page about the festival in French.",
+    "leadsTo": "A page titled 'Bienvenue au Festival d’Opéra de Wexford' (Welcome to the Wexford Festival Opera) in French.",
+    "verdict": "fail",
+    "evidence": "<link>FR</link>",
+    "problem": "ambiguous",
+    "suggestedText": "Bienvenue au Festival d’Opéra de Wexford (French)",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 8,
+   "judged": 8,
+   "failed": 1,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 33,
+   "judged": 33,
+   "failed": 0,
+   "passed": 27,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 7,
+   "judged": 7,
+   "failed": 0,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 55,
+  "cachedCalls": 0,
+  "inputTokens": 50810,
+  "outputTokens": 4719,
+  "latencyMs": 153743
+ },
+ "timings": {
+  "totalMs": 81770,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 16
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 16978,
+    "prepareMs": 0,
+    "candidates": 8,
+    "judged": 8,
+    "calls": 14,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1347,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 54712,
+    "prepareMs": 0,
+    "candidates": 33,
+    "judged": 33,
+    "calls": 33,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 8516,
+    "prepareMs": 0,
+    "candidates": 7,
+    "judged": 7,
+    "calls": 7,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 173,
+    "prepareMs": 171,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 6,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 21
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 8,
+   "notCaptured": 0,
+   "reasons": {}
+  }
+ },
+ "coverage": {
+  "reach": null
+ }
+}

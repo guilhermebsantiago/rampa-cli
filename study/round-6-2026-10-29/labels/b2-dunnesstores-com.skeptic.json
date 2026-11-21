@@ -1,0 +1,136 @@
+{
+  "page": "https://www.dunnesstores.com/women",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "37c64d712559",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a 24px colour-swatch img (ONE-SIZE---Brown.jpg) with alt=\"swatch\". It is the only content of a focusable div role=\"button\" (SKU selector item), whose computed name is \"swatch\" (ax nameFrom contents), nested inside the product link for the Paul Costelloe brown faux fur hat. The claim is true of the capture. The button selects the colour variant, and the image shows a colour. \"swatch\" is a generic placeholder (cf. F30): it gives neither the colour nor the function, so the control's name does not describe its purpose (1.1.1 Situation C). Skeptic checks: the product name contains \"Brown\", so the colour itself is not lost here, but the focusable control is still named only \"swatch\". The slide is aria-hidden=\"false\" and visible in the screenshot. Requiring a purpose-describing name is WCAG's own rule, not a stricter one. The nested-interactive structure is a separate 4.1.2 concern. The claim names the real failure. The product shelf is rendered client-side, so my fetch of the live page did not show these exact products, but the live page state still configures the SKU selector with thumbnailImage \"swatch\" and gives swatch images the label \"swatch\", and the screenshot is a fully styled render; nothing suggests users get a different name."
+    },
+    {
+      "fingerprint": "p93358b4c386",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The element is the 20px Irish flag (flagIE.svg) in the header country selector, alt=\"Ireland\", next to the text \"IE (€)\". The crop shows the Irish tricolour, and \"Ireland\" is a short text alternative that serves the same purpose (G94/H37). The image does not fail 1.1.1. The live page's country-selector state (name 'Ireland', flag flagIE.svg) matches the capture. Whether the selector is operable by keyboard would be 2.1.1/4.1.2, not 1.1.1."
+    },
+    {
+      "fingerprint": "3ac5f222b2e4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a category-tile image whose link to /women/clothing/jumpers-and-cardigans holds only this img. Its alt is a long visual description (a woman and girl in matching burgundy sweaters). The claim is true of the capture: the link holds nothing else, and the alt does not name the destination. But both the a and the img carry title=\"Jumpers & Cardigans\", which the browser exposes as the accessible description (the snapshot's ax data shows description \"Jumpers & Cardigans\"). That text is programmatically associated with the image, so screen readers announce the category with the link. A visible text link \"Jumpers & Cardigans\" to the same URL sits directly below the image. My lean is that the image's text alternatives together identify the link's purpose, so it does not fail 1.1.1. Still, Situation C (G82/H30) asks for a text alternative that identifies the purpose, and the accessible name used in link lists and by voice control is the photo description. The title attribute is also not reliably exposed. Competent auditors would reasonably disagree, so the label is uncertain. The live HTML (fetched 2026-11-21) has the same markup: an image-only link with a visual-description alt, title=\"Jumpers & Cardigans\" on both the a and the img, and a visible text link \"Jumpers & Cardigans\" to the same href below it."
+    },
+    {
+      "fingerprint": "2faeb1f07a15",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a 24px colour-swatch img (ONE-SIZE---Red.jpg; the crop is a red disc) with alt=\"swatch\". It is the only content of a focusable div role=\"button\" named \"swatch\" (ax nameFrom contents) inside the Ruffle Edge Triangle Scarf product link. The claim is true of the capture. The control selects the colour variant, but its name says neither that nor the colour. Here the product name does not mention red either, so the colour shown by the image reaches screen-reader users nowhere. \"swatch\" is a placeholder that fails 1.1.1 (Situation C; cf. F30). I found no title, aria-label or other technique that rescues it, and the slide is aria-hidden=\"false\" and visible in the screenshot. The claim names the failure. The product shelf is rendered client-side, so my fetch of the live page did not show these exact products, but the live page state still configures the SKU selector with thumbnailImage \"swatch\" and gives swatch images the label \"swatch\", and the screenshot is a fully styled render; nothing suggests users get a different name."
+    },
+    {
+      "fingerprint": "p73cebc621ea",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The element is the header text link \"Shop Grocery\" to https://www.dunnesstoresgrocery.com/ (target=_blank). Its text alone says its purpose: go and shop Dunnes Stores' grocery site. It meets 2.4.4. Opening a new window without warning is not a 2.4.4 failure (at most advisory G201 / 3.2.5 AAA). The live server HTML has the same link, text and href."
+    },
+    {
+      "fingerprint": "a92f5308d091",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a promo-card image whose link to /women/footwear holds only this img. The link has no title or aria-label, so its accessible name is the alt, a long visual description (a pair of black high-heeled shoes in a spotlight). The claim is true of the capture. Understanding 1.1.1 puts linked images under Situation C (G82 with H30), where the text alternative must identify the link's purpose, and its own linked-thumbnail example names the destination. This alt describes a photo and never says it leads to a department. Reasons I checked that could make it pass do not hold. The separate \"Shop Footwear\" link to the same URL is a different element; it does not change this image's text alternative, and 1.1.1 has no link-context clause. No title or aria-describedby supplies the purpose. The alt mentions shoes, but describing one pictured pair does not say the link opens the footwear department; a listener could as well expect that product's page. The claim, that the alt does not say where the link leads, names this failure. The live HTML (fetched 2026-11-21) has the same image link to /women/footwear with the same alt and no title or aria-label, and the same separate \"Shop Footwear\" call-to-action link before it."
+    },
+    {
+      "fingerprint": "s6a9f689cb94",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a category-tile image whose link to /women/clothing/trousers holds only this img. Its alt is a long visual description (a woman in a black sequinned two-piece set). The claim is true of the capture: the link holds nothing else, and the alt does not name the destination. But both the a and the img carry title=\"Trousers\", which the browser exposes as the accessible description (the snapshot's ax data shows description \"Trousers\"). That text is programmatically associated with the image, so screen readers announce the category with the link. A visible text link \"Trousers\" to the same URL sits directly below the image. My lean is that the image's text alternatives together identify the link's purpose, so it does not fail 1.1.1. Still, Situation C (G82/H30) asks for a text alternative that identifies the purpose, and the accessible name used in link lists and by voice control is the photo description. The title attribute is also not reliably exposed. Competent auditors would reasonably disagree, so the label is uncertain. The live HTML (fetched 2026-11-21) has the same markup: an image-only link with a visual-description alt, title=\"Trousers\" on both the a and the img, and a visible text link \"Trousers\" to the same href below it."
+    },
+    {
+      "fingerprint": "77228dfa5ca7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a category-tile image whose link to /women/clothing/dresses holds only this img. Its alt is a long visual description (a woman in a black sequin-and-satin dress). The claim is true of the capture: the link holds nothing else, and the alt does not name the destination. But both the a and the img carry title=\"Dresses\", which the browser exposes as the accessible description (the snapshot's ax data shows description \"Dresses\"). That text is programmatically associated with the image, so screen readers announce the category with the link. A visible text link \"Dresses\" to the same URL sits directly below the image. My lean is that the image's text alternatives together identify the link's purpose, so it does not fail 1.1.1. Still, Situation C (G82/H30) asks for a text alternative that identifies the purpose, and the accessible name used in link lists and by voice control is the photo description. The title attribute is also not reliably exposed. Competent auditors would reasonably disagree, so the label is uncertain. The live HTML (fetched 2026-11-21) has the same markup: an image-only link with a visual-description alt, title=\"Dresses\" on both the a and the img, and a visible text link \"Dresses\" to the same href below it."
+    },
+    {
+      "fingerprint": "acf5b3f0b7e4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a promo-card image whose link to /women/clothing/partywear holds only this img. The link has no title or aria-label, so its accessible name is the alt, a long visual description (a woman in a one-shoulder black velvet dress leaning on a panelled wall). The claim is true of the capture. Understanding 1.1.1 puts linked images under Situation C (G82 with H30), where the text alternative must identify the link's purpose, and its own linked-thumbnail example names the destination. This alt describes a photo and never says it leads to a department. Reasons I checked that could make it pass do not hold. The separate \"Shop Partywear\" link to the same URL is a different element; it does not change this image's text alternative, and 1.1.1 has no link-context clause. No title or aria-describedby supplies the purpose. The claim, that the alt does not say where the link leads, names this failure. The live HTML (fetched 2026-11-21) has the same image link to /women/clothing/partywear with the same alt and no title or aria-label, and the same separate \"Shop Partywear\" call-to-action link before it."
+    },
+    {
+      "fingerprint": "807ff7a3178a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a category-tile image whose link to /women/clothing/blouses-and-shirts holds only this img. Its alt is a long visual description (a woman in a burgundy sequin top). The claim is true of the capture: the link holds nothing else, and the alt does not name the destination. But both the a and the img carry title=\"Blouses & Shirts\", which the browser exposes as the accessible description (the snapshot's ax data shows description \"Blouses & Shirts\"). That text is programmatically associated with the image, so screen readers announce the category with the link. A visible text link \"Blouses & Shirts\" to the same URL sits directly below the image. My lean is that the image's text alternatives together identify the link's purpose, so it does not fail 1.1.1. Still, Situation C (G82/H30) asks for a text alternative that identifies the purpose, and the accessible name used in link lists and by voice control is the photo description. The title attribute is also not reliably exposed. Competent auditors would reasonably disagree, so the label is uncertain. The live HTML (fetched 2026-11-21) has the same markup: an image-only link with a visual-description alt, title=\"Blouses & Shirts\" on both the a and the img, and a visible text link \"Blouses & Shirts\" to the same href below it."
+    },
+    {
+      "fingerprint": "6f71fbe2418a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a promo-card image whose link to /women/clothing/winter-layering holds only this img. The link has no title or aria-label, so its accessible name is the alt, a long visual description (a blonde woman seated in a black coat, grey turtleneck and jeans with a red jumper at her waist). The claim is true of the capture. Understanding 1.1.1 puts linked images under Situation C (G82 with H30), where the text alternative must identify the link's purpose, and its own linked-thumbnail example names the destination. This alt describes a photo and never says it leads to a department. Reasons I checked that could make it pass do not hold. The separate \"Shop Winter Layering\" link to the same URL is a different element; it does not change this image's text alternative, and 1.1.1 has no link-context clause. No title or aria-describedby supplies the purpose. Nothing in the alt suggests the Winter Layering campaign; the visible \"Winter Layering\" title is a styled div, not part of the link or the image's alternative. The claim, that the alt does not say where the link leads, names this failure. The live HTML (fetched 2026-11-21) has the same image link to /women/clothing/winter-layering with the same alt and no title or aria-label, and the same separate \"Shop Winter Layering\" call-to-action link before it."
+    },
+    {
+      "fingerprint": "10c5651ebff5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a promo-card image whose link to /women/clothing/coats-and-jackets holds only this img. The link has no title or aria-label, so its accessible name is the alt, a long visual description (a woman in a long red double-breasted overcoat in a studio). The claim is true of the capture. Understanding 1.1.1 puts linked images under Situation C (G82 with H30), where the text alternative must identify the link's purpose, and its own linked-thumbnail example names the destination. This alt describes a photo and never says it leads to a department. Reasons I checked that could make it pass do not hold. The separate \"Shop Coats & Jackets\" link to the same URL is a different element; it does not change this image's text alternative, and 1.1.1 has no link-context clause. No title or aria-describedby supplies the purpose. The alt mentions an overcoat, but describing one pictured coat does not say the link opens the coats and jackets department. The claim, that the alt does not say where the link leads, names this failure. The live HTML (fetched 2026-11-21) has the same image link to /women/clothing/coats-and-jackets with the same alt and no title or aria-label, and the same separate \"Shop Coats & Jackets\" call-to-action link before it."
+    }
+  ]
+}

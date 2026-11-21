@@ -1,0 +1,93 @@
+{
+  "page": "https://undergrad.osu.edu/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "sbed14de25c1",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Footer link 'Annual Security Report' (href https://dps.osu.edu/clery-act, opens in a new tab). claimTrue: the captured href is the Department of Public Safety's Clery Act page, and the Clery Act is the law the Annual Security Report is published under, so the text and the target agree. Live, the URL redirects to dps.osu.edu/crime/clery-act, titled 'Clery Act', which has a section 'About The Ohio State University's Annual Security Report' and a link to view the report. elementFails: the link text alone says the link leads to the university's Annual Security Report, and it does (by way of the page that hosts it). The link meets 2.4.4. Opening a new tab with no warning is not a 2.4.4 matter. captureDiffers: the live homepage HTML for this footer paragraph is the same as the snapshot, and the screenshot is fully styled. Rampa never read the destination, so it judged the match without it."
+    },
+    {
+      "fingerprint": "se75690190f8",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Image link in a promo tile. Its only content is an img with alt 'Top 14 best public universities' (the image shows '#14 Best Public Universities, U.S. News & World Report'), and it leads to /majors-and-academics/quick-facts. claimTrue: Rampa never read the destination. Live, the Quick facts page lists rankings, including '14th among all publics (U.S. News and World Report)', so the text does match where the link goes. elementFails: the name tells a user that the link leads to information on Ohio State's ranking among top public universities, and the destination gives that ranking among other facts, so the purpose can be determined. The link meets 2.4.4. (Leaving 'U.S. News & World Report' out of the alt text would be a 1.1.1 point, not this criterion.) captureDiffers: the live HTML of this tile is the same as the snapshot, and the screenshot matches."
+    },
+    {
+      "fingerprint": "2723f2fdc2ae",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The img with alt 'Best value public colleges — Princeton Review' is the only content of a link to /cost-and-aid/ohio-state-value ('The Ohio State value', heading 'Access to excellence'). claimTrue: the alt is all the link holds, and it states an award and its source, not the destination page, so the sentence holds for the capture. elementFails: the image is an image of text, and the crop shows exactly 'Best Value Public Colleges' and 'Princeton Review' with a decorative icon. The alt reproduces that text, so it serves the same purpose for a screen reader user that the picture serves for a sighted one, who also sees only the award. It also points at the topic of the destination (Ohio State's value). This is not F89 (the alt is not empty), and the image meets 1.1.1. Whether the link's purpose is clear is a 2.4.4 question. captureDiffers: the live img has the same alt and src. The claim demands a link-destination description that 1.1.1's 'equivalent purpose' does not require here."
+    },
+    {
+      "fingerprint": "s3a24d5d73ee",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Link 'Buckeye Bridge Program', inside an h3 in 'Recent Ohio State News', with the paragraph after it describing the program. It leads to /cost-and-aid/ohio-state-value. claimTrue: the destination title Rampa recorded ('The Ohio State value') is right, but 'does not match' is not. That costs and aid page has a 'Buckeye Bridge Program' section (live: 'The Buckeye Bridge Program is a strategic initiative between Columbus State Community College (CSCC) and The Ohio State University...'), next to the Regional Campus Commitment section that the sibling link points to. elementFails: the link text alone names the program, and the link leads to the page that explains it. The link meets 2.4.4. captureDiffers: the live homepage markup for this block is the same as the snapshot. Rampa had only the destination's title, heading and meta description, not the body that holds the program section."
+    },
+    {
+      "fingerprint": "s7823678e0d3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The page's only h1, 'Your story begins here', is a hero tagline on the Undergraduate Admissions homepage (the page title repeats it). Under it come the 'Information for...' student-type selector and the h2 sections Explore majors, Visit campus, Become a Buckeye, and so on. claimTrue: the heading's words name none of these topics (admissions, majors, visits, applying), so the sentence holds for the capture in a literal reading. elementFails: 2.4.6 asks that a heading describe its topic or purpose. As the top heading of an admissions homepage, the slogan does signal 'start your university journey here', and the h2s below are descriptive. I lean towards a pass, but a tagline h1 like this is a known point where competent auditors split: some fail it as non-descriptive marketing copy, others accept it as a homepage hero. captureDiffers: the live h1 and its surroundings are the same as the snapshot, and the screenshot is fully styled. The label is uncertain because auditors would reasonably disagree."
+    },
+    {
+      "fingerprint": "p1f3ca982324",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. An img with alt='' (become-buckeye-home.png), not a link, sits between the h2 'Become a Buckeye' and the h3 'Next steps'. The crop shows four smiling students, one in an Ohio State football shirt, under a domed ceiling: an atmosphere photo. Its siblings in the 'Explore majors' and 'Visit campus' tiles are handled the same way. elementFails: the image adds no information that the section's heading, links and button do not already give, so marking it as decorative with a null alt is an accepted way to meet 1.1.1 (technique H67, and the decorative images guidance for ambiance images). It meets 1.1.1, and Rampa was right to report nothing. captureDiffers: the live HTML has the same img with alt=\"\"."
+    },
+    {
+      "fingerprint": "sf0e6fce726d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Footer link 'Webmaster' with href mailto:ESUE-Webadmiss@osu.edu?Subject=undergrad.osu.edu, in the footer paragraph 'Webmaster | Nondiscrimination notice | Annual Security Report'. There is no title or aria-describedby, and the nearest preceding heading, the h3 'Buckeye Bridge Program', is unrelated. claimTrue: the link text names who the link reaches, the site's webmaster, which is where an email to that address goes, so 'does not tell where the link goes' is not true. It is true only that nothing around the link says it is an email link. elementFails: a 'Webmaster' link in a site footer is commonly understood as a way to contact the webmaster, and 2.4.4 does not require a link to say it opens a mail client. The purpose can be determined from the link text alone, so the link meets 2.4.4 (writing 'Email the webmaster' would be better practice). captureDiffers: the live footer markup is the same as the snapshot. Rampa had the href and the text, and judged wrongly."
+    },
+    {
+      "fingerprint": "sa545c140bbb",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Image link whose only content is an img with alt 'Best value public colleges — Princeton Review' (the image text matches it). It leads to /cost-and-aid/ohio-state-value, titled 'The Ohio State value', heading 'Access to excellence'. claimTrue: the destination title Rampa recorded is right, but it does match the link text. Both are about Ohio State's value, and live, the page covers ROI, keeping costs down, debt-free degrees and need-based aid. elementFails: the name tells a user that the link leads to information on Ohio State as a best-value public college, and the destination is the 'Ohio State value' page. The purpose can be determined from the link text, so the link meets 2.4.4, although the page does not repeat the Princeton Review ranking (the Quick facts page does). captureDiffers: the live tile markup is the same as the snapshot. Rampa had the destination's title and description, which share the 'value' topic, and still called it a mismatch."
+    }
+  ]
+}

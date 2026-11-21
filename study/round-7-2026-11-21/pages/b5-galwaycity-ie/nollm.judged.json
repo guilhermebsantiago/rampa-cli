@@ -1,0 +1,189 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.galwaycity.ie/",
+ "model": null,
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "47efdaaf162a",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "rule",
+   "ref": "#block-lgd-localgov-mainpagecontent-scarfolk--2 > article > div:nth-of-type(2) > div:nth-of-type(7) > div > div > div > div > section > div:nth-of-type(2) > div > div > div > picture > img",
+   "target": "#block-lgd-localgov-mainpagecontent-scarfolk--2 > article > div:nth-of-type(2) > div:nth-of-type(7) > div > div > div > div > section > div:nth-of-type(2) > div > div > div > picture > img",
+   "message": "The text alternative \"slider_BathingWaters.jpg\" is a file name: a screen reader reads it in place of the image. Describe what the image conveys, or use alt=\"\" if it is decorative.",
+   "evidence": "alt=\"slider_BathingWaters.jpg\"",
+   "subject": "slider_BathingWaters.jpg",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-alt",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F30",
+   "html": "<img loading=\"eager\" width=\"768\" height=\"512\" src=\"/sites/default/files/styles/large_3_2_768x512/public/2026-06/slider_BathingWaters.jpg?itok=RB0uOtvK\" alt=\"slider_BathingWaters.jpg\" data-once=\"allImages\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "7ef04e3e4b2a",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#block-lgd-languageswitcher--2 > ul > li:nth-of-type(2) > a",
+   "target": "#block-lgd-languageswitcher--2 > ul > li:nth-of-type(2) > a",
+   "message": "\"Gaeilge\" is in Irish, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"ga\" to the link.",
+   "evidence": "Gaeilge",
+   "subject": "Gaeilge",
+   "patch": {
+    "ref": "#block-lgd-languageswitcher--2 > ul > li:nth-of-type(2) > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "ga",
+    "before": "<a href=\"/ga\" class=\"language-link\" hreflang=\"ga\" data-drupal-link-system-path=\"&lt;front&gt;\">",
+    "after": "<a href=\"/ga\" class=\"language-link\" hreflang=\"ga\" data-drupal-link-system-path=\"&lt;front&gt;\" lang=\"ga\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/ga\" class=\"language-link\" hreflang=\"ga\" data-drupal-link-system-path=\"&lt;front&gt;\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {},
+ "groups": null,
+ "needsReview": [],
+ "discarded": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 14,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 49,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 16,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 7,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were not checked at all, so whatever they hold was missed: html > body > iframe:nth-of-type(2) (cross-origin; skipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 0,
+  "inputTokens": 0,
+  "outputTokens": 0,
+  "latencyMs": 0
+ },
+ "timings": null,
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 14,
+   "notCaptured": 0,
+   "reasons": {}
+  }
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > iframe:nth-of-type(2)",
+     "url": "https://consentcdn.cookiebot.com/sdk/bc-v5.min.html",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": false,
+     "engineReason": "skipped"
+    }
+   ]
+  }
+ }
+}

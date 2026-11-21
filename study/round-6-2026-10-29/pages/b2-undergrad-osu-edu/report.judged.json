@@ -1,0 +1,341 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://undergrad.osu.edu/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 1
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#content > div > div:nth-of-type(5) > div:nth-of-type(3) > section > a > div > img",
+   "message": "The text alternative \"Best value public colleges — Princeton Review\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"The Ohio State University value\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.06), claim: no (0.40), reversed: yes (0.02))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#content > div > div:nth-of-type(5) > div:nth-of-type(3) > section > a",
+   "message": "The link text \"Best value public colleges — Princeton Review\" does not match where the link leads: a page titled \"The Ohio State value - The Ohio State University\".",
+   "evidence": "The model suggests: \"The Ohio State value and accessibility\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#ua-news-alt > div > div > div:nth-of-type(1) > h3:nth-of-type(1) > a",
+   "message": "The link text \"President’s Ohio Scholarship Program\" does not match where the link leads: a page titled \"Merit scholarships - The Ohio State University\".",
+   "evidence": "The model suggests: \"Merit-based scholarships\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#ua-news-alt > div > div > div:nth-of-type(1) > h3:nth-of-type(3) > a",
+   "message": "The link text \"Buckeye Bridge Program\" does not match where the link leads: a page titled \"The Ohio State value - The Ohio State University\".",
+   "evidence": "The model suggests: \"Ohio State Value - Access to Excellence\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#institutional-info > p:nth-of-type(2) > a:nth-of-type(1)",
+   "message": "The link text \"Webmaster\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Contact Webmaster\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#content > div > div:nth-of-type(1) > div > h1",
+   "message": "The heading \"Your story begins here\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Explore your options\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "2.4.4",
+   "ref": "#content > div > div:nth-of-type(5) > div:nth-of-type(2) > section > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "A list of the top 14 best public universities.",
+    "leadsTo": "A page containing quick facts about majors and academics at Ohio State University.",
+    "verdict": "fail",
+    "evidence": "Top 14 best public universities",
+    "problem": "mismatch",
+    "suggestedText": "Quick facts about majors and academics",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#institutional-info > p:nth-of-type(2) > a:nth-of-type(3)",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Annual Security Report' suggests it leads to a report regarding security, but the URL points to a Clery Act page.",
+    "leadsTo": "https://dps.osu.edu/clery-act",
+    "verdict": "fail",
+    "evidence": "Annual Security Report",
+    "problem": "mismatch",
+    "suggestedText": "Clery Act Information",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#osu_navbar > div > h2",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Ohio State nav bar",
+    "verdict": "fail",
+    "evidence": "O…",
+    "problem": "generic",
+    "suggestedText": "Navigation",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#major-quick-school-label",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Search by College/School",
+    "verdict": "fail",
+    "evidence": "S…",
+    "problem": "generic",
+    "suggestedText": "Search by College or School",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 6,
+   "judged": 6,
+   "failed": 0,
+   "passed": 5,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 0,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 41,
+   "judged": 41,
+   "failed": 0,
+   "passed": 35,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 4
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 18,
+   "judged": 18,
+   "failed": 0,
+   "passed": 15,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 71,
+  "cachedCalls": 0,
+  "inputTokens": 63162,
+  "outputTokens": 5745,
+  "latencyMs": 190713
+ },
+ "timings": {
+  "totalMs": 99145,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 17
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 11847,
+    "prepareMs": 0,
+    "candidates": 6,
+    "judged": 6,
+    "calls": 9,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 3902,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 3,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 62296,
+    "prepareMs": 0,
+    "candidates": 41,
+    "judged": 41,
+    "calls": 41,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 20874,
+    "prepareMs": 0,
+    "candidates": 18,
+    "judged": 18,
+    "calls": 18,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 176,
+    "prepareMs": 174,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 6,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 24
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 7,
+   "notCaptured": 0,
+   "reasons": {}
+  }
+ },
+ "coverage": {
+  "reach": null
+ }
+}

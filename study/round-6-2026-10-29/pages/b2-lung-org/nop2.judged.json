@@ -1,0 +1,444 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.lung.org/blog/radon-awareness-lung-cancer-advocate",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "a811efededb4",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#footer-email-signup",
+   "message": "The field \"Email Address\" asks for the user's email address, but autocomplete=\"off\" does not identify that purpose.",
+   "evidence": "Email Address",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#footer-email-signup",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "from": "off",
+    "to": "email",
+    "before": "<input id=\"footer-email-signup\" class=\"form-control required\" type=\"text\" autocomplete=\"off\" name=\"cons_email\" placeholder=\"Email Address\" aria-label=\"Email Address\">",
+    "after": "<input id=\"footer-email-signup\" class=\"form-control required\" type=\"text\" autocomplete=\"email\" name=\"cons_email\" placeholder=\"Email Address\" aria-label=\"Email Address\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "ed62e46f077c",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > section > div > div > div:nth-of-type(1) > div > h2",
+   "target": "html > body > section > div > div > div:nth-of-type(1) > div > h2",
+   "message": "The text \"Make a Donation\" has at most 1.86:1 contrast with what is behind it (#3d4f76 on #0d2354), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 3:1 for large text.",
+   "evidence": "#3d4f76 on #0d2354 · 1.86:1 at best, 1.86:1 at worst · 28px, 700",
+   "subject": "Make a Donation",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<h2 class=\"h4\" data-uw-rm-heading=\"prs\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "853cf7332590",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > section > div > div > div:nth-of-type(1) > div > p",
+   "target": "html > body > section > div > div > div:nth-of-type(1) > div > p",
+   "message": "The text \"Your tax-deductible donation funds lung disease and lung ca…\" has at most 1.86:1 contrast with what is behind it (#3d4f76 on #0d2354), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#3d4f76 on #0d2354 · 1.86:1 at best, 1.86:1 at worst · 18px, 400",
+   "subject": "Your tax-deductible donation funds lung disease and lung cancer research, new treatments, lung health education, and more.",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<p>",
+   "experimental": true
+  },
+  {
+   "fingerprint": "1cd78286f64a",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#signUpDonateBtn",
+   "target": "#signUpDonateBtn",
+   "message": "The text \"Donate Now\" has at most 1.53:1 contrast with what is behind it (#0d2354 on #314743), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#0d2354 on #314743 · 1.53:1 at best, 1.53:1 at worst · 16px, 700",
+   "subject": "Donate Now",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a id=\"signUpDonateBtn\" href=\"?form=FUNLTWAXLLP\" class=\"btn secondary-btn homeDonateBtn\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "aad26589b61b",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#userwayTrigger",
+   "target": "#userwayTrigger",
+   "message": "The icon of this button (\"Accessibility\") has at most 1.86:1 contrast with the pixels next to it (#0d2354 on #3d4f76). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#0d2354 on #3d4f76 · 1.86:1 at best, 1.86:1 at worst",
+   "subject": "Accessibility",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<button id=\"userwayTrigger\" class=\"accessibility-btn\" data-uw-trigger=\"\" data-uw-ignore-s25=\"\" aria-haspopup=\"dialog\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 6
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#main > div:nth-of-type(1) > section > div > div > div > section > div > div:nth-of-type(1) > div > ul > li:nth-of-type(1) > a",
+   "message": "The link text \" Facebook\" does not match where the link leads: a page titled \"Home | American Lung Association\".",
+   "evidence": "The model suggests: \"American Lung Association Facebook page\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#main > div:nth-of-type(1) > section > div > div > div > section > div > div:nth-of-type(1) > div > ul > li:nth-of-type(2) > a",
+   "message": "The link text \" Twitter\" does not match where the link leads: a page titled \"Home | American Lung Association\".",
+   "evidence": "The model suggests: \"American Lung Association Twitter profile\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#main > div:nth-of-type(1) > section > div > div > div > section > div > div:nth-of-type(1) > div > ul > li:nth-of-type(3) > a",
+   "message": "The link text \" LinkedIn\" does not match where the link leads: a page titled \"Home | American Lung Association\".",
+   "evidence": "The model suggests: \"American Lung Association LinkedIn profile\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#main > div:nth-of-type(1) > section > div > div > div > section > div > div:nth-of-type(1) > div > ul > li:nth-of-type(4) > a",
+   "message": "The link text \" Email\" does not match where the link leads: a page titled \"Home | American Lung Association\".",
+   "evidence": "The model suggests: \"Share via Email\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#main > div:nth-of-type(1) > section > div > div > div > section > div > div:nth-of-type(1) > div > ul > li:nth-of-type(5) > a",
+   "message": "The link text \" Print\" does not match where the link leads: a page titled \"Home | American Lung Association\".",
+   "evidence": "The model suggests: \"Print this page\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > header > div > div > div > div:nth-of-type(1) > a:nth-of-type(1) > img",
+   "reason": "the alternative is a logo that leads to the site's home page",
+   "output": {
+    "verdict": "fail",
+    "evidence": "American Lung Association Logo",
+    "problem": "missing_information",
+    "imageShows": "The American Lung Association logo featuring a blue stylized lung icon and the organization's name in blue text.",
+    "suggestedAlt": "American Lung Association home",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#main > div:nth-of-type(1) > section > div > div > div > div > img",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Each Breath Blog",
+    "problem": "wrong_content",
+    "imageShows": "The logo for 'Each Breath', a blog by the American Lung Association, featuring a stylized wind icon.",
+    "suggestedAlt": "Each Breath: A Blog by the American Lung Association",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > header > nav > div > ul:nth-of-type(1) > li:nth-of-type(8) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A donation page or form.",
+    "leadsTo": "A page titled 'How an Unexpected Lung Cancer Diagnosis Led to a Radon Awareness Mission | American Lung Association' which appears to be a personal story/article rather than a direct donation form.",
+    "verdict": "fail",
+    "evidence": "DONATE",
+    "problem": "mismatch",
+    "suggestedText": "Donate to the American Lung Association",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#signUpDonateBtn",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A donation form or page to fund lung disease and lung cancer research.",
+    "leadsTo": "A blog post or article titled 'How an Unexpected Lung Cancer Diagnosis Led to a Radon Awareness Mission | American Lung Association'",
+    "verdict": "fail",
+    "evidence": "DONATE NOW",
+    "problem": "mismatch",
+    "suggestedText": "Read Cary's story on lung cancer diagnosis",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 4,
+   "judged": 4,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 1,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 77,
+   "judged": 50,
+   "failed": 0,
+   "passed": 43,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 27,
+   "suggested": 5
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 12,
+   "judged": 12,
+   "failed": 0,
+   "passed": 12,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 5,
+   "failed": 0,
+   "passed": 5,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "A layer lay over the viewport when the page was read (iframe#XHSDNNAL, on top at 100% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 27 of 77 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 73,
+  "inputTokens": 67957,
+  "outputTokens": 6801,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 258,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 23
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 7,
+    "prepareMs": 0,
+    "candidates": 4,
+    "judged": 4,
+    "calls": 0,
+    "cachedCalls": 4
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 0,
+    "cachedCalls": 2
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 21,
+    "prepareMs": 0,
+    "candidates": 77,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 4,
+    "prepareMs": 0,
+    "candidates": 12,
+    "judged": 12,
+    "calls": 0,
+    "cachedCalls": 12
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 138,
+    "prepareMs": 136,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 35,
+    "prepareMs": 0,
+    "candidates": 5,
+    "judged": 5,
+    "calls": 0,
+    "cachedCalls": 4
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 26
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "overlay": {
+   "selector": "iframe#XHSDNNAL",
+   "coverage": 1,
+   "hidden": true
+  },
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 4,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 77,
+    "capped": 27
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "overlay": {
+    "ref": "#XHSDNNAL",
+    "selector": "iframe#XHSDNNAL",
+    "coverage": 1,
+    "hidden": true
+   }
+  }
+ }
+}

@@ -1,0 +1,322 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.nch.ie/contact-us/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "2eac856bc00b",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > footer > div > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(2) > a > img",
+   "message": "The text alternative \"NSO logo\" is all its link holds, and does not say where the link leads.",
+   "evidence": "NSO logo",
+   "subject": "NSO logo",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "html > body > footer > div > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(2) > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "NSO logo",
+    "to": "National Symphony Orchestra Ireland",
+    "before": "<img src=\"/assets/main/img/layout/NSOI_Logo_Website.jpg\" alt=\"NSO logo\">",
+    "after": "<img src=\"/assets/main/img/layout/NSOI_Logo_Website.jpg\" alt=\"National Symphony Orchestra Ireland\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999197621620918
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "08b344370cfa",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#CookieReportsBannerDescription > p",
+   "target": "#CookieReportsBannerDescription > p",
+   "message": "The text \"We place cookies on your device to enable this site to work…\" has at most 3.86:1 contrast with what is behind it (#ffffff on #eb3c76), measured from pixels because axe-core could not decide (it partly covers other elements). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #eb3c76 · 3.86:1 at best, 3.86:1 at worst · 16px, 400",
+   "subject": "We place cookies on your device to enable this site to work, to enhance your user experience and to improve our services. Some cookies we use are necessary for the site to work, while others are used to help us manage and improve the site and the services we offer you. If you’re happy to opt-in to our use of cookies just click the \"Accept all cookies\" button.",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<p>",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 1
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#maincontent > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(2) > a",
+   "message": "The link text \"Find Out More\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Find out more about getting to the NCH\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#maincontent > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(4) > div > div:nth-of-type(2) > a",
+   "message": "The link text \"Find Out More\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Find Out More about FAQs\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "3.3.2",
+   "level": "A",
+   "ruleId": "judgment/3.3.2",
+   "ref": "#\\34 f1786ad-344d-4893-c5b9-a23b679b9633",
+   "message": "The field \"Your Email *\" only accepts a set format (pattern=\"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$\"), and nothing on screen explains it.",
+   "evidence": "The model suggests: \"The email must follow the format of a standard email address (e.g., name@example.com).\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > footer > div > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(1) > a > img",
+   "reason": "the alternative is a logo that leads to the site's home page",
+   "output": {
+    "verdict": "fail",
+    "evidence": "National Concert Hall footer",
+    "problem": "missing_information",
+    "imageShows": "The National Concert Hall logo in black and white with text in Irish and English.",
+    "suggestedAlt": "National Concert Hall Home",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 6,
+   "judged": 6,
+   "failed": 1,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 5,
+   "failed": 0,
+   "passed": 5,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 39,
+   "judged": 39,
+   "failed": 0,
+   "passed": 37,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 14,
+   "judged": 14,
+   "failed": 0,
+   "passed": 14,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  }
+ ],
+ "notes": [
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 69,
+  "inputTokens": 61426,
+  "outputTokens": 5723,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 214,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 21
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 8,
+    "prepareMs": 0,
+    "candidates": 6,
+    "judged": 6,
+    "calls": 0,
+    "cachedCalls": 9
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 5,
+    "judged": 5,
+    "calls": 0,
+    "cachedCalls": 5
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 13,
+    "prepareMs": 0,
+    "candidates": 39,
+    "judged": 39,
+    "calls": 0,
+    "cachedCalls": 39
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 5,
+    "prepareMs": 0,
+    "candidates": 14,
+    "judged": 14,
+    "calls": 0,
+    "cachedCalls": 14
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 133,
+    "prepareMs": 131,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 5,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   }
+  ],
+  "otherMs": 23
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 6,
+   "notCaptured": 0,
+   "reasons": {}
+  }
+ },
+ "coverage": {
+  "reach": null
+ }
+}

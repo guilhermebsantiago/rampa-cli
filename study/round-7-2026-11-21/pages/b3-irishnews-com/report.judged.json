@@ -1,0 +1,311 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.irishnews.com/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 6
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#flyout-overlay > div > div > ul > li:nth-of-type(4) > div:nth-of-type(1) > a",
+   "message": "The link text \"GAA\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"GAA Section\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#home-page__wrapper > section > div:nth-of-type(1) > div:nth-of-type(4) > h2",
+   "message": "The heading \"Latest video\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"Latest news\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#home-page__wrapper > section > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > img",
+   "reason": "the model's description of the image keeps every word of the current alternative",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Masthead logo",
+    "problem": "wrong_content",
+    "imageShows": "The masthead logo for The Irish News with the text 'We Care About Your Privacy' overlaid.",
+    "suggestedAlt": "The Irish News",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#home-page__wrapper > section > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page describing the organization's mission.",
+    "leadsTo": "A page titled 'The Irish News'",
+    "verdict": "fail",
+    "evidence": "Our Mission",
+    "problem": "mismatch",
+    "suggestedText": "Our Mission - The Irish News",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 126,
+   "judged": 50,
+   "failed": 0,
+   "passed": 48,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 76,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 5,
+   "failed": 0,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "A layer lay over the viewport when the page was read (div, on top at 89% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #\\34 21911cd-3243-4b96-8a97-6da5f2f64971 (https://frontend.poool.fr/engage/07EN9-3HN10-GV4WC-KZKVG/6b00709ece314f1d84371924?theme=JTIybGlnaHQlMjI%253D&computedTheme=JTIybGlnaHQlMjI%253D&filters=JTVCJTIyYmxhY2stZnJpZGF5LWJhbm5lci1tYXN0ZXItY29weSUyMiUyQyUyMnVzZXJfbG9nZ2VkSW5fZmFsc2UlMjIlMkMlMjJ1c2VyX2hhc0FjdGl2ZVN1YnNjcmlwdGlvbl9mYWxzZSUyMiU1).",
+  "61 image(s) were left without a capture, so no judgment looked at them: 6 covered where it sits by other content, such as a popup or a cookie banner; 55 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 76 of 126 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 54,
+  "cachedCalls": 3,
+  "inputTokens": 57301,
+  "outputTokens": 5939,
+  "latencyMs": 165645
+ },
+ "timings": {
+  "totalMs": 85881,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 27
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 1511,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1092,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 75890,
+    "prepareMs": 0,
+    "candidates": 126,
+    "judged": 50,
+    "calls": 47,
+    "cachedCalls": 3
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 7119,
+    "prepareMs": 0,
+    "candidates": 5,
+    "judged": 5,
+    "calls": 5,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 178,
+    "prepareMs": 175,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 23,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 38
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "overlay": {
+   "selector": "div",
+   "coverage": 0.89,
+   "hidden": true
+  },
+  "images": {
+   "captured": 19,
+   "notCaptured": 61,
+   "reasons": {
+    "covered": 6,
+    "limit": 55
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 126,
+    "capped": 76
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#\\34 21911cd-3243-4b96-8a97-6da5f2f64971",
+     "url": "https://frontend.poool.fr/engage/07EN9-3HN10-GV4WC-KZKVG/6b00709ece314f1d84371924?theme=JTIybGlnaHQlMjI%253D&computedTheme=JTIybGlnaHQlMjI%253D&filters=JTVCJTIyYmxhY2stZnJpZGF5LWJhbm5lci1tYXN0ZXItY29weSUyMiUyQyUyMnVzZXJfbG9nZ2VkSW5fZmFsc2UlMjIlMkMlMjJ1c2VyX2hhc0FjdGl2ZVN1YnNjcmlwdGlvbl9mYWxzZSUyMiU1",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ],
+   "overlay": {
+    "ref": "#onetrust-consent-sdk > div:nth-of-type(1)",
+    "selector": "div",
+    "coverage": 0.89,
+    "hidden": true
+   }
+  }
+ }
+}

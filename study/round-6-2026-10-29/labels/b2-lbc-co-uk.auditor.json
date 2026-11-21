@@ -1,0 +1,135 @@
+{
+  "page": "https://www.lbc.co.uk/article/stupid-people-criticise-relationships-xi-putin-trump-5HjdnM5_2/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "f146b3c9577c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the LBC News logo (alt \"LBC news logo\") in the second \"Listen Now\" card of the media banner, inside a div with aria-hidden=\"true\". claimTrue: in the snapshot the card exposes only the link's aria-label \"Listen to Non-stop News on Global Player.\" and the visually hidden \"3am to 7am\"; the title paragraph is also aria-hidden and the LBC NEWS pop-out image has alt=\"\", so \"LBC News\" is not in the text around it (it occurs nowhere in the snapshot's accessible text except this hidden alt). elementFails: the logo is not decoration; it is what tells this card (station LBC News) apart from the LBC card beside it, and a screen reader user hears neither station name. Hiding a meaningful image with no text equivalent fails 1.1.1, and the claim names exactly that. captureDiffers: the live HTML has the same markup (aria-hidden logo wrapper, aria-hidden title, aria-label without the station); only the presenter and times have changed with the radio schedule."
+    },
+    {
+      "fingerprint": "094bb509e874",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the html element of a Google AMP ad iframe (Jeep ad, \"Em Oferta a R$ 137.990\", \"Acessar oferta\") with lang=\"pt\". claimTrue: the text this lang governs directly (the snapshot's langText, outside the ad body #square, which has its own lang=\"pt\") is English: \"Ads by\", \"Send feedback\", \"Why this ad?\" and the other AdChoices strings. So the sentence holds of the capture. elementFails: those strings sit in Google's ad-feedback overlay #abgc, which is aria-hidden=\"true\" and slid outside the 300x250 frame; the screenshot shows only the Portuguese ad copy, which is correctly marked pt. Text that is neither displayed nor exposed to assistive technology has no language a user agent must render, so 3.1.2 is met in the page as delivered; at most the overlay a mouse user can open shows English in a pt document, which has no effect on screen readers since it stays aria-hidden. captureDiffers: ads are served per visitor and region by script; my fetch of the live page returns only empty ad slots, so I could not compare; nothing suggests the captured ad was a bot-only version. Cause: the language step had the hidden and aria-hidden states in the snapshot and still judged the hidden overlay text."
+    },
+    {
+      "fingerprint": "3197adec3d3e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the html element of the other Google AMP ad iframe (Leapmotor ad, \"Leapmotor B10 Elétrico\", \"Saiba Mais\") with lang=\"pt\". claimTrue: the text governed directly by this lang (langText, outside #square, which carries its own lang=\"pt\") is English AdChoices text (\"Ads by\", \"Send feedback\", \"Why this ad?\"...), so the sentence is true of the capture. elementFails: that text is in the ad-feedback overlay #abgc, aria-hidden=\"true\" and positioned outside the frame; the screenshot shows only Portuguese ad copy, correctly marked pt. Nothing presented to users or to assistive technology is in the wrong language, so 3.1.2 is met; the English panel a mouse user can open stays aria-hidden. captureDiffers: the ad creative rotates per visitor and region and my fetch gets only empty ad slots, so I could not compare; nothing suggests a bot-only version. Cause: the snapshot marked the overlay hidden and aria-hidden, yet the language step judged its text."
+    },
+    {
+      "fingerprint": "fde9f0f2ce49",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is div#playerPlayPause with role=\"button\" inside the Remixd \"Listen to this article\" player iframe (the round blue play button). claimTrue: the browser's accessibility tree in the snapshot gives it role button and no name; its child div has title=\"Play\", which Chrome exposes only as that child's description, and the svg is aria-hidden. elementFails: a control exposed as a button with no accessible name fails 4.1.2. The aria-label \"Play or pause the audio player\" sits on the focusable wrapper #playerMainControl, which has no role (generic), so name and role are split across two elements and the button itself is announced without a name in browse mode. The claim names this failure. captureDiffers: the live HTML contains only the empty #remixd-audio-player container that a third-party script fills, so my fetch could not render the player to compare; the screenshot shows the player fully rendered and nothing suggests the capture differed."
+    },
+    {
+      "fingerprint": "p64da96dacd5",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the teaser image in the \"Latest News\"/\"More Topics\" link \"Who is Danny Tommo? Far-right activist jailed for 15 months\", alt \"London National Demonstration Wednesday 17th September 2025\". elementFails: the image is supplementary inside a link whose text already gives the headline and standfirst; the crop shows a man gesturing in a street crowd with a police officer, consistent with a demonstration in London, so the alt is an accurate caption of the scene. It does not mislead or omit anything the link needs, so 1.1.1 is met and Rampa was right not to report it. captureDiffers: the live HTML has the same image and alt."
+    },
+    {
+      "fingerprint": "4e3b13587248",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the LBC logo (alt \"LBC logo\") in the first \"Listen Now\" card of the media banner, inside a div with aria-hidden=\"true\". claimTrue: the card exposes only the aria-label \"Listen to James Hanson on Global Player.\" and \"4am to 7am\"; the station name LBC is not in that text. elementFails: I lean yes, as for the LBC News card beside it: the logo identifies which station the card plays and nothing in the card's text says so. But LBC is the site's own brand, named in the page title and the header logo link, and a user on lbc.co.uk would assume this card is LBC, so competent auditors could reasonably treat this hidden logo as redundant branding. Hence uncertain. captureDiffers: the live HTML has the same aria-hidden logo wrapper and aria-label pattern (now \"Listen to Matt Frei on Global Player.\"); only the presenter changed."
+    },
+    {
+      "fingerprint": "sfa156f01cae",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the bold promo link at the top of the article body: \"Enjoy your favourite LBC shows with ad-free Catch Up, weekly competition entries and an exclusive newsletter. Subscribe to LBC Catch Up Plus from £4.99 a month\". claimTrue: the destination titled \"LBC launches new subscription service, LBC Catch Up Plus\" is about exactly what the link text describes, so the text does match where it leads. elementFails: the link text alone states its purpose (finding out about and subscribing to LBC Catch Up Plus). The destination page, checked live, describes the service, the £4.99 price, ad-free Catch Up, competition entries and newsletter, and has \"How to subscribe\" with a \"Subscribe to LBC Catch Up Plus now\" link, so 2.4.4 is met. captureDiffers: the live page has the same link and href."
+    },
+    {
+      "fingerprint": "p41fc465b544",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the main navigation link \"Science & Technology\" (href /science-technology/), in the site-nav list. elementFails: the link text alone names the section it opens, and the destination is the \"Science & Technology\" section page, so 2.4.4 is met and Rampa was right not to report it. captureDiffers: the live HTML has the same link in #site-nav."
+    },
+    {
+      "fingerprint": "s27cafd11295",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the header logo image, alt \"LBC logo\", the only content of a link to \"/\" (the LBC home page). claimTrue: the link holds only this image, and \"LBC logo\" does not literally say \"home\". elementFails: for a functional image the alternative must convey the link's purpose; \"LBC logo\" names the site, and a site's logo linking to that site's home page is a convention users in general recognise, so the purpose (go to LBC) is conveyed and 1.1.1 is met. Wording such as \"LBC home\" is good practice (WAI tutorial), not a requirement of the criterion. captureDiffers: the live HTML has the same <a href=\"/\"><img alt=\"LBC logo\"></a>. Cause: the checker required the alternative to name the destination page, a stricter rule than 1.1.1 sets."
+    },
+    {
+      "fingerprint": "f2a28ab1713f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the teaser image of the first \"Latest News\" item (\"'A good day for Britain': Burnham hails UK-EU deal...\"), inside the link, with a caption-style alt about the Prime Minister meeting EU chiefs in Brussels. claimTrue: the crop shows a man in a suit shaking hands with Ursula von der Leyen beside António Costa in front of an \"EU-UK SUMMIT 2026\" backdrop, which is the meeting the alt describes; the quote and the package it mentions are context, not a description of something absent from the picture, so the alt does not describe something the image does not show. elementFails: the image is supplementary in a link with the full headline, and its alt accurately conveys the scene with added context; 1.1.1 is met. captureDiffers: the live HTML has the same image (same signature) and alt."
+    },
+    {
+      "fingerprint": "de3bd13014f2",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is the \"Saiba Mais\" (Portuguese \"Learn more\") call-to-action link at the bottom of the Leapmotor B10 Google ad in an iframe titled \"Advertisement\"; it leads, via googleadservices, to a Leapmotor Brazil offers page. claimTrue: the ad's title \"Leapmotor B10 Elétrico\" sits just above it in the same ad block (a sibling div, itself a link), so \"nothing around it\" tells the destination is not true of the capture in plain terms. elementFails: by this round's context rule, the link has no aria-label, title or aria-describedby; it is in generic divs, not in a sentence, paragraph, list item or table cell with the title; the iframe holds no heading, and the nearest preceding heading on the page is \"Listen to this article\". The only thing that explains it is the visual ad title, which does not count, and \"Saiba Mais\" alone does not give the purpose, while sighted users see what it is for. So it fails 2.4.4, and the claim (link text says nothing and no context helps) names that failure. captureDiffers: the ad rotates per visitor and region and my fetch gets only empty ad slots, so I could not compare; nothing suggests a bot-only version, so I judged the captured ad."
+    },
+    {
+      "fingerprint": "pc0384fb43b2",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Latest News\" teaser link whose content is the h3 \"Two men dead after glider crashed into a Scottish loch during 'training flight'\", a standfirst and a time. elementFails: the link text (Rampa's name, or Chrome's \"Two men dead after glider crashed... 11 hours ago A view across Loch Leven.\") gives the article it opens, and the destination's title and heading match it, so 2.4.4 is met and Rampa was right not to report it. captureDiffers: the live HTML still lists this teaser with the same href and text."
+    }
+  ]
+}

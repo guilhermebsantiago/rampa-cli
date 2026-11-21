@@ -1,0 +1,34 @@
+{
+  "page": "https://www.nch.ie/contact-us/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "2eac856bc00b",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the footer's NSOI wordmark image (alt=\"NSO logo\"), the only content of a link to /nsoi-choirs/national-symphony-orchestra-ireland/, the orchestra's own page. claimTrue: the alt is indeed all the link holds, but it names the NSO, which is where the link leads, so 'does not say where the link leads' does not hold as stated; it only fails to add words like 'page' or 'home'. elementFails: the text alternative identifies the organisation whose page the link opens, which serves the image's function (H30's aim); the extra word 'logo' and the abbreviation 'NSO' (the wordmark reads NSOI / National Symphony Orchestra Ireland, and the header link to the same page uses that full name) are weaknesses rather than a clear failure, so my answer leans no. captureDiffers: the live HTML has the same img, alt and href. Label: competent auditors reasonably disagree here, since the WAI images tutorial models destination wording (\"W3C home\", not a logo description) and many audits flag 'X logo' on linked logos, while others accept an alt that names the linked organisation; so uncertain rather than false_positive."
+    },
+    {
+      "fingerprint": "08b344370cfa",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the description paragraph of the CookieReports consent banner (role=dialog, shown with an overlay on first visit). claimTrue: the snapshot's pixel measurement gives #ffffff text on #eb3c76 at 16px weight 400, and white on #eb3c76 computes to 3.86:1. elementFails: I looked for a reason it could pass and found none: the live banner configuration loaded through the site's GTM container (policy.cookiereports.com/465f46ce_panel-en-gb.js) sets the banner background to #eb3c76 with opacity 1 and the description to color #ffffff, fontSize 16px, normal weight (font AvenirLight, which falls back to a default font as the screenshot shows), so it is not large text, not incidental and not a logo; the white page overlay sits below the banner (z-index 31999 vs 32002) and does not tint it. 3.86:1 is below the 4.5:1 that 1.4.3 requires. captureDiffers: the live configuration matches the capture's colours and size. The claim names exactly this failure."
+    },
+    {
+      "fingerprint": "s26c8c179149",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is a 'Find Out More' button-styled link (aria-label=\"Find Out More\", no title or aria-describedby) to /plan-your-visit/faqs/, in the fourth card of the 'More Useful Information' section. claimTrue: the link text does not say where it goes, but the card's title 'FAQs' and teaser sit right above it in the same card container, so 'nothing around it does' is not literally true of the capture. elementFails: by the rubric's context rule, the link is not in the same sentence, paragraph, list item or table cell as that title (the card title is an <a href=\"\" class=\"title\"> in a sibling div.card-body, the grid 'cell' is a div, not a table cell or list item); the preceding heading is the h2 'More Useful Information', which covers four cards and does not identify FAQs; and the first card's 'Find Out More' goes to /plan-your-visit/getting-to-the-nch/, so the same text leads to different places. Only the visual card title explains it, which does not count, so the link fails 2.4.4. captureDiffers: the live HTML of the cards is identical. Read in good faith, the claim names this failure (vague link text with no context that explains it)."
+    },
+    {
+      "fingerprint": "s7180ef4a80d",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the contact form's email input (type=email, autocomplete=email, aria-required=true) with a visible label element 'Your Email *' and placeholder 'Your Email'. claimTrue: it does carry the pattern quoted, and no visible text explains a format, so the sentence holds of the capture. elementFails: 3.3.2 asks for format instructions when input is 'out of the customary formats or if there are specific rules'; the pattern only enforces the ordinary name@domain.tld shape of an email address, which the label 'Your Email' already conveys (G131; Understanding 3.3.2 itself treats an 'Email address' label as enough to indicate the expected value), so the field meets 3.3.2. The asterisk is not explained anywhere on the form, but it is a widely understood required marker backed by aria-required, and it is not what the claim names in any case. captureDiffers: the live HTML has the same label, type and pattern. The checker demanded format instructions WCAG does not require for a customary email field."
+    }
+  ]
+}

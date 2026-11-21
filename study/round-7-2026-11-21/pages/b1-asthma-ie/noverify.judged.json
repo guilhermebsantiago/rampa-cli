@@ -1,0 +1,457 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://asthma.ie/could-it-be-severe-asthma-join-our-upcoming-free-webinar/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "d5e78edf2aee",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#colophon > div:nth-of-type(1) > div > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"logo\" is a file name or a placeholder.",
+   "evidence": "logo",
+   "subject": "logo",
+   "claim": "wrong_content",
+   "techniques": [
+    "F30"
+   ],
+   "patch": {
+    "ref": "#colophon > div:nth-of-type(1) > div > div > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "logo",
+    "to": "Charities Institute Ireland - 2026 Triple Lock Member",
+    "before": "<img src=\"http://asthma.ie/wp-content/uploads/2026/05/CMYK_Cii_TRIPLE_LOCK_MASTER_White-1.svg\" alt=\"logo\" class=\"footer-logo-image\">",
+    "after": "<img src=\"http://asthma.ie/wp-content/uploads/2026/05/CMYK_Cii_TRIPLE_LOCK_MASTER_White-1.svg\" alt=\"Charities Institute Ireland - 2026 Triple Lock Member\" class=\"footer-logo-image\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "8dede20c5036",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#colophon > div:nth-of-type(2) > div > div > div:nth-of-type(1) > ul > li:nth-of-type(2) > img",
+   "message": "The text alternative \"dept-rural-dev-removebg-preview\" is a file name or a placeholder.",
+   "evidence": "dept-rural-dev-removebg-preview",
+   "subject": "dept-rural-dev-removebg-preview",
+   "claim": "wrong_content",
+   "techniques": [
+    "F30"
+   ],
+   "patch": {
+    "ref": "#colophon > div:nth-of-type(2) > div > div > div:nth-of-type(1) > ul > li:nth-of-type(2) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "dept-rural-dev-removebg-preview",
+    "to": "Department of Rural and Community Development logo",
+    "before": "<img src=\"https://asthma.ie/wp-content/uploads/2025/03/dept-rural-dev-removebg-preview.png\" alt=\"dept-rural-dev-removebg-preview\" title=\"dept-rural-dev-removebg-preview\">",
+    "after": "<img src=\"https://asthma.ie/wp-content/uploads/2025/03/dept-rural-dev-removebg-preview.png\" alt=\"Department of Rural and Community Development logo\" title=\"dept-rural-dev-removebg-preview\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "e3076be38969",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#page > section:nth-of-type(4) > div > div > p:nth-of-type(7) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Names and titles of speakers: Eilis Ní Chaitinnia, Paula Hallchan, Prof Marcus Butler\".",
+   "evidence": "Names and titles of speakers: Eilis Ní Chaitinnia, Paula Hallchan, Prof Marcus Butler",
+   "subject": "hidden 2026-12-Could-it-be-Severe-Asthma-Webinar-Speakers.png",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 6
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 6,
+   "members": [
+    "7d34b720f073",
+    "460ed0bcbd4f",
+    "dda12739f707",
+    "541dbaadacaf",
+    "b101368646e5",
+    "6f6996d79a4c"
+   ],
+   "example": "7d34b720f073"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#masthead > div:nth-of-type(2) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > a > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Adviceline icon\" names a label, not what the image conveys here.",
+   "evidence": "The model suggests: \"Adviceline app icon\" · Offline: the second pass has no cached answer, so the claim stays a suggestion",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#colophon > div:nth-of-type(1) > div > div > div:nth-of-type(3) > ul > li:nth-of-type(1) > a > img",
+   "message": "The text alternative \"twitter\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"X\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#colophon > div:nth-of-type(1) > div > div > div:nth-of-type(3) > ul > li:nth-of-type(5) > a > img",
+   "message": "The text alternative \"linkdin\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"LinkedIn\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#colophon > div:nth-of-type(2) > div > div > div:nth-of-type(1) > ul > li:nth-of-type(1) > img",
+   "message": "The text alternative \"pobal\" names a label, not what the image conveys here.",
+   "evidence": "The model suggests: \"Pobal - government supporting communities\" · Offline: the second pass has no cached answer, so the claim stays a suggestion",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#masthead > div:nth-of-type(2) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a:nth-of-type(1)",
+   "message": "The link text \"Resources\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Resources and tips\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#page > section:nth-of-type(4) > div > div > h3:nth-of-type(1)",
+   "message": "The heading \"Details\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Webinar Details\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#swiper-wrapper-ba9c9f54cb4c0ddd > div:nth-of-type(3) > a > h3",
+   "message": "The heading \"Request for Quotation: Information and Support Chatbot\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"Request for Quotation: Information and Support Chatbot for Events\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#masthead > div:nth-of-type(2) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > a > div:nth-of-type(1) > img",
+   "reason": "the alternative's words are all in the text next to the image",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Adviceline icon",
+    "problem": "wrong_content",
+    "imageShows": "A blue line art icon of a smartphone with a heart shape on the screen.",
+    "suggestedAlt": "Adviceline app icon",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#colophon > div:nth-of-type(1) > div > div > div:nth-of-type(3) > ul > li:nth-of-type(1) > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "twitter",
+    "problem": "wrong_content",
+    "imageShows": "The white logo of X (formerly Twitter) on a dark blue background.",
+    "suggestedAlt": "X",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#colophon > div:nth-of-type(2) > div > div > div:nth-of-type(1) > ul > li:nth-of-type(1) > img",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "pobal",
+    "problem": "wrong_content",
+    "imageShows": "The logo for Pobal, featuring a stylized circular graphic of people and the tagline 'government supporting communities'.",
+    "suggestedAlt": "Pobal - government supporting communities",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-ba9c9f54cb4c0ddd > div:nth-of-type(1) > a",
+   "reason": "evidence is not the link text",
+   "output": {
+    "promises": "The link text 'Winter-Proof Your Asthma – webinar recording now available' and its context under 'Latest Events' indicate that the link leads to a page where the recording of the webinar can be watched.",
+    "leadsTo": "a page titled 'Winter-Proof Your Asthma – webinar recording now available – Asthma Society of Ireland'",
+    "verdict": "pass",
+    "evidence": "Winter-Proof Your Asthma – webinar recording now available",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 11,
+   "judged": 11,
+   "failed": 3,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 2,
+   "suggested": 4,
+   "unconfirmed": 2
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 55,
+   "judged": 50,
+   "failed": 0,
+   "passed": 48,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 5,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 16,
+   "judged": 16,
+   "failed": 0,
+   "passed": 14,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Verification was off (--no-verify): model claims whose quoted evidence is not on the page are reported as if it were. This run is for measurement only.",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 5 of 55 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 79,
+  "inputTokens": 72507,
+  "outputTokens": 6872,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 250,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 16
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 13,
+    "prepareMs": 0,
+    "candidates": 11,
+    "judged": 11,
+    "calls": 0,
+    "cachedCalls": 11
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 21,
+    "prepareMs": 0,
+    "candidates": 55,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 5,
+    "prepareMs": 0,
+    "candidates": 16,
+    "judged": 16,
+    "calls": 0,
+    "cachedCalls": 16
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 147,
+    "prepareMs": 143,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 27,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 18
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 12,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "1.1.1",
+    "candidates": 11,
+    "offlineMisses": 2
+   },
+   {
+    "criterion": "2.4.4",
+    "candidates": 55,
+    "capped": 5
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

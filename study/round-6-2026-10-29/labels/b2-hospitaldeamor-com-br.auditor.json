@@ -1,0 +1,34 @@
+{
+  "page": "https://hospitaldeamor.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "63e65958af26",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer credit line \"Hospital de Amor – Desenvolvido pela Williarts\" (13px, weight 500). The live CSS sets .et_pb_text_4_tb_footer.et_pb_text{color:rgba(21,21,21,0.2)!important}, and the footer section's background image (Grupo-1595.jpg) is only a 6px colour strip at the top, so the text sits on white. Blended, that is about #d0d0d0 on #ffffff, 1.54:1, far below 4.5:1, which is what the claim says; the snapshot's #14141433 instead of #15151533 changes nothing. A designer credit is real text, not decoration or a logotype, so no 1.4.3 exception applies. The live HTML and CSS match the snapshot. The cookie banner covers this line in the full-page screenshot, but users get the same banner, and once it is dismissed the text is on white. Capture difference: no. The claim names the real failure."
+    },
+    {
+      "fingerprint": "sff921a8b155",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the top-level menu item \"Transparência\" (href=\"#\") in the main nav. It is a parent item whose own list item holds the nested submenu (Relatórios Anuais, Balanços Patrimoniais e Subvenções Públicas, Doações Alimentícias, Leilões, Estatuto Social, Membros dos Conselhos, Transparência Cora). The \"3\" in the browser name is Divi's icon-font dropdown chevron (CSS generated content), not link text. The claim is false of the capture: the same list item, which is programmatically determined context, plainly shows the link's purpose, which is to open the site's transparency section. So it is not true that nothing around it tells. Read with that context, the purpose can be determined, and 2.4.4 is met. A link used as a submenu toggle with href=\"#\" and no expanded state, plus the stray \"3\" in its name, are 4.1.2 / 1.3.1 matters, not 2.4.4. The live HTML matches the snapshot. Rampa had the list item text and still judged it wrong."
+    },
+    {
+      "fingerprint": "s8932f968f85",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the top-level menu item \"Sobre\" (href=\"#\") in the main nav. Its own list item holds the nested submenu (Quem Somos, Conheça mais sobre nossa história, Unidades do HA, Conheça o nosso mascote, Seja um herói, Além da oncologia). The \"3\" in the browser name is Divi's icon-font dropdown chevron, which shows as a chevron in the screenshot, not link text. The claim says nothing around the link tells its purpose, but the same list item, which is programmatically determined context, makes clear that this is the site's \"About\" section of the main menu. So the claim is false of the capture, and 2.4.4 is met. The toggle semantics (a link to \"#\" with no aria-expanded) and the generated \"3\" in the name are 4.1.2 / 1.3.1 issues, not link purpose. The live HTML matches the snapshot. The context was available to Rampa, so this is a model error."
+    },
+    {
+      "fingerprint": "ba94e4e0cc01",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Williarts\" link in the footer credit line, with inline style color: rgba(21,21,21,0.2) on both the span and the link, at 13px weight 500. The background behind it is white: the footer's background image is only a 6px strip at the top. That gives about 1.54:1, as the claim says, well under 4.5:1. It is an active link carrying real text, so neither the incidental nor the logotype exception applies. The live HTML still has the same inline 20% opacity colour, and the capture matches it. The cookie banner covering it in the full-page screenshot is what users see too, until they dismiss it. The claim names the real failure."
+    }
+  ]
+}

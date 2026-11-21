@@ -1,0 +1,39 @@
+{
+  "page": "https://www.massgeneralbrigham.org/en/about/massachusetts-general-hospital",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "5fcb26792be7",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the photo in the 'Massachusetts General Hospital clinical trials and research' section, src sd-clinical-trials-bl-04, alt 'Scientist working in laboratory with pipette equipment.'. The image crop given to the model shows the marathon photo from the section above (the snapshot's 'Runners participating in city road race.' image at y 4583), not this element. The full screenshot cropped at the element's bounds (759, 5215, 496x302) shows a scientist in a lab coat and gloves working at lab equipment with a pipette. So the claim is false of the captured document, and the alt describes the image accurately, so 1.1.1 passes. The live page's HTML still pairs the same asset with the same alt text, matching the snapshot, so the capture does not differ. The false positive comes from the wrong crop the collector gave the model: collector_error."
+    },
+    {
+      "fingerprint": "s30dd15a07b4",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the header logo link to https://www.massgeneralbrigham.org/en/ (the Mass General Brigham home page), with aria-label and img alt 'mass-general-brigham-logo', alone in a paragraph inside the Main navigation, with no title and no heading before it. The live nav fragment (/en/global/nav.plain.html) still has 'mass-general-brigham-logo' as its logo_alt field, and header.js uses that field as the link's label, so the capture matches what users receive. (The blank header in the full-page screenshot does not affect the accessible name.) The claim says the text does not tell where the link goes, but the text names the organization whose home page the link opens. Combined with the near-universal convention that a header logo links to the site's home page, I lean toward the purpose being determinable, so 2.4.4 passes. The filename-like wording with 'logo' is a quality issue that arguably belongs under 1.1.1 for a functional image. Still, competent auditors split on logo links named after the image rather than 'home', and some would fail this under 2.4.4, so the label is uncertain."
+    },
+    {
+      "fingerprint": "3852d8682b64",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is a 24px phone-handset SVG icon (role img, named by its title 'Call linked number') inside the tel:+16177262000 link '617-726-2000', whose title is 'Call Massachusetts General Hospital at 617-726-2000'. The crop and the screenshot both show a phone handset. The image is functional: a phone icon in a phone link means 'call this number', and 'Call linked number' states exactly that purpose. Under 1.1.1, a text alternative for a functional image should convey its function, not describe its pixels, so the claim that it describes something the image does not show is false and the element passes. The text is at most redundant with the link text, which is not a 1.1.1 failure. The live site's icons/phone.svg still carries this title, and svg-icons.js still adds role=img and aria-labelledby for 'phone', so the capture matches what users receive. The checker demanded a literal visual description where 1.1.1 accepts a functional one: criterion_misapplied."
+    }
+  ]
+}

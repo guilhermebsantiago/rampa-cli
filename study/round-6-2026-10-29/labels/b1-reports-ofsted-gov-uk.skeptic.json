@@ -1,0 +1,69 @@
+{
+  "page": "https://reports.ofsted.gov.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "se093f9dbd51",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the 'All categories' radio (#categoryAll). Its aria-labelledby points to the legend 'Category', so its computed name is 'Category' (the CDP tree confirms nameFrom aria-labelledby), and that word alone does not identify this option, so the sentence holds of the capture. For 2.4.6, though, WCAG's glossary separates a label (presented to all users) from a name (which may be exposed only to assistive technology). The labels users see are the visible <label for> 'All categories' and the legend 'Category' for the group, which are descriptive on a search form for inspection reports (screenshot checked). The real defect is that aria-labelledby overrides the option's own label: the name lacks the visible label (2.5.3, reported separately; arguably 4.1.2/1.3.1 as well), not a non-descriptive label. The live HTML, fetched with a browser user agent, has the same markup, and the screenshot is fully styled. So the capture does not differ."
+    },
+    {
+      "fingerprint": "2324c585104f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'All categories' radio (#categoryAll) has a visible <label for=\"categoryAll\">All categories</label> next to it (screenshot), but aria-labelledby=\"category\" overrides that label, and the CDP accessible name is 'Category'. 'All categories' is not contained in 'Category'. This is failure F96 of 2.5.3: a speech user saying 'click All categories' gets no match, and 'Category' matches all five radios. I looked for a reason it passes and found none. No exception applies, the label is the radio's own visible text label, and the live HTML has the same aria-labelledby on the radio, so the capture does not differ. The claim names exactly this failure."
+    },
+    {
+      "fingerprint": "sd7726611aab",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the 'Childcare and early education' radio (#category-2). Because aria-labelledby points to the legend, its computed name is 'Category', which does not identify the option, so the sentence holds of the capture. For 2.4.6, the label presented to users is the visible <label for> 'Childcare and early education', grouped under the legend 'Category'. Both describe purpose (screenshot checked). WCAG's glossary separates label from name. The defect, a name that drops the visible label because aria-labelledby overrides it, belongs to 2.5.3 (reported separately) and arguably 4.1.2/1.3.1, not to 2.4.6. The live HTML has identical markup and the screenshot is styled, so the capture does not differ."
+    },
+    {
+      "fingerprint": "48e2ec6df846",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Other organisations' radio (#category-4) has the visible label 'Other organisations' through <label for>, but aria-labelledby=\"category\" makes its accessible name 'Category' (CDP nameFrom aria-labelledby). The visible label text is not in the name, which is F96 under 2.5.3. No exception or alternative technique rescues it: the label element is ignored once aria-labelledby is present. The live HTML has the same attributes and the screenshot shows the label beside the radio, so the capture does not differ. The claim names the failure."
+    },
+    {
+      "fingerprint": "f3e969dae183",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Children's social care' radio (#category-3) shows the label 'Children's social care' (<label for=\"category-3\">), but aria-labelledby=\"category\" overrides it and the accessible name is 'Category'. The visible label is not contained in the name, which is F96 under 2.5.3. I found no reason it passes. The live HTML matches the snapshot and the screenshot shows the visible label, so the capture does not differ. The claim names exactly this failure."
+    },
+    {
+      "fingerprint": "s58a2bfc6b62",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the header logo image (img src /images/logo.svg, alt 'Ofsted Logo') inside the home link, alongside visually hidden text 'Ofsted homepage'. The crop and the screenshot show the Ofsted logo: the wordmark 'Ofsted' with three small figures above it. So the alternative describes exactly what the image shows, and the claim is false. Under 1.1.1 the alternative identifies the logo and conveys its text. Including the word 'Logo', and repeating the link text, are style points, not a failure. The live HTML has the same img and alt, so the capture does not differ."
+    },
+    {
+      "fingerprint": "2e1b6d601c86",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Education and training' radio (#category-1) has the visible label 'Education and training' (<label for=\"category-1\">), but aria-labelledby=\"category\" makes its accessible name 'Category' (CDP nameFrom aria-labelledby). The visible label is not in the name, which is F96 under 2.5.3. No exception applies, and the live HTML has the same aria-labelledby on the input, so the capture does not differ. The claim names the failure."
+    },
+    {
+      "fingerprint": "s529fc46cfaa",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the 'Other organisations' radio (#category-4). Its computed name is 'Category' via aria-labelledby to the legend, which does not identify the option, so the sentence holds of the capture. Under 2.4.6, the labels presented to users are the visible <label for> 'Other organisations' and the group legend 'Category'. Both describe topic and purpose (screenshot checked), and WCAG's glossary separates label from name. The actual defect is that the name omits the visible label because aria-labelledby overrides it: 2.5.3 (reported separately) and arguably 4.1.2/1.3.1, not 2.4.6. The live HTML matches and the capture is fully styled, so the capture does not differ."
+    },
+    {
+      "fingerprint": "fbbc36fec32d",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Childcare and early education' radio (#category-2) shows the visible label 'Childcare and early education' (<label for=\"category-2\">), but aria-labelledby=\"category\" overrides it and the accessible name is 'Category'. The visible text is not contained in the name, which is F96 under 2.5.3. Speech users saying the visible label get no match. I found no reason it passes. The live HTML is identical on this input and the screenshot shows the label, so the capture does not differ. The claim names the failure."
+    }
+  ]
+}

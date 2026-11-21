@@ -1,0 +1,651 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.liverpoolecho.co.uk/news/liverpool-news/anfield-street-goes-days-without-34829284",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "fb859104b8e9",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#qc-cmp2-ui > div:nth-of-type(1) > div > div > figure > div > img",
+   "message": "The text alternative \"Publisher Logo\" describes something the image does not show.",
+   "evidence": "Publisher Logo",
+   "subject": "Publisher Logo",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#qc-cmp2-ui > div:nth-of-type(1) > div > div > figure > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Publisher Logo",
+    "to": "Liverpool Echo",
+    "before": "<img alt=\"Publisher Logo\" src=\"https://s2-prod.liverpoolecho.co.uk/@trinitymirrordigital/chameleon-branding/publications/liverpoolecho/img/cmp-Liverpool-Echo-logo.jpg?qc-size=150,39\">",
+    "after": "<img alt=\"Liverpool Echo\" src=\"https://s2-prod.liverpoolecho.co.uk/@trinitymirrordigital/chameleon-branding/publications/liverpoolecho/img/cmp-Liverpool-Echo-logo.jpg?qc-size=150,39\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "c8c78fc1e189",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > header > div:nth-of-type(1) > div:nth-of-type(2) > span > a > img",
+   "message": "The text alternative \"liverpoolecho\" names a label, not what the image conveys here.",
+   "evidence": "liverpoolecho",
+   "subject": "liverpoolecho",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "html > body > header > div:nth-of-type(1) > div:nth-of-type(2) > span > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "liverpoolecho",
+    "to": "Subscribe",
+    "before": "<img alt=\"liverpoolecho\" data-testid=\"premium-subscribe-liverpoolecho\" src=\"/assets/liverpoolecho/images/premium-subscribe-liverpoolecho.svg\">",
+    "after": "<img alt=\"Subscribe\" data-testid=\"premium-subscribe-liverpoolecho\" src=\"/assets/liverpoolecho/images/premium-subscribe-liverpoolecho.svg\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "80e8511c10f8",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#mantis-ui-widget-1 >>> div > header > div:nth-of-type(2) > a > picture > img",
+   "message": "The text alternative \"Mantis Logo\" is all its link holds, and does not say where the link leads.",
+   "evidence": "Mantis Logo",
+   "subject": "Mantis Logo",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "#mantis-ui-widget-1 >>> div > header > div:nth-of-type(2) > a > picture > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Mantis Logo",
+    "to": "Mantis Solutions",
+    "before": "<img src=\"https://claw.mantis-intelligence.com/assets/img/MantisLogo_Monochrome_Navy_187__msi___png.webp\" alt=\"Mantis Logo\">",
+    "after": "<img src=\"https://claw.mantis-intelligence.com/assets/img/MantisLogo_Monochrome_Navy_187__msi___png.webp\" alt=\"Mantis Solutions\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "bb5cb123409c",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#mantis-ui-widget-1 >>> div > main > div:nth-of-type(2) > div > div:nth-of-type(4) > a > figure > img",
+   "message": "The text alternative \"Find more about 'Coldest night' in Liverpool so far with -4C forecast overnight\" describes something the image does not show.",
+   "evidence": "Find more about 'Coldest night' in Liverpool so far with -4C forecast overnight",
+   "subject": "Find more about 'Coldest night' in Liverpool so far with -4C forecast overnight",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#mantis-ui-widget-1 >>> div > main > div:nth-of-type(2) > div > div:nth-of-type(4) > a > figure > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Find more about 'Coldest night' in Liverpool so far with -4C forecast overnight",
+    "to": "People braving the snow and ice at Liverpool's Sefton Park",
+    "before": "<img srcset=\"https://i2-prod.liverpoolecho.co.uk/article34891096.ece/ALTERNATES/s1200d/0_People-braving-tyhe-snow-and-ice-at-Liverpools-Sefton-ParkPic-Andrew-Teebay.jpg 615w, https://i2-prod.liverpoolecho.co.uk/article34891096.ece/ALTERNATES/s1200d/0_People-braving-tyhe-snow-and-ice-at-Liverpools-Sefton-ParkPic-Andrew-Teebay.jpg\" sizes=\"sizes=&quot;(max-width: 615px) 615px&quot;\" loading=\"lazy\" alt=\"Find more about 'Coldest night' in Liverpool so far with -4C forecast overnight\">",
+    "after": "<img srcset=\"https://i2-prod.liverpoolecho.co.uk/article34891096.ece/ALTERNATES/s1200d/0_People-braving-tyhe-snow-and-ice-at-Liverpools-Sefton-ParkPic-Andrew-Teebay.jpg 615w, https://i2-prod.liverpoolecho.co.uk/article34891096.ece/ALTERNATES/s1200d/0_People-braving-tyhe-snow-and-ice-at-Liverpools-Sefton-ParkPic-Andrew-Teebay.jpg\" sizes=\"sizes=&quot;(max-width: 615px) 615px&quot;\" loading=\"lazy\" alt=\"Find more about 'Coldest night' in Liverpool so far with -4C forecast overnight\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "3e6f3f8ada5e",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#mantis-ui-widget-1 >>> div > main > div:nth-of-type(2) > div > div:nth-of-type(4) > div:nth-of-type(1) > a:nth-of-type(1) > img",
+   "message": "The text alternative \"'Coldest night' in Liverpool so far with -4C forecast overnight\" describes something the image does not show.",
+   "evidence": "'Coldest night' in Liverpool so far with -4C forecast overnight",
+   "subject": "'Coldest night' in Liverpool so far with -4C forecast overnight",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#mantis-ui-widget-1 >>> div > main > div:nth-of-type(2) > div > div:nth-of-type(4) > div:nth-of-type(1) > a:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "'Coldest night' in Liverpool so far with -4C forecast overnight",
+    "to": "Liverpool Echo logo",
+    "before": "<img src=\"https://claw.mantis-intelligence.com/assets/img/logos/reachplc/liverpoolecho.co.uk/square.png\" loading=\"lazy\" alt=\"'Coldest night' in Liverpool so far with -4C forecast overnight\" style=\"background: #d51c24\">",
+    "after": "<img src=\"https://claw.mantis-intelligence.com/assets/img/logos/reachplc/liverpoolecho.co.uk/square.png\" loading=\"lazy\" alt=\"'Coldest night' in Liverpool so far with -4C forecast overnight\" style=\"background: #d51c24\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "b11736a1ff15",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#mantis-ui-widget-1 >>> div > main > div:nth-of-type(2) > div > div:nth-of-type(5) > a > figure > img",
+   "message": "The text alternative \"Find more about Southport aviary could cost taxpayers £1.3m to keep it open\" describes something the image does not show.",
+   "evidence": "Find more about Southport aviary could cost taxpayers £1.3m to keep it open",
+   "subject": "Find more about Southport aviary could cost taxpayers £1.3m to keep it open",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#mantis-ui-widget-1 >>> div > main > div:nth-of-type(2) > div > div:nth-of-type(5) > a > figure > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Find more about Southport aviary could cost taxpayers £1.3m to keep it open",
+    "to": "A character standing in a city street in Grand Theft Auto V.",
+    "before": "<img srcset=\"https://i2-prod.liverpoolecho.co.uk/article34274004.ece/ALTERNATES/s1200d/3_The-birds-in-the-aviary.jpg 615w, https://i2-prod.liverpoolecho.co.uk/article34274004.ece/ALTERNATES/s1200d/3_The-birds-in-the-aviary.jpg\" sizes=\"sizes=&quot;(max-width: 615px) 615px&quot;\" loading=\"lazy\" alt=\"Find more about Southport aviary could cost taxpayers £1.3m to keep it open\">",
+    "after": "<img srcset=\"https://i2-prod.liverpoolecho.co.uk/article34274004.ece/ALTERNATES/s1200d/3_The-birds-in-the-aviary.jpg 615w, https://i2-prod.liverpoolecho.co.uk/article34274004.ece/ALTERNATES/s1200d/3_The-birds-in-the-aviary.jpg\" sizes=\"sizes=&quot;(max-width: 615px) 615px&quot;\" loading=\"lazy\" alt=\"A character standing in a city street in Grand Theft Auto V.\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "653f36df82c7",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#mantis-ui-widget-1 >>> div > main > div:nth-of-type(2) > div > div:nth-of-type(5) > div:nth-of-type(1) > a:nth-of-type(1) > img",
+   "message": "The text alternative \"Southport aviary could cost taxpayers £1.3m to keep it open\" describes something the image does not show.",
+   "evidence": "Southport aviary could cost taxpayers £1.3m to keep it open",
+   "subject": "Southport aviary could cost taxpayers £1.3m to keep it open",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#mantis-ui-widget-1 >>> div > main > div:nth-of-type(2) > div > div:nth-of-type(5) > div:nth-of-type(1) > a:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Southport aviary could cost taxpayers £1.3m to keep it open",
+    "to": "Liverpool Echo logo",
+    "before": "<img src=\"https://claw.mantis-intelligence.com/assets/img/logos/reachplc/liverpoolecho.co.uk/square.png\" loading=\"lazy\" alt=\"Southport aviary could cost taxpayers £1.3m to keep it open\" style=\"background: #d51c24\">",
+    "after": "<img src=\"https://claw.mantis-intelligence.com/assets/img/logos/reachplc/liverpoolecho.co.uk/square.png\" loading=\"lazy\" alt=\"Liverpool Echo logo\" style=\"background: #d51c24\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 18
+ },
+ "groups": [
+  {
+   "id": "g-a5ea3b6c2dce",
+   "list": "findings",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "engine",
+   "check": "image-alt",
+   "count": 8,
+   "members": [
+    "8a136e72ee2b",
+    "008f63477fd7",
+    "e6c70f761062",
+    "3f81f4618f7f",
+    "1f15c15eb2b5",
+    "cd7799ed5a95",
+    "e8541981414d",
+    "61570f445d34"
+   ],
+   "example": "8a136e72ee2b"
+  },
+  {
+   "id": "g-e4b2a6a531a5",
+   "list": "findings",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "check": "judgment/1.1.1",
+   "claim": "wrong_content",
+   "count": 6,
+   "members": [
+    "fb859104b8e9",
+    "c8c78fc1e189",
+    "bb5cb123409c",
+    "3e6f3f8ada5e",
+    "b11736a1ff15",
+    "653f36df82c7"
+   ],
+   "example": "fb859104b8e9"
+  },
+  {
+   "id": "g-caa6eccc5028",
+   "list": "findings",
+   "criterion": "2.5.3",
+   "level": "A",
+   "source": "engine",
+   "check": "label-content-name-mismatch",
+   "count": 8,
+   "members": [
+    "c695df5fb077",
+    "a460919d3703",
+    "cd7c20a378ef",
+    "a29f5dc643cf",
+    "0401e9f8bcbb",
+    "5423c51077dc",
+    "08c35a25fdeb",
+    "d40daac62ae3"
+   ],
+   "example": "c695df5fb077"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#qc-cmp2-ui > div:nth-of-type(1) > div > div > div > div > ul > li:nth-of-type(2) > a",
+   "message": "The link text \"Terms and Conditions\" does not match where the link leads: a page titled \"Liverpool Echo: Latest Liverpool and Merseyside news, sports and what's on\".",
+   "evidence": "The model suggests: \"Liverpool Echo Terms and Conditions\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#main-content > div > div > nav > ul > li:nth-of-type(1) > span > a > div > img",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Liverpool Echo Icon",
+    "problem": "wrong_content",
+    "imageShows": "A white stylized logo on a red background.",
+    "suggestedAlt": "Liverpool Echo logo",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#article-body > button > div > div > figure > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Lee Palmer expressed his frustration at ongoing issues with Royal Mail",
+    "problem": "wrong_content",
+    "imageShows": "A man in a grey hoodie stands in a hallway between two dark red doors.",
+    "suggestedAlt": "Lee Palmer standing in a hallway",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#article-body > div:nth-of-type(11) > button > div > div > figure > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Lee said the postal service to the street has been erratic since their regular postman \"disappeared\"",
+    "problem": "wrong_content",
+    "imageShows": "A man in a grey hoodie standing in front of a red door with the number 18.",
+    "suggestedAlt": "Lee Palmer from Wylva Road",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#article-body > div:nth-of-type(14) > button > div > div > figure > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Royal Mail said it is working to \"improve reliability across Liverpool\"",
+    "problem": "wrong_content",
+    "imageShows": "A street scene showing Royal Mail delivery vans parked on a narrow road lined with brick buildings.",
+    "suggestedAlt": "Royal Mail delivery vans parked on a street in Liverpool",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#qc-cmp2-ui > div:nth-of-type(1) > div > div > div > div > p:nth-of-type(1) > i > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Reach and across our entities' combined with the context of a privacy notice suggests it leads to information about the entities involved in data processing.",
+    "leadsTo": "https://www.reachplc.com/about-us/our-brands",
+    "verdict": "fail",
+    "evidence": "Reach and across our entities",
+    "problem": "mismatch",
+    "suggestedText": "Our brands and entities",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#dedicated-primary-header-nav > ul > li:nth-of-type(9) > div > span > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page listing things to do in Liverpool and Merseyside.",
+    "leadsTo": "A page titled 'What's On: What's On in Liverpool and Merseyside - Liverpool Echo' featuring music, film, comedy, and theatre.",
+    "verdict": "fail",
+    "evidence": "THINGS TO DO",
+    "problem": "ambiguous",
+    "suggestedText": "What's On in Liverpool",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#mobile-nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(6) > span > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Business' in a navigation menu suggests a section related to business news or information.",
+    "leadsTo": "https://www.business-live.co.uk/all-about/north-west (North West business news)",
+    "verdict": "fail",
+    "evidence": "Business",
+    "problem": "mismatch",
+    "suggestedText": "North West Business News",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#mobile-nav > ul > li:nth-of-type(4) > ul > li:nth-of-type(9) > span > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Fantasy Football' in a navigation menu suggests a section for fantasy football content.",
+    "leadsTo": "A page to download the Fantasy Football app.",
+    "verdict": "fail",
+    "evidence": "Fantasy Football",
+    "problem": "mismatch",
+    "suggestedText": "Download Fantasy Football app",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#mobile-nav > ul > li:nth-of-type(5) > ul > li:nth-of-type(2) > span > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Things to do' in a navigation menu suggests a list of activities or attractions.",
+    "leadsTo": "https://www.liverpoolecho.co.uk/all-about/things-to-do-liverpool (Things to do in Liverpool)",
+    "verdict": "fail",
+    "evidence": "Things to do",
+    "problem": "ambiguous",
+    "suggestedText": "Things to do in Liverpool",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 13,
+   "judged": 13,
+   "failed": 7,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 134,
+   "judged": 50,
+   "failed": 0,
+   "passed": 44,
+   "cannotTell": 0,
+   "discarded": 5,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 84,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 4,
+   "judged": 4,
+   "failed": 0,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "A layer lay over the viewport when the page was read (div, on top at 89% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "18 image(s) were left without a capture, so no judgment looked at them: 3 outside the page (an off-canvas menu); 1 cut off by the box that holds it; 14 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 84 of 134 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 68,
+  "inputTokens": 64696,
+  "outputTokens": 6404,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 287,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 28
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 19,
+    "prepareMs": 0,
+    "candidates": 13,
+    "judged": 13,
+    "calls": 0,
+    "cachedCalls": 13
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 24,
+    "prepareMs": 0,
+    "candidates": 134,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 5,
+    "prepareMs": 0,
+    "candidates": 4,
+    "judged": 4,
+    "calls": 0,
+    "cachedCalls": 4
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 146,
+    "prepareMs": 143,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 26,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 35
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "overlay": {
+   "selector": "div",
+   "coverage": 0.89,
+   "hidden": true
+  },
+  "images": {
+   "captured": 21,
+   "notCaptured": 18,
+   "reasons": {
+    "outside-page": 3,
+    "clipped": 1,
+    "limit": 14
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 134,
+    "capped": 84
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "overlay": {
+    "ref": "#qc-cmp2-main > div",
+    "selector": "div",
+    "coverage": 0.89,
+    "hidden": true
+   }
+  }
+ }
+}

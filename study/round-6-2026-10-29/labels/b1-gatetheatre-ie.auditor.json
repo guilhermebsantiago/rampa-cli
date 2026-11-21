@@ -1,0 +1,83 @@
+{
+  "page": "https://gatetheatre.ie/contact-us/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "61a3ff37723a",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer menu link 'Jobs' (16px, weight 900, brand red #ef263a) sits on the black footer band, over the large #1a1a1a GATE THEATRE wordmark. Reading the screenshot pixels row by row inside its bounds, every glyph row lies on #1a1a1a, so the contrast is 4.15:1 throughout, as claimed; the link's rules are drawn as linear-gradient backgrounds, which fits axe's 'gradient' reason. 16px bold is not large text, so 4.5:1 applies and the text fails 1.4.3. The live page (contact-us redirects to about-us#section-contact) has the same markup and CSS; its stylesheet even notes that the footer's red text over the wordmark is 4.15:1, a known trade-off. Nothing in the capture differs from what users get at this width."
+    },
+    {
+      "fingerprint": "156c84dde1c2",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header 'Account' link shows only a black person glyph (with a 1px black inset outline) and has no visible text, so the glyph is what identifies it and 1.4.11 asks for 3:1 against adjacent colours. The header is position: fixed with a backdrop blur; the live script.js tints the blur with at most rgba(255,255,255,0.3) when the ground under black type is dark, which over black yields about #4d4d4d. In the screenshot the header is painted over the black Explore More cards and the pixels around the icon are #4d4d4d, giving about 2.4-2.5:1 for black on that grey (the claim's 2.41:1 is a slightly lower reading of the same tint, still well under 3:1). Users meet this state whenever the fixed header passes over the black cards or the black footer band at the foot of the page, so the icon fails 1.4.11 there. The snapshot bounds (y 5873) do not match where the full-page screenshot painted the fixed header, but the live CSS and script reproduce the captured state, so the difference does not touch the claim."
+    },
+    {
+      "fingerprint": "e1645cc671e6",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Your Visit' is a primary nav link in the fixed header: black, 14px, weight 900, so 4.5:1 applies. The header has no background of its own, only a backdrop blur that live script.js tints white by at most 30% when the ground is dark, aiming at 3:1 rather than 4.5:1. In the screenshot the header is painted over the black Explore More cards and the pixels behind the link are #4d4d4d, so black text there is about 2.48:1, as the claim says. Users get the same whenever they scroll the cards or the black footer band under the header, so the text fails 1.4.3 in that state (it passes over white content). The live CSS and script match the capture; the only oddity is that the snapshot bounds and the full-page screenshot show the fixed header at different scroll positions, which does not change the measured state."
+    },
+    {
+      "fingerprint": "8722596fc9c9",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'About Us' in the fixed header's primary nav is black 14px/900 text. In the screenshot the header sits over the black Explore More cards and the pixels behind the link are #4d4d4d (the live script's maximum 30% white tint over black), so the contrast is about 2.48:1, below the 4.5:1 that 1.4.3 requires for text this size. The live gate.css and script.js confirm the tint logic targets only 3:1, so users see the same low contrast whenever dark content (the cards, the black footer band) scrolls under the header. The capture matches the live page for this state."
+    },
+    {
+      "fingerprint": "b6a91b9a5368",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Basket' link in the fixed header shows only a black cart glyph in a 1px black outlined box, with an aria-label and no visible text, so the glyph needs 3:1 under 1.4.11. Over dark content the header's blur gets at most a 30% white tint (live gate.css/script.js), about #4d4d4d over black; the screenshot pixels around the icon are #4d4d4d, giving about 2.48:1, as claimed. Users meet this when the black Explore More cards or the black footer band are under the header, so the icon fails 1.4.11 there. The capture reflects a real state of the live page."
+    },
+    {
+      "fingerprint": "f726a6612a82",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer menu link 'About Us' (red #ef263a, 16px, weight 900, aria-current=page) lies on the #1a1a1a footer wordmark at 1280px: the screenshot pixels behind its glyphs are #1a1a1a, giving 4.15:1, as claimed. 16px bold is not large text, so 4.5:1 applies and it fails 1.4.3. The live page has the same footer, and its CSS comment admits the red footer text over the wordmark is 4.15:1. No capture difference touches this."
+    },
+    {
+      "fingerprint": "643cf4d2a78d",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'News' in the fixed header (right half of the primary nav) is black 14px/900 text. In the screenshot the header is painted over the black Explore More card and the pixels behind the link are #4d4d4d, the live script's full 30% white tint over black, so the contrast is about 2.48:1, under 4.5:1. The live CSS and script work the same way and aim only at 3:1, so users see this whenever dark content scrolls under the header; the text fails 1.4.3 in that state."
+    },
+    {
+      "fingerprint": "572e9dc02f5b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer menu link 'News' (to /stories/, red #ef263a, 16px, weight 900) sits over the top of the 'A' of the #1a1a1a footer wordmark at 1280px; the screenshot pixels behind its glyphs are #1a1a1a, so contrast is 4.15:1, as claimed. Not large text, so 4.5:1 applies and it fails 1.4.3. The live markup and CSS are the same (the stylesheet records the 4.15:1 as a known trade-off)."
+    },
+    {
+      "fingerprint": "4fc5e6606034",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Get Involved' in the fixed header's primary nav is black 14px/900 text. The screenshot shows the header over the black Explore More cards with #4d4d4d behind the link (maximum 30% white tint over black from the live script), so contrast is about 2.48:1, below 4.5:1. Users get this whenever the cards or the black footer band pass under the header; the live CSS and script confirm the behaviour, so the text fails 1.4.3 in that state."
+    },
+    {
+      "fingerprint": "0fdc4c08f3ce",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'What's On' is the first link of the fixed header's primary nav, black 14px/900 text. Over dark content the header's blur is tinted at most 30% white (live gate.css/script.js), and in the screenshot the pixels behind the link are about #4d4d4d (the claim reads #4a4a4a-#4b4b4b, 2.41:1, near the blurred left edge; either way about 2.4-2.5:1). That is far under 4.5:1, so the text fails 1.4.3 whenever the black Explore More cards or the black footer band are under the header. The capture matches the live behaviour."
+    },
+    {
+      "fingerprint": "db25a6c41111",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Join & Give' in the right half of the fixed header's nav is black 14px/900 text. In the screenshot the header sits over the black Explore More card and the pixels behind the link are #4d4d4d, giving about 2.48:1, as claimed; the live script aims the blur's tint at 3:1 and caps it at 30% white, so black type over black ground stays near 2.5:1. Users see this when dark content scrolls under the header, so the text fails 1.4.3 there. No capture difference touches the claim."
+    }
+  ]
+}

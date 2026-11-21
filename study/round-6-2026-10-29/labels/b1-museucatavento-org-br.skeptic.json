@@ -1,0 +1,300 @@
+{
+  "page": "https://museucatavento.org.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "paae70aa55fe",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. Main-menu link 'como chegar' to /como-chegar, whose page is titled 'como chegar | Museu Catavento'. The link text alone states its purpose (directions to the museum); the live markup is the same. Meets 2.4.4."
+    },
+    {
+      "fingerprint": "d8df00781102",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main-menu link 'novidades' (11.5px, bold, not large text). The site's own stylesheet, which loaded in the capture and is the same live, sets '.menu li a{color:#999999}'; the capture measured #999999 on #ffffff, 2.85:1, so claimTrue is yes and the text fails 4.5:1 in the presentation users get once they close the popup (the overlay was hidden for the measure, which matches that view). Nothing in the live page differs. Skeptic check: the page has a native 'Ativar alto contraste' button (#contraste) whose body.darkroom styles turn this text white or yellow on black, so G174 was considered; it does not hold up, because G174 requires the alternate version to conform to every Level A/AA criterion, and the darkroom version keeps this page's other failures (the popup's img close control with no role, name or keyboard access; the newsletter e-mail field with no autocomplete). True positive."
+    },
+    {
+      "fingerprint": "3e41c12bcef2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main-menu link 'acervo' (11.5px, bold, not large text). The site's own stylesheet, which loaded in the capture and is the same live, sets '.menu li a{color:#999999}'; the capture measured #999999 on #f6f6f6, 2.64:1, so claimTrue is yes and the text fails 4.5:1 in the presentation users get once they close the popup (the overlay was hidden for the measure, which matches that view). Nothing in the live page differs. Skeptic check: the page has a native 'Ativar alto contraste' button (#contraste) whose body.darkroom styles turn this text white or yellow on black, so G174 was considered; it does not hold up, because G174 requires the alternate version to conform to every Level A/AA criterion, and the darkroom version keeps this page's other failures (the popup's img close control with no role, name or keyboard access; the newsletter e-mail field with no autocomplete). True positive."
+    },
+    {
+      "fingerprint": "6161714d7198",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The first of three 'CLIQUE AQUI' links in the hero's opening-hours block, leading to /agendamento-geral (page 'Agendamento Geral'). The three links are direct children of one div, each on its own line (separated by <br><br>) right after its lead-in, and the snapshot's readingText for that div reads '... AGENDAMENTO DE GRUPOS CLIQUE AQUI ...'; the live HTML is identical. So the text in the same sentence/paragraph as the link, immediately before it, states its purpose (G53), which tells the three apart; the claim's 'nothing around this one tells it apart' is false. Identical link texts in the links list are a 2.4.9 (AAA) matter, not 2.4.4. The packet's ancestor text strips the links and appends them after all three lead-ins, which hides the pairing from a reader of that context, hence context_missing."
+    },
+    {
+      "fingerprint": "57881a6aeb33",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Hero line '8 milhões de visitantes'. Live CSS: '.laranja-text{color:#CD5F3F}', '.sz-18{font-size:18px}', '.worksansb{font-weight:900}'. 18px bold is 13.5pt, under the 14pt-bold large-text threshold, so 4.5:1 applies; #cd5f3f is 3.96:1 on white and 3.66:1 on #f6f6f6, as the claim says. The capture's styles match the live page. Skeptic check: the page has a native 'Ativar alto contraste' button (#contraste) whose body.darkroom styles turn this text white or yellow on black, so G174 was considered; it does not hold up, because G174 requires the alternate version to conform to every Level A/AA criterion, and the darkroom version keeps this page's other failures (the popup's img close control with no role, name or keyboard access; the newsletter e-mail field with no autocomplete). True positive."
+    },
+    {
+      "fingerprint": "p56c06deb919",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. Footer link 'Ouvidoria' to fala.sp.gov.br (the state ombudsman portal). The word names the service it leads to, so its purpose is clear from the text alone. The capture's government footer was unstyled (saopaulo.sp.gov.br returns HTTP 500 to a HeadlessChrome user agent, 200 to a normal one), but that changes nothing in the link text or context. Meets 2.4.4."
+    },
+    {
+      "fingerprint": "se489b0f2cb0",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Government footer link 'SIC' to sic.sp.gov.br, in its own div next to 'Ouvidoria' and 'Transparência', with no title, aria-describedby, preceding heading or same-paragraph text (true of the capture and of the live page). Skeptic reading: the link text is the name of the service it leads to (Serviço de Informações ao Cidadão, the standard label of Brazilian access-to-information services), so it does say where the link goes; an unexpanded abbreviation is a 3.1.4 (AAA) matter, stricter than 2.4.4. But competent auditors could reasonably hold that the bare acronym does not convey purpose to many users, so the label is uncertain."
+    },
+    {
+      "fingerprint": "0cf5bed9aba6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The second of three 'CLIQUE AQUI' links in the hero's opening-hours block, leading to megapass.com.br/catavento/eventos (ticket sales). The three links are direct children of one div, each on its own line (separated by <br><br>) right after its lead-in, and the snapshot's readingText for that div reads '... GARANTA SEU INGRESSO INDIVIDUAL CLIQUE AQUI ...'; the live HTML is identical. So the text in the same sentence/paragraph as the link, immediately before it, states its purpose (G53), which tells the three apart; the claim's 'nothing around this one tells it apart' is false. Identical link texts in the links list are a 2.4.9 (AAA) matter, not 2.4.4. The packet's ancestor text strips the links and appends them after all three lead-ins, which hides the pairing from a reader of that context, hence context_missing."
+    },
+    {
+      "fingerprint": "869d250c624c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main-menu link 'mapa interno' (11.5px, bold, not large text). The site's own stylesheet, which loaded in the capture and is the same live, sets '.menu li a{color:#999999}'; the capture measured #999999 on #ffffff, 2.85:1, so claimTrue is yes and the text fails 4.5:1 in the presentation users get once they close the popup (the overlay was hidden for the measure, which matches that view). Nothing in the live page differs. Skeptic check: the page has a native 'Ativar alto contraste' button (#contraste) whose body.darkroom styles turn this text white or yellow on black, so G174 was considered; it does not hold up, because G174 requires the alternate version to conform to every Level A/AA criterion, and the darkroom version keeps this page's other failures (the popup's img close control with no role, name or keyboard access; the newsletter e-mail field with no autocomplete). True positive."
+    },
+    {
+      "fingerprint": "f1780a7330e5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main-menu link 'política de privacidade' (11.5px, bold, not large text). The site's own stylesheet, which loaded in the capture and is the same live, sets '.menu li a{color:#999999}'; the capture measured #999999 on #ffffff, 2.85:1, so claimTrue is yes and the text fails 4.5:1 in the presentation users get once they close the popup (the overlay was hidden for the measure, which matches that view). Nothing in the live page differs. Skeptic check: the page has a native 'Ativar alto contraste' button (#contraste) whose body.darkroom styles turn this text white or yellow on black, so G174 was considered; it does not hold up, because G174 requires the alternate version to conform to every Level A/AA criterion, and the darkroom version keeps this page's other failures (the popup's img close control with no role, name or keyboard access; the newsletter e-mail field with no autocomplete). True positive."
+    },
+    {
+      "fingerprint": "29d1dbd974a9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "'SP + Digital' link in the São Paulo government top bar. The capture shows the bar unstyled (broken logo images, Bootstrap's default #007bff link colour), so the measured 3.98:1 is true of the capture. The bar's stylesheet (saopaulo.sp.gov.br/barra-govsp/css/topo-padrao-govsp.min.css) answers HTTP 500 to a HeadlessChrome user agent and 200 to a normal browser; with it, '.govsp-link.digital' is #000 at 14px on the bar's #fff background (21:1). Users get passing contrast; the failure is an artefact of the automated capture."
+    },
+    {
+      "fingerprint": "08edb620710e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "First hero 'CLIQUE AQUI' link (16px, regular). The site's stylesheet (same-origin, loaded in the capture, same live) leaves it at Bootstrap's 'a{color:#007bff}', which is 3.68:1 on #f6f6f6 and 3.98:1 on white, under 4.5:1. Skeptic check: the page has a native 'Ativar alto contraste' button (#contraste) whose body.darkroom styles turn this text white or yellow on black, so G174 was considered; it does not hold up, because G174 requires the alternate version to conform to every Level A/AA criterion, and the darkroom version keeps this page's other failures (the popup's img close control with no role, name or keyboard access; the newsletter e-mail field with no autocomplete). True positive."
+    },
+    {
+      "fingerprint": "ea8baa45dbeb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'X' close image of the Polo Catavento popup (#popupe), '<img onclick=\"fecharpop()\" style=\"cursor:pointer\">', with no role, no alt, no tabindex; fecharpop() hides the popup, so it is a user interface control. The live page serves the same popup and markup. It is exposed as an image with no control role and no name, so it fails 4.1.2 for the reason the claim gives (it also fails 2.1.1 and 1.1.1). No technique or alternative makes this element itself expose a role."
+    },
+    {
+      "fingerprint": "ea6c2f2e91d1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main-menu link 'loja' (11.5px, bold, not large text). The site's own stylesheet, which loaded in the capture and is the same live, sets '.menu li a{color:#999999}'; the capture measured #999999 on #ffffff, 2.85:1, so claimTrue is yes and the text fails 4.5:1 in the presentation users get once they close the popup (the overlay was hidden for the measure, which matches that view). Nothing in the live page differs. Skeptic check: the page has a native 'Ativar alto contraste' button (#contraste) whose body.darkroom styles turn this text white or yellow on black, so G174 was considered; it does not hold up, because G174 requires the alternate version to conform to every Level A/AA criterion, and the darkroom version keeps this page's other failures (the popup's img close control with no role, name or keyboard access; the newsletter e-mail field with no autocomplete). True positive."
+    },
+    {
+      "fingerprint": "f100b91f0c29",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main-menu link 'como chegar' (11.5px, bold, not large text). The site's own stylesheet, which loaded in the capture and is the same live, sets '.menu li a{color:#999999}'; the capture measured #999999 on #ffffff, 2.85:1, so claimTrue is yes and the text fails 4.5:1 in the presentation users get once they close the popup (the overlay was hidden for the measure, which matches that view). Nothing in the live page differs. Skeptic check: the page has a native 'Ativar alto contraste' button (#contraste) whose body.darkroom styles turn this text white or yellow on black, so G174 was considered; it does not hold up, because G174 requires the alternate version to conform to every Level A/AA criterion, and the darkroom version keeps this page's other failures (the popup's img close control with no role, name or keyboard access; the newsletter e-mail field with no autocomplete). True positive."
+    },
+    {
+      "fingerprint": "p83884f651bb",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. Magnifier icon #lupa-buscar with alt=\"Buscar\"; a click handler toggles the search form. The alt names the function the icon serves (search), which meets 1.1.1 for a functional image. Its lack of a role and keyboard access is a 4.1.2/2.1.1 issue, not 1.1.1. Live markup identical."
+    },
+    {
+      "fingerprint": "0ac515f76816",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter field (Dinamize form) 'digite o seu e-mail para se cadastrar...', <input type=\"text\" name=\"cmp1\"> with no autocomplete attribute; the live HTML has no autocomplete anywhere and no script adds one. It collects the user's own e-mail, an Input Purpose ('email'), and HTML supports autocomplete, so the purpose is not programmatically determinable: fails 1.3.5 as claimed. No other mechanism (type=email is not used either) rescues it."
+    },
+    {
+      "fingerprint": "s5bf92bdcf58",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'clique aqui!' in the cookie banner, to the privacy-policy page. It sits in the paragraph 'Este site utiliza um conjunto de cookies... você concorda com a nossa política de privacidade. Para maiores informações: clique aqui!' under the h3 'Uso de cookies'. The enclosing sentence and paragraph (G53) and the preceding heading tell the user it gives more information on the cookie/privacy policy, which is where it goes. The claim that nothing around it does is false; the packet gave that paragraph."
+    },
+    {
+      "fingerprint": "c4e74d77c1af",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main-menu link 'visitação' (11.5px, bold, not large text). The site's own stylesheet, which loaded in the capture and is the same live, sets '.menu li a{color:#999999}'; the capture measured #999999 on #ffffff/#f6f6f6, 2.85 to 2.64:1, so claimTrue is yes and the text fails 4.5:1 in the presentation users get once they close the popup (the overlay was hidden for the measure, which matches that view). Nothing in the live page differs. Skeptic check: the page has a native 'Ativar alto contraste' button (#contraste) whose body.darkroom styles turn this text white or yellow on black, so G174 was considered; it does not hold up, because G174 requires the alternate version to conform to every Level A/AA criterion, and the darkroom version keeps this page's other failures (the popup's img close control with no role, name or keyboard access; the newsletter e-mail field with no autocomplete). True positive."
+    },
+    {
+      "fingerprint": "1c7a488a7595",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Third hero 'CLIQUE AQUI' link (16px, regular), coloured by Bootstrap's 'a{color:#007bff}' in the live CSS as in the capture: 3.68:1 on #f6f6f6, 3.98:1 on white, under 4.5:1. Skeptic check: the page has a native 'Ativar alto contraste' button (#contraste) whose body.darkroom styles turn this text white or yellow on black, so G174 was considered; it does not hold up, because G174 requires the alternate version to conform to every Level A/AA criterion, and the darkroom version keeps this page's other failures (the popup's img close control with no role, name or keyboard access; the newsletter e-mail field with no autocomplete). True positive."
+    },
+    {
+      "fingerprint": "a846cb17f2d7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Second 'SP + Digital' link, inside the government bar's mobile kebab dropdown (#govsp-dropdown). The capture lacked the bar's stylesheet (saopaulo.sp.gov.br answers HTTP 500 to HeadlessChrome, 200 to a normal browser), so it rendered as a visible #007bff link on #f6f6f6 (3.68:1, true of the capture). With the stylesheet, '.govsp-kebab{display:none}' at widths of 769px and up hides it at the captured 1280px width, and when the dropdown is shown on mobile '.govsp-link.digital' is #000 on white. Users never see the measured colours."
+    },
+    {
+      "fingerprint": "7398ef20b69b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main-menu link 'apoie' (11.5px, bold, not large text). The site's own stylesheet, which loaded in the capture and is the same live, sets '.menu li a{color:#999999}'; the capture measured #999999 on #ffffff, 2.85:1, so claimTrue is yes and the text fails 4.5:1 in the presentation users get once they close the popup (the overlay was hidden for the measure, which matches that view). Nothing in the live page differs. Skeptic check: the page has a native 'Ativar alto contraste' button (#contraste) whose body.darkroom styles turn this text white or yellow on black, so G174 was considered; it does not hold up, because G174 requires the alternate version to conform to every Level A/AA criterion, and the darkroom version keeps this page's other failures (the popup's img close control with no role, name or keyboard access; the newsletter e-mail field with no autocomplete). True positive."
+    },
+    {
+      "fingerprint": "c46d698966a6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Second hero 'CLIQUE AQUI' link (16px, regular, wraps to two lines), coloured by Bootstrap's 'a{color:#007bff}' in the live CSS as in the capture: 3.98:1 on white, 3.68:1 on #f6f6f6, under 4.5:1. Skeptic check: the page has a native 'Ativar alto contraste' button (#contraste) whose body.darkroom styles turn this text white or yellow on black, so G174 was considered; it does not hold up, because G174 requires the alternate version to conform to every Level A/AA criterion, and the darkroom version keeps this page's other failures (the popup's img close control with no role, name or keyboard access; the newsletter e-mail field with no autocomplete). True positive."
+    },
+    {
+      "fingerprint": "70e66ea3f16a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The third of three 'CLIQUE AQUI' links in the hero's opening-hours block, leading to megapass.com.br/catavento/atracoes (pass availability). The three links are direct children of one div, each on its own line (separated by <br><br>) right after its lead-in, and the snapshot's readingText for that div reads '... DISPONIBILIDADE DE SENHAS: somente aos finais de semana, feriados e período de férias escolares CLIQUE AQUI ...'; the live HTML is identical. So the text in the same sentence/paragraph as the link, immediately before it, states its purpose (G53), which tells the three apart; the claim's 'nothing around this one tells it apart' is false. Identical link texts in the links list are a 2.4.9 (AAA) matter, not 2.4.4. The packet's ancestor text strips the links and appends them after all three lead-ins, which hides the pairing from a reader of that context, hence context_missing."
+    },
+    {
+      "fingerprint": "sc4e074073e5",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Footer button-link 'ESTACIONAMENTO' to /horarios-e-precos. The destination's title is 'Horários e Preços', but the page holds the parking section ('Estacionamento amplo', car/bus/moto prices, 'FORMAS DE PAGAMENTO DO ESTACIONAMENTO'), and the footer's 'Estacionamento no local' link points to the same page. The link text describes what the user gets there (parking information); 2.4.4 does not require link text to match the destination's title. Rampa saw only the title and heading, not the content."
+    },
+    {
+      "fingerprint": "ae41d1039bcb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main-menu link 'estúdio de tv' (11.5px, bold, not large text). The site's own stylesheet, which loaded in the capture and is the same live, sets '.menu li a{color:#999999}'; the capture measured #999999 on #ffffff, 2.85:1, so claimTrue is yes and the text fails 4.5:1 in the presentation users get once they close the popup (the overlay was hidden for the measure, which matches that view). Nothing in the live page differs. Skeptic check: the page has a native 'Ativar alto contraste' button (#contraste) whose body.darkroom styles turn this text white or yellow on black, so G174 was considered; it does not hold up, because G174 requires the alternate version to conform to every Level A/AA criterion, and the darkroom version keeps this page's other failures (the popup's img close control with no role, name or keyboard access; the newsletter e-mail field with no autocomplete). True positive."
+    },
+    {
+      "fingerprint": "e06c66a8f315",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main-menu link 'exposições' (11.5px, bold, not large text). The site's own stylesheet, which loaded in the capture and is the same live, sets '.menu li a{color:#999999}'; the capture measured #999999 on #f6f6f6, 2.64:1, so claimTrue is yes and the text fails 4.5:1 in the presentation users get once they close the popup (the overlay was hidden for the measure, which matches that view). Nothing in the live page differs. Skeptic check: the page has a native 'Ativar alto contraste' button (#contraste) whose body.darkroom styles turn this text white or yellow on black, so G174 was considered; it does not hold up, because G174 requires the alternate version to conform to every Level A/AA criterion, and the darkroom version keeps this page's other failures (the popup's img close control with no role, name or keyboard access; the newsletter e-mail field with no autocomplete). True positive."
+    }
+  ]
+}

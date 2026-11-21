@@ -1,0 +1,83 @@
+{
+  "page": "https://www.oliberal.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s57664bb11c7",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h3 'LIBCLUB+' heads one card of the 'HUB O LIBERAL' region. Under it the card says 'Área do assinante com conteúdos exclusivos e benefícios', then 'Acessar'. The heading names the service the card is about, so the claim that it says nothing about the content under it is false of the capture. 2.4.6 asks that a heading describe its section's topic or purpose. It does not ask a heading to explain a brand. This card's topic is the LIBCLUB+ service and the heading names it, so the element passes. The live HTML has the same h3 and description, and the screenshot shows the styled card with the heading above its description, so the capture does not differ in any way that matters. The model had the card's text and judged it wrongly."
+    },
+    {
+      "fingerprint": "718efaa9e311",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The img is the station logo in the third item of the 'Lista de rádios' list. The item's h3 reads 'Castanhal' and its paragraph 'Castanhal FM'. I fetched the source image (447 px, the same src as in the capture). It reads 'LIBERAL FM' with the subtitle 'CASTANHAL | 94.1 Mhz', so the image does show Castanhal and the claim is false. The alt 'Castanhal' names the station the logo stands for and matches the item's text, which serves the image's purpose in this list. Leaving out the brand and the frequency, which are details of the logo, does not make it fail; an empty alt would also have passed, since the heading next to it says the same. The live page has the same alt and src. The 56 px crop the model saw makes the subtitle hard to read, but the model had the list item's context and judged wrongly."
+    },
+    {
+      "fingerprint": "s011ec3357ff",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h3 'LibClassificados' heads the last card of the 'HUB O LIBERAL' region. Under it the card says 'Compre, venda e encontre tudo que precisa em um só lugar', then 'Acessar', and the card links to classificadosoliberal.com.br. 'Classificados' is the ordinary Portuguese word for classified ads, so the heading plainly names the card's topic, a classifieds service. The claim that it says nothing about the content under it is false, and the heading meets 2.4.6. The live HTML has the same h3 and description, and the screenshot shows the card as styled, so the capture does not differ in any way that matters. The model had the text and judged it wrongly."
+    },
+    {
+      "fingerprint": "1bde38b55f4e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The img is the only content of an <a> to the article 'Jair Bolsonaro tem obstrução intestinal e está sendo medicado, diz Carlos'. The same teaser, a div with role=link and tabindex=0, also holds a headline link to the same URL, 'Carlos relata quadro de obstrução intestinal de Bolsonaro', which has a title. The claim is true of the capture: the alt is all the link holds, and it names the photo's subject, not the article. The crop shows Bolsonaro, so the alt is accurate as a description. Auditors split on whether this fails 1.1.1. On one side, H30 says the alt of an image that is a link's only content should describe the link's function, and 1.1.1's clause for controls asks for a name that describes purpose. On the other, no documented failure covers a descriptive alt, the WAI images decision tree treats an image as informative when the adjacent text link to the same destination makes its function clear, and this alt names the story's subject. I lean towards a pass: the redundant image link, and the role=link teaser that nests two links (a possible 4.1.2 issue), are better reported elsewhere. But competent auditors would reasonably disagree, so the label is uncertain. The live HTML has the same teaser, alt and href, so the capture does not differ."
+    },
+    {
+      "fingerprint": "9f4bdcf1c0bd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The img is the only content of an <a> to the article \"'Cara de Burro' é assassinado a tiros em Palestina do Pará\". Its teaser, a div with role=link and tabindex=0, also holds a headline link with that text, and a title, to the same URL. The claim is true of the capture: the alt 'A imagem em destaque mostra a vítima do homicídio.' is all the link holds, and it describes the photo, not the article. The crop shows a young man, the victim the alt names. Auditors split on whether this fails 1.1.1. H30 and 1.1.1's clause for controls point towards a name that gives the link's function. On the other side, no documented failure covers a descriptive alt, the WAI decision tree treats an image whose link is clear from adjacent text to the same destination as informative, and this alt tells the user that the story is about a homicide. I lean towards a pass for 1.1.1: the redundant image link and the nested role=link teaser (a possible 4.1.2 issue) are better reported elsewhere. But competent auditors would reasonably disagree, so the label is uncertain. The live HTML has the same teaser, alt and href, so the capture does not differ."
+    },
+    {
+      "fingerprint": "2085e64d7aae",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The link's accessible name is 'Ver Mais', since the arrow is aria-hidden, and it has no aria-label, title or aria-describedby; it goes to /play (LibPlay). It sits in a plain div, not in a sentence, paragraph, list item or table cell. Right before it is an image link to the same page with the alt 'LibPlay Título' (the LibPlay logo). The nearest preceding heading is the h2 'Seja membro LIBCLUB+', which does not explain /play. The only thing that tells the link's purpose is the LibPlay logo, a visual section label that is neither a heading nor part of the link's context. By this round's rule the link therefore fails 2.4.4, and the claim, read in good faith, names that failure. Taken literally, 'nothing around it does' is false of the capture, because the 'LibPlay Título' image link sits right before it, so claimTrue is no. The live HTML matches the snapshot. In the capture the lazy-loaded logo had zero height and does not appear in the screenshot, while the live image loads and shows. The logo is in the DOM in both, though, and does not count as context, so the difference does not touch the claim."
+    },
+    {
+      "fingerprint": "98f4bc367455",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The link's accessible name is 'Ver Mais', since the arrow is aria-hidden, and it has no aria-label, title or aria-describedby; it goes to /estudio. It follows a sibling paragraph that holds the link 'Conteúdo de Marca' (also to /estudio). That paragraph is styled as a section title, but it is a p, not a heading, and the 'Ver Mais' link is not inside it. The nearest preceding heading is the h3 'Spray de pimenta gratuito: cerca de 100 mulheres já estão cadastradas', from the previous LibPlay section, which has nothing to do with this link. The only context that explains the link is that visual label, so by this round's rule the link fails 2.4.4, and the claim names that failure. Taken literally, 'nothing around it does' is false of the capture, because the 'Conteúdo de Marca' link right before it does say what it leads to, so claimTrue is no. The live HTML for this block matches the snapshot exactly, so the capture does not differ."
+    }
+  ]
+}

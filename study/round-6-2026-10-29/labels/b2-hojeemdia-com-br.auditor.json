@@ -1,0 +1,36 @@
+{
+  "page": "https://www.hojeemdia.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p1a5abcad029",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Geral' pill in the site's horizontal section bar (Últimas, Geral, Publicidade Legal, Educação, Minas...), linking to /geral, whose page is titled 'Geral'. 'Geral' is the standard name of a Brazilian newspaper's general-news section, and in a row of section links its text alone tells the user it opens that section, so 2.4.4 is met by the link text alone; no other context is needed. The live page's server HTML has the identical markup, and the screenshot shows the styled bar as captured, so the capture does not differ. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "p1da6eb713d7",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Entretenimento' link in the off-canvas side menu (opened by the MENU button; closed and offscreen at capture), with a decorative right chevron, linking to /entretenimento, whose page is titled 'Entretenimento'. The link text names the section it opens, so its purpose is clear from the text alone and 2.4.4 is met. The live server HTML has the same markup and the drawer is closed by default there too, so the capture does not differ in any way that matters. Its being focusable while the drawer is closed is a possible focus-order/visibility matter (2.4.3/2.4.7), not 2.4.4."
+    },
+    {
+      "fingerprint": "p4baaafd47cb",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Minas' link in the off-canvas side menu, with a decorative right chevron, linking to /minas, whose page is titled 'Minas' (the paper's Minas Gerais state news section). In a menu of section links the text alone names the section it opens, so 2.4.4 is met. The live server HTML has the same markup and the drawer is closed by default as in the capture, so the capture does not differ. Rampa was right to report nothing."
+    }
+  ]
+}

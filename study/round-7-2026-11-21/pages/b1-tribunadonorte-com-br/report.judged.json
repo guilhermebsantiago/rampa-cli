@@ -1,0 +1,597 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://tribunadonorte.com.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "9cd411503213",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#newsletter",
+   "message": "The field \"E-mail...\" asks for the user's email address, but autocomplete=\"off\" does not identify that purpose.",
+   "evidence": "E-mail...",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#newsletter",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "from": "off",
+    "to": "email",
+    "before": "<input type=\"text\" id=\"newsletter\" name=\"newsletter\" required=\"\" autocomplete=\"off\" placeholder=\"E-mail...\" class=\"flex h-12.75 w-full items-center justify-start overflow-hidden rounded-md border-0 bg-white p-4 font-medium text-[#6F6F6F] focus:outline-none lg:h-13.5 lg:max-w-90.25 lg:px-6 lg:text-lg\">",
+    "after": "<input type=\"text\" id=\"newsletter\" name=\"newsletter\" required=\"\" autocomplete=\"email\" placeholder=\"E-mail...\" class=\"flex h-12.75 w-full items-center justify-start overflow-hidden rounded-md border-0 bg-white p-4 font-medium text-[#6F6F6F] focus:outline-none lg:h-13.5 lg:max-w-90.25 lg:px-6 lg:text-lg\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "ff5d15fc865e",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > div > div:nth-of-type(2) > div:nth-of-type(1) > article > span",
+   "target": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > div > div:nth-of-type(2) > div:nth-of-type(1) > article > span",
+   "message": "The text \"Aperte aqui para ver\" has at most 3.76:1 contrast with what is behind it (#ffffff on #96908a…#8f8178), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #8f8178; #96908a…#8f8178 · 3.76:1 at best, 3.16:1 at worst · 14px, 500",
+   "subject": "Aperte aqui para ver",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<span class=\"icon-after pointer-events-none absolute top-5 right-6 z-2 flex h-8.25 w-fit items-center justify-center gap-2 rounded-full border border-white/12 bg-white/12 px-3 py-2 text-sm font-medium text-white b\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "84041d8030df",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#search",
+   "target": "#search",
+   "message": "The placeholder \"Pesquisar por...\" has a contrast of 3.27:1 with the field (#3032358f on #f5f7f8). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#3032358f on #f5f7f8 · 3.27:1 at best, 3.27:1 at worst · 16px, 400",
+   "subject": "Pesquisar por...",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input type=\"search\" id=\"search\" name=\"s\" value=\"\" required=\"\" placeholder=\"Pesquisar por...\" autocomplete=\"off\" class=\"w-full border-0 text-[#303236] outline-none placeholder:text-[#303236]/56 focus:outline-none lg:max-w-34 xl:max-w-52\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "b2b4b19f6ff2",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#newsletter",
+   "target": "#newsletter",
+   "message": "The placeholder \"E-mail...\" has a contrast of 2.01:1 with the field (#70707080 on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#70707080 on #ffffff · 2.01:1 at best, 2.01:1 at worst · 18px, 500",
+   "subject": "E-mail...",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input type=\"text\" id=\"newsletter\" name=\"newsletter\" required=\"\" autocomplete=\"off\" placeholder=\"E-mail...\" class=\"flex h-12.75 w-full items-center justify-start overflow-hidden rounded-md border-0 bg-white p-4 font-medium text-[#6F6F6F] focus:outline-none lg:h-13.5 lg:max-w-90.25 lg:px-6 lg:text-lg\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 18
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 8,
+   "members": [
+    "1dc114b82bf2",
+    "5f46f015727a",
+    "13809724e4e6",
+    "5c9e8980525f",
+    "d523874d84c5",
+    "930325202bb7",
+    "f626342e2ded",
+    "f75fd857a7df"
+   ],
+   "example": "1dc114b82bf2"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(4) > div > section > div > div:nth-of-type(2) > div:nth-of-type(1) > article:nth-of-type(2) > a > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Foto: Reprodução/Instagram @tati\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Recém-nascido dormindo sobre o peito de um adulto.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: no (0.01), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(4) > div > section > div > div:nth-of-type(2) > div:nth-of-type(1) > article:nth-of-type(3) > a > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Foto: Roberto Galhardo/Secom\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Caminhão de limpeza urbana operando equipamento de sucção para retirar resíduos do sistema de drenagem.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: no (0.00), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(4) > div > section > div > div:nth-of-type(2) > div:nth-of-type(2) > article:nth-of-type(2) > a > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Foto: Reprodução/X @felipecamozzato\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Estruturas e telhados destruídos por temporal com ventos de 114 km/h e granizo no Rio Grande do Sul.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: no (0.00), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(4) > div > section > div > div:nth-of-type(2) > div:nth-of-type(2) > article:nth-of-type(4) > a > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Foto: Leobark Rodrigues/Secom/TSE\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Ministro do Supremo Tribunal Federal em sessão de julgamento.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: no (0.00), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#search",
+   "message": "The label \"Pesquisar por...\" does not say what to enter.",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div > h2",
+   "message": "The heading \"TN PLAY\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Vídeos TN PLAY\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > div > div:nth-of-type(2) > div:nth-of-type(1) > article > a > div:nth-of-type(2) > div > h3",
+   "message": "The heading \"Advogado e lutador é preso suspeito de manter namorada atriz em cárcere em SP\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"Vídeo: Advogado e lutador é preso suspeito de manter namorada atriz em cárcere\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#swiper-wrapper-4ed281d11c4f8b36 > div:nth-of-type(2) > div > div:nth-of-type(2) > h4",
+   "message": "The heading \"Alex Medeiros\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Coluna de Alex Medeiros\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#swiper-wrapper-4ed281d11c4f8b36 > div:nth-of-type(5) > div > div:nth-of-type(2) > h4",
+   "message": "The heading \"Ney Lopes\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Ney Lopes - Notas & Comentários\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#swiper-wrapper-4ed281d11c4f8b36 > div:nth-of-type(8) > div > div:nth-of-type(2) > h4",
+   "message": "The heading \"Dácio Galvão\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Coluna de Dácio Galvão\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#swiper-wrapper-4ed281d11c4f8b36 > div:nth-of-type(9) > div > div:nth-of-type(2) > h4",
+   "message": "The heading \"Dom João Santos Cardoso\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Coluna de Dom João Santos Cardoso\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#swiper-wrapper-4ed281d11c4f8b36 > div:nth-of-type(10) > div > div:nth-of-type(2) > h4",
+   "message": "The heading \"Edson Faustino\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Coluna de Edson Faustino\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#swiper-wrapper-a8837dcb455bf1e9 > div:nth-of-type(1) > a > div:nth-of-type(2) > h4",
+   "message": "The heading \"ABZ\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Augusto Bezerril\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#swiper-wrapper-a8837dcb455bf1e9 > div:nth-of-type(6) > a > div:nth-of-type(2) > h4",
+   "message": "The heading \"Thiago Cavalcanti\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Artigo de Thiago Cavalcanti\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(14) > div > section > div > div > div:nth-of-type(2) > div:nth-of-type(1) > h2",
+   "message": "The heading \"RN\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Notícias do Rio Grande do Norte\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(14) > div > section > div > div > div:nth-of-type(6) > div:nth-of-type(1) > h2",
+   "message": "The heading \"Viver\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Notícias de Vida\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(18) > div > section > div > h4",
+   "message": "The heading \"Receba as principais notícias do RN\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"Assine nossa newsletter\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#newsletter",
+   "message": "The label \"E-mail...\" does not say what to enter.",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#header > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > a:nth-of-type(1) > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Logo JP News",
+    "problem": "missing_information",
+    "imageShows": "O logotipo da JP News em branco e preto com o texto 'Edição 193.2'.",
+    "suggestedAlt": "JP News - Edição 193.2",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-main > li:nth-of-type(1) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A link to a category or section related to 'Natal' (Christmas) within the news site.",
+    "leadsTo": "https://tribunadonorte.com.br/categoria/natal/",
+    "verdict": "fail",
+    "evidence": "Natal",
+    "problem": "ambiguous",
+    "suggestedText": "Notícias de Natal",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#header > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > a:nth-of-type(2)",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'PDF DO JORNAL' suggests it leads to a PDF version of the newspaper.",
+    "leadsTo": "https://flip2.aspinnews.com.br/flip/tribunadonorte/login (a login page)",
+    "verdict": "fail",
+    "evidence": "PDF DO JORNAL",
+    "problem": "mismatch",
+    "suggestedText": "Acesse o login do jornal",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-menu-do-cabecalho > li:nth-of-type(1) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Natal' in a navigation menu, surrounded by other categories like 'Esportes' and 'Economia', suggests it leads to a section or category page for news related to the city of Natal.",
+    "leadsTo": "https://tribunadonorte.com.br/categoria/natal/",
+    "verdict": "fail",
+    "evidence": "Natal",
+    "problem": "ambiguous",
+    "suggestedText": "Notícias de Natal",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(2) > div > section > div > article > div > a:nth-of-type(1)",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Natal' in the context of a 'region' section suggests it leads to a page or section related to the city of Natal.",
+    "leadsTo": "https://tribunadonorte.com.br/",
+    "verdict": "fail",
+    "evidence": "Natal",
+    "problem": "ambiguous",
+    "suggestedText": "Tribuna do Norte - Natal",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#swiper-wrapper-a8837dcb455bf1e9 > div:nth-of-type(7) > a > div:nth-of-type(2) > h4",
+   "reason": "suggested text equals the current one",
+   "output": {
+    "named": "Poder Judiciário",
+    "verdict": "fail",
+    "evidence": "Poder Judiciário",
+    "problem": "mismatch",
+    "suggestedText": "Poder Judiciário",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 8,
+   "judged": 8,
+   "failed": 0,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 4,
+   "unconfirmed": 4
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 180,
+   "judged": 50,
+   "failed": 0,
+   "passed": 46,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 130
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 47,
+   "judged": 47,
+   "failed": 0,
+   "passed": 32,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 14
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #adh-wide-iframe (https://creatives.sascdn.com/diff/4656/advertiser/529123/byd_king_widescreen_engage_nov_v4_be3b7377-39c7-44a2-8f6b-ca5d8bc77d2a/byd_king_widescreen_engage_nov_v4/index.html).",
+  "86 image(s) were left without a capture, so no judgment looked at them: 5 outside the page (an off-canvas menu); 1 covered where it sits by other content, such as a popup or a cookie banner; 80 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 130 of 180 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 118,
+  "cachedCalls": 0,
+  "inputTokens": 109839,
+  "outputTokens": 10390,
+  "latencyMs": 335691
+ },
+ "timings": {
+  "totalMs": 174737,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 25
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 21530,
+    "prepareMs": 0,
+    "candidates": 8,
+    "judged": 8,
+    "calls": 20,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1376,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 93340,
+    "prepareMs": 0,
+    "candidates": 180,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 58228,
+    "prepareMs": 0,
+    "candidates": 47,
+    "judged": 47,
+    "calls": 47,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 176,
+    "prepareMs": 173,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 25,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 33
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 20,
+   "notCaptured": 86,
+   "reasons": {
+    "outside-page": 5,
+    "covered": 1,
+    "limit": 80
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 180,
+    "capped": 130
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#adh-wide-iframe",
+     "url": "https://creatives.sascdn.com/diff/4656/advertiser/529123/byd_king_widescreen_engage_nov_v4_be3b7377-39c7-44a2-8f6b-ca5d8bc77d2a/byd_king_widescreen_engage_nov_v4/index.html",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  }
+ }
+}

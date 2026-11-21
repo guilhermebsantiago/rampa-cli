@@ -1,0 +1,28 @@
+{
+  "page": "https://www.corkcity.ie/en/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "3ea565d0a50f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the site logo inside the Cookiebot consent banner (img#CybotCookiebotDialogPoweredbyImage, a 46x46 data-URI PNG of the Cork City Council crest, in a div, not a link), with alt=\"logo\". claimTrue: the captured alt is the bare word \"logo\", a generic placeholder that names the kind of image, not its content, so the sentence holds. elementFails: I looked for a way it passes and found none. If the crest is informative (it identifies whose banner this is), \"logo\" cannot replace it without losing the organisation's identity, which is F30 (placeholder text like \"image\" or \"picture\"). If it is decorative, a non-null alt is F39. Either way 1.1.1 fails. It is exposed to AT (ax role image, name from alt, not aria-hidden), and the snapshot gives it real bounds. Being third-party widget content does not exempt it. captureDiffers: the live Cookiebot configuration for this site's cbid sets logoAltText = 'logo', showLogo = true and a data-URI logo, and the banner is auto-hidden only below 600px width, so users at this width get the same alt. The full-page screenshot shows only the lower strip of the fixed banner (the Cookiebot wordmark row), not the crest, but that is a screenshot artefact of a fixed element, and the DOM, bounds and image crop agree with the live configuration. The claim names the real defect (placeholder alt), so true_positive."
+    },
+    {
+      "fingerprint": "025b08ee4e87",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header logo image, the only content of the link a.global-header-logo (href=\"/en/\"). It shows the crest and the text \"Comhairle Cathrach Chorcaí / Cork City Council\", with alt=\"ccctransparentlogo-small\". claimTrue: in the capture the link holds nothing but this img: no other text, no aria-label, no title. Its name comes from contents, and the alt is a CMS media name that says neither home nor Cork City Council, so the sentence holds. elementFails: as a functional image, the alt must convey the link's purpose (Understanding 1.1.1 for controls, H30). At the least it should give the logo's text. A file-name-like token is the F30 failure (filenames and programming references). I looked for passing context and found none: no title, no aria-describedby, no visually hidden text. An auditor who accepts an organisation name alone for a home logo link would still fail this alt. captureDiffers: the live HTML fetched now has the identical anchor and img with alt=\"ccctransparentlogo-small\". In the screenshot the cookie banner covers the header, but that does not change what the alt exposes. The claim says the alt fails to state the link's destination, which, read in good faith, names the functional-image failure, so true_positive."
+    }
+  ]
+}

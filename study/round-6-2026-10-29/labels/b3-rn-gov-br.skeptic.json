@@ -1,0 +1,39 @@
+{
+  "page": "https://www.rn.gov.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "c5e5ae997b8a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Seguir no Instagram' button-link at the foot of the Instagram card in the 'Redes Sociais' section: 14px text at weight 600 (btn-sm, fw-semibold), so normal-size text that needs 4.5:1. claimTrue: in the screenshot the white text sits on a pink gradient; my own pixel reading behind the text runs from about #e94664 to #fa5775, 3.1:1 to 3.8:1 against white, which matches the claim. captureDiffers: the live main.css sets .social-widget-btn-instagram to linear-gradient(45deg, #E4405F, #FD5B78) with color #fff, the same colours as the capture. The capture is fully styled, and the empty Instagram embed in it does not affect the button. elementFails: across the whole gradient white text measures 4.04:1 at #E4405F down to 3.02:1 at #FD5B78, so it is below 4.5:1 everywhere. Hover and focus states use the same gradient. Reasons I tested and rejected: not large text; not a logotype, since this is plain button text in the site font; the 'Alto Contraste' toggle under 'Ajuda' does turn this button yellow on black (contrast.css), but G174 also requires the alternate presentation to conform to every A/AA criterion, and it does not. The banner Swiper (8.4.5) autoplays every 5 s with loop, disableOnInteraction false and no pause control, a 2.2.2 failure that remains in contrast mode. So the toggle does not satisfy 1.4.3 and the default presentation fails. The claim names this failure."
+    },
+    {
+      "fingerprint": "9d8b4587740c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the h6 'Instagram' in the Instagram card's header bar: 16px at weight 600, below the 18.66px-bold threshold for large text, so it needs 4.5:1. claimTrue: in the screenshot the white heading sits on the left, pink end of the header gradient; my pixel reading behind the text runs from about #ec4867 to #f35474, roughly 3.3:1 to 3.8:1, which agrees with the claim's 3.63:1 best case. captureDiffers: the live main.css gives .social-widget-header-instagram linear-gradient(45deg, #E4405F, #FD5B78, #FFDC7D), and the header carries text-white, so the live colours are the captured ones. elementFails: even the darkest stop (#E4405F) gives only 4.04:1 with white, and the gradient lightens toward the right. Reasons I tested and rejected: the logotype exception does not apply, because this is a section heading in the site's Montserrat font and not Instagram's logo, and Understanding 1.4.3 says brand-colour choices beyond logos are not exempt. The 'Alto Contraste' toggle fixes this header (white on black), but G174 requires the alternate presentation to conform to all A/AA criteria, and the auto-rotating banner carousel with no pause control (2.2.2) still runs in contrast mode. The claim names the failure."
+    },
+    {
+      "fingerprint": "s8c9ab00c498",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the 'POLI' link in the top utility bar (desktop variant, shown at 1280px), next to Órgãos do Governo, Portal da Transparência, Ouvidoria, Assédio Não! and Acesso à Informação. claimTrue: in the capture it has no aria-label, title or aria-describedby. It sits in a plain div, not a sentence, list item or table cell, and the nearest earlier heading in document order is 'Assédio Não!' (h4 in a hidden modal), which is unrelated. So the text and its context do not say what POLI is; the claim holds of the capture. captureDiffers: the live HTML has the same markup (no title, no aria-label), and nothing on the page expands the acronym. elementFails: the destination is 'POLI - Plataforma de Políticas Públicas e Inovação Cidadã', which the page never explains. Sighted readers therefore get exactly what assistive-technology users get, the bare word 'POLI'. WCAG 2.1 defines 'ambiguous to users in general' as purpose that cannot be determined from the link and all information presented with it. Understanding 2.4.4 says such links are excepted because the person with a disability is at no disadvantage. Read that way the link passes 2.4.4, failing only 2.4.9 (AAA) and perhaps 3.1.4 (AAA, abbreviations). A second argument for passing: the text is the destination's proper name. Many auditors nonetheless log unexplained acronym links under 2.4.4, reading the exception as covering only inherently ambiguous links. Competent auditors would reasonably disagree, hence uncertain."
+    }
+  ]
+}

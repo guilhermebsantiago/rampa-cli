@@ -1,0 +1,116 @@
+{
+  "page": "https://www.gosh.nhs.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "e24e657e9f21",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The hero banner image is the only content of a focusable link to the metagenomics news story; the snapshot's AX tree gives that link the name 'A young girl smiling... pink balloon.' from the alt, and the live HTML is the same. The alt describes the photo but says nothing about the research story the link opens, so it does not give the image link (a control) a name that describes its purpose, which 1.1.1 requires (G82/H30, functional image). Reasons to reject it that I checked: the visible 'Find out more about this research and Willow's story' link to the same URL is a separate control and does not rename this one; the link is not aria-hidden or removed from the tab order; the h2 comes after it. None holds up, so the claim is true of the capture and names the failure."
+    },
+    {
+      "fingerprint": "d89f8c386025",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer link \"Follow us on LinkedIn\" shows only an SVG icon (aria-hidden, name from the title attribute; the 'Social media links' h2 is u-sr-only), so the icon is the only visual cue that the control exists. The live CSS confirms the measurement: .icon has fill:#fff and .footer__bottom has background-color:#7fb8e6, which computes to 2.12:1, under the 3:1 that 1.4.11 asks of visual information required to identify a component (G207). Reasons to reject it that I checked: the logo exemption in Understanding 1.4.11 does not hold, because the white monochrome rendering on a light blue band is an author choice, not something the brands mandate (they allow black or brand-colour variants), and Understanding says such a low-contrast presentation is not 'essential'; the cookie banner backdrop in the screenshot was hidden by Rampa and does not change the colours users get once it is dismissed; hover only lowers opacity further. Capture and live page match, so the claim is true and names the real failure."
+    },
+    {
+      "fingerprint": "ab16ee03eb9c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is a line drawing of a stethoscope inside the 'Careers at GOSH' card link, whose visible text already gives the link's purpose. The crop and the screenshot show a stethoscope (black lines with a blue accent) on a transparent PNG over the pale blue #eaf3fa section, so the alt's subject is right and only its colour details are loose; it does not describe something the image does not show. An alt that is accurate in substance, and redundant next to the link text, meets 1.1.1; the model had the crop and judged wrongly. Live HTML matches the snapshot."
+    },
+    {
+      "fingerprint": "seb25ed18c35",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The visible h2 'Helpful information' heads a band of four quick links: Your hospital visit, Patient app - MyGOSH, Careers at GOSH, Research and innovation for patients and families (same on the live page). The heading describes that section's purpose, a set of useful links, which is all 2.4.6 asks; Understanding 2.4.6 does not require headings to be specific or long. Saying it 'says nothing about the content under it' is false and applies a stricter standard than the criterion."
+    },
+    {
+      "fingerprint": "cf5e36ab0383",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the decorative submarine illustration in the footer (alt=\"\"), which conveys nothing users need. The 'Accept/Reject Additional Cookies' buttons the claim reads into it belong to the OneTrust cookie banner, which overlapped the image's region when the crop was taken; they are real HTML buttons with their own names, not part of submarine.png. The banner is also on the page users first receive, so the capture does not differ from it, but the crop handed the model content that is not the image, and alt=\"\" is correct for this image."
+    },
+    {
+      "fingerprint": "a1ebc51e0e0b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer link \"Follow us on Instagram\" shows only an SVG icon (aria-hidden, name from the title attribute; the 'Social media links' h2 is u-sr-only), so the icon is the only visual cue that the control exists. The live CSS confirms the measurement: .icon has fill:#fff and .footer__bottom has background-color:#7fb8e6, which computes to 2.12:1, under the 3:1 that 1.4.11 asks of visual information required to identify a component (G207). Reasons to reject it that I checked: the logo exemption in Understanding 1.4.11 does not hold, because the white monochrome rendering on a light blue band is an author choice, not something the brands mandate (they allow black or brand-colour variants), and Understanding says such a low-contrast presentation is not 'essential'; the cookie banner backdrop in the screenshot was hidden by Rampa and does not change the colours users get once it is dismissed; hover only lowers opacity further. Capture and live page match, so the claim is true and names the real failure."
+    },
+    {
+      "fingerprint": "17c276215992",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the MyGOSH fingerprint logo, a blue fingerprint with a pink loop, inside the 'Patient app - MyGOSH' card link whose visible text gives the purpose. The alt 'Blue and pint fingerprint' describes exactly what the crop shows apart from an obvious typo (pint for pink); it does not describe something absent. A one-letter typo in an alt that still identifies the image, next to link text that carries the purpose, does not fail 1.1.1. Live HTML matches the snapshot."
+    },
+    {
+      "fingerprint": "383c0034bd05",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer link \"Follow us on YouTube\" shows only an SVG icon (aria-hidden, name from the title attribute; the 'Social media links' h2 is u-sr-only), so the icon is the only visual cue that the control exists. The live CSS confirms the measurement: .icon has fill:#fff and .footer__bottom has background-color:#7fb8e6, which computes to 2.12:1, under the 3:1 that 1.4.11 asks of visual information required to identify a component (G207). Reasons to reject it that I checked: the logo exemption in Understanding 1.4.11 does not hold, because the white monochrome rendering on a light blue band is an author choice, not something the brands mandate (they allow black or brand-colour variants), and Understanding says such a low-contrast presentation is not 'essential'; the cookie banner backdrop in the screenshot was hidden by Rampa and does not change the colours users get once it is dismissed; hover only lowers opacity further. Capture and live page match, so the claim is true and names the real failure."
+    },
+    {
+      "fingerprint": "5abb564da253",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer link \"Follow us on Facebook\" shows only an SVG icon (aria-hidden, name from the title attribute; the 'Social media links' h2 is u-sr-only), so the icon is the only visual cue that the control exists. The live CSS confirms the measurement: .icon has fill:#fff and .footer__bottom has background-color:#7fb8e6, which computes to 2.12:1, under the 3:1 that 1.4.11 asks of visual information required to identify a component (G207). Reasons to reject it that I checked: the logo exemption in Understanding 1.4.11 does not hold, because the white monochrome rendering on a light blue band is an author choice, not something the brands mandate (they allow black or brand-colour variants), and Understanding says such a low-contrast presentation is not 'essential'; the cookie banner backdrop in the screenshot was hidden by Rampa and does not change the colours users get once it is dismissed; hover only lowers opacity further. Capture and live page match, so the claim is true and names the real failure."
+    },
+    {
+      "fingerprint": "44e1c89960e9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the Great Ormond Street Hospital for Children NHS Foundation Trust logo in the header home link; the link takes its name 'Hospital site home page' from aria-label, so it is named for its purpose regardless of the alt. The alt 'Logo for GOSH Hospital site' correctly identifies the image as the GOSH logo, so the claim that it describes something the image does not show is false, and the alt meets 1.1.1. Live HTML matches the snapshot."
+    }
+  ]
+}

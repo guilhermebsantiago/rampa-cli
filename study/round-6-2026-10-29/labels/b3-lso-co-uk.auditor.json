@@ -1,0 +1,72 @@
+{
+  "page": "https://www.lso.co.uk/contact-us/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s61d625b75eb",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Footer sponsor link: a figure with the BMW logo (alt \"Principal Partner - BMW\") and the visible caption \"Principal Partner\", title \"Principal Partner - BMW\"; Chrome named it from the title. It leads to the LSO's own Corporate Partnerships page. The destination title in the claim is right, but the claimed mismatch does not hold even from the capture: a link about the orchestra's principal (corporate) partner going to the Corporate Partnerships page fits its text. On the live destination, the header image is \"BMW Classics concerts in Trafalgar Square\" and the page quotes BMW Group's head of cultural engagement on the partnership, so a user who follows \"Principal Partner - BMW\" gets what the text announces: the LSO's partnership with BMW. The link purpose is determinable from the link text (and its title), so 2.4.4 is met. Live footer markup and destination match the capture. The model had the destination's title, heading and description and still judged a mismatch."
+    },
+    {
+      "fingerprint": "5941a44c6dda",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Footer link to cityoflondon.gov.uk: <a title=\"City of London\"> containing a figure with an img alt=\"City of London logo\" and a visually hidden span \"City of London\" (clip/1px class). The claim is true of the capture: Chrome's CDP tree gives the link role link and name \"\" with no name source, while the sibling Arts Council and BMW links, built the same way, got their names from the title. The live HTML is identical, so the capture does not differ from what is served. Whether users get a nameless link is the open point: by HTML-AAM and accname the link has three name sources (the img alt and hidden text as content, and the title as fallback), technique H30 covers an image link named by its alt, and screen readers in browse mode would still read the logo's alt inside the link; yet the browser engine Rampa used computed no name, apparently because Chrome does not take name from content through a figure and, for an unclear reason, did not fall back to the title here. I could not check a real browser and screen reader, and competent auditors would disagree on whether this is a content failure of 4.1.2 or a user-agent quirk."
+    },
+    {
+      "fingerprint": "3ea565d0a50f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image in the Cookiebot consent dialog's header (#CybotCookiebotDialogPoweredbyImage) is the London Symphony Orchestra logo, as the crop shows (the LSO mark and the words \"London Symphony Orchestra\"), with alt=\"logo\". The claim is true: \"logo\" is a placeholder, not an alternative. It fails 1.1.1 either way: as an informative logo its alternative should give the organisation's name, and if treated as decorative it should have an empty alt (F39), not \"logo\" (F30). The live page loads the same Cookiebot banner (uc.js with the same cbid) for visitors who have not consented, and its live configuration sets logoAltText = 'logo', so users receive the same alternative."
+    },
+    {
+      "fingerprint": "s961b9f874ee",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A disabled, checked checkbox (shown as a toggle) in the Cookiebot consent dialog, labelled \"Necessary\", one of four toggles (Necessary, Preferences, Statistics, Marketing) inside a group named \"Consent Selection\", right under the dialog's explanation of the site's cookies. There is nothing to enter in a checkbox, and in that context the label says what it controls: consent to the necessary cookie category. The claim's assertion that the label fails to tell users what the control is for is contradicted by the capture, and the label meets 2.4.6 (descriptive of the purpose, in a standard consent-category pattern). The live Cookiebot banner offers the same categories, so the capture matches what users receive. The model had the group name and dialog text and judged wrongly."
+    },
+    {
+      "fingerprint": "98b45fac70be",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"Shop\" link in the header's secondary nav. The live main.css sets .c-secondary-nav__item--shop {background-color:#987D50} and, at min-width 80em (the 1280px viewport), the link colour #fff at 1em (16px), weight 500. White on #987D50 is 3.90:1, under the 4.5:1 that 1.4.3 requires for text of this size and weight. The full-page screenshot draws the fixed header in the last viewport, but the pixels of the Shop tab are exactly #987d50 (the same as the dialog's Allow all button, outside the consent overlay), so the measurement matches the live CSS. The claim states the failure and its values correctly."
+    },
+    {
+      "fingerprint": "8b4e42568907",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Footer link to the Barbican's LSO series page: <a title=\"Barbican resident orchestra\"> containing a figure with an img alt=\"Barbican resident orchestra\" and a visually hidden span with the same text. The claim is true of the capture: Chrome's CDP tree gives role link and name \"\" with no name source, unlike the Arts Council and BMW links beside it, which were named from their titles. The live HTML is identical. By HTML-AAM and accname the link has a name from its content (img alt, hidden text) and from its title, technique H30 covers an image link named by its alt, and screen readers in browse mode would read the alt inside the link; but the engine Rampa used computed no name, apparently because Chrome does not take name from content through a figure and did not fall back to the title here. I could not check a real browser and screen reader, and competent auditors would disagree on whether this is a 4.1.2 content failure or a user-agent quirk."
+    }
+  ]
+}

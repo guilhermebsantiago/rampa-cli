@@ -1,0 +1,28 @@
+{
+  "page": "https://www.acritica.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "c9eaa2d55064",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the visually hidden (sr-only) checkbox that opens the header search form. Its visible label is <label for=\"acritica-search-toggle\"> holding the text \"Buscar\" (shown at md widths and up) and an aria-hidden magnifier icon. The aria-label \"Abrir busca\" overrides that label, so the accessible name is \"Abrir busca\". claimTrue: the snapshot shows exactly this (the label is LabelText with an empty name of its own, and the checkbox's name comes from aria-label). Calling a checkbox a \"field\" is loose wording, but what the sentence says holds. elementFails: the screenshot at 1280 px shows \"Buscar\" next to the icon. \"Buscar\" is not a substring of \"Abrir busca\": \"busca\" is a different word form (noun, not the verb), and 2.5.3 and failure F96 ask for the visible label text itself to be in the name. A speech user saying \"clicar Buscar\" targets a control whose name lacks that word. I looked for a reason it passes and found none: the label is the programmatically associated, visible label of this control; the label element has no role or name that speech software could target in its place; only at narrow widths is the label icon-only, and there \"Abrir busca\" would be fine, but desktop users get the text. captureDiffers: the live HTML fetched now has the same label, the same span and the same aria-label, and the screenshot is a fully styled page. Label: true_positive, since the claim names the actual 2.5.3 failure."
+    },
+    {
+      "fingerprint": "s97def175081",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h1 of the homepage's lead story card, inside the link to that article. The content right under it, in the same link, is the summary \"Interdição foi anunciada após o rio Negro atingir 15,94 metros; medida segue recomendação do Serviço Geológico do Brasil\" and the byline: the same topic as the heading. The destination page's title and heading match too. claimTrue: the content under the heading is about the beach closure, so the sentence does not hold. What follows the card is three unheaded links to other stories and then the \"Agora\" aside with its own h3s, and the page's later sections all have their own h2s. elementFails: 2.4.6 asks that a heading describe the topic or purpose of its content, and this heading describes its story accurately. That the following links have no heading of their own, or that the page's single h1 is a story headline rather than a page title, is a heading-structure matter (1.3.1 or best practice), not a 2.4.6 failure, and 2.4.6 does not require headings. captureDiffers: the live HTML has the same h1, summary and following links (only the relative time differs, \"há 6 horas\"), and the screenshot is styled. Label: false_positive. The model had the context and misjudged the heading against content that is not its section: model_error."
+    }
+  ]
+}
