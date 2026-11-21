@@ -640,3 +640,34 @@ describe('a generic link text under a heading that names the page it leads to', 
     expect(contextOf(section('Notícias', services), '#more')).not.toHaveProperty('headingNamesDestination')
   })
 })
+
+// portal.mt.gov.br in the seventh real-page study: its footer's "MT Cidadão" and "Nota MT" lead to
+// "#produtos-digitais", a div that holds an icon, the h2 "Produtos Digitais" and a rule; the products follow it.
+describe('a link to a part that holds only a heading', () => {
+  const wrapper = (title: string) =>
+    node({
+      ref: '#pd',
+      native: { tag: 'div', attributes: { id: 'produtos-digitais' } },
+      children: [div('pd-icon', node({ ref: 'svg', role: 'graphics-document', native: { tag: 'svg' } }), h2('pd-h', title)), node({ ref: 'hr', native: { tag: 'hr' } })],
+    })
+  const products = ul('products', li('pr1', link('#p1', 'MT Cidadão', 'https://mtcidadao.example/')), li('pr2', link('#p2', 'Nota MT', 'https://nota.example/')))
+  const footer = ul('footer', li('f1', link('#f1', 'MT Cidadão', '/#produtos-digitais')), li('f2', link('#f2', 'Nota MT', '/#produtos-digitais')))
+  const at = (snapshot: A11ySnapshot, ref: string) => contextOf(snapshot, ref)
+
+  it("reads the heading's section, so links named after what it lists name the part", () => {
+    const snapshot = page([wrapper('Produtos Digitais'), products, h2('next', 'Notícias'), p('news', text('n', 'Governo anuncia obras')), footer], 'https://www.mt.example/')
+    expect(at(snapshot, '#f1')?.part).toMatchObject({ id: 'produtos-digitais', role: 'generic', name: 'Produtos Digitais', text: 'Produtos Digitais MT Cidadão Nota MT' })
+    expect(groundedLink('mismatch', at(snapshot, '#f1')!)).toBe(false)
+    expect(groundedLink('mismatch', at(snapshot, '#f2')!)).toBe(false)
+    // The section stops at the next heading of its level: a link named after what comes after it still names nothing of it.
+    const wrong = page([wrapper('Produtos Digitais'), products, h2('next', 'Notícias'), p('news', text('n', 'Governo anuncia obras')), ul('f', li('f3', link('#f3', 'Governo anuncia obras', '/#produtos-digitais')))], 'https://www.mt.example/')
+    expect(groundedLink('mismatch', at(wrong, '#f3')!)).toBe(true)
+  })
+
+  it('keeps reading the text of a part that holds more than a heading', () => {
+    const more = node({ ref: '#pd', native: { tag: 'div', attributes: { id: 'produtos-digitais' } }, children: [h2('pd-h', 'Produtos Digitais'), p('pd-p', text('pd-t', 'Serviços digitais do estado'))] })
+    const snapshot = page([more, products, footer], 'https://www.mt.example/')
+    expect(at(snapshot, '#f1')?.part).toMatchObject({ text: 'Produtos Digitais Serviços digitais do estado' })
+    expect(at(snapshot, '#f1')?.part).not.toHaveProperty('name')
+  })
+})

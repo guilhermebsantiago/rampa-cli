@@ -150,9 +150,12 @@ export interface LinkPurposeContext {
 export interface SamePagePart {
   id: string
   role: string
-  /** Its text; for a heading, its name and the section it opens, up to the next heading of its level or higher. Longer than the prompt's. */
+  /**
+   * Its text; for a heading, or a part whose text is only a heading's (`headingOnlyOf`), the heading's name and the
+   * section it opens, up to the next heading of its level or higher. Longer than the prompt's.
+   */
   text: string
-  /** A heading's name. */
+  /** The name of that heading. */
   name?: string | undefined
   /**
    * The part is a region or a control a link jumps to, not a subject: a landmark, a control or a form field, a part
@@ -319,6 +322,8 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
       const destination = linkDestination(snapshot, attributes.href, activation)
       const fragment = activation?.kind === 'fragment' ? activation.fragment : samePageFragment(attributes.href, base, destination)
       const partNode = fragment ? byId.get(fragment) : undefined
+      // A part that holds only a heading is read as that heading, the section it opens.
+      const partHeading = partNode?.role === 'heading' ? partNode : partNode ? headingOnlyOf(partNode) : undefined
       const rowSubject = rowSubjectOf(index, node)
       const menu = inMenu(index, node, lists)
       candidates.push({
@@ -353,8 +358,8 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
                 part: {
                   id: fragment,
                   role: partNode.role,
-                  text: partText(snapshot.root, partNode, sections),
-                  ...(partNode.role === 'heading' && partNode.name ? { name: partNode.name } : {}),
+                  text: partText(snapshot.root, partHeading ?? partNode, sections),
+                  ...(partHeading?.name ? { name: partHeading.name } : {}),
                   ...(structuralPart(index, partNode) ? { region: true } : {}),
                   siteWords,
                 },
@@ -710,6 +715,22 @@ function partText(root: A11yNode, part: A11yNode, sections: Map<string, string>)
   const text = truncate(parts.join(' ').replace(/\s+/g, ' ').trim(), PART_TEXT)
   sections.set(part.ref, text)
   return text
+}
+
+/**
+ * The heading a part holds when the heading is all the part's text: a wrapper with an id around a section's title, such
+ * as portal.mt.gov.br's `#produtos-digitais` (an icon, the h2 "Produtos Digitais" and a rule), whose text alone made
+ * its footer's "MT Cidadão" and "Nota MT", two of the digital products listed under that heading, false mismatch
+ * findings in the seventh real-page study. A link to such a part leads to the heading's section, so that is what is read.
+ */
+function headingOnlyOf(part: A11yNode): A11yNode | undefined {
+  const text = normalizeForMatch(subtreeText(part))
+  if (text === '') return undefined
+  for (const node of walkTree(part)) {
+    if (node.role !== 'heading' || !node.name || isHidden(node)) continue
+    return normalizeForMatch(node.name) === text || normalizeForMatch(subtreeText(node)) === text ? node : undefined
+  }
+  return undefined
 }
 
 /** Whether a part is a region or a control rather than a subject (`SamePagePart.region`). */
