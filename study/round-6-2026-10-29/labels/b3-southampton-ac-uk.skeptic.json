@@ -1,0 +1,69 @@
+{
+  "page": "https://www.southampton.ac.uk/study/undergraduate",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "sca2b05b1e6e",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the footer button-styled link \"Get directions\" (href /student-life/campuses) in the \"Contact us\" block, right after the Highfield postal address. claimTrue: the captured link text is \"Get directions\" and the destination's title is \"Our university campuses | University of Southampton\", heading \"Explore our campuses\"; the page has no directions of its own, so the sentence holds of the capture. elementFails: I fetched the destination. It is a hub for the university's several campuses, and each campus card links to a campus page; the Highfield page (the address shown next to the link) has a \"Campus map and directions\" tab. A skeptic reading is that, for a multi-campus university, the campus hub is where you go to get directions, so the text gives the link's purpose in a broad sense and 2.4.4 (which targets ambiguous text, not a text that differs from the destination's title) is met; my answer leans no on that. But the hub itself shows no directions and directions are two clicks away, so an auditor could reasonably call the text misleading about the purpose. Since competent auditors would disagree, the label is uncertain. captureDiffers: the live HTML has the same link, href and text, and the destination still has the same title."
+    },
+    {
+      "fingerprint": "p196eb7c0df4",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the link \"Website feedback\", the last item in the footer navigation labelled \"Information\", which leads to a Qualtrics form. elementFails: the link text alone gives its purpose (giving feedback on the website). I fetched the destination and its title is \"University of Southampton website feedback survey\", which matches. Opening in a new tab (target=_blank, which the extlink script adds) has no bearing on 2.4.4. So the link meets 2.4.4 and Rampa was right not to report it. captureDiffers: the live server HTML has the same href and text (the class and target attributes are added by script, as in the capture). Nothing that matters for 2.4.4 differs."
+    },
+    {
+      "fingerprint": "s75e4815dee4",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the footer h2 \"Information\", which also labels its nav landmark (aria-labelledby). The list under it is \"For visitors\", \"For staff & students\", \"For schools & colleges\", \"For researchers\", \"For employers & recruiters\", \"For parents & guardians\", \"For international students\", \"Website feedback\". claimTrue: the heading is not empty of meaning. Read with its items it gives \"Information for visitors\", \"Information for staff & students\" and so on, which is exactly what the section is: links to information pages for each audience. So \"says nothing about the content under it\" is false. elementFails: 2.4.6 asks that a heading describe its section's topic or purpose, not that it be exhaustive, and Understanding 2.4.6 allows short headings. This one names the section's purpose and tells it apart from the neighbouring footer headings \"Contact us\" and \"Connect with us\". That is a common, well-understood footer pattern, so it is terse but not a failure. The model had the list in context and judged the heading too strictly. captureDiffers: the live HTML has the same h2 and the same list items."
+    },
+    {
+      "fingerprint": "07448ed2e362",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the course search text field (#edit-keyword-filter) with placeholder \"Search by keywords\". It has no label element (class form-no-label), so the placeholder is the field's only visible text. claimTrue and elementFails: in the live CSS, Tailwind's preflight rule input::placeholder{color:#9ca3af} comes later than an earlier input::placeholder{color:#706b69} with equal specificity, so #9ca3af wins. No more specific rule applies: the .filter rules would make the text bold and 20px, but the capture shows 18px at weight 400. Screenshot pixels in the placeholder glyphs are exactly (156,163,175) on a (255,255,255) field, and I computed the contrast as 2.54:1. The text is 18px regular, not large text, so 4.5:1 is required. Understanding 1.4.3 says the criterion \"applies to text in the page, including placeholder text\", and none of the exceptions (inactive component, incidental, logotype) apply. I looked for a reason it could pass and none holds. captureDiffers: the live HTML and CSS give the same placeholder and colour."
+    },
+    {
+      "fingerprint": "pdcb9c4bfa3a",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the photo in the \"Find a subject\" card link, alt \"A student sat at a computer screen.\" elementFails: the crop shows a student working at a computer in a computer room (with a second student in the foreground), so the alt describes the photo accurately. The photo is illustrative inside a link that has its own text, so an empty alt might be tidier, but a short, accurate alt is not a 1.1.1 failure. So it meets 1.1.1 and Rampa was right not to report it. captureDiffers: the live HTML has the same img with the same alt and src."
+    },
+    {
+      "fingerprint": "p8beedc55190",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the footer Russell Group logo, alt \"Russell Group logo\", after the figcaption \"Part of the\". elementFails: the crop shows the logotype text \"RUSSELL GROUP\". The alt contains that text and says the image is a logo, so together with the caption it conveys the same information (membership of the Russell Group). The image is not a link, so it meets 1.1.1. captureDiffers: the live HTML has the same img, alt and figcaption."
+    },
+    {
+      "fingerprint": "pe8fbb655f8d",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the photo in the \"Explore life at Southampton\" card link, alt \"A group of students sat on a sofa socialising.\" elementFails: the crop shows four students on and around a leather sofa, chatting in a bar. The alt is accurate and enough for an illustrative photo inside a link that has its own text, so it meets 1.1.1. captureDiffers: the live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "p3e91b877b63",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the link \"Subjects\" in the Study section's secondary navigation (after the links \"Study\", \"Undergraduate study\" and \"View all courses\"). It leads to /study/subjects, titled \"SubjectFinder\" with heading \"Find a subject\". elementFails: the only heading before it is the cookie banner's h1, and its list item holds only the link, so the link stands on its text. On a university site, \"Subjects\" in a study menu clearly means the academic subjects you can study, which is what the destination is. Its purpose is clear from the text alone, so it meets 2.4.4. captureDiffers: the live HTML has the same link, href and text."
+    },
+    {
+      "fingerprint": "pcc7a49a0c20",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the footer crest image, alt \"University shield logo\". elementFails: the crop shows the University of Southampton shield (book, roses, stag) with no text in it. The alt says what it is, the university's shield logo, on the university's own site. It is not a link and has no text to reproduce, so the alt is enough and it meets 1.1.1. captureDiffers: the live HTML has the same img and alt."
+    }
+  ]
+}

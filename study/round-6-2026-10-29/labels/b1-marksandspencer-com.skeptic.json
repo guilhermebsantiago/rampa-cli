@@ -1,0 +1,365 @@
+{
+  "page": "https://www.marksandspencer.com/c/women",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "04ea61a003c7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Hero mosaic photo (model in a black sequinned top) inside the 'Get the party started / Just-arrived womenswear' link, alt \"MOSAIC TILE 1858X1858 1\". The alt is the CMS file name, not a description: it is exposed (the browser's link name starts with it) and a screen reader reads it inside the link. The link's visible text already gives its purpose, so the image should have alt=\"\" or a real description; a file-name alternative is failure F30. The claim says the alternative describes something the image does not show, which in good faith points at that defect. I found no technique that makes it pass. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "42ebc5348ef9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Footer service-strip link 'Free returns for online orders' (/help-and-support/returns-and-refunds). The claim says the two \"Free returns for online orders\" links lead to two different places. They do not: this one goes to /help-and-support/returns-and-refunds and the other one (the proposition banner link above the footer) goes to the same page; the hrefs differ only in being absolute or relative and in an #intid tracking fragment that targets no element. The link text itself describes the purpose (information about this delivery/returns offer), so the link meets 2.4.4 from its text alone. The checker had both hrefs and misjudged them as different destinations. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "b8830cd86d07",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The claim says the alt describes something the image does not show, but the image does show a top, so the sentence is false as worded. The image is in a product tile link whose only text is the heading 'Shop now'; the link goes to one specific product, and the picture carries baked-in text naming it ('005 // Animal-print cape-detail top'). The alt \"Tops\" is only the garment category: it omits the product name that sighted users read in the image and that appears nowhere else in the tile, so the link reads as 'Tops Shop now'. I lean that this fails 1.1.1 (image of text whose text is missing from the alternative, functional image whose alternative does not identify the destination), but a concrete counter-reason holds up: the alt is an accurate short description of what the image shows, and WCAG does not require reproducing every descriptor, so competent auditors would reasonably disagree. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "b12a17dcfc4b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The claim says the alt describes something the image does not show, but the image does show a shirt, so the sentence is false as worded. The image is in a product tile link whose only text is the heading 'Shop now'; the link goes to one specific product, and the picture carries baked-in text naming it ('002 // Satin waisted shirt'). The alt \"Shirts & Blouses\" is only the garment category: it omits the product name that sighted users read in the image and that appears nowhere else in the tile, so the link reads as 'Shirts & Blouses Shop now'. I lean that this fails 1.1.1 (image of text whose text is missing from the alternative, functional image whose alternative does not identify the destination), but a concrete counter-reason holds up: the alt is an accurate short description of what the image shows, and WCAG does not require reproducing every descriptor, so competent auditors would reasonably disagree. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "6307faa4445e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A logo link in the 'Shop by brand' carousel whose aria-label (and the image's alt) is the file name \"400x200 2\"; it leads to Sunday Riley (slide 40). The same name is used by the Sweaty Betty link (slide 4), which lead elsewhere, as the claim says. Its context is the list item 'Slide N' and the preceding heading 'Shop by brand': neither tells which brand. The brand is conveyed only by the logo pixels, so the purpose cannot be determined from the link text or its programmatic context; the claim, which says nothing tells this link apart, names that failure. The 'ambiguous to users in general' exception does not apply: sighted users see the brand logo. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "3dd8a8855f8d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Photo of a model in a faux-fur dressing gown, linking to Women's Dressing Gowns, alt \"TRIPLE TRADE 1200X900 3\". The image is the only content of its focusable link (no aria-label, not hidden), so its alt is the link's whole accessible name; that name is a CMS file name and says nothing about the destination. A text link to the same URL follows in the tile, but the image link is a separate tab stop with a meaningless name: F30, and the functional image's alternative does not give its purpose (H30 not met). The claim states exactly that. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "824e46c24cc5",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Proposition-banner link 'Free delivery when you spend over £75*'. The claim says the two \"Free delivery when you spend over £75*\" links lead to two different places. They do not: this one goes to the collection-and-delivery help page and the other one (the footer service strip) goes to the same page; the hrefs differ only in being absolute or relative and in an #intid tracking fragment that targets no element. The link text itself describes the purpose (information about this delivery/returns offer), so the link meets 2.4.4 from its text alone. The checker had both hrefs and misjudged them as different destinations. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "1e250c09e2ea",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A logo link in the 'Shop by brand' carousel whose aria-label (and the image's alt) is the file name \"400X200\"; it leads to Saucony (slide 25). The same name is used by the Columbia (slide 28) and Reef (slide 87) links, which lead elsewhere, as the claim says. Its context is the list item 'Slide N' and the preceding heading 'Shop by brand': neither tells which brand. The brand is conveyed only by the logo pixels, so the purpose cannot be determined from the link text or its programmatic context; the claim, which says nothing tells this link apart, names that failure. The 'ambiguous to users in general' exception does not apply: sighted users see the brand logo. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "p76f75b79336",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Circular category link with an image (alt 'Knitwear') and visible text 'Knitwear', leading to /l/women/knitwear. The link text alone states its purpose; the repeated word in the name is redundancy, not a 2.4.4 failure. Rampa reporting nothing here was right. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "33a187fd46f7",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Footer service-strip link 'Free next-day Click and Collect*' (/help-and-support/collection-and-delivery). The claim says the two \"Free next-day Click and Collect*\" links lead to two different places. They do not: this one goes to /help-and-support/collection-and-delivery and the other one (the proposition banner) goes to the same page; the hrefs differ only in being absolute or relative and in an #intid tracking fragment that targets no element. The link text itself describes the purpose (information about this delivery/returns offer), so the link meets 2.4.4 from its text alone. The checker had both hrefs and misjudged them as different destinations. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "27e0d5d09f06",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Mosaic photo (model in a metallic dress) inside the 'Party dresses' link, alt \"MOSAIC TILE 1858X929 4\". The alt is the CMS file name, not a description: it is exposed (the browser's link name starts with it) and a screen reader reads it inside the link. The link's visible text already gives its purpose, so the image should have alt=\"\" or a real description; a file-name alternative is failure F30. The claim says the alternative describes something the image does not show, which in good faith points at that defect. I found no technique that makes it pass. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "3ff7a819737d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Proposition-banner link 'Free next-day Click and Collect*'. The claim says the two \"Free next-day Click and Collect*\" links lead to two different places. They do not: this one goes to the collection-and-delivery help page and the other one (the footer service strip) goes to the same page; the hrefs differ only in being absolute or relative and in an #intid tracking fragment that targets no element. The link text itself describes the purpose (information about this delivery/returns offer), so the link meets 2.4.4 from its text alone. The checker had both hrefs and misjudged them as different destinations. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "2662b4258949",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Photo of a model in a Fair Isle jumper, linking to Women's Jumpers ('Christmas jumpers' tile), alt \"TRIPLE TRADE 1200X900 1\". The image is the only content of its focusable link (no aria-label, not hidden), so its alt is the link's whole accessible name; that name is a CMS file name and says nothing about the destination. A text link to the same URL follows in the tile, but the image link is a separate tab stop with a meaningless name: F30, and the functional image's alternative does not give its purpose (H30 not met). The claim states exactly that. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "s79249b9ead7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "An h3 'Shop now' at the foot of the first of six product tiles under the h2 'BUY NOW, WEAR ALL SEASON'; all six tiles have the same h3, and the content after it is the next tile, which it says nothing about, so the claim is true of the capture. I lean that six identical 'Shop now' headings do not describe any topic and fail 2.4.6, but a concrete counter-reading holds up: it is a call-to-action label wrongly marked up as a heading (a 1.3.1 issue), and 'Shop now' does state the tile's purpose; auditors would reasonably disagree on whether 2.4.6 is failed. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "p7b52d56fbb3",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Circular category image (a model in a brown top, per the full screenshot; the model's crop was hidden by the cookie banner) with alt 'Tops', inside a link whose visible text is also 'Tops'. The alt is accurate; alt=\"\" would be cleaner (H2), but a redundant, accurate alternative does not fail 1.1.1. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "f446f82251ad",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The claim says the alt describes something the image does not show, but the image does show a coat, so the sentence is false as worded. The image is in a product tile link whose only text is the heading 'Shop now'; the link goes to one specific product, and the picture carries baked-in text naming it ('006 // Belted faux-fur longline coat'). The alt \"Coats & Jackets\" is only the garment category: it omits the product name that sighted users read in the image and that appears nowhere else in the tile, so the link reads as 'Coats & Jackets Shop now'. I lean that this fails 1.1.1 (image of text whose text is missing from the alternative, functional image whose alternative does not identify the destination), but a concrete counter-reason holds up: the alt is an accurate short description of what the image shows, and WCAG does not require reproducing every descriptor, so competent auditors would reasonably disagree. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "832a5c9ab491",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A logo link in the 'Shop by brand' carousel whose aria-label (and the image's alt) is the file name \"400X200\"; it leads to Reef (slide 87). The same name is used by the Saucony (slide 25) and Columbia (slide 28) links, which lead elsewhere, as the claim says. Its context is the list item 'Slide N' and the preceding heading 'Shop by brand': neither tells which brand. The brand is conveyed only by the logo pixels, so the purpose cannot be determined from the link text or its programmatic context; the claim, which says nothing tells this link apart, names that failure. The 'ambiguous to users in general' exception does not apply: sighted users see the brand logo. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "34b43dfe2cd0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A logo link in the 'Shop by brand' carousel whose aria-label (and the image's alt) is the file name \"400X200\"; it leads to Columbia womens (slide 28). The same name is used by the Saucony (slide 25) and Reef (slide 87) links, which lead elsewhere, as the claim says. Its context is the list item 'Slide N' and the preceding heading 'Shop by brand': neither tells which brand. The brand is conveyed only by the logo pixels, so the purpose cannot be determined from the link text or its programmatic context; the claim, which says nothing tells this link apart, names that failure. The 'ambiguous to users in general' exception does not apply: sighted users see the brand logo. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "c2e00098c3d2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The claim that the alt leaves out what the image conveys is true of the capture. The image is in a product tile link whose only text is the heading 'Shop now'; the link goes to one specific product, and the picture carries baked-in text naming it ('001 // Velvet straight-leg trousers'). The alt \"Trouser\" is only the garment category: it omits the product name that sighted users read in the image and that appears nowhere else in the tile, so the link reads as 'Trouser Shop now'. I lean that this fails 1.1.1 (image of text whose text is missing from the alternative, functional image whose alternative does not identify the destination), but a concrete counter-reason holds up: the alt is an accurate short description of what the image shows, and WCAG does not require reproducing every descriptor, so competent auditors would reasonably disagree. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "84c15a756907",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Logo image in the brand carousel, alt \"SM-logo-black\", which is the file name in its src (SM-logo-black.jpg); its link goes to Steve Madden and carries the same string as aria-label, so no text anywhere names the brand. A file name as the alternative of a functional logo image is failure F30, and the alternative does not convey the link's purpose. The rule's claim is true and names the failure. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "9766dfff2a1e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Mosaic photo (snake-print boots) inside the 'Party shoes' link, alt \"MOSAIC TILE 929X929 3\". The alt is the CMS file name, not a description: it is exposed (the browser's link name starts with it) and a screen reader reads it inside the link. The link's visible text already gives its purpose, so the image should have alt=\"\" or a real description; a file-name alternative is failure F30. The claim says the alternative describes something the image does not show, which in good faith points at that defect. I found no technique that makes it pass. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "9f10b2e45b2e",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Proposition-banner link 'Free returns for online orders' (https://www.marksandspencer.com/help-and-support/returns-and-refunds#intid=...). The claim says the two \"Free returns for online orders\" links lead to two different places. They do not: this one goes to the returns-and-refunds help page and the other one (the footer service strip) goes to the same page; the hrefs differ only in being absolute or relative and in an #intid tracking fragment that targets no element. The link text itself describes the purpose (information about this delivery/returns offer), so the link meets 2.4.4 from its text alone. The checker had both hrefs and misjudged them as different destinations. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "s87f334d2735",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An h2 'Up to 50% off' heading an offer tile in the 'WOMENSWEAR OFFERS' carousel; under it come 'Selected Skechers' and 'Shop the offer', and the tile links to Skechers. The heading names the tile's topic, the size of the discount, and the text under it completes that offer, so the claim that it says nothing about the content under it is false. 2.4.6 asks that headings describe topic or purpose, not that they be unique or name every detail; the heading meets it. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "s59e29f4cb0d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Product tile image of black mesh polka-dot slingback stilettos, with baked-in caption '004 // Mesh slingback stilettos', alt 'Slingback Heels', inside a 'Shop now' link to that shoe. The claim says the alt describes something the image does not show, which is false: the image shows slingback heels. The alt conveys essentially the same information as the caption (only 'mesh' and the tile number are missing), so it serves the equivalent purpose; and even a strict reading that wants the caption verbatim would not be the defect this claim names. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "p0b167bf5326",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Header bag icon: a span with role=img and aria-label 'Empty shopping bag', next to an aria-hidden count '0'. The alternative describes the icon and its state, so it meets 1.1.1. (In the server HTML the bag is not wrapped in a link; any operability issue would be another criterion, not 1.1.1.) The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "8f870d61b992",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The claim that the alt leaves out what the image conveys is true of the capture. The image is in a product tile link whose only text is the heading 'Shop now'; the link goes to one specific product, and the picture carries baked-in text naming it ('003 // Alpaca-blend textured jumper'). The alt \"Jumpers\" is only the garment category: it omits the product name that sighted users read in the image and that appears nowhere else in the tile, so the link reads as 'Jumpers Shop now'. I lean that this fails 1.1.1 (image of text whose text is missing from the alternative, functional image whose alternative does not identify the destination), but a concrete counter-reason holds up: the alt is an accurate short description of what the image shows, and WCAG does not require reproducing every descriptor, so competent auditors would reasonably disagree. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "78beb23881fb",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Footer service-strip link 'Free delivery when you spend over £75*' (/help-and-support/collection-and-delivery). The claim says the two \"Free delivery when you spend over £75*\" links lead to two different places. They do not: this one goes to /help-and-support/collection-and-delivery and the other one (the proposition banner) goes to the same page; the hrefs differ only in being absolute or relative and in an #intid tracking fragment that targets no element. The link text itself describes the purpose (information about this delivery/returns offer), so the link meets 2.4.4 from its text alone. The checker had both hrefs and misjudged them as different destinations. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "p4a1f5eee85e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Circular category image (a model in a dark sequinned dress, per the full screenshot; the crop was hidden by the cookie banner) with alt 'Dresses', inside a link whose visible text is also 'Dresses'. The alt is accurate; redundancy with the link text is advisory (H2), not a 1.1.1 failure. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "228eac8d8cfb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Photo of a model in striped pyjamas, linking to Women's Pyjamas, alt \"TRIPLE TRADE 1200X900 2\". The image is the only content of its focusable link (no aria-label, not hidden), so its alt is the link's whole accessible name; that name is a CMS file name and says nothing about the destination. A text link to the same URL follows in the tile, but the image link is a separate tab stop with a meaningless name: F30, and the functional image's alternative does not give its purpose (H30 not met). The claim states exactly that. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "d9cc83458637",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A logo link in the 'Shop by brand' carousel whose aria-label (and the image's alt) is the file name \"400x200 2\"; it leads to Sweaty Betty (slide 4, visible in the screenshot as the SWEATY BETTY logo). The same name is used by the Sunday Riley link (slide 40), which lead elsewhere, as the claim says. Its context is the list item 'Slide N' and the preceding heading 'Shop by brand': neither tells which brand. The brand is conveyed only by the logo pixels, so the purpose cannot be determined from the link text or its programmatic context; the claim, which says nothing tells this link apart, names that failure. The 'ambiguous to users in general' exception does not apply: sighted users see the brand logo. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "2b1f8da20d04",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Mosaic photo (model in a grey knit jumper) inside the 'Jumpers' link, alt \"MOSAIC TILE 929X929 2\". The alt is the CMS file name, not a description: it is exposed (the browser's link name starts with it) and a screen reader reads it inside the link. The link's visible text already gives its purpose, so the image should have alt=\"\" or a real description; a file-name alternative is failure F30. The claim says the alternative describes something the image does not show, which in good faith points at that defect. I found no technique that makes it pass. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "fd9c142fa1db",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Large feature photo (model in a white jumper and sequin skirt) linking to Women's Christmas Partywear, alt \"ONE FEATURE1 1500X1000\". The image is the only content of its focusable link (no aria-label, not hidden), so its alt is the link's whole accessible name; that name is a CMS file name and says nothing about the destination. A text link to the same URL follows in the tile, but the image link is a separate tab stop with a meaningless name: F30, and the functional image's alternative does not give its purpose (H30 not met). The claim states exactly that. The cookie banner over the crop is a capture artefact that does not touch the alt. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "s9199861ada8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "An h3 'Shop now' at the foot of the third of six product tiles (the alpaca jumper) under the h2 'BUY NOW, WEAR ALL SEASON'; all six tiles have the same h3, and it says nothing about the content that follows, so the claim is true of the capture. I lean that these identical headings fail 2.4.6, but a concrete counter-reading holds up: it is a call-to-action label wrongly marked up as a heading (a 1.3.1 issue), and 'Shop now' does state the tile's purpose; auditors would reasonably disagree. The live page's server HTML, fetched on the day of the capture, has the same markup for this element, so the capture does not differ in a way that matters here."
+    }
+  ]
+}

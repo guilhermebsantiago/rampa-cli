@@ -1,0 +1,72 @@
+{
+  "page": "https://www.propertypriceregister.ie/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "c51bbe4e0688",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is a link alone in its own paragraph under the h3 'LPT Information'. Its text is the URL https://www.revenue.ie/en/contact-us/customer-service-contact/local-property-tax-lpt.aspx, and it opens in a new tab. claimTrue: yes, the link text is a web address, not written words. elementFails: no. The sentence before it ('contact the Revenue Commissioners at:') sits in a separate paragraph, so under this rubric it is not the link's context. Even without it, the address is readable: it names the Revenue site (revenue.ie) and a path 'contact-us / customer-service-contact / local-property-tax-lpt'. Read with the heading 'LPT Information', the link plainly leads to Revenue's customer-service contact page for Local Property Tax. WCAG 2.1 has no failure for URL link text, and this URL states its purpose. The live URL now redirects to Revenue's LPT/VHT contact page, which matches. A long URL is tiresome to hear, but that is not a 2.4.4 failure. captureDiffers: no, the live HTML has the same paragraph, heading and link. False positive: treating any address as having no purpose is stricter than the criterion."
+    },
+    {
+      "fingerprint": "s7f1329fec03",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the disabled, checked 'Strictly necessary' checkbox in the cookie consent dialog that the cookie-script.com script injects. It is labelled by a <label for>, and CSS shows the text uppercase. claimTrue: yes, read literally: the label does not say what to enter. But a checkbox takes no entry, so the sentence names no failure. elementFails: no. 2.4.6 asks that labels describe topic or purpose. In a dialog that explains that 'some [cookies] are necessary ... and can't be switched off, and some are optional', the label names the cookie category that the checkbox controls, and the dialog's details section describes that category ('Strictly necessary cookies allow core website functionality...'). captureDiffers: no. The live page loads the same cookie script, and the script holds the same label and description. The dialog appears to first-time visitors as captured. False positive: the claim demands a text-entry instruction that a checkbox label does not need."
+    },
+    {
+      "fingerprint": "sc85b8be0660",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h3 'Information Note' in the main column. Under it are paragraphs and a list explaining what the register contains and its caveats: the legal basis, date and price as declared to Revenue, prices marked **, VAT, and multi-unit sales. claimTrue: no. The heading says the section is a note of information about the register, which is what the content is. The three sidebar panels also refer to it by that name ('the clarifications given in the Information Note'), so the heading identifies the section that users are asked to read. elementFails: no. Under the page's h1 'Residential Property Price Register', the heading describes the section's topic well enough for 2.4.6. It is plain, not misleading or empty. captureDiffers: no, the live HTML has the same heading and content. False positive."
+    },
+    {
+      "fingerprint": "9fae541a5a55",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'info@psr.ie' mailto link in the footer's Contact Us address block, at 14.4px, weight 400 (not large text). claimTrue: yes. Pixels sampled from the screenshot over the link's bounds show glyph pixels at #2e6200 and #2c6200 on a #272727 background, and the computed ratio is 2.04:1. elementFails: yes. The live stylesheets give the same colours: unifycustom.css sets a { color: #2e6200 }, footer-v1.css sets the .footer background to #272727, and only the address text (not the link) is set to #eee. The dotted map background image is no lighter behind the link. 2.04:1 is far below 4.5:1, and the link is neither incidental text nor a logotype. captureDiffers: no. The live HTML and CSS match the capture. The stylesheet the capture reported as having 'no rules' (theme-colors/default.css) holds only a comment on the live site too. True positive."
+    },
+    {
+      "fingerprint": "0cf1f523218c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the header logo image, the only content of a link to https://psr.ie/ (the PSRA's main site, opened in a new tab). Its alt is ' PSRA Logo', and the image shows the authority's name in Irish and English with its mark. claimTrue: yes. The alt is the link's whole name ('PSRA Logo') and does not literally say where the link leads. elementFails: my lean is no. 'PSRA' names the organisation whose site the link opens, and it conveys what sighted users get from the logo. 'Logo' is only redundant. But competent auditors disagree about linked logos: following H30 and the WAI images tutorial's 'X home' example, many report an alt that describes the image ('... Logo') instead of the link's function as a 1.1.1 failure, especially when the link leaves the site for another domain. captureDiffers: no, the live HTML has the same link and alt. Labelled uncertain because auditors would reasonably disagree."
+    },
+    {
+      "fingerprint": "se7674bae26f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the unchecked 'Performance' checkbox in the injected cookie consent dialog. It is labelled by a <label for>, and CSS shows the text uppercase. claimTrue: yes, read literally: the label does not say what to enter. But a checkbox takes no entry, so the sentence names no failure. elementFails: no. Directly below 'Strictly necessary', in a dialog about accepting optional cookies, 'Performance' is the standard name of the cookie category that the checkbox opts into. The dialog's details section describes it ('Performance cookies are used to see how visitors use the website, eg. analytics cookies...'). That meets 2.4.6. captureDiffers: no. The live cookie script holds the same label and description, and the dialog appears to first-time visitors as captured. False positive: the claim demands a text-entry instruction that a checkbox label does not need."
+    }
+  ]
+}

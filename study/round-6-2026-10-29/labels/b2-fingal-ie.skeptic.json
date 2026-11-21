@@ -1,0 +1,104 @@
+{
+  "page": "https://www.fingal.ie/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "sf0d45a6893a",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the footer h2 \"More\". It labels a nav landmark (through aria-labelledby) that holds Sitemap, Terms and Conditions, Privacy, Cookies and Accessibility, and sits between the footer headings \"Contact\" and \"Connect With Us\". The claim is true of the capture: \"More\" names no topic for those links. But Understanding 2.4.6 says one word can be enough if it gives a fair cue. For a catch-all group of site links, \"More\" (meaning other links) does say what the group is for, and footers often use it, so I lean that it passes. Other auditors would call it too vague. The live HTML fetched on 2026-11-21 has the same heading and links, so the capture does not differ. The label is uncertain because competent auditors would reasonably disagree."
+    },
+    {
+      "fingerprint": "eedd6d60ad57",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the focusable image link of the second news card (the Sports Volunteer and Club Awards story). Its only content is an <article class=\"media\"> that wraps a picture whose img has alt \"2027 Fingal Sports Volunteer and Club Awards\". In the snapshot, the browser's own CDP accessibility node for the link has role link and no name. Chromium does not collect name-from-content through an article, a container role, so the img alt never reaches the link. The link has no aria-label, aria-labelledby or title, so a screen reader announces an unnamed link. That fails 4.1.2 (and 2.4.4). The title link in the h3 goes to the same page, but it does not give this link a name. The live HTML has the same markup. My strongest counter-argument was that the accname algorithm or axe might reach into the article and find the alt. That does not change what the browser actually exposes, so the claim holds."
+    },
+    {
+      "fingerprint": "98537c3a61fd",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the focusable image link of the third news card (R132 Bostik Junction update). Its only content is an <article class=\"media\"> that wraps an img with alt \"R132 Connectivity Project - Bostik Junction Update\". In the snapshot, the browser's CDP accessibility node for the link has role link and no name, because Chromium does not collect name-from-content through the article container, so the alt is not used. There is no aria-label, aria-labelledby or title. The link is announced without a name, which fails 4.1.2. The h3 link to the same page does not name this one. The live HTML has the same structure. I found no technique that would give the link a name in the browser."
+    },
+    {
+      "fingerprint": "754c3fc153ee",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is a small decorative photo of croissants on a plate next to a coffee cup, at the corner of the \"Grow Your Business\" section. It carries no information. Its alt \"croissant\" names the main subject, and in this spot the image says nothing more, so the claim that the alt leaves out what the image conveys is not true. Because the image is pure decoration, it should have alt=\"\" so assistive technology can skip it. A non-empty alt meets the test of failure F38, so the element does fail 1.1.1. But the claim does not name that reason: it asks for more description, which is the opposite fix. The live HTML has the same img and alt. The label is false positive: the element fails for a reason the claim does not name."
+    },
+    {
+      "fingerprint": "89675e197c56",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the focusable image link of the fourth news card (Fingal Inclusion Week 2026). Its only content is an <article class=\"media\"> that wraps an img with alt \"Fingal Inclusion Week 26\". In the snapshot, the browser's CDP accessibility node for the link has role link and no name, because Chromium does not collect name-from-content through the article container. There is no aria-label, aria-labelledby or title. The link is exposed and announced without a name, which fails 4.1.2. The h3 title link to the same page does not name this one. The live HTML has the same structure."
+    },
+    {
+      "fingerprint": "1dd390918c5c",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the photo on the first news card: an aircraft landing at dusk, for the story about ANCA's decision on a Dublin Airport planning application. The h3 headline follows it. The alt \"ANCA Aircraft\" names what the photo shows (an aircraft) and ties it to the story's subject (ANCA). That makes it a short descriptive alternative (G94), not a bare label, so the claim is not true of the capture. A stock illustration on a news teaser needs no fuller description than this. The link around the image has no name, but that is a separate 4.1.2 problem caused by the article wrapper, not by this alt. Some auditors might also argue the alt does not state the link's full purpose, but the claim does not raise that either. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "ea3aeae6bd28",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is a large collage beside \"Grow Your Business\": an airplane, business people, an office interior and coloured blocks. Its alt \"right image\" is a layout placeholder. It repeats the file name licta-image-right-blue, and the image actually sits on the left. It tells a listener nothing about the picture, which is failure F30 (placeholder text used as the text alternative). If the collage is mood decoration, the alt should be empty. If it is illustration, it needs a short description. Either way, \"right image\" fails 1.1.1. The claim says the alt is a label and not what the image conveys, which names this defect. The live HTML has the same alt. I found no context that would make the element pass."
+    },
+    {
+      "fingerprint": "b8c208ff1b8e",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is a small decorative photo of green headphones at the corner of \"Perfect Place to Live\". Its alt \"TEST - LICTA Left\" is leftover test text plus a component name, and it has nothing to do with the picture. Screen readers announce this meaningless string, which fails 1.1.1: it is placeholder text (F30), and as decoration the image should have alt=\"\" (F38). The claim says the alt describes something the image does not show. Strictly, the alt describes nothing, but the claim, read in good faith, points at the real defect: the alt does not match the image. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "f16d6dee3744",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the news-card picture for the Inclusion Week story: a \"FINGAL INCLUSION WEEK\" logo ringed by community photos. Its alt \"Fingal Inclusion Week 26\" (26 standing for 2026) matches the image's main text and the story. So the claim that the alt describes something the image does not show is false. The image is a teaser illustration and the only content of a link to the Inclusion Week article, and the alt states what it is well enough for 1.1.1. The link's missing name is a separate 4.1.2 problem caused by the article wrapper. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "e82626d1a3cb",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the focusable image link of the first news card (the ANCA regulatory decision story). Its only content is an <article class=\"media\"> that wraps an img with alt \"ANCA Aircraft\". In the snapshot, the browser's CDP accessibility node for the link has role link and no name, because Chromium does not collect name-from-content through the article container. There is no aria-label, aria-labelledby or title. The link is announced without a name, which fails 4.1.2. The h3 title link to the same page does not name this one. The live HTML has the same structure."
+    },
+    {
+      "fingerprint": "3ea565d0a50f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image sits in the header of the Cookiebot consent dialog. It shows the Fingal County Council logo: the heron mark and the council's name in Irish and English. Its alt \"logo\" comes from the site's Cookiebot settings. The live cc.js for this site sets logoAltText = 'logo', with the same data-URI image, so first-time visitors get the same thing, and the screenshot shows the dialog over the page. \"logo\" is a generic placeholder that leaves out the organisation name the image shows (F30). If the logo is read as decoration inside the dialog, a non-empty alt still fails F38. The claim that the alt is a placeholder names this defect. Cookiebot being third-party code does not exempt the element."
+    },
+    {
+      "fingerprint": "bd8c9b738249",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the large collage beside \"Discover the Beauty of Fingal\": a tree, a sailboat at sunset, a lighthouse, a coastline, people and coloured blocks. Its alt \"Orange right\" names the component's colour and position, not the picture. It is placeholder text (F30), and it tells a listener nothing. If the collage is decoration, the alt should be empty. If it is illustration, it needs a short description. Either way it fails 1.1.1, and the claim (the alt is a label, not what the image conveys) names that. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "49262ad6b89e",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is a small decorative photo of a succulent, seen from above, under the \"Why live here\" button. It carries no information. Its alt \"flower\" is a loose one-word description of the plant, not a label, and in this spot the image conveys nothing more, so the claim is not true. As pure decoration, the image should have alt=\"\" so assistive technology can skip it. A non-empty alt meets F38's test, so the element fails 1.1.1, but for a reason the claim does not name: the claim asks for an alternative that conveys more, which is the opposite fix. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "ee0dcd449cff",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the poster of a lazy-loaded YouTube video. A \"Play video\" button sits over it and the h4 \"This is Fingal\" is below. The image has alt=\"\" and is exposed as presentation. The text burned into it, \"Our current capital programme will deliver 237 projects worth €1.57 billion\", appears nowhere else on the page, so the claim is true of the capture. The live HTML has the same img and alt. I lean that the element fails. The poster is not decoration: it is all a user sees until the video is played, and in the live markup the video player loads only after marketing cookies are accepted. It also states a fact that sighted users read. But a competent auditor could treat the poster as a frame of the video. For time-based media, 1.1.1 asks only for a descriptive identification, which the heading gives, and the fact then belongs to the video's own alternatives. The label is uncertain."
+    }
+  ]
+}

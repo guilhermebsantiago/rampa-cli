@@ -1,0 +1,245 @@
+{
+  "page": "https://www.arezzo.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s123cf51525c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the \"Conferir\" call-to-action (href /c/verao) at the end of the Alto Verão fashion banner. In the snapshot it shares a parent with an h3 just before it, \"O crochê retorna em destaque, agora sob uma nova perspectiva.\" That h3 is the nearest preceding heading (H80), so it counts as the link's context, and the h2 \"LANÇAMENTO AREZZO / ALTO VERÃO\" sits above it. Link text plus heading tell the user the link goes to see the featured summer crochet launch, and it leads to the Verão collection page. The claim that nothing around it explains the link is therefore false. The live server HTML has the same h3 + Conferir structure. Rampa had that heading in its context, so the cause is model_error."
+    },
+    {
+      "fingerprint": "b7c6afc7b58d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header nav link \"BLACK FRIDAY\": 12px, weight 400, colour #ee4242 (tw-text-red-lighter), in a transparent header laid over the hero carousel. On the first slide (the NOTURNA banner, crop bb63d07004e3), the text sits over the tan sandal, and the sampled pixels behind it give about 1.6 to 2.7:1. In the screenshot, which shows the second slide (dark textured paper), the median background (#222) gives 4.16:1 and the 95th percentile 3.75:1. The text is below 4.5:1 in both states, and the claim's colours (#c36a49…#32110d) are the first-slide state in the capture. The live server data still has BLACK FRIDAY with styleClass red and the same hero slides, so the capture does not differ. The element fails 1.4.3 for the reason the claim gives."
+    },
+    {
+      "fingerprint": "s52396512e8f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This image is one of the two images that are the only content of a product link (/sandalia-thong-preta-salto-baixo-fino-fivela-slingback); the link's computed name is \"ARZ - MOSAICO1 - WEB ARZ - MOSAICO1.2 - WEB\". The image shows a black crochet thong slingback sandal with a kitten heel. Its alt is a CMS asset code that describes neither the image nor the link's purpose (H30). Because it is not empty either, it fails 1.1.1 whether the image is taken as functional or decorative. The product name is an h3 outside the link. The snapshot src is a lazy-load placeholder, but the real photo renders in the screenshot and the crop. Read in good faith, the claim names the failure. The live server HTML (__NEXT_DATA__) still has this banner with an empty imageAltText, so the CMS imageCode is still used as the alt. captureDiffers is no."
+    },
+    {
+      "fingerprint": "e72f26960755",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter e-mail input. Its placeholder \"Informe seu e-mail\" is #8a8a8a (from CSS) on a #f0eeec field; the screenshot confirms the field colour (240,238,236) and the light-grey 12px placeholder. That gives 2.98:1. The placeholder is the field's only label (its accessible name comes from the placeholder), so it is informative text and needs 4.5:1. None of the 1.4.3 exceptions apply. The live server HTML has the same input with the same placeholder."
+    },
+    {
+      "fingerprint": "bb63d07004e3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the first hero slide, an image that is the only content of a link to /c/novidades. The image is mostly text: \"SOMENTE ESTA NOITE\", \"HAPPY FRIDAY\", \"10% OFF TODO SITE\", \"[VOUCHER: TUDO10]\" and a limited-time online-only note. The alt \"ARZ-BANNERWEB1-ON\" is a CMS code: it conveys none of the offer or the voucher, and nothing of where the link goes. It fails 1.1.1, and the claim, read in good faith (the alternative does not describe what the image shows), names that failure. The live server HTML (__NEXT_DATA__) still has this banner with an empty imageAltText, so the CMS imageCode is still used as the alt. captureDiffers is no."
+    },
+    {
+      "fingerprint": "f4d3d528b8ff",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a quartet banner image, the only content of a link to /c/preto-399-arezzo. The image shows a black studded pointed flat with the overlaid text \"PRETO ATÉ [ R$ 399 ] Conferir\". The alt \"ARZ - QUARTETO 4- DESK\" is a CMS code: it carries neither the image's text nor the link's purpose, so the element fails 1.1.1. Read in good faith, the claim names that failure. The live server HTML (__NEXT_DATA__) still has this banner with an empty imageAltText, so the CMS imageCode is still used as the alt. captureDiffers is no."
+    },
+    {
+      "fingerprint": "228736d21391",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a quartet banner image, the only content of a link to /c/metalizados (filtered by price). The image shows gold metallic slingback pumps with the text \"METALIZADOS ATÉ [ R$ 499 ] Conferir\". The alt \"ARZ - QUARTEO 2 - DESK\" is a misspelled CMS code that conveys neither the text nor the link's purpose, so the element fails 1.1.1. The claim names that failure in good faith. The live server HTML (__NEXT_DATA__) still has this banner with an empty imageAltText, so the CMS imageCode is still used as the alt. captureDiffers is no."
+    },
+    {
+      "fingerprint": "46a2ed4fd8b4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a quartet banner image, the only content of a link to /c/offwhite-499-arezzo. The image shows white flower-detail heeled sandals with the text \"OFF-WHITE ATÉ [ R$ 499 ] Conferir\". The alt \"ARZ - QUARTETO 3 - DESK\" is a CMS code that conveys neither the text nor the link's purpose, so the element fails 1.1.1. The claim names that failure in good faith. The live server HTML (__NEXT_DATA__) still has this banner with an empty imageAltText, so the CMS imageCode is still used as the alt. captureDiffers is no."
+    },
+    {
+      "fingerprint": "s683104f6232",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the second fashion-banner image link (the model photo), href /c/verao. Its only name is the img alt \"Fashion Banner\", which says nothing about its purpose. The nearest heading before it in document order is the h2 \"LANÇAMENTO AREZZO / ALTO VERÃO\" (the crochet h3 comes after it). Under this round's H80 rule that heading is the link's context, and it tells the user the banner leads to the Alto Verão launch, which matches the Verão collection page. The purpose can be determined, so \"nothing around it does\" is false and the element meets 2.4.4. The poor alt is a 1.1.1 failure, judged in 234e2fcacfd9. The live HTML has the same structure."
+    },
+    {
+      "fingerprint": "s02c148b4859",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the second hero slide link, aria-label \"ARZ - SAPATOS E BOLSAS - DESK\", leading to /c/tudo60 (\"SAPATOS 60% E BOLSAS 50%\"). The name has CMS noise (ARZ, DESK), but its meaningful words, shoes and bags, are the destination's subject; what it leaves out is the discount. So \"does not match\" overstates it. No heading supplies context: the nearest preceding one is the empty-cart drawer's h3. My lean is that the topic is conveyed well enough to decide whether to follow the link, but competent auditors could reasonably hold that a CMS code naming only the product categories does not convey the purpose of a sale page. Hence uncertain. The image's alt problem is a 1.1.1 matter (bffe10851422). The live server data still has this slide with an empty imageAltText."
+    },
+    {
+      "fingerprint": "pfe8c835f89c",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the header nav link \"VERÃO'27\", leading to /c/verao, a page titled \"Coleção de Verão\". The link text names the summer '27 collection, which is exactly where it goes, so the element meets 2.4.4 and Rampa was right to report nothing. The live server navigation data has the same node (title VERÃO'27, url /c/verao)."
+    },
+    {
+      "fingerprint": "234e2fcacfd9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the second fashion-banner image: a model in a white lace top seated beside a white crochet bag, wearing black crochet mules. It is the only content of a link to /c/verao. Its alt \"Fashion Banner\" is also the link's name. By H30, the text alternative of an image that is a link's only content must convey the link's purpose, and \"Fashion Banner\" says neither where the link goes nor what the image shows. The element fails 1.1.1 for the reason the claim gives. The live HTML still has alt=\"Fashion Banner\"."
+    },
+    {
+      "fingerprint": "a6638bce43bd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a quartet banner image, the only content of a link to /c/marrom-399-arezzo. The image shows a brown studded platform sandal with the text \"MARROM ATÉ [ R$ 399 ] Conferir\". The alt \"ARZ - QUARTETO1 - DESK\" is a CMS code that conveys neither the text nor the link's purpose, so the element fails 1.1.1. The claim names that failure in good faith. The live server HTML (__NEXT_DATA__) still has this banner with an empty imageAltText, so the CMS imageCode is still used as the alt. captureDiffers is no."
+    },
+    {
+      "fingerprint": "p7f20fb486d5",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Mule\" link in the header search panel's \"categorias sugeridas\" list, leading to /c/sapatos/mules. The link text names the shoe category it opens, and the preceding heading \"categorias sugeridas\" confirms what it is, so the element meets 2.4.4. The panel belongs to the search drawer and does not show in the screenshot; that does not bear on link purpose. The live data has the same Mules category URL."
+    },
+    {
+      "fingerprint": "p8466322b00a",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the header account icon link to /login. Its name \"Entre ou cadastre-se\" comes from a visually hidden span inside the link, and it states the purpose (log in or sign up), so the element meets 2.4.4. The screenshot shows the user icon in the styled header. Nothing suggests the page users receive differs, although the desktop header is rendered on the client and is not in the server HTML."
+    },
+    {
+      "fingerprint": "68e1c80519f5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter input (name=email, no type, no autocomplete). It collects the user's own e-mail address, a purpose in WCAG's input purposes list, so 1.3.5 requires it to be programmatically identified (autocomplete=\"email\"), and it is not. The snapshot's formIssues includes Chromium's FormInputAssignedAutocompleteValueToIdOrNameAttributeError, so the claim's Chromium remark holds too. The live server HTML has the same input with no autocomplete attribute."
+    },
+    {
+      "fingerprint": "s2f567beefc9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h3 \"OBCECADAS POR VERÃO\" (\"obsessed with summer\"), the title of a Mundo Arezzo blog card. Under it the summary reads \"A Arezzo apresenta um Alto Verão que celebra a diversidade de estilos...\", and the card links to a post with the same title about the Alto Verão collection. The heading describes its content, so the claim is false and the element meets 2.4.6. The live HTML has the same card. Rampa had the summary and destination, so the cause is model_error."
+    },
+    {
+      "fingerprint": "1515aaa890f7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the first fashion-banner image: a row of black crochet heels and sandals. It is the only content of a link to /c/verao. Its src in the snapshot is a lazy-load placeholder, but the real photo renders in the screenshot and the crop. The alt \"Fashion Banner\" is also the link's name, and it says neither where the link goes nor what the image shows, so the element fails 1.1.1 (H30) for the reason the claim gives. The live HTML still has alt=\"Fashion Banner\"."
+    },
+    {
+      "fingerprint": "f55803d64d7d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the second image in the product link to /sandalia-thong-preta-salto-baixo-fino-fivela-slingback; the two images are the link's only content. It shows a model in a white embroidered jacket and shorts with a black clutch and black thong sandals. The alt \"ARZ - MOSAICO1.2 - WEB\" is a CMS code that describes neither the image nor the link's purpose, and it is not empty, so the element fails 1.1.1. The claim names that failure in good faith. The live server HTML (__NEXT_DATA__) still has this banner with an empty imageAltText, so the CMS imageCode is still used as the alt. captureDiffers is no."
+    },
+    {
+      "fingerprint": "9c15ce22dfec",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a product mosaic image: a cream crochet clutch with a gold clasp. It is the only content of a link to /bolsa-clutch-branca-couro-media-corrente, and the browser computes that link's name as \"ARZ - MOSAICO3 - WEB\". The product name is an h3 outside the link. The CMS-code alt says nothing about where the link goes or what the image shows, so the element fails 1.1.1 (H30) as the claim says. The live server HTML (__NEXT_DATA__) still has this banner with an empty imageAltText, so the CMS imageCode is still used as the alt. captureDiffers is no."
+    },
+    {
+      "fingerprint": "bffe10851422",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the second hero slide image, inside a link to /c/tudo60. The image is text: \"SAPATOS COM 60% OFF\", \"BOLSAS COM 50% OFF\", \"HAPPY FRIDAY\", \"48H | EXCLUSIVO ONLINE\" and a selected-items note. The alt \"ARZ - SAPATOS E BOLSAS - DESK\" keeps two words plus CMS noise and drops the offer the image exists to convey, so the element fails 1.1.1. Taken literally the sentence is partly false (the image does show the words sapatos and bolsas), hence claimTrue no. Read in good faith, as an alternative that leaves out most of what the image conveys, the claim names the failure. The live server HTML (__NEXT_DATA__) still has this banner with an empty imageAltText, so the CMS imageCode is still used as the alt. captureDiffers is no."
+    },
+    {
+      "fingerprint": "a3704bfa622a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a product mosaic image: a white embroidered pointed slingback scarpin on black. It is the only content of a link to /scarpin-branca-salto-fino-bordado; the product name is an h3 outside the link. The alt \"ARZ - MOSAICO2 - WEB\" is the link's whole name and says nothing about the destination or the image, so the element fails 1.1.1 (H30) as the claim says. The live server HTML (__NEXT_DATA__) still has this banner with an empty imageAltText, so the CMS imageCode is still used as the alt. captureDiffers is no."
+    }
+  ]
+}

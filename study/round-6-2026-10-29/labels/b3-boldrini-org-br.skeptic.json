@@ -1,0 +1,127 @@
+{
+  "page": "https://www.boldrini.org.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "fdb4edbefab3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Contact-form text input with placeholder \"NOME COMPLETO\" in the footer. The capture holds no visible label: the placeholder is the field's only visible label, so it is information-bearing text, not incidental. Screenshot pixels inside the field are #6c757d on #dcdcdc, and the live CSS matches (Bootstrap 4.1.3 .form-control::placeholder color #6c757d opacity 1; site.css 'div > div.form input/textarea' background #dcdcdc), which gives 3.42:1 for 16px weight-400 text, below the 4.5:1 that 1.4.3 requires. Understanding 1.4.3 states the criterion applies to placeholder text. Reasons I looked for: the field is active (no inactive-component exception), not decorative, not a logotype; Bootstrap's :focus rule turns the background white (about 4.69:1) only while the field has focus, so the default state that users first read still fails. The live HTML and CSS fetched today match the capture, so captureDiffers is no. No exempting reason holds up."
+    },
+    {
+      "fingerprint": "e7c2f8031409",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Link \"Clique aqui\" (href doacoes/) in the round purple badge whose visual title is \"SEJA AMIGO DO BOLDRINI\" (itself a separate link to the same page). The heading just before it in document order is the h2 \"Pesquisa e desenvolvimento\", unrelated to donations. Context checked by the rubric's list: no aria-label, aria-labelledby, title or aria-describedby; the link sits alone in div.action, not in a sentence, paragraph, list item or table cell with other text; the badge title above it is a sibling div holding a separate link, not a heading. So no counted context supplies the purpose, and \"Clique aqui\" alone does not convey it; the page also has two \"Clique aqui\" links to different destinations (doacoes/ and voluntariado/), and this is not a case of purpose ambiguous to users in general. elementFails is yes by the rubric's rule. claimTrue is no because the sentence says nothing around the link tells its destination, while the capture shows the badge title right above it doing so visually; read in good faith, though, the claim names the real failure (link text with no programmatically determined context). The live HTML fetched today is the same markup, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "d61f61f62591",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Contact-form textarea with placeholder \"MENSAGEM\" in the footer. The capture holds no visible label: the placeholder is the field's only visible label, so it is information-bearing text, not incidental. Screenshot pixels inside the field are #6c757d on #dcdcdc, and the live CSS matches (Bootstrap 4.1.3 .form-control::placeholder color #6c757d opacity 1; site.css 'div > div.form input/textarea' background #dcdcdc), which gives 3.42:1 for 16px weight-400 text, below the 4.5:1 that 1.4.3 requires. Understanding 1.4.3 states the criterion applies to placeholder text. Reasons I looked for: the field is active (no inactive-component exception), not decorative, not a logotype; Bootstrap's :focus rule turns the background white (about 4.69:1) only while the field has focus, so the default state that users first read still fails. The live HTML and CSS fetched today match the capture, so captureDiffers is no. No exempting reason holds up."
+    },
+    {
+      "fingerprint": "08752a993cc9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Link \"Clique aqui\" (href voluntariado/) in the round orange badge whose visual title is \"SEJA VOLUNTÁRIO\" (itself a separate link to the same page). The heading just before it in document order is the h2 \"Estatística do Boldrini\", unrelated to volunteering. Context checked by the rubric's list: no aria-label, aria-labelledby, title or aria-describedby; the link sits alone in div.action, not in a sentence, paragraph, list item or table cell with other text; the badge title above it is a sibling div holding a separate link, not a heading. So no counted context supplies the purpose, and \"Clique aqui\" alone does not convey it; the page also has two \"Clique aqui\" links to different destinations (doacoes/ and voluntariado/), and this is not a case of purpose ambiguous to users in general. elementFails is yes by the rubric's rule. claimTrue is no because the sentence says nothing around the link tells its destination, while the capture shows the badge title right above it doing so visually; read in good faith, though, the claim names the real failure (link text with no programmatically determined context). The live HTML fetched today is the same markup, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "da33f3e55622",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Contact-form text input with placeholder \"ASSUNTO\" in the footer. The capture holds no visible label: the placeholder is the field's only visible label, so it is information-bearing text, not incidental. Screenshot pixels inside the field are #6c757d on #dcdcdc, and the live CSS matches (Bootstrap 4.1.3 .form-control::placeholder color #6c757d opacity 1; site.css 'div > div.form input/textarea' background #dcdcdc), which gives 3.42:1 for 16px weight-400 text, below the 4.5:1 that 1.4.3 requires. Understanding 1.4.3 states the criterion applies to placeholder text. Reasons I looked for: the field is active (no inactive-component exception), not decorative, not a logotype; Bootstrap's :focus rule turns the background white (about 4.69:1) only while the field has focus, so the default state that users first read still fails. The live HTML and CSS fetched today match the capture, so captureDiffers is no. No exempting reason holds up."
+    },
+    {
+      "fingerprint": "3632db9dd1b8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Text input name=\"name\" with placeholder \"NOME COMPLETO\" in the site's contact form, which asks for the visitor's own full name, so it collects information about the user and maps to the 'name' input purpose. Neither the rendered DOM in the snapshot nor the live HTML fetched today has an autocomplete attribute, and nothing else identifies the purpose programmatically (H98 is the sufficient technique). The snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError on this input, so the claim's second sentence is also true. Reasons I looked for: the field is not for someone else's data, and no script adds autocomplete at runtime (the rendered DOM lacks it). Capture and live page match, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "46469d23ed7d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only link to Boldrini's YouTube channel in the top secondary nav (Font Awesome fa-youtube-play glyph, no text, no border). The live site.css sets 'nav .secondary-nav a' to #a6a8aa and the nav is bg-white, so the glyph is #a6a8aa on #ffffff, 2.39:1, below the 3:1 that 1.4.11 asks for visual information that identifies a component (G207). Reasons I looked for: the logo exemption; Understanding 1.4.11 says a logo's exemption does not cover a low-contrast presentation that is an author choice rather than a brand requirement, and this light-grey rendering of the YouTube mark is the author's styling. The full-page screenshot does not show the fixed nav (the top band is blank), but the rule's colours come from CSS and match the live CSS fetched today, so the difference does not touch this claim. The link also has no accessible name (its name is a private-use glyph), a separate failure of 2.4.4/4.1.2 not judged here."
+    },
+    {
+      "fingerprint": "398f55f03c3b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Contact-form email input with placeholder \"EMAIL\" in the footer. The capture holds no visible label: the placeholder is the field's only visible label, so it is information-bearing text, not incidental. Screenshot pixels inside the field are #6c757d on #dcdcdc, and the live CSS matches (Bootstrap 4.1.3 .form-control::placeholder color #6c757d opacity 1; site.css 'div > div.form input/textarea' background #dcdcdc), which gives 3.42:1 for 16px weight-400 text, below the 4.5:1 that 1.4.3 requires. Understanding 1.4.3 states the criterion applies to placeholder text. Reasons I looked for: the field is active (no inactive-component exception), not decorative, not a logotype; Bootstrap's :focus rule turns the background white (about 4.69:1) only while the field has focus, so the default state that users first read still fails. The live HTML and CSS fetched today match the capture, so captureDiffers is no. No exempting reason holds up."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Input type=\"email\" name=\"email\" with placeholder \"EMAIL\" in the contact form, asking for the visitor's own email address (input purpose 'email'). No autocomplete attribute in the snapshot's rendered DOM or the live HTML fetched today. The reason a skeptic might raise, that type=\"email\" already identifies the purpose, does not hold: Understanding 1.3.5 says type=\"email\" does not clarify whether the address is the user's own or someone else's. The snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError on this input, so the second sentence holds too. Capture and live page match, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "s4852dc1b0dd",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "h2 \"Estatística do Boldrini\" heading a teal band. The content directly under it, in the same band, is a photo of a patient and an infographic of hospital statistics (20% convênio / 80% SUS, patients treated, cure rate, 80 beds, 90 doctors, 130 mil m²), as the screenshot shows. The heading therefore describes the content it introduces, and the claim is not true of the capture. Both images have no alt (infografico-1-113.png, infografico-2-28e.png, same in the live HTML), so a text-only reading of what follows sees only later, unheaded sections (testimonials, care services, volunteering) before the next h2; those sections lacking headings of their own is not a 2.4.6 failure of this heading. The missing text alternative of the infographic is a 1.1.1 failure. The checker lacked the image content it needed, so the cause is context_missing. The live page has the same heading and images, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "sadf21a32757",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Link \"boldrini.org.br/doacoes\" (href /doacoes) at the end of a paragraph that ends \"Seja sócio amigo do Boldrini: boldrini.org.br/doacoes\", after text about people and companies funding the hospital. The link text is an address, as the claim says, but the address itself names the donations page, and the same sentence and paragraph (counted context under the rubric) say the link is for becoming a member-friend and supporting the hospital; the destination's heading is \"Doações\". The purpose is determinable from the link text with its programmatically determined context, so 2.4.4 is met. Rejecting a URL as link text per se is a stricter rule than 2.4.4, hence criterion_misapplied. The live HTML fetched today has the same paragraph and link, so captureDiffers is no."
+    }
+  ]
+}

@@ -57,3 +57,12 @@ Sixth real-page study: notes of the run (2026-11-21, times UTC-3)
 08:05  T4 done: fast1-fast5 05:28-06:14, full2-full5 06:14-08:05; 12 of 12 pages complete in both modes, every run
        exited 0 or 1. compact.py (468 compact reports), hashes.py (240 files, 511 MB) and t4.py (data/t4.json) run.
        Nothing was pushed after the freeze push.
+06:49  Judges (launched from the main session, not by the runner): 142 judge agents, an auditor and a skeptic for each
+       of the 71 packets, largest packets first from judge-prompts/index.json, up to 8 at once, each new packet's pair
+       launched when two running agents had finished. No model or effort was set on them (they inherit the session's,
+       Claude Opus 5.5). Launch form: each agent was told to read its prompt file and carry out the task it describes
+       exactly as written, so it received the same text as the prompt file, delivered by file. Each replied with its
+       one-line count only; no label file, answer or rationale was read during labelling. No judge stopped early or had
+       to be launched again.
+08:44  Last judge done. check_labels.py: 142 files, problems 0. analyze.py run (data/summary.json, data/findings.json,
+       data/pages.json).

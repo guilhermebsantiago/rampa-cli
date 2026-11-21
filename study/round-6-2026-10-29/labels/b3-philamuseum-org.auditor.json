@@ -1,0 +1,77 @@
+{
+  "page": "https://www.philamuseum.org/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p3dc2431cc03",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the photo of the Main Building facade in the first card of the Visit section, alt=\"\" (role presentation). It sits right above the card's h3 'Main Building', whose link (link-cover over the whole card) goes to /main-building, so the image only shows the subject the adjacent heading already names; empty alt on an image with an adjacent text alternative meets 1.1.1, and the image is not the only content of any link. The capture had class opacity-0 (fade-in not finished), but the crop and the screenshot show the same photo, and the live server HTML renders the same card with alt=\"\" (CMS alt null), so no difference touches 1.1.1. Element meets the criterion; no miss."
+    },
+    {
+      "fingerprint": "p553bcf5a0cb",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the header seal logo link (SVG only) with aria-label 'Philadelphia Museum of Art' and href '/'. Its accessible name names the site, and by the near-universal convention a site-name logo link in the header leads to that site's home page, which is its destination (here the page itself). The purpose is determinable from the name alone; 'home' in the name would be nicer but WCAG does not require it. The live HTML has the same link and aria-label; the screenshot's header area is blank (header hidden in the full-page capture) but that does not affect the link's name or purpose. Meets 2.4.4; no miss."
+    },
+    {
+      "fingerprint": "pfe1f1ff5e54",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the banner image of the Marcel Duchamp exhibition card in the home hero, alt=\"\": a sepia photo of Duchamp seen five times around a table (the mirror portrait). The card's h2 link 'Marcel Duchamp' (link-cover over the card) and the date 'Through January 31, 2027' carry the card's information and function; the image illustrates the subject the heading names, so empty alt is an accepted treatment (image with adjacent text alternative) and it is not the only content of the link. A stricter museum-context view could ask for a description of the artwork, but the card's purpose is to promote and link to the exhibition, which the text does. Live HTML renders the same image with alt null from the CMS. Meets 1.1.1; no miss."
+    },
+    {
+      "fingerprint": "p16f266544b1",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Friday Nights' link (contains the card's h3) in the Upcoming Events carousel, href /events/friday-nights, whose destination is titled and headed 'Friday Nights'. The link text alone names the event the page is about, and the preceding heading 'Upcoming Events' confirms it is an event listing. The live HTML has the same link and text. Purpose is determinable; meets 2.4.4; no miss."
+    },
+    {
+      "fingerprint": "s1a9448f05d0",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a visually hidden native checkbox (sr-only, styled box beside it) wrapped in a visible label 'Simplify Fonts' in the top utility bar; it toggles a simplified-font mode. Claim: the sentence presupposes the control takes an entry the label should describe; the snapshot shows a checkbox, where the only input is checking it, and the label says exactly what checking does, so the claim does not hold of the capture. 2.4.6 asks that labels describe topic or purpose, and 'Simplify Fonts' describes the purpose of the toggle. The live HTML has the same label and input (bar visible at desktop widths). The checker had the role and judged it as if it were a text field."
+    },
+    {
+      "fingerprint": "p5a3840bf47e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the photo in the 'Friday Nights' event card, alt=\"\": visitors sitting and walking on the museum's Great Stair Hall steps, with banners and the gilded Diana. The card's category 'Social', the h3 link 'Friday Nights' and the description about DJs carry the card's information; the photo is atmosphere that adds nothing the card needs, so empty alt is appropriate and it is not inside the link. The live page renders the same card with the image's CMS alt null (image filled client-side). Meets 1.1.1; no miss."
+    },
+    {
+      "fingerprint": "pbdf35f129fc",
+      "answers": {
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is the link 'Ōgi Rodō' (contains an h3) in the Collection grid, href /objects/41886, which opens the object page 'Ceremonial Teahouse: Sunkaraku (Evanescent Joys), c. 1917'. The link text is the architect's name only; the work's title is in a sibling <p> after the link (a neighbouring paragraph, not the link's own paragraph, list item or cell), the card image has alt=\"\" and sits outside the link, there is no title or aria-describedby, and the nearest heading before the link is the previous card's 'Vincent Willem van Gogh'. From the counted context a user would expect a page about Ōgi Rodō, not this specific artwork, so the purpose is not determinable; only the visual card title explains it. Live HTML has the same structure. Fails 2.4.4 and Rampa reported nothing: a miss."
+    }
+  ]
+}

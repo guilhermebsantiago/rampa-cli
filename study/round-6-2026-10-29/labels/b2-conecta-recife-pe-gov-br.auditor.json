@@ -1,0 +1,122 @@
+{
+  "page": "https://conecta.recife.pe.gov.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s2e0e244b297",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is a carousel card link in 'Destaques' whose only content is an image with alt 'Academia Recife' and title 'Academia Recife' (the original item of the first carousel row). claimTrue: in the snapshot four links are named 'Academia Recife' (three carousel copies, two of them Owl Carousel loop clones, to /redirecionamento/servico/858, and one card in 'Serviços mais acessados' to /redirecionamento/maisAcessado/858), so there are two distinct hrefs, and no heading or other counted context tells this one apart; the sentence holds of the capture in that literal sense. elementFails: both hrefs carry the same service id 858; checked live, each redirects (302) to /acesso/... (sign-in) and then to the same Academia Recife service (the site's carta de serviço /servico/858 is 'Realizar agendamento para a Academia Recife'). The link text names that purpose and all four links share it, so 2.4.4 is met: identical text on links with the same purpose is no failure (even the AAA 2.4.9 reading would pass). captureDiffers: the live HTML has the same markup and the carousels use loop:true, so the clones exist for users too; the screenshot shows the carousel at another autoplay position, which does not touch this claim. False positive: the 'two different places' are two redirect paths to one service, behind a sign-in the checker could not read."
+    },
+    {
+      "fingerprint": "pbd932fae376",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the image (1-1423.jpg) that is the only content of a carousel link (an off-screen Owl loop clone) to /redirecionamento/servico/1423, with alt 'Coleta RCC e Volumosos'. The crop shows a card reading 'Agendamento de Coleta' with a collection truck and a woman holding a phone. As a control's content, 1.1.1 asks for a name that describes its purpose; the destination (agendamentodecoleta.recife.pe.gov.br, EMLURB's scheduling of construction waste (RCC) and bulky item collection, checked live) is exactly what the alt names, so 1.1.1 is met. The visible words 'Agendamento de Coleta' are not in the accessible name: a possible 2.5.3 Label in Name issue, not 1.1.1. captureDiffers: the live HTML has the same img and alt. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "02d81ef3f48c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the icon-only 'Microfone' button (#buttonRec) at the right end of the search field; its only content is a Font Awesome microphone glyph. claimTrue: the screenshot's icon pixels are solid #4f97ff on #ffffff, 2.92:1, and nothing else on the button identifies it. elementFails: the live stylesheet sets '#buscaServicosCampo .btn-light-border{color:#4f97ff}' (hover too) on the white .btn-light-border background, so users get the same 2.92:1; the button has no left or right border, only a light grey top and bottom edge shared with the field, so the glyph is the visual information needed to identify the control, which 1.4.11 asks to reach 3:1 (G207). It falls short. captureDiffers: live CSS and markup match the capture. True positive."
+    },
+    {
+      "fingerprint": "s01fb0528a74",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a carousel card link (the original item of the second carousel row) whose only content is an image with alt 'Plataforma Recife sem Racismo' (title the same) to /redirecionamento/servico/845. claimTrue: the captured destination is titled 'Denuncia Racismo' at semracismo.recife.pe.gov.br/denrs/, but the sentence's point, that the text does not match it, does not hold: the domain is 'semracismo' and the page is for reporting racism, which is what the Recife sem Racismo platform is. elementFails: checked live, the link redirects to semracismo.recife.pe.gov.br, landing on /denrs/ titled 'Denuncia Racismo', whose body presents the 'Plataforma Recife Sem Racismo' (Efetuar Denúncia, Consultar Denúncia); the site's carta de serviço 845 is 'Acessar a plataforma Recife Sem Racismo'. The link text names its destination, so 2.4.4 is met. captureDiffers: live markup and destination match the capture. False positive: the checker had the title and URL that confirm the match and judged a wording difference as a mismatch."
+    },
+    {
+      "fingerprint": "pf81d0051b35",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the image (1-1240.jpg) that is the only content of a carousel link to /redirecionamento/servico/1240, with alt 'caderneta da criança'. The crop shows the logo text 'Caderneta da Criança do Recife' and a mother holding a baby; the alt gives the same name and so describes the link's purpose (the child health booklet service), which meets 1.1.1 for a control's content; leaving out 'do Recife' and the photo loses nothing needed. captureDiffers: the live HTML has the same img and alt. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "p0df40fbd1b2",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is a carousel card link to /redirecionamento/servico/1152 whose only content is an image with alt 'Conecta Patinhas' (title the same); the image, checked from its src, shows the 'conecta patinhas' logo with paw prints, a dog and a cat. The destination is behind a sign-in, but the site's carta de serviço 1152 is 'Conecta Patinhas', a pet tele-veterinary and registration service, so the link text names the service it opens. A link text that names its destination meets 2.4.4, and no link with another purpose shares it. captureDiffers: the live HTML has the same markup. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "s2c5514a28ee",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'A' control in the top accessibility bar, between 'A+' and 'A-': an a element with href '#', title 'Zoom padrão', accesskey 7 and onclick standardZoom(), text ' A '. claimTrue: the text 'A' alone says little, but 'nothing around it does' is false: the snapshot exposes the title as the accessible description 'Zoom padrão' (default zoom). elementFails: under this round's context rule a title attribute (H33) counts, so text plus description give the purpose (reset the text size), and 2.4.4 is met. That a link with href '#' acts as a button is a 4.1.2 role question, not 2.4.4. captureDiffers: the live HTML has the same link and title. False positive: the title was in the data the checker had."
+    },
+    {
+      "fingerprint": "pcb298190ab2",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the image (1-1423.jpg) that is the only content of the original carousel link to /redirecionamento/servico/1423, with alt 'Coleta RCC e Volumosos'. The crop shows 'Agendamento de Coleta' with a truck and a woman holding a phone. For a control's content, 1.1.1 asks for a name describing its purpose; the destination, checked live, is EMLURB's scheduling of RCC and bulky waste collection, which the alt names precisely, so 1.1.1 is met. The visible words are not in the accessible name: a possible 2.5.3 issue, not 1.1.1. captureDiffers: the live HTML has the same img and alt. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "p08a855832f5",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the image (1-901.jpg) that is the only content of a carousel link to /redirecionamento/servico/901, with alt 'Minha Saúde Conectada'. The crop shows the 'Minha Saúde Conectada' logo, the call to action 'Acessar meus registros de saúde' and a man with a phone. As a control's content, 1.1.1 asks for a name that describes its purpose; the alt names the service the link opens, which meets it. Adding the call-to-action words would be better, but leaving them out does not hide the link's purpose. captureDiffers: the live HTML has the same img and alt. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "s8b655f52ecf",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is a carousel card link in 'Destaques' whose only content is an image with alt 'Academia Recife' and title 'Academia Recife' (an Owl Carousel loop clone at the end of the first row's track). claimTrue: in the snapshot four links are named 'Academia Recife' (three carousel copies, two of them Owl Carousel loop clones, to /redirecionamento/servico/858, and one card in 'Serviços mais acessados' to /redirecionamento/maisAcessado/858), so there are two distinct hrefs, and no heading or other counted context tells this one apart; the sentence holds of the capture in that literal sense. elementFails: both hrefs carry the same service id 858; checked live, each redirects (302) to /acesso/... (sign-in) and then to the same Academia Recife service (the site's carta de serviço /servico/858 is 'Realizar agendamento para a Academia Recife'). The link text names that purpose and all four links share it, so 2.4.4 is met: identical text on links with the same purpose is no failure (even the AAA 2.4.9 reading would pass). captureDiffers: the live HTML has the same markup and the carousels use loop:true, so the clones exist for users too; the screenshot shows the carousel at another autoplay position, which does not touch this claim. False positive: the 'two different places' are two redirect paths to one service, behind a sign-in the checker could not read."
+    },
+    {
+      "fingerprint": "sc3472fd8a09",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a carousel card link (an Owl Carousel loop clone in the second row) whose only content is an image with alt 'Plataforma Recife sem Racismo' (title the same) to /redirecionamento/servico/845. claimTrue: the captured destination is titled 'Denuncia Racismo' at semracismo.recife.pe.gov.br/denrs/, but the sentence's point, that the text does not match it, does not hold: the domain is 'semracismo' and the page is for reporting racism, which is what the Recife sem Racismo platform is. elementFails: checked live, the link redirects to semracismo.recife.pe.gov.br, landing on /denrs/ titled 'Denuncia Racismo', whose body presents the 'Plataforma Recife Sem Racismo' (Efetuar Denúncia, Consultar Denúncia); the site's carta de serviço 845 is 'Acessar a plataforma Recife Sem Racismo'. The link text names its destination, so 2.4.4 is met. captureDiffers: live markup and destination match the capture. False positive: the checker had the title and URL that confirm the match and judged a wording difference as a mismatch."
+    }
+  ]
+}

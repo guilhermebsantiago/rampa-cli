@@ -1,0 +1,127 @@
+{
+  "page": "https://www.boldrini.org.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "fdb4edbefab3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Element: the contact form's \"NOME COMPLETO\" text input in the footer, whose placeholder is its only label. Checked three ways: the snapshot's pixelContrast gives #6c757d on #dcdcdc, 3.42:1, 16px weight 400; the live CSS gives the same (Bootstrap .form-control::placeholder {color:#6c757d; opacity:1} and site.css 'div > div.form input, div > div.form textarea {background-color:#dcdcdc}'); and sampling the screenshot gives darkest glyph pixel #6c757d on #dcdcdc, 3.42:1. Normal-size text needs 4.5:1. The placeholder is the field's only visible label (no <label>, no aria-label), so it is information users need, not incidental text, and no 1.4.3 exception applies. Only while focused does Bootstrap's .form-control:focus switch the background to #fff (4.69:1); the unfocused default state fails. claimTrue: yes, every number in the claim matches the capture. elementFails: yes. captureDiffers: no, the live HTML and style sheets serve the same markup and colours, and the screenshot shows the styled form. The claim names exactly this failure, so true_positive."
+    },
+    {
+      "fingerprint": "e7c2f8031409",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Element: the \"Clique aqui\" link (href=\"doacoes/\") in the purple \"SEJA AMIGO DO BOLDRINI\" badge near the end of the page; it leads to the Doações page. Context under this round's rule: no aria-label, aria-labelledby, title or aria-describedby; the link sits alone in <div class=\"action\">, not in a sentence, paragraph, list item or table cell with other text; the nearest preceding heading in document order is \"Pesquisa e desenvolvimento\", which says nothing about this link. The only text that explains it is the badge title \"SEJA AMIGO DO BOLDRINI\" in a sibling <div class=\"title\"> (itself a separate link to the same place), a visual label that is not a heading, so it does not count. The image link above it in the badge has an <img> with no alt, so it has no name either (another failure, not this element). claimTrue: no, because the sentence says nothing around the link tells its purpose, while the capture has the title \"SEJA AMIGO DO BOLDRINI\" just above it in the same wrapper (parent text \"SEJA AMIGO DO BOLDRINI Clique aqui\"). elementFails: yes by the rubric's 2.4.4 context rule: \"Clique aqui\" alone does not give the purpose and no counted context does. captureDiffers: no, the live HTML has the identical markup. The claim, read in good faith, points at that failure (non-descriptive link text without context), so true_positive."
+    },
+    {
+      "fingerprint": "d61f61f62591",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Element: the contact form's \"MENSAGEM\" textarea in the footer, whose placeholder is its only label. Checked three ways: the snapshot's pixelContrast gives #6c757d on #dcdcdc, 3.42:1, 16px weight 400; the live CSS gives the same (Bootstrap .form-control::placeholder {color:#6c757d; opacity:1} and site.css 'div > div.form input, div > div.form textarea {background-color:#dcdcdc}'); and sampling the screenshot gives darkest glyph pixel #6c757d on #dcdcdc, 3.42:1. Normal-size text needs 4.5:1. The placeholder is the field's only visible label (no <label>, no aria-label), so it is information users need, not incidental text, and no 1.4.3 exception applies. Only while focused does Bootstrap's .form-control:focus switch the background to #fff (4.69:1); the unfocused default state fails. claimTrue: yes, every number in the claim matches the capture. elementFails: yes. captureDiffers: no, the live HTML and style sheets serve the same markup and colours, and the screenshot shows the styled form. The claim names exactly this failure, so true_positive."
+    },
+    {
+      "fingerprint": "08752a993cc9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Element: the \"Clique aqui\" link (href=\"voluntariado/\") in the orange \"SEJA VOLUNTÁRIO\" badge; it leads to the volunteering page. The styled text \"Voluntariado protagonista, capacitado e comprometido\" earlier on the page is a generic block, not a heading, and is in another section. Context under this round's rule: no aria-label, aria-labelledby, title or aria-describedby; the link sits alone in <div class=\"action\">, not in a sentence, paragraph, list item or table cell with other text; the nearest preceding heading in document order is \"Estatística do Boldrini\", which says nothing about this link. The only text that explains it is the badge title \"SEJA VOLUNTÁRIO\" in a sibling <div class=\"title\"> (itself a separate link to the same place), a visual label that is not a heading, so it does not count. The image link above it in the badge has an <img> with no alt, so it has no name either (another failure, not this element). claimTrue: no, because the sentence says nothing around the link tells its purpose, while the capture has the title \"SEJA VOLUNTÁRIO\" just above it in the same wrapper (parent text \"SEJA VOLUNTÁRIO Clique aqui\"). elementFails: yes by the rubric's 2.4.4 context rule: \"Clique aqui\" alone does not give the purpose and no counted context does. captureDiffers: no, the live HTML has the identical markup. The claim, read in good faith, points at that failure (non-descriptive link text without context), so true_positive."
+    },
+    {
+      "fingerprint": "da33f3e55622",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Element: the contact form's \"ASSUNTO\" text input in the footer, whose placeholder is its only label. Checked three ways: the snapshot's pixelContrast gives #6c757d on #dcdcdc, 3.42:1, 16px weight 400; the live CSS gives the same (Bootstrap .form-control::placeholder {color:#6c757d; opacity:1} and site.css 'div > div.form input, div > div.form textarea {background-color:#dcdcdc}'); and sampling the screenshot gives darkest glyph pixel #6c757d on #dcdcdc, 3.42:1. Normal-size text needs 4.5:1. The placeholder is the field's only visible label (no <label>, no aria-label), so it is information users need, not incidental text, and no 1.4.3 exception applies. Only while focused does Bootstrap's .form-control:focus switch the background to #fff (4.69:1); the unfocused default state fails. claimTrue: yes, every number in the claim matches the capture. elementFails: yes. captureDiffers: no, the live HTML and style sheets serve the same markup and colours, and the screenshot shows the styled form. The claim names exactly this failure, so true_positive."
+    },
+    {
+      "fingerprint": "3632db9dd1b8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Element: <input type=\"text\" name=\"name\" id=\"name\" placeholder=\"NOME COMPLETO\"> in the footer contact form (name, email, subject, message, Enviar). It collects the user's own full name, a purpose listed in WCAG 2.1 section 7 (name), and the input has no autocomplete attribute, so the purpose is not programmatically determinable. claimTrue: yes, autocomplete is absent in the captured HTML, and the snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError for this field, so 'Chromium's form check flags this field' holds too. elementFails: yes, 1.3.5 applies (HTML supports autocomplete tokens) and the field gives no token; site.js only validates and posts the form and adds nothing. captureDiffers: no, the live HTML has the same input without autocomplete. The claim names the failure, so true_positive."
+    },
+    {
+      "fingerprint": "46469d23ed7d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Element: the YouTube link in the top secondary nav, <a href=\"https://www.youtube.com/user/hboldrini\"><i class=\"fa fa-youtube-play\"></i></a>, a 16px Font Awesome icon with no text, so the icon is the only visual information that identifies the control. site.css sets 'nav .secondary-nav a {color:#a6a8aa}' and the nav is fixed-top bg-white: #a6a8aa on #ffffff is 2.39:1 by my own calculation, under the 3:1 1.4.11 needs. The logo exception does not help: per Understanding 1.4.11, a logo shown in low contrast by author choice (here a grey recolouring, not YouTube's brand colours) is not essential and not exempt. claimTrue: yes, the snapshot's pixelContrast gives the same colours and ratio (foreground from CSS, background white). elementFails: yes. captureDiffers: no difference that matters: the full-page screenshot leaves the fixed nav out (its top band is blank white), but the live HTML and CSS give the same grey icon on the same white nav. The link also has no accessible name (empty name, a 2.4.4/4.1.2 failure, not this criterion). The claim names this failure, so true_positive."
+    },
+    {
+      "fingerprint": "398f55f03c3b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Element: the contact form's \"EMAIL\" input (type=email) in the footer, whose placeholder is its only label. Checked three ways: the snapshot's pixelContrast gives #6c757d on #dcdcdc, 3.42:1, 16px weight 400; the live CSS gives the same (Bootstrap .form-control::placeholder {color:#6c757d; opacity:1} and site.css 'div > div.form input, div > div.form textarea {background-color:#dcdcdc}'); and sampling the screenshot gives darkest glyph pixel #6c757d on #dcdcdc, 3.42:1. Normal-size text needs 4.5:1. The placeholder is the field's only visible label (no <label>, no aria-label), so it is information users need, not incidental text, and no 1.4.3 exception applies. Only while focused does Bootstrap's .form-control:focus switch the background to #fff (4.69:1); the unfocused default state fails. claimTrue: yes, every number in the claim matches the capture. elementFails: yes. captureDiffers: no, the live HTML and style sheets serve the same markup and colours, and the screenshot shows the styled form. The claim names exactly this failure, so true_positive."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Element: <input type=\"email\" name=\"email\" id=\"email\" placeholder=\"EMAIL\"> in the footer contact form. It collects the user's own email address, a purpose listed in WCAG 2.1 section 7 (email); type=\"email\" sets the data format but is not an input-purpose token, and there is no autocomplete attribute. claimTrue: yes, autocomplete is absent in the capture and the snapshot records Chromium's FormInputAssignedAutocompleteValueToIdOrNameAttributeError for the field. elementFails: yes, the purpose cannot be programmatically determined; no script adds it. captureDiffers: no, the live HTML is identical. The claim names the failure, so true_positive."
+    },
+    {
+      "fingerprint": "s4852dc1b0dd",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Element: the h2 \"Estatística do Boldrini\" (shown uppercase by CSS) at the top of the teal .stats band. Directly under it, in the same band, are a photo of a child and an infographic image with the hospital's statistics (20% convênio / 80% SUS, patients treated, cure rate, 80 beds, 90 doctors, 130 mil m²), as the screenshot and the snapshot's image data show. The heading describes that topic well, so it meets 2.4.6. The text that follows in document order before the next heading (testimonials, retinoblastoma screening, services) is a separate white section with no heading of its own; that missing heading is a structure issue (1.3.1, 2.4.10 AAA), not a fault of this heading. claimTrue: no, the content right under it is the statistics infographic. elementFails: no. captureDiffers: no, the live HTML has the same heading and images. The two images have no alt attribute, so the statistics exist only as pixels (a 1.1.1 failure for the infographic). A judgment working from the page text would see only the testimonials under the heading, hence context_missing."
+    },
+    {
+      "fingerprint": "sadf21a32757",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Element: the link \"boldrini.org.br/doacoes\" (href=\"/doacoes\") at the end of a paragraph in the teal box of the donations section. The link text is a URL, as the claim says (claimTrue: yes), but its purpose is clear from the text together with its programmatically determined context: the same sentence and paragraph read 'Seja sócio amigo do Boldrini: boldrini.org.br/doacoes', after text about the support of people and companies, and the path word 'doacoes' (donations) itself says where it goes. So it meets 2.4.4 (elementFails: no). captureDiffers: no, the live HTML has the same paragraph and link. The claim treats a URL as link text as a failure in itself and ignores the sentence that gives its purpose, a stricter rule than 2.4.4, so false_positive, criterion_misapplied."
+    }
+  ]
+}

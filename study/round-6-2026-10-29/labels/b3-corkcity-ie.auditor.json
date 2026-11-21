@@ -1,0 +1,28 @@
+{
+  "page": "https://www.corkcity.ie/en/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "3ea565d0a50f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the site-owner logo in the Cookiebot consent banner (#CybotCookiebotDialogPoweredbyImage). Its image is the Cork City Council crest (46x46, see the crop), its alt is \"logo\", it is not hidden from assistive technology, and the snapshot gives it rendered bounds at the top left of the banner. claimTrue: \"logo\" is not a file name, but it is a generic placeholder. The live Cookiebot configuration for this site sets logoAltText = 'logo' as the value for the template's [#LOGOALT#] slot, so the sentence holds because of its \"or a placeholder\" part. elementFails: the crest identifies the council, and \"logo\" conveys none of that (F30, placeholder text used as an alternative). If an auditor treated the crest as decorative inside the banner, it would still fail, because a non-empty alt keeps it from being ignored (F38). captureDiffers: the live page still loads the same Cookiebot banner (uc.js, same cbid) with showLogo = true, and the alt is still 'logo'. Cookiebot's CSS shows the logo at desktop widths and hides it only below 600px. The full-page screenshot shows the banner shifted up, so the crest is cut off above the top edge and only the \"Cookiebot by Usercentrics\" mark shows. That is a screenshot artefact; it does not touch the alt text or what users receive. The element fails, and the claim names that failure."
+    },
+    {
+      "fingerprint": "025b08ee4e87",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header logo image, and it is the only content of the link to /en/ (the home page). The image shows the crest and the text \"Comhairle Cathrach Chorcaí / Cork City Council\". Its alt is \"ccctransparentlogo-small\", a CMS media name. The link has no aria-label or title, so the link's name is that string. claimTrue: the image is all the link holds, and the string neither names the destination nor reads as the council's name. elementFails: a functional image's alternative must convey its function, or at least the text in the image. A file-name-like string does neither (F30; H30/H37), so this fails 1.1.1. The link also gets no usable name, which is a related 2.4.4 problem. The claim's point, that the alternative does not say where the link leads, is the real defect of this functional image, read in good faith. captureDiffers: I fetched the live HTML, and the same <a class='global-header-logo' href='/en/'> holds the same img with the same alt. Nothing differs that touches the claim."
+    }
+  ]
+}

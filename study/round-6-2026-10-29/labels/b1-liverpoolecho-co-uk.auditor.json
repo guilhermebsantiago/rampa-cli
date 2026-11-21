@@ -1,0 +1,220 @@
+{
+  "page": "https://www.liverpoolecho.co.uk/news/liverpool-news/anfield-street-goes-days-without-34829284",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "80e8511c10f8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The image is the only content of a link (target _blank) to mantissolutions.com, after the visible words \"Powered By\" in the header of the Mantis \"Similar articles to this\" widget; its alt \"Mantis Logo\" is the link's whole name, so the claim holds of the capture: the alt names the logo and does not spell out a destination. For a linked logo, naming the organisation is enough to tell where the link goes (the Mantis site), and \"Powered By\" beside it gives the role; the extra word \"Logo\" is a best-practice nit, not a 1.1.1 failure. The live HTML holds the same mantis-ui-widget placeholder that a script fills, and the styled screenshot shows the widget as captured; nothing suggests a difference. The checker applied a stricter rule (the alt must state the destination outright) than 1.1.1 requires."
+    },
+    {
+      "fingerprint": "s78850bdb960",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Article photo of Lee Palmer, a bald bearded man in a grey hoodie at the open door of number 18; the alt repeats the visible caption, a statement of what Lee said about the post. The claim holds of the capture: the erratic postal service the alt talks about is not something the photo shows. But the alt does name Lee, the person pictured, right after the paragraph that introduces him, so it arguably serves the photo's purpose in a news story (who this is), while saying nothing about the scene. Auditors split on caption-as-alt for portraits like this; I lean towards a pass, but the disagreement is reasonable, so uncertain. The live HTML has the same img and alt, and the styled screenshot matches the crop."
+    },
+    {
+      "fingerprint": "bb5cb123409c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Thumbnail (a person walking on a snowy path, matching its src, Sefton Park in snow) inside a recommendation-card link that has aria-label \"'Coldest night' in Liverpool so far with -4C forecast overnight\" and also holds the visible headline. The alt \"Find more about <headline>\" describes the article rather than the picture, so the sentence is true of the capture. But the image is functional: it is part of a link whose purpose the alt states correctly, and the link's aria-label overrides it anyway, so screen readers announce the headline. 1.1.1 asks a functional image's alternative to convey its function, which this one does; describing the snow scene is not required. The widget is script-injected; the live HTML has its placeholder and nothing suggests the capture differs. The checker applied a stricter rule (describe the visual content)."
+    },
+    {
+      "fingerprint": "653f36df82c7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "A 25x25 Liverpool Echo square logo (white liver bird on red), the only content of a small link to the Southport aviary article; the link's aria-label and the img alt are both the article headline. The logo does not show the aviary, so the claim is true of the capture. But as the sole content of a link the image is functional, and its alternative should give the link's purpose, which the headline does (the link's aria-label supplies the name in any case). The brand it shows is the site the page is on, so leaving it out costs users nothing they need. The crop matches the src; the widget is script-injected and nothing suggests a difference. The checker applied a stricter rule (describe the visual content)."
+    },
+    {
+      "fingerprint": "b11736a1ff15",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The card image's srcset is 3_The-birds-in-the-aviary.jpg (fetched: two green parakeets on a perch inside an aviary), but the crop the model saw shows an unrelated game-like street scene: the carousel auto-advances (the screenshot shows the cards at other positions than the snapshot bounds) and the crop caught another slide. Against that crop the claim holds; against the real image, the aviary the alt names is shown. Either way the image is functional, inside a link with aria-label equal to the headline, and \"Find more about <headline>\" states the link's purpose, so 1.1.1 is met. The wrong crop is a capture difference that bears on this claim, hence collector_error (the sibling cards show the same stricter reading of 1.1.1 as well)."
+    },
+    {
+      "fingerprint": "c8c78fc1e189",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The header premium button: an SVG showing the word SUBSCRIBE with the liver-bird mark, alt \"liverpoolecho\", the only content of a link to /subscribe that has aria-label \"Subscribe to premium membership\". The claim is true of the capture: the alt names the brand and leaves out the \"Subscribe\" the image conveys. But the link's aria-label names the control and overrides the img alt, so assistive technology announces \"Subscribe to premium membership, link\", which conveys the image's function (ARIA6). The alt is mismatched and alt=\"\" would be cleaner, but there is no 1.1.1 failure. The header is rendered by script (absent from the live server HTML) but the styled capture shows it, and nothing suggests a difference. The model had the link's name in the context and judged the image alone."
+    },
+    {
+      "fingerprint": "s8f951103b91",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Business\" in the mobile navigation's News submenu (a list nested under the \"News\" list item), linking to business-live.co.uk/all-about/north-west. That page (fetched) is \"North West - Business news, local news, expert opinion - Business Live\", the North West business news of a sister Reach site: what \"Business\" under News promises, so the claim is false. The purpose is clear from the link text and its nested-list context (H81); going to another domain does not change the purpose. The mobile nav is inert and sr-only until the menu is opened, the same in the live HTML as in the capture. The href alone showed a business-news site; the model judged wrongly."
+    },
+    {
+      "fingerprint": "p748460642c1",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Top-level \"Sport\" link in the mobile navigation list, leading to /sport/ (title \"Sport: Latest Football, Boxing, Rugby League and Cricket News\"). The link text alone gives its purpose. The mobile nav is inert until opened, the same in the live HTML as in the capture. No 2.4.4 failure; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "saa873526d12",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Desktop primary-nav link \"Things To Do\" (uppercase by CSS) to /whats-on/, the What's On hub. In the capture, besides two hidden MoreCurtain copies, three links carry this text: this one and the mobile-nav \"Things To Do\" (both /whats-on/) and the mobile-nav submenu \"Things to do\" (/all-about/things-to-do-liverpool); no heading or label sits near this one, so the sentence holds. But 2.4.4 does not require unique link text (Understanding 2.4.4 only says different text \"helps\"): this link's purpose, the site's things-to-do section, is clear from its text, and both destinations are things-to-do listings. The other two links are in the mobile nav, inert (out of focus order and the accessibility tree) until opened, where the sublink is nested under \"Things To Do\" (H81). The live HTML matches. The checker applied a stricter rule (unique text)."
+    },
+    {
+      "fingerprint": "s528aaa8d347",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "In the consent dialog's first paragraph, \"At [Reach and across our entities] we and our partners store and/or access information...\", linking to reachplc.com/about-us/our-brands. The link names Reach and its entities, and the destination is Reach's \"our brands\" page that lists them, so the claimed mismatch is false; with its sentence as context, the purpose (who \"we\" are) is clear. My fetch of the destination got a bot-challenge page, so I relied on its self-describing URL. The dialog is injected by script and I could not re-render it, but the styled screenshot shows the same text and nothing suggests a difference. Model error."
+    },
+    {
+      "fingerprint": "se35921cf3c2",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Terms and Conditions\" ends the consent dialog's \"Pay to remove ads\" list item (\"For more information see our Terms and Conditions\") and links to /terms-conditions/. The destination's title is indeed the generic site title, but the page (fetched live) has the h1 \"Terms & Conditions\": it is the terms page, so \"does not match\" is false, and the link text alone gives its purpose. The live title is the same generic one, so the capture's destination record is accurate, only incomplete (no heading). The model took a generic title for a mismatch despite the href /terms-conditions/."
+    },
+    {
+      "fingerprint": "p46864cbf2e6",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "\"Latest What's on\" in the mobile nav's Things To Do submenu, nested under the \"Things To Do\" list item, leading to /whats-on/ (\"What's On: What's On in Liverpool and Merseyside\"). Text and nested-list context give the purpose. The mobile nav is inert until opened, the same live as captured. No failure; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "s0219748de17",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Article photo of Wylva Road: a terraced street of brick houses under a grey sky, wheelie bins with a \"Local residents use only\" sign, parked cars. Its alt repeats the caption, \"Royal Mail said it is working to 'improve reliability across Liverpool'\", a statement that says nothing about what the photo shows, so the claim holds of the capture. The photo is informative (it shows the street the story is about) and nothing else describes it; an alternative that conveys none of its content does not serve the equivalent purpose, so 1.1.1 fails, and the claim (the alt describes something the image does not show) names that failure. The live HTML has the same img and alt; the styled screenshot matches the crop."
+    },
+    {
+      "fingerprint": "p04d2243fa92",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Masthead link to \"/\" with aria-label \"Go to Liverpool Echo homepage\" (it holds the Liverpool Echo logo and a hidden SEO heading text). The accessible name states the purpose outright. The same link is in the live HTML. No 2.4.4 failure; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "p21e8d5f5f8a",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "\"Cricket\" in the mobile nav's Sport submenu, nested under the \"Sport\" list item, leading to /sport/cricket/ (\"Cricket: Cricket News from Liverpool and Merseyside\"). The text and its nested-list context give the purpose. The mobile nav is inert until opened, the same live as captured. No failure; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "p1ad98a2d0f0",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "\"News Opinion\" in the mobile nav's News submenu, nested under \"News\", leading to /news/news-opinion/ (\"News Opinion: Views and Opinions from Liverpool Columnists\"). The text gives the purpose. The mobile nav is inert until opened, the same live as captured. No failure; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "3e6f3f8ada5e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "A 25x25 Liverpool Echo square logo (white liver bird on red), the only content of a small link to the \"'Coldest night' in Liverpool\" article; the link's aria-label and the img alt are both the headline. The logo does not show a cold night, so the claim is true of the capture. But as the sole content of a link the image is functional, and its alternative should give the link's purpose, which the headline does (the link's aria-label supplies the name anyway); the brand it shows is the site the page is on. The crop matches the src; the widget is script-injected and nothing suggests a difference. The checker applied a stricter rule (describe the visual content)."
+    },
+    {
+      "fingerprint": "fb859104b8e9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The logo at the top of the consent dialog (\"Take control of your privacy\"): the red ECHO wordmark with the liver bird, alt \"Publisher Logo\". The claim's sentence is false of the capture: the image is a publisher logo, so the alt does not describe something absent. But the alt is generic placeholder text that leaves out the one thing the logo conveys, the publication's name (ECHO / Liverpool Echo), which appears nowhere else in the dialog's text; that fails 1.1.1 (in the spirit of F30). Read in good faith, as the rubric's own example puts it, an alternative said to describe what the image does not show when it leaves out what the image conveys names this defect. The dialog is script-injected; the styled screenshot shows it as captured and nothing suggests a difference."
+    },
+    {
+      "fingerprint": "pd4003e97b4b",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Article photo of the \"City of Liverpool / WYLVA ROAD L4\" street sign on a black brick wall beside a red mural; the alt (also the caption) is \"Wylva Road lies just a stone's throw away from Anfield stadium\". The alt conveys the photo's main content, the name on the sign, and its point in the story (where the street is), so it serves the equivalent purpose. The live HTML has the same alt and the styled screenshot matches the crop. No 1.1.1 failure; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "sffd85ef90a0",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Fantasy Football\" in the mobile nav's Sport submenu, nested under \"Sport\", linking to /sport/football/football-news/download-fantasy-football-iteam-app-9574853. That page (fetched live) is \"Download the Fantasy Football iTeam app\" (\"Create your fantasy football team now\"): the paper's fantasy football game, so the link text matches and the claim is false. The mobile nav is inert until opened, the same live as captured. Rampa never read the destination, but its URL already showed the match; the model judged wrongly."
+    }
+  ]
+}

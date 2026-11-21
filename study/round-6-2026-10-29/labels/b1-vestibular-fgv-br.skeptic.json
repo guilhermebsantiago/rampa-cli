@@ -1,0 +1,279 @@
+{
+  "page": "https://vestibular.fgv.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "ecad3f79c60e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h2 'Estudar na FGV' is white Google Sans Flex 27px weight 700 (large text, 3:1 applies) on the .bg-degrade-azul section, a CSS gradient from #01bfbf to #003a79 whose top band sits behind the heading. Sampling the screenshot behind the glyphs gives #00b6ba to #01b1b8, 2.5 to 2.6:1, matching the claim; the live style sheet has the same gradient, and no text shadow or overlay raises it. It fails even the large-text 3:1. The page's accessibility widget has a high-contrast toggle, but its style sheet only resets background-color, so the linear-gradient background images stay under the recoloured text; it does not give these elements a conforming presentation (G174 does not rescue them), and users receive the default view anyway."
+    },
+    {
+      "fingerprint": "8ee306c752bb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Formas de Ingresso'. The link is one of the four 'Prepare-se para o processo seletivo' tiles: white uppercase text, 16px weight 700 (not large, 4.5:1 applies), on the tile gradient #61bdeb -> #4597ca -> #1f659d from the live style sheet. The screenshot behind the text is about #4395c8 to #4a9ed0, 3.1 to 3.4:1 (two-line tiles reach about 2.8:1 on the lighter upper line), as the claim says. Nothing (shadow, outline text, alternative style) lifts it to 4.5:1. The page's accessibility widget has a high-contrast toggle, but its style sheet only resets background-color, so the linear-gradient background images stay under the recoloured text; it does not give these elements a conforming presentation (G174 does not rescue them), and users receive the default view anyway."
+    },
+    {
+      "fingerprint": "923f3d0158d1",
+      "answers": {
+        "claimTrue": "cannot_tell",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The input #edit-nome (visually hidden label 'Nome', placeholder 'Seu nome') in the quiz sign-up form collects the user's own name and has autocomplete='off', so no input purpose is programmatically determined (H98 not met, no other mechanism); 1.3.5 fails, and the live HTML is identical. The claim calls it a first name: the form has a single name field and no surname field, so the fitting token is more likely 'name' than 'given-name', and the snapshot cannot show which is meant; hence claimTrue cannot_tell. Read in good faith the claim still points at the real defect, the missing purpose, so the label is true_positive."
+    },
+    {
+      "fingerprint": "feb2b589c15f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Editais e Aditamentos'. The link is one of the four 'Prepare-se para o processo seletivo' tiles: white uppercase text, 16px weight 700 (not large, 4.5:1 applies), on the tile gradient #61bdeb -> #4597ca -> #1f659d from the live style sheet. The screenshot behind the text is about #4395c8 to #4a9ed0, 3.1 to 3.4:1 (two-line tiles reach about 2.8:1 on the lighter upper line), as the claim says. Nothing (shadow, outline text, alternative style) lifts it to 4.5:1. The page's accessibility widget has a high-contrast toggle, but its style sheet only resets background-color, so the linear-gradient background images stay under the recoloured text; it does not give these elements a conforming presentation (G174 does not rescue them), and users receive the default view anyway."
+    },
+    {
+      "fingerprint": "1098decbd01a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A testimonial photo (alt 'Foto da ex-aluna Direito RJ') in a slick carousel slide that is off screen (x=8277) and so carries aria-hidden, which slick removes when the slide becomes current: hiding it there is correct. The words 'ASSISTA O VÍDEO' are not in the image: the image file downloaded from the live site has no text; they come from the HTML link 'Assista o vídeo' (a.btn-assista) laid over it, which the crop picked up. That same text is right next to the image in the DOM and in the packet's context, so the claim that the image conveys what the surrounding text does not say is false. No 1.1.1 failure; the model had the context and misjudged it."
+    },
+    {
+      "fingerprint": "b387567cb04d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Seu nome' placeholder is #b1b1b1, weight 700, 16px, on a white field: the live style sheet sets exactly that colour for webform placeholders, and the darkest glyph pixels in the screenshot are #b1b1b1, 2.14:1. The field's label is visually hidden, so this placeholder is the only visible text saying what to type: it is text conveying information, and 1.4.3 asks for 4.5:1. The high-contrast toggle would recolour placeholders, but it is not the page users receive, and it does not make the whole page conform (gradient sections keep their backgrounds), so G174 does not apply."
+    },
+    {
+      "fingerprint": "6d64a10a2d52",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'E-mail' placeholder is #b1b1b1, weight 700, 16px, on a white field (live CSS and screenshot pixels agree), 2.14:1. The label 'E-mail' is visually hidden, so the placeholder is the only visible cue for the field and must meet 4.5:1. The site's high-contrast toggle is not what users receive by default and does not make the whole page conform, so G174 does not rescue it."
+    },
+    {
+      "fingerprint": "0181eb6365fd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The paragraph under 'Diversidade' in the DIFERENCIAIS column is white 16px weight 400 text on the .bg-degrade-azul gradient; behind it the screenshot reads #0093a8 to #019dad, 3.4 to 3.7:1, as claimed, below the 4.5:1 that body text needs. The live style sheet has the same gradient, and nothing else raises the contrast. The page's accessibility widget has a high-contrast toggle, but its style sheet only resets background-color, so the linear-gradient background images stay under the recoloured text; it does not give these elements a conforming presentation (G174 does not rescue them), and users receive the default view anyway."
+    },
+    {
+      "fingerprint": "pc0783549a0a",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The link 'EXPERIÊNCIA FGV' (button styled) goes to /experiencia-fgv, whose heading is 'Experiência FGV'. Its text names the programme the section describes ('O Experiência FGV é um encontro gratuito...'), so the link text alone tells where it leads; the nearest preceding heading ('Palestras e aulas temáticas') is not needed. The visible 'Conheça o' sits in a separate div, not counted context, and is not needed either. 2.4.4 is met; Rampa was right to report nothing. The live HTML matches."
+    },
+    {
+      "fingerprint": "894ca37d60d8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h4 'ENADE e IGC' is white Google Sans Flex 20px at weight 500. That is neither 24px nor bold (700), so it is not large text and 4.5:1 applies. Behind it the screenshot reads #008ba4 to #018ea5, 3.9 to 4.0:1, as claimed. Treating weight 500 as bold would be the only way to apply 3:1, and common practice does not do that. The page's accessibility widget has a high-contrast toggle, but its style sheet only resets background-color, so the linear-gradient background images stay under the recoloured text; it does not give these elements a conforming presentation (G174 does not rescue them), and users receive the default view anyway."
+    },
+    {
+      "fingerprint": "b35fd0ea1e2a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Provas e Gabaritos do Vestibular FGV'. The link is one of the four 'Prepare-se para o processo seletivo' tiles: white uppercase text, 16px weight 700 (not large, 4.5:1 applies), on the tile gradient #61bdeb -> #4597ca -> #1f659d from the live style sheet. The screenshot behind the text is about #4395c8 to #4a9ed0, 3.1 to 3.4:1 (two-line tiles reach about 2.8:1 on the lighter upper line), as the claim says. Nothing (shadow, outline text, alternative style) lifts it to 4.5:1. The page's accessibility widget has a high-contrast toggle, but its style sheet only resets background-color, so the linear-gradient background images stay under the recoloured text; it does not give these elements a conforming presentation (G174 does not rescue them), and users receive the default view anyway."
+    },
+    {
+      "fingerprint": "fb9e725636d8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The link text is the URL https://portal.fgv.br/protecao-dados-pessoais (claimTrue: it is an address). But it sits in the same sentence as '...você poderá se descadastrar ... por meio do Portal do Titular, no link', which is programmatically determined context, and the URL itself reads as FGV's personal-data protection portal. Its purpose (the data-subject portal where one can unsubscribe) can be determined, so 2.4.4 is met. The finding applies a rule WCAG does not have, that a URL cannot state a purpose. The live HTML has the same sentence (the title '(opens in a new window)' is added by script and does not matter)."
+    },
+    {
+      "fingerprint": "b75fb1be3046",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h4 'Diversidade' is white 20px weight 500: not large text (neither 24px nor bold), so 4.5:1 applies. Behind it the screenshot reads #00a0af to #01a3b0, 3.1 to 3.2:1, as claimed. It would pass only if weight 500 counted as bold, which the usual reading of 'bold' (700) rejects. The page's accessibility widget has a high-contrast toggle, but its style sheet only resets background-color, so the linear-gradient background images stay under the recoloured text; it does not give these elements a conforming presentation (G174 does not rescue them), and users receive the default view anyway."
+    },
+    {
+      "fingerprint": "4e6fcfaf1244",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The input #edit-e-mail (visually hidden label 'E-mail', type=email) collects the user's own e-mail address and has autocomplete='off'. type=email gives a format, not the input purpose; with no 'email' token and no other mechanism the purpose is not programmatically determined, so 1.3.5 fails. The live HTML is identical, and the claim names this defect."
+    },
+    {
+      "fingerprint": "08f22d2e03de",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image (alt='') is the poster frame of the campaign video, inside div.video-embed-field-launch-modal, which opens a YouTube modal on click (data-video-embed-field-modal in the live HTML). The phrase 'que abrem portas.' is a fragment of the video's subtitle burned into that frame (seen in the image file from the live site), not content the page has to convey, so the claim is not true as a reason. The image may still fail 1.1.1 for another reason: it is the only content of a mouse-only video trigger and has no text alternative (also 2.1.1 and 4.1.2). The claim does not name that failure, so the label is false_positive."
+    },
+    {
+      "fingerprint": "cb8aa6dc8dac",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h3 'DIFERENCIAIS' is white 22px weight 500 on the .bg-degrade-azul gradient; behind it the screenshot reads #00a6b2 to #01a9b3, about 2.9 to 3.0:1. That is under 4.5:1, and even under 3:1 if it were treated as large text, so the failure does not depend on how weight 500 is read. The page's accessibility widget has a high-contrast toggle, but its style sheet only resets background-color, so the linear-gradient background images stay under the recoloured text; it does not give these elements a conforming presentation (G174 does not rescue them), and users receive the default view anyway."
+    },
+    {
+      "fingerprint": "352b880335c5",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The same testimonial photo (alt 'Foto da ex-aluna Direito RJ') in carousel slide #slick-slide12, off screen (x=2497) and so marked aria-hidden by slick until it becomes current: correct hiding. 'ASSISTA O VÍDEO' is not in the image (the live image file has no text); it is the HTML link 'Assista o vídeo' laid over the photo, which the crop included, and it sits beside the image in the DOM and in the given context. So the image conveys nothing the surrounding text lacks, and 1.1.1 is met."
+    },
+    {
+      "fingerprint": "bc1890559225",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The link 'EXPERIÊNCIA FGV' is a white button with #00ab86 text, 16px weight 700 (not large). The screenshot shows exactly #00ab86 glyphs on #ffffff, 2.93:1, under 4.5:1. The pseudo-element that kept axe from deciding is the sweep-to-right hover fill, which is not visible at rest, so the default state users see is the one measured. The live HTML and CSS match. The page's accessibility widget has a high-contrast toggle, but its style sheet only resets background-color, so the linear-gradient background images stay under the recoloured text; it does not give these elements a conforming presentation (G174 does not rescue them), and users receive the default view anyway."
+    },
+    {
+      "fingerprint": "817a4f0608e9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "a.form-open is the header's search toggle: an empty anchor with no href, a 32x32 magnifier background image and cursor:pointer (live CSS). Chrome mapped it to role link in the captured accessibility tree, which for an anchor without href and without tabindex means it has a click listener. It has no text, aria-label or title, so the name is empty. It is a working user interface component with no accessible name, which fails 4.1.2 (it is also not keyboard focusable, 2.1.1). The live HTML is the same. The screenshot draws the sticky header mid-page, which is a capture artefact with no bearing on this."
+    },
+    {
+      "fingerprint": "ec0fe507e5f6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Locais de Prova do Vestibular FGV'. The link is one of the four 'Prepare-se para o processo seletivo' tiles: white uppercase text, 16px weight 700 (not large, 4.5:1 applies), on the tile gradient #61bdeb -> #4597ca -> #1f659d from the live style sheet. The screenshot behind the text is about #4395c8 to #4a9ed0, 3.1 to 3.4:1 (two-line tiles reach about 2.8:1 on the lighter upper line), as the claim says. Nothing (shadow, outline text, alternative style) lifts it to 4.5:1. The page's accessibility widget has a high-contrast toggle, but its style sheet only resets background-color, so the linear-gradient background images stay under the recoloured text; it does not give these elements a conforming presentation (G174 does not rescue them), and users receive the default view anyway."
+    },
+    {
+      "fingerprint": "4a6f18943c3f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A testimonial photo (alt 'Sara Moreira') in carousel slide #slick-slide13, off screen (x=3653) and so aria-hidden until slick makes it current, which is correct. 'ASSISTA O VÍDEO' is not part of the image: it is the HTML link 'Assista o vídeo' laid over the photo (the crop caught it), and that text is in the same container in the DOM and in the given context. The claim that the image conveys something the text does not say is false; 1.1.1 is met."
+    },
+    {
+      "fingerprint": "806d48040a48",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The cloned carousel copy (x=9433) of the 'Sara Moreira' testimonial photo, aria-hidden as an off-screen slick clone, which is correct. The 'ASSISTA O VÍDEO' the model saw is the HTML link 'Assista o vídeo' overlaid on the photo, not text in the image, and it sits next to the image in the DOM and the given context. Nothing is lost by hiding this copy, so 1.1.1 is met."
+    },
+    {
+      "fingerprint": "p5ba7d1c7d32",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The course tile link 'Inscrições abertas / Direito' goes to /cursos/sao-paulo/direito. Its text gives the course and its status, and the nearest preceding heading, h3 'São Paulo', gives the campus; together they set it apart from the Rio de Janeiro 'Direito' tile, which sits under its own heading. Purpose is determinable from text plus counted context, so 2.4.4 is met, and Rampa was right to report nothing. The live HTML matches."
+    },
+    {
+      "fingerprint": "7311d0b9ce6e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "<a id='main-content' tabindex='-1'></a> is the empty, zero-size target of the 'Pular para o conteúdo principal' skip link (Drupal's standard markup). Chrome exposes a focusable anchor as role link with no name, so the sentence holds of the capture. But the element does nothing and nobody perceives it as a control, so it is not a user interface component and 4.1.2 does not apply to it. The rule treated a focus target as a widget, a wider rule than the criterion. The live HTML is the same."
+    },
+    {
+      "fingerprint": "21f77aa77568",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h3 'Conheça sua futura carreira' is white 22px weight 500 in the .bg-gradient-blue box (#008acd -> #1860aa in the live CSS). That is not large text (neither 24px nor bold), so 4.5:1 applies. Behind it the screenshot reads #0382c7 to #0485c9, 4.0 to 4.2:1, as claimed. Only reading weight 500 as bold would allow 3:1, and the usual reading does not. The page's accessibility widget has a high-contrast toggle, but its style sheet only resets background-color, so the linear-gradient background images stay under the recoloured text; it does not give these elements a conforming presentation (G174 does not rescue them), and users receive the default view anyway."
+    }
+  ]
+}

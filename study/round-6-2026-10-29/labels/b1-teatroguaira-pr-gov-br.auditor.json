@@ -1,0 +1,50 @@
+{
+  "page": "https://www.teatroguaira.pr.gov.br/Pagina/Fale-Conosco",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "9c1c5f612fad",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is <h2 tabindex=\"0\">Serviços para você!</h2> at the top of the 'Serviços para você!' services block. claimTrue: the snapshot shows it focusable (tabindex 0), with a click listener recorded through CDP, and exposed as heading level 2 with no control role, as the sentence says. elementFails: the site's script binds a click on this h2 that toggles the class show-mobile on its container. In the theme CSS that class only matters under @media (max-width:575px), where the h2 gets cursor:pointer and a caret icon, the Dança/Música/Teatro buttons and service lists are hidden (display:none), and clicking the h2 shows them. So on phones, and on desktop browsers zoomed until the viewport is 575 CSS px or narrower, the h2 is the expand/collapse control for the block. It is still exposed as a heading, with no button role and no aria-expanded state. That is the F59 pattern under 4.1.2 (role and state not exposed). It also has no keyboard handler, a further 2.1.1 problem. At the 1280 px viewport Rampa captured, the click changes nothing visible, but the element is the same on the page users receive at narrow widths. captureDiffers: the live HTML has the same markup, the same script and the same CSS, and the desktop capture matches the desktop page, so no capture difference touches the claim. The claim names this failure: a scripted, focusable control exposed only as a heading."
+    },
+    {
+      "fingerprint": "1f2214be431f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field #edit-termo: empty value, title 'Buscar' (its accessible name, which is never shown) and placeholder 'Do que você precisa hoje?'. claimTrue: no visible text 'Buscar' exists in or near the field. The snapshot's pixel measurement for 'text' (883 pixels, #999999 on #ffffff, 2.849:1, axe reason pseudoContent) matches the placeholder measurement exactly. So Rampa measured the placeholder and labelled it with the accessible name, which makes the sentence false as worded. elementFails: the only visible text in the field is the placeholder. Bootstrap's .form-control::placeholder rule sets it to #999 on the field's white background, 14px italic at weight 400, which is 2.85:1, below 4.5:1. No 1.4.3 exception applies, and the placeholder is the field's only visible cue because there is no visible label. The screenshot crop shows light grey italic text on white. captureDiffers: the live HTML has the same input, and the live CSS still sets #999 for the placeholder and #fff for the field, so nothing differs. Read in good faith, the claim points at this field's real defect (its text at #999 on #fff, 2.85:1, 14px) and only gets the string wrong, so it is a true positive. It repeats the placeholder finding on the same element."
+    },
+    {
+      "fingerprint": "24b6d99ca012",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field #edit-termo with placeholder 'Do que você precisa hoje?'. claimTrue: the snapshot gives the placeholder #999999 (from CSS, confirmed by pixels) on #ffffff, 14px at weight 400, 2.849:1, matching the sentence. elementFails: #999 on white is 2.85:1, below the 4.5:1 that 1.4.3 requires for text of this size. Placeholder text is text, it is not part of an inactive component, and here it is the only visible cue for the field (the name 'Buscar' comes from title alone). The screenshot shows it as light grey italic on white. captureDiffers: the live page serves the same input and the same Bootstrap rule (.form-control::placeholder color #999) on the white search box, so nothing differs. The claim names the failure exactly."
+    },
+    {
+      "fingerprint": "sf6cbeff6e19",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the 'Propaganda' checkbox in the cookie preferences alertdialog 'Aviso de Cookies'. Its <label for> reads 'Propaganda' and sits in a list of categories (Necessários, Estatísticos, Propaganda). Directly below it is the description 'Cookies de propaganda são usados para rastrear preferências dos visitantes...'. claimTrue: a checkbox takes no entry. In its captured context the label names the cookie category the checkbox turns on, which is what the control is for, so the sentence's premise that the label leaves the user without knowing what to enter does not hold. elementFails: 2.4.6 asks labels to describe topic or purpose, and Understanding 2.4.6 says they may be short when the context makes them clear. Inside a dialog headed 'Aviso de Cookies', next to the other cookie categories and with its own description, 'Propaganda' clearly means advertising cookies, so the label meets 2.4.6. captureDiffers: the live HTML ships the same eu_cookie_compliance popup, with the same checkbox, label and description, shown to visitors who have not chosen yet, as in the screenshot, so nothing differs. Rampa demanded that a checkbox label 'say what to enter', a different rule from what 2.4.6 requires, so the finding is a false positive."
+    }
+  ]
+}

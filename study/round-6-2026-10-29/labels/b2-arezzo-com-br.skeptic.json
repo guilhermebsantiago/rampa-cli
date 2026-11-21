@@ -1,0 +1,160 @@
+{
+  "page": "https://www.arezzo.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s123cf51525c",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the black \"Conferir\" button-styled link to /c/verao in the Alto Verão fashion banner. Its text alone is generic, but the heading just before it in document order, a sibling h3 in the same container, reads \"O crochê retorna em destaque, agora sob uma nova perspectiva.\", inside the section headed h2 \"LANÇAMENTO AREZZO ALTO VERÃO\"; under this round's H80 rule that heading is context, and \"Conferir\" plus it says: go and see the featured crochet / Alto Verão launch, which is what the summer collection page is. So the claim's \"nothing around it does\" is false of the capture, and the link meets 2.4.4. The live HTML still has the same h3 and link. The checker had the h3 in its ancestor text and still judged it absent."
+    },
+    {
+      "fingerprint": "b7c6afc7b58d",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the red (#ee4242) 12px regular \"BLACK FRIDAY\" link in the transparent desktop header, which sits over the rotating hero carousel. The snapshot's pixel record matches the claim (common background #cb7856, best #32110d, 4.497:1 highest): that is the brown sandal sole of the first slide (NOTURNA 10% OFF), which my pixel check of the slide image puts at about 1.5 to 1.8:1. I looked for a state that passes: the screenshot was taken with the other slide (SAPATOS 60% OFF) behind the header, and there the background is #1c1c1c to #282828, which still gives only about 3.9 to 4.4:1. Text this size needs 4.5:1, so it fails behind both slides. The live page data still has both slides and the link."
+    },
+    {
+      "fingerprint": "s52396512e8f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the first image in the mosaic link to the product page of the black thong sandal; the crop and screenshot show that black crochet slingback sandal. Its alt \"ARZ - MOSAICO1 - WEB\" is the CMS asset code (the live page data shows imageAltText empty, so the site falls back to the code). That code says nothing about the picture or the link, and the link holds only this image and a second one with an equally empty code. The product name nearby is a separate heading outside the link, so it does not rescue the alt. Whether the image is read as functional (H30) or as decorative (F39), a filename-like alt fails 1.1.1 (F30). The claim's \"describes something the image does not show\" names that mismatch in good faith. The live data still has the same code."
+    },
+    {
+      "fingerprint": "e72f26960755",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter email field, whose only visible label is the placeholder \"Informe seu e-mail\". The snapshot records #8a8a8a on #f0eeec at 12px regular, and my pixel check of the screenshot confirms it: a #f0eeec field background and glyph pixels of about #8a8c8d, so 2.98:1. Placeholder text is visible text that carries the field's instructions. It is not inactive, decorative, invisible or part of a picture, so none of 1.4.3's exceptions applies, and it needs 4.5:1. I found no state or technique that raises it. The live HTML has the same input."
+    },
+    {
+      "fingerprint": "bb63d07004e3",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the first hero-carousel slide image, the only content of a link to /c/novidades. It is an image of text: \"HAPPY FRIDAY 10% OFF TODO SITE [VOUCHER: TUDO10] SOMENTE ESTA NOITE\" and a small-print note. Its alt is the CMS code \"ARZ-BANNERWEB1-ON\", which conveys none of that text and not the link's purpose; the live data shows imageAltText empty and the same code. Nothing else on the page gives the TUDO10 voucher text (the strip below shows a different voucher). It fails 1.1.1, and the claim names the alt-to-image mismatch."
+    },
+    {
+      "fingerprint": "f4d3d528b8ff",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the third quartet banner, the only content of a link to /c/preto-399-arezzo. It is an image of text, \"PRETO ATÉ [ R$ 399 ] Conferir\", over a black studded shoe. Its alt \"ARZ - QUARTETO 4- DESK\" is a CMS code (imageAltText is empty in the live data), which gives neither the text nor the link purpose. No other text in the link or the section supplies it. It fails 1.1.1 (F30), and the claim points at that mismatch."
+    },
+    {
+      "fingerprint": "228736d21391",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the second quartet banner, the only content of a link to the Metalizados listing. It is an image of text, \"METALIZADOS ATÉ [ R$ 499 ] Conferir\", over gold slingbacks. Its alt \"ARZ - QUARTEO 2 - DESK\" (with its typo) is the CMS code, kept unchanged in the live data with an empty imageAltText. It carries none of the image's text or the link purpose, and nothing else in the link does. It fails 1.1.1 (F30), as the claim says in good faith."
+    },
+    {
+      "fingerprint": "46a2ed4fd8b4",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the fourth quartet banner, the only content of a link to /c/offwhite-499-arezzo. It is an image of text, \"OFF-WHITE ATÉ [ R$ 499 ] Conferir\", over white sandals. Its alt \"ARZ - QUARTETO 3 - DESK\" is a CMS code (unchanged live, imageAltText empty) and conveys neither the text nor the destination. I found no other accessible text that supplies it. It fails 1.1.1, and the claim names the mismatch."
+    },
+    {
+      "fingerprint": "s683104f6232",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the second image link of the Alto Verão fashion banner, to /c/verao; its only content is an image with alt \"Fashion Banner\", so the link's name is \"Fashion Banner\", which says nothing by itself. But the heading just before it in document order is the section's h2 \"LANÇAMENTO AREZZO ALTO VERÃO\". Under this round's rule that counts as context, and with it a banner link reads as going to the Alto Verão launch, which is the summer collection it leads to. So \"nothing around it does\" does not hold, and I lean towards a pass. The link text itself adds nothing, though, and competent auditors would reasonably fail a link named \"Fashion Banner\" even with that heading. The live page is unchanged."
+    },
+    {
+      "fingerprint": "s02c148b4859",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the second hero-carousel slide link, aria-label \"ARZ - SAPATOS E BOLSAS - DESK\", to /c/tudo60 (titled \"SAPATOS 60% E BOLSAS 50%\"). Its image shows \"HAPPY FRIDAY, SAPATOS COM 60% OFF, BOLSAS COM 50% OFF, 48H EXCLUSIVO ONLINE\". No title, describedby or useful preceding heading applies. The name is a CMS code with noise (\"ARZ\", \"DESK\") and omits the sale that is the link's purpose, so I lean towards a fail. The skeptic's reason against holds partly, though: \"SAPATOS E BOLSAS\" does name what the destination lists, so \"does not match\" overstates the gap, and competent auditors could pass the link as \"shoes and bags\". The live data has the same slide and code."
+    },
+    {
+      "fingerprint": "pfe8c835f89c",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the top-navigation link \"VERÃO'27\" to /c/verao, whose destination is the summer collection page (\"Coleção de Verão\"). The text alone names the Summer '27 collection, which is the link's purpose, so it meets 2.4.4 and Rampa was right to report nothing. The live HTML still has the link."
+    },
+    {
+      "fingerprint": "234e2fcacfd9",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the large photo of a model in a white top with a crochet bag and black crochet mules. It is the only content of a link to /c/verao, and its alt is \"Fashion Banner\". As a link's only content it needs an alt that gives the link's purpose (H30), or that describes the picture if read as informative; \"Fashion Banner\" does neither, and it is placeholder-like text (F30). For 1.1.1 the nearby heading does not stand in for the alternative. It fails, and the claim names the failure (the alt does not say where the link leads). The live HTML still has alt=\"Fashion Banner\"."
+    },
+    {
+      "fingerprint": "a6638bce43bd",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the first quartet banner, the only content of a link to /c/marrom-399-arezzo. It is an image of text, \"MARROM ATÉ [ R$ 399 ] Conferir\", over a brown studded platform. Its alt \"ARZ - QUARTETO1 - DESK\" is the CMS code (imageAltText empty in the live data) and gives neither the text nor the destination. Nothing else in the link supplies it. It fails 1.1.1 (F30), and the claim points at that mismatch."
+    },
+    {
+      "fingerprint": "p7f20fb486d5",
+      "answers": { "elementFails": "no", "captureDiffers": "cannot_tell" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Mule\" chip link to /c/sapatos/mules in the search panel's list under the heading \"categorias sugeridas\". The panel is a pointer-events-none overlay, not shown in the screenshot, that opens with search. The text and the heading together say exactly where it goes (the mules category), so it meets 2.4.4 and Rampa was right to report nothing. The panel is rendered client-side and is absent from the server HTML I fetched, so I could not compare it with the live page; that would not change a pass."
+    },
+    {
+      "fingerprint": "p8466322b00a",
+      "answers": { "elementFails": "no", "captureDiffers": "cannot_tell" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the header account icon link to /login. Besides the user SVG it holds a visually-hidden span with the text \"Entre ou cadastre-se\", and the snapshot's AX record shows its name comes from its contents. So its accessible name is \"Entre ou cadastre-se\" (sign in or register), which states its purpose and meets 2.4.4. The header account area is rendered client-side and absent from the server HTML I fetched, so I could not compare it live; nothing suggests a difference."
+    },
+    {
+      "fingerprint": "68e1c80519f5",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter signup input. It collects the user's own email address, a listed 1.3.5 input purpose, and has no autocomplete attribute: name=\"email\" does not identify the purpose, and there is not even type=\"email\". The snapshot's formIssues entry (FormInputAssignedAutocompleteValueToIdOrNameAttributeError) confirms the Chromium part of the claim. The live server HTML renders the same input with no autocomplete anywhere on the page. I found no technique that makes it pass, so it fails 1.3.5 as claimed."
+    },
+    {
+      "fingerprint": "s2f567beefc9",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h3 \"OBCECADAS POR VERÃO\" on a Mundo Arezzo blog card dated 11 Nov. The content under it reads \"A Arezzo apresenta um Alto Verão que celebra a diversidade de estilos...\", and the card links to a post titled \"OBCECADAS POR VERÃO\" about the Alto Verão collection. The heading names exactly that topic, so it meets 2.4.6 and the claim is false. The checker had the card text and judged wrongly. The live HTML still has this card."
+    },
+    {
+      "fingerprint": "1515aaa890f7",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the photo of a row of black crochet slingbacks and mules, the only content of a link to /c/verao, with alt \"Fashion Banner\". In the snapshot its src was still the blur placeholder, but the screenshot shows the loaded photo, and the alt is the same either way. As a link's only content it needs an alt that gives the purpose (H30), or that describes the picture if informative; \"Fashion Banner\" is placeholder-like text that does neither (F30). For 1.1.1 the nearby h2 does not replace the text alternative. It fails, as the claim says. The live HTML is unchanged."
+    },
+    {
+      "fingerprint": "f55803d64d7d",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the second image in the mosaic link to the black thong sandal's product page. It shows a model in a white embroidered jacket and shorts, holding a black clutch and wearing the sandals. Its alt \"ARZ - MOSAICO1.2 - WEB\" is a CMS code (imageAltText empty in the live data) and describes nothing in the picture or the link. If the image were redundant it should have an empty alt (F39); as informative or functional it needs a real description (F30). Either way it fails 1.1.1, and the claim names the alt-to-image mismatch."
+    },
+    {
+      "fingerprint": "9c15ce22dfec",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the photo of a cream crochet clutch, the only content of a link to the product page of the white leather clutch. Its alt \"ARZ - MOSAICO3 - WEB\" is the CMS code (unchanged in the live data), so the link's name is that code. The product name is a separate heading outside the link. The alt describes neither the picture nor the link purpose, which fails 1.1.1 (H30, F30), and the claim names exactly that."
+    },
+    {
+      "fingerprint": "bffe10851422",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the second hero-carousel slide image, an image of text: \"HAPPY FRIDAY, SAPATOS COM 60% OFF, BOLSAS COM 50% OFF, 48H EXCLUSIVO ONLINE\" and a validity note. Its alt \"ARZ - SAPATOS E BOLSAS - DESK\" (the CMS code, same live) keeps only \"sapatos e bolsas\" and drops the discounts, the campaign and the time limit, which are the point of the image. The link's aria-label repeats the same code, so that text reaches users nowhere. Literally the image does show \"SAPATOS\" and \"BOLSAS\", so the sentence is not quite true, but read in good faith it names an alt that leaves out most of what the image conveys. It fails 1.1.1."
+    },
+    {
+      "fingerprint": "a3704bfa622a",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the photo of white embroidered slingback scarpins on black, the only content of a link to the scarpin's product page. Its alt \"ARZ - MOSAICO2 - WEB\" is a CMS code (unchanged live), so the link's name is that code. The product name is in a separate container outside the link. The alt gives neither the link purpose nor the picture, which fails 1.1.1 (H30, F30), as the claim says."
+    }
+  ]
+}

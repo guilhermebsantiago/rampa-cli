@@ -1,0 +1,125 @@
+{
+  "page": "https://www.cpsc.gov/Recalls",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "320d85ad73ee",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the header seal image (cpsc_logo.png: the CPSC eagle-and-flag emblem, no text) with alt \"CPSC logo\". It sits inside the home link, next to the text \"United States Consumer Product Safety Commission\"; Chrome names that link \"CPSC logo United States CONSUMER PRODUCT SAFETY COMMISSION\", description \"CPSC Home\". claimTrue: no. For a logo, saying whose logo it is is what the image conveys, so \"CPSC logo\" is not just a label. elementFails: no. The alternative identifies the agency, which serves the same purpose as the emblem (G94). The agency's name is also right next to it inside the same link, so the image is at most redundant. H2 would make the alt empty, but redundancy is not a 1.1.1 failure. captureDiffers: no. The live HTML I fetched on 2026-11-21 (HTTP 200) has the same img and alt, and the screenshot is fully styled. Label: false positive. The checker had the image and its context and judged wrongly."
+    },
+    {
+      "fingerprint": "a9aa98b1d1cc",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the footer \"Connect\" X/Twitter icon link. Its name comes from screen-reader-only text (\"Twitter\"), with href twitter.com/USCPSC and title \"CPSC Twitter\". Chrome exposes the title as the link's accessible description. claimTrue: no. Two links are named \"Twitter\" and lead to different places, but something does tell them apart: this link's description is \"CPSC Twitter\" and the other's is \"CPSC Twitter en Español\" (garbled as \"EspaÃ±ol\"). Under the rubric a title attribute counts as context (H33). elementFails: no. Link text plus description give the purpose: CPSC's Twitter account. The visible \"Connect\" and \"En español\" labels are styled divs, not headings, so they are not needed and do not count. captureDiffers: no. The live HTML has the same markup and titles. Label: false positive. The title was in the element data the checker read."
+    },
+    {
+      "fingerprint": "pe9864f9b35d",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the Truth Social icon image (TruthSocial.svg, 40x40) with alt \"Truth Social Logo\". It sits inside the footer link to truthsocial.com/@USCPSC, which also has screen-reader-only text \"TruthSocial\" and title \"CPSC Truth Social\". The crop shows the Truth Social \"T\" mark. elementFails: no. The alt names the logo, which is what the icon conveys. Together with the link text, the destination is clear. At worst the alt repeats the link text, which is redundancy, not a 1.1.1 failure. captureDiffers: no. The live HTML has the same img and alt. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "p3ab21701049",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the header quick link \"News\" (title \"News\"), in the list \"Calendar • News • Email Signup • Contact Us\". It leads to /Newsroom/News-Releases (\"Newsroom Press Releases\"). elementFails: no. \"News\" on an agency's header menu tells users it goes to the agency's news. Press releases are that news, so the purpose can be determined from the link text alone. captureDiffers: no. The live HTML has the same link. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "pd09959581e4",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the title link of the first recall card. Its link text and title are the full recall headline, \"Cipton Recalls Bicycle Helmets Due to Risk of Serious Injury or Death from Head Injury; Violate Mandatory Standard for Bicycle Helmets\". It leads to the recall page with that same title. elementFails: no. The link text alone states the purpose. captureDiffers: no. The live HTML has the same link and title. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "s119f63f0a21",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the inline link \"children’s sleepwear\" in the Qpancy recall's hazard sentence: \"The recalled children’s pajama sets violate the mandatory safety standards for children’s sleepwear posing a risk of serious burn injuries.\" It leads to CPSC's Flammable Fabrics Act guidance page. claimTrue: no. Read in its sentence, the link points to the mandatory safety standards for children's sleepwear. The children's sleepwear flammability standards (16 CFR 1615/1616) are issued under the FFA, and the captured destination description is about protection from burns caused by flammable clothing. The text and the destination do match. elementFails: no. The link text with its same-sentence context (programmatically determined) gives a purpose that fits. The live FFA page has a \"Children's Sleepwear\" section on those standards. 2.4.4 does not require link text to repeat the destination's title. captureDiffers: no. The live HTML has the same link and sentence. Label: false positive."
+    },
+    {
+      "fingerprint": "b04d7417745c",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the footer \"Connect\" Facebook icon link. Its name comes from screen-reader-only text (\"facebook\"), with href facebook.com/USCPSC and title \"CPSC Facebook\". Chrome exposes the title as the accessible description. claimTrue: no. Two links are named \"facebook\", but their descriptions differ: \"CPSC Facebook\" here and \"CPSC Facebook en Español\" on the Spanish one. The title counts as context under the rubric (H33), so something does tell this link apart. elementFails: no. The purpose is clear from text plus description: CPSC's Facebook page. The visible \"Connect\" and \"En español\" labels are styled divs, not headings, and are not needed. captureDiffers: no. The live HTML has the same markup. Label: false positive. The title was in the data the checker read."
+    },
+    {
+      "fingerprint": "p5e624e68b90",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the footer seal image (cpsc_logo_text.png): the CPSC emblem ringed by the words \"Consumer Product Safety Commission\" and \"United States\". Its alt is \"CPSC logo\", and it sits under the paragraph \"U.S. Consumer Product Safety Commission, 441 G Street NW...\". elementFails: no. CPSC is the agency's official acronym, so \"CPSC logo\" identifies the seal and serves its purpose (G94). The agency's full name is already adjacent text, so nothing users need is lost. An alt with the spelled-out name, or an empty alt, might be better practice, but this is not a 1.1.1 failure. captureDiffers: no. The live HTML has the same img and alt. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "3f5c29938c9a",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is an empty anchor, <a id=\"main-content-section\" tabindex=\"0\"></a>, at the top of main. It has no href and no content. claimTrue: yes. The CDP data in the snapshot gives it role link, focusable, with no name, so Chrome does expose it as a nameless link. captureDiffers: no. The live HTML fetched on 2026-11-21 has the identical element. elementFails: I lean yes. tabindex=0 puts an invisible element in the tab order, and Chrome announces it as a \"link\" with no name or purpose. But a concrete counter-reading holds up. HTML-AAM maps an a element without href to generic, and the ACT rule for link names (and axe's link-name) does not apply to it. The element is a skip-link-style target, not a control users perceive. Many auditors would report this as a meaningless tab stop (2.4.3, and 2.4.7 since it is invisible) or as a best-practice issue, not as a 4.1.2 user-interface component without a name. Competent auditors would reasonably disagree, so the label is uncertain."
+    },
+    {
+      "fingerprint": "c87be2f48805",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the X/Twitter icon link under the footer's \"En español\" group. Its name comes from screen-reader-only text (\"Twitter\"), with href twitter.com/seguridadconsum and title \"CPSC Twitter en EspaÃ±ol\". The title is garbled in the source, and Chrome exposes it as the description. claimTrue: no. The title tells this link apart from the English one (\"CPSC Twitter\"): it adds \"en Espa…ol\", and titles count as context under the rubric (H33). elementFails: no. Link text plus description give the purpose: CPSC's Spanish-language Twitter account. The encoding error makes the description less clean but leaves it recognizable. The visible \"En español\" label is a styled div, not a heading, so it does not count and is not needed. captureDiffers: no. The live HTML has the same markup, garbled title included. Label: false positive."
+    },
+    {
+      "fingerprint": "91316b255b88",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the Facebook icon link under the footer's \"En español\" group. Its name comes from screen-reader-only text (\"facebook\"), with href facebook.com/USCPSCenEspanol and title \"CPSC Facebook en Español\", which Chrome exposes as the description. claimTrue: no. The title says exactly what tells it apart from the English \"CPSC Facebook\" link, and titles count as context under the rubric (H33). elementFails: no. The purpose is determinable from link text plus description: CPSC's Spanish-language Facebook page. captureDiffers: no. The live HTML has the same markup. Label: false positive. The title was in the element data the checker read."
+    },
+    {
+      "fingerprint": "82208d2c5cef",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the language-switcher link \"繁體中文\" (href /zhT-CN/Recalls) on a page with lang=\"en\". Neither the link nor its li carries a lang attribute. claimTrue: yes. The snapshot shows no lang on the link or its ancestors below html, so the link inherits en. elementFails: yes. The text is Traditional Chinese, not a proper name, technical term or English vernacular. An English voice cannot pronounce it, and nothing identifies its language. Understanding 3.1.2's \"Alternative language links\" example is exactly this pattern (each language name, written in that language, marked with lang), and H58 is the sufficient technique. Skeptic checks: the live HTML fetched on 2026-11-21 has the same bare <a> inside <li id=\"zh-hant\">, and the snapshot is post-script, so no script adds lang. captureDiffers: no. The claim names the failure and the right fix."
+    },
+    {
+      "fingerprint": "67e0e2441e54",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the language-switcher link \"Español\" (href /es/Noticias) on an English page. There is no lang on the link or its li. claimTrue: yes. It inherits en in the snapshot. elementFails: yes. \"Español\" is a Spanish word, not part of English vernacular, so it falls outside 3.1.2's exceptions. Understanding 3.1.2's \"Alternative language links\" example treats language names written in their own language (Deutsch, Français) as phrases that need lang. That rules out the proper-name exception and the \"single word belongs to the surrounding language\" readings I considered. captureDiffers: no. The live HTML fetched on 2026-11-21 shows the same bare link inside <li id=\"es\">, and nothing adds lang after scripts run. The claim names the failure and the fix."
+    },
+    {
+      "fingerprint": "s503bcb03b02",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the Cipton recall's consumer-contact link. Its text is the URL \"https://southerntelecom.com/recall-2026-11-19/\", in the line \"Website: …\" under \"Consumer Contact:\". claimTrue: yes. The link text is an address. elementFails: no. WCAG 2.1 has no failure or rule against URL link text. The URL itself says where the link goes (a recall page on southerntelecom.com), and with the \"Website:\" label in the same line its purpose (the firm's recall website) is clear. That page is not one CPSC controls, but its purpose is still determinable. captureDiffers: no. The live HTML has the same link. Label: false positive. The checker required descriptive words in place of a meaningful URL, a stricter rule than 2.4.4."
+    },
+    {
+      "fingerprint": "909a98fb67f2",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the language-switcher link \"简体中文\" (href /zh-CN/Recalls) on a page with lang=\"en\". There is no lang on the link or its li. claimTrue: yes. It inherits en in the snapshot. elementFails: yes. The text is Simplified Chinese, not a proper name or English vernacular. An English voice cannot speak it, and its language cannot be programmatically determined. This is the pattern of Understanding 3.1.2's \"Alternative language links\" example, which uses lang on each link (H58). captureDiffers: no. The live HTML fetched on 2026-11-21 has the same bare link inside <li id=\"zh-hans\">, and the post-script snapshot shows no lang added. The claim names the failure and the fix."
+    },
+    {
+      "fingerprint": "s323fdb49714",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the Fidlock recall's consumer-contact link. Its text is the URL \"http://www.fidlock.us/pages/recall\", in the line \"Website: …\" under \"Consumer Contact:\". claimTrue: yes. The link text is an address. elementFails: no. The URL names the firm and a recall page, and the same line labels it as the website. Its purpose (Fidlock's recall page) is determinable from the link text and its context, and WCAG 2.1 does not fail URL link text. captureDiffers: no. The live HTML has the same link. Label: false positive. The checker applied a stricter rule than 2.4.4."
+    },
+    {
+      "fingerprint": "p9dba8f92e07",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the mailto link \"qpancyrecall@outlook.com\" in the Qpancy recall's remedy sentence: \"...send a photo of the destroyed pajamas to qpancyrecall@outlook.com.\" elementFails: no. An email address as mailto link text, in a sentence saying what to send to it, makes the purpose plain (write to that address). captureDiffers: no. The live HTML has the same link and sentence. Rampa was right to report nothing."
+    }
+  ]
+}

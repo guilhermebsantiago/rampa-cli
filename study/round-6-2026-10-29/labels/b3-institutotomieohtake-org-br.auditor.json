@@ -1,0 +1,39 @@
+{
+  "page": "https://www.institutotomieohtake.org.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "26d1902cedbb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the paragraph 'Instituto Tomie Ohtake' (class text-white, 32px regular, so large text needing 3:1) at the bottom of the hero exhibition card, laid over the yellow area of the painting P-82-08-1x1.jpg (alt=\"\", absolute background). claimTrue: in the capture the text is white and sits on the yellow part of the image; sampling the screenshot, which is dimmed by the newsletter popup's 50% black backdrop, gives text #808080 on about #6f610d, i.e. white on about #dec21a once the backdrop is undone, matching Rampa's #dcc118 range. elementFails: even the darkest yellow Rampa reports (#bda400) gives 2.48:1 with white, and the typical #dcc118 about 1.8:1, below 3:1; the venue name is real text, not a logotype or incidental, so it fails 1.4.3. captureDiffers: the live HTML has the same image, the same text-white paragraph and no overlay between them; the popup in the screenshot dims text and background alike and does not change the conclusion. Label true_positive: the claim names the actual contrast failure."
+    },
+    {
+      "fingerprint": "fd9e02faabf2",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the thumbnail of the 'Matéria impressa' programme card (alt=\"\"), followed in the same card by the label 'Atual', the h3 link 'Matéria impressa' (stretched over the whole card) and 'Instituto Tomie Ohtake'. claimTrue: alt=\"\" is right, but the crop shows a collage of the institute's printed publications (catalogue covers and posters such as 'Poesia em Presença', 'Experiências Negras', 'Sonia Gomes Barroco, mesmo'); 'PRESENÇA' appears only inside 'Poesia em Presença', no 'AMÉRICA' is legible, and these are publications rather than a collage of artworks, so the sentence does not hold as stated. elementFails: the image illustrates an exhibition about printed matter, and the card's own heading names it; the cover titles are incidental parts of the montage, not information the card means to give. As an eye-catching teaser next to its text title, alt=\"\" is an acceptable treatment under 1.1.1 (H67). captureDiffers: the live HTML has the same image, alt=\"\" and card text. Label false_positive: the model had the card's text and judged that incidental, partly misread cover words were content the page fails to convey."
+    },
+    {
+      "fingerprint": "s88d09119fd6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the full-width 'Apoie' marquee link to /amigos/. Its accessible name is 'Apoie', from a sr-only paragraph, with the repeated marquee words aria-hidden (the browser name in the snapshot is 'Apoie'). It has no title or aria-describedby, and the heading before it is 'Novidades' (the newsletter block). claimTrue: read literally, the sentence holds: 'Apoie' does not name the destination (the Amigos Tomie programme) and nothing around it does. elementFails: 2.4.4 asks for the link's purpose, not the destination page's name. On the institute's own site, 'Apoie' ('Support us') says the link is for supporting the institute, and the destination page opens with 'Quer ser um apoiador da cultura? Conheça o Programa de Amigos', which is exactly that purpose. A user would not be surprised by where it leads, so it passes. captureDiffers: the live HTML has the same link, sr-only text and href. Label false_positive."
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "page": "https://www.epilepsy.org.uk/news/extraordinary-dads-marking-fathers-day",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s2add5887235",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the thumbnail of a 'More articles' card: a Getty stock photo of a pregnant woman holding a pill and a glass of water, inside an <a> to /news/devolved-nations-valproate-redress that also holds the visible headline, the author and an excerpt. claimTrue: the crop shows a pregnant woman taking a pill, and the alt is the article's headline about governments and redress, so the sentence holds of the capture. elementFails: the image is part of a link, so its text alternative works as a functional one. It names the link's destination, the same article the headline and destination page give. Repeating the adjacent link text is the redundancy H2 advises against, not a documented 1.1.1 failure. The photo is an illustrative stock image that adds nothing the headline does not already say, and the alt is not meaningless filler of the kind F30 or F39 covers. Requiring a description of the visual applies a stricter rule than 1.1.1 requires of an image inside a link. captureDiffers: the snapshot's src is the lazyload 1x1 placeholder, but the crop and screenshot show the loaded photo, and the live HTML has the same alt, title and link. No difference touches the claim."
+    },
+    {
+      "fingerprint": "sf9ef0cc26a4",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the Fundraising Regulator badge image ('FR Fundraising Regulator, Registered 2026/27') in the footer. It is the only content of a link to fundraisingregulator.org.uk/validate?registrant=BRITISH+EPILEPSY+ASSOCIATION. claimTrue: the first half holds (the image is all the link holds), but the alt 'Fundraising Regulator badge with validation link' does say where the link leads: to validation with the Fundraising Regulator. So the sentence is false as worded. elementFails: for a functional image, the text alternative has to convey the link's purpose. This alt names the organisation and the action (validate the registration), which is what the link does, and 'badge' carries the registered status the image shows. This is the regulator's own embed text. Leaving out the year '2026/27' and saying 'link' are minor and do not stop users from telling the link's purpose. captureDiffers: the snapshot's bounds have height 0 (the lazy image had not been laid out yet), but the screenshot shows the badge rendered. The live HTML has the same img, alt and href."
+    },
+    {
+      "fingerprint": "p55cd0cf77f2",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the 'About us' link in the mobile menu's secondary nav list (Support for professionals, About us, Shop), linking to https://www.epilepsy.org.uk/about. elementFails: on the Epilepsy Action site, the link text alone makes the purpose clear: the organisation's About page, which the destination's title 'About us - Epilepsy Action' confirms. It meets 2.4.4 whether or not the off-canvas mobile menu is shown at this width. captureDiffers: the live HTML has the same link, text and href, so nothing differs that matters. Rampa reporting nothing here is correct."
+    },
+    {
+      "fingerprint": "p149412ee3f3",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the photo in the 'Rich' section: Rich and his young son Ralph hugging. The section's text explains that Ralph has epilepsy and that Rich runs marathons for him. elementFails: the alt 'Rich and ralph, who shared their story for father's day' identifies the people shown and why the photo is there. In the context of the heading 'Rich' and the text, that serves the same purpose as the image. The lower-case 'ralph' does not matter. captureDiffers: in the snapshot the image still had its lazyload 1x1 placeholder src and 1x1 bounds, but the crop and screenshot show the photo rendered. The live HTML has the same alt, so the difference does not touch 1.1.1. Rampa reporting nothing here is correct."
+    },
+    {
+      "fingerprint": "3ea565d0a50f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the site logo at the top of the Cookiebot consent dialog (#CybotCookiebotDialogPoweredbyImage), which appears on a first visit. The crop shows the text 'EPILEPSY ACTION', and the alt is 'logo'. claimTrue: 'logo' is a generic stand-in that comes from Cookiebot's template, not an alternative for the image, so the sentence holds. elementFails: I looked for a reason it could pass. The dialog's text never names the site ('This website uses cookies', 'We use cookies...'), so this image is the only thing that identifies Epilepsy Action, and the alt should give that text. If the logo were treated as decorative instead, a non-null 'logo' still fails (F39). Either way it fails 1.1.1, which is what F30 describes: placeholder text used as the text alternative. captureDiffers: the dialog is injected by Cookiebot through Google Tag Manager, which my fetch of the server HTML cannot run. But the screenshot shows the dialog fully styled as a first-visit browser shows it, the markup is Cookiebot's standard template, and nothing suggests a version made for automated browsers."
+    },
+    {
+      "fingerprint": "p339c23facc7",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Epilepsy information' top-level link of the header megamenu, linking to https://www.epilepsy.org.uk/epilepsy-information. Its list item also holds a description ('Everything you might need to know about epilepsy...'). elementFails: on an epilepsy charity's site, the link text alone makes the purpose clear: the section of information about epilepsy, which the destination's heading 'Epilepsy information' confirms. The list item adds context too. It meets 2.4.4. captureDiffers: the live HTML has the same link, text and href. Rampa reporting nothing here is correct."
+    }
+  ]
+}

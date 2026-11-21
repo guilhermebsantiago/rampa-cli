@@ -1,0 +1,90 @@
+{
+  "page": "https://www.usereserva.com/colecao-reserva-masculino",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "7f45b074167a",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"20% OFF\" label (a real HTML text div, fortunewheel-slice) on the PopConvert Black Friday prize wheel, which opens as a full-screen popup on page load. I sampled the crops the model saw: the label's solid pixels are #c80b0f on a #d3c4b3 beige slice, which works out to 3.51:1, the same as the rule. The glyph cap height (about 13 px) fits the reported 17.6px bold, so this is not large text (that starts at 14pt bold, about 18.7px), and the threshold is 4.5:1. I looked for a way out and found none. The label names a prize, so it is not decoration and not incidental. The popup is an open, active dialog, not an inactive component. Contrast stays below 4.5:1 at any position of the spinning wheel, because every red-on-beige slice uses the same pair of colours. For captureDiffers: the live server HTML has no popup because it is injected by script, but the site's live GTM container loads PopConvert (cdn.popconvert.com.br/widget/popconvert.js), so users get the same widget. Nothing suggests a different version."
+    },
+    {
+      "fingerprint": "11265d59a6cd",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the only text field of the PopConvert prize-wheel popup, placeholder \"Seu melhor e-mail\". It collects the visitor's own e-mail address in exchange for a coupon. Its HTML is <input type=\"text\" placeholder=\"Seu melhor e-mail\"> with no autocomplete attribute, and the form has none either, so the purpose is not programmatically determinable. The e-mail purpose is in WCAG's Input Purposes list, and HTML supports autocomplete=\"email\" (H98). I looked for a technique that would make it pass and found none: type=\"text\" carries no purpose, there is no name or ARIA hook, and the field sits in the page DOM (not a cross-origin frame). Third-party content still counts unless a partial-conformance statement covers it. For the live page: the popup is script-injected, but the live GTM container loads PopConvert, and the PopConvert app bundle I fetched contains no \"autocomplete\" string at all. Nothing suggests the field users receive is different."
+    },
+    {
+      "fingerprint": "45b13bfc96c4",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the first photo of the \"Polo Tricot Navy\" product card, alt=\"Polo Tricot Navy\", inside the link to that product. The crop the model saw, and the full screenshot, both show a model wearing a white knit polo with an open collar and horizontal contrast stripes. The product page says this is the item: it describes \"A Polo Tricot Navy\" as a 100% cotton knit polo with contrasting horizontal stripes, and its colour is listed as BRANCO (#F1F1F1). So \"Navy\" is part of the model name (nautical stripes), not a colour claim. The alt names exactly the product shown, which is the image's purpose in a product listing, so it does not describe anything the image fails to show, and 1.1.1 is met. Reading \"Navy\" as navy blue was a misjudgment. The live page still lists the product under the same name."
+    },
+    {
+      "fingerprint": "379c4a7605e5",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the first photo of the \"Camiseta Regular Trama\" product card, alt=\"Camiseta Regular Trama\". The crop the model was given does not show the photo. It shows the PopConvert popup (the e-mail field, the \"Quero girar\" button and the edge of the wheel), because the fixed full-screen popup sat over that part of the viewport when the crop was taken. The full-page screenshot shows the real image: a model in a brown textured (trama) crew-neck T-shirt, which is exactly what the alt names. So the claim is false of the element, and the alt is an adequate alternative that meets 1.1.1. The false finding comes from the wrong crop. The popup is genuinely on the live page, so this is a collector artefact, not a capture that differs from what users receive."
+    },
+    {
+      "fingerprint": "7187cdada9d8",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"10% OFF\" label (HTML text div, fortunewheel-slice) on the PopConvert prize wheel; it is the vertical label below the hub, on a beige slice, visible in the crops. I sampled pixels: solid #c80b0f text on #d3c4b3, 3.51:1, matching the rule. The rendered cap height (about 13 px) matches 17.6px bold, which is below the large-text size, so 4.5:1 applies and the label fails. No exception holds: the label names a prize, so it is not decorative or incidental, and the popup is active. For captureDiffers: the live GTM container loads the PopConvert widget, so users receive it. Nothing suggests different colours."
+    },
+    {
+      "fingerprint": "622c65b0362b",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the single hero banner image (alt=\"\", not a link) at the top of the listing. The claim says it conveys \"Black Friday Reserva, 20% OFF, 15% OFF, 10% OFF, Frete Grátis\", but that text belongs to the PopConvert popup. The popup covered the left 720 px of the viewport when the crop was taken, and the model read it as part of the image. The banner itself, seen in the full screenshot and the right half of the crop, is the \"Linho Reserva® Em cores inéditas.\" campaign photo, with \"Est. 2006\" and \"Until 2026\". It holds no Black Friday or discount text, so the claim is false. The image probably does fail 1.1.1 for another reason: its own campaign text is not available anywhere as text (alt is empty in the live CMS data too). That failure is not the one the claim names, so the label is false_positive. The cause is the crop framing an overlay instead of the image. The popup is really on the live page, so the page itself did not differ."
+    },
+    {
+      "fingerprint": "aeae308dfad6",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the first photo of the \"Camisa Ml Linho Bari\" product card, alt=\"Camisa Ml Linho Bari\". The crop the model saw shows part of the PopConvert prize wheel (the 10% OFF, Frete Grátis and 20% OFF slices), not the product: the fixed popup covered that area of the viewport. The full screenshot shows the real image: a model in a light, long-sleeved linen shirt, which matches the product name the alt gives (camisa manga longa, linho). The alt is an adequate alternative and meets 1.1.1, so the finding is false and comes from the wrong crop. The live page lists the same product and alt."
+    },
+    {
+      "fingerprint": "fc5ea014a885",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the first photo of the \"Calca Regular Tech\" product card, alt=\"Calca Regular Tech\". As with the other left-column cards, the crop the model saw shows the PopConvert wheel overlay, not the photo. The full screenshot shows a model in khaki tailored trousers, with a jacket and sweater as styling, and the trousers are the product the alt names. In a product listing, the product name is an adequate alternative for the product photo, so 1.1.1 is met. The finding comes from the wrong crop, a collector artefact. The popup really appears on the live page, so the page itself did not differ."
+    },
+    {
+      "fingerprint": "9d6ee7700a10",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the first photo of the \"Polo Tricot Flat\" product card, alt=\"Polo Tricot Flat\". The crop the model saw shows the PopConvert popup's form (\"Seu melhor e-mail\", \"Quero girar\") over that area, not the product. The full screenshot shows a model in a red knit (tricot) polo, which matches the alt. The alt is an adequate alternative and meets 1.1.1, so the claim is false and comes from the wrong crop. The live page lists the same product."
+    },
+    {
+      "fingerprint": "da4ae1e7b020",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is svg#Layer_1, the background drawing of the PopConvert prize wheel. In the snapshot it holds only paths and circles (slices, rim, pins), with no text. The prize labels the claim cites (\"Frete Grátis\", \"10% OFF\", \"15% OFF\", \"20% OFF\") are separate HTML text divs (fortunewheel-slice) beside the svg in the same container. They are exposed to assistive technology, and they appear in the ancestor text the model was given, so the text around the svg does say what it shows. The fact that it is a wheel to spin comes from the \"Quero girar\" button. The svg is therefore decorative, and it is not even hidden: it is an unnamed graphic, which screen readers generally skip. At most, adding aria-hidden would be best practice. It does not withhold information, so it meets 1.1.1, and the claim is wrong even though the model had the context. Live: the PopConvert widget is loaded through the site's GTM container."
+    },
+    {
+      "fingerprint": "724a3764df40",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the e-mail field of the PopConvert popup. Its placeholder \"Seu melhor e-mail\" is reported as #00000080 on #ffffff, which blends to #808080 on white, 3.95:1, at 13px weight 400. That is normal-size text, so 4.5:1 applies. In the crop, the darkest anti-aliased placeholder pixels are #898989 on #ffffff (about 3.5:1), which confirms it is below 4.5:1. I looked for reasons it could pass and found none. The field is enabled, so the inactive-component exception does not apply. The placeholder is the field's only visible label and its accessible name, so it conveys essential information and is not decoration. WCAG 1.4.3 covers all text, and no exception covers placeholder text. Live: the widget is loaded by the site's GTM container, and nothing suggests other colours."
+    },
+    {
+      "fingerprint": "se58ed4670c9",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the announcement-bar link to /colecao-reserva-camisetas-por-99. Its text is \"Camisetas por R$99\", a countdown \"01 : 09 : 24 : 25\", and \"Confira aqui!\", and the destination is \"Camisetas Bordadas por R$99\". The link text alone says the purpose: see the T-shirts offered at R$99. That meets 2.4.4, and the claim that it does not tell where the link goes is false. The countdown is noise in the name, and Rampa's concatenation (\"R$9901\") garbles the price, but the link still names the T-shirt offer. The live server HTML still has the same link and href; only the countdown is filled in by script."
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "page": "https://www.teatroguaira.pr.gov.br/Pagina/Fale-Conosco",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "9c1c5f612fad",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is <h2 tabindex=\"0\">Serviços para você!</h2>, the title of the services bar. In the snapshot it is focusable, has a click listener, and is exposed as a level-2 heading with no control role, so the factual parts of the claim hold. Looking for a reason it could be wrong, I read the site script: the only click handler is jQuery's on '#bloco-governo-digital .header-bloco-governo-digital h2', and it toggles the class show-mobile on the header. In the live CSS that class only does something inside @media (max-width:575px). There the Dança/Música/Teatro buttons and service lists stay hidden until the h2 is clicked, and the h2 gets cursor:pointer and a caret icon. So at the captured 1280px width the click does nothing and the heading is not a control. But on phones, and at high zoom (the Reflow case), the same page uses the h2 as a disclosure button. A screen reader announces it only as a heading, with no button role and no expanded/collapsed state, which is the F59 kind of 4.1.2 failure. It also fails 2.1.1, because Enter on a focused h2 does not fire click. The claim names this failure: it works as a control but is exposed as a heading, so it is not announced as a button. The live HTML and scripts match the capture (same h2 with tabindex=0, same handler). The viewport difference is part of the page users receive, not a capture artefact. A desktop-only reading would pass it, but the narrow layout is part of the same page at the same address, so no reason against the finding holds up."
+    },
+    {
+      "fingerprint": "1f2214be431f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the search field #edit-termo. Its value is empty, its title is \"Buscar\" and its placeholder is \"Do que você precisa hoje?\". No text \"Buscar\" is shown on screen: it is only the title attribute, which supplies the accessible name. The snapshot's pixel measurement for this input (883 #999999 pixels, axe reason pseudoContent) is the placeholder's glyphs. My crop of the screenshot over the field shows only #999999 text on #ffffff, 2.85:1. So the sentence about a text \"Buscar\" is false of the capture. The input does fail 1.4.3 through its placeholder. Bootstrap 3 sets .form-control::placeholder to color:#999 on a white field, with no override in the live CSS. The site's Contraste switch (G174) does not rescue it: its contrast-mode rule targets '.header-search input', but this form is .celepar-busca, so the field stays white with #999 placeholder text. The live page matches the capture. The colours, size and element are the real defect's, but the claim names a text that does not exist. The placeholder-contrast finding on the same input reports this defect correctly. Competent auditors could reasonably disagree on whether a claim about a text \"Buscar\" names the placeholder failure, so the label is uncertain."
+    },
+    {
+      "fingerprint": "24b6d99ca012",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field. Its placeholder \"Do que você precisa hoje?\" is the only visible text that says what the field is for: there is no visible label, only title=\"Buscar\". The snapshot records the placeholder colour as #999999 (from CSS) on #ffffff, 2.849:1, at 14px weight 400. The screenshot pixels in the field are #999999 on #ffffff, also 2.85:1. The live stylesheet has Bootstrap 3's .form-control::-webkit-input-placeholder / ::-moz-placeholder {color:#999}, no override, and a white .form-control background, so the capture matches what users receive. I looked for reasons it could pass. No 1.4.3 exception applies: the text is visible, not decorative, and not part of an inactive component. The site offers a Contraste switch (G174), but its rule for search inputs targets '.header-search input', not this .celepar-busca form, so in contrast mode the field stays white with #999 placeholder text. 2.85:1 is below the 4.5:1 required for this normal-size text, and the claim states exactly that."
+    },
+    {
+      "fingerprint": "sf6cbeff6e19",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the \"Propaganda\" checkbox in the cookie consent dialog, under the heading \"Aviso de Cookies\". It is labelled by <label for=\"cookie-category-propaganda\">Propaganda</label>, next to the categories \"Necessários\" and \"Estatísticos\". The description right under it reads \"Cookies de propaganda são usados para rastrear preferências dos visitantes ... vídeos institucionais exibidos através do YouTube.\" A checkbox takes no input, so the claim's premise that the label should say what to enter does not apply. For a checkbox the label has to say what the choice is, and \"Propaganda\" does: it names the cookie category being allowed. That is why I answer no to claimTrue. 2.4.6 asks only that labels describe topic or purpose, and Understanding 2.4.6 does not require long labels or labels that carry instructions. In this cookie-category list the one-word category name describes the purpose. The live page's eu_cookie_compliance settings hold the same label, label/for association and description, and an ordinary first-time visitor gets the dialog, so the capture does not differ. Asking a checkbox label to say \"what to enter\" applies a text-field instruction standard (closer to 3.3.2) that 2.4.6 does not require."
+    }
+  ]
+}

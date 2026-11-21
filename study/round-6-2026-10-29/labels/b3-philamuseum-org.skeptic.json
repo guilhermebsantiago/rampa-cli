@@ -1,0 +1,55 @@
+{
+  "page": "https://www.philamuseum.org/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p3dc2431cc03",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the photo of the Main Building's facade on the first card of the Visit section. It has alt=\"\", so assistive technology ignores it (reason emptyAlt). The next element in the same card is the h3 link \"Main Building\", which names what the photo shows. In a navigation card the picture only illustrates the title next to it, so this is the adjacent-text case where WAI allows an empty alt (H67). Nothing a user needs is lost. A stricter auditor might ask for a description of the building, but the card exists to lead to the Main Building page, and its text does that. For captureDiffers: the snapshot's opacity-0 class is the lazy-load fade-in at capture time, and the screenshot and crop show the image. The live page's CMS data has alt null for this image and renders it client-side with alt=\"\", the same as the capture. The element meets 1.1.1, so Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "p553bcf5a0cb",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the header seal logo link. It points to \"/\" and gets its accessible name, \"Philadelphia Museum of Art\", from aria-label (ARIA8). A logo link named after the organization is the usual home link, so users can tell its purpose (the museum's home page) from the name alone. No further context is needed. For captureDiffers: the header is not drawn at the top of the full-page screenshot, which is an artefact of the fixed or translated header. The snapshot holds the link, and the live HTML has the same anchor with the same aria-label and href, so the name and destination users receive match the capture. The element meets 2.4.4, so Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "pfe1f1ff5e54",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the image on the hero banner for the exhibition \"Marcel Duchamp\": the sepia five-way mirror portrait of Duchamp. It has alt=\"\". In the same banner, the h2 link \"Marcel Duchamp\" and the text \"Through January 31, 2027\" carry the banner's information. The picture illustrates the subject that the adjacent heading already names, so an empty alt meets 1.1.1 under the adjacent-text pattern. Some auditors might want artworks on a museum site described, but the image works as a promotional banner here, not as collection content. For captureDiffers: the live page's homeHero data gives this mediaBannerSmall image alt null, rendered as alt=\"\", as captured, and the screenshot shows the same banner. The element meets 1.1.1, so Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "p16f266544b1",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the event card link whose text is the h3 \"Friday Nights\". It points to /events/friday-nights, a page whose title and h1 are \"Friday Nights\". The nearest heading before the link in document order is the h2 \"Upcoming Events\" (H80), so the link text and that heading together say this opens the Friday Nights event. The link has no title or aria-describedby, and it needs neither. For captureDiffers: the live HTML has the same anchor and h3 in the same Upcoming Events carousel. The element meets 2.4.4, so Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "s1a9448f05d0",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is a visually hidden checkbox (input type=checkbox, class sr-only) with a custom box drawn next to it. It is wrapped in a label whose visible text is \"Simplify Fonts\", and it gets its name from that label. The claim assumes the control takes typed input. A checkbox takes none: the label tells users what checking it does (switch the site to simplified fonts), which is what a checkbox label has to say. So the sentence does not hold for this control. 2.4.6 asks only that labels describe topic or purpose, and \"Simplify Fonts\" describes this toggle's purpose. Asking the label to say \"what to enter\" applies a text-entry instruction rule, closer to 3.3.2 for a text field, rather than 2.4.6. For captureDiffers: the top bar is not drawn in the full-page screenshot, but the live HTML has the same label, input id and text (shown at large widths, like the 1280 px capture). The element meets 2.4.6."
+    },
+    {
+      "fingerprint": "p5a3840bf47e",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the photo on the \"Friday Nights\" event card: visitors on the Great Stair Hall during an evening event. It has alt=\"\". The same card gives the category \"Social\", the h3 link \"Friday Nights\" and the description of the DJ programme, so the photo only adds atmosphere and carries no information the card's text lacks. An empty alt meets 1.1.1 for it. For captureDiffers: the live server HTML leaves the card's image container empty and fills it client-side, and the event data has mainImage alt null. A browser running the scripts gets the same img with alt=\"\" that the snapshot holds, and the screenshot shows the same card. The element meets 1.1.1, so Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "pbdf35f129fc",
+      "answers": { "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is the link on the second card of the Collection section. Its only content is the h3 \"Ōgi Rodō\", the architect's name, with no aria-label, title or aria-describedby. It points to /objects/41886, the object page for \"Ceremonial Teahouse: Sunkaraku (Evanescent Joys), c. 1917\", not an artist page. Nothing in the link's name says it opens a work's record, so a user would expect a page about Ōgi Rodō; in a links list the cards read as artists' names. The work's title sits in a sibling p within a generic div, not in the same sentence, paragraph, list item or table cell. The nearest heading before the link in document order is the previous card's h3 \"Vincent Willem van Gogh\". So the only context that explains the link is the visual card text, which this round's rule does not count (as in F63), and the link fails 2.4.4. I found nothing that makes it pass: no ARIA name or description, no list markup, no title. For captureDiffers: the live HTML has the same anchor, h3 and sibling paragraph. Rampa reported nothing on this link and missed the failure."
+    }
+  ]
+}

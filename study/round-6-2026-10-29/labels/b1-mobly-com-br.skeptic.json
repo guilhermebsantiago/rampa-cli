@@ -1,0 +1,138 @@
+{
+  "page": "https://www.mobly.com.br/moveis/moveis-sala",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s1be1672319b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the lower thumb (a visually hidden range input) of the Altura (height) slider in the filter sidebar; its name \"Escolha o tamanho\" comes from the group's aria-label, which is the same for the Largura, Profundidade and Altura sliders and for both thumbs of each. The sentence holds in that the label alone names neither the dimension nor the bound. Against the failure: the slider sits in a region named \"Altura\", right after the h2 \"Altura\", below visible \"Mínimo\"/\"Máximo\" fields, its aria-valuetext reads \"0 cm\", and \"choose the size\" does say what is set; 2.4.6 does not ask labels to be unique. My lean is that it passes in context, but whether a generic label whose dimension comes only from the region and whose min/max role comes only from the value describes purpose is a point competent auditors split on (some would cite the identical thumb names under 4.1.2 or 1.3.1 instead). The live server HTML has aria-label=\"Escolha o tamanho\" on all three groups, as captured."
+    },
+    {
+      "fingerprint": "d9615d4acedf",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The text is the visible label of the \"Frete Grátis\" filter checkbox in the bar above the product grid. Live CSS: .text-mobly-orange is rgb(255 70 0) and the catalog-controls bar has bg-white, so #ff4600 on #ffffff is 3.43:1 (checked by hand) at 14px weight 500 (text-sm font-medium), which is not large text, against 4.5:1. Looked for a way out: the checkbox is active, the text is a filter label, not a logotype or decoration; the near-transparent input (opacity 0.0001) laid over the label, which made axe defer, does not change the pixels; the push-notification prompt seen over that area of the screenshot only lowers contrast further. The live server HTML has the same classes and colours, and the screenshot is a fully styled render, so no capture difference."
+    },
+    {
+      "fingerprint": "b64b20229d0f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the inline link \"sala de estar completa!\" ending the hero paragraph of the CMS banner, drawn over the banner's photo (landing-saladeestar.jpg, background-size cover). A crop of the screenshot shows purple text on the dark grey and black part of the photo, barely legible, while the rest of the paragraph is white. Rampa's colours (#5f23a8 from CSS on #010101 to #564b47) give at most 2.28:1, and 16px regular text needs 4.5:1. No technique rescues it: no text shadow, no solid backing behind the link. The live page serves the same CMS block with the same background image and markup, and the screenshot is a styled render, so the capture matches what users get."
+    },
+    {
+      "fingerprint": "325b11da064a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The text is the product count \"(167)\" beside the \"Acima de R$ 4.089,71\" radio in the Preço filter. Class text-default-400 text-sm; in the live CSS --mobly-default-400 is hsl(240 5.03% 64.9%) in the light theme, which is #a1a1aa, on the white filter card: 2.56:1 at 14px regular (checked by hand), against 4.5:1. Looked for a way out: the count conveys information (how many products fall in the range), so it is not incidental, and it is not part of a disabled control; the overlap that made axe defer and the push-prompt backdrop in the screenshot do not raise the contrast. The live server HTML renders the same span with the same class, so no capture difference."
+    },
+    {
+      "fingerprint": "sf6758fd390b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the \"Frete Grátis\" (free shipping) filter checkbox in the catalog bar, named by aria-labelledby from its visible label (the empty aria-label=\" \" is overridden). A checkbox has nothing to enter; its label says what checking it does, filter to products with free shipping, beside \"Envio Imediato\" and \"Exclusivo Mobly\" in a common shop pattern. So the sentence is false, and the label describes the control's purpose (G131); 2.4.6 is met. The live server HTML has the same label. The model had the label and its context and judged wrongly."
+    },
+    {
+      "fingerprint": "e388da06c10a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The text is the product count \"(176)\" beside the \"De R$ 1.799,98 até R$ 4.019,96\" radio in the Preço filter. Class text-default-400 text-sm; in the live CSS --mobly-default-400 is hsl(240 5.03% 64.9%) in the light theme, which is #a1a1aa, on the white filter card: 2.56:1 at 14px regular (checked by hand), against 4.5:1. Looked for a way out: the count conveys information (how many products fall in the range), so it is not incidental, and it is not part of a disabled control; the overlap that made axe defer and the push-prompt backdrop in the screenshot do not raise the contrast. The live server HTML renders the same span with the same class, so no capture difference."
+    },
+    {
+      "fingerprint": "a903bdf5039d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The text is the visible label of the \"Envio Imediato\" filter checkbox in the bar above the product grid. Live CSS: .text-mobly-orange is rgb(255 70 0) and the catalog-controls bar has bg-white, so #ff4600 on #ffffff is 3.43:1 (checked by hand) at 14px weight 500 (text-sm font-medium), which is not large text, against 4.5:1. Looked for a way out: the checkbox is active, the text is a filter label, not a logotype or decoration; the near-transparent input (opacity 0.0001) laid over the label, which made axe defer, does not change the pixels; the push-notification prompt seen over that area of the screenshot only lowers contrast further. The live server HTML has the same classes and colours, and the screenshot is a fully styled render, so no capture difference."
+    },
+    {
+      "fingerprint": "s149ba9284b6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the \"Máximo\" text field of the Largura (width) filter, filled with \"330 cm\". Its accessible name doubles to \"Máximo Máximo\" because aria-labelledby lists the input itself (aria-label \"Máximo\") and its visible label; that is redundant, not undescriptive. In its card, under the h2 \"Largura\", inside a region named \"Largura\" and beside \"Mínimo\", the label says what to enter: the maximum width, with the unit shown in the value and placeholder. 2.4.6 asks labels to describe purpose, not to repeat their group's heading, so the sentence is false in context and the field passes. The live page shows the same Largura card with Mínimo/Máximo fields. The model had the heading and region and still judged the label wanting."
+    },
+    {
+      "fingerprint": "1945b5134063",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field. It has no visible label, so its placeholder \"Encontre tudo sobre móveis e decoração...\" is the only visible text saying what the field is for. Live CSS: placeholder:text-[#8A9198] on an input wrapper with bg-white (it turns bg-default-200/100 on hover and focus, lower still). #8a9198 on #ffffff is 3.19:1 (checked by hand) at 16px regular, below 4.5:1. Looked for a way out: 1.4.3 lists no exemption for placeholder text, the field is active, and here the placeholder carries the field's purpose rather than an optional example. The live server HTML has the same classes and placeholder, so no capture difference."
+    },
+    {
+      "fingerprint": "d036a5d0e84b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The text is the product count \"(180)\" beside the \"De R$ 1.144,96 até R$ 1.799,00\" radio in the Preço filter. Class text-default-400 text-sm; in the live CSS --mobly-default-400 is hsl(240 5.03% 64.9%) in the light theme, which is #a1a1aa, on the white filter card: 2.56:1 at 14px regular (checked by hand), against 4.5:1. Looked for a way out: the count conveys information (how many products fall in the range), so it is not incidental, and it is not part of a disabled control; the overlap that made axe defer and the push-prompt backdrop in the screenshot do not raise the contrast. The live server HTML renders the same span with the same class, so no capture difference."
+    },
+    {
+      "fingerprint": "2fbd3626c4f7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The text is the visible label of the \"Exclusivo Mobly\" filter checkbox in the bar above the product grid; it holds the brand name but is a filter label, not a logotype. Live CSS: .text-mobly-orange is rgb(255 70 0) and the catalog-controls bar has bg-white, so #ff4600 on #ffffff is 3.43:1 (checked by hand) at 14px weight 500 (text-sm font-medium), which is not large text, against 4.5:1. Looked for a way out: the checkbox is active, the text is a filter label, not a logotype or decoration; the near-transparent input (opacity 0.0001) laid over the label, which made axe defer, does not change the pixels; the push-notification prompt seen over that area of the screenshot only lowers contrast further. The live server HTML has the same classes and colours, and the screenshot is a fully styled render, so no capture difference."
+    },
+    {
+      "fingerprint": "2f7f0a1a8c4f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The text is the product count \"(176)\" beside the \"De R$ 698,86 até R$ 1.112,86\" radio in the Preço filter. Class text-default-400 text-sm; in the live CSS --mobly-default-400 is hsl(240 5.03% 64.9%) in the light theme, which is #a1a1aa, on the white filter card: 2.56:1 at 14px regular (checked by hand), against 4.5:1. Looked for a way out: the count conveys information (how many products fall in the range), so it is not incidental, and it is not part of a disabled control; the overlap that made axe defer and the push-prompt backdrop in the screenshot do not raise the contrast. The live server HTML renders the same span with the same class, so no capture difference."
+    }
+  ]
+}

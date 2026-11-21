@@ -1,0 +1,111 @@
+{
+  "page": "https://www.ultrafarma.com.br/categoria/medicamentos",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "02923fb31ab0",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer newsletter text input with the placeholder 'seu nome...' (type=text, name=nome). The snapshot and the live HTML I fetched today both show no autocomplete attribute. name=\"nome\" is not an input-purpose token, so nothing programmatically marks the field as collecting the user's own name, and H98, the sufficient technique, is not used. The placeholder ('your name') puts the field within 1.3.5's scope. I looked for a reason it passes, such as a script adding autocomplete or the field not being about the user, and found none. The claim names this failure."
+    },
+    {
+      "fingerprint": "610e780a65b8",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer newsletter field 'seu e-mail...' (type=email, name=email). It has no autocomplete attribute in the snapshot or in today's live HTML. The best argument for a pass is that type=email identifies the purpose. It does not hold up: type=email sets the data format, which would be the same for a friend's address, not the user-information purpose that H98's autocomplete=\"email\" declares. The snapshot cannot show the remark about Chromium's form check, but it matches how Chrome's Issues panel treats fields autofill recognises, and the core sentence holds."
+    },
+    {
+      "fingerprint": "c5a088699d81",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer Instagram link. Its only content is a grey PNG glyph with alt 'Instagram'. I measured the screenshot myself: the glyph is solid #aaaaaa on #fcfcfc (--white_gray_light in the live CSS), 2.26:1, below 3:1. Nothing else visually identifies this link: the 'Redes Sociais' heading does not say which network it is. I checked whether the logo exemption applies. Understanding 1.4.11 says logos shown with low contrast by author choice, not by brand rule, are not exempt (Figures 22 and 27 show this pattern), and Instagram's glyph is specified in black, white or its gradient, not grey. The live HTML and CSS match the capture; the icon images have no hover rule."
+    },
+    {
+      "fingerprint": "b014826aaf20",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the badge (class 'Selo Ultradesconto') on the Ritapeels Ginkgo 80mg card. The crop, the screenshot and the image I downloaded from the CDN today all show the text 'BLACK NOVEMBER'; the file is a static 90x90 PNG with one frame. The alt is 'Ultra Descontão', a different promotion name, so it does not present the image's text (G94). The badge has no data-href and is not clickable. I considered the argument that any promotion name serves the badge's purpose. It does not hold up: the image shows one named campaign and the alt replaces it with another, which auditors fail. The claim names that mismatch."
+    },
+    {
+      "fingerprint": "9fe088628f8b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer X/Twitter link. Its only content is a grey glyph image with alt 'Twitter'. My own pixel count on the screenshot gives #a9a9aa on #fcfcfc, 2.29:1, below 3:1, and nothing else visually identifies which network the link opens. Understanding 1.4.11 removes the logo exemption when the low-contrast presentation is an author choice; X's mark is specified in black or white, not grey. The live HTML is unchanged, and the CSS has no rule that changes the icon's colour."
+    },
+    {
+      "fingerprint": "30129ce620a6",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the promotion strip image on the Mel + Própolis Saedra card. It reads '50% OFF NA 2ª UNIDADE' (crop, screenshot and the CDN file). The alt 'Selo promoção' says only that it is a promotion seal. The card's text in the live HTML gives 'Preço unitário na promoção R$ 7,49' but never states the condition, 50% off the second unit, so users who cannot see the image lose that information. I found no text equivalent nearby, and the live page is unchanged. The claim points at this defect."
+    },
+    {
+      "fingerprint": "87e6f226cf27",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This sidebar banner image is the only content of a link to /banneers/3958, which redirects (302) to /hotsites/creatina-sidney-oliveira. The image shows 'Creatina 100% Pura ... Garanta a sua'. Its alt and title are both 'Confira!' ('check it out'), which gives neither the image's message nor the link's destination: a functional image that fails 1.1.1. The screenshot shows it at the snapshot's bounds, and the live HTML is identical. No technique or context makes it pass."
+    },
+    {
+      "fingerprint": "958abf50b92a",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the header cart icon (basket.png, alt 'Cesta') inside a div that is not a link. The '0' drawn over it is a separate span holding the item count. The crop shows a shopping basket, which is exactly what 'Cesta' means, so the claim is false and the alt serves the image's purpose. Any problem with the cart widget not being a link or button belongs to other criteria, not 1.1.1. The live HTML is identical. The model had the crop and misread it."
+    },
+    {
+      "fingerprint": "8153d7d06749",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the top PIX banner: a link with href javascript:void(0) that carries only tracking attributes and has no destination. It holds one visible image (the mobile copy is hidden) reading 'PAGUE COM PIX E GANHE 3% DE DESCONTO', with alt 'Banner Topo PIX 3,0%'. The sentence is true of the capture, and the live HTML is the same. The alt is an internal label ('Banner Topo') that keeps 'PIX 3,0%' but drops that it is a discount, so I lean to a 1.1.1 failure. Against that, the claim blames a missing destination when the link has none to describe, and some auditors would accept 'PIX 3,0%' as the gist, since the cards say 'Pix ... (3% desconto)'. Competent auditors could disagree both on whether the element fails and on whether the claim names the defect."
+    },
+    {
+      "fingerprint": "1e9abe0ca6a1",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the header search field, and its placeholder is the field's only visible label. The live CSS sets '.header-search-input .input-search::placeholder{opacity:.5}' with no author colour, so the browser default #757575 applies, and gives the input no background (white). Half-opacity #757575 on white is about #bababa, 1.94:1. At 19.2px normal weight the text is not large, so 4.5:1 applies, and Understanding 1.4.3 says the criterion covers placeholder text. The full-page screenshot shows the compact sticky header instead of this field. The snapshot bounds and the live HTML and CSS put the field in the header users see on load, so that difference does not touch the claim."
+    },
+    {
+      "fingerprint": "d78ec8e09510",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the newsletter email field. My own pixel count on the screenshot finds the darkest placeholder pixels at #757575 on a #f4f4f4 field, 4.19:1. The live CSS sets the background (--white_gray #f4f4f4) and the placeholder's size (1.2rem, italic) but no placeholder colour, so Chrome's default #757575 shows. Understanding 1.4.3 makes the author responsible when a background is set without a text colour, and it covers placeholder text. At 19.2px normal weight the text is not large. The placeholder is the field's only label, so no exception applies, and the live page matches."
+    },
+    {
+      "fingerprint": "afe2dce0a067",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the newsletter name field. The screenshot pixels show the placeholder 'seu nome...' at #757575 on #f4f4f4, 4.19:1. The live CSS sets the field background to #f4f4f4 and leaves the placeholder at the browser default colour. At 19.2px normal italic the text is not large, so 4.5:1 applies, and Understanding 1.4.3 includes placeholder text. The placeholder is the field's only label, so it conveys needed information and is not incidental. The live HTML and CSS match the capture."
+    },
+    {
+      "fingerprint": "sc92aa5fcdb8",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the newsletter name field. Its only visible label is the placeholder 'seu nome...' ('your name...'), which says what to enter, so the claim is false and the label describes its purpose as 2.4.6 asks. Relying on a placeholder instead of a label may matter under 3.3.2 or 1.3.1, not under 2.4.6. The live HTML is identical. The model had the text and misjudged it."
+    },
+    {
+      "fingerprint": "f41226f0e43b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the same badge image (selo_90x90_v4.png, class 'Selo Ultradesconto') on the Sildenafila 50mg card. The crop, the screenshot and the CDN file I downloaded today show 'BLACK NOVEMBER', while the alt says 'Ultra Descontão', a different promotion name, so the image's text is not presented (G94). The badge is not interactive, and the live HTML still has this alt. The argument that any promotion name serves the purpose does not hold up against an image that names a specific other campaign. The claim names that mismatch."
+    },
+    {
+      "fingerprint": "1d1fbe7412d1",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the badge image on the Ritapeels Ginkgo 120mg card, the same file and alt as the other badges. The crop, the screenshot and the live CDN image show 'BLACK NOVEMBER', and the alt 'Ultra Descontão' names a different promotion instead of the image's text, which fails 1.1.1 (G94). The live HTML is unchanged. The snapshot holds fewer product cards than the longer screenshot, but that does not affect this element. The claim names the mismatch."
+    }
+  ]
+}

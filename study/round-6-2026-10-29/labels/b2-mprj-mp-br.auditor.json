@@ -1,0 +1,39 @@
+{
+  "page": "https://www.mprj.mp.br/comunicacao/ouvidoria",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "sdf83d191cca",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the document's title, \"Ouvidoria - MPRJ\". The page is the ombudsman (Ouvidoria) page of the Ministério Público do Estado do Rio de Janeiro: its main h1 is \"Ouvidoria\", the breadcrumb ends in Ouvidoria, and the content describes the Ouvidoria's role, structure and service channels. The title names exactly that topic and the site, so the claim that it names a different topic is false of the capture. A cookie-consent dialog was open in the capture, but it is a passing overlay, not the page's topic, and the model had the h1 and the content text. The live page, fetched today, has the same title and content. The title describes the page's topic and purpose, so 2.4.2 is met."
+    },
+    {
+      "fingerprint": "9c0c08fc4f43",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field. Its placeholder \"Buscar\" is the only visible text label the field has besides a magnifier icon. The live theme CSS gives .busca-param a transparent background and color #afb7c7 but no ::placeholder rule, so Chrome's default placeholder colour (#757575) is used over the dark red header (#702826). The screenshot agrees: it is dimmed by the cookie dialog's 50% black backdrop, and once that is undone the header measures #702826 and the darkest placeholder pixel about #747070, which is about 2.1-2.3:1 for 14px normal-weight text. Firefox's default (inherited colour at reduced opacity) would also give about 2.5:1. Placeholder text that is shown conveys information and is text under 1.4.3, so the claim names the real failure. The live HTML and CSS fetched today match the capture, and the backdrop does not change the measured colours."
+    },
+    {
+      "fingerprint": "8a9df3796bfa",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the text of the breadcrumb link \"Comunicação\" (14px, weight 500, not large text). The live theme CSS sets .breadcrumb li .breadcrumb-link {color:#a3afbf} on #content {background-color:#fafafa}, which is 2.13:1, below the 4.5:1 1.4.3 requires. In the screenshot the area is under the cookie dialog's 50% black backdrop; undone, the darkest glyph pixel is about #a2aebe on #fafafa, about 2.16:1, which confirms the claim's values. The backdrop is probably why axe-core could not decide, but it does not change the colours measured. The live page fetched today has the same breadcrumb markup and CSS, so the capture does not differ in any way that matters."
+    }
+  ]
+}

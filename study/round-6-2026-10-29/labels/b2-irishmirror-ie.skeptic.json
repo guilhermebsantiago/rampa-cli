@@ -1,0 +1,90 @@
+{
+  "page": "https://www.irishmirror.ie/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "5a77507ad0ee",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "A teaser thumbnail (not inside a link) whose alt is the story headline; the crop shows a hand holding a PS5 Grand Theft Auto VI box. The claim is literally true of the capture: the alt also speaks of a men's-health warning and a sexologist, which the photo does not show. But the alt names the image's subject (the GTA 6 release) and adds the story context, which a text alternative may do; repeating the adjacent headline is a redundancy (a best-practice point, axe's image-redundant-alt), not a 1.1.1 failure, and no documented failure (F30, F38, F39, F65) applies to an informative image whose alt identifies what it shows. Requiring the alt to describe only what is visible is stricter than 1.1.1. The live HTML has the same img and alt, so the capture does not differ for this claim."
+    },
+    {
+      "fingerprint": "d910bed16aba",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Editor's Picks lead image (not in a link) with the headline as alt; the crop shows an older man in a beanie carrying a sack beside a car, and the file name (Micheal-Glacken-1) shows it is the man the story is about. The claim is literally true (the move to an Irish village and the quote are not pictured), but the alt identifies who is pictured, the American wife murderer the story concerns, which is the information the photo carries in this context. Adding story context to an alt that identifies the subject does not fail 1.1.1; the stricter rule that an alt may only describe visible content is not WCAG's. The live page has moved this teaser into the lead slot with a picture element, but the img alt is identical, so nothing relevant differs."
+    },
+    {
+      "fingerprint": "2b40bb17818e",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "A small teaser thumbnail (not in a link) whose alt is the headline 'Man, 50s, arrested after man, 30s, seriously injured in Tralee assault'; the image is a generic stock photo of a garda car's blue light bar (file 8_garda-car-lights-stock.jpg). The claim is true of the capture: nothing in the alt is pictured. Unlike the other teasers, the alt here names nothing the image shows, so it is not an alternative for the image: if the stock photo is treated as decorative its alt should be null (F38), and if informative it should convey the garda car. I lean towards a failure, but competent auditors reasonably disagree: many treat headline-as-alt on a stock teaser as mere redundancy with the adjacent heading link (no information is lost, the arrest already implies gardaí), a best-practice issue rather than a 1.1.1 failure. Live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "cf9554f84f2a",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The logo at the top of the consent dialog (InMobi/Quantcast Choice CMP, role dialog 'Privacy'); the crop shows the red 'IRISH Mirror' masthead, and its alt is 'Publisher Logo'. The claim's sentence is not true as worded: the image is in fact a publisher logo, so the alt does not describe something absent. But the alt leaves out all the image conveys, the publisher's name; the dialog text names only 'Reach and across our entities', so a screen-reader user is never told which publication the logo shows. A generic placeholder like this is not an equivalent (the F30 pattern), and if the logo were deemed decorative a non-null alt would fail F38 anyway. Read in good faith, as in the rubric's own example, a claim that the alt describes something the image does not show, when the alt omits what the image conveys, names this defect. Captured as users receive it: the live CMP config sets this logo and the live CMP UI bundle (cmp2ui-en.js) hardcodes alt 'Publisher Logo'; the screenshot omits the overlay, which does not touch the claim."
+    },
+    {
+      "fingerprint": "473bf124b691",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The premium badge above the Marius Frunza headline (class PremiumArticleBadge, data-testid premium-byline-irishmirror); the crop and screenshot show the 'IRISH Mirror +' badge, the mark of Irish Mirror+ subscriber content (the subscribe page is titled 'Subscribe to Irish Mirror+'). Its alt 'irishmirror' gives only the brand and drops the '+', so the information that the article is premium is not available as text; nothing else in this card says so (its tag is 'Prostitution', the link's aria-label is the headline). The text alternative does not serve the image's purpose, which fails 1.1.1, and the claim (a label rather than what the image conveys here) names that. I looked for a passing reason (hidden text, a premium tag, an accessible description) and found none. Live HTML has the same badge and alt."
+    },
+    {
+      "fingerprint": "s3fef8c46da0",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "A 'World News' link in the News submenu of the mobile navigation whose href is /news/irish-news/politics/, the same URL as the sibling 'Politics' link; the destination is titled 'Politics: the latest political news from across Ireland...'. The claim is true of the capture, and the live HTML has the same mislabelled link (in #mobile-nav and in the desktop #MoreCurtain). Its context (the list item, the 'News Submenu' list, the preceding h1) does not correct the text. I lean towards a 2.4.4 failure, since the text states a purpose the link does not have, but competent auditors reasonably disagree: many treat a link pointing at the wrong URL like a broken link, a content defect that misleads every user equally rather than a failure of link-purpose determinability. Also, the snapshot marks the link focusable, yet its AX data shows the menu inert at capture (sr-only, opened by a burger button hidden at 1280 px); users get it when the menu is opened, so this does not change the claim."
+    },
+    {
+      "fingerprint": "9516a987242f",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "A teaser thumbnail (not in a link) with the headline as alt; the crop shows a green 'National Lottery' sign with the star mascot. The claim is literally true (the security silence and the scratch-card scam are not pictured), but the alt opens with 'National Lottery', the very thing the image shows, and adds the story context. An alt that identifies the image's subject serves its purpose in this teaser; duplicating the headline is redundancy, not a 1.1.1 failure, and demanding a purely visual description is stricter than WCAG. Live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "f19de097a546",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The premium badge on Billy Scanlan's Luas pigeon opinion column (PremiumArticleBadge, premium-byline-irishmirror.svg); the screenshot shows the 'IRISH Mirror +' badge marking Irish Mirror+ content. Its alt 'irishmirror' conveys only the brand, not the '+' that marks the piece as premium, and no other text in the card says so (the card has 'OPINION', the headline link and the tag 'Luas'). The text alternative does not serve the badge's purpose, a 1.1.1 failure the claim names. No hidden text, description or tag supplies the premium status; the live HTML has the same badge and alt."
+    },
+    {
+      "fingerprint": "fb36efe998d4",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "A teaser thumbnail (not in a link) with the headline as alt; the crop shows a Dunnes Stores shopfront with the 'DUNNES STORES' sign. The claim is literally true (the recall and the 4,600 units are not pictured), but the alt names Dunnes Stores, the subject of the photo, within the story context. That is an adequate alternative for an illustrative news image; redundancy with the headline is not a 1.1.1 failure, and the rule that an alt may only describe visible content is stricter than WCAG's. Live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "34d3df02cc71",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The header 'SUBSCRIBE' button image (flag plus the word SUBSCRIBE) with alt 'irishmirror', the only child of a link with aria-label 'Subscribe to premium membership' (nameFrom aria-label in the AX data). The claim is true of the img in isolation: its alt is a brand label, not the text it shows. But the image is the content of a control whose accessible name comes from aria-label (ARIA8), which overrides the alt; the link's name describes its purpose, as 1.1.1 requires for a control, and screen readers announce that name, not the alt. It contains the visible word 'Subscribe' too. The packet gave the link's name, so the checker had the context. The live Next.js layout chunk renders the same aria-label and an img whose alt is the publication name, so the capture does not differ."
+    },
+    {
+      "fingerprint": "fc7053e445d0",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "A teaser thumbnail (not in a link) with the headline as alt; the crop is a smiling portrait of a dark-haired woman, the photo for the story about singer Lisa McHugh. The claim is literally true (a health update and an FND diagnosis cannot be pictured), but the alt identifies who is shown, Lisa McHugh, which is what this portrait conveys in the teaser. Extra story context in an alt that identifies the subject does not fail 1.1.1; redundancy with the headline is a best-practice point only. Live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "c01d3511e521",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The premium badge above the Editor's Picks lead headline about the American wife murderer (PremiumArticleBadge, premium-byline-irishmirror.svg); the image shows 'IRISH Mirror +', the Irish Mirror+ premium mark, and its alt 'irishmirror' drops the '+'. Taken alone, the alt does not convey the badge's purpose, so I lean towards a 1.1.1 failure, and the claim names it. But unlike the other badges, this card has a visible tag link 'Plus' (aria-label 'Plus', href all-about/plus) under the headline, so the premium status does reach screen-reader users as text in the same card. Competent auditors could then treat the badge as supplementary and the brand-only alt as a minor redundancy rather than a failure. Live HTML has the same badge, alt and Plus tag."
+    }
+  ]
+}

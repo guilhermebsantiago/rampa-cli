@@ -1,0 +1,47 @@
+{
+  "page": "https://www.cancer.ie/your-stories/amanda-broaderss-breast-cancer-story",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p4677e262c82",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the footer logo, an img with alt=\"Irish Cancer Society\" and the only content of a link to the homepage (\"/\"). The crop shows the words \"Irish Cancer Society\" beside the daffodil mark, so the alt gives the same words as the image of text, and it names the link: the organisation's logo linking to its home page is a common convention. A stricter reading (WAI tutorial's \"... home\") is a recommendation, not a 1.1.1 requirement. The live HTML (fetched 2026-11-21) has the same img and alt inside <a href=\"/\" class=\"logo\">, and the screenshot is a fully styled render, so the capture matches. The element meets 1.1.1, so Rampa missed nothing."
+    },
+    {
+      "fingerprint": "p55bc366722e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the footer link \"Terms & conditions\" in the Housekeeping navigation (list: Contact, Press, Jobs, Terms & conditions, Privacy, Cookies), pointing to /website-terms-and-conditions, whose title is \"Website terms and conditions\". The link text alone says what it leads to; the preceding h2 \"Housekeeping\" and the list context back that up. The live HTML has the same anchor and text, and the screenshot shows it as a visible underlined link, so the capture matches. It meets 2.4.4, so Rampa missed nothing."
+    },
+    {
+      "fingerprint": "09e9c5644868",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the second photo in the story: a selfie of Amanda smiling in a hotel lobby, sunglasses on her head, below a pull quote by her. Its alt \"Amanda Broaders 3\" is the file name (src \"Amanda%20Broaders%203.jpg\") with the extension dropped. On another photo from \"Amanda Broaders 2.jpg\" the \"2\" was removed, which shows the \"3\" is left over, not chosen. claimTrue: in the capture the alt is a file-name label that does not describe the photo, so the sentence holds. elementFails: I lean yes. This reads as F30 (a file name used as the text alternative), and the stray \"3\" means nothing to a listener. The skeptic's case against: the alt names the person shown, which is the photo's main information in a personal story whose text tells everything else. Many auditors accept the subject's name as a short alt for a supporting portrait, and the \"3\" alone does not clearly take away information. Competent auditors would reasonably disagree on whether this fails 1.1.1, so the label is uncertain. If it does fail, the claim (\"names a label, not what the image conveys\") names that failure. captureDiffers: the live HTML has the same img and alt, and the screenshot is fully styled, so the capture matches."
+    },
+    {
+      "fingerprint": "p6c122196c7b",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the white envelope icon beside the footer text \"Write to us / Send us an email\". The text says everything the icon does, so it is decorative. It is <img role=\"presentation\"> with no alt attribute. Failure F38's test applies only when the img has no role=\"presentation\" and no null alt. Its description says an image with role=\"presentation\" is ignored by assistive technology. So the icon does not meet F38's failure condition. The snapshot marks it presentational and it has no accessibility-tree entry, which matches. The live HTML has the same markup, so the capture matches. It meets 1.1.1, so Rampa missed nothing."
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "page": "https://www.usereserva.com/colecao-reserva-masculino",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "7f45b074167a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Wheel slice label \"20% OFF\" (div.fortunewheel-slice, rotated 30 deg) in the PopConvert popup. The snapshot records Manrope 17.6px bold, color rgb(200,11,15) measured over #d3c4b3; I recomputed 3.51:1, and the crop shows red text on the beige slice. 17.6px bold is below the 18.66px (14pt) bold large-text threshold, so 4.5:1 applies and it fails. The label is real information (a prize), not incidental text. The PopConvert spin-to-win popup is not in the server HTML, but the live GTM container (GTM-5W9W8BCJ) loads cdn.popconvert.com.br/widget/popconvert.js, so ordinary visitors get the same widget; nothing suggests the capture differs from it. The claim names the failure."
+    },
+    {
+      "fingerprint": "11265d59a6cd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The popup's input type=\"text\" whose only label is the placeholder \"Seu melhor e-mail\" asks for the visitor's own email to send a coupon. The snapshot HTML has no autocomplete attribute, so the purpose \"email\" (listed in WCAG 2.1 section 7) is not programmatically determined: 1.3.5 fails, as the claim says. The PopConvert spin-to-win popup is not in the server HTML, but the live GTM container (GTM-5W9W8BCJ) loads cdn.popconvert.com.br/widget/popconvert.js, so ordinary visitors get the same widget; nothing suggests the capture differs from it. The widget bundle (dist/js/app.js) contains no \"autocomplete\" string at all."
+    },
+    {
+      "fingerprint": "45b13bfc96c4",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "First carousel image of the product card \"Polo Tricot Navy\", inside the link to that product; alt is the product name and also the link's name. The crop (this card is right of the popup, so it is the real photo) shows a man in a cream knit polo with horizontal stripes. The product page describes it as a 100% cotton tricot polo with contrasting horizontal stripes: \"Navy\" is part of the product name for the nautical stripe, not a thing missing from the image. The alt identifies the product shown and the link's purpose, so 1.1.1 is met. The live page lists the same product and image file. The model saw the right image and judged wrongly."
+    },
+    {
+      "fingerprint": "379c4a7605e5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product image \"Camiseta Regular Trama\" inside the link to that product. The packet crop and the image stored in the snapshot for this element both show the fixed PopConvert wheel popup that covered the product grid when the element was captured, not the product photo. The img itself (same file on the live page) is the product photo: in the full-page screenshot it shows a brown textured short-sleeve T-shirt on a model. So the claim is true of the captured image but not of the image users receive. The alt names the product the photo shows and serves as the link's name: 1.1.1 is met. The live page has the same product and image file. Only the wrong crop made the claim."
+    },
+    {
+      "fingerprint": "7187cdada9d8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Wheel slice label \"10% OFF\" (div.fortunewheel-slice, vertical) in the PopConvert popup. Same colours as the 20% OFF slice: #c80b0f on #d3c4b3, recomputed 3.51:1, 17.6px bold, so normal-size text that needs 4.5:1. The crop shows the red label on the beige slice. It conveys a prize, so it is not incidental. The PopConvert spin-to-win popup is not in the server HTML, but the live GTM container (GTM-5W9W8BCJ) loads cdn.popconvert.com.br/widget/popconvert.js, so ordinary visitors get the same widget; nothing suggests the capture differs from it. True positive."
+    },
+    {
+      "fingerprint": "622c65b0362b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "yes"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Hero banner image (only slide of the BannerSlider, not inside a link) with alt=\"\". In the full-page screenshot, and on the live page, which serves the same image file, it shows the campaign text \"Linho Reserva(R) Em cores inéditas.\" with \"Est. 2006\" and \"Until 2026\". No DOM text says this, so in my view the element fails 1.1.1: informative image of text marked decorative. The claim says it conveys \"Black Friday Reserva, 20% OFF, 15% OFF, 10% OFF, Frete Grátis\". That is the PopConvert popup that covered the left half of the banner in the crop and in the snapshot's stored image. So the claim is true of the capture, the capture differs from the image users receive, and the content the claim cites belongs to another element. Competent auditors could reasonably disagree whether this claim names the real failure (right defect, an informative image hidden with alt=\"\", but wrong content). Some might also treat the banner as mood imagery. Hence uncertain."
+    },
+    {
+      "fingerprint": "aeae308dfad6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product image \"Camisa Ml Linho Bari\" inside the link to that product. The packet crop and the image stored in the snapshot for this element both show the fixed PopConvert wheel popup that covered the product grid when the element was captured, not the product photo. The img itself (same file on the live page) is the product photo: in the full-page screenshot it shows a beige long-sleeve linen shirt on a model. The claim is true of that captured image only. The alt names the product the photo shows and is the link's name: 1.1.1 is met. The live page has the same product and image file. Wrong crop."
+    },
+    {
+      "fingerprint": "fc5ea014a885",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product image \"Calca Regular Tech\" inside the link to that product. The packet crop and the image stored in the snapshot for this element both show the fixed PopConvert wheel popup that covered the product grid when the element was captured, not the product photo. The img itself (same file on the live page) is the product photo: in the full-page screenshot it shows a model in khaki trousers (with a beige jacket). The claim is true of that captured image only. The alt names the product (the trousers) and is the link's name: 1.1.1 is met. The live page has the same product and image file. Wrong crop."
+    },
+    {
+      "fingerprint": "9d6ee7700a10",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product image \"Polo Tricot Flat\" inside the link to that product. The packet crop and the image stored in the snapshot for this element both show the fixed PopConvert wheel popup that covered the product grid when the element was captured, not the product photo. The img itself (same file on the live page) is the product photo: in the full-page screenshot it shows a red flat-knit polo on a model. The claim is true of that captured image only (the crop shows the popup's email form). The alt names the product shown and is the link's name: 1.1.1 is met. The live page has the same product and image file. Wrong crop."
+    },
+    {
+      "fingerprint": "da4ae1e7b020",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Inline svg #Layer_1 of the PopConvert wheel. In the snapshot it holds only paths and circles (slices, rim, pegs, hub) and no text. It is not hidden: Chrome exposes it as an unnamed image. The prizes the claim says only the svg conveys (\"Frete Grátis\" and the OFF values) are HTML text in the fortunewheel-slice divs over it, and they are in the context the model was given. With \"Quero girar\" next to it, nothing in the graphic is left without text, so 1.1.1 is met. Adding aria-hidden would be good practice, not something the claim names. The PopConvert spin-to-win popup is not in the server HTML, but the live GTM container (GTM-5W9W8BCJ) loads cdn.popconvert.com.br/widget/popconvert.js, so ordinary visitors get the same widget; nothing suggests the capture differs from it."
+    },
+    {
+      "fingerprint": "724a3764df40",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Placeholder \"Seu melhor e-mail\" of the popup's email field, its only visible label. The snapshot measures 13px normal text in #00000080 (50% black, about #808080) on the white field: about 3.95-4.0:1, below 4.5:1. The crop shows light grey text on white. Understanding 1.4.3 says the criterion \"applies to text in the page, including placeholder text\". The PopConvert spin-to-win popup is not in the server HTML, but the live GTM container (GTM-5W9W8BCJ) loads cdn.popconvert.com.br/widget/popconvert.js, so ordinary visitors get the same widget; nothing suggests the capture differs from it. True positive."
+    },
+    {
+      "fingerprint": "se58ed4670c9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Announcement-bar link to /colecao-reserva-camisetas-por-99. Its text is \"Camisetas por R$99\", a countdown, and \"Confira aqui!\" (T-shirts for R$99, check it out). The link text alone tells its purpose: the R$99 T-shirt offer, whose page is titled \"Camisetas Bordadas por R$99\". The run-together countdown in the accessible name is noise but does not hide the purpose, so 2.4.4 is met and the claim is false of the capture. The live server HTML has the same link (the countdown is added by script)."
+    }
+  ]
+}

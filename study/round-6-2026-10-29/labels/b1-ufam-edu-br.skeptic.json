@@ -1,0 +1,149 @@
+{
+  "page": "https://www.ufam.edu.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "2abbce76cbee",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Em Destaque' menu link to propesp.ufam.edu.br, whose text is typed with a space between every letter ('P ó s - G r a d u a ç ã o'); the visual letter spacing comes from those spaces, not from CSS letter-spacing. claimTrue: the snapshot HTML and name hold the spaced letters (Chrome's name is the same letters uppercased by text-transform). elementFails: this is exactly failure F32 of 1.3.2 (white space used to control spacing within a word), and screen readers read the letters one at a time; there is no aria-label or other accessible text giving the whole word, so no technique makes it pass. captureDiffers: the live HTML fetched on 2026-11-21 has the same spaced text in the same list, and the screenshot shows the letter-spaced word. The claim quotes only the 'Graduação' part of the link text, but the whole text is spaced the same way, so the claim names the element's real failure. I looked for a reason it could be wrong and found none: true positive."
+    },
+    {
+      "fingerprint": "727a610ecfea",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Em Destaque' menu link to progesp.ufam.edu.br, whose text is typed with a space between every letter ('P e s s o a l'); the visual letter spacing comes from those spaces, not from CSS letter-spacing. claimTrue: the snapshot HTML and name hold the spaced letters (Chrome's name is the same letters uppercased by text-transform). elementFails: this is exactly failure F32 of 1.3.2 (white space used to control spacing within a word), and screen readers read the letters one at a time; there is no aria-label or other accessible text giving the whole word, so no technique makes it pass. captureDiffers: the live HTML fetched on 2026-11-21 has the same spaced text in the same list, and the screenshot shows the letter-spaced word. I looked for a reason it could be wrong and found none: true positive."
+    },
+    {
+      "fingerprint": "a603a830199d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Em Destaque' menu link to proplan.ufam.edu.br, whose text is typed with a space between every letter ('P l a n e j a m e n t o'); the visual letter spacing comes from those spaces, not from CSS letter-spacing. claimTrue: the snapshot HTML and name hold the spaced letters (Chrome's name is the same letters uppercased by text-transform). elementFails: this is exactly failure F32 of 1.3.2 (white space used to control spacing within a word), and screen readers read the letters one at a time; there is no aria-label or other accessible text giving the whole word, so no technique makes it pass. captureDiffers: the live HTML fetched on 2026-11-21 has the same spaced text in the same list, and the screenshot shows the letter-spaced word. I looked for a reason it could be wrong and found none: true positive."
+    },
+    {
+      "fingerprint": "c95b9e1354d8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a 1021x88 campaign banner image, not inside a link, with alt=\"\". The crop and the screenshot show text in the image: 'UFAM - ÁREA DE PROTEÇÃO AMBIENTAL' and 'NÃO ABANDONE ANIMAIS NO CAMPUS!' with photos of animals (the crop also has the VLibras widget icon over its right edge, a harmless artefact). claimTrue: alt is empty and neither the snapshot nor the live HTML has that message anywhere else on the page. elementFails: the image carries a public notice in text, so it is informative, not decorative; marking it alt=\"\" leaves screen-reader users without the message, which fails 1.1.1 (it also uses an image of text, 1.4.5). I looked for a reason it could pass (same text nearby, a caption, a link name, pure decoration) and found none. captureDiffers: the live HTML has the same img with the same src and alt=\"\". True positive."
+    },
+    {
+      "fingerprint": "4e5c2aaaa253",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the header search field <input id=portal-searchbox-field title=\"Buscar no portal\" placeholder=\"Buscar no portal\">, with <label for=portal-searchbox-field class=hide>Busca: </label>; .hide is display:none in Bootstrap. claimTrue: the snapshot's CDP tree gives the textbox the name \"\" with a labelledby relation to the hidden label, and no description, so the sentence holds for the capture. elementFails: the reasons it could be wrong are concrete. The markup carries an associated label (H44 test passes), a title (H65) and a placeholder, and Rampa's own name computation got 'Busca:'. Chromium apparently stops at the display:none label and returns an empty name without falling back to the title. Firefox and other engines may name it, and screen readers may still read the placeholder, so 'announces only textbox' is not shown. I could not load the page in a browser with a screen reader to see what users actually get. captureDiffers: the live HTML and CSS (.hide display:none, the same input and label) match the capture. Whether a Chromium-only empty name, with a title and label in the markup, fails 4.1.2 is something competent auditors would disagree about: uncertain."
+    },
+    {
+      "fingerprint": "s4c0ee80c707",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the 'Simplifique!' link in the federal government bar (barra.brasil.gov.br), pointing to the gov.br page of the Simplifique! programme, a channel where citizens ask for simpler public services. claimTrue: there is no title, aria-describedby or related text, its list item holds only the link, and the heading before it is a hidden 'Seletor idioma' h2 that says nothing relevant, so 'nothing around it does' holds for the capture. elementFails: the text is the proper name of the destination programme, as 'Comunica BR' and 'Participe' are in the same bar, and a link named after its destination generally identifies its purpose. Sighted users get no more than this name either, which brings in the 'ambiguous to users in general' exception. Against that, 'Simplifique!' is an imperative that people who do not know the programme cannot decode, and it sits next to accessibility controls where it could be read as 'simplify this page'. I lean towards a pass. captureDiffers: the live barra.js serves the same link, href and text. Competent auditors would reasonably disagree about whether a programme name is enough: uncertain."
+    },
+    {
+      "fingerprint": "s3476f0fc258",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'A' font-size control (<a href=\"#\" onclick=\"sizeFont('conteudo','default')\" title=\"Voltar ao tamanho normal\">A</a>) in the list 'A+ A A-' under the 'Opções de acessibilidade' heading. claimTrue: no. The link has a title, 'Voltar ao tamanho normal' ('back to normal size'), which the snapshot's CDP tree exposes as its accessible description, so something does say what it does. elementFails: by this round's context rule a title counts (H33), and the link text with its title states its purpose, so 2.4.4 is met. A link with href=\"#\" acting as a button is a possible role question under 4.1.2, not a 2.4.4 failure. captureDiffers: the live HTML has the same anchor and title. The title was in the element Rampa had, so the model had the context and judged wrongly: false positive."
+    },
+    {
+      "fingerprint": "ebfc844bd38b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Em Destaque' menu link to proeg.ufam.edu.br, whose text is typed with a space between every letter ('G r a d u a ç ã o'); the visual letter spacing comes from those spaces, not from CSS letter-spacing. claimTrue: the snapshot HTML and name hold the spaced letters (Chrome's name is the same letters uppercased by text-transform). elementFails: this is exactly failure F32 of 1.3.2 (white space used to control spacing within a word), and screen readers read the letters one at a time; there is no aria-label or other accessible text giving the whole word, so no technique makes it pass. captureDiffers: the live HTML fetched on 2026-11-21 has the same spaced text in the same list, and the screenshot shows the letter-spaced word. I looked for a reason it could be wrong and found none: true positive."
+    },
+    {
+      "fingerprint": "25f8349e6edb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Em Destaque' menu link to protec.ufam.edu.br, whose text is typed with a space between every letter ('I n o v a ç ã o'); the visual letter spacing comes from those spaces, not from CSS letter-spacing. claimTrue: the snapshot HTML and name hold the spaced letters (Chrome's name is the same letters uppercased by text-transform). elementFails: this is exactly failure F32 of 1.3.2 (white space used to control spacing within a word), and screen readers read the letters one at a time; there is no aria-label or other accessible text giving the whole word, so no technique makes it pass. captureDiffers: the live HTML fetched on 2026-11-21 has the same spaced text in the same list, and the screenshot shows the letter-spaced word. I looked for a reason it could be wrong and found none: true positive."
+    },
+    {
+      "fingerprint": "cc65ab937198",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Em Destaque' menu link to proadm.ufam.edu.br, whose text is typed with a space between every letter ('A d m i n i s t r a ç ã o'); the visual letter spacing comes from those spaces, not from CSS letter-spacing. claimTrue: the snapshot HTML and name hold the spaced letters (Chrome's name is the same letters uppercased by text-transform). elementFails: this is exactly failure F32 of 1.3.2 (white space used to control spacing within a word), and screen readers read the letters one at a time; there is no aria-label or other accessible text giving the whole word, so no technique makes it pass. captureDiffers: the live HTML fetched on 2026-11-21 has the same spaced text in the same list, and the screenshot shows the letter-spaced word. I looked for a reason it could be wrong and found none: true positive."
+    },
+    {
+      "fingerprint": "59d48cd5cea8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the search field's placeholder 'Buscar no portal', 12px, weight 400. claimTrue: Bootstrap 2's input::-webkit-input-placeholder{color:#999999} applies and the field is white, so it is 2.85:1 as stated, and Understanding 1.4.3 says placeholder text is covered. The concrete reason it could still be wrong is G174, a sufficient technique for 1.4.3. The header has an 'Alto contraste' link (#dcffe3 on #045b14, about 7.3:1) whose script adds .contraste to div.layout, which wraps the header. In that mode '.contraste input' sets the field to #262626 (and #000 on focus). No high-contrast rule reaches this field's ::placeholder (the yellow rule targets the input itself and the #fff rule only .form-control), so the placeholder stays #999999 and gets about 5.3:1 (7.4:1 on focus), which meets 4.5:1. elementFails: on that reading the element meets 1.4.3 through G174. captureDiffers: the live CSS and HTML match what Rampa measured. Auditors differ on whether a high-contrast toggle lets a default presentation at 2.85:1 conform, and whether the alternate presentation conforms across the page was not checked: uncertain."
+    },
+    {
+      "fingerprint": "s4e26307d3b9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h2 'Amazon Zyme' in the 'Vídeos' section, one of three video cards (Norte Genômica, Canto da luz, Amazon Zyme), each an embedded YouTube iframe, then an h2 with the video's title, then the description 'Vídeo resultado do Projeto de Extensão ...'. YouTube's oEmbed gives that video (YtC9HjJYEq8) the title 'Amazon Zyme'. claimTrue: no. The heading names the video its card presents and that the paragraph under it describes, so it does say what the content is. elementFails: 2.4.6 asks a heading to describe its topic, and Understanding 2.4.6 says even a short heading suffices when it gives an appropriate cue; the exact title of a work is such a cue, and nobody faults the two sibling headings either. (The heading placed after its video is a structure question, not 2.4.6.) captureDiffers: the live HTML is the same. The YouTube frames were not collected and appear blank in the screenshot, but that leaves the heading and what follows it unchanged. The model had the 'Vídeos' heading and the description and still judged a proper-name title as saying nothing: false positive."
+    },
+    {
+      "fingerprint": "0d0416e37f02",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Em Destaque' menu link to proext.ufam.edu.br, whose text is typed with a space between every letter ('E x t e n s ã o'); the visual letter spacing comes from those spaces, not from CSS letter-spacing. claimTrue: the snapshot HTML and name hold the spaced letters (Chrome's name is the same letters uppercased by text-transform). elementFails: this is exactly failure F32 of 1.3.2 (white space used to control spacing within a word), and screen readers read the letters one at a time; there is no aria-label or other accessible text giving the whole word, so no technique makes it pass. captureDiffers: the live HTML fetched on 2026-11-21 has the same spaced text in the same list, and the screenshot shows the letter-spaced word. I looked for a reason it could be wrong and found none: true positive."
+    }
+  ]
+}

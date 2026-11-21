@@ -1,0 +1,39 @@
+{
+  "page": "https://www.institutotomieohtake.org.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "26d1902cedbb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the venue line 'Instituto Tomie Ohtake' (p.text-white, 32px regular, so large text with a 3:1 threshold) inside the hero link for the exhibition 'Tomie Ohtake – O sol daqui', drawn over the painting P-82-08 used as a full-bleed img. claimTrue: the snapshot has the same classes, the text sits over the yellow part of the painting, and my own sampling of the screenshot (it is under a 50% black newsletter overlay, so I doubled the pixel values) gives a background around #e0c41e and about 1.7:1 for white text, in line with the reported 1.43 to 2.48:1. Every reason I looked for to discard it fails: no text-shadow, scrim or backdrop is in the markup or the CSS classes, and pixel measurement would include any overlay anyway. The text is not a logotype (the logo is the header h1; this is a plain-text venue label like the 'Instituto Tomie Ohtake' lines on the other cards), and it is not incidental. elementFails: even the best case is below 3:1. captureDiffers: the live HTML fetched today has the same image, the same classes and the same text. The modal in the screenshot only makes contrast worse and is not what was measured. The claim names that failure."
+    },
+    {
+      "fingerprint": "fd9e02faabf2",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the thumbnail (alt=\"\") of the 'Matéria impressa' exhibition card, followed by 'Atual', an h3 link 'Matéria impressa' that is stretched over the whole card, and the venue line. claimTrue: alt=\"\" is right, but the full-size image (downloaded from the live site) is a collage of the Institute's folders, posters and catalogues. 'PRESENÇA' appears only inside 'POESIA EM PRESENÇA', and no 'AMÉRICA' appears anywhere, so the quoted words are misread. The adjacent title also does say what the collage shows: the exhibition page says the show surveys the Institute's printed graphic output (folders from over 250 exhibitions, posters, books). elementFails: the image illustrates the adjacent heading's subject in a card, and the words in it are incidental titles of past publications, not content this card conveys. Treating it as redundant with the title and marking it alt=\"\" (H67) meets 1.1.1, and it is not a functional image because the link is the heading. A brief description would be good practice, not a WCAG requirement. captureDiffers: the live markup has the same img with alt=\"\" and the same card."
+    },
+    {
+      "fingerprint": "s88d09119fd6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'Apoie' marquee link to /amigos/. Its accessible name is 'Apoie', from a sr-only paragraph; the repeated visible words are aria-hidden, so the snapshot's 41-fold name is a collector artefact the claim does not rely on. claimTrue: 'Apoie' (Support us), on the Institute's own homepage, does tell where it goes. The destination 'Amigos Tomie' is the Institute's supporter programme, which opens with 'Quer ser um apoiador da cultura?' and 'Por que apoiar?'. So 'does not tell where the link goes' is wrong, even though the nearby context (the preceding heading 'Novidades') adds nothing. elementFails: 2.4.4 asks that the link's purpose be determinable, not that the destination page be named. A call to action like 'Apoie', like 'Doe', makes its purpose (support the Institute) clear to users in general. captureDiffers: the live HTML has the same link, href and sr-only text."
+    }
+  ]
+}

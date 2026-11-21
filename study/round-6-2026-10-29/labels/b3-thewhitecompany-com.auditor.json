@@ -1,0 +1,210 @@
+{
+  "page": "https://www.thewhitecompany.com/uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "sc02385aa9cd",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a whole product card link in the 'Gifts for everyone' carousel; its name (as the browser computes it) starts with the nested saved-items button label, then the product name from the card's h3, prices and rating. claimTrue: the quoted text is the captured name, but the sentence's point, that it does not match the destination, is false: the name contains 'Seychelles Hand & Nail Gift Set' and the destination is that product's page. elementFails: the purpose (go to this product) is clear from the link text alone; the stray 'Add this product to your saved items' prefix comes from a button nested inside the link, a 4.1.2/nesting problem, not a 2.4.4 failure. captureDiffers: my live render (headless Edge) shows the same card markup and name composition for this product."
+    },
+    {
+      "fingerprint": "se598612be3f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a whole product card link in the 'Gifts for everyone' carousel; its name (as the browser computes it) starts with the nested saved-items button label, then the product name from the card's h3, prices and rating. claimTrue: no, the name contains 'Car Scenting Diffuser – Black' and the destination title is that product. elementFails: no, the link text identifies the product page it opens; the nested-button prefix is a 4.1.2 issue at most. captureDiffers: the live recommendations rotate per load, but one of my live renders showed this card with the same markup and name composition."
+    },
+    {
+      "fingerprint": "p3dc09da9ecb",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Inner img of the 7th (loop-duplicate) slide of the Fireside Large Candle card carousel; its src is FSDL3_AU21_1_P_1, the packshot of the three-wick Fireside candle, and the crop shows that candle. alt='Fireside Large Candle' is an accurate, sufficient alternative inside the product link, so it meets 1.1.1 and Rampa was right to report nothing. captureDiffers: the Fireside card was not in my live renders (the recommendation set rotates), but the same template (product packshot, alt = product name) renders identically for the cards that are there; nothing that touches this answer."
+    },
+    {
+      "fingerprint": "03500a076058",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "role=img div (title 'Fireside Large Candle') of the active slide 2 of the Fireside card carousel; its picture is FSDL3_AU21_1_P_1 and the crop clearly shows the candle with its 'Fireside' label (partly under the cookie banner). claimTrue: no, the image shows exactly the Fireside Large Candle. elementFails: no, the product name is an accurate alternative for a packshot inside the product link. captureDiffers: the card rotated out of the live recommendations, but the packshot/alt template is unchanged live."
+    },
+    {
+      "fingerprint": "82795c22f6c5",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "yes"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Hero image of the White Week banner; it is the only content of an <a href='/uk/Christmas/c/all-christmas' tabindex='-1'>, so the link's accessible name is the alt alone (the 'WHITE WEEK 20% OFF everything' text sits outside the link). claimTrue: yes, the alt describes the photo and says nothing of the destination. elementFails: yes, an image that is the sole content of a link is functional and its text alternative must convey the link's purpose (1.1.1 controls clause, H30); tabindex=-1 only removes it from the tab order, screen readers still list it as a link. captureDiffers: the live page has the same link, alt and tabindex (only the image rendition name differs), so no."
+    },
+    {
+      "fingerprint": "p1b1a40761f1",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "'In the spotlight' tile link wrapping an autoplay video (title 'candles and fragrance'), a Pause video button and the visible CTA 'Candles & Fragrance'; it goes to the Candles & Fragrance category ('Luxury Home Fragrance & Room Scent'). The link text states its purpose, so it meets 2.4.4 and Rampa was right to report nothing (the nested button is a 4.1.2 matter). captureDiffers: the live render has the same markup, href and text."
+    },
+    {
+      "fingerprint": "b7a8b6be451f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "yes"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image in the 'Christmas trees' tile of 'Trending this week' (asset homepage-trending-widget-3). The crop, the capture screenshot, my live screenshot and the asset itself (desktop and mobile renditions) all show a decorated Christmas tree with wrapped gifts, not a woman in jeans holding a fur coat. claimTrue: yes. elementFails: yes, the alt is wrong and misleading, and it is part of the link's accessible name ('a woman in jeans and sweater holding a fur coat Christmas trees'), so it does not serve the equivalent purpose. captureDiffers: the live page still has the same image and alt."
+    },
+    {
+      "fingerprint": "s44d05c25dcf",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a whole product card link in the 'Gifts for everyone' carousel; its name (as the browser computes it) starts with the nested saved-items button label, then the product name from the card's h3, prices and rating. claimTrue: no, the name contains 'Super Soft Faux Fur Hot Water Bottle' and the destination title is that product. elementFails: no, the link text identifies the product page; the nested saved-items button prefix is a 4.1.2 concern. captureDiffers: my live render showed this card with the same markup and name composition."
+    },
+    {
+      "fingerprint": "57b83e65b090",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "yes"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "White 12px/500 uppercase CTA link 'Stocking Fillers' set over the light cream stocking photo in 'Our favourite gifts'. claimTrue: yes, the capture screenshot at its bounds shows white text on a light beige/grey area; my own pixel sampling of that crop gives about 1.5:1 to 2.1:1, in line with Rampa's 1.67 to 2.07:1. elementFails: yes, it is normal-size text needing 4.5:1 and is far below it, with no shadow or scrim that would raise it. captureDiffers: the live page shows the same image and white CTA."
+    },
+    {
+      "fingerprint": "4410ca935f4e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "yes"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "role=img div (title 'Fireside Large Candle') of slide 3 in the Fireside card carousel; its image (FSDL3_AU21_1_P_2) is a mood shot of charcoal, vanilla pods and a smoking match on a plate, with no candle in it. claimTrue: yes, the alt names something the image does not show. elementFails: judged from the capture, competent auditors would split: inside the product link the product name can be taken as the image's purpose (identify the product), while others would fail it because the alt drops what the image conveys (the scent notes) and repeats the product name for every slide. captureDiffers: yes, the page changed: the Fireside card is gone from the live recommendations and live cards now carry a single packshot slide, so users no longer meet this image."
+    },
+    {
+      "fingerprint": "943be6a298f4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "yes"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Inner img of slide 3 of the Fireside card carousel (FSDL3_AU21_1_P_2): a mood shot of charcoal, vanilla pods and smoke, no candle; it sits inside a role=img div with the same title, so it is presentational to assistive technology. claimTrue: yes, the alt names a candle the image does not show. elementFails: competent auditors would disagree on whether the product name is an acceptable alternative for a mood image inside a product link or an insufficient one that drops the scent-note content. captureDiffers: yes, the Fireside card and the extra gallery slides are absent from the live page now; elementFails judged from the capture."
+    },
+    {
+      "fingerprint": "p3e5177b6c34",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Inner img of the active slide of the Seychelles Hand & Nail Gift Set card (SYDNS_SP21_1_P_1); the crop shows the boxed hand wash and hand cream set. alt='Seychelles Hand & Nail Gift Set' is accurate and sufficient inside the product link, so it meets 1.1.1 and Rampa was right to report nothing. captureDiffers: the live card has the same slide, image and alt."
+    },
+    {
+      "fingerprint": "fbe01c127bf8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "yes"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "role=img div of slide 3 in the Seychelles Hand & Nail Gift Set card (SYDNS_SP21_1_P_2): a mood shot of coconut, almonds and vanilla pods, no product in it. claimTrue: yes, the alt names a gift set the image does not show. elementFails: competent auditors would disagree on whether the product name serves the image's purpose inside the product link or fails 1.1.1 by dropping the ingredient/scent content and repeating the name on every slide. captureDiffers: yes, the live Seychelles card now has only the packshot slide, so this image is no longer presented; elementFails judged from the capture."
+    },
+    {
+      "fingerprint": "dfe5c8418605",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "yes"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "h3 'Slippers' in white 24px/400 over the light beige floor of the slippers photo in the 'Trending this week' tile. claimTrue: yes, the snapshot gives white text on the image; the capture screenshot's stitched sticky header covers this spot, but my live screenshot shows the same white label on the pale floor, consistent with Rampa's 1.64 to 1.90:1. elementFails: yes, as 24px regular it counts as large text and still falls well below 3:1, with no scrim. captureDiffers: the live tile has the same image and white heading (only the grid margins differ), so no."
+    },
+    {
+      "fingerprint": "pb4137276ed6",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Inner img of the active slide 2 of the Fireside Large Candle card (FSDL3_AU21_1_P_1); the crop shows the candle with its 'Fireside' label. alt='Fireside Large Candle' is accurate and sufficient inside the product link, so it meets 1.1.1 and Rampa was right to report nothing. captureDiffers: the card rotated out of the live recommendations, but the packshot/alt template is unchanged, nothing that touches this answer."
+    },
+    {
+      "fingerprint": "s9169060e97b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a whole product card link in the 'Gifts for everyone' carousel; its name (as the browser computes it) starts with the nested saved-items button label, then the product name from the card's h3, prices and rating. claimTrue: no, the name contains 'Shawl Collar Duvet Robe' and the destination title is that product's page. elementFails: no, the link text identifies the product page; the nested saved-items button prefix is a 4.1.2 issue. captureDiffers: this card was not in my live renders (recommendations rotate), but the card template and name composition are identical for the cards that are, so nothing touches the claim."
+    },
+    {
+      "fingerprint": "p1ab951d7e81",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "role=img div of the 6th (loop-duplicate) slide of the Seychelles card; its image is SYDNS_SP21_1_P_1, the packshot of the gift set, and the crop shows it (washed out). The title/alt 'Seychelles Hand & Nail Gift Set' is accurate, so it meets 1.1.1 and Rampa was right to report nothing. captureDiffers: the live card still has duplicate slides with this packshot and name."
+    },
+    {
+      "fingerprint": "83b4b3f8a1e0",
+      "answers": {
+        "claimTrue": "cannot_tell",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "role=img div of slide 5 in the Fireside card carousel; in the capture its img was still lazy (data-src FSDL3_XS26_1_P_4, no src, state broken) and the crop is blank apart from the cookie banner. claimTrue: cannot_tell, the capture does not show the image at all. elementFails: no, the asset users get when they swipe to it shows the three-wick Fireside candle beside a fireplace with other Fireside products, which 'Fireside Large Candle' describes. captureDiffers: yes, the unloaded lazy image differs from what users see, and that alone produced the claim, hence collector_error."
+    },
+    {
+      "fingerprint": "010745d62df7",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "role=img div of the 7th (loop-duplicate) slide of the Fireside card carousel; its image is FSDL3_AU21_1_P_1, the candle packshot, and the crop shows the candle with its 'Fireside' label, though faded. claimTrue: no, the image shows the Fireside Large Candle. elementFails: no, the product name is an accurate alternative inside the product link. captureDiffers: the card rotated out of the live recommendations, but the packshot/alt template is unchanged live."
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "page": "https://grupocorpo.com.br/contato/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "c331c8eae740",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the contact form's single name field (input type=text, label 'Nome' in a screen-only label, placeholder 'Nome'), with no autocomplete attribute in the snapshot or in the live HTML I fetched, which matches the capture. The field collects the user's own name, so it fails 1.3.5: Understanding 1.3.5 lists H98 (autocomplete) as the sufficient technique, and nothing else identifies the purpose. But the claim says the field asks for the user's first name and that autocomplete=\"given-name\" is missing. 'Nome' alone, with no 'Sobrenome' field beside it, asks for the full name, whose token is 'name'; so the sentence is false of the capture, and the fix it implies would give an incorrect value, which is failure F107. The element does fail for a missing purpose, and the claim points at that missing attribute, but it names the wrong purpose; competent auditors could reasonably disagree on whether that names the failure, so the label is uncertain."
+    },
+    {
+      "fingerprint": "9e1ca29695b0",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the contact form's e-mail field (input type=email, required, label 'E-mail'). It has no autocomplete attribute in the snapshot, and the live HTML I fetched is the same. The field collects the user's own e-mail address. I looked for a technique that would make it pass: type=email is not one, since Understanding 1.3.5 says the input type gives only a broad category and cannot show whether the address is the user's own, and it lists H98 (autocomplete) as the only sufficient technique. No script adds the attribute either, because the snapshot is the rendered DOM. The claim is true of the capture and names the real failure, the missing autocomplete=\"email\"."
+    },
+    {
+      "fingerprint": "p572cb51b339",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This row has no claim. The element is the footer link 'Corpo Loja' (in the INFORMAÇÕES column), which goes to https://corpoloja.com.br/, Grupo Corpo's online store, and opens in a new tab. The link text alone ('Corpo Loja', Corpo Store) tells users it leads to the company's shop, so its purpose is clear from the text. Opening a new tab is not a 2.4.4 matter. The live HTML has the same link and text as the snapshot. The element meets 2.4.4, so Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "a101694a15c1",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the contact form's phone field (input type=tel, label 'Telefone', a pattern, and a title giving format help). It has no autocomplete attribute in the snapshot, and the live HTML I fetched is the same. It collects the user's own phone number. type=tel does not identify the purpose: Understanding 1.3.5 says the type attribute gives only a broad category, and it lists H98 (autocomplete) as the sufficient technique. The title gives format help, not a programmatic purpose. I found no reason the finding could be wrong. The claim is true and names the failure, the missing autocomplete=\"tel\"."
+    },
+    {
+      "fingerprint": "s823f566d80d",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is an icon link in the contact block's social list. Its accessible name, 'Facebook-f', comes from an elementor-screen-only span; the SVG is aria-hidden. It goes to https://www.facebook.com/GrupoCorpo/. The claim says the text does not tell where the link goes, but it does: 'Facebook'. On the organisation's own contact page, a Facebook link among Instagram, TikTok, X, YouTube and Vimeo links is understood as the organisation's Facebook profile. The '-f' suffix is an icon-name artefact, clumsy but not hiding the purpose. The live HTML is the same as the capture. The purpose can be determined from the link text, so the element meets 2.4.4, and the model judged wrongly with the name in hand."
+    },
+    {
+      "fingerprint": "s9eaba034f5d",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the contact form's textarea. Its programmatic label is 'Mensagem' (a screen-only label element associated with for=) and it has a matching visible placeholder. In a contact form under 'Entre em Contato', 'Mensagem' (Message) clearly says what to enter: the message to send. So the claim is false and the label is descriptive, as 2.4.6 requires. The label being visually hidden, with a placeholder as the only visible text, is a matter for 3.3.2, not for whether the label is descriptive. The live HTML is the same as the capture."
+    },
+    {
+      "fingerprint": "s1469967f8ee",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the contact form's name field. Its programmatic label is 'Nome' (a screen-only label element associated with for=) and it has a matching visible placeholder. In a contact form, 'Nome' (Name) plainly asks for the sender's name, so the label describes the purpose and the claim that it does not say what to enter is false. 2.4.6 asks only that the label be descriptive, and it is. The live HTML is the same as the capture. False positive: the model misjudged a clear label."
+    },
+    {
+      "fingerprint": "pab356e29b98",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This row has no claim. The element is the main navigation link 'Notícias' (News), which goes to https://grupocorpo.com.br/noticias/; that page's title is 'Notícias • Grupo Corpo'. The link text alone tells users it leads to the site's news section. The live HTML has the same link. The element meets 2.4.4, and Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "299a664cbe4a",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'English' link in the TranslatePress floating language switcher. It points to /en/contato/, and its text and title are 'English'. Neither the link nor any ancestor has a lang attribute, so it inherits pt-BR from html. The live HTML I fetched is the same: no lang on the link. I looked for reasons it could pass. The proper-name and indeterminate-language exceptions do not cover it: Understanding 3.1.2's own example of links to other language versions marks each language name, written in that language, with lang. The live markup has the dropdown hidden and inert until it is opened, while the capture shows it with scripts applied. That difference does not touch the claim, because when users open the switcher the same link is presented without lang. The claim is true of the capture and names the failure."
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "page": "https://www.beaumont.ie/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s961b9f874ee",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the disabled, pre-checked 'Necessary' checkbox in the Cookiebot consent dialog. It is labelled by its <label for> 'Necessary' and sits in a group named 'Consent Selection' with Preferences, Statistics and Marketing, under the dialog title 'This website uses cookies'. claimTrue: no. The sentence assumes the control takes input, but a checkbox takes nothing to enter, and this one is fixed on and cannot be changed. elementFails: no. 2.4.6 asks that a label describe the control's topic or purpose, and in this group 'Necessary' clearly names the 'necessary cookies' category. Understanding 2.4.6 says labels need not be long. captureDiffers: no. The live page loads Cookiebot (uc.js), which injects this standard multilevel dialog. The full-page screenshot leaves the banner out, but the snapshot has it, and that does not affect the label text. The model had the group and dialog context and judged wrongly."
+    },
+    {
+      "fingerprint": "1d319c006ca8",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the thumbnail on the 'A decade of care – Beaumont marks 10 years of FITT' news card. The crop shows the team in uniform around a cake, with gold '10' balloons behind them. Its alt 'Fitt 1' comes from the file name 'Fitt 10th anniversary1.jpg'. Chrome adds it to the link's name ('Fitt 1 News • 31 Oct 2025 …'), so screen reader users hear it. claimTrue: yes. The alt is a filename label with a sequence number and says nothing about the image. elementFails: yes, whichever way the image is read. If it is informative, the alt does not convey the anniversary celebration (F30, a filename used as alt). If it is decorative next to the headline, it should have alt=\"\" (F39). I looked for a reason it might pass and found none: 'Fitt 1' is neither a description nor null. captureDiffers: no. The live HTML has the same image and alt."
+    },
+    {
+      "fingerprint": "fec3d9d10059",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the thumbnail on the 'RCSI & Beaumont Hospital launch … stem cell research facility' card: four people cutting a red ribbon at a doorway. The alt is 'CEO at RCSI even' (a typo for 'event'). claimTrue: no. The destination article's caption under the same photo says 'Pictured (l-r): … Anne Coyle, CEO of Beaumont Hospital …' at the RCSI facility opening. So the image does show the CEO at an RCSI event, which is exactly what the alt says. elementFails: no. For a supplementary teaser photo inside a link that carries the full headline, a short alt naming who is shown and at what event is an adequate alternative. It is not a filename or a placeholder, and it does not leave out most of what the image conveys. The typo and missing names are a quality issue, not a 1.1.1 failure. captureDiffers: no. The live HTML has the same alt. The model wrongly decided the image does not show what the alt says."
+    },
+    {
+      "fingerprint": "48abc72b8a41",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the first news-card image, a graphic made mostly of text: 'Poisons Information Centre of Ireland', '60 YEARS', '1966 – 2026', the hospital crest, over a photo of the hospital. The alt is 'NPIC-60'. claimTrue: no, on my reading. 'NPIC-60' is not a filename (the file is 'NPIC-Web.png'). It is a compressed form of what the image itself says: the National Poisons Information Centre and its 60 years. elementFails: I lean no. The alt carries the key content of the image's text, and the expanded wording ('Celebrating 60 years of the National Poisons Information Centre of Ireland!') follows in the same link. But the alt drops the dates and the full name, and some auditors expect an image of text to have its text in the alt. Competent auditors would reasonably disagree about whether this abbreviation is an equivalent, so the label is uncertain. captureDiffers: no. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "s8814930346e",
+      "answers": { "claimTrue": "yes", "elementFails": "cannot_tell", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the footer link <a href=\"#\" target=\"_blank\">Springdale Road Raheny Dublin 5, D05 E261, Ireland</a>, under the heading 'Contact us'. The 'St Joseph's Hospital' text is a separate paragraph and does not count as context. claimTrue: yes. The link text is a postal address. elementFails: cannot_tell. An address as link text conventionally signals 'this location (map)', and the 'Contact us' heading supports that. But the link has no real destination. The live page still has href=\"#\" with target=\"_blank\", and its script bundle has no handler for it, so activating it just opens the home page in a new tab. Whether the text 'describes the purpose' of a link that has none is a judgment call. Some auditors would fail it under 2.4.4, others would call it a broken link outside 2.4.4. captureDiffers: no. The live HTML matches the snapshot."
+    },
+    {
+      "fingerprint": "4ffd8c1bf791",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the 32x32 icon (a white plus in a blue circle, health.svg) inside the hero card link 'Find a Job', which goes to the iCIMS careers site. The alt is 'Careers', and the link name becomes 'Careers Find a Job'. claimTrue: yes, literally. A plus sign does not depict careers. elementFails: no. The icon is part of a link, and its alt states the link's function (careers/jobs), which matches the destination and the heading. That is acceptable for an image in a link (H30). At worst it is redundant (H2 advises alt=\"\"), which is not a 1.1.1 failure. The sibling cards use the same pattern (alt 'Book a Blood Test', 'Find a Department', 'Find a Consultant'). captureDiffers: no. The live HTML has the same alt. The checker judged a functional icon's alt by what the icon looks like, which is a stricter reading than 1.1.1."
+    },
+    {
+      "fingerprint": "6c735a1f3a9a",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the thumbnail on the 'Beaumont Hospital Announces Successful Launch of Hospital-Wide New ICT System' card: a large staff group on a staircase holding coloured balloons. The alt 'Coral team 3' comes from the file name 'PRoject coral team3.jpg', and Chrome adds it to the link name. claimTrue: yes. It is a filename label with a sequence number, not a description of the scene (the Project Coral team celebrating go-live). elementFails: yes. If informative, the alt is a filename leftover that does not convey the image (F30). If decorative beside the headline, it should be null (F39). The one pass argument is that 'Coral team' names who is shown. It does not hold up well: the numeric suffix marks it as an unedited filename, and it says nothing of the launch celebration the photo shows. captureDiffers: no. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "b593333f958d",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the large 480x480 photo beside the 'Services / Find the healthcare you need' block: a nurse attending a seated patient next to a monitor (file 'Patient being treated 4'). The alt is 'Services photo'. claimTrue: yes. The alt is a placeholder that names the photo's slot, not its content. elementFails: yes. If the photo is informative, a placeholder is not an alternative (F30). If it is decorative, it needed alt=\"\", and a non-null 'photo'-style alt is the F39 failure. No reading makes 'Services photo' adequate. captureDiffers: no. The photo renders in the screenshot, and the live HTML has the same alt."
+    },
+    {
+      "fingerprint": "a964833e9be1",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the thumbnail on the 'Beaumont Hospital - 2025 A Year in Review' card: a lecture-theatre audience at the Year in Review event. The alt 'strategy1' is the file name 'Strategy 1.jpg' in lower case, without the space. claimTrue: yes. elementFails: yes. A filename as alt is the documented F30 failure. If the image were decorative, the non-null alt would fail F39 instead. Nothing in the context rescues it. captureDiffers: no. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "e4e98bf43d1d",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the hero search field #edit-keys, whose only visible label is the placeholder 'Search beaumont.ie' (16px, regular weight). The live CSS sets .search::placeholder to #fff. The field sits on .input-group, which has background rgba(254,254,254,0.4) and backdrop-filter blur over the hero photo. A dark navy placeholder applies only when the field is focused. I sampled the screenshot pixels behind the glyphs: the darkest background is about #797b7a (white on it is about 4.26:1), and the median is about 2.9:1. claimTrue: yes. The reported range of 4.34:1 at best and 2.16:1 at worst matches. elementFails: yes. Placeholder text is text with no 1.4.3 exception, and at rest it stays below 4.5:1 even against its darkest background. captureDiffers: no. Same CSS, same hero image and same markup live. The script that removes the form-control class explains the class difference between the server HTML and the snapshot. The cookie banner overlapping the field on first visit does not change this."
+    },
+    {
+      "fingerprint": "s87a0038156f",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the main-nav control <a href=\"\" data-bs-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">I want to</a>. It is a dropdown toggle, exposed with hasPopup=menu and expanded=false, and it opens a menu in the same list item: 'Book a blood test', 'Find a Consultant', 'Find a Department'. claimTrue: no. The control does not 'go' anywhere. Its popup state tells users it opens a menu, and its own list item (rubric context) holds the menu items, so it is false that 'nothing around it' tells its purpose. elementFails: no. Its purpose, opening the 'I want to…' task menu, is clear from the text plus its popup semantics, and the options appear in the same list item when expanded. Using a link with href=\"\" as a button may raise a 4.1.2 role question, not a 2.4.4 one. captureDiffers: no. The live HTML has the identical toggle. The model had the list item's text and misjudged."
+    },
+    {
+      "fingerprint": "33fd2b3970ce",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This finding is on the same empty search field #edit-keys. The only text it shows is the placeholder 'Search beaumont.ie', rendered by the ::placeholder pseudo-element, which fits the 'pseudo-element' reason given. 'The text \"#edit-keys\"' names the element by its selector, a reporting artefact, but read in good faith it is the field's visible text. claimTrue: yes. My own pixel sampling gives about 4.26:1 at best against the darkest background behind the glyphs, falling to about 2.3:1, consistent with 'at most 4.22:1'. elementFails: yes. White placeholder text on a 40% white blurred overlay over the photo stays under 4.5:1 at rest (live CSS: .search::placeholder #fff, .input-group rgba(254,254,254,0.4) with blur). It duplicates the placeholder-contrast finding but names the same real failure. captureDiffers: no. Same CSS and image live."
+    },
+    {
+      "fingerprint": "cdb3ac59a7be",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the full-width hero image behind the H1 'Building Excellence in Care, Together': a smiling patient holding hands with a nurse, with a student nurse behind (file 'Nurse and Patient 4'). The alt is 'Hero Background'. claimTrue: no, as worded. The alt does not describe something absent; it names the image's layout role, which is accurate. elementFails: yes. If the photo is decorative, as hero backgrounds usually are, the non-null placeholder alt is F39 (like alt=\"image\"). If informative, 'Hero Background' is a placeholder that conveys none of it (F30). Either way screen readers announce a meaningless 'Hero Background'. The claim's wording is imperfect, but in good faith it points at this defect: the rubric counts 'describes something the image does not show' as naming an alt that leaves out what the image conveys, and this one leaves out all of it. captureDiffers: no. Same image and alt on the live page."
+    }
+  ]
+}
