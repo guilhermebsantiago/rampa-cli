@@ -94,3 +94,24 @@ main until the tool improves); every commit is local, on study/round-7-run.
        SHA-256 of judge-rubric.md:    c0de491aea33ba72b1e69c5b229c8cb37ff518a6623e7231e77e0a49eaa306ef
        dist/ (24 files) combined SHA-256 e2f7f3d65c36bae24e2ed484c5dd211649f1cd53be8337739a1e32314f45c8c8 (data/build.json);
        src/ identical to 385fe13.
+12:39  Collection started (collect.sh main), blocks 1 to 5 in order, one page at a time.
+12:49  The machine's connection dropped and came back several times between 12:49 and 12:54 (net::ERR_INTERNET_DISCONNECTED
+       in the consoles). Seven pages saved no snapshot on both of collect.sh's attempts: b3-sbgg-org-br, b3-ndmais-com-br,
+       b3-alzheimer-ie, b3-heals-com, b4-institutoricardobrennand-org-br, b4-erastogaertner-com-br, b4-meionews-com.
+       Network failures (section 6): the attempts do not count; tried again once the connection answered. The runner's
+       stop at 12:50 did not reach the collect.sh loop, which went on with the rest of the pages; it was let finish.
+       b3-pernambucanas-com-br and b3-strath-ac-uk failed once on the network and were collected on collect.sh's second
+       attempt (12:50, 12:51): their consoles show the network error only on the first attempt.
+13:04  Collection loop done (12:39-13:04). 53 pages with a snapshot. Destinations read look normal on the pages collected
+       during the drops (0 to 3 unreadable a page, as elsewhere). b4-medicare-gov (12:56, after the last recorded drop)
+       saved a snapshot of 6 nodes with no title (the capture record says the page was still changing when the 3,000 ms
+       wait ended); its console shows no network error, so by section 6 the attempt counts and the page stays as
+       captured (it will have almost nothing to judge). Pages cut at 5,000 elements (reported, not a refusal):
+       b1-cottontraders-com, b4-drogariasaopaulo-com-br, b4-avoca-com. Pages with no destination read (their 2.4.4
+       candidates are 0 to 5): b1-go-gov-br, b2-museudeartedorio-org-br, b2-hospitalinfantilsabara-org-br.
+13:06  The seven failed attempts set aside in DATA/pages/<slug>/discarded-1/; connection answering (HTTP 200); the seven
+       collected again (collect.sh main <slugs>).
+13:11  The seven collected on their first try (13:08-13:11; no network error in their consoles). 60 of 60 pages have a
+       snapshot. b3-sbgg-org-br's load reached the 30 s time-out (recorded in its capture; the page stays). No slot went
+       to a backup during collection.
+13:12  Main judgment started (run-judged.sh main), block order, --concurrency 2, gemma4:12b on local Ollama.
