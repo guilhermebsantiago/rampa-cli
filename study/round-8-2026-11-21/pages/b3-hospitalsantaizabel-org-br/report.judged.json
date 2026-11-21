@@ -1,0 +1,535 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.hospitalsantaizabel.org.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "c94a8f744737",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > main > section:nth-of-type(1) > div > div:nth-of-type(4) > div > form > input",
+   "target": "html > body > main > section:nth-of-type(1) > div > div:nth-of-type(4) > div > form > input",
+   "message": "The placeholder \"Pesquise aqui...\" has a contrast of 2.00:1 with the field (#ffffff on #92c665). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #92c665 · 2.00:1 at best, 2.00:1 at worst · 16px, 400",
+   "subject": "Pesquise aqui...",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input type=\"text\" name=\"s\" placeholder=\"Pesquise aqui...\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "f3756b533fe4",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > footer > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div > a:nth-of-type(2)",
+   "target": "html > body > footer > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div > a:nth-of-type(2)",
+   "message": "The icon of this link (\"Facebook\") has at most 2.00:1 contrast with the pixels next to it (#ffffff on #92c665). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#ffffff on #92c665 · 2.00:1 at best, 2.00:1 at worst",
+   "subject": "Facebook",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<a href=\"https://www.facebook.com/HospitalSantaIzabel\" title=\"Facebook\" target=\"_blank\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "e729ce45278f",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > footer > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div > a:nth-of-type(3)",
+   "target": "html > body > footer > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div > a:nth-of-type(3)",
+   "message": "The icon of this link (\"Whatsapp\") has at most 2.00:1 contrast with the pixels next to it (#ffffff on #92c665). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#ffffff on #92c665 · 2.00:1 at best, 2.00:1 at worst",
+   "subject": "Whatsapp",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<a href=\"https://api.whatsapp.com/send?1=pt_BR&amp;phone=5571981883380\" title=\"Whatsapp\" target=\"_blank\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "838a77b7387b",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > footer > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div > a:nth-of-type(4)",
+   "target": "html > body > footer > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div > a:nth-of-type(4)",
+   "message": "The icon of this link (\"Youtube\") has at most 2.00:1 contrast with the pixels next to it (#ffffff on #92c665). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#ffffff on #92c665 · 2.00:1 at best, 2.00:1 at worst",
+   "subject": "Youtube",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<a href=\"https://www.youtube.com/channel/UCA8DTkn-SL-qw4I-eyLIzkw\" title=\"Youtube\" target=\"_blank\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "fdb98f93422c",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#dpoeasy-banner >>> div > div:nth-of-type(1) > div > section > div:nth-of-type(1) > p",
+   "message": "This passage has no lang attribute, so it is read as Brazilian Portuguese (pt-br), but it is in English (en).",
+   "evidence": "We use cookies to personalize your experience.",
+   "subject": "unmarked|pt-br|We use cookies to personalize your experience. Accept to access all features, reject non-essential ones, or customize your choices in 'Manage cookies'.",
+   "techniques": [
+    "H58"
+   ],
+   "patch": {
+    "ref": "#dpoeasy-banner >>> div > div:nth-of-type(1) > div > section > div:nth-of-type(1) > p",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "from": "",
+    "to": "en",
+    "before": "<p class=\"dpoeasy-description\">",
+    "after": "<p class=\"dpoeasy-description\" lang=\"en\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 76
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 76,
+   "members": [
+    "653822e4ee9e",
+    "79087f1b8551",
+    "bb619781569a",
+    "4d21f44aa78d",
+    "5f2831698816",
+    "f39495e795b7",
+    "b28835bfc794",
+    "28776675178e",
+    "b68a69283190",
+    "3234a433ce2f",
+    "43454bf5966c",
+    "f6948095f329",
+    "a128c4f7bacc",
+    "4e8637e28ed7",
+    "a001e3e28241",
+    "6ee06190c03b",
+    "36b978918e21",
+    "1b9347adb6f1",
+    "7cf23ae09dd0",
+    "f2fda703c18a",
+    "72bc88bef2d9",
+    "01d23d02b4ae",
+    "bee5e013d9b9",
+    "b986c9c18327",
+    "3798540931c6",
+    "c80ec5c53c2c",
+    "e5917529fb9e",
+    "0d55ff5df148",
+    "b9db9d215bc7",
+    "a9380ab9fb89",
+    "26ee161b5230",
+    "f92760ef2182",
+    "ce878b32ae68",
+    "6541de5e4bd1",
+    "dd5b417b3189",
+    "a8e99daa42fc",
+    "5baac45720db",
+    "354eaf56a23b",
+    "050d62a8bac5",
+    "168a666d2138",
+    "15060c47cc8c",
+    "91f48726d85f",
+    "54c051a30562",
+    "4afc327bff81",
+    "e12d14da6fea",
+    "67469fa7efb8",
+    "c7ea48b90b4c",
+    "c02b722c2ff7",
+    "9c3b5d1bec64",
+    "c90931d33404",
+    "829af0a9b431",
+    "12c4cd110234",
+    "d79661a1ac55",
+    "b076e65b5a76",
+    "8f118c8a8814",
+    "f8c614493ab4",
+    "998455dc9e0a",
+    "1a20fd1e88e8",
+    "18709467d2d0",
+    "653cea6ca6d0",
+    "46dca6d9f57d",
+    "9bee56ac5ba7",
+    "6133d7422188",
+    "20100cccdd50",
+    "32621445d039",
+    "cd02a0c84280",
+    "278aad6a89cc",
+    "1b1f397b6307",
+    "0676d5f74e08",
+    "fd853c2d3f60",
+    "5a814c4801e0",
+    "95dd0066a14d",
+    "9e09c044894d",
+    "a760ea7b8ab5",
+    "4f7cf77b5387",
+    "86173c24e438"
+   ],
+   "example": "653822e4ee9e"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-item-293 > a",
+   "message": "The link text \"Especialidades\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Nossas Especialidades\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-item-4989 > a",
+   "message": "The link text \"Conheça\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Conheça o Hospital Santa Izabel\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > main > section:nth-of-type(1) > div > div:nth-of-type(4) > div > form > input",
+   "message": "The label \"Pesquise aqui...\" does not say what to enter.",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > footer > div > div:nth-of-type(1) > div:nth-of-type(1) > svg",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "The logo of Hospital Santa Izabel featuring the Santa Casa BA emblem.",
+    "textInImage": "Hospital SANTA IZABEL SantaCasaBA",
+    "verdict": "fail",
+    "evidence": "Hospital SANTA IZABEL and SantaCasaBA logo",
+    "suggestedAlt": "Logotipo do Hospital Santa Izabel e Santa Casa BA.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-item-4597 > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page for patients and visitors, containing guidelines and recommendations.",
+    "leadsTo": "A page titled 'Pacientes e Visitantes' with orientations and recommendations for patients and companions.",
+    "verdict": "fail",
+    "evidence": "Pacientes e Visitantes",
+    "problem": "ambiguous",
+    "suggestedText": "Orientações para Pacientes e Visitantes",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-item-284 > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Hospital' in a navigation menu under the heading 'Control your privacy' suggests it leads to a hospital-related page or service, but the context is highly ambiguous as 'Hospital' is not a standard privacy control term.",
+    "leadsTo": "#",
+    "verdict": "fail",
+    "evidence": "Hospital",
+    "problem": "ambiguous",
+    "suggestedText": "Configurações do Hospital",
+    "confidence": "low"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-item-6516 > a",
+   "reason": "suggested text equals the current one",
+   "output": {
+    "promises": "The link text 'Faz bem' is ambiguous and does not describe a destination or action, and the heading 'Control your privacy' does not provide context for what 'Faz bem' refers to.",
+    "leadsTo": "https://www.hospitalsantaizabel.org.br/santa-izabel-in-company/faz-bem/",
+    "verdict": "fail",
+    "evidence": "Faz bem",
+    "problem": "generic",
+    "suggestedText": "Faz Bem",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-item-295 > a",
+   "reason": "suggested text equals the current one",
+   "output": {
+    "promises": "The link text 'Ensino e Pesquisa' (Teaching and Research) suggests a section or page related to academic activities.",
+    "leadsTo": "The href is '#', which indicates a placeholder or a link to the top of the current page.",
+    "verdict": "fail",
+    "evidence": "Ensino e Pesquisa",
+    "problem": "mismatch",
+    "suggestedText": "Ensino e Pesquisa",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-item-4594 > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Honorários Médicos' (Medical Fees) suggests a page related to medical fees or billing, but the URL leads to a login form for a system called 'HonoMed'.",
+    "leadsTo": "https://honomed.hospitalsantaizabel.org.br/HonoMed/LoginForm.do (A login page)",
+    "verdict": "fail",
+    "evidence": "Honorários Médicos",
+    "problem": "mismatch",
+    "suggestedText": "Acesso ao sistema HonoMed",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 11,
+   "judged": 11,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 134,
+   "judged": 50,
+   "failed": 0,
+   "passed": 43,
+   "cannotTell": 0,
+   "discarded": 5,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 84,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 39,
+   "judged": 39,
+   "failed": 0,
+   "passed": 38,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "48 image(s) were left without a capture, so no judgment looked at them: 3 transparent where it sits; 12 covered where it sits by other content, such as a popup or a cookie banner; 33 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 84 of 134 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 104,
+  "cachedCalls": 0,
+  "inputTokens": 93636,
+  "outputTokens": 10280,
+  "latencyMs": 313373
+ },
+ "timings": {
+  "totalMs": 161529,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 23
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 17167,
+    "prepareMs": 0,
+    "candidates": 11,
+    "judged": 11,
+    "calls": 11,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2684,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1200,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 86438,
+    "prepareMs": 0,
+    "candidates": 134,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 52766,
+    "prepareMs": 0,
+    "candidates": 39,
+    "judged": 39,
+    "calls": 39,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 174,
+    "prepareMs": 171,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 1038,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 37
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 12,
+   "notCaptured": 48,
+   "reasons": {
+    "not-shown": 3,
+    "covered": 12,
+    "limit": 33
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 134,
+    "capped": 84
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

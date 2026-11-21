@@ -1,0 +1,545 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.imperial.nhs.uk/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "f1a5542ad584",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > header > nav > div:nth-of-type(2) > div > div > a > img",
+   "message": "The text alternative \"imperiallogo.svg\" is a file name or a placeholder.",
+   "evidence": "imperiallogo.svg",
+   "subject": "imperiallogo.svg",
+   "claim": "missing_information",
+   "techniques": [
+    "F30"
+   ],
+   "patch": {
+    "ref": "html > body > header > nav > div:nth-of-type(2) > div > div > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "imperiallogo.svg",
+    "to": "Imperial College Healthcare NHS Trust home",
+    "before": "<img alt=\"imperiallogo.svg\" src=\"/media/fcwnl1d1/imperiallogo.svg\">",
+    "after": "<img alt=\"Imperial College Healthcare NHS Trust home\" src=\"/media/fcwnl1d1/imperiallogo.svg\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "f6c7e8d983b0",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main > section:nth-of-type(3) > div > div > div:nth-of-type(7) > div > a > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Cancer Treatment\" describes something the image does not show.",
+   "evidence": "Cancer Treatment",
+   "subject": "Cancer Treatment",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#main > section:nth-of-type(3) > div > div > div:nth-of-type(7) > div > a > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Cancer Treatment",
+    "to": "Medical care and support",
+    "before": "<img alt=\"Cancer Treatment\" loading=\"lazy\" height=\"100\" src=\"/media/nlzlzfzc/cancer-treatment.png?rmode=max&amp;height=100&amp;format=webp&amp;quality=80&amp;v=1dd23f3c61876a0&amp;hmac=47aa27177ea9948402652d66ec5a50df9bae151b7657fcd0fd0c1a1806e1d689\">",
+    "after": "<img alt=\"Medical care and support\" loading=\"lazy\" height=\"100\" src=\"/media/nlzlzfzc/cancer-treatment.png?rmode=max&amp;height=100&amp;format=webp&amp;quality=80&amp;v=1dd23f3c61876a0&amp;hmac=47aa27177ea9948402652d66ec5a50df9bae151b7657fcd0fd0c1a1806e1d689\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "a395303dd0e9",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main > section:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"LLSW careers fair convatec\" describes something the image does not show.",
+   "evidence": "LLSW careers fair convatec",
+   "subject": "LLSW careers fair convatec",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#main > section:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "LLSW careers fair convatec",
+    "to": "People interacting at the Grand Union Science Week careers fair",
+    "before": "<img alt=\"LLSW careers fair convatec\" src=\"/media/btcpghrh/low-res_grand-union-science-week-167.jpg?width=646&amp;height=388&amp;format=webp&amp;quality=80&amp;v=1dd78fa8416d970&amp;hmac=57ee9cc9a3d57dd29d201bcd3bf24e8fe93edb32d80945e058bd82c1b1a64198\">",
+    "after": "<img alt=\"People interacting at the Grand Union Science Week careers fair\" src=\"/media/btcpghrh/low-res_grand-union-science-week-167.jpg?width=646&amp;height=388&amp;format=webp&amp;quality=80&amp;v=1dd78fa8416d970&amp;hmac=57ee9cc9a3d57dd29d201bcd3bf24e8fe93edb32d80945e058bd82c1b1a64198\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "f68b13ebf5e6",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main > section:nth-of-type(6) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"OIP (6)\" names a label, not what the image conveys here.",
+   "evidence": "OIP (6)",
+   "subject": "OIP (6)",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#main > section:nth-of-type(6) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "OIP (6)",
+    "to": "West London Haemoglobin Coordination logo with a link to their blog",
+    "before": "<img alt=\"OIP (6)\" src=\"/media/zjrogfwe/oip-6.jpg?width=646&amp;height=388&amp;format=webp&amp;quality=80&amp;v=1dd686fc128fb90&amp;hmac=3451f3efce8be3cfc4aebb17779485cca7b6e78341b1608db22a65ad7a11997d\">",
+    "after": "<img alt=\"West London Haemoglobin Coordination logo with a link to their blog\" src=\"/media/zjrogfwe/oip-6.jpg?width=646&amp;height=388&amp;format=webp&amp;quality=80&amp;v=1dd686fc128fb90&amp;hmac=3451f3efce8be3cfc4aebb17779485cca7b6e78341b1608db22a65ad7a11997d\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "455ad6222806",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main > section:nth-of-type(6) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div:nth-of-type(1) > span > img",
+   "message": "The text alternative \"Blog\" describes something the image does not show.",
+   "evidence": "Blog",
+   "subject": "Blog",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#main > section:nth-of-type(6) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div:nth-of-type(1) > span > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Blog",
+    "to": "RSS Feed",
+    "before": "<img alt=\"Blog\" src=\"/Images/Icons/icon-blog-black.svg\">",
+    "after": "<img alt=\"RSS Feed\" src=\"/Images/Icons/icon-blog-black.svg\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "ace6a51a2f54",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#\\:1\\.container |> #\\:1\\.promptTargetLang > a",
+   "target": "#\\:1\\.container |> #\\:1\\.promptTargetLang > a",
+   "message": "\"Português (Brasil)\" is in Brazilian Portuguese, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"pt-BR\" to the link.",
+   "evidence": "Português (Brasil)",
+   "subject": "Português (Brasil)",
+   "patch": {
+    "ref": "#\\:1\\.container |> #\\:1\\.promptTargetLang > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "pt-BR",
+    "before": "<a aria-haspopup=\"true\" class=\"VIpgJd-ZVi9od-xl07Ob-lTBxed\" href=\"#\">",
+    "after": "<a aria-haspopup=\"true\" class=\"VIpgJd-ZVi9od-xl07Ob-lTBxed\" href=\"#\" lang=\"pt-BR\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a aria-haspopup=\"true\" class=\"VIpgJd-ZVi9od-xl07Ob-lTBxed\" href=\"#\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "8cf86e58f34f",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#\\:1\\.container |> html > body > table > tbody > tr > td:nth-of-type(2)",
+   "message": "This passage has no lang attribute, so it is read as English (en), but it is in Portuguese (pt).",
+   "evidence": "O conteúdo desta página segura será enviado ao Google para tradução usando uma conexão segura.",
+   "subject": "unmarked|en|O conteúdo desta página segura será enviado ao Google para tradução usando uma conexão segura.",
+   "techniques": [
+    "H58"
+   ],
+   "patch": {
+    "ref": "#\\:1\\.container |> html > body > table > tbody > tr > td:nth-of-type(2)",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "from": "",
+    "to": "pt",
+    "before": "<td>",
+    "after": "<td lang=\"pt\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "de8ec7c4fce9",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#\\:1\\.container |> #\\:1\\.promptSection > td:nth-of-type(1)",
+   "message": "This passage has no lang attribute, so it is read as English (en), but it is in Portuguese (pt).",
+   "evidence": "Ver esta página em: Português (Brasil)",
+   "subject": "unmarked|en|Ver esta página em: Português (Brasil)",
+   "techniques": [
+    "H58"
+   ],
+   "patch": {
+    "ref": "#\\:1\\.container |> #\\:1\\.promptSection > td:nth-of-type(1)",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "from": "",
+    "to": "pt",
+    "before": "<td>",
+    "after": "<td lang=\"pt\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 7
+ },
+ "groups": null,
+ "needsReview": [],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#\\:1\\.container |> html > body > table > tbody > tr > td:nth-of-type(1) > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Google Tradutor",
+    "problem": "wrong_content",
+    "imageShows": "The Google logo in its standard colors.",
+    "suggestedAlt": "Google Translate",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#main > section:nth-of-type(3) > div > div > div:nth-of-type(2) > div > a > div:nth-of-type(1) > img",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Blood Test",
+    "problem": "wrong_content",
+    "imageShows": "A pink icon of a test tube and a magnifying glass with a blood drop inside.",
+    "suggestedAlt": "Blood test icon",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#main > section:nth-of-type(3) > div > div > div:nth-of-type(3) > div > a > div:nth-of-type(1) > img",
+   "reason": "suggested alternative is a label, not a description",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Find a service graphic icon",
+    "problem": "wrong_content",
+    "imageShows": "A pink line art icon of a magnifying glass with a lightbulb inside.",
+    "suggestedAlt": "decorative",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#main > section:nth-of-type(3) > div > div > div:nth-of-type(8) > div > a > div:nth-of-type(1) > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Health Records",
+    "problem": "wrong_content",
+    "imageShows": "A pink icon of a folder containing a document with a medical cross on it.",
+    "suggestedAlt": "Health records icon",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#main > section:nth-of-type(9) > div:nth-of-type(2) > div > div > div > div > div > div:nth-of-type(2) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text and its context promise a way to share feedback on the third phase of the public consultation for the St Mary's redevelopment.",
+    "leadsTo": "https://www.stmarys.imperial.nhs.uk/",
+    "verdict": "fail",
+    "evidence": "Share your feedback on the third phase of the public consultation",
+    "problem": "mismatch",
+    "suggestedText": "Visit St Mary's Hospital website to share feedback on the public consultation",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 20,
+   "judged": 20,
+   "failed": 5,
+   "passed": 11,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 67,
+   "judged": 50,
+   "failed": 0,
+   "passed": 49,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 17
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 14,
+   "judged": 14,
+   "failed": 0,
+   "passed": 14,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 9,
+   "judged": 9,
+   "failed": 2,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were not checked at all, so whatever they hold was missed: html > body > iframe:nth-of-type(2) (cross-origin; skipped).",
+  "19 image(s) were left without a capture, so no judgment looked at them: 3 still a lazy-load placeholder; 16 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 17 of 67 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 93,
+  "inputTokens": 78203,
+  "outputTokens": 7974,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 240,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 22
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 13,
+    "prepareMs": 0,
+    "candidates": 20,
+    "judged": 20,
+    "calls": 0,
+    "cachedCalls": 20
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 18,
+    "prepareMs": 0,
+    "candidates": 67,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 5,
+    "prepareMs": 0,
+    "candidates": 14,
+    "judged": 14,
+    "calls": 0,
+    "cachedCalls": 14
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 139,
+    "prepareMs": 137,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 13,
+    "prepareMs": 0,
+    "candidates": 9,
+    "judged": 9,
+    "calls": 0,
+    "cachedCalls": 9
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 27
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 22,
+   "notCaptured": 19,
+   "reasons": {
+    "placeholder": 3,
+    "limit": 16
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 67,
+    "capped": 17
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > iframe:nth-of-type(2)",
+     "url": "https://consentcdn.cookiebot.com/sdk/bc-v5.min.html",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": false,
+     "engineReason": "skipped"
+    }
+   ]
+  }
+ }
+}

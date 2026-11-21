@@ -1,0 +1,463 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.rs.gov.br/inicial",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "43acc23094ef",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#bodyPrincipal > div:nth-of-type(9) > div > div > div > section > div:nth-of-type(2) > div:nth-of-type(2) > div > figure > a > img",
+   "message": "The text alternative \"card jornada do estudante\" is all its link holds, and does not say where the link leads.",
+   "evidence": "card jornada do estudante",
+   "subject": "card jornada do estudante",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "#bodyPrincipal > div:nth-of-type(9) > div > div > div > section > div:nth-of-type(2) > div:nth-of-type(2) > div > figure > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "card jornada do estudante",
+    "to": "Jornada do Aluno",
+    "before": "<img src=\"/upload/recortes/202502/08103350_12408_MD.png\" alt=\"card jornada do estudante\" class=\"img-responsive\" srcset=\"/upload/recortes/202502/08103350_12408_GD.png 1140w, /upload/recortes/202502/08103350_12408_MD.png 608w, /upload/recortes/202502/08103350_12408_PQ.png 336w, /upload/recortes/202502/08103350_12408_TH.png 180w\" sizes=\"(min-width: 608px) 608px, 100w\">",
+    "after": "<img src=\"/upload/recortes/202502/08103350_12408_MD.png\" alt=\"Jornada do Aluno\" class=\"img-responsive\" srcset=\"/upload/recortes/202502/08103350_12408_GD.png 1140w, /upload/recortes/202502/08103350_12408_MD.png 608w, /upload/recortes/202502/08103350_12408_PQ.png 336w, /upload/recortes/202502/08103350_12408_TH.png 180w\" sizes=\"(min-width: 608px) 608px, 100w\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "e941a61f2d2a",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#cabecalho > div > div:nth-of-type(5) > a",
+   "target": "#cabecalho > div > div:nth-of-type(5) > a",
+   "message": "The text \"[Go Back]\" has at most 3.93:1 contrast with what is behind it (#156b66 on #f7b000…#ffc306), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#156b66 on #fbb901; #f7b000…#ffc306 · 3.93:1 at best, 3.36:1 at worst · 16px, 400",
+   "subject": "[Go Back]",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"javascript:history.back();\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "5ae5f8eb2ed4",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#wrapperDigitalRSBusca > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(3) > div > a",
+   "target": "#wrapperDigitalRSBusca > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(3) > div > a",
+   "message": "The text \"Tudo Fácil\" has at most 2.01:1 contrast with what is behind it (#ffffff on #ffb507…#f4a800), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #fcb002; #ffb507…#f4a800 · 2.01:1 at best, 1.77:1 at worst · 18px, 500",
+   "subject": "Tudo Fácil",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"/tudo-facil\" target=\"_self\" title=\"Central de Atendimento do RS\" class=\"destaque_topo_links\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "b69f6bc63775",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#frmBuscaCapa > div > div > span > button:nth-of-type(1)",
+   "target": "#frmBuscaCapa > div > div > span > button:nth-of-type(1)",
+   "message": "The icon of this button (\"Buscar\") has at most 1.80:1 contrast with the pixels next to it (#ffffff on #ffc508…#f8b601). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#ffffff on #fcba02; #ffc508…#f8b601 · 1.80:1 at best, 1.59:1 at worst",
+   "subject": "Buscar",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<button type=\"submit\" class=\"btn btn-default button-pesquisa\" aria-label=\"Buscar\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "e044312026ab",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#btn-pagina-inicia-busca-voz",
+   "target": "#btn-pagina-inicia-busca-voz",
+   "message": "The icon of this button (\"Pesquisar por voz\") has at most 1.82:1 contrast with the pixels next to it (#ffffff on #ffc209…#f7b500). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#ffffff on #fcbc03; #ffc209…#f7b500 · 1.82:1 at best, 1.62:1 at worst",
+   "subject": "Pesquisar por voz",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<button onclick=\"doStartStopCheck()\" id=\"btn-pagina-inicia-busca-voz\" type=\"button\" data-toggle=\"modal\" data-target=\"#buscaVoz\" class=\"btn btn-voz btn-default\" aria-label=\"Pesquisar por voz\" title=\"Pesquisar por voz\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "18088591057d",
+   "criterion": "2.4.2",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html",
+   "message": "The page title \"RS.GOV.BR - Portal de Serviços Digitais\" says nothing about this page.",
+   "evidence": "RS.GOV.BR - Portal de Serviços Digitais",
+   "subject": "RS.GOV.BR - Portal de Serviços Digitais",
+   "claim": "generic",
+   "techniques": [
+    "F25",
+    "G88"
+   ],
+   "patch": {
+    "ref": "html",
+    "kind": "set-text",
+    "from": "RS.GOV.BR - Portal de Serviços Digitais",
+    "to": "Início - RS.GOV.BR - Portal de Serviços Digitais",
+    "before": "<title>RS.GOV.BR - Portal de Serviços Digitais</title>",
+    "after": "<title>Início - RS.GOV.BR - Portal de Serviços Digitais</title>"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "23d6e81b69fa",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#bodyPrincipal > footer > div:nth-of-type(1) > div > div > div > ul > li:nth-of-type(8) > a",
+   "message": "The link text \"Saiba mais...\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "Saiba mais...",
+   "subject": "Saiba mais...",
+   "claim": "generic",
+   "techniques": [
+    "G91"
+   ],
+   "patch": {
+    "ref": "#bodyPrincipal > footer > div:nth-of-type(1) > div > div > div > ul > li:nth-of-type(8) > a",
+    "kind": "set-text",
+    "from": "Saiba mais...",
+    "to": "Saiba mais sobre a Descomplica RS",
+    "before": "<a class=\"rodape__mapa-site__item__titulo\" href=\"/saiba-mais\" target=\"_self\">Saiba mais...</a>",
+    "after": "<a class=\"rodape__mapa-site__item__titulo\" href=\"/saiba-mais\" target=\"_self\">Saiba mais sobre a Descomplica RS</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 2
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#bodyPrincipal > div:nth-of-type(13) > div > div > div > section > div:nth-of-type(2) > div:nth-of-type(1) > h3",
+   "message": "The heading \"758\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"758%\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#bodyPrincipal > div:nth-of-type(14) > div > div > div > section > div:nth-of-type(2) > div:nth-of-type(4) > div > h2",
+   "message": "The heading \"Descomplica RS\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Envie sua proposta para agilizar a prestação de serviços públicos\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#bodyPrincipal > div:nth-of-type(8) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > div > a > img:nth-of-type(1)",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Banner delegacia da mulher",
+    "problem": "missing_information",
+    "imageShows": "Um banner com o logotipo da Delegacia de Polícia Online da Mulher RS e botões para Denúncia de Violência Doméstica Online e Medida Protetiva de Urgência.",
+    "suggestedAlt": "Registrar ocorrência online - Delegacia da Mulher",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#bodyPrincipal > div:nth-of-type(13) > div > div > div > section > div:nth-of-type(2) > div:nth-of-type(2) > h3",
+   "reason": "generic claim on a heading in a numbered series under a parent heading that names their subject",
+   "output": {
+    "named": "77%",
+    "verdict": "fail",
+    "evidence": "77%",
+    "problem": "generic",
+    "suggestedText": "Taxa de conversão",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#bodyPrincipal > div:nth-of-type(13) > div > div > div > section > div:nth-of-type(2) > div:nth-of-type(3) > h3",
+   "reason": "generic claim on a heading in a numbered series under a parent heading that names their subject",
+   "output": {
+    "named": "96%",
+    "verdict": "fail",
+    "evidence": "96%",
+    "problem": "generic",
+    "suggestedText": "96% de serviços digitais",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#bodyPrincipal > div:nth-of-type(13) > div > div > div > section > div:nth-of-type(2) > div:nth-of-type(4) > h3",
+   "reason": "generic claim on a heading in a numbered series under a parent heading that names their subject",
+   "output": {
+    "named": "89%",
+    "verdict": "fail",
+    "evidence": "89%",
+    "problem": "generic",
+    "suggestedText": "89% de Satisfação",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 16,
+   "judged": 16,
+   "failed": 1,
+   "passed": 14,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 108,
+   "judged": 50,
+   "failed": 1,
+   "passed": 49,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 58
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 23,
+   "judged": 23,
+   "failed": 0,
+   "passed": 18,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 image(s) were left without a capture, so no judgment looked at them: 1 still loading after the wait. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 58 of 108 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 91,
+  "inputTokens": 83205,
+  "outputTokens": 9368,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 238,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 19
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 11,
+    "prepareMs": 0,
+    "candidates": 16,
+    "judged": 16,
+    "calls": 0,
+    "cachedCalls": 16
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 25,
+    "prepareMs": 0,
+    "candidates": 108,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 7,
+    "prepareMs": 0,
+    "candidates": 23,
+    "judged": 23,
+    "calls": 0,
+    "cachedCalls": 23
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 144,
+    "prepareMs": 141,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 5,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 22
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 17,
+   "notCaptured": 1,
+   "reasons": {
+    "not-loaded": 1
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 108,
+    "capped": 58
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

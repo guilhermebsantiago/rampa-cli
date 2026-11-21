@@ -1,0 +1,576 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.titanicbelfast.com/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "900f9c8750db",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#slick-slide00 > img",
+   "message": "The text alternative \"Boomtown 2 nov24\" names a label, not what the image conveys here.",
+   "evidence": "Boomtown 2 nov24",
+   "subject": "Boomtown 2 nov24",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#slick-slide00 > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Boomtown 2 nov24",
+    "to": "Two men examining a long, illuminated display of a historical map or document.",
+    "before": "<img src=\"/media/1qbl0lml/tb-sep24-day2-18.jpg?cc=0,0.03226035856573707,0,0.03023964143426297&amp;width=960&amp;height=600&amp;format=webp&amp;quality=80&amp;v=1db3cf7c3267df0&amp;hmac=d3807aa8c0df52ab3de62c428e6bfd1702ff5a84cf0b2e71b3af89a2a5bc505f\" alt=\"Boomtown 2 nov24\">",
+    "after": "<img src=\"/media/1qbl0lml/tb-sep24-day2-18.jpg?cc=0,0.03226035856573707,0,0.03023964143426297&amp;width=960&amp;height=600&amp;format=webp&amp;quality=80&amp;v=1db3cf7c3267df0&amp;hmac=d3807aa8c0df52ab3de62c428e6bfd1702ff5a84cf0b2e71b3af89a2a5bc505f\" alt=\"Two men examining a long, illuminated display of a historical map or document.\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9995628395563546
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "5a9f1d2dd220",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(4) > div > div > div:nth-of-type(1) > div:nth-of-type(3) > div > a > img",
+   "message": "The text alternative \"Titanica BQ\" is all its link holds, and does not say where the link leads.",
+   "evidence": "Titanica BQ",
+   "subject": "Titanica BQ",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(4) > div > div > div:nth-of-type(1) > div:nth-of-type(3) > div > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Titanica BQ",
+    "to": "White Star Premium Pass",
+    "before": "<img class=\"c-signpost-item-image\" src=\"/media/ruljzpbv/bq106446.jpg?cc=0.044444444444444245,0.0066192129629629639,0,0.097547453703703574&amp;width=960&amp;height=600&amp;format=webp&amp;quality=80&amp;v=1d762bf0e4b2400&amp;hmac=e54b905c4892991ea1109e2645b6d89ef5641b21f7ff7ea258451a731c3d27cb\" alt=\"Titanica BQ\">",
+    "after": "<img class=\"c-signpost-item-image\" src=\"/media/ruljzpbv/bq106446.jpg?cc=0.044444444444444245,0.0066192129629629639,0,0.097547453703703574&amp;width=960&amp;height=600&amp;format=webp&amp;quality=80&amp;v=1d762bf0e4b2400&amp;hmac=e54b905c4892991ea1109e2645b6d89ef5641b21f7ff7ea258451a731c3d27cb\" alt=\"White Star Premium Pass\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9987234088891416
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "61ea0d369f01",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(4) > div:nth-of-type(3) > div > div:nth-of-type(2) > div > img",
+   "message": "The text alternative \"Untitled Design\" describes something the image does not show.",
+   "evidence": "Untitled Design",
+   "subject": "Untitled Design",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(4) > div:nth-of-type(3) > div > div:nth-of-type(2) > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Untitled Design",
+    "to": "Map of the Titanic Belfast area showing nearby landmarks, streets, and the River Lagan.",
+    "before": "<img class=\"c-media-text-image\" src=\"/media/bukbwyml/untitled-design.jpg?width=960&amp;height=600&amp;format=webp&amp;quality=80&amp;v=1dcac9972bd88f0&amp;hmac=35a8691077a2cb1c4e003375be96fe7add153f4b17208ef90bb46750ab19e881\" alt=\"Untitled Design\">",
+    "after": "<img class=\"c-media-text-image\" src=\"/media/bukbwyml/untitled-design.jpg?width=960&amp;height=600&amp;format=webp&amp;quality=80&amp;v=1dcac9972bd88f0&amp;hmac=35a8691077a2cb1c4e003375be96fe7add153f4b17208ef90bb46750ab19e881\" alt=\"Map of the Titanic Belfast area showing nearby landmarks, streets, and the River Lagan.\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9996401556667961
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "0fdd80d79c57",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#slick-slide01 > img",
+   "message": "This image is hidden from screen readers (inside aria-hidden=\"true\"), but it conveys what the text around it does not say: \"The Titanic Experience\".",
+   "evidence": "The Titanic Experience",
+   "subject": "hidden the-titanic-experience-the-shipyard-ride.jpg",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "f623664c5d4c",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#slick-slide02 > img",
+   "message": "This image is hidden from screen readers (inside aria-hidden=\"true\"), but it conveys what the text around it does not say: \"The words 'The Titanic Experience' are drawn in the image.\".",
+   "evidence": "The words 'The Titanic Experience' are drawn in the image.",
+   "subject": "hidden first-class-cabin-large.jpg",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "7e95339869ef",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(1) > div:nth-of-type(4) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div:nth-of-type(7) > img",
+   "message": "This image is hidden from screen readers (inside aria-hidden=\"true\"), but it conveys what the text around it does not say: \"The Titanic Experience\".",
+   "evidence": "The Titanic Experience",
+   "subject": "hidden the-titanic-experience-the-shipyard-ride.jpg",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "1a12c6b3339a",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(1) > div:nth-of-type(4) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div:nth-of-type(8) > img",
+   "message": "This image is hidden from screen readers (inside aria-hidden=\"true\"), but it conveys what the text around it does not say: \"The words 'The Titanic Experience'\".",
+   "evidence": "The words 'The Titanic Experience'",
+   "subject": "hidden first-class-cabin-large.jpg",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "b50a56e8db72",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(3) > div > div > div > div",
+   "target": "html > body > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(3) > div > div > div > div",
+   "message": "The text \"Be there\" has at most 1.14:1 contrast with what is behind it (#ffffff on #f7f6f5…#d9f6f5), measured from pixels because axe-core could not decide (an element over or under it). WCAG 1.4.3 asks for 3:1 for large text.",
+   "evidence": "#ffffff on #f7f6f5; #f7f6f5…#d9f6f5 · 1.14:1 at best, 1.08:1 at worst · 140px, 400",
+   "subject": "Be there",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<div class=\"c-media-text-storytelling-text\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 3
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > nav > div:nth-of-type(1) > div > div > div > div > img",
+   "message": "The text alternative \"Clock icon\" names a label, not what the image conveys here.",
+   "evidence": "The model suggests: \"Time\" · Offline: the second pass has no cached answer, so the claim stays a suggestion",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > nav > div:nth-of-type(2) > div > div > div > div > div:nth-of-type(1) > a > img",
+   "message": "The text alternative \"Titanic Belfast logo\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"Titanic Belfast home\" · Offline: the second pass has no cached answer, so the claim stays a suggestion",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div:nth-of-type(3) > div > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > img",
+   "message": "The text alternative \"Ticket Prices\" describes something the image does not show.",
+   "evidence": "Offline: the second pass has no cached answer, so the claim stays a suggestion",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > div:nth-of-type(2) > nav > div:nth-of-type(2) > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > a",
+   "message": "The link text \"EXPLORE\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Explore Titanic Belfast\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(4) > div > div:nth-of-type(1) > div > h2",
+   "message": "The heading \"EXPLORE\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Explore Titanic Belfast\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > nav > div:nth-of-type(1) > div > div > div > div > img",
+   "reason": "the model's description of the image keeps every word of the current alternative",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Clock icon",
+    "problem": "wrong_content",
+    "imageShows": "A white circular icon containing a simplified clock face with hands pointing to approximately 3 o'clock.",
+    "suggestedAlt": "Time",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > nav > div:nth-of-type(2) > div > div > div > div > div:nth-of-type(1) > a > img",
+   "reason": "the alternative is a logo that leads to the site's home page",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Titanic Belfast logo",
+    "problem": "missing_information",
+    "imageShows": "The Titanic Belfast logo featuring a stylized red geometric shape above the words 'TITANIC BELFAST' in white.",
+    "suggestedAlt": "Titanic Belfast home",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div:nth-of-type(3) > div > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > img",
+   "reason": "suggested alternative equals the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Ticket Prices",
+    "problem": "wrong_content",
+    "imageShows": "A red price tag icon.",
+    "suggestedAlt": "Ticket prices",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#slick-slide01 > img",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "An indoor museum exhibit depicting a shipyard scene with wooden structures and industrial equipment.",
+    "textInImage": "The Titanic Experience",
+    "verdict": "fail",
+    "evidence": "The Titanic Experience",
+    "suggestedAlt": "The Titanic Experience shipyard ride exhibit",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#slick-slide02 > img",
+   "reason": "the words drawn in the image are in the text around it",
+   "output": {
+    "imageShows": "A luxurious first-class cabin interior with a large portrait of a man in the foreground.",
+    "textInImage": "The Titanic Experience",
+    "verdict": "fail",
+    "evidence": "The words 'The Titanic Experience' are drawn in the image.",
+    "suggestedAlt": "The Titanic Experience: a luxurious first-class cabin interior.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(1) > div:nth-of-type(4) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div:nth-of-type(7) > img",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "An indoor museum exhibit depicting a shipyard scene with large wooden structures and industrial equipment.",
+    "textInImage": "The Titanic Experience",
+    "verdict": "fail",
+    "evidence": "The Titanic Experience",
+    "suggestedAlt": "The Titanic Experience shipyard ride exhibit",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(1) > div:nth-of-type(4) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div:nth-of-type(8) > img",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "A luxurious first-class cabin interior with a large portrait of a man in the foreground.",
+    "textInImage": "The Titanic Experience",
+    "verdict": "fail",
+    "evidence": "The words 'The Titanic Experience'",
+    "suggestedAlt": "The Titanic Experience: a luxurious first-class cabin interior.",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 21,
+   "judged": 21,
+   "failed": 3,
+   "passed": 11,
+   "cannotTell": 0,
+   "discarded": 7,
+   "errors": 0,
+   "offlineMisses": 3,
+   "suggested": 3,
+   "unconfirmed": 3,
+   "confirmed": 3
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 28,
+   "judged": 28,
+   "failed": 0,
+   "passed": 27,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 12,
+   "judged": 12,
+   "failed": 0,
+   "passed": 11,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 6,
+   "judged": 6,
+   "failed": 0,
+   "passed": 6,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Verification was off (--no-verify): model claims whose quoted evidence is not on the page are reported as if it were. This run is for measurement only.",
+  "1 frame(s) were not checked at all, so whatever they hold was missed: html > body > iframe:nth-of-type(2) (cross-origin; skipped).",
+  "11 image(s) were left without a capture, so no judgment looked at them: 1 cut off by the box that holds it; 10 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 75,
+  "inputTokens": 62319,
+  "outputTokens": 5406,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 256,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 24
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 26,
+    "prepareMs": 0,
+    "candidates": 21,
+    "judged": 21,
+    "calls": 0,
+    "cachedCalls": 30
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 16,
+    "prepareMs": 0,
+    "candidates": 28,
+    "judged": 28,
+    "calls": 0,
+    "cachedCalls": 28
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 5,
+    "prepareMs": 0,
+    "candidates": 12,
+    "judged": 12,
+    "calls": 0,
+    "cachedCalls": 12
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 145,
+    "prepareMs": 142,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 7,
+    "prepareMs": 0,
+    "candidates": 6,
+    "judged": 6,
+    "calls": 0,
+    "cachedCalls": 5
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 30
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 24,
+   "notCaptured": 11,
+   "reasons": {
+    "clipped": 1,
+    "limit": 10
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "1.1.1",
+    "candidates": 21,
+    "offlineMisses": 3
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > iframe:nth-of-type(2)",
+     "url": "https://consentcdn.cookiebot.com/sdk/bc-v5.min.html",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": false,
+     "engineReason": "skipped"
+    }
+   ]
+  }
+ }
+}

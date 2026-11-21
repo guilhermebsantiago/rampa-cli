@@ -1,0 +1,439 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://prefeitura.belem.pa.gov.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "4199c7a37be8",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#rodape > div > div:nth-of-type(1) > div:nth-of-type(1) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Logo of the organization: 'BELÉM PREFEITURA CAPITAL DA AMAZÔNIA'\".",
+   "evidence": "Logo of the organization: 'BELÉM PREFEITURA CAPITAL DA AMAZÔNIA'",
+   "subject": "hidden logo_prefeitura_negativa_vertical.png",
+   "patch": {
+    "ref": "#rodape > div > div:nth-of-type(1) > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Logotipo da Prefeitura de Belém, Capital da Amazônia",
+    "before": "<img width=\"170\" height=\"173\" src=\"https://prefeitura.belem.pa.gov.br/wp-content/uploads/2025/01/logo_prefeitura_negativa_vertical.png\" class=\"attachment-large size-large wp-image-9173\" alt=\"\">",
+    "after": "<img width=\"170\" height=\"173\" src=\"https://prefeitura.belem.pa.gov.br/wp-content/uploads/2025/01/logo_prefeitura_negativa_vertical.png\" class=\"attachment-large size-large wp-image-9173\" alt=\"Logotipo da Prefeitura de Belém, Capital da Amazônia\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "388d0d4d21cb",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#rodape > div > div:nth-of-type(4) > div > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"UNESCO logo and 'Member of Creative Cities Network'\".",
+   "evidence": "UNESCO logo and 'Member of Creative Cities Network'",
+   "subject": "hidden Frame-355unesco.png",
+   "patch": {
+    "ref": "#rodape > div > div:nth-of-type(4) > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Logotipo da UNESCO e membro da Rede de Cidades Criativas",
+    "before": "<img width=\"170\" height=\"156\" src=\"https://prefeitura.belem.pa.gov.br/wp-content/uploads/2022/10/Frame-355unesco.png\" class=\"attachment-full size-full wp-image-7155\" alt=\"\">",
+    "after": "<img width=\"170\" height=\"156\" src=\"https://prefeitura.belem.pa.gov.br/wp-content/uploads/2022/10/Frame-355unesco.png\" class=\"attachment-full size-full wp-image-7155\" alt=\"Logotipo da UNESCO e membro da Rede de Cidades Criativas\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "2c2645a694f2",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#content > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > h2",
+   "target": "#content > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > h2",
+   "message": "The text \"COMO PODEMOS AJUDAR?\" has at most 2.78:1 contrast with what is behind it (#4faf47 on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 3:1 for large text.",
+   "evidence": "#4faf47 on #ffffff · 2.78:1 at best, 2.78:1 at worst · 53px, 400",
+   "subject": "COMO PODEMOS AJUDAR?",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<h2 class=\"elementor-heading-title elementor-size-default\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "a5357cc29865",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#form-field-campo_busca_prefeitura",
+   "target": "#form-field-campo_busca_prefeitura",
+   "message": "The placeholder \"Buscando em Prefeitura de Belém\" has a contrast of 3.15:1 with the field (#47474799 on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#47474799 on #ffffff · 3.15:1 at best, 3.15:1 at worst · 15px, 400",
+   "subject": "Buscando em Prefeitura de Belém",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input size=\"1\" type=\"text\" name=\"form_fields[campo_busca_prefeitura]\" id=\"form-field-campo_busca_prefeitura\" class=\"elementor-field elementor-size-sm  elementor-field-textual\" placeholder=\"Buscando em Prefeitura de Belém\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "2c3139fbc809",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#content > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div > div > div:nth-of-type(2)",
+   "target": "#content > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div > div > div:nth-of-type(2)",
+   "message": "The icon of this button (\"Previous slide\") has at most 2.78:1 contrast with the pixels next to it (#4faf47 on #ffffff). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#4faf47 on #ffffff · 2.78:1 at best, 2.78:1 at worst",
+   "subject": "Previous slide",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<div class=\"swiper-button-prev\" role=\"button\" aria-label=\"Previous slide\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "6370e488851d",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#content > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div > div > div:nth-of-type(3)",
+   "target": "#content > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div > div > div:nth-of-type(3)",
+   "message": "The icon of this button (\"Next slide\") has at most 2.78:1 contrast with the pixels next to it (#4faf47 on #ffffff). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#4faf47 on #ffffff · 2.78:1 at best, 2.78:1 at worst",
+   "subject": "Next slide",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<div class=\"swiper-button-next\" role=\"button\" aria-label=\"Next slide\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 6
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#content > div:nth-of-type(2) > div > div:nth-of-type(3) > div > div:nth-of-type(2) > a",
+   "message": "The link text \"Belém Limpa\" does not match where the link leads: a page titled \"Belém em Ordem – Prefeitura de Belém\".",
+   "evidence": "The model suggests: \"Belém em Ordem\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#content > div:nth-of-type(2) > div > div:nth-of-type(3) > div > div:nth-of-type(3) > a",
+   "message": "The link text \"IPTU\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"2ª Via do IPTU\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#content > div:nth-of-type(2) > div > div:nth-of-type(3) > div > div:nth-of-type(5) > a",
+   "message": "The link text \"ISS\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Parcelamento de ISS\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#content > div:nth-of-type(2) > div > div:nth-of-type(3) > div > div:nth-of-type(6) > a",
+   "message": "The link text \"TLPL\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"2ª via da TLPL\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#swiper-wrapper-5f7ca56ef9e6a555 > div:nth-of-type(3) > a > picture > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "MAIS QUALIDADE DE VIDA – IASB",
+    "problem": "missing_information",
+    "imageShows": "Um banner promocional da Prefeitura de Belém oferecendo 50% de desconto em academia para servidores do IASB.",
+    "suggestedAlt": "50% de desconto em academia para servidores vinculados ao plano do IASB e seus dependentes",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(3) > div > ul > li:nth-of-type(1) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Carta de Serviços' suggests it leads to a document or page detailing the services provided by the entity.",
+    "leadsTo": "https://prefeitura.belem.pa.gov.br/ (The homepage of the Prefeitura de Belém)",
+    "verdict": "fail",
+    "evidence": "Carta de Serviços",
+    "problem": "mismatch",
+    "suggestedText": "Página inicial da Prefeitura de Belém",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#content > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(6) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Veja os serviços' (See the services) and its context under the heading 'COMO PODEMOS AJUDAR?' (How can we help?) suggest it leads to a page listing the services provided by the city.",
+    "leadsTo": "A page titled 'Secretarias – Prefeitura de Belém' listing the secretariats and organs of the city.",
+    "verdict": "fail",
+    "evidence": "Veja os serviços",
+    "problem": "ambiguous",
+    "suggestedText": "Veja as secretarias e órgãos",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#content > div:nth-of-type(2) > div > div:nth-of-type(3) > div > div:nth-of-type(12) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Veja os serviços' (See the services) combined with the heading 'Processo Eletrônico' (Electronic Process) suggests it leads to a list of services related to electronic processes.",
+    "leadsTo": "A page titled 'Online – Prefeitura de Belém' which lists various online service modalities.",
+    "verdict": "fail",
+    "evidence": "Veja os serviços",
+    "problem": "ambiguous",
+    "suggestedText": "Veja os serviços de Processo Eletrônico",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 4,
+   "judged": 4,
+   "failed": 2,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 44,
+   "judged": 44,
+   "failed": 0,
+   "passed": 37,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 4
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 9,
+   "judged": 9,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "2 image(s) were left without a capture, so no judgment looked at them: 2 outside the page (an off-canvas menu). The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 58,
+  "inputTokens": 56609,
+  "outputTokens": 6158,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 236,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 20
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 10,
+    "prepareMs": 0,
+    "candidates": 4,
+    "judged": 4,
+    "calls": 0,
+    "cachedCalls": 4
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 13,
+    "prepareMs": 0,
+    "candidates": 44,
+    "judged": 44,
+    "calls": 0,
+    "cachedCalls": 44
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 9,
+    "prepareMs": 0,
+    "candidates": 9,
+    "judged": 9,
+    "calls": 0,
+    "cachedCalls": 9
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 145,
+    "prepareMs": 142,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 32
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 6,
+   "notCaptured": 2,
+   "reasons": {
+    "outside-page": 2
+   }
+  }
+ },
+ "coverage": {
+  "reach": null
+ }
+}

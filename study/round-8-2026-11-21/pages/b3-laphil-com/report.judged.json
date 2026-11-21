@@ -1,0 +1,436 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.laphil.com/about-us/contact-us",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "21bac8f25cb2",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(3) > footer > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > svg",
+   "message": "This image is hidden from screen readers (an svg with no name), but it conveys what the text around it does not say: \"The logo says \"WALT DISNEY CONCERT HALL\"\".",
+   "evidence": "The logo says \"WALT DISNEY CONCERT HALL\"",
+   "subject": "hidden svg",
+   "patch": {
+    "ref": "html > body > div:nth-of-type(3) > footer > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > svg",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "",
+    "to": "Walt Disney Concert Hall logo",
+    "before": "<svg class=\"o-icon o-icon--logo-walt-disney-concert-hall\">",
+    "after": "<svg class=\"o-icon o-icon--logo-walt-disney-concert-hall\" aria-label=\"Walt Disney Concert Hall logo\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "a4280b841431",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(3) > footer > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(4) > svg",
+   "message": "This image is hidden from screen readers (an svg with no name), but it conveys what the text around it does not say: \"The logo says \"HOLLYWOOD BOWL\"\".",
+   "evidence": "The logo says \"HOLLYWOOD BOWL\"",
+   "subject": "hidden svg",
+   "patch": {
+    "ref": "html > body > div:nth-of-type(3) > footer > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(4) > svg",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "",
+    "to": "Hollywood Bowl logo",
+    "before": "<svg class=\"o-icon o-icon--logo-hollywood-bowl\">",
+    "after": "<svg class=\"o-icon o-icon--logo-hollywood-bowl\" aria-label=\"Hollywood Bowl logo\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "ad3c9843960e",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(3) > footer > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(5) > svg",
+   "message": "This image is hidden from screen readers (an svg with no name), but it conveys what the text around it does not say: \"The logo for 'THE FORD'\".",
+   "evidence": "The logo for 'THE FORD'",
+   "subject": "hidden svg",
+   "patch": {
+    "ref": "html > body > div:nth-of-type(3) > footer > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(5) > svg",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "",
+    "to": "The Ford logo",
+    "before": "<svg class=\"o-icon o-icon--logo-the-ford\">",
+    "after": "<svg class=\"o-icon o-icon--logo-the-ford\" aria-label=\"The Ford logo\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "fba0a7e10adc",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#newsletter-footer-email",
+   "target": "#newsletter-footer-email",
+   "message": "The placeholder \"Your Email\" has a contrast of 2.12:1 with the field (#0000004d on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#0000004d on #ffffff · 2.12:1 at best, 2.12:1 at worst · 18px, 700",
+   "subject": "Your Email",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input type=\"email\" id=\"newsletter-footer-email\" name=\"email\" placeholder=\"Your Email\" autocomplete=\"email\" required=\"\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "8536512d0951",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(3) > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > a:nth-of-type(2)",
+   "target": "html > body > div:nth-of-type(3) > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > a:nth-of-type(2)",
+   "message": "\"Español\" is in Spanish, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"es\" to the link.",
+   "evidence": "Español",
+   "subject": "Español",
+   "patch": {
+    "ref": "html > body > div:nth-of-type(3) > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > a:nth-of-type(2)",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "es",
+    "before": "<a href=\"https://es.laphil.com/about-us/contact-us\" class=\"language-toggle__item no-translate\">",
+    "after": "<a href=\"https://es.laphil.com/about-us/contact-us\" class=\"language-toggle__item no-translate\" lang=\"es\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"https://es.laphil.com/about-us/contact-us\" class=\"language-toggle__item no-translate\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {},
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#cookie-info > div:nth-of-type(1) > p:nth-of-type(2) > a:nth-of-type(1)",
+   "message": "The link text \"Terms of Use\" does not match where the link leads: a page titled \"Cookie Consent — LA Phil\".",
+   "evidence": "The model suggests: \"Cookie Consent\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#\\36 a04ae7cd8709180e862ca40 > div > ul > li:nth-of-type(2) > div:nth-of-type(1) > h3",
+   "message": "The heading \"YOLA\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Contact YOLA\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(3) > footer > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(1) > svg",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "The LA Phil logo in black text on a white background.",
+    "textInImage": "LA Phil",
+    "verdict": "fail",
+    "evidence": "The logo says \"LA Phil\"",
+    "suggestedAlt": "LA Phil logo",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(3) > footer > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(2) > svg",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "The logo for the Los Angeles Philharmonic.",
+    "textInImage": "Los Angeles Philharmonic",
+    "verdict": "fail",
+    "evidence": "The logo names the organization: \"Los Angeles Philharmonic\"",
+    "suggestedAlt": "Los Angeles Philharmonic logo",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(3) > footer > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > svg",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "The word 'YOLA' in a stylized black serif font.",
+    "textInImage": "YOLA",
+    "verdict": "fail",
+    "evidence": "The logo names the organization 'YOLA'.",
+    "suggestedAlt": "YOLA logo",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#cookie-info > div:nth-of-type(1) > p:nth-of-type(2) > a:nth-of-type(2)",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "promises": "The link is a period (.) at the end of the sentence 'For details on how we use cookies, see our Terms of Use .', which implies it leads to the Terms of Use page.",
+    "leadsTo": "https://www.hollywoodbowl.devspace.net/terms-of-use/cookie-consent",
+    "verdict": "fail",
+    "evidence": ".",
+    "problem": "generic",
+    "suggestedText": "Terms of Use",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 6,
+   "judged": 6,
+   "failed": 3,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 57,
+   "judged": 50,
+   "failed": 0,
+   "passed": 48,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 7,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 36,
+   "judged": 36,
+   "failed": 0,
+   "passed": 35,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were not checked at all, so whatever they hold was missed: html > body > iframe:nth-of-type(2) (cross-origin; skipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 7 of 57 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 94,
+  "cachedCalls": 0,
+  "inputTokens": 85032,
+  "outputTokens": 7183,
+  "latencyMs": 241984
+ },
+ "timings": {
+  "totalMs": 124523,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 22
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 9502,
+    "prepareMs": 0,
+    "candidates": 6,
+    "judged": 6,
+    "calls": 6,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1290,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1234,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 72574,
+    "prepareMs": 0,
+    "candidates": 57,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 39680,
+    "prepareMs": 0,
+    "candidates": 36,
+    "judged": 36,
+    "calls": 36,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 179,
+    "prepareMs": 177,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 7,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 34
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 6,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 57,
+    "capped": 7
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > iframe:nth-of-type(2)",
+     "url": "https://consentcdn.cookiebot.com/sdk/bc-v5.min.html",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": false,
+     "engineReason": "skipped"
+    }
+   ]
+  }
+ }
+}

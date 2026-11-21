@@ -1,0 +1,709 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.littlemuseum.ie/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "26cb3d9807b1",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > img",
+   "target": "html > body > footer > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Tripadvisor-Tag_1x\" repeats the image's file name: a screen reader reads it in place of the image. Describe what the image conveys, or use alt=\"\" if it is decorative.",
+   "evidence": "alt=\"Tripadvisor-Tag_1x\"",
+   "subject": "Tripadvisor-Tag_1x",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-alt",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F30",
+   "html": "<img src=\"https://www.littlemuseum.ie/wp-content/uploads/2022/09/Tripadvisor-Tag_1x.png\" alt=\"Tripadvisor-Tag_1x\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "ca9c5071f3f4",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main > div:nth-of-type(5) > div:nth-of-type(2) > section > div > div > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"VENUE HIRE\" names a label, not what the image conveys here.",
+   "evidence": "VENUE HIRE",
+   "subject": "VENUE HIRE",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#main > div:nth-of-type(5) > div:nth-of-type(2) > section > div > div > div > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "VENUE HIRE",
+    "to": "People enjoying an event at the Little Museum of Dublin",
+    "before": "<img decoding=\"async\" src=\"https://www.littlemuseum.ie/wp-content/uploads/2022/08/Little-Museum-of-Dublin_Press_Treasury-Event-sqr.jpg\" alt=\"VENUE HIRE\n\">",
+    "after": "<img decoding=\"async\" src=\"https://www.littlemuseum.ie/wp-content/uploads/2022/08/Little-Museum-of-Dublin_Press_Treasury-Event-sqr.jpg\" alt=\"People enjoying an event at the Little Museum of Dublin\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.999976765055953
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "24f1231e9a1e",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main > section:nth-of-type(4) > div > div > div > div > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Most Popular Ticket BESTSELLER\".",
+   "evidence": "Most Popular Ticket BESTSELLER",
+   "subject": "hidden a6206d8b8848d1f5f779dd436f25589e3a792fee204effd13dccee565e881abd",
+   "patch": {
+    "ref": "#main > section:nth-of-type(4) > div > div > div > div > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Most Popular Ticket - Bestseller badge over a group photo.",
+    "before": "<img src=\"https://d2qtepfzmrxn9w.cloudfront.net/as-assets/variants/yqgyrvno9kwwzh28zbq2jom1vefb/a6206d8b8848d1f5f779dd436f25589e3a792fee204effd13dccee565e881abd\" alt=\"\">",
+    "after": "<img src=\"https://d2qtepfzmrxn9w.cloudfront.net/as-assets/variants/yqgyrvno9kwwzh28zbq2jom1vefb/a6206d8b8848d1f5f779dd436f25589e3a792fee204effd13dccee565e881abd\" alt=\"Most Popular Ticket - Bestseller badge over a group photo.\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "a2e3336de5ba",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main > section:nth-of-type(4) > div > div > div > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"French flag and text 'CAFÉ DU CALAIS'\".",
+   "evidence": "French flag and text 'CAFÉ DU CALAIS'",
+   "subject": "hidden a6206d8b8848d1f5f779dd436f25589e3a792fee204effd13dccee565e881abd",
+   "patch": {
+    "ref": "#main > section:nth-of-type(4) > div > div > div > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "French flag icon indicating a tour available in French.",
+    "before": "<img src=\"https://d2qtepfzmrxn9w.cloudfront.net/as-assets/variants/sf1yzwic2fqqp7305ztv726zq024/a6206d8b8848d1f5f779dd436f25589e3a792fee204effd13dccee565e881abd\" alt=\"\">",
+    "after": "<img src=\"https://d2qtepfzmrxn9w.cloudfront.net/as-assets/variants/sf1yzwic2fqqp7305ztv726zq024/a6206d8b8848d1f5f779dd436f25589e3a792fee204effd13dccee565e881abd\" alt=\"French flag icon indicating a tour available in French.\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "f598cba48584",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main > section:nth-of-type(4) > div > div > div > div > div > div:nth-of-type(4) > div:nth-of-type(1) > div:nth-of-type(1) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"The words \"Best Value Ticket\" are drawn in the image.\".",
+   "evidence": "The words \"Best Value Ticket\" are drawn in the image.",
+   "subject": "hidden a6206d8b8848d1f5f779dd436f25589e3a792fee204effd13dccee565e881abd",
+   "patch": {
+    "ref": "#main > section:nth-of-type(4) > div > div > div > div > div > div:nth-of-type(4) > div:nth-of-type(1) > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Best Value Ticket badge over a photo of people in a museum.",
+    "before": "<img src=\"https://d2qtepfzmrxn9w.cloudfront.net/as-assets/variants/7lvwte4qh5d8zgborrojbk3v8v0i/a6206d8b8848d1f5f779dd436f25589e3a792fee204effd13dccee565e881abd\" alt=\"\">",
+    "after": "<img src=\"https://d2qtepfzmrxn9w.cloudfront.net/as-assets/variants/7lvwte4qh5d8zgborrojbk3v8v0i/a6206d8b8848d1f5f779dd436f25589e3a792fee204effd13dccee565e881abd\" alt=\"Best Value Ticket badge over a photo of people in a museum.\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "55c6e3e30f30",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#input_1_4",
+   "message": "The field \"Company\" asks for the user's company name, but autocomplete=\"new-password\" says it holds their new password.",
+   "evidence": "Company",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#input_1_4",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "from": "new-password",
+    "to": "organization",
+    "before": "<input name=\"input_4\" id=\"input_1_4\" type=\"text\" value=\"\" autocomplete=\"new-password\">",
+    "after": "<input name=\"input_4\" id=\"input_1_4\" type=\"text\" value=\"\" autocomplete=\"organization\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "ec08d994490d",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#input_1_1",
+   "message": "The field \"Your Email Address*\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "Your Email Address*",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#input_1_1",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input name=\"input_1\" id=\"input_1_1\" type=\"email\" value=\"\" class=\"large\" placeholder=\"Enter your email address\" aria-required=\"true\" aria-invalid=\"false\">",
+    "after": "<input name=\"input_1\" id=\"input_1_1\" type=\"email\" value=\"\" class=\"large\" placeholder=\"Enter your email address\" aria-required=\"true\" aria-invalid=\"false\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "8eefe212d27e",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#input_1_1",
+   "target": "#input_1_1",
+   "message": "The placeholder \"Enter your email address\" has a contrast of 3.95:1 with the field (#808080 on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#808080 on #ffffff · 3.95:1 at best, 3.95:1 at worst · 18px, 400",
+   "subject": "Enter your email address",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input name=\"input_1\" id=\"input_1_1\" type=\"email\" value=\"\" class=\"large\" placeholder=\"Enter your email address\" aria-required=\"true\" aria-invalid=\"false\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "e5ccd66a84e2",
+   "criterion": "3.3.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#input_1_4",
+   "target": "#input_1_4",
+   "message": "Nothing on screen says what to enter in this field: its label is hidden from view (\"Company\"), and no text, button or legend sits near it.",
+   "evidence": "<input name=\"input_4\" id=\"input_1_4\" type=\"text\" value=\"\" autocomplete=\"new-password\">",
+   "subject": "Company",
+   "patch": {
+    "ref": "#input_1_4",
+    "kind": "replace-element",
+    "to": "Company",
+    "before": "<input name=\"input_4\" id=\"input_1_4\" type=\"text\" value=\"\" autocomplete=\"new-password\">",
+    "after": "<label for=\"input_1_4\">Company</label> <input name=\"input_4\" id=\"input_1_4\" type=\"text\" value=\"\" autocomplete=\"new-password\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/no-visible-label",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/labels-or-instructions.html",
+   "html": "<input name=\"input_4\" id=\"input_1_4\" type=\"text\" value=\"\" autocomplete=\"new-password\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 7
+ },
+ "groups": [
+  {
+   "id": "g-caa6eccc5028",
+   "list": "findings",
+   "criterion": "2.5.3",
+   "level": "A",
+   "source": "engine",
+   "check": "label-content-name-mismatch",
+   "count": 6,
+   "members": [
+    "e8003d6aea1e",
+    "d8a351b1cd3b",
+    "d130f5f1078a",
+    "115702e267c6",
+    "d4915f906dbf",
+    "3e74d31b74d9"
+   ],
+   "example": "e8003d6aea1e"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#main > section:nth-of-type(3) > div > div > div:nth-of-type(2) > div > a:nth-of-type(1) > div > img",
+   "message": "The text alternative \"Buy a Ticket Link\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Tickets\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: yes (0.99), reversed: yes (0.37))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#main > section:nth-of-type(3) > div > div > div:nth-of-type(2) > div > a:nth-of-type(2) > div > img",
+   "message": "The text alternative \"Shop Online Link\" describes something the image does not show.",
+   "evidence": "The model suggests: \"A shopping bag containing a book\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (0.99), claim: yes (1.00), reversed: yes (0.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#main > section:nth-of-type(3) > div > div > div:nth-of-type(2) > div > a:nth-of-type(3) > div > img",
+   "message": "The text alternative \"Contact Us Link\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Little Museum postcards\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (0.95), claim: yes (1.00), reversed: yes (0.34))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#main > div:nth-of-type(5) > div:nth-of-type(1) > section > div > div > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Group tours\" names a label, not what the image conveys here.",
+   "evidence": "The model suggests: \"A group of tourists listening to a guide inside the Little Museum of Dublin\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.17), claim: yes (1.00), reversed: no (0.99))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#main > div:nth-of-type(6) > div > section > div > div > div:nth-of-type(1) > div:nth-of-type(1) > img",
+   "message": "The text alternative \"INVEST in history & culture\" describes something the image does not show.",
+   "evidence": "The model suggests: \"A silver coin featuring a reindeer and the word 'punt'\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: yes (0.98), reversed: no (0.99))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#main > section:nth-of-type(3) > div > div > div:nth-of-type(1) > div:nth-of-type(1) > div > p:nth-of-type(2) > a",
+   "message": "The link text \"Visit\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Book tickets for Little Museum performances\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#main > div:nth-of-type(6) > div > section > div > div > div:nth-of-type(2) > p:nth-of-type(2) > a",
+   "message": "The link text \"click here to find out about our charitable work\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Find out about our charitable work\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "3.3.2",
+   "level": "A",
+   "ruleId": "judgment/3.3.2",
+   "ref": "#input_1_4",
+   "message": "Nothing on screen tells what to enter in the field \"Company\": its label is hidden from view.",
+   "evidence": "The model suggests: \"Company\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#main > section:nth-of-type(3) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > img",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "dublin museum photo",
+    "problem": "wrong_content",
+    "imageShows": "Four people standing and smiling in front of a shop window filled with various items.",
+    "suggestedAlt": "Four people smiling in front of a shop window at the Little Museum in Dublin",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#main > section:nth-of-type(7) > div > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > img:nth-of-type(1)",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Emma",
+    "problem": "wrong_content",
+    "imageShows": "A portrait of a woman with short grey hair and a surprised expression.",
+    "suggestedAlt": "Emma Moohan",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#main > section:nth-of-type(7) > div > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > img:nth-of-type(2)",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Emma",
+    "problem": "wrong_content",
+    "imageShows": "A portrait of a woman with short hair, tilted slightly to the side.",
+    "suggestedAlt": "Portrait of Emma Moohan",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#main > section:nth-of-type(7) > div > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > img:nth-of-type(1)",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Eamon",
+    "problem": "wrong_content",
+    "imageShows": "A portrait of a man with a grey beard and glasses wearing a suit.",
+    "suggestedAlt": "Portrait of Eamon",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#main > section:nth-of-type(7) > div > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > img:nth-of-type(2)",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Eamon",
+    "problem": "wrong_content",
+    "imageShows": "A portrait of a man with a grey beard and glasses wearing a blue suit.",
+    "suggestedAlt": "Portrait of Eamon",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#main > section:nth-of-type(7) > div > div > div:nth-of-type(2) > div > div:nth-of-type(5) > div > img:nth-of-type(1)",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Mark",
+    "problem": "wrong_content",
+    "imageShows": "A portrait of a bald man with a grey beard wearing a blue striped shirt and a navy blue bow tie.",
+    "suggestedAlt": "Portrait of Mark",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#main > section:nth-of-type(7) > div > div > div:nth-of-type(2) > div > div:nth-of-type(5) > div > img:nth-of-type(2)",
+   "reason": "suggested alternative equals the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Mark",
+    "problem": "wrong_content",
+    "imageShows": "A portrait of a bald man with a grey beard, wearing a suit and a bowtie, holding his hand to his mouth.",
+    "suggestedAlt": "Mark",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#main > section:nth-of-type(8) > div > div > div:nth-of-type(2) > img",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Location",
+    "problem": "wrong_content",
+    "imageShows": "A map showing the location of The Little Museum of Dublin near St. Stephen's Green.",
+    "suggestedAlt": "Map showing the location of The Little Museum of Dublin near St. Stephen's Green and the National Museum.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#main > section:nth-of-type(4) > div > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > img",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "A green and yellow graphic with leaves and a map background featuring the text 'THE Little WALKING TOUR'.",
+    "textInImage": "THE Little WALKING TOUR",
+    "verdict": "fail",
+    "evidence": "The words 'THE Little WALKING TOUR'",
+    "suggestedAlt": "The Little Walking Tour logo with a map and leaf design.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#main > section:nth-of-type(5) > div > div > div > div > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > img",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "A circular logo with the words 'The Big Little Treasure Hunt' in a stylized font.",
+    "textInImage": "THE BIG LITTLE TREASURE HUNT",
+    "verdict": "fail",
+    "evidence": "The words 'THE BIG LITTLE TREASURE HUNT'",
+    "suggestedAlt": "The Big Little Treasure Hunt logo.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#main > section:nth-of-type(5) > div > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > img",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "A graphic with the text 'YOU CAN LEAVE AT ANY TIME.' in a stylized, overlapping font.",
+    "textInImage": "YOU CAN LEAVE AT ANY TIME.",
+    "verdict": "fail",
+    "evidence": "The words 'YOU CAN LEAVE AT ANY TIME.'",
+    "suggestedAlt": "You can leave at any time.",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 25,
+   "judged": 25,
+   "failed": 4,
+   "passed": 5,
+   "cannotTell": 0,
+   "discarded": 11,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 5,
+   "unconfirmed": 5,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 2,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 56,
+   "judged": 50,
+   "failed": 0,
+   "passed": 48,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 6,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 20,
+   "judged": 20,
+   "failed": 0,
+   "passed": 20,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  }
+ ],
+ "notes": [
+  "1 frame(s) were not checked at all, so whatever they hold was missed: html > body > iframe:nth-of-type(2) (cross-origin; skipped).",
+  "3 image(s) were left without a capture, so no judgment looked at them: 3 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 6 of 56 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 117,
+  "cachedCalls": 0,
+  "inputTokens": 93716,
+  "outputTokens": 8473,
+  "latencyMs": 281292
+ },
+ "timings": {
+  "totalMs": 148330,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 19
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 45545,
+    "prepareMs": 0,
+    "candidates": 25,
+    "judged": 25,
+    "calls": 43,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2418,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1118,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 74218,
+    "prepareMs": 0,
+    "candidates": 56,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 23471,
+    "prepareMs": 0,
+    "candidates": 20,
+    "judged": 20,
+    "calls": 20,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 170,
+    "prepareMs": 167,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 7,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1338,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 26
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 25,
+   "notCaptured": 3,
+   "reasons": {
+    "limit": 3
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 56,
+    "capped": 6
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > iframe:nth-of-type(2)",
+     "url": "https://consentcdn.cookiebot.com/sdk/bc-v5.min.html",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": false,
+     "engineReason": "skipped"
+    }
+   ]
+  }
+ }
+}

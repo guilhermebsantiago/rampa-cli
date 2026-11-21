@@ -1,0 +1,526 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.nmc.org.uk/registration/search-the-register/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "3ea565d0a50f",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#CybotCookiebotDialogPoweredbyImage",
+   "message": "The text alternative \"logo\" is a file name or a placeholder.",
+   "evidence": "logo",
+   "subject": "logo",
+   "claim": "wrong_content",
+   "techniques": [
+    "F30"
+   ],
+   "patch": {
+    "ref": "#CybotCookiebotDialogPoweredbyImage",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "logo",
+    "to": "Nursing & Midwifery Council logo"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "7bbadd763098",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > header > div:nth-of-type(2) > div > div:nth-of-type(2) > a > img",
+   "message": "The text alternative \"Logo\" is a file name or a placeholder.",
+   "evidence": "Logo",
+   "subject": "Logo",
+   "claim": "wrong_content",
+   "techniques": [
+    "F30"
+   ],
+   "patch": {
+    "ref": "html > body > header > div:nth-of-type(2) > div > div:nth-of-type(2) > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Logo",
+    "to": "Nursing & Midwifery Council",
+    "before": "<img src=\"/contentassets/0860580c2bd54b71bde0b7e514083668/logo.svg\" alt=\"Logo\" class=\"w-[189px] h-[36px] lg:w-[248px] lg:h-[48px]\">",
+    "after": "<img src=\"/contentassets/0860580c2bd54b71bde0b7e514083668/logo.svg\" alt=\"Nursing &amp; Midwifery Council\" class=\"w-[189px] h-[36px] lg:w-[248px] lg:h-[48px]\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "9f5b3bc272a7",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#FirstName",
+   "message": "The field \"First name\" asks for the user's first name but does not identify that purpose: autocomplete=\"given-name\" is missing.",
+   "evidence": "First name",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#FirstName",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "given-name",
+    "before": "<input class=\"form-control fillone notOnlyProperty lessThanSixty cookies-only-disabled\" data-msg-maxlength=\"First name cannot be greater than 60 characters\" data-msg-minlength=\"First name cannot be greater than 60 characters\" data-msg-notonlyproperty=\"Cannot search on just first name\" data-msg-requirefromgroup=\"No details have been entered\" id=\"FirstName\" name=\"FirstName\" type=\"text\" value=\"\">",
+    "after": "<input class=\"form-control fillone notOnlyProperty lessThanSixty cookies-only-disabled\" data-msg-maxlength=\"First name cannot be greater than 60 characters\" data-msg-minlength=\"First name cannot be greater than 60 characters\" data-msg-notonlyproperty=\"Cannot search on just first name\" data-msg-requirefromgroup=\"No details have been entered\" id=\"FirstName\" name=\"FirstName\" type=\"text\" value=\"\" autocomplete=\"given-name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "366b6833d881",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#LastName",
+   "message": "The field \"Last name\" asks for the user's last name but does not identify that purpose: autocomplete=\"family-name\" is missing.",
+   "evidence": "Last name",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#LastName",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "family-name",
+    "before": "<input class=\"form-control fillone valueToCompare notEqualPer notEqualAmp lessThanSixty cookies-only-disabled\" data-msg-maxlength=\"Last name cannot be greater than 60 characters\" data-msg-minlength=\"Last name cannot be greater than 60 characters\" data-msg-notequalamp=\"Last name cannot contain just &amp;\" data-msg-notequalper=\"Last name cannot contain just %\" data-msg-requirefromgroup=\"No details have been entered\" id=\"LastName\" name=\"LastName\" type=\"text\" value=\"\">",
+    "after": "<input class=\"form-control fillone valueToCompare notEqualPer notEqualAmp lessThanSixty cookies-only-disabled\" data-msg-maxlength=\"Last name cannot be greater than 60 characters\" data-msg-minlength=\"Last name cannot be greater than 60 characters\" data-msg-notequalamp=\"Last name cannot contain just &amp;\" data-msg-notequalper=\"Last name cannot contain just %\" data-msg-requirefromgroup=\"No details have been entered\" id=\"LastName\" name=\"LastName\" type=\"text\" value=\"\" autocomplete=\"family-name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "ebb7c00f1b31",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > header > div:nth-of-type(1) > div > div > a",
+   "target": "html > body > header > div:nth-of-type(1) > div > div > a",
+   "message": "\"Cymraeg\" is in Welsh, but it inherits the page's language (en-GB): a screen reader mispronounces the language's name. Add lang=\"cy\" to the link.",
+   "evidence": "Cymraeg",
+   "subject": "Cymraeg",
+   "patch": {
+    "ref": "html > body > header > div:nth-of-type(1) > div > div > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "cy",
+    "before": "<a href=\"/about-us/our-role/ein-rol/\" class=\"text-sm !font-medium no-underline-normal\">",
+    "after": "<a href=\"/about-us/our-role/ein-rol/\" class=\"text-sm !font-medium no-underline-normal\" lang=\"cy\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/about-us/our-role/ein-rol/\" class=\"text-sm !font-medium no-underline-normal\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 1
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > header > div:nth-of-type(1) > div > div > a",
+   "message": "The link text \"Cymraeg\" does not match where the link leads: a page titled \"Ein rôl - The Nursing and Midwifery Council\".",
+   "evidence": "The model suggests: \"Ein rôl (Cymraeg)\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > header > div:nth-of-type(1) > div > div > div > a:nth-of-type(1)",
+   "message": "The link text \"My NMC\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Register for NMC online\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > header > div:nth-of-type(2) > div > nav > a:nth-of-type(2)",
+   "message": "The link text \"Search the register Basket\" does not match where the link goes.",
+   "evidence": "The model suggests: \"Search the register\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#content > div > div > div:nth-of-type(2) > div > div > section:nth-of-type(2) > div:nth-of-type(2) > ul > li:nth-of-type(2) > a",
+   "message": "The link text \"Check my renewal date on MyNMC\" does not match where the link leads: a page titled \"MyNMC - The Nursing and Midwifery Council\".",
+   "evidence": "The model suggests: \"Your guide to MyNMC\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > footer > div > div:nth-of-type(1) > p > a",
+   "message": "The link text \"Learn more\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Learn more about the Nursing and Midwifery Council\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > footer > div > div:nth-of-type(2) > nav:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+   "message": "The link text \"Concerns\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Concerns about nurses, midwives or nursing associates\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > footer > div > div:nth-of-type(2) > nav:nth-of-type(1) > ul > li:nth-of-type(5) > a",
+   "message": "The link text \"Careers\" does not match where the link goes.",
+   "evidence": "The model suggests: \"Careers at Pinpoint\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#content > div > div > div:nth-of-type(2) > div > div > section:nth-of-type(2) > div:nth-of-type(1) > h3",
+   "message": "The heading \"You are here:\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Breadcrumb navigation\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#content > div > div > div:nth-of-type(2) > div > div > section:nth-of-type(2) > div:nth-of-type(2) > h3",
+   "message": "The heading \"I want to...\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Revalidation options\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#hubs-heading",
+   "message": "The heading \"More about\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"More information\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > footer > div > nav > h3",
+   "message": "The heading \"Utility Links\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Useful links\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > header > div:nth-of-type(2) > div > nav > a:nth-of-type(2)",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Search the register' suggests a search function for a register, while 'Basket' suggests a shopping basket or cart.",
+    "leadsTo": "/registration/search-the-register/",
+    "verdict": "fail",
+    "evidence": "Search the register Basket",
+    "problem": "mismatch",
+    "suggestedText": "Search the register",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > footer > div > div:nth-of-type(2) > nav:nth-of-type(1) > ul > li:nth-of-type(5) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "A page about careers or job opportunities at the company.",
+    "leadsTo": "https://nmc.pinpointhq.com/",
+    "verdict": "fail",
+    "evidence": "Careers",
+    "problem": "mismatch",
+    "suggestedText": "Careers at Pinpoint",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "html > body > footer > div > nav > h3",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Utility Links",
+    "verdict": "fail",
+    "evidence": "U…",
+    "problem": "generic",
+    "suggestedText": "Useful links",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 5,
+   "failed": 2,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 2,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 52,
+   "judged": 50,
+   "failed": 0,
+   "passed": 43,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 2,
+   "suggested": 7
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 14,
+   "judged": 14,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 4
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 6,
+   "judged": 6,
+   "failed": 0,
+   "passed": 6,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Verification was off (--no-verify): model claims whose quoted evidence is not on the page are reported as if it were. This run is for measurement only.",
+  "1 frame(s) were not checked at all, so whatever they hold was missed: html > body > iframe:nth-of-type(2) (cross-origin; skipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 2 of 52 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 79,
+  "inputTokens": 71049,
+  "outputTokens": 6342,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 238,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 23
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 8,
+    "prepareMs": 0,
+    "candidates": 5,
+    "judged": 5,
+    "calls": 0,
+    "cachedCalls": 5
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 0,
+    "cachedCalls": 3
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 20,
+    "prepareMs": 0,
+    "candidates": 52,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 5,
+    "prepareMs": 0,
+    "candidates": 14,
+    "judged": 14,
+    "calls": 0,
+    "cachedCalls": 14
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 144,
+    "prepareMs": 141,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 9,
+    "prepareMs": 0,
+    "candidates": 6,
+    "judged": 6,
+    "calls": 0,
+    "cachedCalls": 6
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 24
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 5,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 52,
+    "capped": 2
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > iframe:nth-of-type(2)",
+     "url": "https://consentcdn.cookiebot.com/sdk/bc-v5.min.html",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": false,
+     "engineReason": "skipped"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,385 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.virginia.edu/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "caa060360da7",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > section:nth-of-type(6) > div:nth-of-type(1) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Committed to Achievement, #1 Best Public College, #1 Top Hospital\".",
+   "evidence": "Committed to Achievement, #1 Best Public College, #1 Top Hospital",
+   "subject": "hidden HP-DECOR-Curved-Lines.svg",
+   "patch": {
+    "ref": "html > body > section:nth-of-type(6) > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Committed to Achievement: #1 Best Public College in Virginia and #1 Top Hospital in Virginia.",
+    "before": "<img src=\"/assets/images/decour/HP-DECOR-Curved-Lines.svg\" alt=\"\">",
+    "after": "<img src=\"/assets/images/decour/HP-DECOR-Curved-Lines.svg\" alt=\"Committed to Achievement: #1 Best Public College in Virginia and #1 Top Hospital in Virginia.\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "ca6f20a1b7e6",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > section:nth-of-type(6) > div:nth-of-type(2) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"The image contains the text '#1'\".",
+   "evidence": "The image contains the text '#1'",
+   "subject": "hidden HP-DECOR-Filigree-Oculus.svg",
+   "patch": {
+    "ref": "html > body > section:nth-of-type(6) > div:nth-of-type(2) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "#1 Achievement indicator for the University of Virginia rankings.",
+    "before": "<img src=\"/assets/images/decour/HP-DECOR-Filigree-Oculus.svg\" alt=\"\">",
+    "after": "<img src=\"/assets/images/decour/HP-DECOR-Filigree-Oculus.svg\" alt=\"#1 Achievement indicator for the University of Virginia rankings.\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 1
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > section:nth-of-type(5) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > button > img",
+   "message": "The text alternative \"An aerial dusk view of the illuminated UVA Rotunda with bright stadium lights and mountains in the background.\" describes something the image does not show.",
+   "evidence": "The model suggests: \"An aerial dusk view of the illuminated UVA Rotunda with a play button overlay.\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > section:nth-of-type(5) > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(1) > button > img",
+   "message": "The text alternative \"The 1967 Cavalier football team, wearing vintage orange, blue and white uniforms, huddles during a game.\" describes something the image does not show.",
+   "evidence": "The model suggests: \"A history of UVA Orange & Blue\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > footer > div > nav:nth-of-type(1) > ul > li:nth-of-type(2) > a > svg",
+   "message": "The text alternative \"UVA X\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"UVA Twitter\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > header > nav:nth-of-type(3) > ul > li:nth-of-type(5) > a",
+   "message": "The link text \"Athletics\" does not match where the link goes.",
+   "evidence": "The model suggests: \"Virginia Sports Home\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#affiliation",
+   "message": "The label \"I am a\" does not say what to enter.",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > footer > div > nav:nth-of-type(1) > ul > li:nth-of-type(2) > a > svg",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "UVA X",
+    "problem": "missing_information",
+    "imageShows": "A white stylized letter X on a dark blue background.",
+    "suggestedAlt": "UVA Twitter",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > section:nth-of-type(6) > div:nth-of-type(1) > img",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "A graphic with curved lines and text highlighting university achievements.",
+    "textInImage": "Committed to Achievement #1 Best Public College in Virginia #1 Top Hospital in Virginia",
+    "verdict": "fail",
+    "evidence": "Committed to Achievement, #1 Best Public College, #1 Top Hospital",
+    "suggestedAlt": "Committed to Achievement: #1 Best Public College in Virginia and #1 Top Hospital in Virginia.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > section:nth-of-type(6) > div:nth-of-type(2) > img",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "A decorative filigree pattern in the shape of an eye or oculus.",
+    "textInImage": "#1",
+    "verdict": "fail",
+    "evidence": "The image contains the text '#1'",
+    "suggestedAlt": "#1 Achievement indicator for the University of Virginia rankings.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > header > nav:nth-of-type(3) > ul > li:nth-of-type(5) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Athletics' in a navigation menu suggests it leads to a section or page related to athletics sports.",
+    "leadsTo": "https://virginiasports.com/",
+    "verdict": "fail",
+    "evidence": "Athletics",
+    "problem": "mismatch",
+    "suggestedText": "Virginia Sports Home",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 16,
+   "judged": 16,
+   "failed": 0,
+   "passed": 11,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 3
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 45,
+   "judged": 45,
+   "failed": 0,
+   "passed": 44,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 12,
+   "judged": 12,
+   "failed": 0,
+   "passed": 11,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Verification was off (--no-verify): model claims whose quoted evidence is not on the page are reported as if it were. This run is for measurement only.",
+  "3 image(s) were left without a capture, so no judgment looked at them: 1 covered where it sits by other content, such as a popup or a cookie banner; 2 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 73,
+  "inputTokens": 64702,
+  "outputTokens": 6738,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 261,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 23
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 20,
+    "prepareMs": 0,
+    "candidates": 16,
+    "judged": 16,
+    "calls": 0,
+    "cachedCalls": 16
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 13,
+    "prepareMs": 0,
+    "candidates": 45,
+    "judged": 45,
+    "calls": 0,
+    "cachedCalls": 45
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 5,
+    "prepareMs": 0,
+    "candidates": 12,
+    "judged": 12,
+    "calls": 0,
+    "cachedCalls": 12
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 152,
+    "prepareMs": 135,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 5,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 41
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 24,
+   "notCaptured": 3,
+   "reasons": {
+    "covered": 1,
+    "limit": 2
+   }
+  }
+ },
+ "coverage": {
+  "reach": null
+ }
+}

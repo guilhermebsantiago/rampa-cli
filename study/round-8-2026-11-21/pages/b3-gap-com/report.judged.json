@@ -1,0 +1,596 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.gap.com/browse/women?cid=5643",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "43f5c453f9e5",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(5) > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"a black pajama set with white pants and a white shirt\" describes something the image does not show.",
+   "evidence": "a black pajama set with white pants and a white shirt",
+   "subject": "a black pajama set with white pants and a white shirt",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(5) > div > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "a black pajama set with white pants and a white shirt",
+    "to": "Two-piece pajama set in dark burgundy with white piping and a button-down shirt.",
+    "before": "<img alt=\"a black pajama set with white pants and a white shirt\" class=\"fui_bg_image z-base absolute left-0 top-0 w-full object-cover\" src=\"https://content.gapinc.com/d/736x15t1dkaqxm8dso1fxtglg3cc33g3.jpg\" style=\"--fui-bg-aspect-ratio:3/4\" decoding=\"async\">",
+    "after": "<img alt=\"Two-piece pajama set in dark burgundy with white piping and a button-down shirt.\" class=\"fui_bg_image z-base absolute left-0 top-0 w-full object-cover\" src=\"https://content.gapinc.com/d/736x15t1dkaqxm8dso1fxtglg3cc33g3.jpg\" style=\"--fui-bg-aspect-ratio:3/4\" decoding=\"async\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9998642158285532
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 3
+ },
+ "groups": null,
+ "needsReview": [],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#sitewide-app > header > div:nth-of-type(6) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > a > img:nth-of-type(2)",
+   "reason": "the alternative is a logo that leads to the site's home page",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Gap logo",
+    "problem": "missing_information",
+    "imageShows": "The Gap brand logo in black text on a white background.",
+    "suggestedAlt": "Gap Home",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(1) > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page to shop for women's jeans.",
+    "leadsTo": "a page titled 'Women's Jeans | Gap' for shopping women's jeans.",
+    "verdict": "fail",
+    "evidence": "Jeans",
+    "problem": "ambiguous",
+    "suggestedText": "Shop Women's Jeans",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page to shop for women's jeans.",
+    "leadsTo": "a page titled 'Women's Jeans | Gap' for shopping women's jeans.",
+    "verdict": "fail",
+    "evidence": "Jeans",
+    "problem": "ambiguous",
+    "suggestedText": "Shop Women's Jeans",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A collection of sweaters for women.",
+    "leadsTo": "a page titled 'Sweaters For Women | Gap' featuring cardigans and pullovers.",
+    "verdict": "fail",
+    "evidence": "Sweaters",
+    "problem": "ambiguous",
+    "suggestedText": "Women's Sweaters",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(3) > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A collection of women's sweatshirts and sweatpants.",
+    "leadsTo": "a page titled 'Women's Sweatshirts & Joggers| Gap'",
+    "verdict": "fail",
+    "evidence": "Sweats",
+    "problem": "ambiguous",
+    "suggestedText": "Women's Sweatshirts & Joggers",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(4) > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A collection of women's tees and tank tops.",
+    "leadsTo": "a page titled 'Women's T-Shirts & Tank Tops | Gap'",
+    "verdict": "fail",
+    "evidence": "Tees",
+    "problem": "ambiguous",
+    "suggestedText": "Women's Tees & Tank Tops",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(4) > div > div:nth-of-type(2) > div > div > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Tees' in the context of a description of a shirt suggests it leads to a category of t-shirts.",
+    "leadsTo": "a page titled 'Women's T-Shirts & Tank Tops | Gap'",
+    "verdict": "fail",
+    "evidence": "Tees",
+    "problem": "ambiguous",
+    "suggestedText": "Women's T-Shirts & Tank Tops",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(5) > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page for sleepwear and pajamas.",
+    "leadsTo": "a page titled 'GapBody Sleepwear and Pajamas For Women | Gap'",
+    "verdict": "fail",
+    "evidence": "Sleep",
+    "problem": "ambiguous",
+    "suggestedText": "Shop women's sleepwear and pajamas",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(5) > div > div:nth-of-type(2) > div > div > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Sleep' in the context of a pajama set description suggests it leads to a category of sleepwear or pajamas.",
+    "leadsTo": "a page titled 'GapBody Sleepwear and Pajamas For Women | Gap'",
+    "verdict": "fail",
+    "evidence": "Sleep",
+    "problem": "ambiguous",
+    "suggestedText": "Shop Women's Sleepwear and Pajamas",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(6) > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page for women's pants.",
+    "leadsTo": "a page titled 'Women's Pants | Gap'",
+    "verdict": "fail",
+    "evidence": "Pants",
+    "problem": "ambiguous",
+    "suggestedText": "Women's Pants",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(6) > div > div:nth-of-type(2) > div > div > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page for women's pants.",
+    "leadsTo": "a page titled 'Women's Pants | Gap'",
+    "verdict": "fail",
+    "evidence": "Pants",
+    "problem": "ambiguous",
+    "suggestedText": "Women's Pants",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(7) > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page for women's tops and shirts.",
+    "leadsTo": "a page titled 'Women's Shirts and Tops | Gap'",
+    "verdict": "fail",
+    "evidence": "Tops",
+    "problem": "ambiguous",
+    "suggestedText": "Women's Tops",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(8) > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page featuring women's dresses.",
+    "leadsTo": "a page titled 'Women's Dresses | Gap'",
+    "verdict": "fail",
+    "evidence": "Dresses",
+    "problem": "ambiguous",
+    "suggestedText": "Women's Dresses",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(8) > div > div:nth-of-type(2) > div > div > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page featuring women's dresses.",
+    "leadsTo": "a page titled 'Women's Dresses | Gap'",
+    "verdict": "fail",
+    "evidence": "Dresses",
+    "problem": "ambiguous",
+    "suggestedText": "Women's Dresses",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(9) > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A collection of women's coats and jackets.",
+    "leadsTo": "a page titled 'Women's Jackets, Coats, & Outerwear | Gap' featuring women's outerwear.",
+    "verdict": "fail",
+    "evidence": "Coats & Jackets",
+    "problem": "ambiguous",
+    "suggestedText": "Women's Coats & Jackets",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(9) > div > div:nth-of-type(2) > div > div > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A collection of women's coats and jackets.",
+    "leadsTo": "a page titled 'Women's Jackets, Coats, & Outerwear | Gap' featuring women's outerwear.",
+    "verdict": "fail",
+    "evidence": "Coats & Jackets",
+    "problem": "ambiguous",
+    "suggestedText": "Women's Coats & Jackets",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(10) > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page for GapBody products.",
+    "leadsTo": "a page titled 'GapBody Women's Bras, Underwear & Loungewear | Gap'",
+    "verdict": "fail",
+    "evidence": "GapBody",
+    "problem": "ambiguous",
+    "suggestedText": "Shop GapBody Women's Bras and Loungewear",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(12) > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Accessories' in the context of 'the small brown leather satchel bag Accessories' suggests it leads to a collection of accessories, specifically related to the satchel bag.",
+    "leadsTo": "a page titled 'Women's Shop All Accessories | Gap'",
+    "verdict": "fail",
+    "evidence": "Accessories",
+    "problem": "ambiguous",
+    "suggestedText": "Shop Women's Accessories",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(12) > div > div:nth-of-type(2) > div > div > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Accessories' in the context of 'the small brown leather satchel bag Accessories' suggests it leads to a category of accessories.",
+    "leadsTo": "a page titled 'Women's Shop All Accessories | Gap'",
+    "verdict": "fail",
+    "evidence": "<link>Accessories</link>",
+    "problem": "ambiguous",
+    "suggestedText": "Shop Women's Accessories",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(13) > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page for Gap Fragrance products.",
+    "leadsTo": "a page titled 'Gap Fragrance | Gap' for shopping the Gap Fragrance scent.",
+    "verdict": "fail",
+    "evidence": "Fragrance",
+    "problem": "ambiguous",
+    "suggestedText": "Shop Gap Fragrance",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(13) > div > div:nth-of-type(2) > div > div > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page for Gap Fragrance products.",
+    "leadsTo": "a page titled 'Gap Fragrance | Gap' where users can shop for scents.",
+    "verdict": "fail",
+    "evidence": "Fragrance",
+    "problem": "ambiguous",
+    "suggestedText": "Shop Gap Fragrance",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(14) > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Shop all' in the context of a woman wearing a hat and scarf suggests it leads to a collection of women's clothing.",
+    "leadsTo": "a page titled 'Shop All Women's Styles | Gap' showing the entire Gap women's collection.",
+    "verdict": "fail",
+    "evidence": "<link>Shop all</link>",
+    "problem": "ambiguous",
+    "suggestedText": "Shop all women's styles",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#swiper-wrapper-d18ac32e37c110f9f > div:nth-of-type(14) > div > div:nth-of-type(2) > div > div > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Shop all' in the context of a woman wearing a hat and scarf suggests it leads to a collection of women's clothing.",
+    "leadsTo": "a page titled 'Shop All Women's Styles | Gap' showing the entire Gap women's collection.",
+    "verdict": "fail",
+    "evidence": "Shop all",
+    "problem": "ambiguous",
+    "suggestedText": "Shop all women's styles",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 15,
+   "judged": 15,
+   "failed": 1,
+   "passed": 13,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 52,
+   "judged": 50,
+   "failed": 0,
+   "passed": 28,
+   "cannotTell": 0,
+   "discarded": 22,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "2 image(s) were left without a capture, so no judgment looked at them: 2 transparent where it sits. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 2 of 52 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 71,
+  "cachedCalls": 0,
+  "inputTokens": 69907,
+  "outputTokens": 6270,
+  "latencyMs": 202657
+ },
+ "timings": {
+  "totalMs": 105857,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 23
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 22603,
+    "prepareMs": 0,
+    "candidates": 15,
+    "judged": 15,
+    "calls": 18,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1414,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1121,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 78812,
+    "prepareMs": 0,
+    "candidates": 52,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 1664,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 171,
+    "prepareMs": 168,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 14,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 33
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 15,
+   "notCaptured": 2,
+   "reasons": {
+    "not-shown": 2
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 52,
+    "capped": 2
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

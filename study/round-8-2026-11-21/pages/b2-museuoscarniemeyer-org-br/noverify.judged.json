@@ -1,0 +1,634 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.museuoscarniemeyer.org.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "63e0a6cc2b80",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#__next > main > section:nth-of-type(11) > div > form > div > div:nth-of-type(1) > input",
+   "message": "The field \"Seu nome completo\" asks for the user's full name but does not identify that purpose: autocomplete=\"name\" is missing.",
+   "evidence": "Seu nome completo",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#__next > main > section:nth-of-type(11) > div > form > div > div:nth-of-type(1) > input",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "name",
+    "before": "<input type=\"text\" value=\"\" placeholder=\"Seu nome completo\" pattern=\"[a-zA-Z]{3,}( {1,4}[a-zA-Z]{2,}){0,}\" max=\"80\" required=\"\" aria-required=\"true\" class=\"chakra-input css-mb92x\">",
+    "after": "<input type=\"text\" value=\"\" placeholder=\"Seu nome completo\" pattern=\"[a-zA-Z]{3,}( {1,4}[a-zA-Z]{2,}){0,}\" max=\"80\" required=\"\" aria-required=\"true\" class=\"chakra-input css-mb92x\" autocomplete=\"name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "315c2f14cdd9",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#__next > main > section:nth-of-type(11) > div > form > div > div:nth-of-type(2) > input",
+   "message": "The field \"Seu e-mail\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "Seu e-mail",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#__next > main > section:nth-of-type(11) > div > form > div > div:nth-of-type(2) > input",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input type=\"email\" value=\"\" placeholder=\"Seu e-mail\" max=\"60\" required=\"\" aria-required=\"true\" class=\"chakra-input css-1k89cub\">",
+    "after": "<input type=\"email\" value=\"\" placeholder=\"Seu e-mail\" max=\"60\" required=\"\" aria-required=\"true\" class=\"chakra-input css-1k89cub\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "a2a02be97c4b",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#__next > main > section:nth-of-type(11) > div > form > div > div:nth-of-type(1) > input",
+   "target": "#__next > main > section:nth-of-type(11) > div > form > div > div:nth-of-type(1) > input",
+   "message": "The placeholder \"Seu nome completo\" has a contrast of 2.26:1 with the field (#a0aec0 on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#a0aec0 on #ffffff · 2.26:1 at best, 2.26:1 at worst · 18px, 400",
+   "subject": "Seu nome completo",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input type=\"text\" value=\"\" placeholder=\"Seu nome completo\" pattern=\"[a-zA-Z]{3,}( {1,4}[a-zA-Z]{2,}){0,}\" max=\"80\" required=\"\" aria-required=\"true\" class=\"chakra-input css-mb92x\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "bdd64980f91b",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#__next > main > section:nth-of-type(11) > div > form > div > div:nth-of-type(2) > input",
+   "target": "#__next > main > section:nth-of-type(11) > div > form > div > div:nth-of-type(2) > input",
+   "message": "The placeholder \"Seu e-mail\" has a contrast of 2.26:1 with the field (#a0aec0 on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#a0aec0 on #ffffff · 2.26:1 at best, 2.26:1 at worst · 18px, 400",
+   "subject": "Seu e-mail",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input type=\"email\" value=\"\" placeholder=\"Seu e-mail\" max=\"60\" required=\"\" aria-required=\"true\" class=\"chakra-input css-1k89cub\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "e5e93f680f9a",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#programs-carousel > div > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > a",
+   "message": "The link text \"Ver programa\" is shared by 7 links that lead to 7 different places, and nothing around this one tells it apart.",
+   "evidence": "<link>Ver programa</link>",
+   "subject": "Ver programa",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#programs-carousel > div > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > a",
+    "kind": "set-text",
+    "from": "Ver programa",
+    "to": "Ver programa Arte para Maiores",
+    "before": "<a class=\"chakra-link css-1ay5lyj\" href=\"/educativo/programas/arteparamaiores\">Ver programa</a>",
+    "after": "<a class=\"chakra-link css-1ay5lyj\" href=\"/educativo/programas/arteparamaiores\">Ver programa Arte para Maiores</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "2ac67ddb2cb8",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#programs-carousel > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > a",
+   "message": "The link text \"Ver programa\" is shared by 7 links that lead to 7 different places, and nothing around this one tells it apart.",
+   "evidence": "Ver programa",
+   "subject": "Ver programa",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#programs-carousel > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > a",
+    "kind": "set-text",
+    "from": "Ver programa",
+    "to": "Ver programa MON na Escola",
+    "before": "<a class=\"chakra-link css-1ay5lyj\" href=\"/educativo/programas/monnaescola\">Ver programa</a>",
+    "after": "<a class=\"chakra-link css-1ay5lyj\" href=\"/educativo/programas/monnaescola\">Ver programa MON na Escola</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "a2da9691e993",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#programs-carousel > div > div > div:nth-of-type(1) > div > div:nth-of-type(3) > div > div:nth-of-type(2) > a",
+   "message": "The link text \"Ver programa\" is shared by 7 links that lead to 7 different places, and nothing around this one tells it apart.",
+   "evidence": "Ver programa",
+   "subject": "Ver programa",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#programs-carousel > div > div > div:nth-of-type(1) > div > div:nth-of-type(3) > div > div:nth-of-type(2) > a",
+    "kind": "set-text",
+    "from": "Ver programa",
+    "to": "Ver programa Eu Participo!",
+    "before": "<a class=\"chakra-link css-1ay5lyj\" href=\"/educativo/programas/euparticipo\">Ver programa</a>",
+    "after": "<a class=\"chakra-link css-1ay5lyj\" href=\"/educativo/programas/euparticipo\">Ver programa Eu Participo!</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "abfe959178c8",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#programs-carousel > div > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(2) > a",
+   "message": "The link text \"Ver programa\" is shared by 7 links that lead to 7 different places, and nothing around this one tells it apart.",
+   "evidence": "Ver programa",
+   "subject": "Ver programa",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#programs-carousel > div > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(2) > a",
+    "kind": "set-text",
+    "from": "Ver programa",
+    "to": "Ver programa Acesse para Perceber",
+    "before": "<a class=\"chakra-link css-1ay5lyj\" href=\"/educativo/programas/acesseparaperceber\">Ver programa</a>",
+    "after": "<a class=\"chakra-link css-1ay5lyj\" href=\"/educativo/programas/acesseparaperceber\">Ver programa Acesse para Perceber</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "baa8fd6e3a50",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#programs-carousel > div > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div:nth-of-type(2) > a",
+   "message": "The link text \"Ver programa\" is shared by 7 links that lead to 7 different places, and nothing around this one tells it apart.",
+   "evidence": "Ver programa",
+   "subject": "Ver programa",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#programs-carousel > div > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div:nth-of-type(2) > a",
+    "kind": "set-text",
+    "from": "Ver programa",
+    "to": "Ver programa MON Para Todos",
+    "before": "<a class=\"chakra-link css-1ay5lyj\" href=\"/educativo/programas/monparatodos\">Ver programa</a>",
+    "after": "<a class=\"chakra-link css-1ay5lyj\" href=\"/educativo/programas/monparatodos\">Ver programa MON Para Todos</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 70
+ },
+ "groups": [
+  {
+   "id": "g-a5ea3b6c2dce",
+   "list": "findings",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "engine",
+   "check": "image-alt",
+   "count": 49,
+   "members": [
+    "c9e14cf1c874",
+    "cfc429ec94d0",
+    "661a3b1a630e",
+    "23577c8ee6fd",
+    "fbec16390a83",
+    "c7586010205c",
+    "6bf917b537cf",
+    "338b5914eb99",
+    "e5743ba1577f",
+    "8d827eb7dd29",
+    "c1550a552ce7",
+    "72eac6bb777d",
+    "8fbc73dbeeec",
+    "93c4479553ca",
+    "8f34e2abd261",
+    "d70bc9fa5c53",
+    "950430e4a208",
+    "510dae298ddb",
+    "0ecb046d706f",
+    "2b9c99870034",
+    "ec386f9fb403",
+    "7157386b0625",
+    "fef74c0dea2d",
+    "cb1786df2b03",
+    "6692fad868d2",
+    "59fc517224a8",
+    "2b95db2c6a06",
+    "f8cdb637ba17",
+    "ed821e01e2ca",
+    "0183431baaea",
+    "54ae72ecfd32",
+    "4c57e0975c0b",
+    "7ee47e0e636e",
+    "533674a6c591",
+    "084b80308f4d",
+    "27bf5ac4c96a",
+    "507fd3ecf78c",
+    "dc49a86d6440",
+    "e3c515b3bd3c",
+    "b6b97c0d3a73",
+    "a365ec37053b",
+    "382efb9a8c38",
+    "d10e49b1de0f",
+    "3427ee8f0aa2",
+    "e36f4696115c",
+    "5db642782ac6",
+    "1c5c2f6d6abf",
+    "680933e4806b",
+    "4116fc5871ce"
+   ],
+   "example": "c9e14cf1c874"
+  },
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 7,
+   "members": [
+    "6d08ed1a46e8",
+    "22e4e697a191",
+    "a518261ba0ba",
+    "5357d99ed456",
+    "f83110482c9c",
+    "768c05ef21cc",
+    "96fded9640d2"
+   ],
+   "example": "6d08ed1a46e8"
+  },
+  {
+   "id": "g-b3cc505a410d",
+   "list": "findings",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "engine",
+   "check": "link-name",
+   "count": 6,
+   "members": [
+    "2112ed8ba213",
+    "451cebbad4d4",
+    "88c0fcc3edfb",
+    "878ec9a4b437",
+    "a123f8dd3eee",
+    "fd18b9217b97"
+   ],
+   "example": "2112ed8ba213"
+  },
+  {
+   "id": "g-212d385fc478",
+   "list": "findings",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "engine",
+   "check": "button-name",
+   "count": 8,
+   "members": [
+    "1a91bbe0a61c",
+    "b162920d74a1",
+    "11e35cc01251",
+    "c90ddcbbd8f5",
+    "e1d0dd725a63",
+    "a0f1b73c0810",
+    "85a63392e9c1",
+    "9d2e26ea03c6"
+   ],
+   "example": "1a91bbe0a61c"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#tabs-1--tabpanel-0 > div > div > div > div > div:nth-of-type(5) > a > div > div:nth-of-type(2) > h3",
+   "message": "The heading \"O verso da página contém o outro lado\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"Longa duração\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#footer > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > h5:nth-of-type(1)",
+   "message": "The heading \"Museu Oscar Niemeyer\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Endereço do Museu Oscar Niemeyer\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "3.3.2",
+   "level": "A",
+   "ruleId": "judgment/3.3.2",
+   "ref": "#__next > main > section:nth-of-type(11) > div > form > div > div:nth-of-type(1) > input",
+   "message": "The field \"Seu nome completo\" only accepts a set format (pattern=\"[a-zA-Z]{3,}( {1,4}[a-zA-Z]{2,}){0,}\"), and nothing on screen explains it.",
+   "evidence": "The model suggests: \"O campo deve conter apenas letras, com no mínimo 3 caracteres, e permite espaços entre nomes.\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "3.3.2",
+   "ref": "#__next > main > section:nth-of-type(11) > div > form > div > div:nth-of-type(1) > input",
+   "reason": "the page shows an example in the required format: \"Seu nome completo\"",
+   "output": {
+    "shown": "Seu nome completo",
+    "rule": "O campo deve conter apenas letras, com no mínimo 3 caracteres, e permite espaços entre nomes.",
+    "verdict": "fail",
+    "problem": "rule_not_explained",
+    "evidence": "Seu nome completo",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 2,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 63,
+   "judged": 50,
+   "failed": 5,
+   "passed": 45,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 13
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 35,
+   "judged": 35,
+   "failed": 0,
+   "passed": 33,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  }
+ ],
+ "notes": [
+  "Verification was off (--no-verify): model claims whose quoted evidence is not on the page are reported as if it were. This run is for measurement only.",
+  "37 image(s) were left without a capture, so no judgment looked at them: 3 outside the page (an off-canvas menu); 34 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 13 of 63 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 88,
+  "inputTokens": 83864,
+  "outputTokens": 9089,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 282,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 27
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 4,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 0,
+    "cachedCalls": 2
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 30,
+    "prepareMs": 0,
+    "candidates": 63,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 9,
+    "prepareMs": 0,
+    "candidates": 35,
+    "judged": 35,
+    "calls": 0,
+    "cachedCalls": 35
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 139,
+    "prepareMs": 136,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 25,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 11,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   }
+  ],
+  "otherMs": 34
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 22,
+   "notCaptured": 37,
+   "reasons": {
+    "outside-page": 3,
+    "limit": 34
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 63,
+    "capped": 13
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}
