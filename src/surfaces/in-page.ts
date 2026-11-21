@@ -539,6 +539,30 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     return facts
   }
 
+  /**
+   * For a link in a block that <br> elements split into lines, the closest such block at most three levels above it:
+   * the text of the link's own line, in reading order, up to 300 characters ("AGENDAMENTO DE GRUPOS CLIQUE AQUI" in
+   * museucatavento.org.br's block of three "CLIQUE AQUI" lines, the sixth real-page study). Undefined when no such block
+   * holds the link, or when its line is the block's only line with text.
+   */
+  const lineOf = (el: Element): string | undefined => {
+    let child: Element = el
+    for (let box = el.parentElement, depth = 0; box && depth < 3; child = box, box = box.parentElement, depth++) {
+      if (!Array.from(box.children).some((node) => node.localName === 'br')) continue
+      const lines: Node[][] = [[]]
+      for (const node of Array.from(box.childNodes)) {
+        if (node.nodeType === Node.ELEMENT_NODE && (node as Element).localName === 'br') lines.push([])
+        else lines[lines.length - 1]?.push(node)
+      }
+      const textOf = (nodes: Node[]): string =>
+        collapse(nodes.map((node) => (node.nodeType === Node.TEXT_NODE ? (node.textContent ?? '') : node.nodeType === Node.ELEMENT_NODE ? readingText(node as Element) : '')).join(' '))
+      const own = lines.find((nodes) => nodes.includes(child))
+      if (!own || lines.filter((nodes) => textOf(nodes) !== '').length < 2) return undefined
+      return textOf(own).slice(0, 300) || undefined
+    }
+    return undefined
+  }
+
   const nativeOf = (el: Element): Record<string, unknown> => {
     const attributes: Record<string, string> = {}
     for (const name of KEEP_ATTRS) {
@@ -553,6 +577,11 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
       native.html = el === el.ownerDocument.documentElement ? startTag(el) : el.outerHTML.slice(0, MAX_HTML)
     }
     if (el.hasAttribute('lang')) native.langText = langText(el)
+    // A link on its own line of a block split by <br>: that line is what tells it apart from the block's other links (2.4.4).
+    if (tag === 'a') {
+      const line = lineOf(el)
+      if (line) native.lineText = line
+    }
     // A heading or label cut off on screen (ellipsis, line clamp, a fixed box): the share of it that shows.
     if (/^h[1-6]$/.test(tag) || tag === 'label' || tag === 'legend' || el.getAttribute('role') === 'heading') {
       const shown = shownShare(el)

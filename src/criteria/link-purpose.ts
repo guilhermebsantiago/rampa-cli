@@ -158,7 +158,8 @@ export interface SamePagePart {
 
 const LANDMARK_ROLES = new Set(['navigation', 'banner', 'contentinfo', 'complementary', 'search', 'form', 'region'])
 
-const CONTEXT_ROLES = new Set(['paragraph', 'listitem', 'cell', 'columnheader', 'rowheader', 'blockquote', 'figure'])
+/** Blocks whose text is a link's context: a heading that holds a link and words of its own is the sentence the link sits in. */
+const CONTEXT_ROLES = new Set(['heading', 'paragraph', 'listitem', 'cell', 'columnheader', 'rowheader', 'blockquote', 'figure'])
 
 const SYSTEM = `You check exactly one WCAG 2.1 success criterion: 2.4.4 Link Purpose (In Context) (Level A).
 Normative text: "The purpose of each link can be determined from the link text alone or from the link text together with its programmatically determined link context, except where the purpose of the link would be ambiguous to users in general."
@@ -195,6 +196,8 @@ interface LinkInfo {
   nesting: string | undefined
   /** For a generic text, the heading of the card it sits in (`cardHeadingOf`, H80). */
   cardHeading: string | undefined
+  /** The line it sits on in a block split by <br>, when the collector recorded one that says more than the link (`lineContext`). */
+  line: string | undefined
 }
 
 export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
@@ -253,12 +256,14 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
       const name = node.name?.trim() ?? ''
       if (name === '') continue
       const attributes = attributesOf(node)
+      const line = lineContext(node, name)
       links.push({
         node,
         name,
         attributes,
         description: textOfIds(attributes['aria-describedby']),
-        context: linkContext(index, node, name),
+        context: linkContext(index, node, name) ?? line,
+        line,
         heading: heading?.name,
         sections: open.filter(Boolean).join(' > '),
         headers: cellHeaders(index, node),
@@ -922,8 +927,8 @@ function sameTextLine(same: SameText): string {
 
 /**
  * Compares a link with the others that share its text. Links that lead elsewhere must differ in their
- * context: paragraph, list item or cell, header cells, description, title (H33), the sections they sit in, or the list
- * items they are nested in (H81, `nestingOf`). Two "Play" links under "Result" headings tell apart when one "Result" is
+ * context: heading, paragraph, list item or cell, the line of a block split by <br>, header cells, description, title
+ * (H33), the sections they sit in, or the list items they are nested in (H81, `nestingOf`). Two "Play" links under "Result" headings tell apart when one "Result" is
  * in the section of one example and the other in another's; two "Adhesives & Sealants" tell apart when one is a
  * department of its own and the other sits in the list nested under "Deals"; two "Facebook" links tell apart by their
  * titles "CPSC Facebook" and "CPSC Facebook en Español" (cpsc.gov's footer, the sixth real-page study).
@@ -945,7 +950,7 @@ function sameTextOf(link: LinkInfo, group: readonly LinkInfo[]): SameText | unde
  */
 function contextKey(link: LinkInfo): string {
   return normalizeForMatch(
-    [link.context, link.sections || link.heading, link.headers, link.description, link.attributes.title?.trim(), link.nesting].map((part) => part ?? '').join(' | '),
+    [link.context, link.line, link.sections || link.heading, link.headers, link.description, link.attributes.title?.trim(), link.nesting].map((part) => part ?? '').join(' | '),
   )
 }
 
@@ -1240,15 +1245,20 @@ function textOutsideLinks(node: A11yNode): string {
   return [own, ...node.children.map(textOutsideLinks)].filter(Boolean).join(' ')
 }
 
-/** A div or span this short around a link reads as the link's sentence. */
+/** A div or span this short around a link reads as the link's sentence… */
 const SENTENCE = 250
+/** …and this short when it holds running text of its own around the link, not only other elements (a notice with a link in its words). */
+const SENTENCE_WITH_OWN_TEXT = 500
 const SENTENCE_TAGS = new Set(['div', 'span'])
 
 /**
- * The closest paragraph, list item or cell around the link that says more than the link itself.
+ * The closest heading, paragraph, list item or cell around the link that says more than the link itself.
  * A list item that holds only the link passes the question up to the list item it is nested in.
  * Without one, a short generic container around the link (a div that holds "Read more about X") is
- * the sentence the link sits in, which is part of its context too.
+ * the sentence the link sits in, which is part of its context too: up to SENTENCE characters, or up to
+ * SENTENCE_WITH_OWN_TEXT when the container's own text holds words, as fgv.br's notice of 382 characters that ends
+ * "…por meio do Portal do Titular, no link https://portal.fgv.br/protecao-dados-pessoais" does. Heading and longer
+ * notice come from the sixth real-page study, where a generic or address claim held on each (sbpt.org.br, fgv.br).
  */
 function linkContext(index: TreeIndex, node: A11yNode, name: string): string | undefined {
   let parentRef = index.get(node.ref)?.parentRef
@@ -1263,10 +1273,26 @@ function linkContext(index: TreeIndex, node: A11yNode, name: string): string | u
       const text = subtreeText(parent.node)
       if (normalizeForMatch(text) !== normalizeForMatch(name)) {
         if (CONTEXT_ROLES.has(role)) return truncate(text, 500)
-        if (text.length <= SENTENCE) sentence = text
+        if (text.length <= (/\p{L}{2}/u.test(parent.node.text ?? '') ? SENTENCE_WITH_OWN_TEXT : SENTENCE)) sentence = text
       }
     }
     parentRef = parent.parentRef
   }
   return sentence
+}
+
+/**
+ * The line a link sits on in a block that <br> elements split into lines, as the collector records it
+ * (`native.lineText`, src/surfaces/in-page.ts), when it holds words besides the link's own: "AGENDAMENTO DE GRUPOS
+ * CLIQUE AQUI", not a line with only "CLIQUE AQUI". It is the link's context when `linkContext` finds none, and is
+ * compared besides it (`contextKey`): museucatavento.org.br's three "CLIQUE AQUI", one per line of one block, were told
+ * apart by nothing in the sixth real-page study. Added to the block, never in its place, a line only tells links apart
+ * and only gives context, so it can make no claim a finding that was not one. A snapshot recorded before the collector
+ * kept lines has none.
+ */
+function lineContext(node: A11yNode, name: string): string | undefined {
+  const line = node.native.lineText
+  if (typeof line !== 'string') return undefined
+  const rest = normalizeForMatch(line).replace(normalizeForMatch(name), ' ')
+  return /[\p{L}\p{N}]/u.test(rest) ? truncate(line, 500) : undefined
 }

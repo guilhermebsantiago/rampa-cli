@@ -85,6 +85,67 @@ describe('2.4.4 link context', () => {
     expect(mugs?.context.context).toBeUndefined()
   })
 
+  it('reads a heading that holds the link and words of its own as its context, and one with only the link as none', () => {
+    // sbpt.org.br (sixth real-page study): <h5>Para acessar o certificado de participação, <em><a>clique aqui.</a></em></h5>.
+    const h5 = node({
+      ref: 'h5',
+      role: 'heading',
+      name: 'Para acessar o certificado de participação, clique aqui.',
+      text: 'Para acessar o certificado de participação,',
+      native: { tag: 'h5', readingText: 'Para acessar o certificado de participação, clique aqui.' },
+      children: [node({ ref: 'em', native: { tag: 'em' }, children: [link('cert', 'clique aqui.', '/central-de-certificados/')] })],
+    })
+    const title = node({ ref: 'h3', role: 'heading', name: 'COMUNICADO OFICIAL', native: { tag: 'h3' }, children: [link('post', 'COMUNICADO OFICIAL', '/noticias/3828-comunicado-oficial/')] })
+    expect(linkPurpose.candidates(snapshot([h5, title]), noFindings).map((c) => c.context.context)).toEqual(['Para acessar o certificado de participação, clique aqui.', undefined])
+  })
+
+  it('reads a div of up to 500 characters as the sentence of its link when the div has words of its own, and of up to 250 otherwise', () => {
+    // fgv.br (sixth real-page study): a notice of 337 characters of its own that ends with the address as a link.
+    const notice = 'Ao manifestar interesse neste quiz, você poderá receber comunicações futuras da FGV. '.repeat(4).trim()
+    const address = 'https://portal.fgv.br/protecao-dados-pessoais'
+    const own = (words: string) => node({ ref: 'own', native: { tag: 'div' }, text: words, children: [link('a', address, address)] })
+    expect(linkPurpose.candidates(snapshot([own(notice)]), noFindings)[0]?.context.context).toBe(`${notice} ${address}`)
+    expect(linkPurpose.candidates(snapshot([own(`${notice} ${notice}`)]), noFindings)[0]?.context.context).toBeUndefined()
+    // The same words in child elements, not the div's own: the 250-character limit still holds.
+    const spans = node({ ref: 'spans', native: { tag: 'div' }, children: [node({ ref: 's1', native: { tag: 'span' }, text: notice }), link('b', address, address)] })
+    expect(linkPurpose.candidates(snapshot([spans]), noFindings)[0]?.context.context).toBeUndefined()
+  })
+
+  it('tells links apart by the line each sits on in a block split by <br>, when the collector recorded it and it says more than the link', () => {
+    // museucatavento.org.br (sixth real-page study): three "CLIQUE AQUI" links, each at the end of its own line.
+    const lines = ['AGENDAMENTO DE GRUPOS CLIQUE AQUI', 'GARANTA SEU INGRESSO INDIVIDUAL CLIQUE AQUI', 'CLIQUE AQUI']
+    const block = (recorded: boolean) =>
+      node({
+        ref: 'div',
+        native: { tag: 'div', readingText: 'FUNCIONAMENTO: terça a domingo. AGENDAMENTO DE GRUPOS CLIQUE AQUI GARANTA SEU INGRESSO INDIVIDUAL CLIQUE AQUI CLIQUE AQUI' },
+        text: 'FUNCIONAMENTO: terça a domingo. AGENDAMENTO DE GRUPOS GARANTA SEU INGRESSO INDIVIDUAL',
+        children: lines.map((line, i) => {
+          const a = link(`a${i}`, 'CLIQUE AQUI', `/destino-${i}`)
+          return recorded ? { ...a, native: { ...a.native, lineText: line } } : a
+        }),
+      })
+    const read = linkPurpose.candidates(snapshot([block(true)]), noFindings)
+    // The block stays the context of each: the line is compared besides it (the third holds only the link, so none).
+    expect(read.map((c) => c.context.context)).toEqual(Array(3).fill(block(true).native.readingText))
+    expect(read.map((c) => c.context.sameText?.apart)).toEqual([true, true, true])
+    // In a block that gives no context of its own, the line is the context.
+    const bare = node({ ref: 'bare', native: { tag: 'div' }, children: [{ ...link('b0', 'CLIQUE AQUI', '/x'), native: { tag: 'a', attributes: { href: '/x' }, lineText: lines[0] } }] })
+    expect(linkPurpose.candidates(snapshot([bare]), noFindings)[0]?.context.context).toBe(lines[0])
+    // Two reports, each a paragraph whose last line is "Download: PDF": the same line, but the paragraphs still tell them apart.
+    const report = (year: string) =>
+      node({
+        ref: `p${year}`,
+        role: 'paragraph',
+        native: { tag: 'p', readingText: `Annual report ${year} Download: PDF` },
+        text: `Annual report ${year} Download:`,
+        children: [{ ...link(`pdf${year}`, 'PDF', `/report-${year}.pdf`), native: { tag: 'a', attributes: { href: `/report-${year}.pdf` }, lineText: 'Download: PDF' } }],
+      })
+    expect(linkPurpose.candidates(snapshot([report('2024'), report('2025')]), noFindings).map((c) => c.context.sameText?.apart)).toEqual([true, true])
+    // A snapshot recorded before the collector kept lines: the block for all three, which tells none apart.
+    const old = linkPurpose.candidates(snapshot([block(false)]), noFindings)
+    expect(old.map((c) => c.context.sameText?.apart)).toEqual([false, false, false])
+  })
+
   it('takes a link named by aria-labelledby, and patches nothing on it since its name lives elsewhere', () => {
     const label = node({ ref: 'p#go', role: 'paragraph', text: 'Skip to the reviews', native: { tag: 'p', attributes: { id: 'go' } } })
     const icon = node({ ref: 'svg-a', role: 'link', name: 'Skip to the reviews', native: { tag: 'a', attributes: { href: '#reviews', 'aria-labelledby': 'go' } } })

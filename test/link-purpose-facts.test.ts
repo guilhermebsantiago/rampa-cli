@@ -392,18 +392,19 @@ describe('what the facts make of a model that fails everything', () => {
   })
 })
 
-/** A model that fails every link as shared by others that lead elsewhere. */
-const failsAsShared: ModelProvider = {
-  id: 'test:shared',
+/** A model that fails every link with one problem: the facts alone decide which fails are findings. */
+const failsAs = (problem: string): ModelProvider => ({
+  id: `test:${problem}`,
   async judge<T>(request: JudgeRequest<T>) {
     const name = /<link>([\s\S]*?)<\/link>/.exec(request.user)?.[1] ?? ''
-    const output = { promises: '', leadsTo: '', verdict: 'fail', evidence: name, problem: 'ambiguous', suggestedText: `${name}: this one`, confidence: 'high' }
-    return { output: request.schema.parse(output), inputTokens: 10, outputTokens: 5, latencyMs: 1, modelId: 'shared' }
+    const output = { promises: '', leadsTo: '', verdict: 'fail', evidence: name, problem, suggestedText: `${name}: this one`, confidence: 'high' }
+    return { output: request.schema.parse(output), inputTokens: 10, outputTokens: 5, latencyMs: 1, modelId: problem }
   },
-}
-const sharedFindings = async (snapshot: A11ySnapshot) =>
-  (await checkSnapshot(snapshot, NO_ENGINE, { criteria: [linkPurpose], llm: true, provider: failsAsShared, runs: 1, cache: memoryCache(), offline: false, locale: 'en', minConfidence: 'low', concurrency: 1 }))
+})
+const findingsAs = async (problem: string, snapshot: A11ySnapshot) =>
+  (await checkSnapshot(snapshot, NO_ENGINE, { criteria: [linkPurpose], llm: true, provider: failsAs(problem), runs: 1, cache: memoryCache(), offline: false, locale: 'en', minConfidence: 'low', concurrency: 1 }))
     .findings.map((f) => f.ref)
+const sharedFindings = (snapshot: A11ySnapshot) => findingsAs('ambiguous', snapshot)
 
 // marksandspencer.com in the sixth real-page study: a banner's "Free returns for online orders" carried a campaign tag in
 // its fragment, the footer's did not, and both lead to the same help page.
@@ -438,6 +439,49 @@ describe('a title on links that share a text (H33)', () => {
   it('still reports them with no title, or with the same title', async () => {
     expect(await sharedFindings(footer(undefined))).toEqual(['#en', '#es'])
     expect(await sharedFindings(footer(['Facebook', 'Facebook']))).toEqual(['#en', '#es'])
+  })
+})
+
+// sbpt.org.br, fgv.br and museucatavento.org.br in the sixth real-page study: the sentence around each link was there,
+// in a heading, in a notice longer than 250 characters, and on a line of a block split by <br>.
+describe('the context of a link in a heading, a longer notice or a line of its own', () => {
+  it('completes a generic text inside a heading that has words of its own, and not one alone in a heading', async () => {
+    const heading = (words: string | undefined) =>
+      page([
+        node({
+          ref: 'h5',
+          role: 'heading',
+          name: `${words ?? ''} clique aqui.`.trim(),
+          native: { tag: 'h5' },
+          children: [...(words ? [text('h5-text', words)] : []), node({ ref: 'em', native: { tag: 'em' }, children: [link('#cert', 'clique aqui.', '/central-de-certificados/')] })],
+        }),
+      ])
+    expect(await findingsAs('generic', heading('Para acessar o certificado de participação,'))).toEqual([])
+    expect(await findingsAs('generic', heading(undefined))).toEqual(['#cert'])
+  })
+
+  it('reads an address at the end of a notice of 382 characters as having a sentence, and one in an empty box as not', async () => {
+    const address = 'https://portal.fgv.br/protecao-dados-pessoais'
+    const notice = `${'Ao manifestar interesse neste quiz, você poderá receber comunicações futuras da FGV. '.repeat(4)}Caso não queira mais, use o Portal do Titular, no link`
+    const box = (words: string | undefined) => page([node({ ref: 'notice', native: { tag: 'div' }, ...(words ? { text: words } : {}), children: [link('#lgpd', address, address)] })])
+    expect(await findingsAs('url_or_filename', box(notice))).toEqual([])
+    expect(await findingsAs('url_or_filename', box(undefined))).toEqual(['#lgpd'])
+    expect(await findingsAs('url_or_filename', box(`${notice} ${notice}`))).toEqual(['#lgpd'])
+  })
+
+  it('tells "CLIQUE AQUI" links apart by the lines the collector recorded, and keeps the fact on a snapshot without them', async () => {
+    const block = (lines: string[] | undefined) =>
+      page([
+        div(
+          'hours',
+          ...['AGENDAMENTO DE GRUPOS', 'GARANTA SEU INGRESSO INDIVIDUAL', 'DISPONIBILIDADE DE SENHAS'].map((label, i) => {
+            const a = link(`#line${i}`, 'CLIQUE AQUI', `https://museu.example/destino-${i}`)
+            return lines ? { ...a, native: { ...a.native, lineText: `${label} CLIQUE AQUI` } } : a
+          }),
+        ),
+      ])
+    expect(await sharedFindings(block(['recorded']))).toEqual([])
+    expect(await sharedFindings(block(undefined))).toEqual(['#line0', '#line1', '#line2'])
   })
 })
 

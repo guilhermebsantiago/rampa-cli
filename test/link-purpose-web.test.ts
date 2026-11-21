@@ -40,6 +40,31 @@ describe.skipIf(!browser)('2.4.4 on a real page', { timeout: 30_000 }, () => {
     expect(byName('Read more').map((c) => c.context.sameText?.apart)).toEqual([true, true])
   })
 
+  it('records the line a link sits on in a block split by <br>, and tells same-text links apart by it', async () => {
+    if (!browser) return
+    const dir = await mkdtemp(join(tmpdir(), 'rampa-lines-'))
+    const path = join(dir, 'page.html')
+    // museucatavento.org.br's opening hours block in the sixth real-page study, and blocks that give no line.
+    await writeFile(
+      path,
+      `<!doctype html><html lang="pt"><body>
+        <div id="hours">FUNCIONAMENTO: terça a domingo das 09h às 17h.<br>Bilheteria fecha às 16h.<br><br>AGENDAMENTO DE GRUPOS <a id="groups" href="https://museu.example/agendamento">CLIQUE AQUI</a><br><br>GARANTA SEU INGRESSO <strong>INDIVIDUAL</strong> <a id="tickets" href="https://museu.example/ingressos">CLIQUE AQUI</a><br><br><span><a id="alone" href="https://museu.example/senhas">CLIQUE AQUI</a></span><br></div>
+        <p>Para mais informações, <a id="inline" href="https://museu.example/info">clique aqui</a>.</p>
+        <p><a id="single" href="https://museu.example/single">Leia mais</a> sobre o museu<br></p>
+      </body></html>`,
+    )
+    const { snapshot } = await collectWeb(browser, pathToFileURL(path).href, { runAxe: false, locale: 'pt-BR' })
+    const lineOf = (id: string) => [...walkTree(snapshot.root)].find((node) => (node.native.attributes as Record<string, string> | undefined)?.id === id)?.native.lineText
+    expect(lineOf('groups')).toBe('AGENDAMENTO DE GRUPOS CLIQUE AQUI')
+    expect(lineOf('tickets')).toBe('GARANTA SEU INGRESSO INDIVIDUAL CLIQUE AQUI')
+    expect(lineOf('alone')).toBe('CLIQUE AQUI')
+    // No <br> around it, or the link's line is the block's only line with text.
+    expect(lineOf('inline')).toBeUndefined()
+    expect(lineOf('single')).toBeUndefined()
+    const shared = linkPurpose.candidates(snapshot, { engine: { name: 'axe-core', version: 'test' }, rules: [] }).filter((c) => c.context.name === 'CLIQUE AQUI')
+    expect(shared.map((c) => c.context.sameText?.apart)).toEqual([true, true, true])
+  })
+
   it('follows nothing with --follow-links none', async () => {
     if (!browser) return
     const { snapshot } = await collectWeb(browser, news, { runAxe: false, locale: 'en', followLinks: { policy: 'none' } })
