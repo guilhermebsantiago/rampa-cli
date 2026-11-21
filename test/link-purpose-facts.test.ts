@@ -539,3 +539,32 @@ describe('a shared text that names its destination', () => {
     expect(report.needsReview?.map((entry) => entry.ref)).toEqual(['#section'])
   })
 })
+
+// polishop.com.br in the seventh real-page study: its consent banner's cookie report, collapsed under the inert
+// attribute, held 13 "VTEX" links to several privacy pages, read as false shared-text findings. Chromium records the
+// reason on the inert element and keeps no node for most of what is inside it.
+describe('links inside an inert element', () => {
+  const read = (title: string) => ({ kind: 'page' as const, title, heading: title })
+  const report = (ax: A11yNode['ax']) => ({
+    ...page([
+      node({ ref: 'report', native: { tag: 'div' }, children: [node({ ref: 'table', role: 'table', native: { tag: 'table' }, ...(ax ? { ax } : {}), children: [ul('providers', li('p1', link('#p1', 'VTEX', 'https://vtex.example/br-pt/privacy/')), li('p2', link('#p2', 'VTEX', 'https://vtex.example/privacy-policy/en/')))] })] }),
+      ul('footer', li('f1', link('#footer', 'VTEX', 'https://vtex.example/'))),
+    ]),
+    destinations: { 'https://vtex.example/br-pt/privacy/': read('Privacidade'), 'https://vtex.example/privacy-policy/en/': read('Privacy policy'), 'https://vtex.example/': read('Digital commerce platform') },
+  })
+
+  it('are no candidates and share no text with the links a person can reach', async () => {
+    const inert = report({ role: 'none', ignored: true, ignoredReasons: ['inertElement'] })
+    expect(facts(inert).map((c) => c.name)).toEqual(['VTEX'])
+    expect(linkPurpose.candidates(inert, NO_ENGINE).map((c) => c.ref)).toEqual(['#footer'])
+    expect(facts(inert)[0]?.sameText).toBeUndefined()
+    expect(await sharedFindings(inert)).toEqual([])
+  })
+
+  it('keeps the links of an element the browser ignores for another reason, or of a snapshot without its tree', async () => {
+    for (const ax of [{ role: 'none', ignored: true, ignoredReasons: ['uninteresting'] }, undefined]) {
+      expect(linkPurpose.candidates(report(ax), NO_ENGINE).map((c) => c.ref)).toEqual(['#p1', '#p2', '#footer'])
+      expect(await sharedFindings(report(ax))).toEqual(['#p1', '#p2', '#footer'])
+    }
+  })
+})

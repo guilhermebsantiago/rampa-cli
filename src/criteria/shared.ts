@@ -19,6 +19,26 @@ export function isHidden(node: A11yNode): boolean {
   return node.states.includes('hidden') || node.states.includes('aria-hidden')
 }
 
+/** Chromium's reasons for leaving an element out of its accessibility tree because it is inert. */
+const INERT_REASONS: ReadonlySet<string> = new Set(['inertElement', 'inertSubtree'])
+
+/**
+ * The refs of the nodes the browser's tree (`node.ax`, surfaces/ax-tree.ts) ignores as inert, and of every node inside
+ * one: content under the `inert` attribute, such as a collapsed panel, which shows but can be neither focused, clicked
+ * nor reached by assistive technology. Chromium records the reason on the inert element and leaves most nodes inside it
+ * out of its tree, so the reason is passed down. A snapshot whose browser tree was not read has none.
+ */
+export function inertRefs(root: A11yNode): Set<string> {
+  const refs = new Set<string>()
+  const visit = (node: A11yNode, inside: boolean): void => {
+    const inert = inside || (node.ax?.ignoredReasons?.some((reason) => INERT_REASONS.has(reason)) ?? false)
+    if (inert) refs.add(node.ref)
+    for (const child of node.children) visit(child, inert)
+  }
+  visit(root, false)
+  return refs
+}
+
 /**
  * A spam trap: a field placed out of sight (outside the page area, or squeezed to a pixel or less)
  * that is also out of the tab order or named like a trap ("honeypot", "hp", "website").

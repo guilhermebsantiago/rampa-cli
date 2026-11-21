@@ -9,6 +9,7 @@ import {
   endTagOf,
   escapeHtml,
   failedByEngine,
+  inertRefs,
   isHidden,
   isNativeSurface,
   propertyPatch,
@@ -240,6 +241,9 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
 
     // What clicking each scripted link did, when the links probe ran (--probe links).
     const scripted = scriptedOutcomes(snapshot, index)
+    // A link inside an inert element is in nobody's reach, as a hidden one is: polishop.com.br's collapsed cookie
+    // report, whose 13 "VTEX" links were false shared-text findings in the seventh real-page study.
+    const inert = inertRefs(snapshot.root)
     // Every link a person can reach, so links that share a text can be compared.
     const links: LinkInfo[] = []
     let heading: A11yNode | undefined
@@ -252,7 +256,7 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
         open.length = level - 1
         open[level - 1] = node.name
       }
-      if (node.role !== 'link' || isHidden(node)) continue
+      if (node.role !== 'link' || isHidden(node) || inert.has(node.ref)) continue
       const name = node.name?.trim() ?? ''
       if (name === '') continue
       const attributes = attributesOf(node)
