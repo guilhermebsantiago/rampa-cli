@@ -1089,10 +1089,19 @@ function isAddress(href: string | undefined): boolean {
 const TRACKING_PARAMS = /^(utm_\w+|fbclid|gclid|dclid|msclkid|mc_cid|mc_eid)$/i
 
 /**
+ * A fragment that carries parameters instead of naming a part of the page: it opens with a key and an equals sign, as
+ * marksandspencer.com's campaign tag "#intid=cms_proposition-banner_…" does (the sixth real-page study, where one help
+ * page reached by a banner link and by a footer link counted as two places). No id a link points to reads so in
+ * practice. A hash route ("#/orders", "#!/news") opens with "/" or "!" and stays: it may change what the page shows.
+ */
+const PARAMETER_FRAGMENT = /^#[a-z_][\w.-]*=/i
+
+/**
  * Where a link leads, written the same way for every link, so two links can be compared; undefined when unknown.
- * The address counts after redirects and without tracking parameters. Two pages read with the same title, main
- * heading and description are one place at two paths (a copy, or the same page under two sections); the same
- * path with another query stays another place, since the query may change what the page shows.
+ * The address counts after redirects, without tracking parameters and without a fragment of parameters
+ * (`PARAMETER_FRAGMENT`); a fragment that names a part of the page ("#delivery") still makes another place. Two pages
+ * read with the same title, main heading and description are one place at two paths (a copy, or the same page under
+ * two sections); the same path with another query stays another place, since the query may change what the page shows.
  */
 function placeOf(href: string | undefined, base: string, destination: Destination | undefined): string | undefined {
   if (!isAddress(href)) return undefined
@@ -1103,6 +1112,7 @@ function placeOf(href: string | undefined, base: string, destination: Destinatio
   } catch {
     return raw
   }
+  if (PARAMETER_FRAGMENT.test(url.hash)) url.hash = ''
   if (destination?.kind === 'same-page' || url.href.replace(/#.*$/, '') === base.replace(/#.*$/, '')) return url.hash || '#'
   if (url.hash === '#') url.hash = ''
   for (const name of [...url.searchParams.keys()]) if (TRACKING_PARAMS.test(name)) url.searchParams.delete(name)
