@@ -29,6 +29,9 @@ OVERRIDE = {
                         "\"Box office\"); https://www.limetreetheatre.ie/ redirects to limetreebelltable.ie, Lime Tree Theatre and "
                         "Belltable's joint site (the same organisation: cleared), which links no contact page (\"About Us\", "
                         "\"Box Office + Gift Vouchers\")"),
+    "b5-in-news-h": ("b5-in-news-h.b1", "https://www.startribune.com/ passed the screen (on its second try), but sent the collection a "
+                     "bot check (\"Vercel Security Checkpoint\", HTTP 429) twice, 10 minutes apart (18:30 and 18:41): replaced by the "
+                     "slot's next backup that passed the screen (pre-registration, section 6), before any Rampa judgment of it"),
     "b5-in-health-i": ("b5-in-health-i.b1", "https://www.alz.org/ links no story in its content (donation, campaign, event, "
                        "reference and professional pages)"),
 }

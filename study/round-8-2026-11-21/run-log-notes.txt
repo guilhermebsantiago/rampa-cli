@@ -130,3 +130,14 @@ study/round-8-run.
        --concurrency 2, gemma4:12b on local Ollama, so as not to idle the GPU for those 10 minutes: the page comes 59th,
        so its retry ends long before the run reaches it; the retry's one-minute collection overlaps the judgment of an
        early page (noted for the time figures).
+18:39  pass_list.ts dry-tested on a scratch copy (outside the repository, deleted after) of the 3 pages judged by then:
+       every page matched the main run's report, and the X6 marking runs (counts only were printed).
+18:41  b5-startribune-com collected once more, 10 minutes after the refusal: the same bot check ("Vercel Security
+       Checkpoint", HTTP 429). Refused twice: by section 6 the slot's next backup that passed the screen replaces it,
+       keeping its block and stratum: b5-in-news-h.b1, https://www.nottinghampost.com/ (passed the screen at 17:18; a home
+       slot, so no inner page to pick). Both attempts set aside (discarded-1/, discarded-2/). Recorded in
+       build_selection.py's OVERRIDE (a record of the pre-registered rule, no rule changed), then selection.tsv, pages.tsv
+       and data/pages-input.json written again (23 of 60 slots now on a backup); the T4 subset is drawn by slot and does
+       not change (in-news: b1-leicestermercury-co-uk). b5-nottinghampost-com collected at 18:42 on its first attempt, no
+       network error in its console. The main judgment loop, started before the replacement, reads its page list once:
+       it will log b5-startribune-com as having no recording, and b5-nottinghampost-com is judged right after the loop.
