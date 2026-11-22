@@ -1,0 +1,61 @@
+{
+  "page": "https://ufu.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s932f6d9f59b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'Leia mais' button of the first hero-carousel slide (the 'Diversidade racial qualifica a ciência' story). The claim that nothing around it tells where it goes is false of the capture: the link has title=\"Diversidade racial qualifica a ciência\", which the snapshot's accessibility data exposes as its accessible description, and the rubric counts a title (H33, sufficient) as link context. Link text plus description gives the purpose (the news story of that title), so the element meets 2.4.4. The live HTML fetched now holds the same link with the same title in the same slide, so the capture does not differ in a way that matters (the cookie banner covering the button in the screenshot is irrelevant to 2.4.4). The title was in the element's attributes given with the finding, so the checker had the context and judged wrongly."
+    },
+    {
+      "fingerprint": "40281bee303a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the 'Acesso à informação' link of the federal gov.br bar (injected by barras.ufu.br/barra_2.0.js, present in both the snapshot and the live page), leading to www.gov.br/acessoainformacao. The claim holds of the capture: UFU's own visible 'Acesso à Informação' button (and a hidden menu item) lead to /acesso-a-informacao, and this link's list item, the unnamed nav, the preceding 'GovBR' link and the absence of any earlier heading or title give no counted context to tell them apart. Against a failure: the link text itself describes the destination's purpose (the access-to-information portal), and WCAG 2.1 does not require different texts for different destinations; Understanding 2.4.4 only says it 'helps' for links with different purposes to have different text, and the identical-links check is usually mapped to 2.4.9. My own reading is that the element passes, but whether 'federal portal versus UFU's own LAI page' is part of the purpose 2.4.4 requires the text to convey is a point competent auditors would reasonably disagree on, so the label is uncertain. The bar script served now has the same link, so the capture does not differ."
+    },
+    {
+      "fingerprint": "sa2543f0192f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'A' text-size control in the header accessibility row ('Acessibilidade A- A A+'), an anchor with id resetarZoom and title=\"Reiniciar Zoom\". The claim that nothing around it tells its purpose is false: the snapshot's accessibility data exposes 'Reiniciar Zoom' as the link's accessible description, and the rubric counts a title (H33) as context. Text plus description says what it does (reset the zoom/text size), so it meets 2.4.4; its siblings carry 'Menos Zoom' and 'Mais Zoom' the same way. The live HTML has the same markup in the same place (desktop-visible block), so the capture does not differ. The title was in the attributes given with the finding, so this is a model error."
+    },
+    {
+      "fingerprint": "50681b2f7fcb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the first image of the three-tile campaign grid, the only content of a link to /unidades-organizacionais/comissao-de-etica (page title 'Comissão de Ética'). As worded the claim is literally true of the capture: the image is the link's only content (title is empty) and its alt names a theme rather than the destination page. But the image is an image of text reading '#QUESTÃO de ÉTICA' with decorative figures, and the alt 'Questão de ética' reproduces that text, which is exactly the cue sighted users get for the link; it also names the topic of the destination (ethics, leading to the ethics committee). The text alternative therefore serves the equivalent purpose that 1.1.1 asks for, and nothing in 1.1.1, H30 or F30 requires the alternative to be more specific about the destination than the visible image is. Requiring the alt to name the target page is a stricter rule than the criterion. The live HTML has the same link, image and alt, so the capture does not differ."
+    },
+    {
+      "fingerprint": "c108d989528d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the second image of the campaign grid, the only content of a link to /unidades-organizacionais/comite-de-governanca-gestao-de-riscos-controles-e-integridade (page title 'Comitê de Governança, Gestão de Riscos, Controles e Integridade'). The claim is literally true of the capture: the image is all the link holds and its alt does not name the destination page. But the image is an image of text reading '#GOVERNANÇA' with decorative figures, and the alt 'Governança' reproduces that text, the same cue sighted users get, and names the topic of the destination (the governance committee). That is an equivalent text alternative under 1.1.1; demanding that the alt spell out the destination beyond what the image itself conveys is a stricter rule than the criterion. The live HTML has the same link, image and alt, so the capture does not differ."
+    }
+  ]
+}

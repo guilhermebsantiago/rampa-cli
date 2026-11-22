@@ -1,0 +1,115 @@
+{
+  "page": "https://www.oliverbonas.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "5c69cae6c4ac",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is hero tile 3's 'Christmas Gifts' text link to /christmas-gifts/all-christmas-gifts. The snapshot holds six links named 'Christmas Gifts': top nav, the New In mega-menu image tile, the Gifts mega-menu list item, hero tile 1 (white text over the 'COME ON IN' image, not visible in the screenshot) and the footer item all go to /christmas-gifts; only hero tile 3 goes to /christmas-gifts/all-christmas-gifts. None has a title, aria-describedby, sentence, heading before it (the first heading is the footer h2) or parent list item that adds anything, so they form one set; the count '6 links, 2 places' holds and the live HTML serves the same links, so captureDiffers is no. The only non-same pair is /christmas-gifts (the Christmas Gifts landing hub: gift sections, product carousels, edits) against /christmas-gifts/all-christmas-gifts (the full filterable grid of all Christmas gifts). Both cover what a user expects from 'Christmas Gifts'; the ACT glossary allows equivalent resources to differ in amount of information and layout, so I lean equivalent, and nothing visible tells a user that the bookend tile leads somewhere other than the nav or footer link (the photo says nothing about the destination). Others could read the hub and the all-products list as different resources (the site itself labels the latter 'All Christmas Gifts' in its mega menu), so competent auditors would reasonably disagree: uncertain."
+    },
+    {
+      "fingerprint": "5cfbe75f9e30",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the Accessories & Bags panel's 'Bestsellers' link to /accessories/bestsellers. Five links are named 'Bestsellers', one per mega-menu panel: /new-in/best-sellers, /fashion/most-wanted (Clothing Bestsellers), /homeware/category/bestsellers, /accessories/bestsellers and /gift/category/bestsellers. Each sits alone in its list item, the panels are not nested in the top-nav list items (separate meganav-content, no aria-owns/aria-controls), there are no headings in the header and no title or aria-describedby, so their contexts are identical and they form one set. I checked whether the collapsed panels are really exposed: the CDP tree keeps them as non-ignored, focusable links with real bounds (clipped by a zero-height overflow-hidden container, not display:none), and the live HTML serves the same five links, so captureDiffers is no. The destinations are different category bestseller pages (non-equivalent), and a sighted user sees each one only inside the panel opened from its category, beside 'New In <category>' and 'Shop All <category>', which tells them apart. Under R1 every link of the set fails 2.4.4, and the claim (5 links, 5 places, nothing around it tells it apart) is accurate and names that failure. No technique or capture difference holds up: true_positive."
+    },
+    {
+      "fingerprint": "s589199acc3d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the New In mega-menu image tile linking to /christmas-gifts; its img (alt 'Christmas Gifts') is hidden in the collapsed panel, so the name is the text 'Christmas Gifts' (it may double when the panel opens and shows the image). The snapshot holds six links named 'Christmas Gifts': top nav, the New In mega-menu image tile, the Gifts mega-menu list item, hero tile 1 (white text over the 'COME ON IN' image, not visible in the screenshot) and the footer item all go to /christmas-gifts; only hero tile 3 goes to /christmas-gifts/all-christmas-gifts. None has a title, aria-describedby, sentence, heading before it (the first heading is the footer h2) or parent list item that adds anything, so they form one set; the count '6 links, 2 places' holds and the live HTML serves the same links, so captureDiffers is no. The only non-same pair is /christmas-gifts (the Christmas Gifts landing hub: gift sections, product carousels, edits) against /christmas-gifts/all-christmas-gifts (the full filterable grid of all Christmas gifts). Both cover what a user expects from 'Christmas Gifts'; the ACT glossary allows equivalent resources to differ in amount of information and layout, so I lean equivalent, and nothing visible tells a user that the bookend tile leads somewhere other than the nav or footer link (the photo says nothing about the destination). Others could read the hub and the all-products list as different resources (the site itself labels the latter 'All Christmas Gifts' in its mega menu), so competent auditors would reasonably disagree: uncertain."
+    },
+    {
+      "fingerprint": "3bb9bc875b77",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer newsletter sign-up field (type=email, name=email, placeholder 'Email') under 'Get 10% off your next full-price order ... Subscribe'; it collects the user's own email address, an Input Purpose listed for 1.3.5. It has no autocomplete attribute, in the snapshot and in the live HTML fetched today (captureDiffers no), and the snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError for it, so the whole claim holds. type=email gives the data format, not that the value is the user's own address, and no other mechanism identifies the purpose, so H98 is not met and the field fails. I looked for a reason it could pass (a field not about the user, a script that adds autocomplete) and found none: true_positive."
+    },
+    {
+      "fingerprint": "sd0e516bdd2c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the top-nav 'Jewellery' link to /jewellery. Two links are named 'Jewellery': the top-nav item (/jewellery, the 'Women's Jewellery' landing page with curated sections and about 72 products) and the hero tile over a bracelet photo (/jewellery/all, the 'All Jewellery' filterable product grid). Neither has a title, aria-describedby, sentence, heading before it or parent list item that adds anything, so they form a set; the claim's '2 links, 2 places' holds and the live HTML is the same (captureDiffers no). Whether this pair fails turns on equivalence: both pages are where a user expects 'Jewellery' to lead, and the ACT glossary lets equivalent resources differ in amount of information and layout, so I lean equivalent; nor does anything visible tell a user the tile leads to a different page than the nav item (the bracelet photo only says 'jewellery'). Others could treat a curated landing page and the full product list as non-equivalent (the site's own mega menu calls /jewellery/all 'Shop All Jewellery'), so competent auditors would reasonably disagree: uncertain."
+    },
+    {
+      "fingerprint": "1c24b06b333d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the hero tile's 'Jewellery' text link to /jewellery/all. Two links are named 'Jewellery': the top-nav item (/jewellery, the 'Women's Jewellery' landing page with curated sections and about 72 products) and the hero tile over a bracelet photo (/jewellery/all, the 'All Jewellery' filterable product grid). Neither has a title, aria-describedby, sentence, heading before it or parent list item that adds anything, so they form a set; the claim's '2 links, 2 places' holds and the live HTML is the same (captureDiffers no). Whether this pair fails turns on equivalence: both pages are where a user expects 'Jewellery' to lead, and the ACT glossary lets equivalent resources differ in amount of information and layout, so I lean equivalent; nor does anything visible tell a user the tile leads to a different page than the nav item (the bracelet photo only says 'jewellery'). Others could treat a curated landing page and the full product list as non-equivalent (the site's own mega menu calls /jewellery/all 'Shop All Jewellery'), so competent auditors would reasonably disagree: uncertain."
+    },
+    {
+      "fingerprint": "6797bf34e672",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the Gifts panel's 'Bestsellers' link to /gift/category/bestsellers. Five links are named 'Bestsellers', one per mega-menu panel: /new-in/best-sellers, /fashion/most-wanted (Clothing Bestsellers), /homeware/category/bestsellers, /accessories/bestsellers and /gift/category/bestsellers. Each sits alone in its list item, the panels are not nested in the top-nav list items (separate meganav-content, no aria-owns/aria-controls), there are no headings in the header and no title or aria-describedby, so their contexts are identical and they form one set. I checked whether the collapsed panels are really exposed: the CDP tree keeps them as non-ignored, focusable links with real bounds (clipped by a zero-height overflow-hidden container, not display:none), and the live HTML serves the same five links, so captureDiffers is no. The destinations are different category bestseller pages (non-equivalent), and a sighted user sees each one only inside the panel opened from its category, beside 'New In <category>' and 'Shop All <category>', which tells them apart. Under R1 every link of the set fails 2.4.4, and the claim (5 links, 5 places, nothing around it tells it apart) is accurate and names that failure. No technique or capture difference holds up: true_positive."
+    },
+    {
+      "fingerprint": "a091927a24a3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the Clothing panel's 'Bestsellers' link to /fashion/most-wanted. Five links are named 'Bestsellers', one per mega-menu panel: /new-in/best-sellers, /fashion/most-wanted (Clothing Bestsellers), /homeware/category/bestsellers, /accessories/bestsellers and /gift/category/bestsellers. Each sits alone in its list item, the panels are not nested in the top-nav list items (separate meganav-content, no aria-owns/aria-controls), there are no headings in the header and no title or aria-describedby, so their contexts are identical and they form one set. I checked whether the collapsed panels are really exposed: the CDP tree keeps them as non-ignored, focusable links with real bounds (clipped by a zero-height overflow-hidden container, not display:none), and the live HTML serves the same five links, so captureDiffers is no. The destinations are different category bestseller pages (non-equivalent), and a sighted user sees each one only inside the panel opened from its category, beside 'New In <category>' and 'Shop All <category>', which tells them apart. Under R1 every link of the set fails 2.4.4, and the claim (5 links, 5 places, nothing around it tells it apart) is accurate and names that failure. No technique or capture difference holds up: true_positive."
+    },
+    {
+      "fingerprint": "d481ecd8dedb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the Homeware panel's 'Bestsellers' link to /homeware/category/bestsellers. Five links are named 'Bestsellers', one per mega-menu panel: /new-in/best-sellers, /fashion/most-wanted (Clothing Bestsellers), /homeware/category/bestsellers, /accessories/bestsellers and /gift/category/bestsellers. Each sits alone in its list item, the panels are not nested in the top-nav list items (separate meganav-content, no aria-owns/aria-controls), there are no headings in the header and no title or aria-describedby, so their contexts are identical and they form one set. I checked whether the collapsed panels are really exposed: the CDP tree keeps them as non-ignored, focusable links with real bounds (clipped by a zero-height overflow-hidden container, not display:none), and the live HTML serves the same five links, so captureDiffers is no. The destinations are different category bestseller pages (non-equivalent), and a sighted user sees each one only inside the panel opened from its category, beside 'New In <category>' and 'Shop All <category>', which tells them apart. Under R1 every link of the set fails 2.4.4, and the claim (5 links, 5 places, nothing around it tells it apart) is accurate and names that failure. No technique or capture difference holds up: true_positive."
+    },
+    {
+      "fingerprint": "p03e89e2cb1c",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The element is the 'New In' item at the top of the New In mega-menu list, linking to /new-in/all ('All New In'). The only other link with that name, the top-nav 'New In', goes to the same address, so no pair resolves to different resources; the name itself says the link leads to the new arrivals. The live HTML has the same links (captureDiffers no). The element meets 2.4.4, so nothing was missed: false_positive."
+    }
+  ]
+}

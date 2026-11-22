@@ -1,0 +1,244 @@
+{
+  "page": "https://www.tjrj.jus.br/institucional/ouvidoria/ouvidoria",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s0c858ffa7c4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"Fale com a Ouvidoria\" tile (href ESOU/HomeVisitante). The four image links in the first h2 of the content all carry aria-label=\"Link sem descrição\", which overrides their images' alternatives: Chromium's tree (CDP) gives each link the name \"Link sem descrição\", nameFrom aria-label, and gives the h2 the name of four copies of it. None has a title or aria-describedby, and all four sit in the same h2 (their sentence, block and preceding heading at once), so nothing in the rubric's context list tells them apart: they form one R1 set. They lead to four non-equivalent resources (the ESOU manifestation form, the FAQ page, the statistics page and the Balcão Virtual meeting app), and the tiles visibly read \"Fale com a Ouvidoria\", \"Perguntas mais Frequentes\", \"Estatísticas\" and \"Balcão Virtual\" in the screenshot, so each link of the set fails 2.4.4 by R1; the shared name is also a placeholder that describes no purpose. I looked for a way out: the alternatives exist in the DOM and as image children in the tree, but the link's name is the aria-label, and that is what screen readers announce for the link. The live HTML still has the four aria-labels (the two internal hrefs are now absolute portaltj.tjrj.jus.br addresses, which changes nothing). The claim names this failure."
+    },
+    {
+      "fingerprint": "a0581ffed0b4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer text \"+55 (21) 3133-2000\", 16px weight 400, white on the footer's CSS background linear-gradient(91deg, #0864b0 0.23%, #00afef 80.21%), which the live style sheet still sets. Sampling the screenshot inside the element's box gives backgrounds of #029cdf to #01a3e5, about 2.85 to 3.08:1 against white, all below 4.5:1, and the text is neither large nor bold enough for 3:1, nor incidental or a logotype; no text-shadow or other technique raises it. The screenshot is fully styled and matches the live CSS, so the capture does not differ. The text sits in a link whose href is \"#\", but it is still visible text that 1.4.3 covers. The claim names the failure."
+    },
+    {
+      "fingerprint": "s2aef11965d0",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The Facebook icon in the header's social list, the only content of a link to facebook.com/tjrjoficial (title \"Acessar o Facebook\"). Chromium names the link from its content, \"Icone do facebook do TJRJ\", and exposes the title as its description. Replacing the image with its alternative (G82, R2's first step) gives a link that says it is TJRJ's Facebook, which is exactly where it leads; \"Icone do\" is redundant wording, not a missing purpose. So the claim that the alternative does not say where the link leads is false, and the image meets 1.1.1 (and the link 2.4.4). The live HTML is the same."
+    },
+    {
+      "fingerprint": "073d2c463c46",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"Consulta Processual\" label in the header banner, a span, 16px weight 500, white on the banner's blue background (the Pão de Açúcar background image the live HTML still sets inline on .bannerPrincipalTJRJ). Sampling the screenshot in the element's box gives #048fd4 to #0492d7 behind the text, 3.44 to 3.57:1 against white, below 4.5:1; weight 500 at 16px is not large or bold text, and the text is not incidental or a logotype. The screenshot is styled and matches the live markup and CSS. The claim names the failure."
+    },
+    {
+      "fingerprint": "s97800b58c61",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"Estatísticas\" tile (href /web/guest/institucional/ouvidoria/estatisticas). The four image links in the first h2 of the content all carry aria-label=\"Link sem descrição\", which overrides their images' alternatives: Chromium's tree (CDP) gives each link the name \"Link sem descrição\", nameFrom aria-label, and gives the h2 the name of four copies of it. None has a title or aria-describedby, and all four sit in the same h2 (their sentence, block and preceding heading at once), so nothing in the rubric's context list tells them apart: they form one R1 set. They lead to four non-equivalent resources (the ESOU manifestation form, the FAQ page, the statistics page and the Balcão Virtual meeting app), and the tiles visibly read \"Fale com a Ouvidoria\", \"Perguntas mais Frequentes\", \"Estatísticas\" and \"Balcão Virtual\" in the screenshot, so each link of the set fails 2.4.4 by R1; the shared name is also a placeholder that describes no purpose. I looked for a way out: the alternatives exist in the DOM and as image children in the tree, but the link's name is the aria-label, and that is what screen readers announce for the link. The live HTML still has the four aria-labels (the two internal hrefs are now absolute portaltj.tjrj.jus.br addresses, which changes nothing). The claim names this failure."
+    },
+    {
+      "fingerprint": "sc964158bc90",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The header logo (it reads \"PJERJ Poder Judiciário Estado do Rio de Janeiro\"), the only content of a link to www.tjrj.jus.br/web/guest, the court's home page; Chromium names the link \"Logo TJRJ\" from the alt. The alternative names the organisation whose home page the link opens, on that organisation's own site, which is the common reading of a header logo link; by R2's first step an alternative that names the page or site describes the link's purpose. Wording such as \"TJRJ, página inicial\" would be better practice, but 1.1.1 does not require naming the page type. The claim that it does not say where the link leads does not hold up. The live HTML is the same."
+    },
+    {
+      "fingerprint": "b04b02e6339b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer text \"Mapa do site\", 16px weight 400, white on the footer's CSS background linear-gradient(91deg, #0864b0 0.23%, #00afef 80.21%), which the live style sheet still sets. Sampling the screenshot inside the element's box gives backgrounds of #01a7e8 to #00aded, about 2.56 to 2.73:1 against white, all below 4.5:1, and the text is neither large nor bold enough for 3:1, nor incidental or a logotype; no text-shadow or other technique raises it. The screenshot is fully styled and matches the live CSS, so the capture does not differ. The claim names the failure."
+    },
+    {
+      "fingerprint": "pdd8975ff8e2",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A mailto link whose text is the address ouvidoriageral@tjrj.jus.br, in the paragraph \"Ouvidoria Geral / SIC: ouvidoriageral@tjrj.jus.br\", under the heading \"Canais de acesso à Ouvidoria / SIC\". The link text with its paragraph says it sends e-mail to the Ouvidoria Geral / SIC, so it meets 2.4.4. The live HTML is the same."
+    },
+    {
+      "fingerprint": "s0a7cb0dea32",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"Balcão Virtual\" tile (href tjrj-apps-balcao-virtual.azurefd.net/meeting/OuvidoriadoPJERJ). The four image links in the first h2 of the content all carry aria-label=\"Link sem descrição\", which overrides their images' alternatives: Chromium's tree (CDP) gives each link the name \"Link sem descrição\", nameFrom aria-label, and gives the h2 the name of four copies of it. None has a title or aria-describedby, and all four sit in the same h2 (their sentence, block and preceding heading at once), so nothing in the rubric's context list tells them apart: they form one R1 set. They lead to four non-equivalent resources (the ESOU manifestation form, the FAQ page, the statistics page and the Balcão Virtual meeting app), and the tiles visibly read \"Fale com a Ouvidoria\", \"Perguntas mais Frequentes\", \"Estatísticas\" and \"Balcão Virtual\" in the screenshot, so each link of the set fails 2.4.4 by R1; the shared name is also a placeholder that describes no purpose. I looked for a way out: the alternatives exist in the DOM and as image children in the tree, but the link's name is the aria-label, and that is what screen readers announce for the link. The live HTML still has the four aria-labels (the two internal hrefs are now absolute portaltj.tjrj.jus.br addresses, which changes nothing). The claim names this failure."
+    },
+    {
+      "fingerprint": "sc16c769ee8c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A link \"Criação\" (title \"Criação\") in the Ouvidoria section navigation (#navegador), a list headed by the h1 \"Carta de Serviços ao Cidadão - Ouvidoria\", the nearest heading before it (H80, counted by the rubric). Read with that heading, the link is the Ouvidoria's creation, and the destination page (\"Ouvidoria - Criação\") indeed tells how the Ouvidoria was created (Resolução 15/2003 and later acts). So something around it does tell where it goes, the claim's second half is false, and the link meets 2.4.4. The live navigation is the same."
+    },
+    {
+      "fingerprint": "s7f360d0a179",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"Perguntas mais Frequentes\" tile (href /web/guest/institucional/ouvidoria/perguntas). The four image links in the first h2 of the content all carry aria-label=\"Link sem descrição\", which overrides their images' alternatives: Chromium's tree (CDP) gives each link the name \"Link sem descrição\", nameFrom aria-label, and gives the h2 the name of four copies of it. None has a title or aria-describedby, and all four sit in the same h2 (their sentence, block and preceding heading at once), so nothing in the rubric's context list tells them apart: they form one R1 set. They lead to four non-equivalent resources (the ESOU manifestation form, the FAQ page, the statistics page and the Balcão Virtual meeting app), and the tiles visibly read \"Fale com a Ouvidoria\", \"Perguntas mais Frequentes\", \"Estatísticas\" and \"Balcão Virtual\" in the screenshot, so each link of the set fails 2.4.4 by R1; the shared name is also a placeholder that describes no purpose. I looked for a way out: the alternatives exist in the DOM and as image children in the tree, but the link's name is the aria-label, and that is what screen readers announce for the link. The live HTML still has the four aria-labels (the two internal hrefs are now absolute portaltj.tjrj.jus.br addresses, which changes nothing). The claim names this failure."
+    },
+    {
+      "fingerprint": "e029db409344",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer text \"Fale Conosco\", 16px weight 400, white on the footer's CSS background linear-gradient(91deg, #0864b0 0.23%, #00afef 80.21%), which the live style sheet still sets. Sampling the screenshot inside the element's box gives backgrounds of #029cdf to #01a2e4, about 2.88 to 3.08:1 against white, all below 4.5:1, and the text is neither large nor bold enough for 3:1, nor incidental or a logotype; no text-shadow or other technique raises it. The screenshot is fully styled and matches the live CSS, so the capture does not differ. The claim names the failure."
+    },
+    {
+      "fingerprint": "b8165e39834d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The first case-number textbox in the header (\"Num. única\"). Its <label for> is display:none (class d-none), and Chromium's tree (CDP) gives it the name \"\" with a labelledby relation to that hidden label, so the claim is true of the capture. But the input also has title=\"Informe Primeira parte da numeração do processo\" and placeholder \"Num. única\": HTML-AAM lists the title, then the placeholder, as fallbacks when the label yields no text, H65 (title) is a sufficient technique for naming a control, and engines that follow that fallback (and axe's name computation) name it from the title. Whether users receive a name thus depends on the browser (none in Chromium, the title elsewhere), and competent auditors would disagree whether a title that the spec makes the name, but Chromium drops, meets 4.1.2. The live HTML has the same hidden label and attributes."
+    },
+    {
+      "fingerprint": "pcd0c0386730",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "An image inside the h2 \"Carta de Serviços ao Cidadão\", not a link; the crop shows the PJERJ seal in a speech bubble with \"Ouvidoria GERAL\". Its alt \"Logo da ouvidoria geral\" identifies the logo and carries its text, which serves the image's purpose under 1.1.1 (logos are a common case where naming the organisation is enough). The live HTML is the same."
+    },
+    {
+      "fingerprint": "sf2007eea03f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A link whose text is its own address, https://www3.tjrj.jus.br/ESOU/HomeVisitante/Index, inside the sentence \"... recebendo número de protocolo único para fins de acompanhamento no link do 'Fale com a Ouvidoria' -( link ), ou demais canais de acesso ...\". The text is an address, as the claim says, but the same sentence, programmatically determined link context, says it is the \"Fale com a Ouvidoria\" system (ESOU) for following up the request, so its purpose can be determined from the link with its context; 2.4.4 does not forbid a URL as link text. The live paragraph is the same."
+    },
+    {
+      "fingerprint": "4c7fd6e369cc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"Busca Avançada\" link in the header banner, 16px weight 500, white on the banner's blue background image. Sampling the screenshot in the element's box gives #0494d8 to #0397db behind the text, 3.25 to 3.37:1 against white, below 4.5:1; not large or bold text, not incidental. The orange bar beside it is a pseudo element and does not change the text's background. The screenshot matches the live markup and CSS. The claim names the failure."
+    },
+    {
+      "fingerprint": "eaa024e2651d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer text \"Busca no site\", 16px weight 400, white on the footer's CSS background linear-gradient(91deg, #0864b0 0.23%, #00afef 80.21%), which the live style sheet still sets. Sampling the screenshot inside the element's box gives backgrounds of #029bde to #029ee1, about 3.01 to 3.11:1 against white, all below 4.5:1, and the text is neither large nor bold enough for 3:1, nor incidental or a logotype; no text-shadow or other technique raises it. The screenshot is fully styled and matches the live CSS, so the capture does not differ. The magnifier image after the text is a separate, named image; the finding is about the text. The claim names the failure."
+    },
+    {
+      "fingerprint": "p551b0675d22",
+      "answers": {
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The \"Fale com a Ouvidoria\" tile image, the only content of a link to the ESOU form. Its own alt (\"Fale com a ouvidoria. Serviço de informação ao cidadão. Clique aqui\") matches the crop and would describe the link's purpose, and Chromium keeps the image in the tree with that name; but the link's aria-label \"Link sem descrição\" overrides it, so the image link, as a control, has the exposed name \"Link sem descrição\", which describes no purpose. Read as the rubric reads 1.1.1 for an image that is all a link holds (the control must have a name that describes its purpose), it fails; but the image's text alternative itself is accurate, and competent auditors would place this defect on the link (2.4.4, 4.1.2, and 2.5.3, since the visible label is not in the name) rather than on the image's alternative. Hence uncertain. The live HTML is the same."
+    },
+    {
+      "fingerprint": "s6755afafc8f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A link \"2024\" in a nested list under the list item \"Pesquisa de Satisfação\" in the Ouvidoria navigation, next to 2026, 2025, 2023 and 2022, all with hrefs under /pesquisa-de-satisfacao/. The parent list item is programmatic context (H81, in the rubric's list), and the packet's ancestors show it: the link is the 2024 satisfaction survey, which is what its destination is. The claim that nothing around it tells where it goes is false. The live navigation is the same."
+    },
+    {
+      "fingerprint": "27dba61a5c40",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer text \"Encarregado pelo Tratamento de Dados Pessoais\", 16px weight 400, white on the footer's CSS background linear-gradient(91deg, #0864b0 0.23%, #00afef 80.21%), which the live style sheet still sets. Sampling the screenshot inside the element's box gives backgrounds of #029cdf to #00afef, about 2.51 to 3.08:1 against white, all below 4.5:1, and the text is neither large nor bold enough for 3:1, nor incidental or a logotype; no text-shadow or other technique raises it. The screenshot is fully styled and matches the live CSS, so the capture does not differ. The claim names the failure."
+    },
+    {
+      "fingerprint": "p7aefcd07557",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A link \"Acesso Rápido / SIC\" (title the same) in the Ouvidoria section navigation, after the heading \"Carta de Serviços ao Cidadão - Ouvidoria\". Its text names its destination, the page titled \"Acesso Rápido / SIC\" (quick access to the Serviço de Informação ao Cidadão), so its purpose is determinable and it meets 2.4.4. The live navigation is the same."
+    },
+    {
+      "fingerprint": "684347375d87",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The second case-number textbox (four digits, after the visible \".8.19.\"). Its <label for> \"Num. única 2\" is display:none (class d-none), and Chromium's tree (CDP) gives it the name \"\" with a labelledby relation to that hidden label, so the claim is true of the capture. The input has title=\"Informe o último conjunto da numeração do processo\", which HTML-AAM uses as the name when the label yields no text and which H65 accepts as a sufficient way to name a control; engines that follow that fallback (and axe's name computation) name it from the title. Whether users receive a name depends on the browser, and competent auditors would disagree whether it meets 4.1.2. The live HTML has the same hidden label and attributes."
+    }
+  ]
+}

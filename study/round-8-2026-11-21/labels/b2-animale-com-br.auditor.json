@@ -1,0 +1,211 @@
+{
+  "page": "https://www.animale.com.br/new-collection/acessorios",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "fb09988e2009",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The newsletter E-mail field in the footer (transparent input over the #f7f7f7 footer, placeholder 'E-mail', 11-12px weight 300). The site's live stylesheet (chunk 0d5b24039af96206.css) sets .Newsletter_emailInput__XLU6p::placeholder{color:#707070}, and the screenshot's dominant background around the field is #f7f7f7; #707070 on #f7f7f7 is 4.62:1, which meets the 4.5:1 that 1.4.3 asks of small text. The snapshot's pixelContrast says foregroundFrom 'pixels', uniform false: the #707097 it reports is a blend picked from subpixel-antialiased glyph edges (the screenshot shows coloured fringes such as #7083b1 and #977070 there), not the text colour, so the claim's 4.40:1 is false. The capture matches what users get (same CSS, same footer); the error lies in the collector's colour sampling, so the cause is collector_error."
+    },
+    {
+      "fingerprint": "e3e8ac8929ea",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The first product photo of the 'Sandalia De Couro Snake Salto Pino' card: an img with alt=\"1\" inside the card's image link (which itself has aria-label=\"1\"); the crop and the screenshot show a model's feet in snake-print strappy heeled sandals, nothing that '1' stands for. \"1\" is the slide index taken from the VTEX image label (alternateName), placeholder text that is not an alternative (F30): it neither describes the photo nor, as content of the link, its destination (H30), and as a non-null alt it cannot be ignored as decoration either, so the image fails 1.1.1. The claim, read in good faith, points at that defect (the alternative does not match what the image shows). The live page's script still renders alt from alternateName and the live product data still carries alternateName \"1\", so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "p73154206976",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The Off Premium logo image, the only content of a footer link to https://www.offpremium.com.br, after the text 'Outras coleções em:'. The crop shows the 'OFFPREMIUM' wordmark, and the alt 'Logo Off Premium' names that brand, which also identifies where the link goes (H30; the extra word 'Logo' does not hide it), so the image meets 1.1.1 and Rampa was right to report nothing. The live footer data has the same alt."
+    },
+    {
+      "fingerprint": "s394e5520eb9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A 36px SVG icon with alt 'Uma mulher' at the start of the footer's Personal Shopper link, whose text ('Personal Shopper Atendimento personalizado, sugestões de looks e ajuda nas compras do site ou app. Todos os dias de 8h às 22h.') gives the link's purpose. The crop shows a line drawing of a woman's head and hair, so the alternative describes what the icon shows and is not 'a label' as claimed. The icon only illustrates the service beside its text; a short accurate alternative there meets 1.1.1 (a null alt would be cleaner, which is advice and not what the claim says). The live page's footer data still carries 'Uma mulher', so the capture matches."
+    },
+    {
+      "fingerprint": "0da475557e3d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The first product photo of the 'Brinco Dourado Retangulo' card: an img with alt=\"1\" inside the card's image link (which itself has aria-label=\"1\"); the crop and the screenshot show a model wearing a long gold rectangular earring, nothing that '1' stands for. \"1\" is the slide index taken from the VTEX image label (alternateName), placeholder text that is not an alternative (F30): it neither describes the photo nor, as content of the link, its destination (H30), and as a non-null alt it cannot be ignored as decoration either, so the image fails 1.1.1. The claim, read in good faith, points at that defect (the alternative does not match what the image shows). The live page's script still renders alt from alternateName and the live product data still carries alternateName \"1\", so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "ccc1193e14f1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The first product photo of the 'Bolsa De Lona Ilhos' card: an img with alt=\"1\" inside the card's image link (which itself has aria-label=\"1\"); the crop and the screenshot show a model carrying a green gingham canvas shopper bag, nothing that '1' stands for. \"1\" is the slide index taken from the VTEX image label (alternateName), placeholder text that is not an alternative (F30): it neither describes the photo nor, as content of the link, its destination (H30), and as a non-null alt it cannot be ignored as decoration either, so the image fails 1.1.1. The claim, read in good faith, points at that defect (the alternative does not match what the image shows). The live page's script still renders alt from alternateName and the live product data still carries alternateName \"1\", so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "2ed13bbf2005",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The first product photo of the 'Cinto De Couro Minibold' card: an img with alt=\"1\" inside the card's image link (which itself has aria-label=\"1\"); the crop and the screenshot show a model in a lilac striped outfit with a thin cream belt, nothing that '1' stands for. \"1\" is the slide index taken from the VTEX image label (alternateName), placeholder text that is not an alternative (F30): it neither describes the photo nor, as content of the link, its destination (H30), and as a non-null alt it cannot be ignored as decoration either, so the image fails 1.1.1. The claim, read in good faith, points at that defect (the alternative does not match what the image shows). The live page's script still renders alt from alternateName and the live product data still carries alternateName \"1\", so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "cd08175b19af",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The first product photo of the 'Cinto De Couro Mini Tresset' card: an img with alt=\"1\" inside the card's image link (which itself has aria-label=\"1\"); the crop and the screenshot show a model in a mustard shirt and shorts with a burgundy belt, nothing that '1' stands for. \"1\" is the slide index taken from the VTEX image label (alternateName), placeholder text that is not an alternative (F30): it neither describes the photo nor, as content of the link, its destination (H30), and as a non-null alt it cannot be ignored as decoration either, so the image fails 1.1.1. The claim, read in good faith, points at that defect (the alternative does not match what the image shows). The live page's script still renders alt from alternateName and the live product data still carries alternateName \"1\", so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "fbaf0d6a9e41",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The first product photo of the 'Mule De Couro Tresset' card: an img with alt=\"1\" inside the card's image link (which itself has aria-label=\"1\"); the crop and the screenshot show a model's feet in nude woven heeled mules, nothing that '1' stands for. \"1\" is the slide index taken from the VTEX image label (alternateName), placeholder text that is not an alternative (F30): it neither describes the photo nor, as content of the link, its destination (H30), and as a non-null alt it cannot be ignored as decoration either, so the image fails 1.1.1. The claim, read in good faith, points at that defect (the alternative does not match what the image shows). The live page's script still renders alt from alternateName and the live product data still carries alternateName \"1\", so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "93530a9517f0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The first product photo of the 'Cinto De Couro Fino Bold' card: an img with alt=\"1\" inside the card's image link (which itself has aria-label=\"1\"); the crop and the screenshot show a model in a T-shirt and shorts with a thin black belt, nothing that '1' stands for. \"1\" is the slide index taken from the VTEX image label (alternateName), placeholder text that is not an alternative (F30): it neither describes the photo nor, as content of the link, its destination (H30), and as a non-null alt it cannot be ignored as decoration either, so the image fails 1.1.1. The claim, read in good faith, points at that defect (the alternative does not match what the image shows). The live page's script still renders alt from alternateName and the live product data still carries alternateName \"1\", so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "p105da48d05e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A 24px social icon, the only content of a footer link (in the list of social links) to open.spotify.com (the brand's Spotify user page). The crop shows the Spotify mark, and the alt 'Spotify' names the network, which in the brand's footer tells users where the link goes (H30), so the image meets 1.1.1 and Rampa was right to report nothing. The live footer data has the same alt."
+    },
+    {
+      "fingerprint": "4cad4491515b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The first product photo of the 'Cinto De Couro Tresset Geometric' card: an img with alt=\"1\" inside the card's image link (which itself has aria-label=\"1\"); the crop and the screenshot show a model in black leather shorts with a fan-buckle belt, nothing that '1' stands for. \"1\" is the slide index taken from the VTEX image label (alternateName), placeholder text that is not an alternative (F30): it neither describes the photo nor, as content of the link, its destination (H30), and as a non-null alt it cannot be ignored as decoration either, so the image fails 1.1.1. The claim, read in good faith, points at that defect (the alternative does not match what the image shows). The live page's script still renders alt from alternateName and the live product data still carries alternateName \"1\", so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "0c1b12759afb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The first product photo of the 'Cinto De Couro Trancado' card: an img with alt=\"1\" inside the card's image link (which itself has aria-label=\"1\"); the crop and the screenshot show a model in jeans with a braided, tied caramel belt, nothing that '1' stands for. \"1\" is the slide index taken from the VTEX image label (alternateName), placeholder text that is not an alternative (F30): it neither describes the photo nor, as content of the link, its destination (H30), and as a non-null alt it cannot be ignored as decoration either, so the image fails 1.1.1. The claim, read in good faith, points at that defect (the alternative does not match what the image shows). The live page's script still renders alt from alternateName and the live product data still carries alternateName \"1\", so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "3e4eeec7bd1e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The first product photo of the 'Mule De Couro Tresset' card: an img with alt=\"1\" inside the card's image link (which itself has aria-label=\"1\"); the crop and the screenshot show a model's feet in white woven heeled mules, nothing that '1' stands for. \"1\" is the slide index taken from the VTEX image label (alternateName), placeholder text that is not an alternative (F30): it neither describes the photo nor, as content of the link, its destination (H30), and as a non-null alt it cannot be ignored as decoration either, so the image fails 1.1.1. The claim, read in good faith, points at that defect (the alternative does not match what the image shows). The live page's script still renders alt from alternateName and the live product data still carries alternateName \"1\", so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "p69a6c5b6ab3",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A 24px social icon, the only content of a footer link (in the list of social links) to facebook.com/animalebrasil. The crop shows the Facebook 'f', and the alt 'Facebook' names the network, which in the brand's footer tells users where the link goes (H30), so the image meets 1.1.1 and Rampa was right to report nothing. The live footer data has the same alt."
+    },
+    {
+      "fingerprint": "f97d24a0cc17",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The first product photo of the 'Brinco Dourado Longo Pedra Snake' card: an img with alt=\"1\" inside the card's image link (which itself has aria-label=\"1\"); the crop and the screenshot show a model wearing long gold chain earrings, nothing that '1' stands for. \"1\" is the slide index taken from the VTEX image label (alternateName), placeholder text that is not an alternative (F30): it neither describes the photo nor, as content of the link, its destination (H30), and as a non-null alt it cannot be ignored as decoration either, so the image fails 1.1.1. The claim, read in good faith, points at that defect (the alternative does not match what the image shows). The live page's script still renders alt from alternateName and the live product data still carries alternateName \"1\", so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "p3d055408e36",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A 24px social icon, the only content of a footer link (in the list of social links) to twitter.com/animalebrasil. The crop shows the Twitter bird, and the alt 'Twitter' names the network, which in the brand's footer tells users where the link goes (H30), so the image meets 1.1.1 and Rampa was right to report nothing. The live footer data has the same alt."
+    },
+    {
+      "fingerprint": "se197540e754",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The image link of the 'Cinto De Couro Minibold' card: aria-label=\"1\" (the live script sets it from the first image's alternateName), no title, no aria-describedby, holding only the product photos. Its programmatic context by the rubric's list gives no purpose: it is not in a sentence, paragraph, list item or table cell with the product name (the card is div > article > div), and the heading just before it in document order is the previous card's h3 'Brinco Dourado Longo Pedra Snake', which names another product. The product name h3 'Cinto De Couro Minibold' comes after it, inside a separate text link in a sibling div, so it is not in the image link's context (F63; R2), and only that visual card title would explain the link. So the link fails 2.4.4, and the claim that '1' does not match a destination titled 'Cinto De Couro Minibold' names that failure. The live page builds the same markup, so the capture matches."
+    },
+    {
+      "fingerprint": "52e41de5a13b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The first product photo of the 'Bolsa De Couro Ouriço' card: an img with alt=\"1\" inside the card's image link (which itself has aria-label=\"1\"); the crop and the screenshot show a model carrying a brown beaded leather bucket bag, nothing that '1' stands for. \"1\" is the slide index taken from the VTEX image label (alternateName), placeholder text that is not an alternative (F30): it neither describes the photo nor, as content of the link, its destination (H30), and as a non-null alt it cannot be ignored as decoration either, so the image fails 1.1.1. The claim, read in good faith, points at that defect (the alternative does not match what the image shows). The live page's script still renders alt from alternateName and the live product data still carries alternateName \"1\", so the capture matches what users receive."
+    }
+  ]
+}

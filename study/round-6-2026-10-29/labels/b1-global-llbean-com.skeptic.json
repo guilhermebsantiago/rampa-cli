@@ -1,0 +1,292 @@
+{
+  "page": "https://global.llbean.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "95096db154bf",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Qualtrics Site Intercept feedback tab: div#slider-control-SI_0B6adVoKRcC6ovz, a transparent overlay on the 'Feedback' tab, focusable, with click and keydown listeners, role generic and no name in the snapshot. Qualtrics' current SliderModule.js builds exactly this: a div with tabIndex=0 whose click and Enter/Space toggle the survey panel, with no role and no aria attributes. It is a real control (it opens and closes the panel) exposed with no role and no name, which is F59. The widget is injected by script, not in the static HTML, but the vendor code confirms the structure users get when the intercept shows; I found no capture difference that touches the claim."
+    },
+    {
+      "fingerprint": "7a5f05f582ad",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Header search combobox, placeholder 'What can we help you find?'. The site's CSS (global.css) sets .form-control::placeholder{color:#6c757d;opacity:1}, and #6c757d on #ffffff is 4.69:1, above 4.5:1 for 13px text. The darkest rendered pixel of the placeholder in the screenshot is #717781 (4.51:1). #7fb6ea is a sub-pixel anti-aliasing fringe colour (it measures 2.15:1, not the 4.29:1 the message pairs it with), so the claim is wrong as worded and the text passes 1.4.3. Live CSS and markup match the capture. The rule had the pixels and chose a fringe colour as the text colour."
+    },
+    {
+      "fingerprint": "896feb3c364f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Hero photo link to the Gift Shop (/llb/shop/509870/). The link holds only the img, so its name is the alt 'Family gathered around a campfire in the woods, roasting marshmallows...'. Nothing in it says the link leads to the Gift Shop; the overlaid 'This Holiday, Give Presence' and 'HOLIDAY GIFT SHOP' are separate links in a sibling div, and 1.1.1 has no context provision. For an image that is the only content of a link, the alt has to describe the link's purpose (control clause of 1.1.1, H30), and this one only describes the scene. I looked for a technique that would rescue it (aria-label, title, hidden text, aria-hidden or tabindex=-1 on the link) and found none, on the live page either."
+    },
+    {
+      "fingerprint": "33cae98160f9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Image-only link in the hero grid (no visible text); its name is the alt 'Small dog beside a green and cream canvas tote bag.', and the link leads to 'The Original Maine-Made Boat and Tote' (the file is Hero_Grid_Mini_Boat_and_Tote). The sentence is true of the capture: the image is all the link holds and the alt describes the photo, not the destination. But the alt names the product the destination sells (a canvas tote, though the dog comes first), and a sighted user gets no more than the photo of that product, so a user can infer the link's purpose from the name; my lean is that it meets 1.1.1. A strict reading of H30 and the WAI functional-image guidance (describe the destination, not the image) would fail it, so competent auditors would reasonably disagree: uncertain. The live HTML matches the snapshot."
+    },
+    {
+      "fingerprint": "f47bf9e936a4",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image sits in a 'Can't Miss Gifts' carousel link whose own text is the caption 'Boat & Totes', so the link's purpose is carried by text. The crop the model saw shows a canvas tote with red trim beside a seated person in plaid layers and leather moccasins, which is what the alt says, so the claim that the alternative describes something the image does not show is false of the capture. A descriptive alt on an image inside a link that also has text does not fail 1.1.1. The live HTML has the same link, caption and alt, so the capture does not differ. The model had a matching crop and judged wrongly."
+    },
+    {
+      "fingerprint": "b0177a9b5995",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Image-only link in the hero grid (no visible text); its name is the alt 'Red and green plaid chamois shirt with chest pockets.', and the link leads to 'Shop All Flannel' (Rampa did not read it; I fetched it). The sentence is true of the capture: the image is all the link holds and the alt describes the photo, not the destination. But the alt names the product the destination sells (a plaid chamois shirt, sold under flannel), and a sighted user gets no more than the photo of that product, so a user can infer the link's purpose from the name; my lean is that it meets 1.1.1. A strict reading of H30 and the WAI functional-image guidance (describe the destination, not the image) would fail it, so competent auditors would reasonably disagree: uncertain. The live HTML matches the snapshot."
+    },
+    {
+      "fingerprint": "f872a642388b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A frame div of the Qualtrics feedback tab (body > div:nth-of-type(9) > div:nth-of-type(5)), same bounds as the real toggle, focusable, keydown listener only, no click listener. Qualtrics' BuildElementModule gives every creative element tabIndex=0 and a keydown handler (clickOnKeyDown) that only calls click() on the element, and this one has no click handler, so Enter or Space does nothing: it does not work as a control. The control is the sibling slider-control overlay, judged separately. What this element adds is a pointless tab stop (a focus-order issue, not named by the claim), not a user interface component without a role. The rule took a keydown listener for a control."
+    },
+    {
+      "fingerprint": "8be44ba5e6ee",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Outerwear tile: the img inside the 'Outerwear' tile link has alt 'Two people standing outdoors wearing casual striped and color-block pullovers.' The crop and the screenshot show four people, two adults and two children, walking by a cabin in a fair-isle sweater, cable knit and scarf, quilted vest and plaid shirt, with knit hats. The alt describes a different picture. Every <source> in the live picture element is a size variant of the same file, and the live alt and image hash match the snapshot, so desktop users get this mismatch. Even with the 'Outerwear' text in the link, the alt (read as part of the link's name) gives false information and is not equivalent to the image. I found no technique that makes it pass."
+    },
+    {
+      "fingerprint": "2b7f2c823272",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Image of text 'This Holiday, Give Presence' (script lettering) in a link to the Gift Shop; the alt is exactly the text in the image. The sentence is true of the capture, but for an image of text the 1.1.1 alternative is the text itself (G94/H37, and the WAI 'image of text used as a link' pattern); an alt naming the Gift Shop instead would not match the visible label (2.5.3). Sighted users get the same tagline, and the adjacent 'HOLIDAY GIFT SHOP' link goes to the same place. The checker asked the alt to state a destination the image itself does not show. The live markup matches."
+    },
+    {
+      "fingerprint": "sef68ef54d8b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'DETAILS' link under the flannel promo, inside the paragraph 'Ends November 24, 2026. Conditions and Exclusions Apply. DETAILS', with title='Terms and Conditions' (H33 description). The same paragraph and the title tell the purpose (the offer's terms and conditions), which is where it leads (Terms & Conditions page). So 'nothing around it does' is false and the link meets 2.4.4. Live HTML is identical. The model had the paragraph and title."
+    },
+    {
+      "fingerprint": "09ada2794b16",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer 'Sign Up for Email' field: input#foot-email type=text, aria-label 'Enter email address', no autocomplete attribute, both in the post-script snapshot and in the live server HTML. It collects the user's own email address, a purpose listed in 'Input Purposes for User Interface Components', so 1.3.5 needs autocomplete='email' (H98). type=text and the aria-label do not identify the purpose. I looked for a technique that would satisfy 1.3.5 here and found none."
+    },
+    {
+      "fingerprint": "a2dd01bcbf87",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Banner photo link to 'Mayes' Gift Guide' (/llb/shop/20011196/). The link holds only the img, so its name is the alt 'Two people in patterned pajamas and moccasin slippers relax on a brown leather chair.' It says nothing about the gift guide or the Mayes. The h2 'The Mayes' Gift Guide' and 'SHOP THEIR FAVORITES' come after it as separate elements, and 1.1.1 does not allow context. The name of an image-only link does not describe its purpose (1.1.1 control clause, H30). Naming pajamas and slippers is too weak a hint to count as describing a curated gift guide. Live markup matches."
+    },
+    {
+      "fingerprint": "334188b8c2b5",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image sits in a 'Can't Miss Gifts' carousel link whose own text is the caption 'Women's Fleece', so the link's purpose is carried by text. The crop the model saw shows a person in a blue patterned fleece pullover and light-wash jeans, which is what the alt says, so the claim that the alternative describes something the image does not show is false of the capture. A descriptive alt on an image inside a link that also has text does not fail 1.1.1. The live HTML has the same link, caption and alt, so the capture does not differ. The model had a matching crop and judged wrongly."
+    },
+    {
+      "fingerprint": "7f1f0da5908a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Close control of the Qualtrics feedback panel (body > div:nth-of-type(9) > div:nth-of-type(4)): a div with tabIndex=0, click and keydown listeners, containing only img bwc_close.png with no alt; role generic, no name. It sits off-screen (x=1633) while the panel is slid out, but it is focusable and exposed, and it is the panel's 'X' when the panel opens. A clickable close button built from a div with no role (and no name) fails 4.1.2 (F59). Qualtrics' builder confirms tabIndex=0 and no role. The widget is injected by script; nothing suggests users get a different structure."
+    },
+    {
+      "fingerprint": "44b0f1a31bc4",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The div holding the Qualtrics 'Feedback' tab graphic (body > div:nth-of-type(9) > div:nth-of-type(6)), focusable, keydown listener only, no click listener. As with every Qualtrics creative element, its keydown handler (clickOnKeyDown) only re-dispatches a click, and nothing handles a click here: the transparent slider-control overlay above it is the actual toggle, judged separately. The element does nothing, so it is not a control missing a role. It is a redundant tab stop (a focus-order matter the claim does not name). The rule took a keydown listener for a control."
+    },
+    {
+      "fingerprint": "86a1e5747d59",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image sits in a 'Can't Miss Gifts' carousel link whose own text is the caption 'Men's Outerwear', so the link's purpose is carried by text. The crop the model saw shows a person in a black puffer jacket and a knit pom hat against a neutral backdrop, which is what the alt says, so the claim that the alternative describes something the image does not show is false of the capture. A descriptive alt on an image inside a link that also has text does not fail 1.1.1. The live HTML has the same link, caption and alt, so the capture does not differ. The model had a matching crop and judged wrongly."
+    },
+    {
+      "fingerprint": "94fa690dfd2c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image sits in a 'Can't Miss Gifts' carousel link whose own text is the caption 'Gift Shop', so the link's purpose is carried by text. The crop the model saw shows a group around a campfire in the woods at dusk, roasting food, which is what the alt says, so the claim that the alternative describes something the image does not show is false of the capture. A descriptive alt on an image inside a link that also has text does not fail 1.1.1. The live HTML has the same link, caption and alt, so the capture does not differ. The model had a matching crop and judged wrongly."
+    },
+    {
+      "fingerprint": "b61a42783082",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Image-only link in the hero grid (no visible text); its name is the alt 'Navy patterned raggwool crewneck sweater folded on a red gift box.', and the link leads to 'Shop All Sweaters' (Rampa did not read it; I fetched it). The sentence is true of the capture: the image is all the link holds and the alt describes the photo, not the destination. But the alt names the product the destination sells (a sweater), and a sighted user gets no more than the photo of that product, so a user can infer the link's purpose from the name; my lean is that it meets 1.1.1. A strict reading of H30 and the WAI functional-image guidance (describe the destination, not the image) would fail it, so competent auditors would reasonably disagree: uncertain. The live HTML matches the snapshot."
+    },
+    {
+      "fingerprint": "s35843c1164b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Shop All' link at the end of the paragraph 'From unbeatably tough totes to ultra-cozy slippers, don't miss the products everyone is talking about. Shop All', leading to 'NYT Wirecutter Picks'. The visual title 'NYT Wirecutter Picks' is a styled <p>, not a heading, so it does not count; the preceding heading is the unrelated 'The Mayes' Gift Guide'. But the same paragraph is enough: the link shops all of the much-talked-about products just described (totes, slippers), which is what the Wirecutter picks page is. Nothing requires the link text to repeat the destination's title, so the link text does not contradict where it leads, and the link meets 2.4.4. Live HTML matches. The model had the paragraph."
+    },
+    {
+      "fingerprint": "26306a72b8c6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image sits in a 'Can't Miss Gifts' carousel link whose own text is the caption 'Women's Outerwear', so the link's purpose is carried by text. The crop the model saw shows a person in a brown puffer jacket and light pants against a neutral studio background, which is what the alt says, so the claim that the alternative describes something the image does not show is false of the capture. A descriptive alt on an image inside a link that also has text does not fail 1.1.1. The live HTML has the same link, caption and alt, so the capture does not differ. The model had a matching crop and judged wrongly."
+    },
+    {
+      "fingerprint": "b62d91970dd7",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image sits in a 'Can't Miss Gifts' carousel link whose own text is the caption 'Women's Sweaters', so the link's purpose is carried by text. The crop the model saw shows a close-up of a person in a light ribbed (waffle-knit) mock-neck sweater, which is what the alt says, so the claim that the alternative describes something the image does not show is false of the capture. A descriptive alt on an image inside a link that also has text does not fail 1.1.1. The live HTML has the same link, caption and alt, so the capture does not differ. The model had a matching crop and judged wrongly."
+    },
+    {
+      "fingerprint": "ab27612217f5",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image sits in a 'Can't Miss Gifts' carousel link whose own text is the caption 'Men's Sweaters', so the link's purpose is carried by text. The crop the model saw shows a person on a stool in a neutral quarter-zip sweater, with a plaid shirt and brown leather boots, which is what the alt says, so the claim that the alternative describes something the image does not show is false of the capture. A descriptive alt on an image inside a link that also has text does not fail 1.1.1. The live HTML has the same link, caption and alt, so the capture does not differ. The model had a matching crop and judged wrongly."
+    },
+    {
+      "fingerprint": "a36d7632398b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image sits in a 'Can't Miss Gifts' carousel link whose own text is the caption 'Men's Shirts', so the link's purpose is carried by text. The crop the model saw shows a studio portrait of a person in a plaid overshirt, a graphic tee and a knit beanie, which is what the alt says, so the claim that the alternative describes something the image does not show is false of the capture. A descriptive alt on an image inside a link that also has text does not fail 1.1.1. The live HTML has the same link, caption and alt, so the capture does not differ. The model had a matching crop and judged wrongly."
+    },
+    {
+      "fingerprint": "s046b7463bf9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Details' link in the top promo bar: <div class='header-promotion'><strong>Timeless New England Style, Shipped at Competitive Rates.</strong><a title='Details'>Details</a></div>. The link shares its paragraph (the one text block of the div) with the sentence about shipping rates, so the purpose, details on shipping, can be determined. It leads to 'Shipping Information' (Rampa did not read it; I fetched it). The title adds nothing, but it is not needed. 'Nothing around it does' is false and the link meets 2.4.4. Live HTML is identical. The model had the sentence."
+    },
+    {
+      "fingerprint": "a08d1672449f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Image-only link in the hero grid (no visible text); its name is the alt 'Shearling-lined rubber Bean Boot mocs in brown leather and tan suede.', and the link leads to 'Shop All Boots' (Rampa did not read it; I fetched it). The sentence is true of the capture: the image is all the link holds and the alt describes the photo, not the destination. But the alt names the product the destination sells (Bean Boot footwear, though mocs are not quite boots), and a sighted user gets no more than the photo of that product, so a user can infer the link's purpose from the name; my lean is that it meets 1.1.1. A strict reading of H30 and the WAI functional-image guidance (describe the destination, not the image) would fail it, so competent auditors would reasonably disagree: uncertain. The live HTML matches the snapshot."
+    },
+    {
+      "fingerprint": "aaf90a35612e",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The outer frame of the Qualtrics feedback panel (body > div:nth-of-type(9) > div:nth-of-type(2)), 382x641 and off-screen at x=1283 while the panel is closed; focusable, keydown listener only, with a single empty child div. It is a container, not a control: Qualtrics gives every creative element tabIndex=0 and a keydown handler that only re-dispatches click(), and this frame has no click handler, so it does nothing. Its real problem is an invisible, pointless tab stop (focus order or visible focus, not named by the claim), not a control missing a role. The rule took a keydown listener for a control."
+    }
+  ]
+}

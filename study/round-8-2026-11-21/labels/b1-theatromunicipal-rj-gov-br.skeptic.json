@@ -1,0 +1,27 @@
+{
+  "page": "https://theatromunicipal.rj.gov.br/fale-conosco/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s67386906574",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The link reads 'Saiba mais sobre a Lei de Acesso à Informação' on screen, but its aria-label is ' (abre numa nova aba)', so its accessible name is only '(abre numa nova aba)'. This looks like the WordPress editor's new-tab label added with the link text left out. claimTrue: four links on the captured page have exactly that name (two mailto links under the Presidência and Divisão Administrativa headings, plus the two e-SIC links), and they lead to four different addresses. The e-SIC heading separates this link from the mailto pair, but nothing separates it from the other e-SIC link, so the sentence holds in substance. elementFails, by R1: this link and the 'Relatórios de pedidos de acesso à informação' link have the same name and the same preceding heading (h3 'Sistema Eletrônico do Serviço de Informação ao Cidadão (e-SIC)'). Each is alone in its paragraph, and neither has a title or aria-describedby. The visible text inside each link is overridden by the aria-label, so it is not context that assistive technology presents. The destinations are not equivalent: gov.br/acessoainformacao/pt-br is the portal's home page ('Home — Acesso à Informação'), while /perguntas-frequentes is an FAQ address that today redirects to a gov.br login page. The different visible link texts tell the pair apart for sighted users, so both links fail 2.4.4. On its own, the name says nothing about the purpose either. Neither link's name is right: both lost their text. It also fails 2.5.3 (Label in Name). I looked for reasons the finding could be wrong (a title, aria-describedby, a differing heading or paragraph context, equivalent destinations, a capture artefact) and none held up. captureDiffers: the live HTML fetched today has the same markup, aria-label and headings, and the screenshot shows the styled page."
+    },
+    {
+      "fingerprint": "sb659fc6f81e",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The link reads 'Relatórios de pedidos de acesso à informação' on screen and goes to https://www.gov.br/acessoainformacao/pt-br. Its aria-label ' (abre numa nova aba)' replaces that text, so its accessible name is only '(abre numa nova aba)'. claimTrue: four links on the captured page have that name and lead to four different addresses (tmunicipalrj and datm.tmrj mailto links, the gov.br portal, and the gov.br FAQ). Its heading separates it from the two mailto links but not from the other e-SIC link, so the sentence holds in substance. elementFails, by R1: it shares its name and preceding heading (h3 e-SIC) with the 'Saiba mais sobre a Lei de Acesso à Informação' link. Both sit alone in their own paragraphs, with no title or aria-describedby, and the visible text is overridden by the aria-label. The portal home page and the FAQ address (which now redirects to a login page) are not equivalent resources. The visible texts tell them apart, so the pair fails 2.4.4. Both names are wrong because both links lost their text in the aria-label, and the link also fails 2.5.3. No technique, context or capture difference makes it pass. captureDiffers: the live HTML is identical for this element and its heading, and the screenshot is the styled page."
+    },
+    {
+      "fingerprint": "s9c2ab8b4d70",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is a top-level item of the main navigation menu, 'PEDTIC', with title 'PEDTIC'. It links to pedtic2026_V16_final_.pdf. It has no parent list item and no preceding heading, and its title only repeats the text. I opened the PDF: every page is headed 'PEDTIC 2024 – 2027', and it is the institution's PEDTIC plan (committee, presidency approval). So the link text is the name of the document it opens. claimTrue: the link text does tell where the link goes, to the PEDTIC document, so the sentence is not true. elementFails: Understanding 2.4.4 accepts link text that identifies the destination, and naming the document is enough. That the acronym is not expanded is a 3.1.4 Abbreviations (AAA) matter, not a 2.4.4 one. And if 'PEDTIC' were unclear, sighted users would see the same single word, so the criterion's exception for purposes 'ambiguous to users in general' would apply. Not saying the link is a PDF is advisory only. The checker applied a stricter rule (acronym expansion) than 2.4.4 requires. captureDiffers: the live menu markup is identical, and the screenshot shows the styled menu."
+    }
+  ]
+}

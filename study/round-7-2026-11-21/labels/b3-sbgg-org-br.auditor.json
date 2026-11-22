@@ -1,0 +1,201 @@
+{
+  "page": "https://sbgg.org.br/gga-passa-a-integrar-a-colecao-scielo-brasil/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "959425bf5af4",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A 30x30 image (a blue swirl logo with no text) is the only content of a footer link to https://itargettecnologia.com.br (the site developer, iTarget Tecnologia), alt and title 'itarget-icon'; the live HTML is the same. Applying R2's first test, the alternative read as the link's text names iTarget, the company whose site the link opens, so it lets users tell where the link goes; it is clumsy and file-name-like ('-icon'), but it does not lose the destination (compare an alt such as 'facebook-icon' on a Facebook link). The claim's second half, that it does not say where the link leads, is therefore not true, and the element meets 1.1.1 on this point (a better alt would be 'iTarget Tecnologia'). The icon lies just below the full screenshot's bottom edge, but the crop and the live page agree with the snapshot."
+    },
+    {
+      "fingerprint": "4dabb2d24a4b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The italic lead sentence of the article ('A conquista amplia...'), 16px weight 400. The text is #7A7A7A (Elementor global text colour --e-global-color-text in post-31076.css, confirmed from the screenshot's pixels) on white; the 'background image' that stopped axe-core is a 0.2-opacity overlay at the top left of the section, and the pixels behind this text are #ffffff, the lightest possible background, so 4.29:1 is the best case. Normal-size text needs 4.5:1, so it fails 1.4.3, exactly as the claim says. The live page has the same text and styles."
+    },
+    {
+      "fingerprint": "b01b28127208",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only social link to Google Maps in the sidebar ('Fale Conosco'); its only text is a screen-reader-only span. Live CSS for widget 465f527 sets the social icon background to rgba(255,255,255,0) and the glyph to #31c5ff, on the white page; the screenshot shows #31c5ff on #ffffff, 1.99:1. The glyph is the only visual information that identifies the control, so 1.4.11 asks for 3:1 against adjacent colours (G207); it fails, as the claim states. Live page unchanged."
+    },
+    {
+      "fingerprint": "db89ec10fed8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Current-page breadcrumb (strong.breadcrumb_last), white, 13.6px bold, so normal-size text needing 4.5:1. The hero's background is not static: the live CSS (post-24844.css, custom CSS for section 59487b8) paints its container with linear-gradient(270deg, #212529, #0097bd, #30b1c6) at background-size 600% and an 11 s infinite animation of background-position from 0% to 100% and back. At the animation's start (page load) and once per cycle the area behind the text is the light end, about #2aaec5, which is the colour Rampa measured; the full screenshot caught a later, darker phase (#087c9a to #115c70, about 4.8:1 or more). White on that light teal is about 2.6-2.7:1, and even on the middle colour #0097bd it is about 3.4:1, so the text fails 1.4.3 for a large part of every cycle, starting at load (by analogy with Understanding 1.4.3's logos that are low contrast until hovered, and F83). The claim's colours and 2.73:1 are true of that state. captureDiffers is no: the measured state is one the live page shows; only the screenshot shows another phase."
+    },
+    {
+      "fingerprint": "pe4cea74b3b8",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Sidebar link 'SBGG Artigos N° 105' inside an h3 in the 'Artigos SBGG' list, to https://sbgg.org.br/sbgg-artigos-n-105/, whose title and heading are 'SBGG Artigos N° 105'. The link text alone names the destination, and no other link on the page shares its name. It meets 2.4.4. The live page has the same link."
+    },
+    {
+      "fingerprint": "e3c1eb41e960",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The word 'saudável', second strong of the bold pseudo-heading 'Ciência aberta e compromisso com o envelhecimento saudável', 16px weight 700 (not large: bold must be at least 18.66px). The text is #7A7A7A (Elementor global text colour --e-global-color-text in post-31076.css, confirmed from the screenshot's pixels) on white; the 'background image' that stopped axe-core is a 0.2-opacity overlay at the top left of the section, and the pixels behind this text are #ffffff, the lightest possible background, so 4.29:1 is the best case. It needs 4.5:1 and fails 1.4.3, as claimed. Live page unchanged."
+    },
+    {
+      "fingerprint": "p04f7afe6a85",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Sidebar menu link 'Releases' to https://sbgg.org.br/123noticias/releases/ (title 'Releases - SBGG'), in a list after the h5 'Notícias', so its context gives 'news releases'. The only other 'Releases' link is the hidden duplicate of the same Elementor menu (#menu-2-b29a615), to the same address, so R1 raises nothing. It meets 2.4.4."
+    },
+    {
+      "fingerprint": "c351e73efb91",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Breadcrumb link 'SBGG', white, 13.6px weight 400, needing 4.5:1. The hero's background is not static: the live CSS (post-24844.css, custom CSS for section 59487b8) paints its container with linear-gradient(270deg, #212529, #0097bd, #30b1c6) at background-size 600% and an 11 s infinite animation of background-position from 0% to 100% and back. At the animation's start (page load) and once per cycle the area behind the text is the light end, about #2aaec5, which is the colour Rampa measured; the full screenshot caught a later, darker phase (#087c9a to #115c70, about 4.8:1 or more). White on the light phase is about 2.6-2.7:1 (the claim's 2.67:1) and about 3.4:1 on #0097bd, so it fails 1.4.3 for much of each cycle including at load. captureDiffers is no: the measured state is a real state of the live page."
+    },
+    {
+      "fingerprint": "e9a87eadae3b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "In-text link 'https://ggaging.com' at the end of the article, 16px weight 400. Its pixels in the screenshot are #0095bb on #ffffff, 3.49:1, and the background behind it is plain white. Normal text needs 4.5:1, so it fails 1.4.3 as claimed. Live page unchanged."
+    },
+    {
+      "fingerprint": "be61ec8f2bc2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The page's h1, white Roboto Condensed 56px weight 300: large text, so 3:1 is required. The hero's background is not static: the live CSS (post-24844.css, custom CSS for section 59487b8) paints its container with linear-gradient(270deg, #212529, #0097bd, #30b1c6) at background-size 600% and an 11 s infinite animation of background-position from 0% to 100% and back. At the animation's start (page load) and once per cycle the area behind the text is the light end, about #2aaec5, which is the colour Rampa measured; the full screenshot caught a later, darker phase (#087c9a to #115c70, about 4.8:1 or more). White on the light phase is about 2.6-2.8:1, below 3:1 (it passes only once the gradient has moved toward #0097bd and darker), so it fails 1.4.3 at load and once per cycle, as the claim reports. captureDiffers is no: the measured state is one the live page shows; the screenshot only caught a darker phase."
+    },
+    {
+      "fingerprint": "6170da8c0143",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Breadcrumb link 'Início', white, 13.6px weight 400, needing 4.5:1. The hero's background is not static: the live CSS (post-24844.css, custom CSS for section 59487b8) paints its container with linear-gradient(270deg, #212529, #0097bd, #30b1c6) at background-size 600% and an 11 s infinite animation of background-position from 0% to 100% and back. At the animation's start (page load) and once per cycle the area behind the text is the light end, about #2aaec5, which is the colour Rampa measured; the full screenshot caught a later, darker phase (#087c9a to #115c70, about 4.8:1 or more). White on the light phase is about 2.6-2.7:1 and on #0097bd about 3.4:1, so it fails 1.4.3 for much of every cycle, from page load on. The claim's figures match that state; captureDiffers is no for the same reason as the other hero text."
+    },
+    {
+      "fingerprint": "s87b652053a5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The link's text is the address 'https://ggaging.com', so the sentence is true of the capture. But the link sits in the sentence 'Acesse a GGA e conheça as pesquisas publicadas: https://ggaging.com' (live HTML: same text node run, no separate block), which is its programmatically determined context and says it leads to the GGA journal and its published research; the domain itself also names GGA. The purpose is determinable, so it meets 2.4.4. Treating any URL as link text as a failure is stricter than the criterion."
+    },
+    {
+      "fingerprint": "0e8803895659",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only social link to Facebook in the sidebar; its text is a screen-reader-only span. The glyph (fab fa-facebook) is #31c5ff on the white page with a transparent icon background (live CSS for widget 465f527), 1.99:1 in the screenshot, and the white 'f' cut-out has the same ratio against the circle. The icon is the only visual cue to the control, so 1.4.11 asks for 3:1 (G207); it fails as claimed."
+    },
+    {
+      "fingerprint": "d796077fce10",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "First strong of the bold pseudo-heading 'Ciência aberta e compromisso com o envelhecimento', 16px weight 700, which is not large text. The text is #7A7A7A (Elementor global text colour --e-global-color-text in post-31076.css, confirmed from the screenshot's pixels) on white; the 'background image' that stopped axe-core is a 0.2-opacity overlay at the top left of the section, and the pixels behind this text are #ffffff, the lightest possible background, so 4.29:1 is the best case. It needs 4.5:1 and fails 1.4.3, as claimed. Live page unchanged."
+    },
+    {
+      "fingerprint": "4c98dced18cd",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Footer image under the h5 'Fliliada a:' (affiliated to): the logo of AMB with the words 'AMB Associação Médica Brasileira', not a link, alt and title 'csm_logo_amb2' (a CMS file name), the same on the live page. The alternative does not describe something absent: 'logo amb' is what the picture is, so the claim's sentence is not accurate. As an auditor I would fail it under 1.1.1 (F30, file name as text alternative; it leaves out the organisation's name that the image shows and wraps the acronym in 'csm_' and '2'). But competent auditors would disagree both on whether an alt that still contains 'amb' fails, and on whether 'describes something the image does not show' names a file-name defect, so the label is uncertain."
+    },
+    {
+      "fingerprint": "de0be614a776",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The article body container (Elementor text-editor widget), 16px weight 400 for its running text. The text is #7A7A7A (Elementor global text colour --e-global-color-text in post-31076.css, confirmed from the screenshot's pixels) on white; the 'background image' that stopped axe-core is a 0.2-opacity overlay at the top left of the section, and the pixels behind this text are #ffffff, the lightest possible background, so 4.29:1 is the best case. Normal text needs 4.5:1, so the body text fails 1.4.3, as the claim says (its one link, #0095bb, is reported apart). Live page unchanged."
+    },
+    {
+      "fingerprint": "p1858cda6184",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "16x16 author avatar (Gravatar falling back to the SBGG default avatar) in the post-info list, alt 'RSPRESS', followed by the visible author name 'RSPRESS'. The alternative identifies whose avatar it is, which serves the image's purpose; repeating the adjacent name is redundant (alt='' would be better) but not a 1.1.1 failure. The live page is the same."
+    },
+    {
+      "fingerprint": "bb970ef87ff7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Bold pseudo-heading 'O que essa conquista representa?', 16px weight 700 (not large). The text is #7A7A7A (Elementor global text colour --e-global-color-text in post-31076.css, confirmed from the screenshot's pixels) on white; the 'background image' that stopped axe-core is a 0.2-opacity overlay at the top left of the section, and the pixels behind this text are #ffffff, the lightest possible background, so 4.29:1 is the best case. It needs 4.5:1 and fails 1.4.3, as claimed. Live page unchanged."
+    }
+  ]
+}

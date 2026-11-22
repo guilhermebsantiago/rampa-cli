@@ -1,0 +1,176 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.nmc.org.uk/registration/search-the-register/",
+ "model": null,
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "ebb7c00f1b31",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > header > div:nth-of-type(1) > div > div > a",
+   "target": "html > body > header > div:nth-of-type(1) > div > div > a",
+   "message": "\"Cymraeg\" is in Welsh, but it inherits the page's language (en-GB): a screen reader mispronounces the language's name. Add lang=\"cy\" to the link.",
+   "evidence": "Cymraeg",
+   "subject": "Cymraeg",
+   "patch": {
+    "ref": "html > body > header > div:nth-of-type(1) > div > div > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "cy",
+    "before": "<a href=\"/about-us/our-role/ein-rol/\" class=\"text-sm !font-medium no-underline-normal\">",
+    "after": "<a href=\"/about-us/our-role/ein-rol/\" class=\"text-sm !font-medium no-underline-normal\" lang=\"cy\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/about-us/our-role/ein-rol/\" class=\"text-sm !font-medium no-underline-normal\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 1
+ },
+ "groups": null,
+ "needsReview": [],
+ "discarded": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 52,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 14,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 6,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were not checked at all, so whatever they hold was missed: html > body > iframe:nth-of-type(2) (cross-origin; skipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 0,
+  "inputTokens": 0,
+  "outputTokens": 0,
+  "latencyMs": 0
+ },
+ "timings": null,
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 5,
+   "notCaptured": 0,
+   "reasons": {}
+  }
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > iframe:nth-of-type(2)",
+     "url": "https://consentcdn.cookiebot.com/sdk/bc-v5.min.html",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": false,
+     "engineReason": "skipped"
+    }
+   ]
+  }
+ }
+}

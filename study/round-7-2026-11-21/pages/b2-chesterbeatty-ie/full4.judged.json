@@ -1,0 +1,311 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://chesterbeatty.ie/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "d29963ab5924",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#home_boxes > div:nth-of-type(1) > div > p:nth-of-type(2)",
+   "message": "This passage has no lang attribute, so it is read as English (en), but it is in Irish (ga).",
+   "evidence": "chuig roinnt áiteanna ar fud na cathrach, leabharlanna agus",
+   "subject": "unmarked|en|chuig roinnt áiteanna ar fud na cathrach, leabharlanna agus",
+   "techniques": [
+    "H58"
+   ],
+   "patch": {
+    "ref": "#home_boxes > div:nth-of-type(1) > div > p:nth-of-type(2)",
+    "kind": "set-text",
+    "from": "chuig roinnt áiteanna ar fud na cathrach, leabharlanna agus",
+    "to": "<span lang=\"ga\">chuig roinnt áiteanna ar fud na cathrach, leabharlanna agus</span>",
+    "before": "chuig roinnt áiteanna ar fud na cathrach, leabharlanna agus",
+    "after": "<span lang=\"ga\">chuig roinnt áiteanna ar fud na cathrach, leabharlanna agus</span>"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {},
+ "groups": null,
+ "needsReview": [],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#footer_image > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Image of figure detail for website, mask",
+    "problem": "wrong_content",
+    "imageShows": "A Japanese netsuke carving in the shape of a Noh mask.",
+    "suggestedAlt": "Netsuke in the shape of a Noh mask",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#footersocial > div:nth-of-type(2) > ul > li:nth-of-type(2) > a",
+   "reason": "evidence is not the link text",
+   "output": {
+    "promises": "The link text 'Instagram' with the icon indicates a link to the organization's Instagram profile.",
+    "leadsTo": "https://www.instagram.com/chester_beatty_dublin/",
+    "verdict": "pass",
+    "evidence": "Instagram ",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#footernav > ul:nth-of-type(2) > li:nth-of-type(3) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page about accessibility information.",
+    "leadsTo": "A page titled 'Visit - Chester Beatty' describing the location and proximity to Dame Street.",
+    "verdict": "fail",
+    "evidence": "Accessibility",
+    "problem": "mismatch",
+    "suggestedText": "Accessibility information",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#footerlinks > div > ul > li > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Registered Charity Number (RCN) 20009571' suggests it leads to information about the charity's registration or legal status.",
+    "leadsTo": "https://chesterbeatty.ie/",
+    "verdict": "fail",
+    "evidence": "Registered Charity Number (RCN) 20009571",
+    "problem": "mismatch",
+    "suggestedText": "Chester Beatty Homepage",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 34,
+   "judged": 34,
+   "failed": 0,
+   "passed": 31,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 7,
+   "judged": 7,
+   "failed": 0,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 image(s) were left without a capture, so no judgment looked at them: 1 covered where it sits by other content, such as a popup or a cookie banner. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 44,
+  "cachedCalls": 0,
+  "inputTokens": 41377,
+  "outputTokens": 3857,
+  "latencyMs": 120171
+ },
+ "timings": {
+  "totalMs": 63818,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 16
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 1920,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 50987,
+    "prepareMs": 0,
+    "candidates": 34,
+    "judged": 34,
+    "calls": 34,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 8142,
+    "prepareMs": 0,
+    "candidates": 7,
+    "judged": 7,
+    "calls": 7,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 1628,
+    "prepareMs": 210,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 1101,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 20
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 1,
+   "notCaptured": 1,
+   "reasons": {
+    "covered": 1
+   }
+  }
+ },
+ "coverage": {
+  "reach": null
+ }
+}

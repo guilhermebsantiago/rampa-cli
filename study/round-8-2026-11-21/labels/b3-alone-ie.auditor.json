@@ -1,0 +1,37 @@
+{
+  "page": "https://alone.ie/alone-launches-christmas-campaign-as-more-than-half-of-older-people-struggle-to-pay-bills/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p6e31ff69bae",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Contact' item of the main navigation (shown uppercase by CSS), linking to https://alone.ie/contact/, a page titled 'Contact - ALONE' with the support line and contact details. The link text alone gives its purpose. The only other link with the same name in the snapshot is the cookie banner's 'Contact', which goes to the same URL, so R1 does not apply ('Contact Us' in the footer has a different name and also goes there). captureDiffers: the live HTML has the same anchor and href; the full-page screenshot paints the fixed header further down the page instead of at the top, which is a screenshot artefact and does not touch the link's name or destination. The element meets 2.4.4, so Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "p333017fdce2",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the X (Twitter) social icon link in the off-canvas responsive side menu (#Side_slide, placed past the right edge of the 1280px viewport while closed). It has aria-label 'X (Twitter) icon', title 'X (Twitter)' and goes to https://twitter.com/alone_ireland, the organisation's X profile. The name says which social network it opens, which is enough to determine the purpose of a site's social icon link; the word 'icon' is extra but does not hide the purpose. The footer has an identical link (same name, same href), so R1 does not apply. captureDiffers: the live HTML has both anchors with the same attributes. The element meets 2.4.4. Separately, a focusable link in a closed off-screen panel could be a focus problem (2.4.3/2.4.7), which this row does not judge."
+    },
+    {
+      "fingerprint": "sd473ef997f2",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the 'Financial Statements and Annual Reports' entry in the footer's 'Publications & Resources' widget, linking to /financial-statements-and-annual-reports/. claimTrue: it is true that the destination's title is 'Knowledge Hub - ALONE', but the snapshot records the final URL as /alones-knowledge-hub/#Annual-Reports, the hub's annual reports part, so 'does not match' does not hold even in the capture; a broader page title is not a mismatch. elementFails: following the live redirects (301 to /publications-resources/#Annual-Reports, then 301 to /alones-knowledge-hub/) lands on ALONE's document library, whose first page lists 'ALONE Annual Report 2025' and '2025 ALONE Audited Financial Statement and Trustees Report' and has a 'Financial Statements' category filter. The link text describes what the user gets there, so its purpose can be determined from the text alone. The #Annual-Reports anchor no longer exists on the hub, so users land at its top: a stale-redirect usability issue, not a 2.4.4 failure. captureDiffers: the live article has the same link and the redirect still ends at the same hub; in the screenshot the link is covered by the cookie dialog, which does not affect its name or destination. Rampa judged from the destination's title and description only, without its contents, hence context_missing."
+    }
+  ]
+}

@@ -1,0 +1,177 @@
+{
+  "page": "https://www.boston.gov/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "pa19aad89863",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Headshot photo (alt \"Ruthzee Louijeune headshot\") inside the council card whose visible text gives the councilor's name and title. The image is not the only content of the card, so its alternative may describe the picture, and \"Ruthzee Louijeune headshot\" is an accurate equivalent of a portrait (crop checked). Passes 1.1.1. Live HTML has the same alt, so the capture does not differ. Aside: the card's <a href> carries role=\"group\", so it is not exposed as a link (a 4.1.2 problem, not 1.1.1)."
+    },
+    {
+      "fingerprint": "eff14b481403",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter \"Zip Code\" text input (labelled, visible label ZIP CODE). It collects the subscriber's own postal code, a purpose in WCAG's Input Purposes list (postal-code), and neither the snapshot nor the live HTML has any autocomplete attribute on the input or the form, so the purpose is not programmatically determined (H98 not used). Fails 1.3.5 for the reason the claim gives. Live markup is identical to the capture."
+    },
+    {
+      "fingerprint": "a6966beb47b1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Placeholder \"Zip Code\" in the newsletter zip field. Live CSS (public.css: .txt-f::placeholder{color:#828282}; patterns-cob-theme.css input::placeholder #828282) on the white field gives 3.84:1, 18px, normal weight, italic, so normal-size text needing 4.5:1. The placeholder is visible text and no 1.4.3 exception (inactive component, decoration, invisible, logotype) covers it, even with a visible label above. Screenshot shows the gray italic placeholder. Fails 1.4.3 as claimed; capture matches the live page."
+    },
+    {
+      "fingerprint": "7d11931f272c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter email input (type=email, label \"Enter Your Email Address\"). It collects the user's own email address (purpose \"email\" in the Input Purposes list); type=email gives the data type but not that it is the user's address, and there is no autocomplete attribute on the input or form in the snapshot or the live HTML. Fails 1.3.5 as the claim says. Capture matches the live page."
+    },
+    {
+      "fingerprint": "sec87ecb7ef1",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Status card link: title \"Tow lot\" plus \"The tow lot is only open Monday through Friday... Automated kiosks are available 24 hours a day... for vehicle releases\", leading to \"How to Get Your Towed Vehicle Back\" (destination in the packet). The link text is about the tow lot and getting a towed vehicle released, which is exactly what the destination covers, so the purpose is clear from the link text alone and the claim of a mismatch is false. Passes 2.4.4. Live page has the same link and destination."
+    },
+    {
+      "fingerprint": "a49241638517",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header search toggle: <label for=\"s-tr\" title=\"Search\" tabindex=\"0\"> with click and keydown listeners; Chrome exposes it as LabelText with no control role. The checkbox it toggles (#s-tr) is aria-hidden and hidden, so this label is the only control for opening search, and a screen reader announces only \"Search\" with no role (F59 pattern). Fails 4.1.2 (role not programmatically determined) as claimed. Live HTML has the same label and aria-hidden checkbox. The full-page screenshot lost the fixed header row, which does not bear on this claim."
+    },
+    {
+      "fingerprint": "cd27437c8a5f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Gov banner disclosure: <label for=\"dr-banner\" class=\"dr-h\">, made focusable by site script ($(\".dr-h\").attr(\"tabindex\",\"0\") plus an Enter handler, confirmed in the live footer JS), exposed as LabelText with no role and an empty browser name, so the claim is true. My reading is that this focusable, keyboard-operated element has no role and fails 4.1.2. But the checkbox it labels (#dr-banner) is only visually hidden, stays in the accessibility tree and tab order, and exposes role checkbox, the name \"Boston.gov An official website...\" and a checked state. So the banner's function is available with role and state, and the label is arguably a redundant tab stop rather than a control lacking a role. Competent auditors would reasonably disagree, hence uncertain. Capture matches live behaviour."
+    },
+    {
+      "fingerprint": "1c607fbae239",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Guide:\" label in the first featured-guide card (link \"1 Guide: Trash and Recycling\"). Live CSS: .cdfg-d color #091f2f over the .cdfg:before overlay #1871bd, which gives 3.31:1, matching the pixel measure and the screenshot (dark italic text on the blue card). Font-size calc(16px + 9*((100vw-480px)/960)) is 23.5px at the 1280px viewport, normal weight, so normal text needing 4.5:1 (it only reaches large-text size, 25px, at 1440px and wider; on narrower and mobile viewports it is smaller still). Fails 1.4.3 as claimed. Capture matches the live page."
+    },
+    {
+      "fingerprint": "pe3c2ba4c90c",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Link \"digital@boston.gov\" (mailto:) in the sentence \"Questions? Contact us at digital@boston.gov.\" in the AI-search panel. The link text is an email address and its sentence says it is for contacting the team, so its purpose is clear. Passes 2.4.4. Live HTML has the same sentence and link."
+    },
+    {
+      "fingerprint": "p13d62865417",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Main-menu link \"Public Notices\" to /public-notices. The text names the destination section. The only other link with that name (header \"Public notices\") goes to the same address, so there is no shared-name issue (R1). Passes 2.4.4. Live HTML has the same link."
+    },
+    {
+      "fingerprint": "p54488d8a766",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Header logo image, alt \"Boston.gov\", the only content of the link to \"/\" (home). As a link image its alternative identifies the destination (the Boston.gov site's home page), as H30's example does with a site name, so it serves the equivalent purpose. Passes 1.1.1. The logotype reads \"CITY of BOSTON\" (crop), so the name not containing the visible words could be raised under 2.5.3, not 1.1.1. The full-page screenshot lost the fixed header, but the crop and snapshot show the logo rendered, and live HTML has the same alt."
+    },
+    {
+      "fingerprint": "p5d412f23c1e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Logotype \"CITY of BOSTON\" in the official-site banner, alt \"Boston.gov\", followed by the text \"An official website of the City of Boston.\" The alternative names the same organisation's site, and the adjacent text repeats \"City of Boston\", so the logo's identifying purpose is conveyed. Passes 1.1.1. Same markup on the live page."
+    },
+    {
+      "fingerprint": "6aab2400e88a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Placeholder \"Email address\" in the newsletter email field. Live CSS sets the placeholder to #828282 on the white field: 3.84:1, 18px normal weight, so 4.5:1 applies. Visible placeholder text is not covered by any 1.4.3 exception. Screenshot shows the gray italic placeholder. Fails 1.4.3 as claimed; capture matches live."
+    },
+    {
+      "fingerprint": "sa044361162d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Featured-resources card link \"Get a Moving Truck Permit\" to \"Reserve A Parking Spot For Your Moving Truck\". I fetched the destination: the page is about obtaining moving truck permits (\"Moving truck permits are just for moving trucks...\", \"Apply for a one-day permit\"; the permit is the parking-spot reservation). So the link text accurately gives its purpose and the claimed mismatch is false. Passes 2.4.4. Same link on the live page."
+    },
+    {
+      "fingerprint": "780408dc95d9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header menu toggle: <label for=\"brg-tr\" class=\"brg-b\" tabindex=\"0\"> with a keydown listener; Chrome exposes it as LabelText with no role and an empty name. The checkbox it controls (#brg-tr) is aria-hidden and hidden, so this label is the only control for opening the menu, and assistive technology gets no button role (F59 pattern). Fails 4.1.2 as claimed. Live HTML has the same markup. The fixed header is missing from the full-page screenshot, which does not affect this claim."
+    },
+    {
+      "fingerprint": "s90b7d3e09ea",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The homepage h1 \"City of Boston\" (shown as \"Welcome to the CITY OF BOSTON\" over the hero). It is the main heading of the City of Boston's home page, and everything under it (daily city status, featured resources, guides, news, mayor, council) is about the City of Boston, so it describes the page's topic. Passes 2.4.6; the claim that it says nothing about the content under it is false. Same heading on the live page."
+    }
+  ]
+}

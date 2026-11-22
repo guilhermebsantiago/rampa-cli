@@ -1,0 +1,60 @@
+{
+  "page": "https://www.paviliontheatre.ie/about/contact",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p4d5a1d450f1",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the Arts Council logo, the only content of a footer link to http://www.artscouncil.ie/, with alt \"The Arts Council funding the Arts\". The crop and screenshot show the logo text \"the arts council / an chomhairle ealaion / funding the arts\". As a control (H30), the alternative names the destination organisation, so the link's purpose is clear when the image is replaced by its text. As a text equivalent, it reproduces the logo's English wording; leaving out the Irish form of the same name loses no purpose. elementFails is no. captureDiffers is no: the live HTML fetched now has the same img, src, alt and href, and the screenshot shows the logo rendered in the styled footer. Rampa reporting nothing was correct, so the row is false_positive (no missed failure)."
+    },
+    {
+      "fingerprint": "b94aec907932",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"First Name\" text input (name=FNAME, id=mce-FNAME) in the footer's Mailchimp newsletter signup, which collects the visitor's own details to subscribe them. The captured HTML (DOM after scripts) has no autocomplete attribute, so the claim is true of the capture. I looked for reasons it could pass: aria-label, placeholder and name=FNAME are not a mechanism that identifies the input purpose programmatically, no script adds autocomplete (the post-script snapshot lacks it), and the field asks about the user, so 1.3.5 applies to the given-name purpose. Without H98's autocomplete=\"given-name\", the element fails 1.3.5. captureDiffers is no: the live raw HTML fetched now has the same input with no autocomplete, and the screenshot shows the field visible and styled in the footer. The claim names that exact failure."
+    },
+    {
+      "fingerprint": "9d08fe401231",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Last Name\" text input (name=LNAME, id=mce-LNAME) in the footer newsletter signup, which asks for the subscriber's own family name. The captured HTML has no autocomplete attribute, so the claim holds of the capture. No technique makes it pass: aria-label, placeholder and the Mailchimp name LNAME do not identify the purpose programmatically, and no script adds autocomplete (the post-script snapshot lacks it). Missing autocomplete=\"family-name\" (H98) on a field that collects information about the user fails 1.3.5. captureDiffers is no: the live HTML fetched now matches, and the field is visible in the styled screenshot. The claim names the failure."
+    },
+    {
+      "fingerprint": "7732a4215f15",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the required email input (type=email, name=EMAIL, id=mce-EMAIL) of the footer newsletter signup, which asks for the subscriber's own email address. It has no autocomplete attribute in the capture. The snapshot records Chromium's form issue \"FormInputAssignedAutocompleteValueToIdOrNameAttributeError\" for it, so both parts of the claim are true of the capture. The strongest reason it could pass is type=email, but that only constrains the value's format: it does not mark the field as the user's own email, which is what H98's autocomplete=\"email\" does. With no autocomplete, the field fails 1.3.5. captureDiffers is no: the live raw HTML fetched now has the same input without autocomplete, and the field is visible in the styled screenshot. The claim names the failure."
+    },
+    {
+      "fingerprint": "92f8b449ec94",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the page's banner photo (dun_laoghaire.jpg) with alt \"Contact Us\". It is not a link. The crop and screenshot show a panorama of the Dun Laoghaire seafront: rocks, sea, terraces and church spires, with no text at all. The claim, that the alternative describes something the image does not show, is true of the capture. I checked for a reason it could pass. No visible \"Contact Us\" text is drawn on or beside the image (the h1 is \"Do you want to find out what's on or book tickets?\"), so the alternative is not reproducing text in the image. If the photo is decorative, 1.1.1 requires it to be ignorable by assistive technology, and a non-null alt fails that (F39's test). If it is informative, \"Contact Us\" does not convey the scene. Either way, the alternative is not an equivalent and the element fails 1.1.1. The claim, read in good faith, points at that mismatch. captureDiffers is no: the live HTML fetched now has the same img, src and alt."
+    }
+  ]
+}

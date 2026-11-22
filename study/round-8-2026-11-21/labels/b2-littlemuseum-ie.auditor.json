@@ -1,0 +1,223 @@
+{
+  "page": "https://www.littlemuseum.ie/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "paa3758d98d1",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer menu link 'Book Venue' to /book-venue/, whose page is titled 'Book Venue | Venue Hire' with the heading 'Book Venue'. The link text alone gives its purpose. The only other link with this name, in the off-canvas main menu (#menu-item-1053), goes to the same /book-venue/ address, so the shared name causes no ambiguity. The live HTML has the same link and href. No 2.4.4 failure, so Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "8eefe212d27e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Placeholder 'Enter your email address' in the footer newsletter email field. The theme's main.min.css sets '.footer__subscribe-form input[type=email]::placeholder { color: #808080; font-size: 18px }', and the field background is white. That gives 3.95:1. The darkest pixels of the placeholder in the screenshot are #808080, which matches. The text is 18px at weight 400, so it is not large text and needs 4.5:1. Placeholder text is visible text that is neither incidental nor a logo. The live stylesheet is unchanged. This fails 1.4.3, as the claim says."
+    },
+    {
+      "fingerprint": "f598cba48584",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Photo for the 'Ultimate Experience' tour card, with alt=\"\". The live events.js template still renders these tour images with alt=\"\". The image has a large drawn badge reading 'Best Value Ticket'. Neither the card heading nor its text ('If you want the Ultimate Experience, this is the ticket for you...') says anything about value. Sighted users get a claim that helps them pick a ticket, and screen reader users lose it because the image is hidden from them. An informative image of text marked as decorative fails 1.1.1, and the claim names exactly that."
+    },
+    {
+      "fingerprint": "26cb3d9807b1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer image whose alt is 'Tripadvisor-Tag_1x', the file name of Tripadvisor-Tag_1x.png. It is not in a link. In the screenshot it is a pink Tripadvisor badge reading '#1 for things to do in Dublin'. The file name does not convey the badge's message (failure F30, a file name used as the text alternative). The live HTML has the same alt. This is a 1.1.1 failure, as the claim states."
+    },
+    {
+      "fingerprint": "s78378a0fb26",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Hover photo (class img-on-hover, Eamon-hover.jpg) in the 'say hellooooooooo to our tour guides' section, with alt 'Eamon'. The crop shows a smiling bearded man, the same guide as the main photo (Eamon-main.jpg, also alt 'Eamon'). For a portrait in a staff grid, the person's name is a proper text alternative: the image shows that person. The claim that it describes something not shown is wrong. Repeating the name on the hover variant is redundant but not a 1.1.1 failure. The live HTML is the same."
+    },
+    {
+      "fingerprint": "24f1231e9a1e",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Photo for the 'Famous Guided Tour' card, with alt=\"\". The image has a drawn badge reading 'Most Popular Ticket'. The yellow 'BESTSELLER' label in the crop is not part of the image: it is a separate HTML div ('bookitems__label', text 'Bestseller') laid over it, and the live events.js template still adds it. So the text around the image already says this ticket is the bestseller, which is what 'Most Popular Ticket' means, and the card heading names the tour. The image adds no information that the text lacks, so hiding it with alt=\"\" meets 1.1.1. The claim is wrong on both counts."
+    },
+    {
+      "fingerprint": "sc343d687a45",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Line drawing of a shopping bag inside the 'Shop Online' link (an <a> with role=button, to shop.littlemuseum.ie), which also contains the visible text 'Shop Online'. The alt 'Shop Online Link' gives the function of the image within the link, which is what H30 asks for an image in a link. The bag depicts shopping, so the alt does not describe something the image fails to show. The alt repeats the link text, so alt=\"\" would be better (H2), but that redundancy is not a 1.1.1 failure. The live HTML is the same."
+    },
+    {
+      "fingerprint": "s12eb63e6eee",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the Gravity Forms honeypot field (gfield--type-honeypot gform_validation_container), labelled 'Company', with the description 'This field is for validation purposes and should be left unchanged.' The theme CSS moves it to left:-9999px, 1x1, opacity 0, so it is true that no label shows on screen. But the field itself does not show either: nobody is asked to type anything, and its job is to stay empty. Its programmatic label and instruction say what to do with it. The content does not require input here, so 3.3.2 is met. The fact that it stays focusable while invisible is a focus-visibility or focus-order problem (2.4.7 or 2.4.3), not missing labels. The live markup and CSS are the same."
+    },
+    {
+      "fingerprint": "ec08d994490d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter field 'Your Email Address*' (input type=email, Gravity Forms). It collects the user's own email, which is an Input Purpose (email). Neither the snapshot nor the live HTML has an autocomplete attribute. type=email gives the data format but not that the address is the user's own. The sufficient technique H98 (autocomplete=\"email\") is missing, so the field's purpose cannot be programmatically determined, and this fails 1.3.5 as claimed."
+    },
+    {
+      "fingerprint": "p48c79b9fae2",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Off-canvas main menu link 'Dublin Stories' to /dublin-stories/, the museum's blog listing ('Find all the exciting Dublin stories that make up our blog'). The link text gives its purpose. The footer has another 'Dublin Stories' link (#menu-item-1394) to /stories/. Both sit alone in list items and have the same preceding heading, so they form one same-name set under R1. /stories/ is the same blog's landing page (h1 'Dublin Stories', the latest stories), so the two resolve to equivalent resources. Nothing visible marks them as different either: the off-canvas menu is offscreen and both are plain menu entries. The pair meets the R1 expectation, so Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "55c6e3e30f30",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The same Gravity Forms honeypot input, labelled 'Company', with autocomplete=\"new-password\" and the visible-to-screen-readers instruction 'This field is for validation purposes and should be left unchanged.' It does not ask for the user's company: it is a spam trap that must stay empty, and the new-password token only stops autofill. 1.3.5 covers input fields that collect information about the user. This one collects nothing, so the token mismatch is not a 1.3.5 failure. The model had the instruction in context and misread the field. The live markup is the same."
+    },
+    {
+      "fingerprint": "e5ccd66a84e2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Rule finding on the Gravity Forms honeypot input 'Company'. The capture shows it at x=-9999 with the label and description offscreen, so the sentence is true. But the whole field is hidden from sighted users (left:-9999px, 1x1, opacity 0 in the theme CSS). Nobody is asked to fill it in, and its programmatic label and instruction ('should be left unchanged') cover users who reach it. 3.3.2 is met. The rule had the offscreen state and still asked for a visible label on a field that is itself not shown. The focusable but invisible honeypot is a 2.4.7 or 2.4.3 concern, not a 3.3.2 one."
+    },
+    {
+      "fingerprint": "80dd18b93aa4",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Cover image for 'The Little Walking Tour' card, with alt=\"\" (the live events.js template still uses alt=\"\"). The image's only text is 'THE Little WALKING TOUR'. The h3 directly under it, 'The Little Walking Tour', says the same, so the text around the image does convey it. Hiding a redundant image of text is correct under 1.1.1, and the claim is false."
+    },
+    {
+      "fingerprint": "secde0be80af",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Line drawing of an Irish punt coin with a stag, next to the h2 'INVEST in history & culture' in the donation card. Its alt repeats that heading (live HTML the same). The claim holds as worded: the alt is the heading's slogan, not what the picture shows. My reading is that the coin only decorates the heading, so it withholds no information, and a redundant alt is a nuisance rather than a 1.1.1 failure. Competent auditors split on this, though. Some would fail it because a decorative image is not hidden (F38), others because an image's alt does not describe it. So the label is uncertain."
+    },
+    {
+      "fingerprint": "s74e1c506e6f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Ambient photo beside the 'We are CLOSED / Opening Hours / Location' block: four smiling visitors in a museum room full of memorabilia. Its alt is 'dublin museum photo' (live HTML the same). The image does show the Dublin museum, so the claim that the alt describes something not shown is false. The alt is short and generic, but for an ambient photo carrying no information the page needs, it truthfully says what the image is. I find no 1.1.1 failure."
+    },
+    {
+      "fingerprint": "ca9c5071f3f4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Round photo of guests at an evening event in a period room, on the 'VENUE HIRE' card. Its alt 'VENUE HIRE' repeats the h2 beside it (live HTML the same). The claim is true of the capture: the alt is the card's label, not a description of the scene. My lean is that this illustrative thumbnail carries no information beyond the heading, so the redundant alt is not a 1.1.1 failure. Competent auditors disagree here, though. Some fail an alt that duplicates the heading, either as a decorative image not hidden (F38) or as an informative photo whose alt does not describe it. So the label is uncertain."
+    },
+    {
+      "fingerprint": "sf37fd31368f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Round photo on the 'Group tours' card, showing a group of visitors being shown around a gallery with yellow walls. Its alt 'Group tours' repeats the h2 beside it (live HTML the same). Here the alt also fairly says what the picture shows, a group on a tour, so the claim that it names only a label and not what the image conveys does not hold. Repeating the heading is redundant, but it is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "scc27e000aad",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Main portrait (Emma-Moohan-1c.jpg) in the tour guides grid, with alt 'Emma'. The crop shows a woman with short grey hair, and the section is 'say hellooooooooo to our tour guides'. In this context the guide's name is the right text alternative for her portrait, so the claim that it describes something not shown is wrong. The live HTML is the same. No 1.1.1 failure."
+    },
+    {
+      "fingerprint": "pe26ef21940b",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Hover portrait (class img-on-hover, Claire-hover.jpg) in the tour guides grid, with alt 'Claire'. The crop shows a red-haired woman, the same guide as the main image (Claire-main.jpg, also alt 'Claire'). The name identifies the person shown, which serves the image's purpose in a staff grid. The duplicate name on the hover variant is redundancy, not a 1.1.1 failure. The live HTML is the same. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "a2e3336de5ba",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Photo for the French tour card, with alt=\"\" (the live events.js template still uses alt=\"\"). It shows a guide with visitors and a drawn badge with a French flag. The flag only repeats the card heading 'Tour en français – Museum Tour in French' and the French description. The only text in the photo is a background street sign reading 'Cúirt Uí Eocháidh / Hoey's Court', not 'CAFÉ DU CALAIS', and it carries no information. The image adds nothing the text lacks, so alt=\"\" meets 1.1.1, and the claim is wrong."
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "page": "https://metsul.com/2026-11-22-frente-fria-chuva-tempestades/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p51adee05adb",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Main-navigation link 'MAPAS' (href https://metsul.com/mapas/), a top-level item of the site menu; its destination is the MetSul maps page (title 'Mapas meteorológicos...', heading 'MAPAS'). The link text names the section it opens, so its purpose is determinable from the text alone. The other three 'MAPAS' links in the snapshot (secondary and mobile menus) all resolve to the same URL, so R1 raises no shared-name failure. The odd y=5574 bounds come from the fixed header at the moment of collection; the screenshot shows the menu normally. The live page has the same item with the same href. No failure; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "b8ea94f90388",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Header search field with placeholder 'Procurar'. The claim rests on the snapshot's pixelContrast record (#324a69 on #274163, 1.61:1), but the capture's own screenshot shows the placeholder 'PROCURAR' in white (#ffffff glyph pixels) on a #1a4885 field, about 9:1. The live CSS agrees with the screenshot: '#et-info .et-top-search .et-search-field{background:rgb(255 255 255 / .1);color:#fff;font-weight:600}' and the theme's ::placeholder rule sets 'color:inherit', so the placeholder is white on a translucent-white field over the dark-blue header (the focus state, background .2 white, is also high contrast). The DOM, CSS and screenshot match the live page; only the collector's pixel measurement is wrong, so the claim is false of the capture and the placeholder meets 1.4.3."
+    },
+    {
+      "fingerprint": "0acb5ffa9b09",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Username field of the visible 'ACESSO ASSINANTE' login widget (form posting to wp-login.php): <input class=\"input\" type=\"text\" name=\"log\" placeholder=\"USERNAME\">, with no autocomplete attribute in the snapshot or in the live HTML. It collects information about the user, and 'username' is one of WCAG 2.1's Input Purposes (section 7); HTML supports autocomplete, so 1.3.5 requires the purpose to be programmatically determinable (H98). Nothing else identifies it: name=\"log\" and a placeholder do not. I looked for a reason to excuse it (hidden widget, script-added autocomplete, a different live version) and found none: the screenshot shows the form and the live markup is identical. The claim names this failure."
+    },
+    {
+      "fingerprint": "p2216e9f80d8",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Category pill 'Geral' above the article title, href https://metsul.com/categoria/geral/, title 'Geral'; the destination is the 'Geral' category archive (heading 'Geral'). The link text is the name of the section it opens, as with the other category pills (Paraná, Rio Grande do Sul, Santa Catarina), so its purpose (go to the Geral category) is determinable from the text; Understanding 2.4.4 allows text that names the destination. The container's aria-label 'Categorias' is not counted as context here and is not needed. No other link on the page shares the name. The live page has the same markup. No failure; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "p48fb6b5ec21",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "CTA button-link 'Entrar no canal' (WhatsApp icon aria-hidden) to https://www.whatsapp.com/channel/0029VaAljsR4Y9llF7dh0412, whose page is titled 'Metsul Meteorologia'. The heading just before it in document order is the h3 'Siga a MetSul no WhatsApp', which counts as context in this round, and the box's paragraph adds 'Entre no nosso canal oficial...'. Text plus heading tell the purpose: join MetSul's WhatsApp channel. No other link shares the name. The live page has the same block. No failure; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "a417d3606c48",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Password field of the same subscriber login widget: <input class=\"input\" type=\"password\" name=\"pwd\" placeholder=\"SENHA\">, no autocomplete in the snapshot or the live HTML. In a sign-in form (username, 'Entrar', 'Perdi minha senha') it asks for the current password, which is the 'current-password' Input Purpose in WCAG 2.1 section 7. type=\"password\" does not identify that purpose (it does not tell current from new password), so the purpose is not programmatically determinable and 1.3.5 fails. The widget is visible in the screenshot and the live markup is identical. The claim names this failure."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "page": "https://kilkennydesign.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s624bac55cdb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the header's heart-icon link, named Wishlist (img alt plus visually hidden text), whose href for a logged-out visitor is /login.php. The claim is true of the capture: the destination is titled 'Kilkenny Design - Sign in', which does not name a wishlist. But 2.4.4 asks whether the link's purpose can be determined, not whether its text matches the destination's title (Understanding 2.4.4: other things than the document name may describe the purpose). The purpose of this link is to reach the visitor's wishlist, which requires an account: the real wishlist address, /wishlist.php, also answers a logged-out visitor with a 302 to login.php?from=wishlist.php, so a logged-out user gets the same sign-in gate either way, and the theme points the link at wishlist.php once signed in. 'Wishlist' describes that purpose; the sign-in page is a gate on the way, not a different destination. A separate 'Sign In' link next to it covers signing in. The live page (fetched with a browser user agent on 2026-11-21) serves the same markup and the same href, so the capture does not differ. The checker read the login gate as a mismatch between text and title, a stricter rule than the criterion's."
+    },
+    {
+      "fingerprint": "p0b3507ffb67",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the sprout icon (img alt='Sustainability') inside the top-bar link that also holds the visible text 'Sustainability' and leads to the Sustainability page. The alternative names the link's destination, so the purpose stays clear when the image is replaced by its text (G82, H30); the link's computed name becomes 'Sustainability Sustainability', which is redundant (H2 would give the icon a null alt) but loses or misstates no information, and the icon, which repeats the adjacent word, is not pure decoration of the alt='spacer' kind that F39 describes. So it meets 1.1.1, and Rampa was right to report nothing. The live page serves the same markup (the img alt and the link text are unchanged), and the screenshot shows the icon beside the visible text, so the capture does not differ."
+    }
+  ]
+}

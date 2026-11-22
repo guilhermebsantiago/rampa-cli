@@ -1,0 +1,69 @@
+{
+  "page": "https://www.espm.br/tecno/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "f095ad2a5138",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer paragraph holds a span reading \"The Marketing Powerhouse\" on a page whose html lang is pt-BR. Neither the span, the p nor any ancestor has a lang attribute, in the snapshot and in the live HTML I fetched, so the capture matches the page. I looked for an exception: the phrase is ESPM's English tagline, not a proper name, technical term or a phrase that has entered the Portuguese vernacular (only \"marketing\" has), so a pt-BR voice would mispronounce \"The\" and \"Powerhouse\". The claim names exactly that failure of 3.1.2."
+    },
+    {
+      "fingerprint": "46a53f7f31a3",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A div with role=img and aria-label \"Captura de Tela 2025-10-28 às 11.39.26\", the macOS Portuguese default screenshot name, is the thumbnail of a testimonial video slide; because role=img hides the screen-only \"Reproduzir\" span, the browser also gives the link that name (ax name in the snapshot). The capture lacked the lazy-loaded background image (the crop shows only a play icon on dark red), but the label is identical live. I downloaded the image: it is a still of a man speaking, with ESPM branding and subtitles. The label conveys none of that, and even if the slide were treated as decorative a file name is not an acceptable alternative (F30, F39). The claim names the failure."
+    },
+    {
+      "fingerprint": "s60ad852962e",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h3 \"Bolsas Sociais Meritocráticas de\" heads a card whose content is the two scholarship values (Integral e gratuita 100%, Parcial 50%) and a paragraph explaining the two types of scholarship. The trailing \"de\" is awkward because the sentence goes on into the counters, but the heading still names its topic: social merit scholarships. So the claim that it says nothing about the content under it is false. The capture shows the counters at 0% because their animation had not run (live they count up to 100 and 50), but the heading and the paragraph are the same, so that difference does not change this judgment."
+    },
+    {
+      "fingerprint": "44f0653e7702",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the Swiper loop duplicate of the same slide (swiper-slide-duplicate, off to the right of the viewport). It has the same role=img div with aria-label \"Captura de Tela 2025-10-28 às 11.39.26\", a screenshot tool's file name. The snapshot shows the duplicate is not hidden from assistive technology: its link is exposed with that name, so screen reader users meet it too. The live HTML has the same label. The real image is a speaker still from the video, which the label does not convey (F30). The claim names the failure."
+    },
+    {
+      "fingerprint": "sd994bc9e55f",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "\"Professor\" is the second link of the top utility bar (\"Estudante\" goes to portaldoaluno.espm.br, \"Professor\" to portal.espm.br), with an aria-hidden teacher icon. It has no title, describedby or preceding heading, and its list item holds only that word, so the link text alone has to carry its purpose. In a university header, a link named after its audience tells you its purpose: the area for professors. Sighted users also get only the word \"Professor\" and an icon that repeats it, so if anything were unclear it would be unclear to users in general, which 2.4.4 exempts. Demanding that the text name the exact destination is stricter than the criterion. The live HTML matches the capture."
+    },
+    {
+      "fingerprint": "sc1cd2d653e1",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "\"ou\" (or) is the conjunction between the two scholarship counters, marked up as an h3 by the page builder. It is the same in the live HTML. As exposed to assistive technology, it is a level 3 heading that describes no topic, so the claim is true and a literal reading of 2.4.6 fails it. The concrete counter-reason: the text is not a heading in the content at all, and misusing heading markup is classically logged under 1.3.1 (F43), not as a non-descriptive heading under 2.4.6. Competent auditors would reasonably split on which criterion this belongs to, so the label is uncertain."
+    },
+    {
+      "fingerprint": "2199fd4d4bd1",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The hero seal image shows a stamp reading \"100% ESPM\" ringed by \"BOLSA SOCIAL\". This promotes the full social scholarship, and no nearby hero text says so, so the image is informative. Its alt and title are \"selo-bolsa-social-1.png\", the file name with its extension, in the snapshot and in the live HTML. The words in the file name hint at a seal, but the alt leaves out the 100% and is a file name, which F30 documents as a failure. I found no technique that makes it pass. The claim names the failure."
+    },
+    {
+      "fingerprint": "9774dfb69bb9",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the Clube Empreendedor Brasil logo in the \"Apoio:\" gallery, alt \"logo ceb\", as the only rendered content of a link (the noscript copy is not rendered; the ax name is \"logo ceb\"). The link's href is the same logo PNG, and it opens in an Elementor lightbox. So the alt does say what the link leads to, the CEB logo, and the claim's reason does not hold. The alt may still fail 1.1.1 for another reason: the initialism \"ceb\" appears nowhere in the image and does not convey the organisation name the logo spells out. The claim does not name that reason. The live HTML matches the capture."
+    },
+    {
+      "fingerprint": "5a6060f83316",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The large hero image is a collage of three women: a schoolgirl with a backpack, a professional in a yellow blazer, and a graduate in cap and gown. Its alt and title are the file slug \"tecnologos-personagem-geral\", in the snapshot and live. Taken literally the claim is off: the slug names nothing the image lacks, since it does show characters. But the alt leaves out everything the image conveys, which is the case the rubric gives as an imperfectly worded claim that names the defect. If the image were judged decorative, a file-name alt would still fail (it should be empty). The element fails 1.1.1 under either reading."
+    }
+  ]
+}

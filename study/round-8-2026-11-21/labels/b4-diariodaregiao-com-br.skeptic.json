@@ -1,0 +1,69 @@
+{
+  "page": "https://www.diariodaregiao.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "cdd74cb25c96",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The 'Ver mais' button-styled link (href /diario-multi) sits at the right end of the 'Diário Multi' section header row. The link text alone does not say where it goes. It has no aria-label, title or aria-describedby, the section has no accessible name, and the section title 'Diário Multi' is a sibling link in a generic div, not a heading. The nearest preceding heading is the last card headline of the previous section ('Apresentação do Instituto Amadeus Mozart...'), so nothing in the listed context gives the purpose, and only the visual section title explains it. claimTrue is no because 'nothing around it does' overstates: the adjacent title link with the same href is right there in the same container. It is still outside the counted context, so the claim points at the real failure. The live server HTML has the same markup (no labels, title not a heading), so captureDiffers is no."
+    },
+    {
+      "fingerprint": "a86a3c4fe1cd",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the 'Ver mais' link (href /economia) in the header row of the 'Economia' section. It has no aria-label, title or describedby. The section title 'Economia' is a sibling link in a generic div, not a heading, and the nearest preceding heading is the last card of the Classificados section ('A versatilidade do terracota...'), which does not explain it. Only the visual section label gives the purpose, so it fails 2.4.4 under the round's context rule. claimTrue is no because the sentence overstates that nothing around it tells: the sibling title link in the same row does, but outside the counted context. The live HTML matches the capture, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "sa1854239ea5",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Política' is one of the category badges in the row 'Cidades Política Economia Cultura...' and links to /politica. The destination's <title> is the generic site name 'Diário da Região', but its h1 is 'Matérias de Política' (in the packet, and confirmed live), so the link text does match where it leads, and claimTrue is no. Its purpose (the Política section) is clear from the text alone. Understanding 2.4.4 does not require the link text to match the destination's title, so the claim applies a stricter rule than the criterion. The live markup is the same as the capture."
+    },
+    {
+      "fingerprint": "df5e95f81896",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the 'Ver mais' link (href /cidades) in the header row of the 'Cidades' section, with no aria-label, title or describedby. The section title 'Cidades' is a sibling link in a generic div, not a heading. The nearest preceding heading is the h3 'Mais lidas' of the previous block, which does not identify the destination. Only the visual section label explains the link, so it fails 2.4.4 under the round's context list. claimTrue is no because the adjacent same-href title link is literally around it, though outside the counted context. The live HTML has the same structure, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "e55662bb75c8",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the 'Ver mais' link (href /esportes) in the 'Esportes' section header, with no aria-label, title or describedby. The section title is a sibling link in a generic div, not a heading. The nearest preceding heading is a Cultura card headline ('Álbum une poesia e música'), which does not explain it. Only the visual section label gives the purpose, so it fails 2.4.4 by the round's context rule. claimTrue is no only because 'nothing around it' overstates: the same-href title link sits beside it. The live HTML matches the capture."
+    },
+    {
+      "fingerprint": "488c4f8bcbae",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the 'Ver mais' link (href /classificados) in the 'Classificados' section header, with no aria-label, title or describedby. The section title is a sibling link in a generic div, not a heading. The nearest preceding heading is a Política card headline ('Impasses entre países podem atrasar documento final da COP31'), which does not identify the destination. Only the visual label explains it, so it fails 2.4.4 under the round's context list. The claim overstates that nothing around it tells, since the same-href title link is adjacent, but it names the real failure. The live HTML is the same, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "288b7643060a",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the 'Ver mais' link (href /opiniao-e-colunas) in the 'Opinião' section header, with no aria-label, title or describedby. The section title 'Opinião' is a sibling link in a generic div, not a heading. The nearest preceding heading is a Cidades card headline ('Homem é condenado a 27 anos de prisão...'), which does not explain it. Only the visual section label gives the purpose, so it fails 2.4.4 under the round's context rule. claimTrue is no because the adjacent same-href title link literally tells, though outside the counted context. The live HTML matches the capture."
+    },
+    {
+      "fingerprint": "se546b849270",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h2 'Natureza dentro e fora de casa' is the headline of a Classificados news card. Under it are only the byline and date, and the card's thumbnail shows a room full of plants. The linked article (fetched live) has the same h1 and is about decorating indoor and outdoor spaces with plants and natural elements, so the heading describes its topic. Nothing in the capture shows a different topic, so claimTrue is no and the heading meets 2.4.6. The heading is unchanged on the live homepage, so captureDiffers is no. The checker had the card's content and judged wrongly."
+    },
+    {
+      "fingerprint": "sb7f8e56e65c",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Cultura' is a category badge in the section nav row and links to /cultura. That page's <title> is the generic 'Diário da Região', but its h1 is 'Matérias de Cultura' (in the packet, and confirmed live), so the text does match the destination, and claimTrue is no. The link's purpose is clear from its text. 2.4.4 does not require link text to match the destination's title, so the claim applies a stricter rule. The live markup matches the capture."
+    }
+  ]
+}

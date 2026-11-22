@@ -1,0 +1,125 @@
+{
+  "page": "https://ndmais.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "pf932fc595eb",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim 1.1.1 row. The image is the only content of a carousel link to the story; its alt, \"Vereadora de SC diz que não atirou em Moraes porque seria presa\", is the story's headline and identifies where the link goes (G82/H30 test: the purpose stays clear with the image replaced by its alt). The crop shows the two people the story is about. Duplicating the adjacent h2 is an H2 best-practice matter, not a 1.1.1 failure. The live page still marks this story's image up with a headline alt (its wording has since been lengthened), so nothing that matters differs. The element passes; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "677f6156619a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main navigation link \"Santa Catarina\" in the secondary menu bar: white text (16px, weight 500, so not large text) on the bar's CSS gradient, linear-gradient(135deg, rgb(34,202,247), rgb(155,54,247)). I sampled the background pixels behind the link in the screenshot and computed the gradient at its position: white on it gives about 2.9:1 to 3.25:1, below the 4.5:1 that 1.4.3 requires, matching the claim's figures. The live page loads the same menu-secundario.css gradient and colour variables, so the capture does not differ. The claim names the real failure."
+    },
+    {
+      "fingerprint": "db02d9666b9f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter e-mail field. Its placeholder \"Seu e-mail\" is 15px, weight 400, coloured #8A9099 on the white field (.nd-nl__input::placeholder in newsletter-widget.css, confirmed on the live page and in the screenshot pixels): 3.22:1, below 4.5:1. Understanding 1.4.3 says the criterion applies to text in the page \"including placeholder text\", and here the placeholder is the field's only visible label (the name comes from aria-label). Same CSS and markup live, so the capture does not differ. The claim names the failure."
+    },
+    {
+      "fingerprint": "ddacd46a4166",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main navigation link \"Economia\" in the secondary menu bar: white text (16px, weight 500, so not large text) on the bar's CSS gradient, linear-gradient(135deg, rgb(34,202,247), rgb(155,54,247)). I sampled the background pixels behind the link in the screenshot and computed the gradient at its position: white on it gives about 3.9:1 to 4.1:1, below the 4.5:1 that 1.4.3 requires, matching the claim's figures. The live page loads the same menu-secundario.css gradient and colour variables, so the capture does not differ. The claim names the real failure."
+    },
+    {
+      "fingerprint": "30a3c715d9c6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "\"Previous slide\" button of the Colunistas carousel: a 36px round button, background #EEEFF6, holding a Bootstrap Icons chevron. The screenshot shows a thin stroke rendered with subpixel anti-aliasing (pixel pairs #9391BF and #30B0E6; the Next button shows the same pattern from the same colour), so the claim's 2.60:1 is true of the captured pixels. But the authored icon colour is var(--blue) = #0277BD (colunistas-slide-v3.css, .colunistas-controles button; the captured markup has the same colunistas-controles-topo structure), which gives about 4.18:1 against #EEEFF6, above 3:1. Understanding 1.4.11 says to use the colours from the stylesheets rather than the anti-aliased rendering of thin shapes. The button is not disabled. So it passes; the rule measured anti-aliased pixels, a stricter test than the criterion's."
+    },
+    {
+      "fingerprint": "93a698f5565c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main navigation link \"Brasil\" in the secondary menu bar: white text (16px, weight 500, so not large text) on the bar's CSS gradient, linear-gradient(135deg, rgb(34,202,247), rgb(155,54,247)). I sampled the background pixels behind the link in the screenshot and computed the gradient at its position: white on it gives about 3.3:1 to 3.5:1, below the 4.5:1 that 1.4.3 requires, matching the claim's figures. The live page loads the same menu-secundario.css gradient and colour variables, so the capture does not differ. The claim names the real failure."
+    },
+    {
+      "fingerprint": "p9bb5a83fd3a",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim 1.1.1 row. A thumbnail that is the only content of a link to the story \"Por 7 a 0, TRE-SC livra vereadores do PL de Balneário Camboriú da cassação\"; its alt is the headline \"TRE-SC livra vereadores do PL de Balneário Camboriú da cassação\", which identifies the destination (H30, G82 test). The crop shows a man speaking in a city council chamber, consistent with the story. The live page has the same link and alt. The element passes 1.1.1; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "s07bf041f81d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Section heading h2 \"Estilo de vida\" (lifestyle), a link to the lifestyle category. Under it come five stories: a church gift in Içara (a column), two hair and beauty pieces (Moda e Beleza), a crochet Christmas tree made by artisans and Luciano Hang on money and happiness (Comportamento), then \"Mais em Estilo de vida\". These are lifestyle topics, so the heading describes its section and the claim that it names a different topic is false. The live page still has the section under the same heading with similar stories. Missing thumbnails in the screenshot (lazy loading) do not touch the claim. The heading passes 2.4.6."
+    },
+    {
+      "fingerprint": "8dcd7ab9b4d3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter name field. Its placeholder \"Seu nome\" is 15px, weight 400, #8A9099 on white (live CSS .nd-nl__input::placeholder; screenshot pixels agree): 3.22:1, below 4.5:1. Understanding 1.4.3 includes placeholder text in the criterion, and the placeholder is the only visible label of the field (aria-label \"Nome\" is not shown). Same CSS and markup live. The claim names the failure."
+    },
+    {
+      "fingerprint": "6343209ad2b3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main navigation link \"Política\" in the secondary menu bar: white text (16px, weight 500, so not large text) on the bar's CSS gradient, linear-gradient(135deg, rgb(34,202,247), rgb(155,54,247)). I sampled the background pixels behind the link in the screenshot and computed the gradient at its position: white on it gives about 3.6:1 to 3.8:1, below the 4.5:1 that 1.4.3 requires, matching the claim's figures. The live page loads the same menu-secundario.css gradient and colour variables, so the capture does not differ. The claim names the real failure."
+    },
+    {
+      "fingerprint": "d9b0a6570f4c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main navigation link \"Últimas notícias\" in the secondary menu bar: white text (16px, weight 500, so not large text) on the bar's CSS gradient, linear-gradient(135deg, rgb(34,202,247), rgb(155,54,247)). I sampled the background pixels behind the link in the screenshot and computed the gradient at its position: white on it gives about 2.5:1 to 2.85:1, below the 4.5:1 that 1.4.3 requires, matching the claim's figures. The live page loads the same menu-secundario.css gradient and colour variables, so the capture does not differ. The claim names the real failure."
+    }
+  ]
+}

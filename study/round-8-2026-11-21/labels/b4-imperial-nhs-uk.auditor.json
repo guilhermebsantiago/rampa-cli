@@ -1,0 +1,103 @@
+{
+  "page": "https://www.imperial.nhs.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p78e331405d0",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the 65x65 icon (hands holding a baby inside a heart) in the 'Maternity services' tile link, which carries aria-label='Maternity services'; the img has alt='Maternity Care'. The crop and the screenshot show a maternity icon, and 'Maternity Care' conveys what it stands for, so the alternative serves the equivalent purpose; the link's name comes from its aria-label, so the image is not the link's only name source. Redundancy with the visible text is not a 1.1.1 failure. The live HTML has the same img and alt. 1.1.1 is met, so Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "s1829f58a215",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 20x20 icon (icon-blog-black.svg, a feed-style symbol) in the 'Blog' tag of the first blog card, followed by the visible text 'Blog'. The alternative 'Blog' gives what the icon stands for on this page (the card's category), which is what 1.1.1 asks of an icon; it does not describe something absent from the image, so the claim is not true. Being redundant with the adjacent word (read 'Blog Blog') is at most a best-practice point (alt='' would be better), not a 1.1.1 failure. The live HTML has the same markup. The model had the crop and misjudged the icon's meaning."
+    },
+    {
+      "fingerprint": "f68b13ebf5e6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the blog card image (oip-6.jpg) with alt='OIP (6)'. It is not inside the card's cover link (a sibling with its own aria-label). The crop shows a logo, a blue 'S' and the words 'West London Haemoglobinopathy Coordinating Centre'. 'OIP (6)' is a leftover file label (Bing's OIP image naming) that conveys nothing of that; whether the image is read as informative or decorative, a non-empty placeholder alternative fails 1.1.1 (failure F30, text alternatives that are not alternatives, such as file names or placeholder text). The claim, that it names a label and not what the image conveys, names that failure. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "pd6b980c1966",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the news card image with alt='Fleming Initiative Event'; it is not inside a link. The crop shows the Fleming Initiative logo and the words 'FLEMING INITIATIVE' on a dotted dark-blue background. The alternative gives the image's text and identifies the graphic; the extra word 'Event' is a minor imprecision, not a loss of the image's content or purpose. 1.1.1 is met. The live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "f1a5542ad584",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header logo (NHS, Imperial College Healthcare NHS Trust) with alt='imperiallogo.svg', the only content of the home link (href='/', no aria-label or title), so the link's accessible name is 'imperiallogo.svg'. The alternative is a file name: failure F30, and as the only content of a link it must describe the link's function (H30), which a file name does not. The claim names that failure. The live HTML (curl, 2026-11-21) has the same img and alt."
+    },
+    {
+      "fingerprint": "sfd811424381",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 65x65 icon in the 'Cancer services' tile link (the link has aria-label='Cancer services'), alt='Cancer Treatment'. The crop and the screenshot show a medical case with a cross and an awareness ribbon over an open hand, an icon for cancer care, so 'Cancer Treatment' does describe what the image shows and stands for; the claim is not true. The alternative serves the equivalent purpose and the link's name comes from its aria-label. 1.1.1 is met. The live HTML has the same markup. The model had the crop and misread it."
+    },
+    {
+      "fingerprint": "de8ec7c4fce9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a cell of the Google Translate banner that the site's translate widget injects in a same-origin iframe (:1.container) at the top of the page: 'Ver esta página em: Português (Brasil)', Portuguese text. The host page is lang='en' and the frame's html element has no lang attribute (nor does any ancestor of the cell), so nothing marks the passage as Portuguese; a same-origin frame without lang is exposed with the host's language, so the claim that it is read as English holds. The banner is part of the web page (rendered with it), so this Portuguese passage on an English page fails 3.1.2, and the claim names that. Live check: the live HTML (curl, 2026-11-21) still loads Google's TranslateElement with pageLanguage 'en' and the default auto display, which injects this banner for visitors whose browser language is not English, and the site CSS has no rule hiding it; the capture shows what a pt-BR browser receives (the banner was rendered: its text pixels were measured). Visitors with an English browser get no banner. My fetch runs no script, so I compared the setup, not the rendered banner."
+    },
+    {
+      "fingerprint": "ace6a51a2f54",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Português (Brasil)' link (aria-haspopup, opens the target-language menu) in the same Google Translate banner iframe, inside the Portuguese sentence 'Ver esta página em: ...'. Neither the link, its ancestors nor the frame's html element has a lang attribute, and the host page is lang='en', so this Portuguese text is not marked as Portuguese and is exposed with the inherited English: it fails 3.1.2. The claim (Brazilian Portuguese text inheriting en, mispronounced, needs lang='pt-BR') names that failure; the right fix is wider (lang on the whole banner), which does not change that the claim points at the real defect. Live check: the live HTML (curl, 2026-11-21) still loads Google's TranslateElement with pageLanguage 'en' and the default auto display, which injects this banner for visitors whose browser language is not English, and the site CSS has no rule hiding it; the capture shows what a pt-BR browser receives (the banner was rendered: its text pixels were measured). Visitors with an English browser get no banner. My fetch runs no script, so I compared the setup, not the rendered banner."
+    },
+    {
+      "fingerprint": "8cf86e58f34f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the banner cell holding a 9x15 sprite icon whose alt and title are 'O conteúdo desta página segura será enviado ao Google para tradução usando uma conexão segura.', a Portuguese sentence exposed to assistive technology as the image's name. Neither the img, the cell nor the frame's html element has a lang attribute and the host page is lang='en', so the passage is not marked as Portuguese; text alternatives are content that 3.1.2 covers (H58 applies lang to attribute text). It fails 3.1.2 and the claim names that. Live check: the live HTML (curl, 2026-11-21) still loads Google's TranslateElement with pageLanguage 'en' and the default auto display, which injects this banner for visitors whose browser language is not English, and the site CSS has no rule hiding it; the capture shows what a pt-BR browser receives (the banner was rendered: its text pixels were measured). Visitors with an English browser get no banner. My fetch runs no script, so I compared the setup, not the rendered banner."
+    }
+  ]
+}

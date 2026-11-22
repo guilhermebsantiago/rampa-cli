@@ -1,0 +1,91 @@
+{
+  "page": "https://www.wexfordopera.com/our-story/contact-us",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "sfe6e1098ae6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "A footer logo image (Investors in Diversity Bronze badge) that is the only content of a link to https://irishcentrefordiversity.ie/. The first half of the claim holds (the alt is all the link holds), but the alt does identify where the link goes: I opened the destination, the home page of the Irish Centre for Diversity, whose menu lists 'Investors In Diversity Bronze' and whose body promotes its 'nationally recognised Investors in Diversity accreditation'. The alt names the accreditation scheme the destination runs, so read as link text it tells users they will reach the Investors in Diversity (Bronze) accreditation's site; by R2's first test (the alternative names the subject or product of the destination) and H30 it describes the link's purpose, so claimTrue is no and elementFails is no. The live HTML has the same link and alt as the snapshot and the screenshot shows the styled badge, so captureDiffers is no. Rampa never read the destination, so the false positive comes from missing context."
+    },
+    {
+      "fingerprint": "p5699216a23c",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Header logo image (alt 'Wexford Festival Opera') inside the brand link to the home page https://www.wexfordopera.com/, whose title is 'Wexford Festival Opera 15-31 October 2026'. The alt gives the organisation's name, which is both the text shown in the logo and the name of the destination, so per H30 it describes the link's function; the '75' anniversary numerals are branding and leaving them out does not lose the purpose. The second logo image in the same link is display:none at desktop width (marked hidden in the snapshot), so the link is not announced twice. The live HTML matches the snapshot, so captureDiffers is no. No 1.1.1 failure: no missed issue."
+    },
+    {
+      "fingerprint": "s6925af82a30",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The 'Our story' item of the primary navigation: an <a href=\"#\" data-bs-toggle=\"dropdown\"> with a chevron that opens the 'Our story' mega-menu (panel-our-story, with 'Our roots, our journey and our work today' and links such as Our history, Our archive, Contact us). Its purpose is to open that section's menu, and the text 'Our story' names the section; a top-level navigation item named after its section is conventional and determinable from the text alone, and its list item holds the submenu it reveals. The claim that the text does not tell where it goes and that nothing around it does is therefore not true of the capture (the listitem context in the packet holds the submenu), so claimTrue is no and elementFails is no. That it is a link with href=\"#\" acting as a disclosure button is a 4.1.2 name/role/state matter, not 2.4.4. The live HTML and the screenshot match the snapshot (captureDiffers no)."
+    },
+    {
+      "fingerprint": "s5e03dbf5fcc",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Footer funder logo (alt 'The Arts Council Funding Opera Logo') that is the only content of a link to https://www.artscouncil.ie/home/, which I opened: 'Home - The Arts Council / An Chomhairle Ealaion'. The alt names the Arts Council, the very organisation whose home page the link opens, so read as the link's text it tells users where the link goes; the trailing word 'Logo' is redundant but does not hide the purpose. By R2's first test and H30 the alternative describes the link's function, so claimTrue is no and elementFails is no. The href itself names the Arts Council, so the checker had what it needed and judged wrongly. The live HTML matches the snapshot (captureDiffers no)."
+    },
+    {
+      "fingerprint": "pf51f4447a1e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer text link 'Terms and Conditions' to https://www.wexfordopera.com/booking-terms-and-conditions, whose title and h1 are 'Terms and Conditions'. The link text alone states its purpose, and no other link on the page shares the name, so R1 does not apply. The live footer has the same link (captureDiffers no). No 2.4.4 failure: nothing was missed."
+    },
+    {
+      "fingerprint": "8604e12eaff3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer logo image (the 'We support Safe to Create' badge, alt 'Safe to create') that is the only content of a link to https://www.wexfordopera.com/content/files/Dignity-At-Work-Policy.pdf. I read the PDF: an 11-page Wexford Festival Trust 'Respect and Dignity at Work Policy (Bullying & Harassment)', in which Safe to Create appears only as one short section saying the Trust is a signatory. The alt describes the badge, not the control's function: a user hearing 'Safe to create, link' would expect the Safe to Create initiative, not the Festival's own policy document as a PDF. I looked for reasons it might pass: there is no title, no text in the link, and per R2 and H30 a 1.1.1 control alternative must identify the destination, which this one does not (its loose thematic link to the policy does not name the document). claimTrue yes, elementFails yes, and the claim names exactly this failure. The live HTML has the same link and alt, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "p9da5584deed",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Breadcrumb link 'Our story' (Home > Our story > Contact us) to https://www.wexfordopera.com/our-story, which redirects to the Our history page titled 'Our Story | Wexford Festival Opera'. The text names the section it leads to, so the purpose is determinable. For R1: the only other visible link with the same name is the primary-navigation 'Our story' dropdown toggle (href=\"#\"); its context is its own navigation list item, while this one sits in the breadcrumb run 'Home > Our story > Contact us' in a div, so their contexts tell them apart and they do not form one set (the third 'Our story' link, a mobile back link, is hidden at desktop width and goes to the same URL anyway). The live page matches the snapshot (captureDiffers no). No 2.4.4 failure."
+    },
+    {
+      "fingerprint": "sbc9a26e984d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Footer link 'IT' to the Italian welcome page (benvenuti-al-festival-dellopera-di-wexford), the first of three bare links 'IT FR DE' in one flex div, with no lang, hreflang, title or aria-label and no visible 'Language' label (screenshot and live HTML agree with the snapshot, so captureDiffers is no). The skeptic's reason against the claim: 'IT' sits in the same run of text (an implied paragraph in HTML terms) as 'FR' and 'DE', and that trio reads as a set of language codes, so link text plus context lets users work out that it opens the Italian version; on that reading the element passes and the claim that it could mean several things here is not true of the capture. But the rubric's context list names sentences, paragraphs, list items and table cells, and a bare div of links is not clearly any of them; read strictly, 'IT' alone (which a screen reader may voice as the word 'it') does not give the purpose, while sighted users can infer it from the visual cluster, which would make it a failure. Competent auditors split on bare language-code switchers under 2.4.4 (some file them under 3.1.4 or best practice), so the label is uncertain although my own answers lean to a pass."
+    }
+  ]
+}

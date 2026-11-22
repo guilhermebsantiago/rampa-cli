@@ -1,0 +1,753 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://vestibular.fgv.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "08f22d2e03de",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#paragraph-4963 > div > div > div > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"The phrase \"que abrem portas.\"\".",
+   "evidence": "The phrase \"que abrem portas.\"",
+   "subject": "hidden 69J1lrfRMRM.jpg.webp",
+   "patch": {
+    "ref": "#paragraph-4963 > div > div > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "que abrem portas.",
+    "before": "<img src=\"/sites/default/files/styles/16_9/public/video_thumbnails/69J1lrfRMRM.jpg.webp?itok=fmgsZjAe\" alt=\"\" class=\"image-style-_6-9\">",
+    "after": "<img src=\"/sites/default/files/styles/16_9/public/video_thumbnails/69J1lrfRMRM.jpg.webp?itok=fmgsZjAe\" alt=\"que abrem portas.\" class=\"image-style-_6-9\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "352b880335c5",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#slick-slide12 > div:nth-of-type(1) > img",
+   "message": "This image is hidden from screen readers (inside aria-hidden=\"true\"), but it conveys what the text around it does not say: \"The image contains the text \"ASSISTA O VÍDEO\"\".",
+   "evidence": "The image contains the text \"ASSISTA O VÍDEO\"",
+   "subject": "hidden youtube-thumbnail-alta-qualidade-1.jpg.webp",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "4a6f18943c3f",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#slick-slide13 > div:nth-of-type(1) > img",
+   "message": "This image is hidden from screen readers (inside aria-hidden=\"true\"), but it conveys what the text around it does not say: \"The image contains the text \"ASSISTA O VÍDEO\"\".",
+   "evidence": "The image contains the text \"ASSISTA O VÍDEO\"",
+   "subject": "hidden youtube-thumbnail-alta-qualidade-2.jpg.webp",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "1098decbd01a",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#paragraph-906 > div > div > div > div > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(9) > div:nth-of-type(1) > img",
+   "message": "This image is hidden from screen readers (inside aria-hidden=\"true\"), but it conveys what the text around it does not say: \"The image contains the text \"ASSISTA O VÍDEO\"\".",
+   "evidence": "The image contains the text \"ASSISTA O VÍDEO\"",
+   "subject": "hidden youtube-thumbnail-alta-qualidade-1.jpg.webp",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "806d48040a48",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#paragraph-906 > div > div > div > div > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(10) > div:nth-of-type(1) > img",
+   "message": "This image is hidden from screen readers (inside aria-hidden=\"true\"), but it conveys what the text around it does not say: \"The image contains the text \"ASSISTA O VÍDEO\"\".",
+   "evidence": "The image contains the text \"ASSISTA O VÍDEO\"",
+   "subject": "hidden youtube-thumbnail-alta-qualidade-2.jpg.webp",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "923f3d0158d1",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#edit-nome",
+   "message": "The field \"Nome\" asks for the user's first name, but autocomplete=\"off\" does not identify that purpose.",
+   "evidence": "Nome",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#edit-nome",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "from": "off",
+    "to": "given-name",
+    "before": "<input autocomplete=\"off\" data-drupal-selector=\"edit-nome\" type=\"text\" id=\"edit-nome\" name=\"nome\" value=\"\" size=\"60\" maxlength=\"255\" placeholder=\"Seu nome\" class=\"required form-control\" required=\"required\" aria-required=\"true\">",
+    "after": "<input autocomplete=\"given-name\" data-drupal-selector=\"edit-nome\" type=\"text\" id=\"edit-nome\" name=\"nome\" value=\"\" size=\"60\" maxlength=\"255\" placeholder=\"Seu nome\" class=\"required form-control\" required=\"required\" aria-required=\"true\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "4e6fcfaf1244",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#edit-e-mail",
+   "message": "The field \"E-mail\" asks for the user's email address, but autocomplete=\"off\" does not identify that purpose.",
+   "evidence": "E-mail",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#edit-e-mail",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "from": "off",
+    "to": "email",
+    "before": "<input autocomplete=\"off\" data-drupal-selector=\"edit-e-mail\" type=\"email\" id=\"edit-e-mail\" name=\"e_mail\" value=\"\" size=\"60\" maxlength=\"254\" placeholder=\"E-mail\" class=\"form-email required form-control\" required=\"required\" aria-required=\"true\">",
+    "after": "<input autocomplete=\"email\" data-drupal-selector=\"edit-e-mail\" type=\"email\" id=\"edit-e-mail\" name=\"e_mail\" value=\"\" size=\"60\" maxlength=\"254\" placeholder=\"E-mail\" class=\"form-email required form-control\" required=\"required\" aria-required=\"true\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "8ee306c752bb",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#paragraph-913 > div > div:nth-of-type(1) > a",
+   "target": "#paragraph-913 > div > div:nth-of-type(1) > a",
+   "message": "The text \"Formas de Ingresso\" has at most 3.38:1 contrast with what is behind it (#ffffff on #489bce…#4293c6), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #4395c8; #489bce…#4293c6 · 3.38:1 at best, 3.06:1 at worst · 16px, 700",
+   "subject": "Formas de Ingresso",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"/formas-de-ingresso\" class=\"text-center justify-content-center font-weight-bold text-uppercase rounded bg-dark\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "b35fd0ea1e2a",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#paragraph-913 > div > div:nth-of-type(2) > a",
+   "target": "#paragraph-913 > div > div:nth-of-type(2) > a",
+   "message": "The text \"Provas e Gabaritos do Vestibular FGV\" has at most 3.77:1 contrast with what is behind it (#ffffff on #4da2d4…#3b8abe), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #4a9ed0; #4da2d4…#3b8abe · 3.77:1 at best, 2.83:1 at worst · 16px, 700",
+   "subject": "Provas e Gabaritos do Vestibular FGV",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"/provas-gabaritos\" class=\"text-center justify-content-center font-weight-bold text-uppercase rounded bg-dark\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "feb2b589c15f",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#paragraph-913 > div > div:nth-of-type(3) > a",
+   "target": "#paragraph-913 > div > div:nth-of-type(3) > a",
+   "message": "The text \"Editais e Aditamentos\" has at most 3.38:1 contrast with what is behind it (#ffffff on #489bce…#4293c6), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #4395c8; #489bce…#4293c6 · 3.38:1 at best, 3.06:1 at worst · 16px, 700",
+   "subject": "Editais e Aditamentos",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"/editais\" class=\"text-center justify-content-center font-weight-bold text-uppercase rounded bg-dark\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "ec0fe507e5f6",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#paragraph-913 > div > div:nth-of-type(4) > a",
+   "target": "#paragraph-913 > div > div:nth-of-type(4) > a",
+   "message": "The text \"Locais de Prova do Vestibular FGV\" has at most 3.77:1 contrast with what is behind it (#ffffff on #4da2d4…#3b8abe), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #4a9ed0; #4da2d4…#3b8abe · 3.77:1 at best, 2.83:1 at worst · 16px, 700",
+   "subject": "Locais de Prova do Vestibular FGV",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"/locais-de-prova\" class=\"text-center justify-content-center font-weight-bold text-uppercase rounded bg-dark\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "21f77aa77568",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#paragraph-894 > div:nth-of-type(2) > div > h3:nth-of-type(1)",
+   "target": "#paragraph-894 > div:nth-of-type(2) > div > h3:nth-of-type(1)",
+   "message": "The text \"Conheça sua futura carreira\" has at most 4.18:1 contrast with what is behind it (#ffffff on #0485c9…#0382c7), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #0484c8; #0485c9…#0382c7 · 4.18:1 at best, 4.04:1 at worst · 22px, 500",
+   "subject": "Conheça sua futura carreira",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<h3>",
+   "experimental": true
+  },
+  {
+   "fingerprint": "bc1890559225",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#paragraph-897 > div > div:nth-of-type(2) > div > a",
+   "target": "#paragraph-897 > div > div:nth-of-type(2) > div > a",
+   "message": "The text \"EXPERIÊNCIA FGV\" has at most 2.93:1 contrast with what is behind it (#00ab86 on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#00ab86 on #ffffff · 2.93:1 at best, 2.93:1 at worst · 16px, 700",
+   "subject": "EXPERIÊNCIA FGV",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"/experiencia-fgv\" class=\"sweep-to-right btn btn--white text-nowrap\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "ecad3f79c60e",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#paragraph-837 > h2 > div > h2",
+   "target": "#paragraph-837 > h2 > div > h2",
+   "message": "The text \"Estudar na FGV\" has at most 2.63:1 contrast with what is behind it (#ffffff on #01b5ba…#01b1b8), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 3:1 for large text.",
+   "evidence": "#ffffff on #01b3b9; #01b5ba…#01b1b8 · 2.63:1 at best, 2.52:1 at worst · 27px, 700",
+   "subject": "Estudar na FGV",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<h2 class=\"subtitle\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "cb8aa6dc8dac",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#paragraph-841 > div > div > h3",
+   "target": "#paragraph-841 > div > div > h3",
+   "message": "The text \"DIFERENCIAIS\" has at most 2.96:1 contrast with what is behind it (#ffffff on #01a9b3…#00a6b2), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #01a8b3; #01a9b3…#00a6b2 · 2.96:1 at best, 2.87:1 at worst · 22px, 500",
+   "subject": "DIFERENCIAIS",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<h3>",
+   "experimental": true
+  },
+  {
+   "fingerprint": "b75fb1be3046",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#paragraph-841 > div > div > blockquote:nth-of-type(1) > h4",
+   "target": "#paragraph-841 > div > div > blockquote:nth-of-type(1) > h4",
+   "message": "The text \"Diversidade\" has at most 3.16:1 contrast with what is behind it (#ffffff on #01a3b0…#00a0af), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #01a2b0; #01a3b0…#00a0af · 3.16:1 at best, 3.06:1 at worst · 20px, 500",
+   "subject": "Diversidade",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<h4>",
+   "experimental": true
+  },
+  {
+   "fingerprint": "0181eb6365fd",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#paragraph-841 > div > div > blockquote:nth-of-type(1) > p",
+   "target": "#paragraph-841 > div > div > blockquote:nth-of-type(1) > p",
+   "message": "The text \"Interação com alunos de outros países e de diferentes regiõ…\" has at most 3.66:1 contrast with what is behind it (#ffffff on #019dad…#0093a8), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #019cad; #019dad…#0093a8 · 3.66:1 at best, 3.27:1 at worst · 16px, 400",
+   "subject": "Interação com alunos de outros países e de diferentes regiões do Brasil, possibilitando uma vivência cultural rica e diversificada.",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<p>",
+   "experimental": true
+  },
+  {
+   "fingerprint": "894ca37d60d8",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#paragraph-841 > div > div > blockquote:nth-of-type(2) > h4",
+   "target": "#paragraph-841 > div > div > blockquote:nth-of-type(2) > h4",
+   "message": "The text \"ENADE e IGC\" has at most 4.02:1 contrast with what is behind it (#ffffff on #018ea5…#008ba4), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #018da5; #018ea5…#008ba4 · 4.02:1 at best, 3.88:1 at worst · 20px, 500",
+   "subject": "ENADE e IGC",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<h4>",
+   "experimental": true
+  },
+  {
+   "fingerprint": "b387567cb04d",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#edit-nome",
+   "target": "#edit-nome",
+   "message": "The placeholder \"Seu nome\" has a contrast of 2.14:1 with the field (#b1b1b1 on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#b1b1b1 on #ffffff · 2.14:1 at best, 2.14:1 at worst · 16px, 700",
+   "subject": "Seu nome",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input autocomplete=\"off\" data-drupal-selector=\"edit-nome\" type=\"text\" id=\"edit-nome\" name=\"nome\" value=\"\" size=\"60\" maxlength=\"255\" placeholder=\"Seu nome\" class=\"required form-control\" required=\"required\" aria-required=\"true\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "6d64a10a2d52",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#edit-e-mail",
+   "target": "#edit-e-mail",
+   "message": "The placeholder \"E-mail\" has a contrast of 2.14:1 with the field (#b1b1b1 on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#b1b1b1 on #ffffff · 2.14:1 at best, 2.14:1 at worst · 16px, 700",
+   "subject": "E-mail",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input autocomplete=\"off\" data-drupal-selector=\"edit-e-mail\" type=\"email\" id=\"edit-e-mail\" name=\"e_mail\" value=\"\" size=\"60\" maxlength=\"254\" placeholder=\"E-mail\" class=\"form-email required form-control\" required=\"required\" aria-required=\"true\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "fb9e725636d8",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#edit-markup > a",
+   "message": "The link text \"https://portal.fgv.br/protecao-dados-pessoais\" is an address, not a purpose.",
+   "evidence": "https://portal.fgv.br/protecao-dados-pessoais",
+   "subject": "https://portal.fgv.br/protecao-dados-pessoais",
+   "claim": "url_or_filename",
+   "techniques": [
+    "G91"
+   ],
+   "patch": {
+    "ref": "#edit-markup > a",
+    "kind": "set-text",
+    "from": "https://portal.fgv.br/protecao-dados-pessoais",
+    "to": "Proteção de Dados Pessoais",
+    "before": "<a href=\"https://portal.fgv.br/protecao-dados-pessoais\" rel=\"nofollow noopener\" target=\"_blank\" class=\"ext\" data-extlink=\"\" title=\"(opens in a new window)\">https://portal.fgv.br/protecao-dados-pessoais</a>",
+    "after": "<a href=\"https://portal.fgv.br/protecao-dados-pessoais\" rel=\"nofollow noopener\" target=\"_blank\" class=\"ext\" data-extlink=\"\" title=\"(opens in a new window)\">Proteção de Dados Pessoais</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "817a4f0608e9",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#block-formularioexpostobuscapage-1 > div > form > a",
+   "target": "#block-formularioexpostobuscapage-1 > div > form > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a class=\"form-open\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "7311d0b9ce6e",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#main-content",
+   "target": "#main-content",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a id=\"main-content\" tabindex=\"-1\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 17
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 16,
+   "members": [
+    "fbf1bc2ea663",
+    "7c367426c498",
+    "527f3dee6517",
+    "73a0ac9dedfc",
+    "067b327e1ec7",
+    "61055822bea4",
+    "5008baa99194",
+    "3cc4281bc474",
+    "e2fba0996fb8",
+    "7df03d05b72f",
+    "9ec16e827f00",
+    "541b4eb66ec0",
+    "3c86b6d3ecfc",
+    "1a35e0fde533",
+    "cce3cdd37dba",
+    "5eb40be87ec3"
+   ],
+   "example": "fbf1bc2ea663"
+  },
+  {
+   "id": "g-6ed0ab07ef69",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "check": "rampa/pixel-contrast",
+   "count": 11,
+   "members": [
+    "8ee306c752bb",
+    "b35fd0ea1e2a",
+    "feb2b589c15f",
+    "ec0fe507e5f6",
+    "21f77aa77568",
+    "bc1890559225",
+    "ecad3f79c60e",
+    "cb8aa6dc8dac",
+    "b75fb1be3046",
+    "0181eb6365fd",
+    "894ca37d60d8"
+   ],
+   "example": "8ee306c752bb"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#edit-nome",
+   "message": "The label \"Nome\" does not say what to enter.",
+   "evidence": "The model suggests: \"Nome completo\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "2.4.6",
+   "ref": "#block-mainnavigation-menu",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Main navigation",
+    "verdict": "fail",
+    "evidence": "M…",
+    "problem": "generic",
+    "suggestedText": "Navegação principal",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#edit-e-mail",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "E-mail",
+    "verdict": "fail",
+    "evidence": "E…",
+    "problem": "generic",
+    "suggestedText": "E-mail",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 16,
+   "judged": 16,
+   "failed": 5,
+   "passed": 11,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 2,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 59,
+   "judged": 50,
+   "failed": 1,
+   "passed": 49,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 9
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 22,
+   "judged": 22,
+   "failed": 0,
+   "passed": 19,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #edit-container > div:nth-of-type(4) > div > div > div > div > iframe (https://www.google.com/recaptcha/api2/anchor?ar=1&k=6Lc4ABQUAAAAAOqdIFEnUeoadgNsrFHnRFtuVCyn&co=aHR0cHM6Ly92ZXN0aWJ1bGFyLmZndi5icjo0NDM.&hl=pt-BR&type=image&v=4i3aN5wAweL7i3ADI7BSX4B-&theme=light&size=normal&anchor-ms=20000&execute-ms=30000&ovv=CADq00gF&cb=lbb4rfcyerjf).",
+  "2 image(s) were left without a capture, so no judgment looked at them: 1 outside the page (an off-canvas menu); 1 still loading after the wait. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 9 of 59 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 90,
+  "cachedCalls": 0,
+  "inputTokens": 87027,
+  "outputTokens": 8639,
+  "latencyMs": 276274
+ },
+ "timings": {
+  "totalMs": 141132,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 20
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 25877,
+    "prepareMs": 0,
+    "candidates": 16,
+    "judged": 16,
+    "calls": 16,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2443,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 86859,
+    "prepareMs": 0,
+    "candidates": 59,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 25709,
+    "prepareMs": 0,
+    "candidates": 22,
+    "judged": 22,
+    "calls": 22,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 179,
+    "prepareMs": 177,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 10,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 31
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 22,
+   "notCaptured": 2,
+   "reasons": {
+    "outside-page": 1,
+    "not-loaded": 1
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 59,
+    "capped": 9
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#edit-container > div:nth-of-type(4) > div > div > div > div > iframe",
+     "url": "https://www.google.com/recaptcha/api2/anchor?ar=1&k=6Lc4ABQUAAAAAOqdIFEnUeoadgNsrFHnRFtuVCyn&co=aHR0cHM6Ly92ZXN0aWJ1bGFyLmZndi5icjo0NDM.&hl=pt-BR&type=image&v=4i3aN5wAweL7i3ADI7BSX4B-&theme=light&size=normal&anchor-ms=20000&execute-ms=30000&ovv=CADq00gF&cb=lbb4rfcyerjf",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  }
+ }
+}

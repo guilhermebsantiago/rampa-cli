@@ -1,0 +1,71 @@
+{
+  "page": "https://www.coventrytelegraph.net/news/coventry-news/children-young-12-arrested-knife-34923139",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "731a57aa732f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer link to /about-us/ holds only the Trust Project SVG with alt \"trust project logo\"; the link has no aria-label or title, so its name is that alt. claimTrue: the capture shows exactly that, and the alternative names the picture, not the destination. elementFails: I opened /about-us/; it is \"About CoventryLive\" (editor's letter, ethics, corrections, people), which mentions The Trust Project only in passing as something the paper is a launch partner of. A user hearing \"trust project logo, link\" would expect the Trust Project's own site, not the publisher's About page, and the word \"logo\" describes the image. Under H30 (Situation C of 1.1.1) the alternative of an image that is a link's only content must describe the link's function, so it fails. The skeptic objection I tested (the trust mark conventionally leads to the publisher's standards page, and that page mentions the project) does not make the alternative identify the destination. captureDiffers: the live HTML has the same link, href and alt. In the screenshot the consent dialog covers the footer, but users see that dialog too, and it has nothing to do with the alternative."
+    },
+    {
+      "fingerprint": "edab46ab7cd7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the byline badge (PremiumArticleBadge, premium-byline SVG). The crop, the screenshot and the SVG itself all show a 'C' hexagon followed by the word \"PREMIUM\", which marks the article as premium content; its alt is \"coventrytelegraph\". claimTrue: the alternative is the publication's short name, a label, and leaves out what the image conveys. elementFails: the word PREMIUM, and with it the article's premium status, is lost for screen reader users. I searched the snapshot and no other text near the byline says \"premium\" (the only other premium text is the header's 'Subscribe to premium membership' link). The badge is not decorative, so the alternative does not serve the equivalent purpose (G94) and the element fails 1.1.1. The claim, read in good faith, names this. captureDiffers: the live HTML has the same img, src and alt."
+    },
+    {
+      "fingerprint": "s22f099e8fd9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the first link \"here\" in paragraph 19 of the article body, pointing to the newsletter preference centre. claimTrue: the link text alone is vague, but \"nothing around it does\" is false. The link sits in the sentence \"You can sign up to receive these free to your email inbox here.\", inside a paragraph about the Coventry, Warwickshire and crime and courts newsletters. elementFails: the same sentence and paragraph are programmatically determined link context (2.4.4 definition; the rubric's context list), and they give the purpose: signing up to those free email newsletters. So the link meets 2.4.4. Rampa had this paragraph text among the element's ancestors and still judged it uncontextualised, hence model_error. captureDiffers: the live HTML has the same paragraph, sentence and href."
+    },
+    {
+      "fingerprint": "p55e88d093fb",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. This is the masthead image (alt \"Coventry Live\", title with the strapline) inside the header link to '/'. That link's accessible name comes from aria-label=\"Go to Coventry Live homepage\", which describes the control's purpose, so 1.1.1's requirement for a control is met by the link's name. The image's own alt reproduces the logo's text \"CoventryLive\" (crop checked), which is the equivalent for a text logo. The element does not fail 1.1.1, and Rampa was right to report nothing. captureDiffers: the live HTML has the same img, alt, title and link aria-label."
+    },
+    {
+      "fingerprint": "sa45a886dc87",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is a footer image that is not a link: the IPSO kitemark, whose crop shows \"ipso.\" plus a \"Regulated\" banner; its alt is \"Ipso logo\". claimTrue: the alternative labels the image as a logo and leaves out its message, that the publisher is regulated by IPSO. elementFails: read strictly by G94, the alternative does not present the same information, because the word \"Regulated\" carries the meaning and is lost, so I lean towards a fail. But there is a concrete reason the finding could be wrong. A logo's alternative that names the organisation is widely accepted practice, the regulation mark is IPSO's own logo, and a reader who knows IPSO is the press regulator gets the gist from \"Ipso logo\" on a news site's footer. Competent auditors would reasonably split on whether this is a 1.1.1 failure or only a weak alternative, so the label is uncertain. captureDiffers: the live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "sa502656726c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the second link \"here.\" in paragraph 19, pointing to the newsletter preference centre with a specific mailingListId (solus view). claimTrue: \"nothing around it does\" is false. The link closes the sentence \"Keep up to date with events, restaurant openings, family attractions and more with our What's On newsletter here.\" elementFails: that sentence is the link's programmatically determined context, and it gives the purpose: signing up to the What's On newsletter. The link meets 2.4.4. The paragraph text was in the element's ancestors, so Rampa had the context and misjudged it, hence model_error. captureDiffers: the live HTML has the same sentence and href."
+    }
+  ]
+}

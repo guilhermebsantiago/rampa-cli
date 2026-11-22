@@ -1,0 +1,651 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.unir.br/homepage",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "be7dd7ac4201",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#Header > div > div > div:nth-of-type(1) > a > img",
+   "message": "The text alternative \"logomarca da UNIR - duas setas na cor azul se cruzando\" is all its link holds, and does not say where the link leads.",
+   "evidence": "logomarca da UNIR - duas setas na cor azul se cruzando",
+   "subject": "logomarca da UNIR - duas setas na cor azul se cruzando",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "#Header > div > div > div:nth-of-type(1) > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "logomarca da UNIR - duas setas na cor azul se cruzando",
+    "to": "Página inicial da UNIR",
+    "before": "<img src=\"/uploads/13579246/banner/LOGO_UNIR_716426211.png\" alt=\"logomarca da UNIR - duas setas na cor azul se cruzando\" class=\"d-none d-md-block w-75 imgContrast\" style=\"\">",
+    "after": "<img src=\"/uploads/13579246/banner/LOGO_UNIR_716426211.png\" alt=\"Página inicial da UNIR\" class=\"d-none d-md-block w-75 imgContrast\" style=\"\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999946399600681
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "62b565df61d0",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#Album > div > div > div:nth-of-type(3) > div > div:nth-of-type(1) > a > img",
+   "message": "The text alternative \"UNIR\" is all its link holds, and does not say where the link leads.",
+   "evidence": "UNIR",
+   "subject": "UNIR",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "#Album > div > div > div:nth-of-type(3) > div > div:nth-of-type(1) > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "UNIR",
+    "to": "Projeto da UNIR integra mapeamento sobre longevidade",
+    "before": "<img class=\"img rounded img-raised w-100\" alt=\"UNIR\" style=\"max-width: 100%\" src=\"https://www.unir.br/uploads/13579246/cartoes/Foto_8_309259702.jpeg\">",
+    "after": "<img class=\"img rounded img-raised w-100\" alt=\"Projeto da UNIR integra mapeamento sobre longevidade\" style=\"max-width: 100%\" src=\"https://www.unir.br/uploads/13579246/cartoes/Foto_8_309259702.jpeg\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9998045092974462
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "2ca5b117eb51",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#carouselEventIndicators > div > div:nth-of-type(1) > a > img:nth-of-type(1)",
+   "message": "The text alternative \"movimento no campus\" is all its link holds, and does not say where the link leads.",
+   "evidence": "movimento no campus",
+   "subject": "movimento no campus",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "#carouselEventIndicators > div > div:nth-of-type(1) > a > img:nth-of-type(1)",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "movimento no campus",
+    "to": "Página do evento Movimento no Campus na UNIR",
+    "before": "<img class=\"d-none d-md-block\" style=\"width: 100%\" alt=\"movimento no campus\" src=\"https://www.unir.br/uploads/13579246/eventos/WhatsApp_Image_2026_08_06_at_10_1288734061.jpeg\">",
+    "after": "<img class=\"d-none d-md-block\" style=\"width: 100%\" alt=\"Página do evento Movimento no Campus na UNIR\" src=\"https://www.unir.br/uploads/13579246/eventos/WhatsApp_Image_2026_08_06_at_10_1288734061.jpeg\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9957989194962263
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "e51aa784c02a",
+   "criterion": "2.4.2",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html",
+   "message": "The page title \"UNIR - Universidade Federal de Rondônia\" says nothing about this page.",
+   "evidence": "UNIR - Universidade Federal de Rondônia",
+   "subject": "UNIR - Universidade Federal de Rondônia",
+   "claim": "generic",
+   "techniques": [
+    "F25",
+    "G88"
+   ],
+   "patch": {
+    "ref": "html",
+    "kind": "set-text",
+    "from": "UNIR - Universidade Federal de Rondônia",
+    "to": "UNIR - Notícias e Comunicados",
+    "before": "<title>UNIR - Universidade Federal de Rondônia</title>",
+    "after": "<title>UNIR - Notícias e Comunicados</title>"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "3af396a60152",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#Album > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > span > a",
+   "message": "The link text \"Pesquisa\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "Pesquisa",
+   "subject": "Pesquisa",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#Album > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > span > a",
+    "kind": "set-text",
+    "from": "Pesquisa",
+    "to": "Pesquisa inclusão em universidades",
+    "before": "<a href=\"https://www.unir.br/cartao/exibir/398\" style=\"color: #747474;\">Pesquisa</a>",
+    "after": "<a href=\"https://www.unir.br/cartao/exibir/398\" style=\"color: #747474;\">Pesquisa inclusão em universidades</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "8f939c1c3989",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#Album > div > div > div:nth-of-type(5) > div > div:nth-of-type(2) > span > a",
+   "message": "The link text \"Pesquisa\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "Pesquisa",
+   "subject": "Pesquisa",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#Album > div > div > div:nth-of-type(5) > div > div:nth-of-type(2) > span > a",
+    "kind": "set-text",
+    "from": "Pesquisa",
+    "to": "Pesquisa sobre a Feira PopMédio",
+    "before": "<a href=\"https://www.unir.br/cartao/exibir/392\" style=\"color: #747474;\">Pesquisa</a>",
+    "after": "<a href=\"https://www.unir.br/cartao/exibir/392\" style=\"color: #747474;\">Pesquisa sobre a Feira PopMédio</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 35
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 12,
+   "members": [
+    "cb490795da3f",
+    "18f64a619017",
+    "2208e5b1867c",
+    "9887ef7d64b6",
+    "2ac8a67fc89b",
+    "8fb06e07b480",
+    "88f1ef3aedaa",
+    "22c618c7e971",
+    "100f1e01b077",
+    "033253dc0f2a",
+    "75d516ecb0a2",
+    "65ee84bd9fa0"
+   ],
+   "example": "cb490795da3f"
+  },
+  {
+   "id": "g-b3cc505a410d",
+   "list": "findings",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "engine",
+   "check": "link-name",
+   "count": 18,
+   "members": [
+    "1f778e121587",
+    "02ad0d82cc87",
+    "ac82827d8440",
+    "3de8b808b60c",
+    "408b99657d47",
+    "63c8b498434a",
+    "aa53b62f97ec",
+    "600dc607e722",
+    "282997bfbff5",
+    "60e6f860296d",
+    "23757b1e05ae",
+    "07c83a098556",
+    "9470030fb55c",
+    "dce8eeeb90af",
+    "3938de0dd788",
+    "5bdbae589a62",
+    "26e1bec31e6c",
+    "e007621a34b8"
+   ],
+   "example": "1f778e121587"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#Acoes > div > div > div > a:nth-of-type(1) > img",
+   "message": "The text alternative \"NEGRA OLHANDO PARA A LOGO DO SOU - SERVIÇO DE ORIENTAÇÃO AO USUÁRIO - WHATSAPP 69 21822016\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"Falar com o Serviço de Orientação ao Usuário (SOU) via WhatsApp\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#AcessoR > div > div > div:nth-of-type(11) > center > a > img",
+   "message": "The text alternative \"Licitações e Contratos\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"Reservas de Espaços\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (0.86), claim: yes (0.97), reversed: yes (0.02))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#topbar > div > div > div > a:nth-of-type(7)",
+   "message": "The link text \"Acessibilidade\" does not match where the link leads: a page titled \"UNIR - Universidade Federal de Rondônia\".",
+   "evidence": "The model suggests: \"Página de Acessibilidade da UNIR\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#sm-17952953069478943-14",
+   "message": "The link text \"Multicampi\" does not match where the link leads: a page titled \"UNIR - Universidade Federal de Rondônia\".",
+   "evidence": "The model suggests: \"Página Multicampi\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#main-menu > li:nth-of-type(7) > a",
+   "message": "The link text \"Acesso à informação\" does not match where the link leads: a page titled \"UNIR - Universidade Federal de Rondônia\".",
+   "evidence": "The model suggests: \"Acesso à informação - Sistema de Páginas da UNIR\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#Album > div > div > div:nth-of-type(2) > div > div:nth-of-type(2) > span > a",
+   "message": "The link text \"Saúde\" does not match where the link leads: a page titled \"UNIR - Pesquisa da UNIR vence Prêmio Capes de Tese 2026\".",
+   "evidence": "The model suggests: \"Pesquisa da UNIR vence Prêmio Capes de Tese 2026\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#portal-buscador",
+   "message": "The label \"busca...\" does not say what to enter.",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#main-menu-state",
+   "message": "The label \"Toggle main menu visibility\" does not say what to enter.",
+   "evidence": "The model suggests: \"Alternar menu principal\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#AcessoR > div > div > div:nth-of-type(1) > center > h6",
+   "message": "The heading \"Dirca\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Dirca (Portal de Serviços)\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#AcessoR > div > div > div:nth-of-type(9) > center > h6",
+   "message": "The heading \"CPAv\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"CPAv (Certificado de Prevenção de Acidentes)\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > footer > div > div:nth-of-type(1) > div > div:nth-of-type(4) > h5",
+   "message": "The heading \"MultiCampi\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Campi da UNIR\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#Acoes > div > div > div > a:nth-of-type(1) > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "NEGRA OLHANDO PARA A LOGO DO SOU - SERVIÇO DE ORIENTAÇÃO AO USUÁRIO - WHATSAPP 69 21822016",
+    "problem": "missing_information",
+    "imageShows": "Uma mulher sorridente ao lado do logotipo 'SOU' e informações de contato da UNIR.",
+    "suggestedAlt": "Falar com o Serviço de Orientação ao Usuário (SOU) via WhatsApp",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#topbar > div > div > div > a:nth-of-type(7)",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page about accessibility information.",
+    "leadsTo": "A page titled 'UNIR - Universidade Federal de Rondônia' described as 'Sistema de Páginas da UNIR'",
+    "verdict": "fail",
+    "evidence": "Acessibilidade",
+    "problem": "mismatch",
+    "suggestedText": "Página de Acessibilidade da UNIR",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#sm-17952953069478943-14",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A link 'Multicampi' in a navigation menu suggests it leads to a section or page related to 'Multicampi' (likely a campus system or information).",
+    "leadsTo": "A page titled 'UNIR - Universidade Federal de Rondônia' (Sistema de Páginas da UNIR).",
+    "verdict": "fail",
+    "evidence": "<link>Multicampi</link>",
+    "problem": "mismatch",
+    "suggestedText": "Página Multicampi",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#main-menu > li:nth-of-type(7) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page or section related to 'Acesso à informação' (Access to Information).",
+    "leadsTo": "A page titled 'UNIR - Universidade Federal de Rondônia' described as 'Sistema de Páginas da UNIR'.",
+    "verdict": "fail",
+    "evidence": "Acesso à informação",
+    "problem": "mismatch",
+    "suggestedText": "Acesso à informação - Sistema de Páginas da UNIR",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#main-menu-state",
+   "reason": "evidence is not the label text",
+   "output": {
+    "named": "Toggle main menu visibility",
+    "verdict": "fail",
+    "evidence": "Tog…",
+    "problem": "generic",
+    "suggestedText": "Alternar menu principal",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 18,
+   "judged": 18,
+   "failed": 3,
+   "passed": 13,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 3,
+   "suggested": 2,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 103,
+   "judged": 50,
+   "failed": 2,
+   "passed": 44,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 53,
+   "suggested": 4
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 20,
+   "judged": 20,
+   "failed": 0,
+   "passed": 15,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 5
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Verification was off (--no-verify): model claims whose quoted evidence is not on the page are reported as if it were. This run is for measurement only.",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 53 of 103 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 102,
+  "inputTokens": 86625,
+  "outputTokens": 8558,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 250,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 20
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 16,
+    "prepareMs": 0,
+    "candidates": 18,
+    "judged": 18,
+    "calls": 0,
+    "cachedCalls": 30
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 18,
+    "prepareMs": 0,
+    "candidates": 103,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 9,
+    "prepareMs": 0,
+    "candidates": 20,
+    "judged": 20,
+    "calls": 0,
+    "cachedCalls": 20
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 144,
+    "prepareMs": 141,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 13,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 28
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 25,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 103,
+    "capped": 53
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

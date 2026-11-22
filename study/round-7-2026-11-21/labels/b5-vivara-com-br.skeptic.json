@@ -1,0 +1,55 @@
+{
+  "page": "https://www.vivara.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "8564690877b9",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer newsletter field (\"Acompanhe nossas novidades / Cadastre seu e-mail\"): input type=\"email\", required, placeholder \"E-MAIL\", with no autocomplete attribute in the snapshot HTML. The live site's JS bundle (chunk 3635) renders the same input (type email, required, className emailField, placeholder E-MAIL, no autoComplete), so the capture matches what users get. I looked for reasons it might pass. The field asks for the user's own address to subscribe them, so it is information about the user, and \"email\" is one of the listed Input Purposes. type=\"email\" only gives the data format: it does not say the address is the user's own, and it is not the sufficient technique (H98, autocomplete). No other mechanism identifies the purpose. The claim names exactly this failure."
+    },
+    {
+      "fingerprint": "sedbbe200432",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the third card link of the three-card section. Its aria-label is \"MONTE SEU PORTA-JOIAS\", the same as its visible call to action. Its content is the image (alt \"JOIAS ESSENCIAIS\"), the h3 \"JOIAS ESSENCIAIS\" and \"Escolhas que transformam o visual do dia-a-dia\". It leads to /lp/vivara-joias-classicas, titled \"Joias Essenciais: Clássicos Atemporais...\". \"Monte seu porta-joias\" (build up your jewellery collection) is a fitting call to action for a landing page of essential everyday pieces to buy, so the text does not contradict the destination. The link's own text, which this round counts as context, names \"JOIAS ESSENCIAIS\", the destination's title. The h3 inside the link also stays in the accessibility tree, because links do not have presentational children. So the purpose can be determined from the link text and its context. The live homepage data has the same card (cardCta label MONTE SEU PORTA-JOIAS, href /lp/vivara-joias-classicas, cardTitle JOIAS ESSENCIAIS). The model had the link's content and the destination title and still judged it a mismatch."
+    },
+    {
+      "fingerprint": "s0fd46850537",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the thumbnail of the \"Colares\" tile in the \"NAVEGUE POR CATEGORIA\" carousel. The crop shows a single gold collar necklace on a grey background, a representative product photo for the category. It sits inside a link with aria-label \"Ver categoria Colares\" and title \"Colares\", next to the visible text \"Colares\". The aria-label sets the link's name, so the alt does not even feed into it. In this context the image only illustrates the category. \"Imagem de Colares\" says it shows necklaces, which is the information that matters; the details of this particular necklace are not needed for an equivalent purpose. The \"Imagem de\" prefix is redundant but not a failure. The live SSR HTML has the same link and alt. Nothing in the image is left out that the context needs, so the claim does not hold."
+    },
+    {
+      "fingerprint": "dafe5c823dc7",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the full-width hero banner, the only content of a link to /lp/vivara-gisele-bundchen. The crop and screenshot show Gisele Bündchen with the text \"FEITA NO BRASIL, COM ALMA BRASILEIRA\" and \"EXPLORAR\". The alt is \"Campanha Natal Fashion\", and the live homepage data still has it (promotionId banner_home_vivara_lancamentos_gisele_brillare). The skeptic case I tested: the destination's CMS name is \"Vivara - Campanhas - Gisele - Natal\", so \"Campanha Natal\" matches an internal label. But nothing a user perceives uses that name. The destination's title is \"Lançamentos: Novas joias, novas histórias\", the banner's visible text is about \"made in Brazil\" and \"explore\", and \"Fashion\" appears nowhere. The alternative neither identifies the destination (the Gisele / new-releases page) nor conveys the text in the image (H30, G94). The link has no title and no other content. By R2, a 1.1.1 claim that such an alternative does not say where the link leads is a true positive."
+    },
+    {
+      "fingerprint": "cd21633687dd",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the thin promotional strip under the hero, the only content of a link to /lp/vivara-black-friday, whose live title is \"Black Friday Vivara 2026: Descontos em Joias e Relógios\". The crop shows the text \"BLACK FRIDAY\", \"ATÉ 50% off\", \"Sua próxima joia espera por você\" and \"*Consulte o regulamento\". The alt is the single English word \"sale\", the same in the live SSR HTML, and the link has no title or text. The skeptic case was that \"sale\" at least names the kind of page. That does not hold up: the word neither identifies this destination (the Black Friday page) nor presents the information the image carries (Black Friday, up to 50% off). So the alternative does not describe the link's unique function (H30) or serve as an equivalent (G94). The claim points at that defect."
+    },
+    {
+      "fingerprint": "s7c9d4c9180a",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h3 \"Life\" (shown uppercase) at the top of a footer column. Every link under it goes to the Life by Vivara sub-brand: Aliança de Namoro, Pingentes, Pulseiras, Brincos, Piercings, Brinco Masculino and Corrente Masculina, all on /life/... addresses. The column next to it is headed \"Joias Vivara\" for the main brand. Life is a brand that the page itself names (\"Visite também\" Life logo, \"Encontra a Vivara e Life\", \"Life by Vivara\" in the consent text). So the heading names the topic of its section, Life-brand categories, and 2.4.6 does not require a longer heading. The live homepage data has the same footer column (title \"Life\" with these submenu items)."
+    },
+    {
+      "fingerprint": "73731ad7c4d6",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the CEP field (#regionalization-cep, type tel, placeholder \"Informar um CEP\") in the open regionalization modal dialog. It has a <label for=\"regionalization-cep\">CEP</label>, but the label is notRendered in the snapshot. Chromium's own accessibility tree in the capture gives the textbox name \"\" (relation labelledby to the hidden label, no fallback to the placeholder). Rampa's spec-style name \"CEP\" differs from the browser's. I checked that this is not a collector artefact. The live CSS (chunk 07555f5c2a623e33) has \"[data-fs-regionalization-form-input-cep-container] [data-fs-input-field] [data-fs-label]{display:none}\", and the live JS (chunk 9450) renders the same input with label \"CEP\" and placeholder \"Informar um CEP\", so users get the same hidden label. Two skeptic points I weighed: the accname spec allows hidden native labels, and the placeholder may be announced as a description. Neither gives the control a name in the browser's accessibility tree. F68's test reads the browser's accessibility tree, so 4.1.2 fails. Saying a screen reader says only \"textbox\" may overstate it, since the placeholder can be read as a description, but the claim names the real defect: no computed name."
+    }
+  ]
+}

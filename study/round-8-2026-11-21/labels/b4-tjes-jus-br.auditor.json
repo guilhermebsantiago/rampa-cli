@@ -1,0 +1,72 @@
+{
+  "page": "https://www.tjes.jus.br/portal-transparencia/ouvidoria/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "2ed9999832ae",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer image (logo_tjes_br.png, not a link) with alt \"Governo do Estado\". The crop and the screenshot show the TJES monogram (letters T J / E S), the court's logo, not the State Government, which is a different body (the executive branch). claimTrue: the alternative names something the image does not show. elementFails: whether one treats the logo as informative (alt should name the court, e.g. TJES) or as decorative (alt should be empty), the present alternative gives wrong information and is not equivalent to the image, so 1.1.1 fails. captureDiffers: the live HTML (curl, 2026-11-21) has the same img and alt in the footer; the screenshot is fully styled. The claim names the real defect."
+    },
+    {
+      "fingerprint": "s99d96199ba0",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Page title. The document's first <title> (the one browsers use) is \"TJES » Ouvidoria\"; a second <title> later in the head reads \"Ouvidoria – TJES\". The page is the TJES Ouvidoria (ombudsman) landing page: breadcrumb Home > Transparência > Ouvidoria, sections on the Ouvidoria's services, hours, channels and composition. claimTrue: no, the title names the site and the page's topic. elementFails: no, the title describes the topic and purpose (2.4.2, technique G88). captureDiffers: live HTML has the same titles. Rampa had the title and the content and judged wrongly."
+    },
+    {
+      "fingerprint": "sd5c82ac0eb2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "First breadcrumb item: <a title=\"Você está aqui:\" href=\"#\"><span>Você está aqui:</span></a>, the trail's label (\"You are here:\") coded as a link to \"#\" (top of the same page). claimTrue: yes; the text, its identical title, its list item (\"Você está aqui: >\") and the heading before it (hidden h2 with the court's name) say nothing about where activation leads. elementFails: I lean yes, since the link is focusable and listed among links, and its text does not convey the result of activating it. But competent auditors would reasonably disagree: the link has no real destination, sighted users see the same text styled like the other crumbs, so the purpose is arguably ambiguous to users in general (the criterion's exception), and many auditors would log this as a label wrongly coded as a link under 4.1.2 or 1.3.1 rather than 2.4.4. captureDiffers: live HTML and screenshot match the capture. Hence uncertain."
+    },
+    {
+      "fingerprint": "6f43a8b8dab5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header search field #busca, whose placeholder \"Pesquisar\" is the only visible label (beside an icon-only search button). Live bootstrap.css sets .form-control::placeholder color #999999; the field background is white. Measured on the screenshot: darkest glyph pixels #999999 on #ffffff, 2.85:1, at about 14px normal weight, below the 4.5:1 that 1.4.3 requires. Placeholder text is not incidental (not decoration, not an inactive component, not invisible), and here it carries the field's purpose. claimTrue yes, elementFails yes. captureDiffers: live HTML and CSS match the capture. True positive."
+    },
+    {
+      "fingerprint": "5405c8c29fa6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header logo image, the only content of a link to https://www.tjes.jus.br (the court's home page, destination title \"TJES »\"), with alt \"Governo do Estado do Espírito Santo\"; the link has no title or other text. The image reads \"Poder Judiciário / Tribunal de Justiça do Estado do Espírito Santo\" with the TJES monogram. claimTrue: yes, the alternative is all the link holds and names the State Government, a different body, not the court's home page it leads to. elementFails: yes; under H30 the alternative of an image that is a link's only content must describe the link's function, and this one points users to the wrong organisation (it also does not match the image's visible text). captureDiffers: the live HTML has the same markup. The claim names the defect."
+    },
+    {
+      "fingerprint": "s7a193a215d0",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Link \"Clique aqui para acessar o cartaz\" (a PDF) in its own paragraph, in the section headed h3 \"QR Code – Fale Conosco\". claimTrue: no; the link text itself says it opens the poster (\"acessar o cartaz\"), and the heading just before it (counted as context in this round) says which poster: the QR Code poster for Fale Conosco. The preceding paragraph about the poster is a neighbouring paragraph and does not count, but it is not needed. elementFails: no, link text plus preceding heading give the purpose; not saying it is a PDF is not a 2.4.4 failure. captureDiffers: live HTML matches the capture. Rampa had the text and heading and judged wrongly."
+    }
+  ]
+}

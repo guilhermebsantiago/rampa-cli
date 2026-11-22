@@ -1,0 +1,72 @@
+{
+  "page": "https://www.pucminas.br/AdministracaoSuperior/Pro-reitorias/Paginas/Graduacao.aspx",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "5058016ade28",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header search textbox shows its prompt 'Pesquisar...' as the input's value (SharePoint ms-srch-sb-prompt ms-helperText). I looked for a reason it could pass and found none. The live CSS confirms the colours: oslo.css sets '.ms-helperText, input.ms-helperText { color:#777 }' and menus.css gives the input 'background:#fff'. #777777 on #ffffff is 4.48:1, below 4.5:1, and WCAG does not round. The text is 0.9em (about 12.6px), normal weight and italic, so it is not large text. Understanding 1.4.3 says the criterion 'applies to text in the page, including placeholder text', so prompt text is not exempt. It is also the only visible text naming the field, so it is not incidental. The cookie banner sits at the bottom and does not cover the field, and the screenshot shows a white field with grey italic text. The live HTML and CSS match the capture, and those rules do not depend on the ms-isBot class (my own fetch is automated too)."
+    },
+    {
+      "fingerprint": "52078399e693",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is a large screenshot of the Portal PROGRAD home page (banners, menu, cards). It sits under a paragraph that introduces the portal, and it is not inside a link. Its alt is 'Print-tela-portal-prograd.jpg', a file name, and not even the image's real one (src is portal_prograd.png). That is failure F30 (text alternatives that are not alternatives, such as file names). I checked whether the image could count as decorative and so be exempt. It could not: a decorative image needs a null alt, and a file-name alt still gets announced. The words in the file name loosely hint at 'screen print of the PROGRAD portal', but a file name with an extension is exactly what F30 names. The live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "sf4636787877",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The field is the site's global search box in the header. The claim that nothing on screen tells what to enter is false of the capture. The screenshot and the element's HTML show the visible prompt 'Pesquisar...' inside the field, and right next to it is the magnifier search link (img alt 'Pesquisar'). Understanding 3.3.2 describes exactly this case: a global search field needs a cue to its purpose, and a loupe icon commonly serves as its visible label. G167 (an adjacent button labels the field) is a sufficient technique. The prompt clears on focus, but the loupe stays visible. Only the accessible name comes from the title attribute, and that is not the visible cue. The live HTML matches the capture. The model had the value and the neighbouring search link and still judged it wrongly."
+    },
+    {
+      "fingerprint": "s622cd93eb83",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the Facebook share link in the page's share toolbar (Imprimir, E-mail, Link, twitter, Share), drawn as a Facebook icon. Its text is 'Share' and it has title='Facebook', which the accessibility tree exposes as its description. Under this rubric the title is link context (H33): 'Share' plus 'Facebook' says the link shares this page on Facebook, and the javascript:fbShare(...) href confirms it. So 'nothing around it does' is false, and the link meets 2.4.4. The English 'Share' on a Portuguese page could raise a 3.1.2 question, not a 2.4.4 one. The live HTML is identical. The title was in the attributes the checker had."
+    },
+    {
+      "fingerprint": "s2c9fd29d720",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page is the Pró-Reitoria de Graduação (PROGRAD) page under Pró-reitorias, and its title is 'Graduação'. The title names the page's topic: undergraduate education and the office in charge of it. It matches the page's own breadcrumb item (PUC Minas > Administração Superior > Pró-Reitorias > Graduação) and its h2 'Pró-reitoria de graduação - PROGRAD'. 2.4.2 requires a title that describes topic or purpose, and G88's test is relevance to the content. It requires neither the site name (G127 is advisory) nor a longer title. A fuller title would be better practice, but the claim that it 'says nothing about this page' is false. The live page has the same title."
+    },
+    {
+      "fingerprint": "s8491e47acef",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The label in question is 'Pesquisar...' ('Search...'), from the title and the visible prompt of the header search box, with a magnifier search link beside it. 2.4.6 asks that labels describe topic or purpose. 'Search' describes this field's purpose, and it implies what goes in it: a search query. Understanding 2.4.6 even gives, as a passing example, a search field labelled only by a magnifying glass icon whose text alternative is 'search'. The checker asked the label to say what to enter, which is closer to 3.3.2 instructions than to what 2.4.6 requires. The live HTML matches the capture."
+    }
+  ]
+}

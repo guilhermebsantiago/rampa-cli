@@ -1,0 +1,16 @@
+{
+  "page": "https://www.wisc.edu/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p8c4388eed9d",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the full-width photo behind the 'Our research solves mysteries and transforms lives' section (img src /images/home/salt2.webp, alt 'The Southern African Large Telescope under a starry sky with a visible Milky Way.'). The crop and the screenshot show a large telescope dome with its tall cylindrical tower under a dense starfield with the Milky Way, so the alternative is accurate and names the specific instrument, which is the information the photo adds to a section about UW research. I looked for reasons it could fail anyway. It is not a control, so H30 and G82 do not apply. It is not purely decorative: it shows a real research facility, so F38 (decorative images not marked up to be ignored) does not apply, and even an auditor who would call it decorative would at most suggest alt=\"\" as an improvement, not a failure, because the alternative is short and true. F30 and F39 do not apply either (the alternative is neither a placeholder nor empty). The snapshot gives the img a height of 0, which looks like a lazy-load or absolute-positioning measurement quirk, but the screenshot shows the image rendered and the accessibility tree exposes its name from alt, so this does not affect 1.1.1. captureDiffers: the live HTML fetched on 2026-11-21 (an automated fetch, like Rampa's) has the same img markup and the same alt in the same #row-research wrapper, and the screenshot shows a fully styled page, so I found no difference that bears on this element. The element meets 1.1.1, so the label is false_positive: Rampa was right to report nothing."
+    }
+  ]
+}

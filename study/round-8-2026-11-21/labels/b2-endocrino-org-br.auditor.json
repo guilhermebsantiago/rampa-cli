@@ -1,0 +1,94 @@
+{
+  "page": "https://www.endocrino.org.br/noticias/saude-da-populacao-negra-estudos-brasileiros-revelam-desigualdades-no-cuidado/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "bef8ff8eb791",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Reference 1 paragraph: 'Mapping the expressions and impacts of racism on health in Brazil: a scoping review. The Lancet Regional Health - Americas', followed by Portuguese 'Publicado online em dezembro de 2025'. The page is <html lang=\"pt-BR\"> and neither the snapshot nor the live HTML (fetched 2026-11-21, identical markup for the references) has any other lang attribute, so the paragraph and its parts inherit pt-BR. The journal name in <em> is a proper name and the DOI/year are of indeterminate language, but the article title is a full English phrase, not a proper name, technical term or vernacular word, so a pt-BR voice would mispronounce it; 3.1.2 (H58) asks for lang=\"en\" on it. claimTrue: the quoted passage is English with no lang marking. elementFails: the English title is unmarked. captureDiffers: live markup matches the snapshot and the styled screenshot. The claim names the failure."
+    },
+    {
+      "fingerprint": "s4d9ba9dce84",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Informes' is a top-level menu item, <a href=\"#\" data-bs-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">, a Bootstrap dropdown toggle. Its purpose is to open the Informes submenu; the text names that section, aria-haspopup/aria-expanded expose that it opens a menu, and its own list item (programmatic context, H81) holds the nested list: Comunicados, Posicionamentos e Notas Oficiais, Notícias Gerais, Notícias Científicas, Podcasts, Videocasts, SBEM na Mídia. claimTrue: no, the text and its list item do tell users what it is for; href=\"#\" is not a destination to describe. elementFails: no for 2.4.4 (using a link with href=\"#\" as a menu button is at most a 4.1.2 role question, not link purpose). captureDiffers: the live HTML has the same markup and submenu. The model had the list item text and still judged it unclear."
+    },
+    {
+      "fingerprint": "24c7ba4e7939",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Footer SBEM logo (image of text 'SBEM Sociedade Brasileira de Endocrinologia e Metabologia'), not a link, alt=\"\"; live HTML is the same. claimTrue: no as worded: the same footer landmark has the text '2025 Sociedade Brasileira de Endocrinologia e Metabologia - SBEM CNPJ...', and the header logo link has alt 'Logo SBEM', so the name it quotes is in text on the page, though not right next to the logo. elementFails: my lean is no, because a repeated, non-functional brand logo whose content is already in the footer's text adds no information, so alt=\"\" is defensible. But the copyright line is a separate bar about 180px below, not adjacent text, and many auditors require a logo's text in its alternative under 1.1.1 (images of text). Competent auditors would reasonably disagree, so the label is uncertain. captureDiffers: no."
+    },
+    {
+      "fingerprint": "ed60abcf4433",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Reference 2 paragraph: author list, then the English title 'Intersection of Gender-Race/Color and Glycemic Control in Diabetes in Nine Years of Follow-up of the ELSA-Brazil Cohort' and the journal name. The page is <html lang=\"pt-BR\"> and neither the snapshot nor the live HTML (fetched 2026-11-21, identical markup for the references) has any other lang attribute, so the paragraph and its parts inherit pt-BR. The journal name in <em> is a proper name and the DOI/year are of indeterminate language, but the article title is a full English phrase, not a proper name, technical term or vernacular word, so a pt-BR voice would mispronounce it; 3.1.2 (H58) asks for lang=\"en\" on it. claimTrue: the quoted title is English and unmarked. elementFails: yes. captureDiffers: none found on the live page. The claim names the failure."
+    },
+    {
+      "fingerprint": "fe125955b192",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Reference 4 paragraph: authors, the English title 'Factors associated with the age of natural menopause in the ELSA-Brasil cohort', journal 'Climacteric', then Portuguese 'Publicado online em 2025'. The page is <html lang=\"pt-BR\"> and neither the snapshot nor the live HTML (fetched 2026-11-21, identical markup for the references) has any other lang attribute, so the paragraph and its parts inherit pt-BR. The journal name in <em> is a proper name and the DOI/year are of indeterminate language, but the article title is a full English phrase, not a proper name, technical term or vernacular word, so a pt-BR voice would mispronounce it; 3.1.2 (H58) asks for lang=\"en\" on it. claimTrue: the quoted title is English and unmarked. elementFails: yes. captureDiffers: none found. The claim names the failure."
+    },
+    {
+      "fingerprint": "51c081a180c9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Reference 3 paragraph (p:nth-of-type(11)); the quoted passage is the start of its English title 'Racial and gender inequities in the control of arterial hypertension in ELSA-Brasil: An intersectional approach'. The page is <html lang=\"pt-BR\"> and neither the snapshot nor the live HTML (fetched 2026-11-21, identical markup for the references) has any other lang attribute, so the paragraph and its parts inherit pt-BR. The journal name in <em> is a proper name and the DOI/year are of indeterminate language, but the article title is a full English phrase, not a proper name, technical term or vernacular word, so a pt-BR voice would mispronounce it; 3.1.2 (H58) asks for lang=\"en\" on it. claimTrue: the passage is English and has no lang. elementFails: yes, the title is unmarked. captureDiffers: live markup is the same. The claim names the failure (another finding reports the end of the same title)."
+    },
+    {
+      "fingerprint": "9cf83b0af397",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Same reference 3 paragraph as another finding; this passage is the end of the English title ('An intersectional approach') plus the journal 'Social Science & Medicine', year and DOI. The page is <html lang=\"pt-BR\"> and neither the snapshot nor the live HTML (fetched 2026-11-21, identical markup for the references) has any other lang attribute, so the paragraph and its parts inherit pt-BR. The journal name in <em> is a proper name and the DOI/year are of indeterminate language, but the article title is a full English phrase, not a proper name, technical term or vernacular word, so a pt-BR voice would mispronounce it; 3.1.2 (H58) asks for lang=\"en\" on it. claimTrue: the passage is English and inherits pt-BR. elementFails: yes, the English title is not marked. captureDiffers: none found. The journal name alone would be exempt as a proper name, but the claim, read in good faith, points at the unmarked English title in this passage."
+    },
+    {
+      "fingerprint": "2b147a2f54a1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Home link in the main nav: <a> holding only a Font Awesome house icon (aria-hidden) and visually hidden text 'Início', so the icon is the only visual means of identifying the control. claimTrue: the screenshot pixels at the link's bounds are #dfae00 on #ffffff (the theme's --color--gold), which I compute as 2.06:1. elementFails: yes, 1.4.11 needs 3:1 for graphics required to identify a component (G207), and no visible text accompanies it. captureDiffers: the screenshot is fully styled and the live markup is the same. The claim names the failure."
+    }
+  ]
+}

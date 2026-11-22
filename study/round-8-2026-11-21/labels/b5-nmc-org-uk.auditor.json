@@ -1,0 +1,144 @@
+{
+  "page": "https://www.nmc.org.uk/registration/search-the-register/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s088bb2e21b9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Footer link 'Careers' (Popular links list) to https://nmc.pinpointhq.com/. I opened the destination: its title is 'Jobs at The Nursing and Midwifery Council | The Nursing and Midwifery Council Careers' and its headings are 'A career with the NMC' and 'Current opportunities'. The NMC's careers portal sits on a third-party jobs platform, and 'Careers' describes it exactly, so the claim that the text does not match the destination is false. The other 'Careers' link (in the mega menu) goes to the same URL, so the shared name causes no ambiguity. The live footer markup is the same as the snapshot. Rampa never read the destination, so it judged without the context it needed."
+    },
+    {
+      "fingerprint": "366b6833d881",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Text input #LastName, labelled 'Last name', in the 'Search the register' form (PIN, first name, last name). SC 1.3.5 covers only input fields 'collecting information about the user'. This field takes the surname of the nurse, midwife or nursing associate being looked up: the form's own text says 'A nurse, midwife or nursing associate should tell you their PIN ... if you're using their services' and 'More than one person may have the same name'. It does not take the user's own name. The input has no autocomplete attribute (true, and the live HTML is the same), but the claim's premise that it asks for the user's last name is false, and the criterion does not apply. The heading and form text were in the context Rampa had."
+    },
+    {
+      "fingerprint": "p978587bef3e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Status icon status-caution.png (an orange circle with a question mark, alt=\"\") in the key under 'We provide details of nurses, midwives and nursing associates who:'. It sits right next to its own text, 'Are on our register but have restrictions on their practice or a caution order.', which states the status the icon stands for. The icon adds no information that text does not already give, so a null alternative is acceptable for 1.1.1 (an image whose meaning is in adjacent text). The live HTML has the same markup, and the crop matches."
+    },
+    {
+      "fingerprint": "pc7c6ffe4594",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Link 'Registration appeals' in the 'You are here:' section navigation, nested under 'Registration'. It goes to /registration/registration-appeals/, a page whose title and heading are 'Registration appeals'. The link text alone gives its purpose, so 2.4.4 is met. No other link shares its name. The live markup is the same."
+    },
+    {
+      "fingerprint": "p924cc7503b9",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Link 'Misrepresentation' in the section navigation, in a list nested under the list item 'Search the register' (H81 context). It goes to /registration/search-the-register/misrepresentation/, whose heading is 'Misrepresentation' and whose description is about protecting the public from misrepresentation of registration. The link text, with its parent list item 'Search the register', gives its purpose, so 2.4.4 is met. No other link shares its name, and the live markup is the same."
+    },
+    {
+      "fingerprint": "s56deb85fbfd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Header button-style link to /registration/search-the-register/ (this page). Its visible text is 'Search the register' with an account icon, but it also holds a visually hidden <span class=\"sr-only\">Basket</span>, a template leftover, so its accessible name is 'Search the register Basket'. The live HTML is the same, and the mobile copy has the same span. The destination is the search page, so the 'Basket' part of the name does not match where the link goes, and the claim's sentence holds. In my reading, the stray word makes screen reader users think of a shopping basket, so the purpose cannot be determined reliably from the name, and I answer elementFails yes. But the name starts with an accurate 'Search the register', and competent auditors could reasonably hold that the purpose is still determinable and that the stray word is only noise (or report it under another criterion). The label is uncertain for that reason. 2.5.3 is met, since the visible label starts the name."
+    },
+    {
+      "fingerprint": "3ea565d0a50f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image #CybotCookiebotDialogPoweredbyImage in the Cookiebot consent banner. The crop shows the NMC logo, white text 'nmc Nursing & Midwifery Council'. Its alt is 'logo'. I checked the live Cookiebot configuration for this site (cc.js): it sets CookieConsentDialog.logoAltText = 'logo', so users get the same. 'logo' says what kind of image it is but not whose logo or the text in it, which is placeholder text (F30). If the image were taken as decorative, a non-empty alt would still fail (F38). Either way it fails 1.1.1, and the claim names that defect."
+    },
+    {
+      "fingerprint": "pc40cdad7182",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Icon link in the footer 'Follow us' social list with aria-label 'Follow us on Bluesky' (the SVG is aria-hidden), to https://bsky.app/profile/newsnmc.bsky.social, the NMC's Bluesky profile. The accessible name gives the purpose exactly, so 2.4.4 is met. The live markup is the same."
+    },
+    {
+      "fingerprint": "ebb7c00f1b31",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Top-bar language link 'Cymraeg' to the Welsh page /about-us/our-role/ein-rol/ ('Ein rôl'). It has no lang attribute, so it inherits the page's en-GB, in both the snapshot and the live HTML. 'Cymraeg' is the Welsh word for the Welsh language, and the change of language is clearly intended, since it is the language switcher. An English voice mispronounces it. Understanding 3.1.2 gives exactly this case as its 'Alternative language links' example: each language name is in its own language and marked with lang. The link fails 3.1.2, and the claim names that failure."
+    },
+    {
+      "fingerprint": "7bbadd763098",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "NMC logo image in the header home link. The link holds <span class=\"sr-only\">Home</span> plus <img alt=\"Logo\">, so the browser computes the name 'Home Logo'. The crop shows the logo with the text 'nmc Nursing & Midwifery Council'. The alternative 'Logo' names the kind of image, not the organisation or the text it shows, so it is placeholder text that is not an equivalent (F30). The link purpose itself is given by 'Home', but the image's alternative still fails 1.1.1. It should name the NMC, or be null if treated as redundant. The live HTML has the same alt. The claim names this defect."
+    },
+    {
+      "fingerprint": "9f5b3bc272a7",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Text input #FirstName, labelled 'First name', in the 'Search the register' form. SC 1.3.5 applies only to inputs collecting information about the user. This field takes the first name of the registrant being searched for ('Cannot search on just first name'; 'A nurse, midwife or nursing associate should tell you their PIN ... if you're using their services'), not the user's own name. autocomplete is indeed absent, in both the snapshot and the live HTML, but the claim's premise that the field asks for the user's first name is false, and the criterion does not apply."
+    },
+    {
+      "fingerprint": "p159b650fd42",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Status icon status-negative.png (a red circle with an X, alt=\"\") in the key, next to its text 'Have been suspended or removed from our register since 1 January 2008 and are not currently allowed to practise.' That text gives the status the icon marks, so the image is redundant with adjacent text, and a null alternative meets 1.1.1. It is visible in the screenshot next to that text, and the live markup is the same."
+    },
+    {
+      "fingerprint": "s1bed9690b24",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Top-bar link 'My NMC' to /registration/nmc-online/. Rampa's read of the destination timed out. I opened it: it redirects (301) to /registration/your-guide-to-mynmc/, titled 'MyNMC' with heading 'Your guide to MyNMC' (logging in to the MyNMC account). 'My NMC' is the name of that online service, which the page also names elsewhere ('Check my renewal date on MyNMC'). So the link text does tell where it goes, and the claim is false. The other 'My NMC' link (in the mobile menu) has the same href. The live markup is the same. Rampa lacked the destination."
+    }
+  ]
+}

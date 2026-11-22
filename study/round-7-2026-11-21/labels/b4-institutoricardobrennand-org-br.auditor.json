@@ -1,0 +1,116 @@
+{
+  "page": "https://www.institutoricardobrennand.org.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "357b7a3597de",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the h2 'destaque da semana' in the third call-to-action box under the banner. The capture records it as rgb(154,99,37) = #9a6325, 12px, weight 700, and the screenshot shows dim gold uppercase text on dark gray, so the claim's colors and the 2.41:1 ratio hold for the capture. The live style.css sets `.banner-principal .chamadas .box-chamadas h2` to color #9a6325, 12px, bold, on a box with background rgba(34,34,34,.9) laid over the banner slider. 12px bold is not large text, so 4.5:1 applies. Over white the box is about #383838 (about 2.4:1); even over pure black it is #1f1f1f, which gives only about 3.3:1, so every slide behind it fails. The full-page screenshot shows the slider area blank, while the viewport crop in the snapshot shows the pink Degas/Borges slide behind the boxes. That changes the background only slightly (about #36302f) and cannot raise the ratio anywhere near 4.5:1, so the difference does not matter for this claim. The live HTML and CSS match the capture. The element fails 1.4.3 for exactly the reason given."
+    },
+    {
+      "fingerprint": "d62b973e06af",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'ver mais' link button inside the 'tv irb' heading box. The live CSS (`.tv h2 a`) gives it color #828282, 10px, uppercase, on the h2's rgba(34,34,34,.9) background over the dark TV illustration. #828282 on about #232323 to #262626 works out to roughly 3.9 to 4.1:1, which matches the claim and is below 4.5:1 for 10px text. Hover turns it white on gold, but the resting state still fails. The .tv block has a parallax offset, so the snapshot bounds sit about 120px above where the screenshot draws the box. The colors measured are still those of the real rendering, and the live HTML and CSS match, so nothing that matters differs. The element fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "sbdfb03292f6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the link 'ver mais' (href #single-video), which fancybox opens as a modal holding a YouTube video embed. It sits inside the h2 whose text is 'tv irb ver mais'. That heading contains it and precedes it in document order, and it is the same block as the link, so it is the link's context under this rubric. 'Ver mais' in the context of 'TV IRB' tells users the link shows more TV IRB video content, which is what it does. The claim that nothing around the link tells where it goes is false: the enclosing heading, which the packet's ancestors show, gives it. No other link shares the name, so R1 does not apply. The live page matches the capture. The link meets 2.4.4, and the checker had that context, so the cause is model_error."
+    },
+    {
+      "fingerprint": "s1c120b0eb6b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'Saiba mais' button in the 'Horários' card, linking to /index.php/horarioseingressos, a page whose h2 reads 'Horários e Ingressos'. The heading just before the link is the h2 'Horários', and the card text above it lists the opening hours. 'Saiba mais' under 'Horários' tells users the link gives more about visiting hours, which is where it goes, so its purpose can be determined from the link with its heading context. Four 'Saiba mais' links share the name, but each has a different preceding heading ('Compre aqui!.', 'Horários', 'Agende sua visita', 'Como chegar'). They are not one R1 set, and the two that share a destination both go to the hours and tickets page anyway. The claim that nothing around the link tells where it goes is false. The live page matches. The element passes, and the checker had the heading, so the cause is model_error."
+    },
+    {
+      "fingerprint": "8b05f5c39555",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the h2 'faça seu evento' in the second call-to-action box under the banner. The capture records #9a6325, 12px, weight 700, and the screenshot shows it on dark gray, so the claim's 2.41:1 holds for the capture. The live style.css sets `.banner-principal .chamadas .box-chamadas h2` to color #9a6325, 12px, bold, on a box with background rgba(34,34,34,.9) laid over the banner slider. 12px bold is not large text, so 4.5:1 applies. Over white the box is about #383838 (about 2.4:1); even over pure black it is #1f1f1f, which gives only about 3.3:1, so every slide behind it fails. The full-page screenshot shows the slider area blank, while the viewport crop in the snapshot shows the pink Degas/Borges slide behind the boxes. That changes the background only slightly (about #36302f) and cannot raise the ratio anywhere near 4.5:1, so the difference does not matter for this claim. The live HTML and CSS match the capture. The element fails 1.4.3 for exactly the reason given."
+    },
+    {
+      "fingerprint": "s788c986e962",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'Saiba mais' button in the 'Como chegar' card, linking to Google Maps directions to the Instituto Ricardo Brennand. The heading just before it is the h2 'Como chegar' ('How to get there'), so 'Saiba mais' under that heading tells users the link gives directions to the institute, which it does. The card's paragraph names HERE Maps while the link goes to Google Maps, but that paragraph is not the link's programmatic context and the provider does not change the purpose. The other 'Saiba mais' links have different preceding headings, so no R1 set forms. The claim that nothing around the link tells where it goes is false. The live page matches. The link meets 2.4.4, and the checker had the heading, so the cause is model_error."
+    },
+    {
+      "fingerprint": "7f432d27771e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the h2 'programação do museu' in the first call-to-action box under the banner. The capture records #9a6325, 12px, weight 700, on a background measured at #322d28 (a slide showing faintly through the 90% dark box). That gives 2.72:1, so the claim holds for the capture. The live style.css sets `.banner-principal .chamadas .box-chamadas h2` to color #9a6325, 12px, bold, on a box with background rgba(34,34,34,.9) laid over the banner slider. 12px bold is not large text, so 4.5:1 applies. Over white the box is about #383838 (about 2.4:1); even over pure black it is #1f1f1f, which gives only about 3.3:1, so every slide behind it fails. The full-page screenshot shows the slider area blank, while the viewport crop in the snapshot shows the pink Degas/Borges slide behind the boxes. That changes the background only slightly (about #36302f) and cannot raise the ratio anywhere near 4.5:1, so the difference does not matter for this claim. The live HTML and CSS match the capture. The element fails 1.4.3 for exactly the reason given."
+    },
+    {
+      "fingerprint": "e1d86a415b21",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer image patrocinio2026.png with alt=\"\". The crop and the screenshot show the Lei Rouanet mark, a 'PATROCÍNIO' (sponsorship) block with about 17 sponsor logos (Cimento Nacional, Bradesco, Mateus, J.P. Morgan, SulAmérica, Rede D'Or, B3, Stellantis, PwC, Tata Consultancy Services and others), and a 'REALIZAÇÃO' (produced by) block with the Instituto Ricardo Brennand and Ministério da Cultura. This is informative content: it says who funds and runs the institute and credits the Lei Rouanet incentive. The surrounding footer text (hours, phone, address, links) says none of it. The null alt hides all of it from screen reader users, so 1.1.1 fails: non-text content that conveys information needs a text alternative serving the same purpose. The live HTML has the same image and the same alt=\"\". The claim states the image is hidden and conveys what the text does not, which names the failure."
+    },
+    {
+      "fingerprint": "497e96e7e00f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the h2 'tv irb' (its accessible name also takes in the nested 'ver mais' link). The capture records #9a6325, 18px, weight 500. The live CSS (`.tv h2`) sets #9a6325 on rgba(34,34,34,.9) over the dark TV illustration. 18px at normal weight is not large text (that needs 24px, or 18.66px bold), so 4.5:1 applies. #9a6325 on about #242424 is about 3.1:1, and the ratio stays below 3.3:1 for any image behind the box, so it fails as the claim says. The parallax offset between the snapshot bounds and the screenshot does not change the colors, and the live page matches. The element fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "18fff3c3544d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer list item with the opening hours. The labels 'Terça e Quarta' and 'Quinta a Domingo' use the live CSS `footer .primeiro-bloco ul li` color #8f8f8f, 14px at this 1280px width, normal weight, on the white footer. The times in <b> are #424242 and pass. #8f8f8f on #ffffff is 3.23:1, below 4.5:1, and the background image is only the calendar icon to the left of the text. The screenshot shows the light gray labels, and the live page matches. The claim names the gray day labels and the right ratio, so the element fails 1.4.3 as claimed."
+    }
+  ]
+}

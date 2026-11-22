@@ -1,0 +1,62 @@
+{
+  "page": "https://www.easons.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s99e1b4de5bf",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the 'Top 100' item in the site's main product navigation, between 'Irish Books' and 'Fiction', linking to /top-100-books-for-adults. Its exposed context is thin. The submenu in the same list item (with the heading link 'Top 100 Books') is hidden and aria-hidden until it is expanded. The headings before it in document order sit in other hidden submenus, and the sibling button only says 'Show submenu of Top 100'. Still, the link text on its own names what the link is for: it opens the store's Top 100 chart, and the destination is that chart. 2.4.4 asks that the purpose can be determined, not that the text name every attribute of the destination. A shopper deciding whether to follow it knows what they will get, just as with the neighbouring one-word category links ('Christmas', 'Teen', 'Games'). So claimTrue is no: the text does tell where the link goes, even though nothing around it adds more. The element meets 2.4.4. The live raw HTML has the same markup (same link, same aria-label on the button, same hidden submenu), so the capture does not differ. Requiring 'Top 100 Books' is stricter than the criterion."
+    },
+    {
+      "fingerprint": "48bbd8005777",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the product photo in the 'Up To 20% Off LEGO' Black Friday tile. The crop and the screenshot show a large, up-scaled LEGO Santa minifigure in a festive setting with an 'Up to 20% off' badge. The alt 'LEGO Seasons and Occasions Up-Scaled Santa Minifigure Christmas Toy Decoration 40820' describes exactly that, so the claim that it describes something the image does not show is false. The only text in the image, the badge, is repeated in the link's own text ('Up To 20% Off LEGO'), so nothing the image conveys is lost. The element meets 1.1.1. The live page's data carries the same image URL and the same altText, so the capture does not differ. The model had the crop and judged wrongly."
+    },
+    {
+      "fingerprint": "e482e953811a",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search input. Its placeholder 'Search for books, stationery, games, and gifts...' is the only visible text saying what the field is for, since the label holds only an icon button. Sampling the screenshot gives placeholder pixels of #b3b2c8 on #ffffff, a ratio of 2.08:1, which matches the claim (rgba(128,127,163,0.6) blended on white). The live CSS confirms it: Algolia autocomplete-theme-classic 1.19.8 sets .aa-Input::placeholder to rgba(128,126,163,0.6), and the site's global.min.css does not override the colour. The Understanding document for 1.4.3 says the criterion applies to placeholder text. At 16px/400 the text needs 4.5:1, so it fails, for exactly the reason the claim gives. The capture is a styled render that matches the live CSS."
+    },
+    {
+      "fingerprint": "s6fb0cc3eed9",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h3 title of a product card in the Bestselling Non-Fiction carousel. The card is a link 'About Life / Maureen Gaffney / €17.99' to the book 'About Life' by Maureen Gaffney, and the destination page's heading is also 'About Life'. The heading is the book's title, and the content under it (author, price, add to cart, dispatch note) is about that book. It describes its topic exactly, so the claim is false and the element meets 2.4.6. The live page renders the same product carousel data, so the capture does not differ. The model had the card's context and misjudged a book title as an off-topic heading."
+    },
+    {
+      "fingerprint": "dd07bfb0fab0",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the product photo in the 'Save €30 Toniebox 2' Black Friday tile. Its alt is 'Tonies Teal Toniebox 2', but the crop and the full screenshot both show a red Toniebox with grey ears (and a 'Save €30' badge that the link text repeats). The alt states a colour the image does not show, so the claim is true of the capture. Because the alternative tells screen-reader users something false about the picture, it does not serve the equivalent purpose, and the image fails 1.1.1 for the reason the claim names. Read in good faith, 'describes something the image does not show' is that inaccuracy. The live page's data still has the same image file (black-friday_-toniebox.png) and the same altText 'Tonies Teal Toniebox 2', so the capture does not differ."
+    },
+    {
+      "fingerprint": "a8299cfce59f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the search submit button inside the left end of the search field's border. It has no text and no border of its own, only a magnifier SVG drawn in currentColor. Sampling the screenshot gives icon pixels of #a4a7ae on #ffffff, 2.41:1, as claimed. The live CSS sets .aa-SubmitButton svg.aa-SubmitIcon to var(--grey-400), and global.min.css defines --grey-400 as #a4a7ae, so users get the same colour. The icon is the only visual information that identifies this operable control, so 1.4.11 requires 3:1 (G207, and the Understanding document's treatment of icons as required visual information). At 2.41:1 it fails, for the reason the claim gives."
+    },
+    {
+      "fingerprint": "d166ff119d48",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the 'Previous' arrow of the Unmissable Black Friday Offers carousel, which starts on its first slide. In the snapshot it has aria-disabled=\"true\" and the disabled state. Its grey arrow (#a4a7ae on #fafafa; the screenshot has a dimming overlay below the fold, but the darkest icon pixel #525357 is exactly half of #a4a7ae, so the measured colours hold) is the inactive styling. The same carousel's 'Next' arrow, and every enabled Previous button on the page, are drawn in black. The measured facts in the claim hold, but 1.4.11 exempts inactive user interface components, so this element does not fail. The carousel is rendered client-side and is absent from the raw HTML, but nothing suggests users get a different initial state from the one captured. The rule had the disabled state in its data and still applied the 3:1 requirement the criterion exempts."
+    },
+    {
+      "fingerprint": "sc3acf16656d",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the Algolia autocomplete combobox wrapping the header search input. Its accessible name, 'Search books, stationery, games and gifts', comes through aria-labelledby from the label holding the titled submit button, and the visible placeholder says the same ('Search for books, stationery, games, and gifts...'). The label states its purpose plainly: enter a search for books, stationery, games or gifts. So the claim that it does not say what to enter is false, and the element meets 2.4.6. 2.4.6 does not ask for a visible label (that would be 3.3.2, not judged here). The live HTML and CSS load the same Algolia search, so the capture does not differ. The model misjudged a descriptive label."
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "page": "https://portal.unicap.br/graduacao",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "b6c561621308",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the text of the header menu button 'Sou Estudante'. The live theme main.css sets this nav-link to background-color #9D7628 with color #fff, and the screenshot's button pixels are #9d7628 with white glyphs; white on #9d7628 computes to 4.15:1. The text is about 10.9px bold (0.775rem on this layout), far below the 18.66px bold large-text threshold, so 4.5:1 applies. I looked for a reason it could pass (a background image, an overlay, large text, a logotype exemption) and found none; the overlapping icon is what made axe abstain, not something that changes the colours. The capture matches the live CSS. The claim names the real failure."
+    },
+    {
+      "fingerprint": "fda3dcd13255",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the newsletter e-mail input in the footer. The snapshot's Chrome accessibility node has name '' with a labelledby relation to a label 'E-mail' that is display:none; the live theme CSS confirms it (footer .content-newsletter form label {display:none}), and the screenshot shows no visible label, only the placeholder 'Digite seu Email'. So the claim that the browser computes no name holds in the capture. The skeptic's reasons against a clear failure: HTML-AAM lists the placeholder attribute as a name source after label and title, axe accepts a non-empty placeholder as a name, other engines may fall back to it, and Chrome still exposes the placeholder to assistive technology, which NVDA and JAWS commonly speak, so 'announces only textbox' is not shown. Whether a placeholder-only name meets 4.1.2 is a point competent auditors split on, and the capture matches the live page, so the label is uncertain."
+    },
+    {
+      "fingerprint": "p37565eb9f1e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the course illustration on the 'Ciências Contábeis' card (a woman holding a calculator and ledger), inside the card link that also holds the heading of the same name. Its alt 'Ciências Contábeis' identifies what the illustration stands for; it repeats the heading, which is redundant but not a 1.1.1 failure (G94 asks for an alternative that serves the same purpose, and this decorative course mascot's purpose is to mark the course). The live HTML has the same alt. No failure was missed."
+    },
+    {
+      "fingerprint": "p720a63920d7",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the Facebook icon link in the footer's social list. Its accessible name is 'facebook' (img alt and title attribute), and the heading just before it is 'Nossas Redes Sociais', so its purpose, the university's Facebook page, is clear from the link text and context. The live HTML has the same link, title and alt. It meets 2.4.4 (the markup nests li inside a inside ul, a structure issue unrelated to this criterion)."
+    },
+    {
+      "fingerprint": "a5ba70f6e1e7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image of the second news card. Its alt is '[TURMA 8°P PUP] POSTS.png', a file name, and the crop and screenshot show an image with text ('RESULTADO PRÉ-SELECIONADOS, EDITAL 2027.1'). A screen reader reads the file name; that is documented failure F30. I checked for reasons it could pass: the img is not inside the link, not aria-hidden, and visible; even if one judged it decorative because the heading repeats its text, a non-empty file name would still fail (F39). The live HTML carries the same alt. True positive."
+    },
+    {
+      "fingerprint": "75b8de0adfbd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image of the third news card, alt 'WhatsApp Image 2026-08-31 at 11.51.36.jpeg', an auto-generated file name (WhatsApp's, not strictly a camera's, which does not change the point). The screenshot shows a visible 'Intercâmbio UNICAP' graphic; 'clipped' only means the card's overflow trims it, it stays exposed to assistive technology. A file-name alternative is failure F30; even if the image were judged decorative next to its heading, a non-empty file name would still fail (F39). The live HTML has the same alt. True positive."
+    },
+    {
+      "fingerprint": "sa4ff3a71140",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'Ler Mais' link of the news card for the Edital 2027.1 exchange programme. The heading just before it in document order is the card's own h3 'EDITAL 2027.1 – PROGRAMA DE MOBILIDADE ACADÊMICA/INTERCÂMBIO ESTUDANTIL - UNICAP', which this round counts as context (H80), and the destination page has that same title. So 'nothing around it' is false, and the link text with that heading makes its purpose clear. The live markup has the same h3 followed by the link. Several 'Ler Mais' links with different targets would matter for 2.4.9, not 2.4.4. The heading was in Rampa's snapshot, so the model judged wrongly."
+    },
+    {
+      "fingerprint": "5c4ed6127cca",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer newsletter input that asks for the visitor's own e-mail address (label 'E-mail', placeholder 'Digite seu Email'). E-mail is in WCAG's list of input purposes, and the capture has no autocomplete attribute. The live page's form configuration has \"htmlAutocompleteAttribute\":\"\" for this field, so a browser gets none either. type=text and the label do not satisfy 1.3.5 (H98 is the sufficient technique). I found no reason it would pass: the field collects information about the user. True positive."
+    },
+    {
+      "fingerprint": "72e24c0dbc06",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the illustration on the 'Direito - Bacharelado' course card, alt 'personagem de Direito' (a Law character). The crop shows exactly that: an illustrated lawyer in a suit holding the scales of justice and a stack of books. The alternative describes what the image shows, so the claim is false, and a short, accurate alt on an illustrative mascot meets 1.1.1. The live HTML has the same alt. The model had the crop and misjudged it."
+    },
+    {
+      "fingerprint": "pb30b9a600ac",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the Instagram icon image, the only content of the footer link to the university's Instagram profile (the link also has title 'instagram'). For a functional image in a link, alt 'instagram' names the destination, which is what 1.1.1 asks for. The live HTML has the same img and alt. No failure was missed."
+    },
+    {
+      "fingerprint": "9cea88a02708",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image of the first news card, alt 'Prancheta 2 (1).png', the default artboard export file name. The crop shows a graphic with text ('DAR A PENSAR', 'Cidadania em Situação de Rua: a atuação da ONG Samaritanos e a efetivação de direitos humanos no Recife', author names). A screen reader reads the file name: failure F30. The img is outside the link, not hidden, and visible; even judged decorative, a non-empty file name still fails. The live HTML has the same alt. True positive."
+    },
+    {
+      "fingerprint": "s407301c7455",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the stretched card link for the 'Engenharia Ambiental - Bacharelado' course. Its link text itself starts with the course name and ends with 'Mais Informações', and it contains the h3 'Engenharia Ambiental - Bacharelado'; it leads to that course's page. The purpose is clear from the link text alone, so the claim is false and the link meets 2.4.4. The live HTML has the same link text (the server HTML lacks the #presencial hash that the filter script adds, which does not matter). The model had the text and judged wrongly."
+    }
+  ]
+}

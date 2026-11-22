@@ -1,0 +1,48 @@
+{
+  "page": "https://ultimosegundo.ig.com.br/2026-10-25/lula-vira-no-2-turno-e-e-reeleito-presidente-pela-quarta-vez.html",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s6cca74c830b",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An inline link on the word \"Meta\" in the article body. The paragraph's readingText in the snapshot (and the live HTML) puts it inside the sentence \"O TSE cobrou da Meta tratamento isonômico para os conteúdos políticos das duas campanhas\", which is the link's programmatically determined context; the packet's ancestor text moves the link word to the end of the paragraph, a quirk of how the text is joined, not of the page. The link goes to the site's own story \"Comitê da Meta vê 'falhas recorrentes' na moderação eleitoral\", about how Meta moderated election content. The link text plus its sentence point to Meta's handling of the campaigns' political content, which is what the destination covers, so the claim that nothing around it tells where it goes is false and the link meets 2.4.4. The live page has the same sentence and link (only rel changed from sponsored to nofollow), so the capture does not differ in any way that matters. Rampa had both the sentence and the destination title and still judged it wrongly."
+    },
+    {
+      "fingerprint": "sc7c923770aa",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A footer link \"Deles\" (title \"Deles\") to https://deles.ig.com.br/, in the footer list of iG's sites (Home, Último Segundo, Economia, Gente, Esporte, Carros, Delas, Deles, Saúde, Queer...). Its text is the name of the site it opens: the live destination is titled \"Deles - Um site de estilo beleza e atualidades para o homem moderno.\", and the name matches the subdomain in the href Rampa had. Understanding 2.4.4 accepts the destination's name as a link's purpose, so the link text alone tells where it goes and the link meets 2.4.4; the claim is false. The live footer has the same link, title and list, so the capture does not differ."
+    },
+    {
+      "fingerprint": "s8feeaacc9a5",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The \"E-mail\" item (CSS shows it as lowercase \"e-mail\"; title \"E-mail\") in the iG top navigation bar, next to iG products and channels (último segundo, economia, ..., ig play, ig mais, e-mail, parceiros), as the screenshot shows. It goes to https://minhaconta.ig.com.br/, live titled \"iG Minha Conta\": the account portal for iG e-mail, which is also what its hover submenu (Minha conta, Criar nova conta, Suporte e-mail, hidden until opened) offers. In this bar the text names iG's e-mail service, which is where the link leads, so its purpose can be determined from the link text alone and it meets 2.4.4; the claim that the text does not tell where it goes is false. The live header has the same item, so the capture does not differ."
+    },
+    {
+      "fingerprint": "s541d5ede41b",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h3 \"Último Segundo\" (CSS uppercase), a link to https://ultimosegundo.ig.com.br in the channel's orange header bar. Último Segundo is the name of iG's news channel, which publishes this article (the page's domain). The heading identifies that channel, and its section in the snapshot holds the channel bar's tools (iG Mail, the search box) before the article's h1. A channel name is an accurate cue for that section, so it does not name a different topic and the heading meets 2.4.6. The model seems to have read the channel name literally (\"last second\"). Calling a branding element a heading and its h3 level are questions for 1.3.1, not 2.4.6. The live page has the same heading and header, so the capture does not differ."
+    },
+    {
+      "fingerprint": "5a2961cdfbb7",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"iG Mail\" link in the channel header: white text, 13px, weight 400 (noticias.min.css: #busca .ig-email a{color:#fff;font-size:13px}). The page's inline style gives the header a linear-gradient(90deg,#FF9800,#F44336) background. At the link's position near the right end, that gradient works out to about #F54932, and the screenshot pixels behind the text (245,72-76,48-51) give 3.54-3.59:1, so Rampa's 3.52-3.59:1 is right and below the 4.5:1 that normal-size text needs. I checked the reasons it could pass: it is not large text, and it is not a logotype (it is a plain link label in the site's font, not part of a logo), so the brand-name exception does not apply. The full-page screenshot draws the fixed header near the footer, a stitching artefact, but the colours there match the live CSS, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "s31b36f4985b",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A tag link \"lula\" (CSS uppercase) in the article's \"Tags:\" row, to https://ultimosegundo.ig.com.br/noticias/lula. The static HTML of that page has the generic title \"Último Segundo - Últimas notícias\" that Rampa recorded (any /noticias/<term> URL serves the same HTML). But in a browser its script (canais.min.js) reads the term from the URL, changes the list heading to 'ÚLTIMAS NOTÍCIAS COM \"lula\"' and loads stories filtered by the term; the site's content service, queried with that term, returns Lula stories. The link text, read with its Tags label and its /noticias/lula address, matches a page listing Lula news, so the claim of a mismatch is false and the link meets 2.4.4. The link and the destination's title are the same live as in Rampa's record, which is incomplete rather than wrong. The model had the Tags context and the URL and read a generic title as a mismatch."
+    }
+  ]
+}

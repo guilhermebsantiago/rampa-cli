@@ -1,0 +1,111 @@
+{
+  "page": "https://www.ultrafarma.com.br/categoria/medicamentos",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "02923fb31ab0",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer newsletter field: input type=text name=\"nome\" placeholder \"seu nome...\" in the form \"Receba as melhores promoções no seu e-mail!\". It collects the user's own name, and \"name\" is one of the WCAG input purposes. Reading \"seu nome\" as the full name is fair. Both the snapshot and the live HTML show no autocomplete attribute and nothing else that makes the purpose programmatically determinable (H98 not used), so the field fails 1.3.5 for the reason the claim gives. The live markup is identical to the capture."
+    },
+    {
+      "fingerprint": "610e780a65b8",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer newsletter field: input type=email name=\"email\" placeholder \"seu e-mail...\", asking for the user's own email (\"Receba as melhores promoções no seu e-mail!\"). It has no autocomplete attribute, in the snapshot or in the live HTML. type=email gives the data format, not the purpose 'the user's email', so 1.3.5 is not met (H98 missing). The snapshot node lists Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError for this field, so the Chromium sentence also holds. The capture matches the live page."
+    },
+    {
+      "fingerprint": "c5a088699d81",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only footer link to Instagram under \"Redes Sociais\". Its only content is img instagram.png (alt Instagram). In the screenshot I measured #aaaaaa on #fcfcfc, 2.26:1, and the live PNG is that same flat gray (170,170,170). The icon is the only visual cue that identifies the link, so it needs 3:1 (G207). The logo exemption does not cover it: Understanding 1.4.11 says a logo shown in low contrast by author choice, with no brand guideline requiring it, is not exempt, and this monochrome light gray is such a choice. The live CSS and image match the capture."
+    },
+    {
+      "fingerprint": "b014826aaf20",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Promotional seal (class \"Selo Ultradesconto\") on the Ritapeels Ginkgo Biloba 80mg card. The crop and the screenshot show an image of the text \"BLACK NOVEMBER\", but the alt is \"Ultra Descontão\", a different campaign name. Nothing else on the card conveys Black November, so screen-reader users get different information from what the image shows, and 1.1.1 fails. The claim (the alt describes something the image does not show) names that mismatch. The live HTML has the same src and alt."
+    },
+    {
+      "fingerprint": "9fe088628f8b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only footer link to X/Twitter under \"Redes Sociais\". Its only content is img twitter.png (alt Twitter). I measured #a9a9aa on #fcfcfc, 2.29:1, in the screenshot, and the live PNG is that same flat gray. The icon is all that identifies the control, so 1.4.11 asks for 3:1 (G207). The logo exemption does not apply to an author-chosen low-contrast monochrome version (Understanding 1.4.11). The capture matches the live page."
+    },
+    {
+      "fingerprint": "30129ce620a6",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Promotion strip on the Mel + Extrato de Própolis card. The image reads \"50% OFF NA 2ª UNIDADE\", but its alt is the generic \"Selo promoção\". The card's text says \"Preço unitário na promoção R$ 7,49\" and never gives the condition (50% off the second unit), so the image's information has no text equivalent and 1.1.1 fails. The claim (the alt names a label, not what the image conveys) points at exactly this. The live HTML has the same src and alt."
+    },
+    {
+      "fingerprint": "87e6f226cf27",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Sidebar banner image, the only content of a link to /banneers/3958. The image's text is \"Creatina 100% Pura / Alto desempenho para seu corpo e mente / Garanta a sua\", but its alt and title are just \"Confira!\". As a functional image it should convey the link's purpose (H30), and as an image of text it should convey its content. \"Confira!\" does neither, so 1.1.1 fails, and the claim names this. The live HTML is the same."
+    },
+    {
+      "fingerprint": "958abf50b92a",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Header cart icon basket.png with alt \"Cesta\". The crop shows a shopping basket; the green \"0\" count is a separate span. \"Cesta\" means basket and names exactly what the image shows and what it stands for (the cart), so the claim is false of the capture and the image meets 1.1.1. The model had the crop and the alt and judged wrongly. The live HTML is the same."
+    },
+    {
+      "fingerprint": "8153d7d06749",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Top banner image inside a link with href javascript:void(0), which carries only tracking data-promotion attributes, so it leads nowhere. The image's text is \"PAGUE COM PIX E GANHE 3% DE DESCONTO\", and its alt and title are the CMS name \"Banner Topo PIX 3,0%\". In my reading the alt fails 1.1.1: it is an internal label and never says the 3% is a discount for paying by Pix. Literally, the claim holds (the alt is all the link shows and names no destination). But the reason it gives is the link's destination, and this link has none, so auditors could reasonably disagree on whether the claim names the real defect. Some might also accept \"PIX 3,0%\" as enough. The live HTML is identical."
+    },
+    {
+      "fingerprint": "1e9abe0ca6a1",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header search field (name=q). Its placeholder \"Digite o nome, a marca ou o princípio ativo do produto...\" is the only visible text telling users what to type. The live CSS sets .input-search::placeholder{opacity:.5} over the default #757575, and in the screenshot it renders at best #bababa on #ffffff, 1.94:1. At 19.2px normal weight it is not large text, so 1.4.3 needs 4.5:1, and the placeholder fails. The screenshot shows the sticky header lower down the page, but that does not affect the colours."
+    },
+    {
+      "fingerprint": "d78ec8e09510",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter email field. Its placeholder \"seu e-mail...\" is the only visible label. The live CSS gives the input background var(--white_gray), and the placeholder keeps the default colour #757575. I measured #757575 on #f4f4f4, 4.19:1, in the screenshot. The text is 19.2px (1.2rem) normal italic, so 4.5:1 is required. Placeholder text that conveys the field's purpose is text under 1.4.3, so the field fails. The capture matches the live page."
+    },
+    {
+      "fingerprint": "afe2dce0a067",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter name field. Its placeholder \"seu nome...\" is its only visible label. I measured #757575 on #f4f4f4, 4.19:1, in the screenshot, and the live CSS confirms the default placeholder colour on the author-set #f4f4f4 background. At 19.2px normal weight 1.4.3 requires 4.5:1, so it fails as claimed. The capture matches the live page."
+    },
+    {
+      "fingerprint": "sc92aa5fcdb8",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Newsletter name field, labelled only by its placeholder \"seu nome...\" (\"your name...\"). That text says exactly what to enter, so the claim is false. 2.4.6 asks only that labels which are present describe their purpose, and this one does, so the field meets 2.4.6. Relying on a disappearing placeholder could be raised under 3.3.2, but that is not this criterion. The model had the text and judged wrongly."
+    },
+    {
+      "fingerprint": "f41226f0e43b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The same \"Selo Ultradesconto\" seal, here on the Sildenafila 50mg card. The crop shows the text \"BLACK NOVEMBER\", but the alt says \"Ultra Descontão\". The image of text gets an alternative that names a different campaign, and the card conveys Black November nowhere else, so 1.1.1 fails as the claim says. The live HTML has the same src and alt."
+    },
+    {
+      "fingerprint": "1d1fbe7412d1",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The same \"Selo Ultradesconto\" seal, on the Ritapeels Ginkgo Biloba 120mg card. The crop and the screenshot show \"BLACK NOVEMBER\", but the alt is \"Ultra Descontão\", so the text alternative does not convey what the image says and 1.1.1 fails. The claim names that mismatch. The live HTML has the same src and alt."
+    }
+  ]
+}

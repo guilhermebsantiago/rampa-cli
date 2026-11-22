@@ -1,0 +1,404 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.ucc.ie/en/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "3ea565d0a50f",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#CybotCookiebotDialogPoweredbyImage",
+   "message": "The text alternative \"logo\" is a file name or a placeholder.",
+   "evidence": "logo",
+   "subject": "logo",
+   "claim": "wrong_content",
+   "techniques": [
+    "F30"
+   ],
+   "patch": {
+    "ref": "#CybotCookiebotDialogPoweredbyImage",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "logo",
+    "to": "University College Cork (UCC) logo"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "82dac31bde1a",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#slick-slide01 > picture > img",
+   "message": "This image is hidden from screen readers (inside aria-hidden=\"true\"), but it conveys what the text around it does not say: \"A banner with 'take the survey now!' and options.\".",
+   "evidence": "A banner with 'take the survey now!' and options.",
+   "subject": "hidden northwingoghammobile.webp",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 3
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#slick-slide00 > picture > img",
+   "message": "The text alternative \"Graphic illustrating knowledge and investigation hovers above an open hand\" describes something the image does not show.",
+   "evidence": "The model suggests: \"A glowing lightbulb with circuit patterns representing technology and innovation.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.01), claim: yes (0.99), reversed: yes (0.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#main > div:nth-of-type(2) > footer > div > div:nth-of-type(1) > div:nth-of-type(2) > a",
+   "message": "The link text \"Bring me to\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Jump to Study Research and Innovation section\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#CybotCookiebotDialogBodyLevelButtonNecessary",
+   "message": "The label \"Necessary\" does not say what to enter.",
+   "evidence": "The model suggests: \"Necessary cookies\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#main > h1",
+   "message": "The heading \"UCC University College Cork\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"UCC University College Cork - Research and Innovation\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#main > div:nth-of-type(2) > footer > div > div:nth-of-type(1) > div:nth-of-type(1) > a > h2",
+   "message": "The heading \"University College Cork\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"About University College Cork\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#main > div:nth-of-type(2) > footer > div > div:nth-of-type(1) > div:nth-of-type(2) > a > h2",
+   "message": "The heading \"Bring me to\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Quick links\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#main > div:nth-of-type(2) > footer > div > div:nth-of-type(1) > div:nth-of-type(4) > a > h2",
+   "message": "The heading \"Show me\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Quicklinks\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#main > div:nth-of-type(2) > div:nth-of-type(3) > div > a:nth-of-type(4) > img",
+   "reason": "evidence is not the current text alternative",
+   "output": {
+    "verdict": "pass",
+    "evidence": "Cork GAA and UCC launched a  pioneering sustainability training programme for GAA clubs,  proudly supported by Taste4Success Skillnet and Carbery Group, pictured at SuperValu Páirc Uí Chaoimh were  from left, Kevin O'Donovan, CEO Cork GAA;  Dr. Paul Bolger, Head of UCC Sustainability Academy;  Naimh McNabola, UCC camogie;  Bridie Corrigan Matthews, Network Director of Taste 4 Success Skillnet and  Liam Hughes, CFO Carbery Group. …",
+    "problem": "none",
+    "imageShows": "Five people stand in a row on a sports field, holding a red gift bag and a green gift bag.",
+    "suggestedAlt": "Representatives from Cork GAA, UCC, Taste4Success Skillnet, and Carbery Group at SuperValu Páirc Uí Chaoimh.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#header > div:nth-of-type(1) > div:nth-of-type(2) > nav:nth-of-type(2) > ul > li:nth-of-type(4) > a",
+   "reason": "evidence is not the link text",
+   "output": {
+    "promises": "The link text 'Business and Industry' with a dropdown arrow icon in a primary navigation menu suggests it leads to a section or menu related to business and industry topics.",
+    "leadsTo": "#",
+    "verdict": "pass",
+    "evidence": "Business and Industry Ɛ",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#gtmCallToActionStandAloneButton",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Discover UCC' under the heading 'UCC at a Glance' suggests a page about the university's general status or achievements.",
+    "leadsTo": "a page about UCC's performance in global university rankings",
+    "verdict": "fail",
+    "evidence": "<link>Discover UCC</link>",
+    "problem": "ambiguous",
+    "suggestedText": "Discover UCC rankings",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 15,
+   "judged": 15,
+   "failed": 2,
+   "passed": 11,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 61,
+   "judged": 50,
+   "failed": 0,
+   "passed": 47,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 11,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 24,
+   "judged": 24,
+   "failed": 0,
+   "passed": 19,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 5
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 7,
+   "judged": 7,
+   "failed": 0,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were not checked at all, so whatever they hold was missed: html > body > iframe:nth-of-type(2) (cross-origin; skipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 11 of 61 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 98,
+  "cachedCalls": 0,
+  "inputTokens": 85494,
+  "outputTokens": 8243,
+  "latencyMs": 273407
+ },
+ "timings": {
+  "totalMs": 140300,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 23
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 26717,
+    "prepareMs": 0,
+    "candidates": 15,
+    "judged": 15,
+    "calls": 18,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 78423,
+    "prepareMs": 0,
+    "candidates": 61,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 29815,
+    "prepareMs": 0,
+    "candidates": 24,
+    "judged": 24,
+    "calls": 24,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 183,
+    "prepareMs": 181,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 5101,
+    "prepareMs": 0,
+    "candidates": 7,
+    "judged": 7,
+    "calls": 6,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 33
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 19,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 61,
+    "capped": 11
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > iframe:nth-of-type(2)",
+     "url": "https://consentcdn.cookiebot.com/sdk/bc-v5.min.html",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": false,
+     "engineReason": "skipped"
+    }
+   ]
+  }
+ }
+}

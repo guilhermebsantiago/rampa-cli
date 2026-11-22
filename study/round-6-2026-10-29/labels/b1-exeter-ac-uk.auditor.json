@@ -1,0 +1,62 @@
+{
+  "page": "https://www.exeter.ac.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "b6653ed5de2e",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the testimonial carousel's indicator list, an ol with role=tablist holding ten li elements with role=tab. In the snapshot no li has aria-selected, and the accessibility tree reports selected=false for all ten, including the one with class 'active', so the claim holds of the capture. The live HTML is the same, and the page's Bootstrap 3.4.1 carousel script only moves the 'active' class between indicators and never sets aria-selected. On the page users receive, a screen reader therefore cannot tell which tab, meaning which slide, is current, though users can change it by clicking. A state the user can set is not programmatically determinable, so this fails 4.1.2. The tabs also have no accessible names, which is a second 4.1.2 problem. The claim names the missing selected state, which is a real failure. I found no difference between the capture and the live page."
+    },
+    {
+      "fingerprint": "sd5019a2a695",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is a radio button labelled 'Undergraduate' (its wrapping label element), the first of five level-of-study options under the h2 'Search for a course'. A radio button takes no typed input. Its label only has to say what choosing it does, and 'Undergraduate' does that: it limits the course search to undergraduate courses. So the sentence's premise that the label should say 'what to enter' does not fit this control, and the label does describe its purpose. Under 2.4.6 the label, read beside its heading and sibling options, describes its purpose, so it passes. The group has no fieldset or legend, which is at most a 1.3.1/3.3.2 issue and not a 2.4.6 one. The live HTML and the screenshot match the capture. Requiring a radio label to say what to enter is a different rule from the one 2.4.6 sets."
+    },
+    {
+      "fingerprint": "a8cb24e3adf2",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the full-width banner image of the 'Impact' feature (banner-THE-Impact-2026.webp), with alt 'A smiling woman holding the hand of an old man sitting on a sofa in a sunny room.' The crop, the page screenshot and the image file I downloaded from the live site (1920x514) all show a sunset over a crop field, a dark and a green decorative curve, and white space. There are no people, no sofa and no room. The alternative describes a different picture, probably an earlier banner. Whether this image is meant as informative or as decoration, an alternative that describes content the image does not hold fails 1.1.1: it misinforms screen reader users, and decoration would need an empty alt. In the snapshot the img has zero height because it is lazy-loaded, but the screenshot shows it rendered, and the live src and alt are the same, so no capture difference affects the claim."
+    },
+    {
+      "fingerprint": "5fac09564217",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the logo in the OneTrust cookie consent banner, with alt and title 'Company Logo', which is OneTrust's placeholder text. The crop and screenshot show the University of Exeter crest, which has the university's name in its ring. Taken literally the claim is false: the image is the organisation's logo, so 'Company Logo' is vague rather than a description of something absent. The text in the banner never says whose cookie notice it is, so the logo is what identifies the organisation, and 'Company Logo' leaves out exactly that identity and the text in the logo. For a logo, 1.1.1 needs the organisation's name or an equivalent, so the element fails. The rubric reads a claim that an alternative 'describes something the image does not show' as naming an alternative that leaves out most of what the image conveys, so the claim names this failure. The live page loads the same OneTrust banner for any visitor without a consent cookie, so it is part of what users receive. I did not execute OneTrust's script myself, but nothing suggests that the banner or its alt differs from the capture."
+    },
+    {
+      "fingerprint": "s5abde00f1ae",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'Find out more' button-styled link in the second 'Education' feature, which leads to the TEF page. The heading just before it in document order is the h3 'Exeter’s ‘solid gold’ standard for teaching excellence amongst best in the UK.', in the same text block, under the h2 'Education', and followed by a paragraph about the TEF Gold Overall award. Under this round's context rule the preceding heading counts, and together with the link text it makes the purpose clear: find out more about the TEF gold rating. That matches the destination 'Teaching Excellence Framework (TEF) 2023'. So 'nothing around it does' is false of the capture, and the link meets 2.4.4. Other 'Find out more' links on the page lead elsewhere, but uniqueness is only required by 2.4.9 (AAA). The heading text was in the context the checker had (the ancestor text), so it had what it needed and judged wrongly. The live HTML is the same."
+    },
+    {
+      "fingerprint": "s59cd27fc3e7",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the radio button labelled 'Online', the fifth option in the course search's study options (Undergraduate, Postgraduate Taught, Postgraduate Research, Degree Apprenticeship, Online) under the h2 'Search for a course'. The page's script sets the hidden filter to online courses when it is chosen. A radio button takes no typed input, so the label does not need to say 'what to enter'. It names the option, online courses, and in its heading and group that describes its purpose, which passes 2.4.6. The missing fieldset or legend is at most a 1.3.1/3.3.2 issue. The live HTML and the screenshot match the capture. The claim applies a text-entry test that 2.4.6 does not require of a radio option."
+    },
+    {
+      "fingerprint": "a4a34d250681",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the banner image of the 'Education / Exeter hailed University of the Year' feature (homepage-banner-SOMO2.webp), with alt 'UK Social Mobility Awards logo'. The crop, the screenshot and the image file I downloaded from the live site (1920x514) show white space, a green decorative curve, and a photo of five smiling students working at a café table. There is no logo of the Social Mobility Awards or of anything else in it. The alternative describes content the image does not hold, so it fails 1.1.1 whether the photo is informative (wrong description) or decorative (alt should be empty). The claim names exactly this. The img has zero height in the snapshot because it is lazy-loaded, but it is rendered in the screenshot, and the live src and alt are the same."
+    },
+    {
+      "fingerprint": "0cea30c07a39",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the UN SDG wheel icon (sdg.svg), alt 'THE Impact Ratings', in the fourth KPI box. The source wraps the icon and the h3 'We're ranked joint 20th globally for our work to meet the UN Sustainable Development Goals' in one a inside a p. HTML parsing splits that into an image-only link followed by a separate heading link to the same /sustainable-development-goals/ page. Every browser parses it this way, so the capture and the live page agree, and the image link really holds only this image. The alternative names the ranking (Times Higher Education Impact Ratings, footnote 4), not the destination page, so the claim's sentence is true of the capture. The destination's hero says 'We're rated in the top 20 globally in the 2026 Times Higher Education Sustainability Impact Ratings', so a user following 'THE Impact Ratings' lands where that text leads them to expect. I lean towards the alternative serving the link's function adequately. Even so, competent auditors would reasonably disagree: it never mentions the SDGs or the page, 'THE' reads as the article, and the redundant adjacent link points to an empty alt or a merged link (H2). So the label is uncertain."
+    }
+  ]
+}

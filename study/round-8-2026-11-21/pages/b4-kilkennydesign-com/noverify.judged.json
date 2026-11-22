@@ -1,0 +1,491 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://kilkennydesign.com/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 76
+ },
+ "groups": [
+  {
+   "id": "g-b3cc505a410d",
+   "list": "findings",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "engine",
+   "check": "link-name",
+   "count": 45,
+   "members": [
+    "b0a0800b9f77",
+    "747257a6bd02",
+    "78dd560199a3",
+    "663b210f8761",
+    "82c52db66bc9",
+    "fa388931af90",
+    "5deeb7b4dc91",
+    "c4a6dfae37b9",
+    "2d389698f3b8",
+    "e76f582db2b6",
+    "275aaca9b710",
+    "ab8e602f6178",
+    "cac25398c1ff",
+    "5de6fdd84025",
+    "a66b30461422",
+    "c022e7e23ec4",
+    "c4d7c80ed214",
+    "0d34077add06",
+    "8339e1e774b1",
+    "9186b0e1fd4c",
+    "80f8eade1dfa",
+    "42269758e004",
+    "1498de8a6a84",
+    "bd2c0bbacd1d",
+    "e02a7828b8f6",
+    "18e4fa110912",
+    "4d723d2b6337",
+    "fd0b3bece03e",
+    "cb15517233a2",
+    "41cb2dffc3d2",
+    "b95093fd4c00",
+    "74cf4c655c6c",
+    "d9da30d5087b",
+    "010442790a9a",
+    "74fc53cb822c",
+    "a639ddaffdd2",
+    "465f58c3b295",
+    "ff66b4391dd1",
+    "af2ca790a633",
+    "2ba8813f4373",
+    "ee45150ed1d9",
+    "ff5b430a3a8e",
+    "3a697da486ba",
+    "6350ebbc968c",
+    "3a05d890d5df"
+   ],
+   "example": "b0a0800b9f77"
+  },
+  {
+   "id": "g-caa6eccc5028",
+   "list": "findings",
+   "criterion": "2.5.3",
+   "level": "A",
+   "source": "engine",
+   "check": "label-content-name-mismatch",
+   "count": 31,
+   "members": [
+    "dbfea8c997a4",
+    "e2bbacd64853",
+    "4683d38dcbf6",
+    "bc0550db69f6",
+    "b0b79a6c2aae",
+    "d775cb960a8b",
+    "464b7ec48ea8",
+    "41338fdb1f1c",
+    "ee06dc98f5b2",
+    "b0ef06f7d0c3",
+    "e99f3004765c",
+    "a8330955b4ba",
+    "351957d987cf",
+    "e2ba206345bc",
+    "c810b4e03ed9",
+    "295b856a4944",
+    "b02bca90655f",
+    "6303ab2afe3f",
+    "31f3b866f753",
+    "5821037e7215",
+    "054a84612985",
+    "616b743a190b",
+    "f2fc035b87bd",
+    "fcc6f493d8d3",
+    "404591b6ec6d",
+    "621705a7c2a7",
+    "922ef3372f7b",
+    "483c080d33a6",
+    "989bc8d7a776",
+    "1f95dafe25c8",
+    "a9b9f1e7aac3"
+   ],
+   "example": "dbfea8c997a4"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > div > section > a > img:nth-of-type(1)",
+   "message": "The text alternative \"flag\" names a label, not what the image conveys here.",
+   "evidence": "The model suggests: \"European Union flag\" · Offline: the second pass has no cached answer, so the claim stays a suggestion",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > div > section > a > img:nth-of-type(2)",
+   "message": "The text alternative \"toggle menu\" names a label, not what the image conveys here.",
+   "evidence": "The model suggests: \"expand menu\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.00), claim: yes (0.78), reversed: yes (0.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(3) > header > div:nth-of-type(3) > div:nth-of-type(2) > a > div > img",
+   "message": "The text alternative \"Wishlist\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"Sign In\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.08), claim: yes (1.00), reversed: no (0.99))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(3) > header > div:nth-of-type(3) > div:nth-of-type(3) > a > div > img",
+   "message": "The text alternative \"Bag\" describes something the image does not show.",
+   "evidence": "Offline: the second pass has no cached answer, so the claim stays a suggestion",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(1) > a:nth-of-type(1)",
+   "message": "The link text \"VIP Rewards VIP Rewards\" does not match where the link goes.",
+   "evidence": "The model suggests: \"VIP Rewards Inbox\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > div:nth-of-type(3) > header > div:nth-of-type(3) > div:nth-of-type(2) > a",
+   "message": "The link text \"Wishlist\" does not match where the link leads: a page titled \"Kilkenny Design - Sign in\".",
+   "evidence": "The model suggests: \"Sign In\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#slick-slide110 > div > div > a",
+   "message": "The link text \"SHOP NOW\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Shop The Wine Opener Products\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > div > section > a > img:nth-of-type(1)",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "flag",
+    "problem": "wrong_content",
+    "imageShows": "The flag of the European Union, which is a circle of twelve gold stars on a blue background.",
+    "suggestedAlt": "European Union flag",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(3) > header > div:nth-of-type(3) > div:nth-of-type(3) > a > div > img",
+   "reason": "suggested alternative is a label, not a description",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Bag",
+    "problem": "wrong_content",
+    "imageShows": "A simple line drawing of a shopping bag icon.",
+    "suggestedAlt": "decorative",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(1) > a:nth-of-type(1)",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'VIP Rewards VIP Rewards' suggests it leads to a rewards page or a rewards-related account section.",
+    "leadsTo": "/account.php?action=inbox",
+    "verdict": "fail",
+    "evidence": "VIP Rewards VIP Rewards",
+    "problem": "mismatch",
+    "suggestedText": "VIP Rewards Inbox",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 11,
+   "judged": 11,
+   "failed": 0,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 2,
+   "suggested": 4,
+   "unconfirmed": 4
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 41,
+   "judged": 41,
+   "failed": 0,
+   "passed": 38,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 3
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 27,
+   "judged": 27,
+   "failed": 0,
+   "passed": 27,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Verification was off (--no-verify): model claims whose quoted evidence is not on the page are reported as if it were. This run is for measurement only.",
+  "The page was cut at 5000 elements, the collector's limit: what comes after them is not in the snapshot, so the checks that read the snapshot (Rampa's rules and judged criteria) did not run past that point. Checked only up to the cut: 1.1.1, 1.3.2, 1.3.5, 1.4.3, 1.4.11, 2.4.2, 2.4.4, 2.4.6, 3.1.1, 3.1.2, 4.1.2. axe-core read the whole page.",
+  "1 of the page's 12 stylesheet(s) had not applied when it was read (https://static.zohocdn.com/salesiq/styles/floatbutton8_ZKi1wot5hFCab044kbrM452Z8ffl4MEvaxnOrW-4mx4ER5mpCd32yQFe9fA-2gbQ_.css (not loaded)): the page was read with the styles it had, which may differ from what people see.",
+  "A layer lay over the viewport when the page was read (div, on top at 78% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #badge-ribbon > iframe.",
+  "42 image(s) were left without a capture, so no judgment looked at them: 3 outside the page (an off-canvas menu); 5 transparent where it sits; 34 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 88,
+  "inputTokens": 76112,
+  "outputTokens": 6491,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 326,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 36
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 16,
+    "prepareMs": 0,
+    "candidates": 11,
+    "judged": 11,
+    "calls": 0,
+    "cachedCalls": 17
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 14,
+    "prepareMs": 0,
+    "candidates": 41,
+    "judged": 41,
+    "calls": 0,
+    "cachedCalls": 41
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 72,
+    "prepareMs": 0,
+    "candidates": 27,
+    "judged": 27,
+    "calls": 0,
+    "cachedCalls": 27
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 122,
+    "prepareMs": 120,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 6,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 0,
+    "cachedCalls": 2
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 54
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "stylesheets": {
+   "linked": 12,
+   "applied": 11,
+   "failed": 1
+  },
+  "overlay": {
+   "selector": "div",
+   "coverage": 0.78,
+   "hidden": true
+  },
+  "cut": {
+   "elements": 5000
+  },
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 17,
+   "notCaptured": 42,
+   "reasons": {
+    "outside-page": 3,
+    "not-shown": 5,
+    "limit": 34
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "1.1.1",
+    "candidates": 11,
+    "offlineMisses": 2
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#badge-ribbon > iframe",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ],
+   "stylesheets": {
+    "linked": 12,
+    "applied": 11,
+    "failed": [
+     {
+      "href": "https://static.zohocdn.com/salesiq/styles/floatbutton8_ZKi1wot5hFCab044kbrM452Z8ffl4MEvaxnOrW-4mx4ER5mpCd32yQFe9fA-2gbQ_.css",
+      "reason": "not loaded"
+     }
+    ]
+   },
+   "overlay": {
+    "selector": "div",
+    "coverage": 0.78,
+    "hidden": true
+   }
+  }
+ }
+}

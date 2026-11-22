@@ -1,0 +1,38 @@
+{
+  "page": "https://alzheimer.ie/real-stories/we-will-tell-everyone/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "scd5c1bc3c50",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The footer image under 'Supported by:' is the Charities Institute Ireland Triple Lock badge: the CII wordmark with '2026 TRIPLE LOCK MEMBER / Promoting Trust' beneath it; alt='Charity Institute Ireland'. claimTrue no: the image plainly shows the Charities Institute Ireland mark, so the alternative does not describe something absent (only 'Charity' vs 'Charities' differs). elementFails: the alternative names the organization but drops the badge's informational text, the 2026 Triple Lock membership that is the point of a trust mark, and read after 'Supported by:' it suggests CII is a supporter; I lean that this does not serve the equivalent purpose, but naming the organization is the common accepted alternative for a logo, so competent auditors could pass it. Even if it fails, it fails by omission, while the claim says the alt describes something not shown; whether that wording names an omission of roughly half the badge's content is also arguable. captureDiffers no: the live HTML (fetched 2026-11-21) has the same img, src and alt in the same 'Supported by:' block, and the screenshot shows the badge as captured. Reasonable disagreement on both points makes the label uncertain."
+    },
+    {
+      "fingerprint": "p9916bd8c109",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the YouTube icon, the only content of a footer social link (title='Youtube') to https://www.youtube.com/user/AlzheimerIreland, in a list with Bluesky, Facebook, LinkedIn and Instagram icons; alt='YouTube'. Under H30 the alternative of an image that is a link's only content should describe the link's function: 'YouTube' tells users the link goes to the organization's YouTube presence, which in a site footer's social list is sufficient; the crop shows the YouTube play logo, so it also matches the picture. elementFails no. captureDiffers no: the live HTML has the identical anchor and img with alt='YouTube'. Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "sc6964ddc6d6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the header mega-menu toggle: an anchor with href='#', aria-expanded='false' and aria-controls='mega-sub-menu-15894', whose name is 'National Helpline 1800-341-341'. Activating it opens a panel about the helpline ('Need help? Call the National Helpline', the tel: link, the email and the opening hours). claimTrue no: the text is not just an address; it begins with 'National Helpline', which names what the control is about. elementFails no: 'National Helpline' plus the expanded/collapsed state tells users the control opens the National Helpline information, so its purpose is determinable from the link text alone; the phone number only supplements it. Using an anchor with href='#' as a disclosure button is a role question for 4.1.2, not a 2.4.4 failure. captureDiffers no: the live HTML has the same anchor, text and submenu. Rampa had the full text and judged it wrongly."
+    }
+  ]
+}

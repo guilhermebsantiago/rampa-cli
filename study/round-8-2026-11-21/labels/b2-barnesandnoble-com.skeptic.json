@@ -1,0 +1,34 @@
+{
+  "page": "https://www.barnesandnoble.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "pc6f172d98de",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the Holiday Gift Guide hero banner. It is the only content of a link to /pages/holiday-gift-guide, and its alt is \"The Barnes & Noble Holiday Gift Guide | Find the Perfect Gift | Shop Now\". The crop and the screenshot (this slide was showing when the page was captured) carry the text \"THE BARNES & NOBLE Holiday Gift Guide / Find the Perfect Gift / SHOP NOW\" over a decorative montage of book covers. The alt gives all of that text and names the destination, so as a control the image has a name that describes its purpose (H30), and as an image of text it gives the same information. I could find no reason it fails 1.1.1. The live HTML I fetched on 2026-11-21 has the same billboard id, href and alt, and the capture was a fully styled page, so nothing differs that matters here."
+    },
+    {
+      "fingerprint": "p70409b2f00f",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the title link \"The Calamity Club: A Novel\" in the Bestsellers carousel (9th card, scrolled out of view at x=1438). It leads to /w/the-calamity-club-kathryn-stockett/1147098401, and that page's title and heading are \"The Calamity Club: A Novel\". The link text alone names the product page, so it meets 2.4.4. On R1: the only other link on the page with this name is the cover image link in the same card, and it goes to the same address, so no pair goes to different places. The live HTML has the same markup and href, so the capture does not differ."
+    },
+    {
+      "fingerprint": "p693e581e096",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the cover image of \"Simply Ina\" in the 50% Off the Biggest Books carousel. It is the only content of a link to the product page /w/simply-ina-ina-garten/1149724863 (titled \"Simply Ina: A Barefoot Contessa Cookbook\"), and its alt is \"Simply Ina: A Barefoot Contessa Cookbook\". By R2's first test and H30, the alternative names the product the link leads to, so the control's name describes its purpose and the cover is identified. The title text link beside it repeats that name and goes to the same address. That is redundant and could be combined (H2, advisory), but it is not a 1.1.1 failure. The live HTML has the same alt, and the screenshot shows the same cover, so the capture does not differ."
+    },
+    {
+      "fingerprint": "p12ecd4724d1",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the Black Friday hero banner. It is the only content of a link to /pages/black-friday-cyber-monday-deals, and its alt is \"Black Friday Deals | 50% Off The Biggest Books | Plus! Save on a fantastic range of Books & Gifts | Shop Now\". The crop shows the desktop image with the text \"LIMITED TIME ONLY / BLACK FRIDAY DEALS / SHOP NOW / 50% OFF The Biggest Books / PLUS! Save on a Fantastic Range of Books & Gifts\". The alt names the destination (Black Friday deals) and repeats every phrase except the urgency tag \"Limited Time Only\". I checked whether that omission fails 1.1.1: it is a promotional qualifier, not information needed to understand the offer or the link, and the control's name still describes its purpose (H30). So the element passes. The live HTML has the same href and alt, and the desktop source is served to the same picture element, so the capture does not differ."
+    }
+  ]
+}

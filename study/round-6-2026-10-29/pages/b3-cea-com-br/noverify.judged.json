@@ -1,0 +1,487 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.cea.com.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "3c19de0f51b4",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div > div > section > div > div > div > div > div:nth-of-type(3) > div:nth-of-type(2) > div > div > div:nth-of-type(4) > div > div > a > img",
+   "message": "The text alternative \"confira seleção de oportunidades com até 60% off\" describes something the image does not show.",
+   "evidence": "confira seleção de oportunidades com até 60% off",
+   "subject": "confira seleção de oportunidades com até 60% off",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div > div > section > div > div > div > div > div:nth-of-type(3) > div:nth-of-type(2) > div > div > div:nth-of-type(4) > div > div > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "confira seleção de oportunidades com até 60% off",
+    "to": "Confira seleção de oportunidades com até 70% OFF na Black Friday",
+    "before": "<img src=\"https://cea.vtexassets.com/assets/vtex.file-manager-graphql/images/f4167115-0755-4ce8-ab06-9a4273606d46___9a321dc5f178a8a167a8ae9dde9991df.jpg\" loading=\"lazy\" decoding=\"async\" alt=\"confira seleção de oportunidades com até 60% off\" crossorigin=\"anonymous\">",
+    "after": "<img src=\"https://cea.vtexassets.com/assets/vtex.file-manager-graphql/images/f4167115-0755-4ce8-ab06-9a4273606d46___9a321dc5f178a8a167a8ae9dde9991df.jpg\" loading=\"lazy\" decoding=\"async\" alt=\"Confira seleção de oportunidades com até 70% OFF na Black Friday\" crossorigin=\"anonymous\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9998458843434666
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "efe34605b0d7",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div > div > section > div > div > div > div > div:nth-of-type(3) > div:nth-of-type(2) > div > div > div:nth-of-type(7) > div > div > a > img",
+   "message": "The text alternative \"compre perfumes com até 60% off\" describes something the image does not show.",
+   "evidence": "compre perfumes com até 60% off",
+   "subject": "compre perfumes com até 60% off",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div > div > section > div > div > div > div > div:nth-of-type(3) > div:nth-of-type(2) > div > div > div:nth-of-type(7) > div > div > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "compre perfumes com até 60% off",
+    "to": "Black Friday C&A: as melhores fragrâncias com até 70% OFF",
+    "before": "<img src=\"https://cea.vtexassets.com/assets/vtex.file-manager-graphql/images/2479936d-ba39-4591-83c5-5f732a4cf52a___0c1b29e3b8da43ca93e39befff68843a.jpg\" loading=\"lazy\" decoding=\"async\" alt=\"compre perfumes com até 60% off\" crossorigin=\"anonymous\">",
+    "after": "<img src=\"https://cea.vtexassets.com/assets/vtex.file-manager-graphql/images/2479936d-ba39-4591-83c5-5f732a4cf52a___0c1b29e3b8da43ca93e39befff68843a.jpg\" loading=\"lazy\" decoding=\"async\" alt=\"Black Friday C&amp;A: as melhores fragrâncias com até 70% OFF\" crossorigin=\"anonymous\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9996877991189097
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "65569a4b0972",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(1)",
+   "target": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(1)",
+   "message": "This element (\"FRETE GRÁTIS EXCLUSIVO NO APP\") takes keyboard focus and listens to click, so it works as a control, but the browser exposes it as generic, with no control role: a screen reader does not announce it as a button or a link (F59). Use the native element (button, a) or give it the role of the control it is.",
+   "evidence": "role generic · click · \"FRETE GRÁTIS EXCLUSIVO NO APP\"",
+   "subject": "generic click",
+   "confidence": "low",
+   "ruleId": "rampa/custom-control",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F59",
+   "html": "<div class=\"cea-store-ds-0-x-promotionalTopBar__container\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 3
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div > div > section > div > div > div > div > div:nth-of-type(6) > ul > li:nth-of-type(5) > a > div > div > img",
+   "message": "The text alternative \"blog\" names a label, not what the image conveys here.",
+   "evidence": "The model suggests: \"Acesso ao blog e conteúdos relacionados\" · Offline: the second pass has no cached answer, so the claim stays a suggestion",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#navigation-item-mindse7",
+   "message": "The link text \"Mindse7\" does not match where the link leads: a page titled \"Mindse7 Moda Feminina, Tendências e Coleções-Cápsula na Black Friday | C&A\".",
+   "evidence": "The model suggests: \"Coleção Mindset\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#navigation-item-calçados",
+   "message": "The link text \"Calçados\" is shared by 3 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "The model suggests: \"Calçados na Black Friday\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div > div > section > div > div > div > div > div:nth-of-type(6) > ul > li:nth-of-type(1) > a",
+   "message": "The link text \"Frete grátis exclusivo o App —\" does not match where the link leads: a page titled \"C&A | Moda feminina, Masculina, Infantil, Beleza e mais\".",
+   "evidence": "The model suggests: \"Baixe o App C&A para frete grátis\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div > div > section > div > div > div > div > div:nth-of-type(6) > h2",
+   "message": "The heading \"Módulo de Benefícios\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Módulo de Benefícios\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > footer > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > h2",
+   "message": "The heading \"A gente se encontra na Logo C&A - Ir para a página inicial\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"Redes Sociais\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > footer > div:nth-of-type(1) > div:nth-of-type(1) > nav:nth-of-type(1) > h2",
+   "message": "The heading \"Menu do rodapé\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Links do rodapé\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > footer > div:nth-of-type(1) > div:nth-of-type(1) > nav:nth-of-type(2) > h2",
+   "message": "The heading \"Menu do rodapé\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Links do rodapé\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div > div > section > div > div > div > div > div:nth-of-type(6) > ul > li:nth-of-type(5) > a > div > div > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "blog",
+    "problem": "wrong_content",
+    "imageShows": "Um ícone branco de um monitor de computador seguido por um símbolo de e comercial (&).",
+    "suggestedAlt": "Acesso ao blog e conteúdos relacionados",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#navigation-item-calçados",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page or section for 'Calçados' (Footwear).",
+    "leadsTo": "A page titled 'Calçados Femininos, Masculinos e Infantis na Black Friday | C&A' featuring various types of footwear.",
+    "verdict": "fail",
+    "evidence": "Calçados",
+    "problem": "ambiguous",
+    "suggestedText": "Calçados na Black Friday",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div > div > section > div > div > div > div > div:nth-of-type(6) > ul > li:nth-of-type(1) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "Frete grátis exclusivo no App",
+    "leadsTo": "a page titled 'C&A | Moda feminina, Masculina, Infantil, Beleza e mais'",
+    "verdict": "fail",
+    "evidence": "Frete grátis exclusivo o App —",
+    "problem": "mismatch",
+    "suggestedText": "Baixe o App C&A para frete grátis",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div > div > section > div > div > div > div > div:nth-of-type(6) > h2",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Módulo de Benefícios",
+    "verdict": "fail",
+    "evidence": "M…",
+    "problem": "generic",
+    "suggestedText": "Módulo de Benefícios",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > footer > div:nth-of-type(1) > div:nth-of-type(1) > nav:nth-of-type(1) > h2",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Menu do rodapé",
+    "verdict": "fail",
+    "evidence": "M…",
+    "problem": "generic",
+    "suggestedText": "Links do rodapé",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > footer > div:nth-of-type(1) > div:nth-of-type(1) > nav:nth-of-type(2) > h2",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Menu do rodapé",
+    "verdict": "fail",
+    "evidence": "M…",
+    "problem": "generic",
+    "suggestedText": "Links do rodapé",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 12,
+   "judged": 12,
+   "failed": 2,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 1,
+   "confirmed": 2,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 164,
+   "judged": 50,
+   "failed": 0,
+   "passed": 47,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 114,
+   "suggested": 3
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 27,
+   "judged": 27,
+   "failed": 0,
+   "passed": 23,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 4
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Verification was off (--no-verify): model claims whose quoted evidence is not on the page are reported as if it were. This run is for measurement only.",
+  "10 image(s) were left without a capture, so no judgment looked at them: 7 outside the page (an off-canvas menu); 3 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 114 of 164 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 97,
+  "inputTokens": 91091,
+  "outputTokens": 8201,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 295,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 28
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 24,
+    "prepareMs": 0,
+    "candidates": 12,
+    "judged": 12,
+    "calls": 0,
+    "cachedCalls": 18
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 44,
+    "prepareMs": 0,
+    "candidates": 164,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 9,
+    "prepareMs": 0,
+    "candidates": 27,
+    "judged": 27,
+    "calls": 0,
+    "cachedCalls": 27
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 131,
+    "prepareMs": 128,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 12,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 42
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 18,
+   "notCaptured": 10,
+   "reasons": {
+    "outside-page": 7,
+    "limit": 3
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "1.1.1",
+    "candidates": 12,
+    "offlineMisses": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "candidates": 164,
+    "capped": 114
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

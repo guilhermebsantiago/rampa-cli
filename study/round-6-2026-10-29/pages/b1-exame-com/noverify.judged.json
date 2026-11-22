@@ -1,0 +1,554 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://exame.com/invest/mercados/producao-da-petrobras-bate-recorde-no-3o-tri-e-importacao-de-diesel-dispara/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "c00946fa036b",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#email",
+   "message": "The field \"Seu e-mail\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "Seu e-mail",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#email",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input id=\"email\" type=\"email\" class=\"title-small w-full break-words border-none bg-transparent text-colors-text\" name=\"email\" value=\"\">",
+    "after": "<input id=\"email\" type=\"email\" class=\"title-small w-full break-words border-none bg-transparent text-colors-text\" name=\"email\" value=\"\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "8ca2d23b904e",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#news-component > div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > a",
+   "target": "#news-component > div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a href=\"https://exame.com/invest/mercados/tombo-das-acoes-de-ia-derruba-nasdaq-em-528-e-provoca-onda-de-perdas-em-wall-street/\" data-track=\"{&quot;event&quot;:&quot;article_clicked&quot;,&quot;article_position&quot;:&quot;article_mais_invest_1&quot;}\" class=\"hidden md:flex\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "240a4a15e299",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#news-component > div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > a",
+   "target": "#news-component > div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a href=\"https://exame.com/invest/onde-investir/bdr-acao-nos-eua-ou-etf-as-formas-de-investir-na-anthropic-a-partir-do-brasil/\" data-track=\"{&quot;event&quot;:&quot;article_clicked&quot;,&quot;article_position&quot;:&quot;article_mais_invest_2&quot;}\" class=\"hidden md:flex\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "ccb48020a919",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#news-component > div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(3) > div > a",
+   "target": "#news-component > div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(3) > div > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a href=\"https://exame.com/invest/minhas-financas/bancos-abrem-no-feriado-de-20-de-novembro-veja-como-ficam-os-servicos/\" data-track=\"{&quot;event&quot;:&quot;article_clicked&quot;,&quot;article_position&quot;:&quot;article_mais_invest_3&quot;}\" class=\"hidden md:flex\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "6d77fd77fdf0",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#news-component > div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(4) > div > a",
+   "target": "#news-component > div:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(4) > div > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a href=\"https://exame.com/invest/mercados/anthropic-fecha-em-alta-de-17-longe-da-maxima-em-estreia-na-bolsa/\" data-track=\"{&quot;event&quot;:&quot;article_clicked&quot;,&quot;article_position&quot;:&quot;article_mais_invest_4&quot;}\" class=\"hidden md:flex\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "7b49b4927e16",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#hide_share > div > div:nth-of-type(2) > div:nth-of-type(1) > div > a",
+   "target": "#hide_share > div > div:nth-of-type(2) > div:nth-of-type(1) > div > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a href=\"https://exame.com/pop/gta-vi-fatura-us-38-bilhoes-em-24-horas-e-bate-recorde-historico-do-entretenimento/\" class=\"hidden md:block\" data-track=\"{&quot;event&quot;:&quot;article_clicked&quot;,&quot;article_position&quot;:&quot;article_mais_exame_1&quot;}\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "1978d424f618",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#hide_share > div > div:nth-of-type(2) > div:nth-of-type(2) > div > a",
+   "target": "#hide_share > div > div:nth-of-type(2) > div:nth-of-type(2) > div > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a href=\"https://exame.com/carreira/caito-maia-chilli-beans-entrevista-temos-vagas/\" class=\"hidden md:block\" data-track=\"{&quot;event&quot;:&quot;article_clicked&quot;,&quot;article_position&quot;:&quot;article_mais_exame_2&quot;}\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "1c7b4d9232a3",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#hide_share > div > div:nth-of-type(2) > div:nth-of-type(3) > div > a",
+   "target": "#hide_share > div > div:nth-of-type(2) > div:nth-of-type(3) > div > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a href=\"https://exame.com/invest/mercados/tombo-das-acoes-de-ia-derruba-nasdaq-em-528-e-provoca-onda-de-perdas-em-wall-street/\" class=\"hidden md:block\" data-track=\"{&quot;event&quot;:&quot;article_clicked&quot;,&quot;article_position&quot;:&quot;article_mais_exame_3&quot;}\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "89596b1a1bf0",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#hide_share > div > div:nth-of-type(2) > div:nth-of-type(4) > div > a",
+   "target": "#hide_share > div > div:nth-of-type(2) > div:nth-of-type(4) > div > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a href=\"https://exame.com/tecnologia/examelab/arquivar-ou-trancar-fotos-no-google-fotos-entenda-a-diferenca/\" class=\"hidden md:block\" data-track=\"{&quot;event&quot;:&quot;article_clicked&quot;,&quot;article_position&quot;:&quot;article_mais_exame_4&quot;}\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 33
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 26,
+   "members": [
+    "ffeec30bba66",
+    "a80ba5dcd3c1",
+    "26b46aeea601",
+    "3c7190f6affe",
+    "6fe4ca8f3a8a",
+    "50b8e09a0b27",
+    "7f2fe0c3d800",
+    "24a267515f34",
+    "e5b68a1b6078",
+    "785f276d7e8a",
+    "5887e616d9f4",
+    "dad2b7d67270",
+    "e8347f399ef1",
+    "f371cfa4c618",
+    "e9deb86b5266",
+    "ba965f65497b",
+    "2fbd83dc9766",
+    "56e0f39920ce",
+    "6c534717dc65",
+    "e54a4f73d233",
+    "0823403d804f",
+    "f61c0cb7d042",
+    "02012586b841",
+    "e9f1eda9b2fb",
+    "276b47cbdcab",
+    "17df29ba0ce6"
+   ],
+   "example": "ffeec30bba66"
+  },
+  {
+   "id": "g-1a8eb2403383",
+   "list": "findings",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "check": "rampa/widget-name",
+   "count": 8,
+   "members": [
+    "8ca2d23b904e",
+    "240a4a15e299",
+    "ccb48020a919",
+    "6d77fd77fdf0",
+    "7b49b4927e16",
+    "1978d424f618",
+    "1c7b4d9232a3",
+    "89596b1a1bf0"
+   ],
+   "example": "8ca2d23b904e"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#news-component > div:nth-of-type(1) > div:nth-of-type(2) > figure > span > img",
+   "message": "The text alternative \"Petrobras: dados de produção do 3º tri bateram recorde (MAURO PIMENTEL/AFP/Getty Images)\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Plataforma de petróleo da Petrobras navegando no mar em estilo artístico.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (0.98), claim: yes (1.00), reversed: no (0.73))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > section:nth-of-type(1) > nav > div:nth-of-type(3) > a:nth-of-type(2)",
+   "message": "The link text \"CASUAL\" is shared by 3 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "The model suggests: \"Casual - Vida, Arte e Estilo de Vida\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#subheader-sticky > span > a",
+   "message": "The link text \"Invest\" is shared by 4 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "The model suggests: \"Exame Invest\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#news-component > div:nth-of-type(1) > nav > div:nth-of-type(1) > a",
+   "message": "The link text \"Invest\" is shared by 4 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "The model suggests: \"Exame Invest\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > section:nth-of-type(1) > nav > div:nth-of-type(2) > a:nth-of-type(1)",
+   "reason": "evidence is not the link text",
+   "output": {
+    "promises": "The link text 'REVISTA EXAME' in a navigation menu suggests it leads to the main section or home page of the 'Revista Exame' publication.",
+    "leadsTo": "A page titled 'Edições | Exame' which lists the different editions of the magazine.",
+    "verdict": "pass",
+    "evidence": "REVISTA EXAME",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > section:nth-of-type(1) > nav > div:nth-of-type(3) > a:nth-of-type(2)",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page about 'Casual' lifestyle, art, and entertainment.",
+    "leadsTo": "A page titled 'Casual | Exame | Vida, Arte e Estilo de Vida Casual' containing tips for fun, cinema, music, series, books, leisure, and family.",
+    "verdict": "fail",
+    "evidence": "CASUAL",
+    "problem": "ambiguous",
+    "suggestedText": "Casual - Vida, Arte e Estilo de Vida",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#subheader-sticky > span > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page about financial market news and investments.",
+    "leadsTo": "A page titled 'Notícias sobre Mercado Financeiro e Investimentos | Exame Invest'",
+    "verdict": "fail",
+    "evidence": "Invest",
+    "problem": "ambiguous",
+    "suggestedText": "Exame Invest",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#news-component > div:nth-of-type(1) > nav > div:nth-of-type(1) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A link in a navigation menu with the text 'Invest' suggests a section or page related to investments.",
+    "leadsTo": "A page titled 'Notícias sobre Mercado Financeiro e Investimentos | Exame Invest' containing news and articles about the investment world.",
+    "verdict": "fail",
+    "evidence": "Invest",
+    "problem": "ambiguous",
+    "suggestedText": "Exame Invest",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 8,
+   "judged": 8,
+   "failed": 0,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 1,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 128,
+   "judged": 50,
+   "failed": 0,
+   "passed": 46,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 78,
+   "suggested": 3
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 22,
+   "judged": 22,
+   "failed": 0,
+   "passed": 22,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Verification was off (--no-verify): model claims whose quoted evidence is not on the page are reported as if it were. This run is for measurement only.",
+  "26 image(s) were left without a capture, so no judgment looked at them: 6 outside the page (an off-canvas menu); 6 still a lazy-load placeholder; 3 blank in its capture; 11 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 78 of 128 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 86,
+  "inputTokens": 85696,
+  "outputTokens": 8497,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 279,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 22
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 16,
+    "prepareMs": 0,
+    "candidates": 8,
+    "judged": 8,
+    "calls": 0,
+    "cachedCalls": 11
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 0,
+    "cachedCalls": 2
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 23,
+    "prepareMs": 0,
+    "candidates": 128,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 7,
+    "prepareMs": 0,
+    "candidates": 22,
+    "judged": 22,
+    "calls": 0,
+    "cachedCalls": 22
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 138,
+    "prepareMs": 135,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 44,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 24
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 11,
+   "notCaptured": 26,
+   "reasons": {
+    "outside-page": 6,
+    "placeholder": 6,
+    "blank": 3,
+    "limit": 11
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 128,
+    "capped": 78
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

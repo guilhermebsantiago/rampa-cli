@@ -1,0 +1,28 @@
+{
+  "page": "https://www.birminghammail.co.uk/news/midlands-news/crash-near-birmingham-airport-live-34947543",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s0dd12930130",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 20x20 square logo at the start of the article breadcrumb (src /assets/icons/birmingham-mail.svg, alt \"Birminghammail Live Icon\"). It sits inside a link to the home page (\"/\") that has aria-label=\"birminghammail Home\". claimTrue: no. The crop, the screenshot and the SVG itself (fetched live) all show a purple square with a white \"B\", which is the Birmingham Live/Mail square icon, so the alternative names exactly what the image shows. elementFails: no. A logo's alternative that names the brand meets 1.1.1. As a control, the link takes its name from its aria-label, which describes its purpose (home), so the image's alt is not the link's name and does not need to say where the link goes. captureDiffers: no. The live HTML I fetched has the same link, aria-label, img and alt, and the screenshot is fully styled. The model had the crop and the alt and judged them wrongly, so the cause is model_error."
+    },
+    {
+      "fingerprint": "731a57aa732f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the Trust Project badge in the footer (img alt \"trust project logo\", src /footer/trust-project.svg). It is the only content of a link to /about-us/, with no aria-label and no title, so the link's name comes from its contents and is \"trust project logo\". claimTrue: yes. The link holds only the image, and the alt names the picture (a logo of the Trust Project), not the About Us page. elementFails: yes. I opened the destination: it is \"About Us - Birmingham Live\", with sections on the editor, ethics, corrections, people, business and diversity. The Trust Project is mentioned there only in passing, twice. Under the R2 test, read as link text, \"trust project logo\" makes users expect the Trust Project itself (its own site or a page about it), not the publisher's About Us page. H30 requires the alternative of an image that is a link's only content to describe the link's function, and \"logo\" describes the image. I weighed the counter-reading (the logo shows the text \"The Trust Project\" and the page carries the publisher's Trust Project disclosures), but the alternative still does not identify the destination. A name like \"The Trust Project: about our standards\" would keep the visible text and give the destination. The claim names this failure. captureDiffers: no. The live HTML has the identical link, href and alt, and the screenshot shows the badge rendered as captured."
+    }
+  ]
+}

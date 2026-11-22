@@ -1,0 +1,371 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.bristol.gov.uk/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "6ab0cfdcf574",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main-content > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div > div:nth-of-type(2) > section > div > div > div:nth-of-type(1) > div > a > div > div > div > img",
+   "message": "The text alternative \"Cityscape view of houses and trees across a wide area.\" is all its link holds, and does not say where the link leads.",
+   "evidence": "Cityscape view of houses and trees across a wide area.",
+   "subject": "Cityscape view of houses and trees across a wide area.",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "#main-content > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div > div:nth-of-type(2) > section > div > div > div:nth-of-type(1) > div > a > div > div > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Cityscape view of houses and trees across a wide area.",
+    "to": "Single person discount review",
+    "before": "<img class=\"media-cover\" src=\"/images/General/Promos/Single%20person%20review%201.png\" alt=\"Cityscape view of houses and trees across a wide area.\">",
+    "after": "<img class=\"media-cover\" src=\"/images/General/Promos/Single%20person%20review%201.png\" alt=\"Single person discount review\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999880884767709
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "6319ff77a05f",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main-content > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div > div:nth-of-type(2) > section > div > div > div:nth-of-type(3) > div > a > div > div > div > img",
+   "message": "The text alternative \"Postal letter on a desk with a mug nearby.\" is all its link holds, and does not say where the link leads.",
+   "evidence": "Postal letter on a desk with a mug nearby.",
+   "subject": "Postal letter on a desk with a mug nearby.",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "#main-content > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div > div:nth-of-type(2) > section > div > div > div:nth-of-type(3) > div > a > div > div > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Postal letter on a desk with a mug nearby.",
+    "to": "The Annual Canvass",
+    "before": "<img class=\"media-cover\" src=\"/images/General/Promos/Sm_Annual_canvas_envelope_and_mug.jpg\" alt=\"Postal letter on a desk with a mug nearby.\">",
+    "after": "<img class=\"media-cover\" src=\"/images/General/Promos/Sm_Annual_canvas_envelope_and_mug.jpg\" alt=\"The Annual Canvass\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999923597761858
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {},
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#residents-homepage > header > div > div > div > a > h2",
+   "message": "The heading \"bristol.gov.uk\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Your accounts\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#main-content > div:nth-of-type(1) > div > div:nth-of-type(4) > div > div:nth-of-type(2) > div > div > div > div:nth-of-type(1) > img",
+   "reason": "evidence is not the current text alternative",
+   "output": {
+    "verdict": "pass",
+    "evidence": "Graphic promoting Bristol’s Budget 2027/28 consultation, with the text “Bristol’s Budget 2027/28” alongside a collage of Bristol city scenes and community imagery on a dark blue background.",
+    "problem": "none",
+    "imageShows": "A promotional graphic for Bristol's Budget 2027/28 featuring city scenes and community photos.",
+    "suggestedAlt": "Graphic promoting Bristol’s Budget 2027/28 consultation with city and community imagery.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#main-content > div:nth-of-type(1) > div > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > h3 > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "A museum exhibition about the secret life of colour.",
+    "leadsTo": "A collection of items or pages tagged with 'colour' on the Bristol Museums website.",
+    "verdict": "fail",
+    "evidence": "Museum exhibition",
+    "problem": "mismatch",
+    "suggestedText": "Exhibitions about colour",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#hero-image > div > div > div:nth-of-type(1) > div > h1",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Bristol City Council homepage",
+    "verdict": "fail",
+    "evidence": "B…",
+    "problem": "generic",
+    "suggestedText": "Bristol City Council homepage",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#residents-homepage > footer > div > div > div:nth-of-type(2) > div > h2",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Social links",
+    "verdict": "fail",
+    "evidence": "S…",
+    "problem": "generic",
+    "suggestedText": "Social media links",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 13,
+   "judged": 13,
+   "failed": 2,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 2
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 94,
+   "judged": 50,
+   "failed": 0,
+   "passed": 49,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 44
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 39,
+   "judged": 39,
+   "failed": 0,
+   "passed": 36,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 image(s) were left without a capture, so no judgment looked at them: 1 covered where it sits by other content, such as a popup or a cookie banner. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 44 of 94 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 108,
+  "cachedCalls": 0,
+  "inputTokens": 90816,
+  "outputTokens": 8374,
+  "latencyMs": 279052
+ },
+ "timings": {
+  "totalMs": 143755,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 17
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 23917,
+    "prepareMs": 0,
+    "candidates": 13,
+    "judged": 13,
+    "calls": 19,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 75296,
+    "prepareMs": 0,
+    "candidates": 94,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 44301,
+    "prepareMs": 0,
+    "candidates": 39,
+    "judged": 39,
+    "calls": 39,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 183,
+    "prepareMs": 180,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 6,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 32
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 13,
+   "notCaptured": 1,
+   "reasons": {
+    "covered": 1
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 94,
+    "capped": 44
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

@@ -1,0 +1,300 @@
+{
+  "page": "https://museucatavento.org.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "paae70aa55fe",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Main-menu link 'como chegar' to /como-chegar, a page whose heading is 'Como chegar'. The link text alone states its purpose (how to get to the museum), so it meets 2.4.4. The live page has the same link, and nothing in the capture changes that (captureDiffers no)."
+    },
+    {
+      "fingerprint": "d8df00781102",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Main-menu link 'novidades'. Snapshot and live stylesheet agree: '.menu li a' is #999999, bold, font-size clamp(11px,0.9vw,13px) = 11.5px at 1280 px, over the page's white background: 2.85:1, under 4.5:1, and 11.5px bold is not large text. The claim's colours, size, ratio and the bgImage reason match the snapshot's pixelContrast record (claimTrue yes). Rampa hid the load popup overlay to measure; the live HTML and CSS are the same, so the capture matches what users see once the popup is closed (captureDiffers no). The page users receive also has a high-contrast toggle: the button 'Ativar alto contraste' (id contraste, aria-pressed) in the blue top bar, kept across pages in localStorage, whose body.darkroom styles put links in #ffff00 and other text in #fff on #000. G174 (a control that switches to a presentation with sufficient contrast) is a sufficient technique for 1.4.3 in Understanding 1.4.3, and the toggle seems to meet its test (visible near the top, white icon on dark blue, the alternate view meets 4.5:1 for this text). Auditors reasonably disagree on whether that makes the default text pass, so the label is uncertain even though the default presentation fails."
+    },
+    {
+      "fingerprint": "3e41c12bcef2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Main-menu link 'acervo'. Snapshot and live stylesheet agree: '.menu li a' is #999999, bold, font-size clamp(11px,0.9vw,13px) = 11.5px at 1280 px, over the page's #f6f6f6 background: 2.64:1, under 4.5:1, and 11.5px bold is not large text. The claim's colours, size, ratio and the bgImage reason match the snapshot's pixelContrast record (claimTrue yes). Rampa hid the load popup overlay to measure; the live HTML and CSS are the same, so the capture matches what users see once the popup is closed (captureDiffers no). The page users receive also has a high-contrast toggle: the button 'Ativar alto contraste' (id contraste, aria-pressed) in the blue top bar, kept across pages in localStorage, whose body.darkroom styles put links in #ffff00 and other text in #fff on #000. G174 (a control that switches to a presentation with sufficient contrast) is a sufficient technique for 1.4.3 in Understanding 1.4.3, and the toggle seems to meet its test (visible near the top, white icon on dark blue, the alternate view meets 4.5:1 for this text). Auditors reasonably disagree on whether that makes the default text pass, so the label is uncertain even though the default presentation fails."
+    },
+    {
+      "fingerprint": "6161714d7198",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "First of three 'CLIQUE AQUI' links in the hero text block, to /agendamento-geral ('Agendamento Geral'). The block is one div whose lines are split by <br>; the snapshot's readingText reads '... AGENDAMENTO DE GRUPOS CLIQUE AQUI ...', so the text 'AGENDAMENTO DE GRUPOS' comes right before this link in the same sentence and block, with no punctuation between. That is programmatically determined link context (G53), and it tells the purpose (book a group visit). The first half of the claim holds (three same-text links, three destinations), but 'nothing around this one tells it apart' does not (claimTrue no). The element passes 2.4.4; only 2.4.9 (AAA) would fail. Live HTML is identical (captureDiffers no). False positive: the ancestor text in the evidence lists the three labels and then the three link texts at the end, which hides which label goes with which link, so the checker lacked the ordering it needed (context_missing)."
+    },
+    {
+      "fingerprint": "57881a6aeb33",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The '8 milhões de visitantes' line above the hero title. Live CSS: span.laranja-text #CD5F3F, .sz-18 18px, .worksansb weight 900, over the #ffffff/#f6f6f6 background: 3.66 to 3.96:1. 18px bold is 13.5pt, under the 14pt bold of large text, so 4.5:1 applies and the default presentation fails. The claim matches the snapshot's pixelContrast record (claimTrue yes); the live page is the same (captureDiffers no). The page users receive also has a high-contrast toggle: the button 'Ativar alto contraste' (id contraste, aria-pressed) in the blue top bar, kept across pages in localStorage, whose body.darkroom styles put links in #ffff00 and other text in #fff on #000. G174 (a control that switches to a presentation with sufficient contrast) is a sufficient technique for 1.4.3 in Understanding 1.4.3, and the toggle seems to meet its test (visible near the top, white icon on dark blue, the alternate view meets 4.5:1 for this text). Auditors reasonably disagree on whether that makes the default text pass, so the label is uncertain even though the default presentation fails."
+    },
+    {
+      "fingerprint": "p56c06deb919",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer link 'Ouvidoria' to fala.sp.gov.br, the state ombudsman service. The text alone names the purpose, so it meets 2.4.4. In the capture the government footer's stylesheet did not load (the server refuses headless browsers), but that changes only styling, not the link's text or name, so it does not matter here (captureDiffers no)."
+    },
+    {
+      "fingerprint": "se489b0f2cb0",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Footer link 'SIC' to sic.sp.gov.br, in the São Paulo government footer next to 'Ouvidoria' and 'Transparência' (separate divs, no heading, no title), so it has no programmatic context. 'SIC' is the standard name (Serviço de Informações ao Cidadão) of the access-to-information service that Brazilian public sites must link to, and the link text names that destination; I lean pass, which makes 'does not tell where the link goes' not quite true (claimTrue no), and treat an unexpanded abbreviation as a 3.1.4 (AAA) matter. But an acronym with no expansion or context is a point where auditors reasonably disagree on 2.4.4, so the label is uncertain. Live link is the same; the missing footer stylesheet in the capture does not touch the text (captureDiffers no)."
+    },
+    {
+      "fingerprint": "0cf5bed9aba6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Second of three 'CLIQUE AQUI' links in the hero text block, to megapass.com.br/catavento/eventos (ticket sales). The block is one div whose lines are split by <br>; the snapshot's readingText reads '... GARANTA SEU INGRESSO INDIVIDUAL CLIQUE AQUI ...', so the text 'GARANTA SEU INGRESSO INDIVIDUAL' comes right before this link in the same sentence and block, with no punctuation between. That is programmatically determined link context (G53), and it tells the purpose (buy an individual ticket). The first half of the claim holds (three same-text links, three destinations), but 'nothing around this one tells it apart' does not (claimTrue no). The element passes 2.4.4; only 2.4.9 (AAA) would fail. Live HTML is identical (captureDiffers no). False positive: the ancestor text in the evidence lists the three labels and then the three link texts at the end, which hides which label goes with which link, so the checker lacked the ordering it needed (context_missing)."
+    },
+    {
+      "fingerprint": "869d250c624c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Main-menu link 'mapa interno'. Snapshot and live stylesheet agree: '.menu li a' is #999999, bold, font-size clamp(11px,0.9vw,13px) = 11.5px at 1280 px, over the page's white background: 2.85:1, under 4.5:1, and 11.5px bold is not large text. The claim's colours, size, ratio and the bgImage reason match the snapshot's pixelContrast record (claimTrue yes). Rampa hid the load popup overlay to measure; the live HTML and CSS are the same, so the capture matches what users see once the popup is closed (captureDiffers no). The page users receive also has a high-contrast toggle: the button 'Ativar alto contraste' (id contraste, aria-pressed) in the blue top bar, kept across pages in localStorage, whose body.darkroom styles put links in #ffff00 and other text in #fff on #000. G174 (a control that switches to a presentation with sufficient contrast) is a sufficient technique for 1.4.3 in Understanding 1.4.3, and the toggle seems to meet its test (visible near the top, white icon on dark blue, the alternate view meets 4.5:1 for this text). Auditors reasonably disagree on whether that makes the default text pass, so the label is uncertain even though the default presentation fails."
+    },
+    {
+      "fingerprint": "f1780a7330e5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Main-menu link 'política de privacidade'. Snapshot and live stylesheet agree: '.menu li a' is #999999, bold, font-size clamp(11px,0.9vw,13px) = 11.5px at 1280 px, over the page's white background: 2.85:1, under 4.5:1, and 11.5px bold is not large text. The claim's colours, size, ratio and the bgImage reason match the snapshot's pixelContrast record (claimTrue yes). Rampa hid the load popup overlay to measure; the live HTML and CSS are the same, so the capture matches what users see once the popup is closed (captureDiffers no). The page users receive also has a high-contrast toggle: the button 'Ativar alto contraste' (id contraste, aria-pressed) in the blue top bar, kept across pages in localStorage, whose body.darkroom styles put links in #ffff00 and other text in #fff on #000. G174 (a control that switches to a presentation with sufficient contrast) is a sufficient technique for 1.4.3 in Understanding 1.4.3, and the toggle seems to meet its test (visible near the top, white icon on dark blue, the alternate view meets 4.5:1 for this text). Auditors reasonably disagree on whether that makes the default text pass, so the label is uncertain even though the default presentation fails."
+    },
+    {
+      "fingerprint": "29d1dbd974a9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "'SP + Digital' link in the São Paulo government top bar. The capture is unstyled: the snapshot marks the bar's images broken and the text uses the default link colour (#007bff, 12px), so the claim is true of the capture. But saopaulo.sp.gov.br serves the bar's stylesheet (topo-padrao-govsp.min.css) with 200 to a normal browser user agent and answered 500 to a HeadlessChrome one in my check: the capture is the version made for automated browsers. With the stylesheet, '.govsp-link.digital' is #000, 14px, weight 500, on #govsp-topbarGlobal.blu-e #fff: 21:1. The element passes on the page users receive; false positive from the capture (collector_error)."
+    },
+    {
+      "fingerprint": "08edb620710e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "'CLIQUE AQUI' link in the hero text block (to /agendamento-geral). Live CSS: Bootstrap 'a {color:#007bff}', 16px regular, over the #f6f6f6/#ffffff page background: 3.68 to 3.98:1, under 4.5:1 and not large text. The claim matches the snapshot's pixelContrast record (claimTrue yes) and the live page has the same HTML and CSS (captureDiffers no). The page users receive also has a high-contrast toggle: the button 'Ativar alto contraste' (id contraste, aria-pressed) in the blue top bar, kept across pages in localStorage, whose body.darkroom styles put links in #ffff00 and other text in #fff on #000. G174 (a control that switches to a presentation with sufficient contrast) is a sufficient technique for 1.4.3 in Understanding 1.4.3, and the toggle seems to meet its test (visible near the top, white icon on dark blue, the alternate view meets 4.5:1 for this text). Auditors reasonably disagree on whether that makes the default text pass, so the label is uncertain even though the default presentation fails."
+    },
+    {
+      "fingerprint": "ea8baa45dbeb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The close button of the popup that covers the home page on load: <img onclick=\"fecharpop()\" style=\"cursor:pointer\"> with no role, no alt, no tabindex. It works as a button but is exposed as an image with no name, so assistive technology does not announce a control (F59 pattern), and it cannot be reached by keyboard either (2.1.1). The claim states exactly this (claimTrue yes). The live page serves the same popup and markup (captureDiffers no). Fails 4.1.2; true positive."
+    },
+    {
+      "fingerprint": "ea6c2f2e91d1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Main-menu link 'loja'. Snapshot and live stylesheet agree: '.menu li a' is #999999, bold, font-size clamp(11px,0.9vw,13px) = 11.5px at 1280 px, over the page's white background: 2.85:1, under 4.5:1, and 11.5px bold is not large text. The claim's colours, size, ratio and the bgImage reason match the snapshot's pixelContrast record (claimTrue yes). Rampa hid the load popup overlay to measure; the live HTML and CSS are the same, so the capture matches what users see once the popup is closed (captureDiffers no). The page users receive also has a high-contrast toggle: the button 'Ativar alto contraste' (id contraste, aria-pressed) in the blue top bar, kept across pages in localStorage, whose body.darkroom styles put links in #ffff00 and other text in #fff on #000. G174 (a control that switches to a presentation with sufficient contrast) is a sufficient technique for 1.4.3 in Understanding 1.4.3, and the toggle seems to meet its test (visible near the top, white icon on dark blue, the alternate view meets 4.5:1 for this text). Auditors reasonably disagree on whether that makes the default text pass, so the label is uncertain even though the default presentation fails."
+    },
+    {
+      "fingerprint": "f100b91f0c29",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Main-menu link 'como chegar'. Snapshot and live stylesheet agree: '.menu li a' is #999999, bold, font-size clamp(11px,0.9vw,13px) = 11.5px at 1280 px, over the page's white background: 2.85:1, under 4.5:1, and 11.5px bold is not large text. The claim's colours, size, ratio and the bgImage reason match the snapshot's pixelContrast record (claimTrue yes). Rampa hid the load popup overlay to measure; the live HTML and CSS are the same, so the capture matches what users see once the popup is closed (captureDiffers no). The page users receive also has a high-contrast toggle: the button 'Ativar alto contraste' (id contraste, aria-pressed) in the blue top bar, kept across pages in localStorage, whose body.darkroom styles put links in #ffff00 and other text in #fff on #000. G174 (a control that switches to a presentation with sufficient contrast) is a sufficient technique for 1.4.3 in Understanding 1.4.3, and the toggle seems to meet its test (visible near the top, white icon on dark blue, the alternate view meets 4.5:1 for this text). Auditors reasonably disagree on whether that makes the default text pass, so the label is uncertain even though the default presentation fails."
+    },
+    {
+      "fingerprint": "p83884f651bb",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "16px magnifier icon (lupa.png) next to the main menu, alt='Buscar'; clicking it shows the search form. The crop shows a magnifying glass, and 'Buscar' (search) gives its purpose, so the text alternative meets 1.1.1. Being a clickable img with no role or keyboard access is a 4.1.2 / 2.1.1 problem, not 1.1.1. Live markup is the same (captureDiffers no)."
+    },
+    {
+      "fingerprint": "0ac515f76816",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter field <input type=text name=cmp1 placeholder='digite o seu e-mail para se cadastrar...' class='type_EMAIL ...'> with no autocomplete attribute. It collects the user's own email address, a purpose in the WCAG input-purpose list, and nothing identifies it programmatically, so it fails 1.3.5. The claim says this (claimTrue yes); the live page has the same markup (captureDiffers no). True positive."
+    },
+    {
+      "fingerprint": "s5bf92bdcf58",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'clique aqui!' link in the cookie banner, to the privacy policy. It sits in the paragraph 'Este site utiliza um conjunto de cookies ... você concorda com a nossa política de privacidade. Para maiores informações: clique aqui!' under the h3 'Uso de cookies'. That same paragraph and preceding heading tell the purpose (more information on the cookie use and privacy policy), so 'nothing around it does' is false (claimTrue no) and the link meets 2.4.4. The live glowCookies config gives the same text and link (captureDiffers no). The paragraph was in the checker's context: model_error."
+    },
+    {
+      "fingerprint": "c4e74d77c1af",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Main-menu link 'visitação'. Snapshot and live stylesheet agree: '.menu li a' is #999999, bold, font-size clamp(11px,0.9vw,13px) = 11.5px at 1280 px, over the page's white and #f6f6f6 background: 2.64 to 2.85:1, under 4.5:1, and 11.5px bold is not large text. The claim's colours, size, ratio and the bgImage reason match the snapshot's pixelContrast record (claimTrue yes). Rampa hid the load popup overlay to measure; the live HTML and CSS are the same, so the capture matches what users see once the popup is closed (captureDiffers no). The page users receive also has a high-contrast toggle: the button 'Ativar alto contraste' (id contraste, aria-pressed) in the blue top bar, kept across pages in localStorage, whose body.darkroom styles put links in #ffff00 and other text in #fff on #000. G174 (a control that switches to a presentation with sufficient contrast) is a sufficient technique for 1.4.3 in Understanding 1.4.3, and the toggle seems to meet its test (visible near the top, white icon on dark blue, the alternate view meets 4.5:1 for this text). Auditors reasonably disagree on whether that makes the default text pass, so the label is uncertain even though the default presentation fails."
+    },
+    {
+      "fingerprint": "1c7a488a7595",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "'CLIQUE AQUI' link in the hero text block (to megapass.com.br/catavento/atracoes). Live CSS: Bootstrap 'a {color:#007bff}', 16px regular, over the #f6f6f6/#ffffff page background: 3.68 to 3.98:1, under 4.5:1 and not large text. The claim matches the snapshot's pixelContrast record (claimTrue yes) and the live page has the same HTML and CSS (captureDiffers no). The page users receive also has a high-contrast toggle: the button 'Ativar alto contraste' (id contraste, aria-pressed) in the blue top bar, kept across pages in localStorage, whose body.darkroom styles put links in #ffff00 and other text in #fff on #000. G174 (a control that switches to a presentation with sufficient contrast) is a sufficient technique for 1.4.3 in Understanding 1.4.3, and the toggle seems to meet its test (visible near the top, white icon on dark blue, the alternate view meets 4.5:1 for this text). Auditors reasonably disagree on whether that makes the default text pass, so the label is uncertain even though the default presentation fails."
+    },
+    {
+      "fingerprint": "a846cb17f2d7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Second 'SP + Digital' link (role=button), inside the government bar's mobile kebab dropdown. The claim matches the unstyled capture (#007bff, 12px, on #f6f6f6). The capture lacked the bar's stylesheet, which saopaulo.sp.gov.br refuses to headless browsers (500) but serves to normal ones; with it, '.govsp-kebab' is display:none at widths of 769px and up, so at 1280px this text is not shown at all, and in the mobile menu it is #000 on #fff. Not a failure on the page users receive; false positive from the capture (collector_error)."
+    },
+    {
+      "fingerprint": "7398ef20b69b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Main-menu link 'apoie'. Snapshot and live stylesheet agree: '.menu li a' is #999999, bold, font-size clamp(11px,0.9vw,13px) = 11.5px at 1280 px, over the page's white background: 2.85:1, under 4.5:1, and 11.5px bold is not large text. The claim's colours, size, ratio and the bgImage reason match the snapshot's pixelContrast record (claimTrue yes). Rampa hid the load popup overlay to measure; the live HTML and CSS are the same, so the capture matches what users see once the popup is closed (captureDiffers no). The page users receive also has a high-contrast toggle: the button 'Ativar alto contraste' (id contraste, aria-pressed) in the blue top bar, kept across pages in localStorage, whose body.darkroom styles put links in #ffff00 and other text in #fff on #000. G174 (a control that switches to a presentation with sufficient contrast) is a sufficient technique for 1.4.3 in Understanding 1.4.3, and the toggle seems to meet its test (visible near the top, white icon on dark blue, the alternate view meets 4.5:1 for this text). Auditors reasonably disagree on whether that makes the default text pass, so the label is uncertain even though the default presentation fails."
+    },
+    {
+      "fingerprint": "c46d698966a6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "'CLIQUE AQUI' link in the hero text block (to megapass.com.br/catavento/eventos). Live CSS: Bootstrap 'a {color:#007bff}', 16px regular, over the #f6f6f6/#ffffff page background: 3.68 to 3.98:1, under 4.5:1 and not large text. The claim matches the snapshot's pixelContrast record (claimTrue yes) and the live page has the same HTML and CSS (captureDiffers no). The page users receive also has a high-contrast toggle: the button 'Ativar alto contraste' (id contraste, aria-pressed) in the blue top bar, kept across pages in localStorage, whose body.darkroom styles put links in #ffff00 and other text in #fff on #000. G174 (a control that switches to a presentation with sufficient contrast) is a sufficient technique for 1.4.3 in Understanding 1.4.3, and the toggle seems to meet its test (visible near the top, white icon on dark blue, the alternate view meets 4.5:1 for this text). Auditors reasonably disagree on whether that makes the default text pass, so the label is uncertain even though the default presentation fails."
+    },
+    {
+      "fingerprint": "70e66ea3f16a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Third of three 'CLIQUE AQUI' links in the hero text block, to megapass.com.br/catavento/atracoes (attraction passes). The block is one div whose lines are split by <br>; the snapshot's readingText reads '... DISPONIBILIDADE DE SENHAS: somente aos finais de semana, feriados e período de férias escolares CLIQUE AQUI ...', so the text 'DISPONIBILIDADE DE SENHAS: somente aos finais de semana, feriados e período de férias escolares' comes right before this link in the same sentence and block, with no punctuation between. That is programmatically determined link context (G53), and it tells the purpose (check or get the weekend and holiday attraction passes). The first half of the claim holds (three same-text links, three destinations), but 'nothing around this one tells it apart' does not (claimTrue no). The element passes 2.4.4; only 2.4.9 (AAA) would fail. Live HTML is identical (captureDiffers no). False positive: the ancestor text in the evidence lists the three labels and then the three link texts at the end, which hides which label goes with which link, so the checker lacked the ordering it needed (context_missing)."
+    },
+    {
+      "fingerprint": "sc4e074073e5",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Footer button-styled link 'ESTACIONAMENTO' to /horarios-e-precos. The destination's title is 'Horários e Preços', but the page has an h2 section 'Estacionamento amplo' with parking prices and payment methods, and the footer's own 'Estacionamento no local' link goes to the same page. The link leads to the parking information its text promises, so it does not 'not match' its destination (claimTrue no) and meets 2.4.4. Live link is the same (captureDiffers no). The checker saw only the destination's title and h1, not its parking section: context_missing."
+    },
+    {
+      "fingerprint": "ae41d1039bcb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Main-menu link 'estúdio de tv'. Snapshot and live stylesheet agree: '.menu li a' is #999999, bold, font-size clamp(11px,0.9vw,13px) = 11.5px at 1280 px, over the page's white background: 2.85:1, under 4.5:1, and 11.5px bold is not large text. The claim's colours, size, ratio and the bgImage reason match the snapshot's pixelContrast record (claimTrue yes). Rampa hid the load popup overlay to measure; the live HTML and CSS are the same, so the capture matches what users see once the popup is closed (captureDiffers no). The page users receive also has a high-contrast toggle: the button 'Ativar alto contraste' (id contraste, aria-pressed) in the blue top bar, kept across pages in localStorage, whose body.darkroom styles put links in #ffff00 and other text in #fff on #000. G174 (a control that switches to a presentation with sufficient contrast) is a sufficient technique for 1.4.3 in Understanding 1.4.3, and the toggle seems to meet its test (visible near the top, white icon on dark blue, the alternate view meets 4.5:1 for this text). Auditors reasonably disagree on whether that makes the default text pass, so the label is uncertain even though the default presentation fails."
+    },
+    {
+      "fingerprint": "e06c66a8f315",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Main-menu link 'exposições'. Snapshot and live stylesheet agree: '.menu li a' is #999999, bold, font-size clamp(11px,0.9vw,13px) = 11.5px at 1280 px, over the page's #f6f6f6 background: 2.64:1, under 4.5:1, and 11.5px bold is not large text. The claim's colours, size, ratio and the bgImage reason match the snapshot's pixelContrast record (claimTrue yes). Rampa hid the load popup overlay to measure; the live HTML and CSS are the same, so the capture matches what users see once the popup is closed (captureDiffers no). The page users receive also has a high-contrast toggle: the button 'Ativar alto contraste' (id contraste, aria-pressed) in the blue top bar, kept across pages in localStorage, whose body.darkroom styles put links in #ffff00 and other text in #fff on #000. G174 (a control that switches to a presentation with sufficient contrast) is a sufficient technique for 1.4.3 in Understanding 1.4.3, and the toggle seems to meet its test (visible near the top, white icon on dark blue, the alternate view meets 4.5:1 for this text). Auditors reasonably disagree on whether that makes the default text pass, so the label is uncertain even though the default presentation fails."
+    }
+  ]
+}

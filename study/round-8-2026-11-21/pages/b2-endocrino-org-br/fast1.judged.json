@@ -1,0 +1,433 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.endocrino.org.br/noticias/saude-da-populacao-negra-estudos-brasileiros-revelam-desigualdades-no-cuidado/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "24c7ba4e7939",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#footer > div:nth-of-type(1) > div > div:nth-of-type(1) > div > figure > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Logo naming the organization: Sociedade Brasileira de Endocrinologia e Metabologia\".",
+   "evidence": "Logo naming the organization: Sociedade Brasileira de Endocrinologia e Metabologia",
+   "subject": "hidden sbem-logotipo-white.webp",
+   "patch": {
+    "ref": "#footer > div:nth-of-type(1) > div > div:nth-of-type(1) > div > figure > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Logotipo da Sociedade Brasileira de Endocrinologia e Metabologia",
+    "before": "<img decoding=\"async\" width=\"226\" height=\"150\" src=\"https://d1xe7tfg0uwul9.cloudfront.net/endocrino.org.br/wp-content/uploads/2026/10/05082838/sbem-logotipo-white.webp\" alt=\"\" class=\"wp-image-20140\">",
+    "after": "<img decoding=\"async\" width=\"226\" height=\"150\" src=\"https://d1xe7tfg0uwul9.cloudfront.net/endocrino.org.br/wp-content/uploads/2026/10/05082838/sbem-logotipo-white.webp\" alt=\"Logotipo da Sociedade Brasileira de Endocrinologia e Metabologia\" class=\"wp-image-20140\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "bef8ff8eb791",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#news > div > article > div > p:nth-of-type(9)",
+   "message": "This passage has no lang attribute, so it is read as Brazilian Portuguese (pt-BR), but it is in English (en).",
+   "evidence": "1. Mapping the expressions and impacts of racism on health in Brazil: a scoping review. The Lancet",
+   "subject": "unmarked|pt-BR|1. Mapping the expressions and impacts of racism on health in Brazil: a scoping review. The Lancet",
+   "techniques": [
+    "H58"
+   ],
+   "patch": {
+    "ref": "#news > div > article > div > p:nth-of-type(9)",
+    "kind": "set-text",
+    "from": "1. Mapping the expressions and impacts of racism on health in Brazil: a scoping review. The Lancet",
+    "to": "<span lang=\"en\">1. Mapping the expressions and impacts of racism on health in Brazil: a scoping review. The Lancet</span>",
+    "before": "1. Mapping the expressions and impacts of racism on health in Brazil: a scoping review. The Lancet",
+    "after": "<span lang=\"en\">1. Mapping the expressions and impacts of racism on health in Brazil: a scoping review. The Lancet</span>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "ed60abcf4433",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#news > div > article > div > p:nth-of-type(10)",
+   "message": "This passage has no lang attribute, so it is read as Brazilian Portuguese (pt-BR), but it is in English (en).",
+   "evidence": "2. Garcia GAF, Giatti L, Camelo LV, et al. Intersection of Gender-Race/Color and Glycemic Control in Diabetes in Nine Years of Follow-up of the ELSA-Brazil Cohort. Journal of Racial and Ethnic Health Disparities . 2025. DOI: 10.1007/s40615-025-02760-8.",
+   "subject": "unmarked|pt-BR|2. Garcia GAF, Giatti L, Camelo LV, et al. Intersection of Gender-Race/Color and Glycemic Control in Diabetes in Nine Years of Follow-up of the ELSA-Brazil Cohort. Journal of Racial and Ethnic Health Disparities . 2025. DOI: 10.1007/s40615-025-02760-8.",
+   "techniques": [
+    "H58"
+   ],
+   "patch": {
+    "ref": "#news > div > article > div > p:nth-of-type(10)",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "from": "",
+    "to": "en",
+    "before": "<p class=\"wp-block-paragraph\">",
+    "after": "<p class=\"wp-block-paragraph\" lang=\"en\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "9cf83b0af397",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#news > div > article > div > p:nth-of-type(11)",
+   "message": "This passage has no lang attribute, so it is read as Brazilian Portuguese (pt-BR), but it is in English (en).",
+   "evidence": "An intersectional approach. Social Science & Medicine . 2025. DOI: 10.1016/j.socscimed.2025.117764.",
+   "subject": "unmarked|pt-BR|An intersectional approach. Social Science & Medicine . 2025. DOI: 10.1016/j.socscimed.2025.117764.",
+   "techniques": [
+    "H58"
+   ],
+   "patch": {
+    "ref": "#news > div > article > div > p:nth-of-type(11)",
+    "kind": "set-text",
+    "from": "An intersectional approach. Social Science & Medicine . 2025. DOI: 10.1016/j.socscimed.2025.117764.",
+    "to": "<span lang=\"en\">An intersectional approach. Social Science & Medicine . 2025. DOI: 10.1016/j.socscimed.2025.117764.</span>",
+    "before": "An intersectional approach. Social Science & Medicine . 2025. DOI: 10.1016/j.socscimed.2025.117764.",
+    "after": "<span lang=\"en\">An intersectional approach. Social Science & Medicine . 2025. DOI: 10.1016/j.socscimed.2025.117764.</span>"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "51c081a180c9",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#news > div > article > div > p:nth-of-type(11)",
+   "message": "This passage has no lang attribute, so it is read as Brazilian Portuguese (pt-BR), but it is in English (en).",
+   "evidence": "3. Racial and gender inequities in the control of",
+   "subject": "unmarked|pt-BR|3. Racial and gender inequities in the control of",
+   "techniques": [
+    "H58"
+   ],
+   "patch": {
+    "ref": "#news > div > article > div > p:nth-of-type(11)",
+    "kind": "set-text",
+    "from": "3. Racial and gender inequities in the control of",
+    "to": "<span lang=\"en\">3. Racial and gender inequities in the control of</span>",
+    "before": "3. Racial and gender inequities in the control of",
+    "after": "<span lang=\"en\">3. Racial and gender inequities in the control of</span>"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "fe125955b192",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#news > div > article > div > p:nth-of-type(12)",
+   "message": "This passage has no lang attribute, so it is read as Brazilian Portuguese (pt-BR), but it is in English (en).",
+   "evidence": "RD, et al. Factors associated with the age of natural menopause in the ELSA-Brasil cohort. Climacteric",
+   "subject": "unmarked|pt-BR|RD, et al. Factors associated with the age of natural menopause in the ELSA-Brasil cohort. Climacteric",
+   "techniques": [
+    "H58"
+   ],
+   "patch": {
+    "ref": "#news > div > article > div > p:nth-of-type(12)",
+    "kind": "set-text",
+    "from": "RD, et al. Factors associated with the age of natural menopause in the ELSA-Brasil cohort. Climacteric",
+    "to": "<span lang=\"en\">RD, et al. Factors associated with the age of natural menopause in the ELSA-Brasil cohort. Climacteric</span>",
+    "before": "RD, et al. Factors associated with the age of natural menopause in the ELSA-Brasil cohort. Climacteric",
+    "after": "<span lang=\"en\">RD, et al. Factors associated with the age of natural menopause in the ELSA-Brasil cohort. Climacteric</span>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 10
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-item-3381 > a",
+   "message": "The link text \"Informes\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Notícias e Informações\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > header > aside > div > div > picture > a > img",
+   "reason": "the alternative is a logo that leads to the site's home page",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Logo SBEM",
+    "problem": "missing_information",
+    "imageShows": "O logotipo da Sociedade Brasileira de Endocrinologia e Metabologia (SBEM).",
+    "suggestedAlt": "Sociedade Brasileira de Endocrinologia e Metabologia",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 5,
+   "failed": 1,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 15,
+   "judged": 10,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 5,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 10,
+   "judged": 10,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "batched": {
+    "candidates": 10,
+    "calls": 2
+   }
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 6,
+   "judged": 6,
+   "failed": 5,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "batched": {
+    "candidates": 6,
+    "calls": 1
+   }
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 5 of 15 for 2.4.4. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (10 in 2 calls), 3.1.2 (6 in 1 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 19,
+  "cachedCalls": 0,
+  "inputTokens": 18212,
+  "outputTokens": 3211,
+  "latencyMs": 68998
+ },
+ "timings": {
+  "totalMs": 43206,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 15
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 8580,
+    "prepareMs": 0,
+    "candidates": 5,
+    "judged": 5,
+    "calls": 5,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1272,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 16906,
+    "prepareMs": 0,
+    "candidates": 15,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 9321,
+    "prepareMs": 0,
+    "candidates": 10,
+    "judged": 10,
+    "calls": 2,
+    "cachedCalls": 0,
+    "batches": 2
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 209,
+    "prepareMs": 206,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 6886,
+    "prepareMs": 0,
+    "candidates": 6,
+    "judged": 6,
+    "calls": 1,
+    "cachedCalls": 0,
+    "batches": 1
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 17
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 5,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 15,
+    "capped": 5
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

@@ -1,0 +1,104 @@
+{
+  "page": "https://museudaimigracao.org.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p8cf390dd687",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer link 'Sobre o MI' (rendered lowercase by CSS) to /sobre-o-mi/o-museu, whose page is titled 'Sobre o Museu'. The link text alone says 'about the MI', and the heading just before it in document order is the footer h6 'Museu da Imigração do Estado de São Paulo', which spells out MI; the site itself is the Museu da Imigração. The purpose (about the museum) can be determined, so 2.4.4 is met. The live HTML has the same link, text and href."
+    },
+    {
+      "fingerprint": "s37dbb689ad1",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Image mapa-museu-home.jpg, alt 'Foto do mapa', next to 'Horário de Funcionamento' and above the address heading 'Rua Visconde de Parnaíba, 1.316, Mooca – São Paulo/SP'. The crop shows a street map with Estação Brás, Brás and Bresser-Mooca stations and a red marker at the museum. As worded, the claim is false: the image does show a map, and the alt only calls it a photo of one. The alt is generic, though. It doesn't say what the map shows, and the nearest-station information is not in the text around it, so I lean towards a failure. The rubric's good-faith reading would let the claim stand for that. Competent auditors would reasonably disagree, however: the address, the map's main information, is in the h2 right after it, and many accept a short identifying alt for a location map in that case. The live page has the same img and alt (shown at xl widths, as in the 1280 px capture)."
+    },
+    {
+      "fingerprint": "7efb9ee89f88",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Footer image, the only content of a link to https://www.cultura.sp.gov.br/, which serves 'Secretaria da Cultura | Governo do Estado de SP' (/sec_cultura). The crop shows the São Paulo 'Governo do Estado' mark with 'Secretaria da Cultura, Economia e Indústria Criativas'. The alt 'Logo Governo do estado' names neither São Paulo nor the Secretaria the link opens, so the claim holds, and I lean towards a 1.1.1 failure (H30: a linked image's alt should give the link's purpose). Reasons it may pass all the same: the destination is a state-government site branded 'Governo do Estado de SP', and an alt that names the organisation behind a logo is widely accepted. Competent auditors would reasonably disagree. The live HTML is the same."
+    },
+    {
+      "fingerprint": "67f6e1f79f6d",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "<a class=\"close-search\"></a> is the close control of the desktop search panel (header .main-header_search-wrapper). It has no text, no aria-label and no title, and draws its icon from a CSS background image (close-search.svg). The snapshot's CDP accessibility data gives it role 'link' and no name, so the claim is true of the capture. At capture time the panel sat off-screen (y -277) but was not hidden, so screen readers can reach it in browse mode, and once the panel opens it is a visible control. Either way it is an exposed component with no accessible name, which fails 4.1.2. I looked for a technique that could make it pass and found none. The live HTML has the same empty anchor, so the capture is not the cause."
+    },
+    {
+      "fingerprint": "s89ed559c7e5",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Main-navigation link 'visite' to /visite-o-museu ('Visite o Museu'). The heading just before it is the header h1 whose content is the logo image with alt 'Museu da Imigração' (the other two h1 logos for other breakpoints are hidden, and carry the same alt). Together with the link text, that reads 'visit the Museu da Imigração', and on a museum's own top menu 'visite' is the familiar label for visit information. So the claim's 'nothing around it does' is false, and 2.4.4 is met. Rampa was given that heading and judged wrongly. The live nav has the same link."
+    },
+    {
+      "fingerprint": "d45911a49151",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Link 'Programação completa' (11px, weight 400, uppercase) on a white section. In the site's stylesheet (home.min.css) both a.link and .link-button set color #6F6F6F, which is 5.03:1 on #FFFFFF, and no rule for .title-link-container__button or opacity overrides it. The rule's #7d7d7d comes from the antialiased pixels of thin 11px glyphs: the darkest pixel in the screenshot is about #747474, and none reaches the specified colour. WCAG 1.4.3 measures the text's specified colour, not antialiasing, so the text passes and the claim's 'at most 4.45:1' is not true of the text. The live page loads the same CSS, so the capture is not the cause: the pixel method misread the colour."
+    },
+    {
+      "fingerprint": "s2c6fd983692",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Footer credit image ('Desenvolvido por' + Digital Industry logo), the only content of a link to http://www.digitalindustry.com.br. That redirects to https://www.digitalindustry.com.br/, titled 'Digital Industry – Serviços completos de publicidade digital'. The alt 'Logo Digital Industry' names the very company whose site the link opens, which gives the link's purpose (H30). An alt that names the organisation of a linked logo is accepted practice. The 'Logo' prefix is noise and 'Desenvolvido por' is left out, but neither is what the claim says. The claim's 'does not say where the link leads' asks for more than 1.1.1 requires. The live HTML is the same."
+    },
+    {
+      "fingerprint": "p6cbcdf4b5e6",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer social icon link whose accessible name 'Youtube' comes from an sr-only span, with title 'Youtube', to youtube.com/user/museudaimigracao. It sits in a list of the museum's social profiles (Facebook, Youtube, Flickr, Instagram, Spotify, TikTok), and the heading before it is the h6 'Museu da Imigração do Estado de São Paulo'. On the museum's own footer, 'Youtube' is understood as the museum's YouTube channel, so 2.4.4 is met. Opening in a new tab without warning is advisory, not a 2.4.4 failure. The live HTML is the same."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter sign-up field <input type=\"email\" id=\"email\" name=\"email\">, labelled 'E-mail*', which asks for the user's own email address, a purpose on WCAG's Input Purposes list. It has no autocomplete attribute. type=\"email\" only constrains format, and name=\"email\" is not a standard way to identify purpose, so the purpose is not programmatically determined (H98 is the sufficient technique). The snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError for this field, so the claim's last sentence holds too. The live HTML has the same input, still without autocomplete. I found no technique that makes it pass."
+    },
+    {
+      "fingerprint": "sea09516a65d",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "h2 'Migrar:' (uppercase by CSS) in a home-page card labelled 'Exposição de longa duração'. It is followed by the h3 'histórias compartilhadas sobre nós' and a 'Confira' link to the exhibition 'Migrar: histórias compartilhadas sobre nós'. The h2 is the exhibition's title, and the content under it is that exhibition's subtitle and link, so the heading does describe its topic and 2.4.6 is met. Splitting the title across an h2 and an h3 is at most a structure question, not what the claim says. Rampa had the subtitle heading and the card text. The live HTML is the same."
+    },
+    {
+      "fingerprint": "sc5023eb8f54",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Footer link 'Transparência' to /gestao/transparencia, in the list that opens with the item 'Gestão'. The destination does carry the generic title 'Página inicial - Museu da Imigração' (description 'description'), so that part of the claim holds. The mismatch does not: even in the capture, the href path /gestao/transparencia matches the link text, and the title is a CMS placeholder. The page itself (fetched now) is the transparency page: h1 'Gestão', the 'Transparência' tab selected, and institutional documents, management contracts, activity reports and payment reports. The link text matches its purpose and the href path says the same, so 2.4.4 is met. Rampa had the href and a placeholder description, and judged from the wrong title."
+    },
+    {
+      "fingerprint": "s5f30efb3161",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Footer link 'Institucional' to /institucional/inci, in the 'museu da imigração' list, after the h6 'Museu da Imigração do Estado de São Paulo'. The destination, titled 'Inci - Museu da Imigração', is about the INCI (Instituto de Preservação e Difusão da História do Café e da Imigração), the social organisation that manages the museum. That is the institutional page the link text promises, so the claimed mismatch is not real and 2.4.4 is met. The destination description Rampa had ('Conheça o Instituto de preservação e difusão da história do café e da imigração') already showed this. The live HTML is the same."
+    },
+    {
+      "fingerprint": "p998f43a106d",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer image icon/museu.png, a line drawing of the museum building (the former Hospedaria), alt and title 'Museu da imigração', above the h6 'Museu da Imigração do Estado de São Paulo'. It is not in a link. The alt identifies what the drawing shows, which is enough for a brand-style illustration. If it were judged decorative, a meaningful alt that repeats the heading is redundant, but not F39's placeholder text. 1.1.1 is met. The live HTML is the same."
+    },
+    {
+      "fingerprint": "42e976a4036a",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer image mi-cult-rodape.png, showing the museum's 'mi' logo next to 'CULT SP'. It is the only content of a link to https://www.cultura.sp.gov.br/sec_cultura, which serves 'Secretaria da Cultura | Governo do Estado de SP'. The alt 'Logo Museu da imigração' names only the museum. On the museum's own site that suggests a link home, while the link actually opens the state culture secretariat, and the CULT SP mark is not in the alt either. A linked image's alt has to give the link's purpose (H30), and this one points users to the wrong place, so it fails 1.1.1, and the claim names that failure. I found no context or technique that would make it pass, and the live HTML is the same."
+    }
+  ]
+}

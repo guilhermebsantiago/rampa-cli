@@ -1,0 +1,69 @@
+{
+  "page": "https://www.lboro.ac.uk/study/undergraduate/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "e42daca5eb57",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the footer link \"Contact us\" (mailto:london@lboro.ac.uk) in the London group under the h3 \"Locations\". The other \"Contact us\" link, in the Loughborough group just above, goes to https://www.lboro.ac.uk/contact/. Its context under this round's rule is its own text, a list item holding only the link, no title or aria-describedby, and the preceding heading \"Locations\". None of these says which campus it is for. The only thing that tells the two groups apart is the logo before each list, a separate link (\"Loughborough University London\", visually hidden text over a CSS logo). That logo is neither a heading nor in the link's list item, and the list is not nested in a list item, so it does not count. claimTrue: yes, two same-text links go to different places and nothing in the link's context tells this one apart. elementFails: yes, a user can't tell from the link and its programmatic context that this one emails the London campus. captureDiffers: no, the live HTML of the footer and the styled screenshot match the snapshot. The claim names this failure."
+    },
+    {
+      "fingerprint": "s0a847d9fb45",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the \"Fees and funding\" card link to /study/undergraduate/fees-funding/. It contains the photo (with a long alt), the h3 \"Fees and funding\" and a sentence about tuition fees and financial support, so its accessible name includes \"Fees and funding Get all the facts about what your tuition fees cover...\". claimTrue: no, even the truncated text the claim quotes contains \"Fees and funding\", which says where the link goes, and the destination page is \"Tuition fees and funding\". elementFails: no, the link text alone gives the purpose. The scenic alt in front of it makes the name longer but does not hide the purpose. captureDiffers: no, the live card HTML and image match the capture. Rampa had the text and judged it wrongly."
+    },
+    {
+      "fingerprint": "56c5f36d78d3",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the footer link \"Contact us\" (https://www.lboro.ac.uk/contact/) in the Loughborough group under the h3 \"Locations\". A second \"Contact us\" link, in the London group below, is a mailto: link to london@lboro.ac.uk. Its context under this round's rule is its own text, a list item holding only the link, no title or aria-describedby, and the preceding heading \"Locations\" (which covers both campuses). The campus is shown only by the logo link \"Loughborough University\" before the list, which is neither a heading nor in the link's list item, so it does not count. claimTrue: yes, two same-text links go to different places and nothing in this link's context tells it apart. elementFails: yes, a screen reader user hearing two \"Contact us\" links under \"Locations\" can't tell from programmatic context which campus or channel each is for. captureDiffers: no, the live footer HTML matches the snapshot and the screenshot is fully styled. The claim names this failure."
+    },
+    {
+      "fingerprint": "s869e1346ce7",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the page title \"Undergraduate study | Loughborough University\" on https://www.lboro.ac.uk/study/undergraduate/. The page is the undergraduate study landing page: its visible banner reads \"Undergraduate study\", its breadcrumb ends at \"Undergraduate study\" and its main h1 is \"Undergraduate study at Loughborough\". claimTrue: no, the title names this page's topic and the site. The cookie dialog's h1 in the capture does not make the title wrong. elementFails: no, the title describes the topic and purpose, as 2.4.2 requires. captureDiffers: no, the live HTML has the same title. The model had the title and the page's headings and judged wrongly."
+    },
+    {
+      "fingerprint": "pc1c55213a47",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the button-styled link \"Explore our location\" to /study/where-study-live/where-lboro/ in the \"Where is Loughborough?\" section. The link text alone suggests a page about where the university is. The heading just before it, the h2 \"Where is Loughborough?\", makes the purpose plain, and the destination page is \"Where is Loughborough?\". elementFails: no, its purpose can be determined from the link text and its preceding heading. captureDiffers: no, the live HTML of the section matches the snapshot. Rampa rightly reported nothing."
+    },
+    {
+      "fingerprint": "0ed59b42b43a",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the photo in the \"Fees and funding\" card link. Its alt describes a brick university building with white stone trim, a central clock tower, a clear blue sky, and two groups of students walking along a path across a green lawn. I checked the crop and the full-size live image (fees-and-funding.jpg). The building, trim, central tower, the two groups of students, the path and the lawn are all there. The tower has a weathervane and windows but no visible clock, and the sky has many white clouds. claimTrue: yes, read literally, since the alt mentions a clock and a clear sky that the image does not show. elementFails: no, the alt conveys what the photo shows. The photo only illustrates a card whose link text is \"Fees and funding\", so two small wrong details do not stop the alt serving the same purpose as the image. It does not fail 1.1.1. captureDiffers: no, the live alt and image match the capture. Treating a minor wrong detail as a 1.1.1 failure applies a stricter rule than the criterion's."
+    },
+    {
+      "fingerprint": "8e7bb91aa00f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the footer link \"Find us\" (https://www.lboro.ac.uk/about/find-us/) in the Loughborough group under the h3 \"Locations\". A second \"Find us\" link, in the London group, goes to https://www.lborolondon.ac.uk/about/find-us/. Its context under this round's rule is its own text, a list item holding only the link, no title or aria-describedby, and the preceding heading \"Locations\". None of these says which campus it is for. The campus is shown only by the logo link \"Loughborough University\" before the list, which is neither a heading nor in the link's list item, so it does not count. claimTrue: yes, two same-text links go to different places and nothing in this link's context tells it apart. elementFails: yes, from the link and its programmatic context a user can't tell whether this one gives directions to the Loughborough campus or the London one. captureDiffers: no, the live footer HTML matches the snapshot. The claim names this failure."
+    },
+    {
+      "fingerprint": "p1f20775fe82",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the photo in the \"Applying to university\" card link, with alt \"Two students sit together at a round wooden table in a brightly lit, modern university library.\". The crop shows exactly that: two students at a round wooden table, one holding a phone, in a bright open study space with other students and desks behind them. elementFails: no, the alt is accurate and serves the photo's illustrative purpose inside a link whose text gives the destination. captureDiffers: no, the live HTML has the same alt and image file. Rampa rightly reported nothing."
+    },
+    {
+      "fingerprint": "f333de45b152",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the footer link \"Find us\" (https://www.lborolondon.ac.uk/about/find-us/) in the London group under the h3 \"Locations\". The other \"Find us\" link, in the Loughborough group above, goes to https://www.lboro.ac.uk/about/find-us/. Its context under this round's rule is its own text, a list item holding only the link, no title or aria-describedby, and the preceding heading \"Locations\". None of these mentions London. The campus is shown only by the logo link \"Loughborough University London\" (visually hidden text over a CSS logo) before the list, which is neither a heading nor in the link's list item, so it does not count. claimTrue: yes, two same-text links go to different places and nothing in this link's context tells it apart. elementFails: yes, a user can't tell from the link and its programmatic context that it leads to the London campus's directions, on another site. captureDiffers: no, the live footer HTML matches the snapshot. The claim names this failure."
+    }
+  ]
+}

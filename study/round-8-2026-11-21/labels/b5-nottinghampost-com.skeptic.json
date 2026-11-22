@@ -1,0 +1,92 @@
+{
+  "page": "https://www.nottinghampost.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "cddcebba3c7c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser photo in the NEWS section, not inside a link: it sits in its own div and the headline link with the same text follows it in the same article. The crop shows a parked police car in livery on a street; the alt is the headline about a terrified woman trying to get out of a car during a chase, which the photo does not show, so the claim is true of the capture. My lean is that it fails 1.1.1: the alt conveys nothing of the photo and is not null either. But a concrete counter-reading holds up: the photo is a supplementary illustration of the adjacent headline (the WAI tutorial treats such eye-candy or adjacent-text images as decorative), and an alt that repeats the headline is a redundancy many auditors report as advisory rather than a 1.1.1 failure; no documented failure names a headline used as alt. Competent auditors would reasonably disagree, so uncertain. The live page (curl, 2026-11-21) has the same img, alt and markup, so the capture does not differ."
+    },
+    {
+      "fingerprint": "pc7f59b66ae4",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Opinion-teaser photo, not inside a link, with the alt equal to the headline next to it (Brutal chant summed up miserable Nottingham Forest afternoon as Bournemouth loss a step back). The crop shows match action between Forest (light kit) and Bournemouth (red and black stripes); the OPINION label over it is DOM text, not part of the image. The alt does tell users this is the Forest v Bournemouth match, so my lean is that it passes. Whether a headline used as alt for a teaser photo serves the equivalent purpose is a point competent auditors split on (some fail it for not describing the photo or for duplicating the headline), so uncertain. The live page has the same img and alt."
+    },
+    {
+      "fingerprint": "sce04ff98740",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Premium badge image before the Burglars headline. Its SVG (fetched live) draws the N hexagon logo and the word PREMIUM, and the screenshot shows 'N PREMIUM'; the alt is 'nottinghampost', the brand, so it does not convey the badge's information that the article is premium (paywalled). Nothing else in the teaser says Premium: the headline link's aria-label is the headline and the footer tag is Courts. The image is not decorative, since it is the only carrier of that status. I found no technique that makes it pass. The claim, read in good faith, says the alt names a label instead of what the image conveys, which is this defect. The live page serves the same img with alt 'nottinghampost'."
+    },
+    {
+      "fingerprint": "seeae088a9ca",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Same premium badge as the other one, here before the Ryan Yates headline in the FOOTBALL section. The SVG draws the N logo and PREMIUM, the screenshot shows 'N PREMIUM', and the alt 'nottinghampost' leaves out the premium status, which no other text in the teaser gives (the link's aria-label is the headline, the footer tag is Nottingham Forest FC). It fails 1.1.1, and the claim (the alt names a label, not what the image conveys) points at that. The live page has the same markup."
+    },
+    {
+      "fingerprint": "1e80558040b7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser photo, not inside a link, with the alt equal to the adjacent headline: 'Loads of stuff started coming out' - Ryan Yates on his inspirational Nottingham Forest speech. The crop shows Ryan Yates smiling in a Forest training top at the academy; no speech is shown, so the sentence holds of the capture. But the alt names the person pictured and his club, which is the photo's main content in this teaser, so a concrete reason against a failure holds up and my lean is that it passes. Whether a headline used as alt meets 1.1.1 is contested among auditors, so uncertain rather than a firm label. The live page has the same img and alt."
+    },
+    {
+      "fingerprint": "03ee0779daf6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser photo, not inside a link, with the alt equal to the adjacent headline: Nottingham Forest handed big injury boost for crunch Bournemouth clash. The crop shows head coach Oliver Glasner smiling on a pitch with people around; no injury news is shown, and the alt does not name him, so the claim is true of the capture and my lean is that it fails. The counter-reading holds up as for the other headline alts: the photo supplements the identical headline beside it, and auditors split on whether a headline used as alt fails 1.1.1 or is an advisory redundancy. Uncertain. The live page has the same img and alt."
+    },
+    {
+      "fingerprint": "sc5683a46fa2",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Topic tag link 'Arnold' (aria-label Arnold, href all-about/arnold) in the footer of the teaser for the pub reopening story. The destination, fetched live, is the page titled 'Arnold news and views - NottinghamshireLive' with the h1 Arnold, so the link text is the name of the page it leads to, which describes its purpose (Understanding 2.4.4 accepts text that describes the purpose without the page's full name); the heading just before it is the story's headline, whose page is about an Arnold pub. The claim that the text does not tell where the link goes is false. Only one link named Arnold is in the snapshot, so R1 does not arise. Rampa did not read the destination, which is the context that settles it, so context_missing (it could also be read as a stricter rule than 2.4.4). The live page still has the link."
+    },
+    {
+      "fingerprint": "p453ca1c3dc5",
+      "answers": {
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Promotional teaser image, not inside a link, that is an image of text: NottinghamshireLive PREMIUM, This year's best deal, Less than 50p a week, Unlimited access to a cleaner, faster reading experience and exclusive subscriber-only articles, T&Cs apply, Black Friday. The alt, equal to the headline beside it, is 'Unlock Nottingham Post Premium for less than 50p a week this Black Friday': it gives the product, price and occasion but leaves out the benefits line and the T&Cs qualifier, which no nearby text gives. Under G94 (same information) my lean is that it fails; the skeptic's counter-reason is that the alt carries the offer's essential message and the omitted lines are marketing detail, so competent auditors would reasonably disagree. Uncertain. The live page has the same img and alt."
+    }
+  ]
+}

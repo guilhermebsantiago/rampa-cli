@@ -1,0 +1,348 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.meionews.com/piaui/detento-e-encontrado-morto-na-penitenciaria-irmao-guido-em-teresina-581716",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "5d74de3099f9",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(5) > label",
+   "target": "html > body > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(5) > label",
+   "message": "The text \"Continue lendo\" has at most 4.24:1 contrast with what is behind it (#007ae8 on #ffffff), measured from pixels because axe-core could not decide (an element over or under it). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#007ae8 on #ffffff · 4.24:1 at best, 4.24:1 at worst · 19.2px, 600",
+   "subject": "Continue lendo",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<label for=\"article-more-checkbox\" class=\"read-more\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "935a59967665",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > a > div:nth-of-type(1)",
+   "target": "html > body > a > div:nth-of-type(1)",
+   "message": "The text \"ACESSE NOSSO CANAL NO ZAP\" has at most 3.98:1 contrast with what is behind it (#ffffff on #007bff), measured from pixels because axe-core could not decide (it partly covers other elements). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #007bff · 3.98:1 at best, 3.98:1 at worst · 12px, 800",
+   "subject": "ACESSE NOSSO CANAL NO ZAP",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<div class=\"whatsapp-text\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "a1df7cb657d8",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div > div > div > div:nth-of-type(2) > div > div > aside > div:nth-of-type(2) > div > div > a:nth-of-type(2)",
+   "target": "html > body > div > div > div > div:nth-of-type(2) > div > div > aside > div:nth-of-type(2) > div > div > a:nth-of-type(2)",
+   "message": "The icon of this link has at most 2.34:1 contrast with the pixels next to it (#ffffff on #24c34b). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#ffffff on #24c34b · 2.34:1 at best, 2.34:1 at worst",
+   "subject": "html > body > div > div > div > div:nth-of-type(2) > div > div > aside > div:nth-of-type(2) > div > div > a:nth-of-type(2)",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<a href=\"whatsapp://send?text=*A informação foi confirmada ao Portal Meio Norte pelo Instituto Médico Legal (IML), que informou ter sido acionado para realizar a remoção do corpo.\n\n* %0A%0A https://www.meionews.com/piaui/detento-e-encontrado-morto-na-penitenciaria-irmao-guido-em-teresina-581716\" rel=\"nofollow noopener\" data-rel=\"wt\" target=\"_blank\" class=\"icon icon-whatsapp\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 7
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > div > footer > div > div:nth-of-type(2) > a:nth-of-type(3)",
+   "message": "The link text \"Conheça\" does not match where the link leads: a page titled \"TV MEIO NORTE AO VIVO em Tempo Real\".",
+   "evidence": "The model suggests: \"Assista à TV Meio Norte ao vivo\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > div > div > div > header > h2",
+   "message": "The heading \"A informação foi confirmada ao Portal Meio Norte pelo Instituto Médico Legal (IML), que informou ter sido acionado para realizar a remoção do corpo.\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Confirmação do IML sobre a morte do detento\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > header > div:nth-of-type(3) > a > amp-img > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "logo do meio.com",
+    "problem": "missing_information",
+    "imageShows": "O logotipo do site meionorte.com em letras azuis.",
+    "suggestedAlt": "Meio Norte - Página inicial",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 12,
+   "judged": 12,
+   "failed": 0,
+   "passed": 11,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 43,
+   "judged": 43,
+   "failed": 0,
+   "passed": 42,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 18,
+   "judged": 18,
+   "failed": 0,
+   "passed": 17,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "3 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #google_ads_iframe_1 (https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-8881207890969401&format=300x250&w=300&h=250&ptt=12&iu=4358160256&adk=1789789939&output=html&bc=7&pv=2&wgl=1&asnt=0-1134224274035006888&dff=%22Open%20Sans%22%2C%20sans-serif&brdim=10%2C10%2C10%2C10%2C1280%2C0%2C1280%2C800%2C1280%2C800&ifi=1), #google_ads_iframe_2 (https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-8881207890969401&format=836x320&w=836&h=320&ptt=12&iu=7113032599&adk=760995699&output=html&bc=7&pv=1&wgl=1&asnt=0-10217025853678139699&dff=%22Open%20Sans%22%2C%20sans-serif&prev_fmts=300x250&prev_slotnames=4358160256&brdim=10%2C10%2C10%2C1), #google_ads_iframe_4 (loaded-late, https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-8881207890969401&format=380x320&w=380&h=320&ptt=12&iu=7113032599&adk=2230087194&output=html&bc=7&pv=1&wgl=1&asnt=0-14796172841995746919&dff=%22Open%20Sans%22%2C%20sans-serif&prev_fmts=300x250%2C836x320%2C380x320&prev_slotnames=4358160256%2).",
+  "1 frame(s) were not checked at all, so whatever they hold was missed: #google_ads_iframe_3 (not-loaded).",
+  "17 image(s) were left without a capture, so no judgment looked at them: 7 blank in its capture; 10 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 74,
+  "cachedCalls": 0,
+  "inputTokens": 75604,
+  "outputTokens": 8253,
+  "latencyMs": 253530
+ },
+ "timings": {
+  "totalMs": 130208,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 17
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 20132,
+    "prepareMs": 0,
+    "candidates": 12,
+    "judged": 12,
+    "calls": 12,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1515,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 81224,
+    "prepareMs": 0,
+    "candidates": 43,
+    "judged": 43,
+    "calls": 43,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 27103,
+    "prepareMs": 0,
+    "candidates": 18,
+    "judged": 18,
+    "calls": 18,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 183,
+    "prepareMs": 180,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 10,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 23
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 18,
+   "notCaptured": 17,
+   "reasons": {
+    "blank": 7,
+    "limit": 10
+   }
+  }
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#google_ads_iframe_1",
+     "url": "https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-8881207890969401&format=300x250&w=300&h=250&ptt=12&iu=4358160256&adk=1789789939&output=html&bc=7&pv=2&wgl=1&asnt=0-1134224274035006888&dff=%22Open%20Sans%22%2C%20sans-serif&brdim=10%2C10%2C10%2C10%2C1280%2C0%2C1280%2C800%2C1280%2C800&ifi=1",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "#google_ads_iframe_2",
+     "url": "https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-8881207890969401&format=836x320&w=836&h=320&ptt=12&iu=7113032599&adk=760995699&output=html&bc=7&pv=1&wgl=1&asnt=0-10217025853678139699&dff=%22Open%20Sans%22%2C%20sans-serif&prev_fmts=300x250&prev_slotnames=4358160256&brdim=10%2C10%2C10%2C1",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "#google_ads_iframe_3",
+     "url": "https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-8881207890969401&format=380x320&w=380&h=320&ptt=12&iu=7113032599&adk=3742805080&output=html&bc=7&pv=1&wgl=1&asnt=0-35741812002406736806&dff=%22Open%20Sans%22%2C%20sans-serif&prev_fmts=300x250%2C836x320&prev_slotnames=4358160256%2C711303259",
+     "collected": false,
+     "reason": "not-loaded",
+     "engine": true
+    },
+    {
+     "ref": "#google_ads_iframe_4",
+     "url": "https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-8881207890969401&format=380x320&w=380&h=320&ptt=12&iu=7113032599&adk=2230087194&output=html&bc=7&pv=1&wgl=1&asnt=0-14796172841995746919&dff=%22Open%20Sans%22%2C%20sans-serif&prev_fmts=300x250%2C836x320%2C380x320&prev_slotnames=4358160256%2",
+     "collected": false,
+     "reason": "loaded-late",
+     "engine": true
+    }
+   ]
+  }
+ }
+}

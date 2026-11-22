@@ -1,0 +1,39 @@
+{
+  "page": "https://www.go.gov.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "85a3cf569461",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the voice-search button in the search bar (ex-core-speech-to-text), showing a slashed microphone icon. claimTrue: with the dialog backdrop removed the icon is #939cad on #f4f4f4, about 2.5:1, and the screenshot agrees once the 32% black backdrop is factored out (#636975 on #a6a6a6); the icon is all the button shows. elementFails: the live bundle sets exDisabled whenever the state is permissionDenied (also error and loading), which adds ex-action-button--disabled (disabled grey colour, cursor:not-allowed), and startRecording only runs in the ready state, so in this state the button is an inactive component, which 1.4.11 exempts ('except for inactive components'). It is not programmatically disabled (no disabled or aria-disabled, still focusable), which is a 4.1.2 matter, not a 1.4.11 one; in the ready state the icon uses --ex-base-primary, which this claim is not about. captureDiffers: the automated browser got no microphone permission; real browsers start in the same permissionDenied state, ask for the microphone on load, and stay disabled until access is granted, so users receive this same state; the live bundle matches. The rule applied 3:1 to a component the criterion exempts."
+    },
+    {
+      "fingerprint": "b4dc7cd5c3af",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'WhatsApp' label of the tag at the top of the WhatsApp promotion dialog (12.25px, weight 500, normal-size text). claimTrue: the screenshot shows the text and border at #2fbd5d on a tinted teal of #247865, about 2.17:1, as stated. elementFails: the live CSS confirms it: .ex-tag--success sets color var(--ex-border-and-text-success) = #2fbd5d on --ex-bg-success = #2fbd5d33 laid over the dialog's linear-gradient(#256464 to #0b7675), so the text is well under 4.5:1. I looked for exemptions: the tag is neither disabled (no ex-tag--disabled) nor in button mode, and it is not styled as inactive, so the inactive-component exception does not apply; it labels the channel, so it is not pure decoration (repeating the heading does not exempt it); it is plain text in the site's Poppins font, not the WhatsApp logotype, so the logotype exception does not hold up. The dialog was fully rendered (its white text measures 6.1 to 6.6:1 on the opaque gradient), so this is not an animation artefact. captureDiffers: the live bundle has the same dialog and colour tokens; the dialog opens on the home page, so users receive this text."
+    },
+    {
+      "fingerprint": "534fede9aaa6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the VLibras widget's pop-up image (vlibras-popup.webp, an image of the words 'Acessível com VLibras'), which only slides out from behind the VLibras button on hover or keyboard focus. Its alt is 'Acessível com VLibras', which matches what it says, so it has an adequate text alternative. The aria-hidden that the claim cites does not come from the image or from VLibras (the live vlibras-plugin.js sets none on #vlibras-access-wrapper). Angular Material's modal dialog sets aria-hidden='true' on every sibling of its overlay container while the WhatsApp promotion dialog is open (app-root has it as well) and removes it when the dialog closes, which is the usual way to hide background content behind a modal. claimTrue: hidden is true in the capture, but the claim that it conveys something the surrounding text does not say is false, since the sibling button's name ('Conteúdo acessível em Libras usando o VLibras Widget...') says the same. elementFails: no for 1.1.1. The widget showing above the backdrop while hidden from assistive technology could be a 4.1.2 or 1.3.1 question about the button, not a missing text alternative. captureDiffers: the live page's bundle and plugin match the capture, and the dialog state is one users also get on load. The checker did not know the hiding came from a temporary modal state, and did not credit the matching alt."
+    }
+  ]
+}

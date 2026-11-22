@@ -1,0 +1,386 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://conjur.com.br/2026-out-28/toffoli-suspende-julgamento-sobre-restricoes-a-buser-em-mg/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "d3e6ede75bcd",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > header > div:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(3) > div > div > form > button",
+   "target": "html > body > header > div:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(3) > div > div > form > button",
+   "message": "The icon of this button (\"Buscar\") has at most 2.63:1 contrast with the pixels next to it (#b99c63 on #ffffff). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#b99c63 on #ffffff · 2.63:1 at best, 2.63:1 at worst",
+   "subject": "Buscar",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<button type=\"submit\" aria-label=\"Buscar\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 10
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#conjur-content > p:nth-of-type(4) > a",
+   "message": "The link text \"deslocamento coletivo\" does not match where the link leads: a page titled \"Buser é proibida de operar linha por extrapolar autorização\".",
+   "evidence": "The model suggests: \"Buser é proibida de operar linha por extrapolar autorização\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#conjur-content > p:nth-of-type(6) > a",
+   "message": "The link text \"atendimento dos passageiros\" does not match where the link leads: a page titled \"TRF-1 confirma obrigatoriedade de circuito fechado para operações da Buser e fr…\".",
+   "evidence": "The model suggests: \"TRF-1 confirma obrigatoriedade de circuito fechado para operações da Buser e fretadoras no DF\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#conjur-content > p:nth-of-type(8) > a",
+   "message": "The link text \"modalidades de atividade econômica\" does not match where the link leads: a page titled \"Plataformas como modelo de negócios: falso dilema do transporte\".",
+   "evidence": "The model suggests: \"Plataformas como modelo de negócios e o falso dilema do transporte rodoviário\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > header > div:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(3) > div > div > form > input",
+   "message": "The label \"Pesquisar...\" does not say what to enter.",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div > div > div > article:nth-of-type(1) > a > div > figure > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Plataformas como modelo de negócios: falso dilema do transporte",
+    "problem": "wrong_content",
+    "imageShows": "Uma caricatura em preto e branco do rosto de um homem.",
+    "suggestedAlt": "Caricatura de Ingo Sarlet",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div > div > div > article:nth-of-type(4) > a > div > figure > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "STF libera operação da Buser no Paraná até julgamento pelo Plenário",
+    "problem": "wrong_content",
+    "imageShows": "Um ônibus rosa da empresa Buser circulando em uma rodovia.",
+    "suggestedAlt": "Ônibus da empresa Buser em uma rodovia",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div > div > div > article:nth-of-type(5) > a > div > figure > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Vista suspende análise de descumprimento de decisão pela Buser",
+    "problem": "wrong_content",
+    "imageShows": "Um ônibus rosa da empresa Buser circulando em uma estrada.",
+    "suggestedAlt": "Ônibus da empresa Buser",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#attachment_1523532 > img",
+   "reason": "the words drawn in the image are in the text around it",
+   "output": {
+    "imageShows": "A pink bus with the Buser logo driving on a road.",
+    "textInImage": "buser",
+    "verdict": "fail",
+    "evidence": "Logo and name 'buser' on a pink bus",
+    "suggestedAlt": "Ônibus rosa da empresa Buser em uma estrada.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > footer > div > div > div:nth-of-type(1) > img",
+   "reason": "the words drawn in the image are in the text around it",
+   "output": {
+    "imageShows": "A circular logo featuring a blue clock face with gold hands and letters around the border.",
+    "textInImage": "CONJUR",
+    "verdict": "fail",
+    "evidence": "Logo with the word 'CONJUR' around a clock face.",
+    "suggestedAlt": "Logotipo da ConJur com um relógio circular.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > footer > div > div > div:nth-of-type(2) > img",
+   "reason": "the suggested alternative repeats the text around the image",
+   "output": {
+    "imageShows": "The logo of the website 'Consultor Jurídico' in yellow text on a dark blue background.",
+    "textInImage": "Consultor Jurídico",
+    "verdict": "fail",
+    "evidence": "The logo names the organization: \"Consultor Jurídico\"",
+    "suggestedAlt": "Logo do Consultor Jurídico",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#conjur-content > p:nth-of-type(1) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A link to a news article about the STF's decision regarding Buser's operations in Paraná.",
+    "leadsTo": "A news article titled 'Nunes Marques libera operação da Buser no Paraná até julgamento pelo Plenário do STF'",
+    "verdict": "fail",
+    "evidence": "Buser",
+    "problem": "ambiguous",
+    "suggestedText": "Notícia sobre operação da Buser no Paraná",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 9,
+   "judged": 9,
+   "failed": 0,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 6,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 60,
+   "judged": 50,
+   "failed": 0,
+   "passed": 46,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 10,
+   "suggested": 3
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 5,
+   "failed": 0,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 image(s) were left without a capture, so no judgment looked at them: 1 outside the page (an off-canvas menu). The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 10 of 60 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 67,
+  "inputTokens": 66374,
+  "outputTokens": 7258,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 242,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 21
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 10,
+    "prepareMs": 0,
+    "candidates": 9,
+    "judged": 9,
+    "calls": 0,
+    "cachedCalls": 9
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 16,
+    "prepareMs": 0,
+    "candidates": 60,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 6,
+    "prepareMs": 0,
+    "candidates": 5,
+    "judged": 5,
+    "calls": 0,
+    "cachedCalls": 5
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 142,
+    "prepareMs": 139,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 17,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 25
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 14,
+   "notCaptured": 1,
+   "reasons": {
+    "outside-page": 1
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 60,
+    "capped": 10
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

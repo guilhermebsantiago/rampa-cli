@@ -1,0 +1,55 @@
+{
+  "page": "https://www.vivara.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "8564690877b9",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter sign-up field ('Acompanhe nossas novidades / Cadastre seu e-mail'), <input type=\"email\" required class=\"emailField\" placeholder=\"E-MAIL\">, with no autocomplete attribute. It collects the user's own e-mail address, which is the 'email' purpose in the Input Purposes list, and type=\"email\" only sets the data format, not that the value is the user's address, so 1.3.5 is not met (H98 would add autocomplete=\"email\"). The claim states exactly this. The live site's client bundle renders the same input (type email, required, className emailField, placeholder E-MAIL, no autocomplete), so the capture matches what users get."
+    },
+    {
+      "fingerprint": "sedbbe200432",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the whole third card of the three-card section, a link to /lp/vivara-joias-classicas with aria-label 'MONTE SEU PORTA-JOIAS'. Its content is the card heading h3 'JOIAS ESSENCIAIS', the line 'Escolhas que transformam o visual do dia-a-dia' and the CTA 'MONTE SEU PORTA-JOIAS'. The destination is titled 'Joias Essenciais: Clássicos Atemporais em Ouro, Prata e Diamantes', a catalogue of essential pieces. 'Monte seu porta-joias' ('build your jewellery box') is an ordinary shopping invitation to pick pieces for one's collection, and the link's own text, which this rubric counts as context, names the destination outright ('JOIAS ESSENCIAIS'; the site menu uses the same label for this address). The name and its context therefore describe the purpose, and Understanding 2.4.4 does not require the page title to be repeated. The claim that the text does not match the destination is false. Rampa had both the card text and the destination title. The live page has the same card data and the same destination title."
+    },
+    {
+      "fingerprint": "s0fd46850537",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the product photo in the 'Colares' tile of the 'NAVEGUE POR CATEGORIA' carousel (an active, aria-hidden=false slide). It sits inside a link whose name, 'Ver categoria Colares', comes from aria-label (title 'Colares'), next to the visible text 'Colares'. The crop shows a single gold-and-pavé collar necklace, there only to illustrate the necklace category. The alt 'Imagem de Colares' gives that purpose: the 'Imagem de' prefix is redundant, and an empty alt would have been better because the link is already named, but a description of this particular necklace is not needed for a category illustration. 1.1.1 is met, so the claim that the alternative leaves out what the image conveys here is false. The live HTML has the same markup (aria-label, title, alt)."
+    },
+    {
+      "fingerprint": "dafe5c823dc7",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the full-width hero banner, an image that is the only content of a link to /lp/vivara-gisele-bundchen, with alt 'Campanha Natal Fashion'. The image shows Gisele Bündchen with the text 'FEITA NO BRASIL, COM ALMA BRASILEIRA' and 'EXPLORAR'. The destination (fetched live) is titled 'Lançamentos: Novas joias, novas histórias' and shows the new collections (Harmonia, Sopro, Seixos, Ritmo, Bamboo). 'Campanha Natal Fashion' is an internal campaign label that appears nowhere on screen. It names neither the destination nor the banner's text, so it fails H30/G82: when an image is all a link holds, its alternative must give the link's function. Per R2, 1.1.1 fails and the claim names that failure. The live home page has the same banner image, alt and href."
+    },
+    {
+      "fingerprint": "cd21633687dd",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the thin banner image that is the only content of a link to /lp/vivara-black-friday, alt 'sale'. The image reads 'BLACK FRIDAY - ATÉ 50% off - Sua próxima joia espera por você'. The destination is 'Black Friday Vivara 2026: Descontos em Joias e Relógios'. A bare English 'sale' on a pt-BR page gives neither the Black Friday event nor the discount, and it cannot tell this link from the page's other promotions (10% off first purchase, free shipping). It does not identify where the link goes or what the image of text says, so it fails 1.1.1 (H30/G82). The claim names this. The live HTML has the identical img (alt=\"sale\", same src) in the same link."
+    },
+    {
+      "fingerprint": "s7c9d4c9180a",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is an h3 'Life' (shown as LIFE) heading one of the footer link columns, next to 'Joias Vivara', 'Nossa Empresa', 'Atendimento' and 'Informações'. Its links (Aliança de Namoro, Pingentes, Pulseiras, Brincos, Piercings, Brinco Masculino, Corrente Masculina) all go to /life/... categories. Life (Life by Vivara) is the store's second brand, named all over the page ('Visite também' Life logo, 'Encontra a Vivara e Life mais perto de você', 'Vivara e Life by Vivara'). Beside the 'Joias Vivara' column, the heading tells users the column lists Life brand categories, so it describes its section and 2.4.6 is met. The claim that it says nothing about the content is false. The live footer configuration (CustomFooterV2) has the same 'Life' title and links."
+    },
+    {
+      "fingerprint": "73731ad7c4d6",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the CEP field of the regionalization modal: <input id=\"regionalization-cep\" type=\"tel\" placeholder=\"Informar um CEP\">, with a <label for=\"regionalization-cep\">CEP</label> that is not rendered (display:none; Chrome marks it notRendered). In the capture, Chrome's AX tree gives the textbox the name \"\" with a labelledby relation to that hidden label. The modal and the input were rendered at capture time, with bounds and live AX nodes, so the claim that the browser computes no name is true of the capture. In Chrome the control exposes no name, which matches F68 ('does not have a name exposed to assistive technologies'), so I lean towards fail. But HTML-AAM falls back to the placeholder once the hidden label yields nothing, which gives the name 'Informar um CEP'. axe and ACT-style tools would pass it, and NVDA, JAWS and VoiceOver announce the placeholder. Competent auditors would reasonably split between a 4.1.2 failure and a 3.3.2-only placeholder-as-label issue, hence uncertain. I could not compare with the live page: the modal and its CSS are client-rendered in a lazily loaded chunk that a plain fetch does not return."
+    }
+  ]
+}

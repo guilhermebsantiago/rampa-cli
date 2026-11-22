@@ -1,0 +1,60 @@
+{
+  "page": "https://www.druid.ie/site-info/contact-us",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p81c0ec39684",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is a mailto link whose text is the address venue@druid.ie. It sits in the paragraph 'Druid Lane Galway Tel: 091 568 660 Email: venue@druid.ie View location on Google Maps', directly under the h2 'The Mick Lally Theatre'. Both are context under the rubric. The link text alone already says what it does: it writes an email to that address. The 'Email:' label in its paragraph and the heading say it is the venue's contact address. Only one link on the page has this name, so R1 does not apply. The live HTML I fetched has the same link in the same paragraph under the same heading, and the screenshot matches the snapshot. The element meets 2.4.4, so Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "s5846be21e68",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the 'Targeting' checkbox in the CookieScript consent dialog. Its label element reads 'Targeting', and CSS uppercases it to 'TARGETING'. The claim's sentence is literally true: the label does not say what to enter. But this is a checkbox, so nothing is entered. 2.4.6 asks only that a label describe the control's topic or purpose. Here the dialog is headed 'This website uses cookies', and the checkbox sits in a group with 'Strictly necessary', 'Performance' and 'Unclassified'. In that context 'Targeting' clearly names the choice: consent to targeting cookies. Understanding 2.4.6 does not ask for long labels, and asking a label to say what to enter is a 3.3.2-style instruction requirement applied to the wrong kind of control. The live page loads the same CookieScript script, which serves the same checkbox and label, and the screenshot shows the dialog as the snapshot does. So the capture does not differ, and the element meets 2.4.6."
+    },
+    {
+      "fingerprint": "sa2a62fa6d47",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is a 'Google LLC' link in the CookieScript cookie report, in the Targeting table, on the row for the cookie VISITOR_INFO1_LIVE. It sits in the table cell whose column header is 'Provider / Domain', next to '.youtube.com'. It goes to https://policies.google.com/privacy. That page is Google LLC's own privacy policy, so the text does name whose page opens. The claim that the text 'does not match where the link goes' does not hold of the capture: the text is less complete than it could be, not mismatched. For 2.4.4, the cell and its associated header 'Provider / Domain' are programmatically determined context. They say the link is the provider of the cookie the row describes. A cookie declaration's provider link that opens that provider's privacy policy is what users can expect from it, and Understanding 2.4.4 says a link need not use the document's name. Every 'Google LLC' link on the page goes to the same URL, so R1 does not apply. The live CookieScript script serves the same link and URL. The details panel is collapsed with opacity 0 and height 0, but it stays in the accessibility tree, as it does in the snapshot, so the capture does not differ. Rampa applied a stricter rule, that the link text name the page type, than 2.4.4 requires. Some strict auditors might want 'Google privacy policy' in the text, but I do not think that reading makes this a Level A failure."
+    },
+    {
+      "fingerprint": "s7f71545aa18",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header photo of the Contact Us page. Its file name and the crop show Bosco Hogan and Marie Mullen in metal bins in Druid's 2024 'Endgame'. Its alt is only a photographer credit, 'Photo by Ros Kavanagh'. The page has no figcaption or other text that describes the photo. The red 'Druid' block in the crop is the site logo laid over the image. It is a separate element and does not change the judgment. Claim: nothing the alt says is visible in the image, and it describes none of what the image shows, so the sentence holds. I looked for a reading under which the image passes and found none. If the photo is informative (a scene from a Druid production), a credit is not a text alternative for its content (F30-type failure). If it is decorative page-header imagery, the alt should be null, and a non-null alt makes screen readers announce it (F39). Either way the element fails 1.1.1. Read in good faith, the claim points at that defect: the alternative does not stand for the image. The live HTML has the same img, src and alt, with only leading tabs before the alt text, so the capture does not differ."
+    },
+    {
+      "fingerprint": "s433de18825e",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is another 'Google LLC' link in the CookieScript cookie report, in the Performance table, on the row for the Google Analytics cookie __utmb. It sits in the cell under the column header 'Provider / Domain', next to '.druid.ie', and goes to https://policies.google.com/privacy, Google LLC's own privacy policy. The text does name whose page opens, so the claim that it 'does not match where the link goes' does not hold of the capture: it is less complete than it could be, not mismatched. For 2.4.4, the cell and its associated header 'Provider / Domain' are context. They say the link is the provider of the cookie the row describes, and a provider link that opens the provider's privacy policy is what users of a cookie declaration can expect. Understanding 2.4.4 says a link need not use the document's name. All 'Google LLC' links on the page go to the same URL, so R1 does not apply. The live CookieScript script serves the same link and URL. The collapsed details panel, at opacity 0 and height 0, stays in the accessibility tree, as in the snapshot, so the capture does not differ. Rampa applied a stricter rule, that the link text name the page type, than 2.4.4 requires."
+    }
+  ]
+}

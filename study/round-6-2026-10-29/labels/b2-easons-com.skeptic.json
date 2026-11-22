@@ -1,0 +1,94 @@
+{
+  "page": "https://www.easons.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s99e1b4de5bf",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the 'Top 100' link (href /top-100-books-for-adults) in the site's 'Product navigation' list, next to a 'Show submenu of Top 100' button. Its list item also holds the submenu, which is aria-hidden until opened and then shows the heading link 'Top 100 Books' to the same address, plus 'Top 30 Books This Week' and 'All Bestseller Charts'. That list item counts as programmatically determined context. The headings before it in document order sit in other menus' hidden submenus and don't help. 'Top 100' is not generic text like 'more'. It names the section it opens, the store's Top 100 chart, and WCAG asks only that the link's purpose can be determined, not that the text spell out the full destination. So 'nothing around it does' is false of the captured list item, and the element passes 2.4.4. The live HTML matches the snapshot."
+    },
+    {
+      "fingerprint": "48bbd8005777",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the LEGO tile image in the 'Unmissable Black Friday Offers' carousel. The crop and the screenshot show a large LEGO Santa minifigure used as a Christmas decoration, with an 'UP TO 20% OFF' badge. The alt 'LEGO Seasons and Occasions Up-Scaled Santa Minifigure Christmas Toy Decoration 40820' describes exactly that, and the badge text is repeated in the link's own text ('Up To 20% Off LEGO'). The alt does not describe anything the image fails to show, so the claim is false and the image passes 1.1.1. The live page's carousel data has the same image and alt."
+    },
+    {
+      "fingerprint": "e482e953811a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search input. Its placeholder 'Search for books, stationery, games, and gifts...' is the only visible text on the field: the field has no visible label, only an aria-labelledby label that wraps the icon button. I sampled the screenshot: the placeholder glyphs render at #b3b2c8 on #ffffff, which is 2.08:1 at 16px weight 400, so the 4.5:1 threshold applies. That is the Algolia default muted colour at 0.6 alpha (#807fa399), and the live inline CSS does not override it. Understanding 1.4.3 explicitly says the criterion covers placeholder text, and no exception applies: the field is not inactive, and the text is not decorative or hidden. The live page uses the same autocomplete markup and CSS. I found no reason to doubt the finding."
+    },
+    {
+      "fingerprint": "s6fb0cc3eed9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h3 'About Life' in a product card of the Bestselling Non-Fiction carousel. 'About Life' is the book's title. The content under it is that same book: author Maureen Gaffney, €17.99, an Add to cart button and the dispatch note, and the card links to the About Life product page. The heading names its card's topic, so the claim is false and the heading passes 2.4.6. The live page's product data holds the same item."
+    },
+    {
+      "fingerprint": "dd07bfb0fab0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the first tile image of the Black Friday carousel. The crop and the screenshot show a red Toniebox with a 'SAVE €30' badge, but the alt is 'Tonies Teal Toniebox 2'. The alt is in the link's accessible name, so screen readers announce it. The image does not show a teal box, so the claim holds. The 'Save €30' text is in the link text, so it is not lost. The alt correctly identifies the product the deal is for (Toniebox 2, and the link opens the Toniebox range), and the wrong colour is the only defect. Competent auditors would reasonably disagree on whether a wrong colour in an otherwise accurate product alternative fails 1.1.1 or is a minor inaccuracy. The live carousel data has the same image and alt."
+    },
+    {
+      "fingerprint": "a8299cfce59f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the search submit button inside the header search field. It has no visible text and no border of its own: a magnifying-glass SVG is all it shows. The live inline CSS sets '.aa-SubmitButton svg.aa-SubmitIcon{color:var(--grey-400)}', and the screenshot pixels give #a4a7ae on #ffffff, 2.41:1, below 3:1. The button is active, not disabled, and no visible text label identifies it, so the icon is the visual information needed to identify the control (G207). Being able to submit with Enter does not exempt the button. The header is not covered by the cookie backdrop in the screenshot, and the live CSS matches, so I found no reason to doubt the finding."
+    },
+    {
+      "fingerprint": "d166ff119d48",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the carousel's 'Previous' arrow button. It is aria-disabled='true', and the snapshot lists it as disabled: the carousel opens on its first tile, so there is nothing to go back to. Its grey #a4a7ae arrow is the disabled styling, and the 'Next' button beside it renders in black. The measured colours and the icon-only description match the capture. But 1.4.11 does not apply to inactive user interface components (Understanding 1.4.11: 'visible but not currently operable'), so the button passes, and the rule applied the 3:1 requirement to a control it exempts. The live page renders the same carousel from the same data and starts on the first tile."
+    },
+    {
+      "fingerprint": "sc3acf16656d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the Algolia search combobox in the header. Its label (via aria-labelledby, from the submit button's title) is 'Search books, stationery, games and gifts', which states plainly what to enter: a search for books, stationery, games or gifts. The label describes the field's purpose, so the claim is false and the element passes 2.4.6. That the field has no visible label is a 3.3.2 matter (its placeholder stands in for one), not a 2.4.6 failure. The live page uses the same search markup."
+    }
+  ]
+}

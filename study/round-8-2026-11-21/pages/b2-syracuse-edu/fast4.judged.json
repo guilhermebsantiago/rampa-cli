@@ -1,0 +1,246 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.syracuse.edu/academics/programs/?level=undergraduate",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {},
+ "groups": null,
+ "needsReview": [],
+ "discarded": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 0,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 319,
+   "judged": 10,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 309
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 11,
+   "judged": 10,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 1,
+   "batched": {
+    "candidates": 10,
+    "calls": 2
+   }
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 309 of 319 for 2.4.4, 1 of 11 for 2.4.6. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (10 in 2 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 17,
+  "cachedCalls": 0,
+  "inputTokens": 16809,
+  "outputTokens": 2144,
+  "latencyMs": 52674
+ },
+ "timings": {
+  "totalMs": 31935,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 35
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 4985,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 3,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1586,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1013,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 15507,
+    "prepareMs": 0,
+    "candidates": 319,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 8589,
+    "prepareMs": 0,
+    "candidates": 11,
+    "judged": 10,
+    "calls": 2,
+    "cachedCalls": 0,
+    "batches": 2
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 179,
+    "prepareMs": 176,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 35
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 1000,
+  "images": {
+   "captured": 3,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 319,
+    "capped": 309
+   },
+   {
+    "criterion": "2.4.6",
+    "candidates": 11,
+    "capped": 1
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

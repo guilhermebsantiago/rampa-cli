@@ -1,0 +1,59 @@
+{
+  "page": "https://www.orquestraouropreto.com.br/site/contato/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p65db467a9de",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the header logo image (Logo.png, the dark version) inside the link #logo to the home page, with alt=\"Orquestra Ouro Preto\". The crop shows the logo mark and the words ORQUESTRA OURO PRETO with a small tagline MAESTRO RODRIGO TOFFOLO. As the only meaningful content of a link, its alternative names the organisation and so the destination (the home page titled 'Orquestra Ouro Preto - Excelencia e Versatilidade'), which is what H30 asks for (its example uses the site's name). Leaving out the small tagline does not change the link's purpose, so the image meets 1.1.1 and Rampa was right to report nothing. elementFails no. The live HTML has the same image and alt (plus the white starting logo with the same alt), so captureDiffers no. Side notes outside this criterion: the snapshot's link name is the text of a PageSpeed <script> inside the link, which browsers exclude from the name (a collector artefact), and the two logo images with the same alt may make the link name repeat."
+    },
+    {
+      "fingerprint": "ec672e8aa331",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the Contact Form 7 honeypot field (name honey-196), a spam trap. Its wrapper span is visually hidden with the sr-only pattern (inline style position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0)); the snapshot gives the wrapper 1x1 px bounds and the label textVisible false, and the screenshot shows nothing at the field's position below the reCAPTCHA. claimTrue yes: the label 'Please leave this field empty.' exists and its text does not show; nothing visible labels the field (the ENVIAR button is about 170 px away). elementFails no: the field itself is just as invisible as its label, it is not content that asks the user for input (it must be left empty), and it carries a programmatic label that tells screen reader users exactly that, so 3.3.2 is met. The rule demanded a visible label for a field that is not presented visually. Other issues: tabindex=1000 puts this invisible field first in the tab order with no visible focus (2.4.3/2.4.7), and the English label on a pt-BR page is a 3.1.2 matter. The live HTML has the same markup and inline style, so captureDiffers no."
+    },
+    {
+      "fingerprint": "sc800a40cca2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Same element as the rule finding: the visually hidden CF7 honeypot field honey-196, wrapped in a 1x1 px clipped span (inline sr-only style on the live page), with the associated label 'Please leave this field empty.'. claimTrue yes: the label is on the page and its text does not show (textVisible false; the screenshot shows nothing there). elementFails no: the field is hidden from sighted users along with its label and is not meant to receive input; assistive technology users get the label, which tells them to leave it empty. 3.3.2 does not ask for a visible label on a control that is not visually presented, so the model applied a stricter rule than the criterion. Its real problems are under other criteria: tabindex=1000 with no visible focus (2.4.3/2.4.7) and an English label on a pt-BR page (3.1.2). The live page has the same markup, so captureDiffers no."
+    },
+    {
+      "fingerprint": "fd458334a413",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the page's h1 'CONTATO', white bold text about 51 px tall (large text, 3:1 required) over the page header photo (010.jpg, alt=\"\", no overlay; the header's only background colour is #000 under the image). In the screenshot the whole word sits on orange to light-orange parts of the photo. I measured the background pixels in the heading's box: white against them gives a median of about 2.0:1, 90% of pixels under 2.65:1, and only about 2% (at the darker left edge) reach 3:1, up to 3.2:1. So the claim (at most 2.95:1, background #febd7d to #d88201, below 3:1 for large text) holds in substance; its maximum is a robust value rather than the extreme pixel. elementFails yes: the text fails 1.4.3 against its background, and the claim names that failure. The live HTML has the same header image, the same h1 and no overlay, so captureDiffers no."
+    },
+    {
+      "fingerprint": "pb8aa6808ea6",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the main-menu item 'Apresentacao' (href=\"#\", aria-haspopup=true, aria-expanded=false), the parent of a nested submenu list (Orquestra, Maestro, Revista, OOP Experience, Eventos) in the same list item. Its purpose is to open the 'Apresentacao' (about) section of the menu, which its text, its popup state and its list item with the nested list (H81 context) make clear. No other link shares its name. It meets 2.4.4, and Rampa was right to report nothing. Using a link with href=\"#\" as a menu button is a role question under 4.1.2, not 2.4.4. The live HTML has the same markup, so captureDiffers no."
+    }
+  ]
+}

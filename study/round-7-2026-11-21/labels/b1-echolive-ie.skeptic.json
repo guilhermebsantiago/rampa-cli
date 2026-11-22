@@ -1,0 +1,178 @@
+{
+  "page": "https://www.echolive.ie/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "76a10bbd5d57",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only Instagram link in the FOLLOW ECHO sidebar row. The crop shows a grey (#9d9d9c) tile on the white page with a white camera glyph cut out of it; both the tile against the page and the glyph against the tile are 2.71:1, below the 3:1 that 1.4.11 asks for the visual information identifying a control (G207). The live HTML serves the same inline SVG with the same .st0 fill #9d9d9c, and the screenshot is a fully styled render, so the capture matches what users receive. I looked for a way out: the FOLLOW ECHO text above the row labels the group but does not tell the links apart, so the icon is still the only visual identification of this control. Understanding 1.4.11 exempts logos on the assumption that brand guidelines dictate their colours, but says a logo is not exempt when the author chose the low-contrast variant; a neutral grey rendition is the site's own styling, not a colour these brands require. No reason holds up, so the claim names a real failure."
+    },
+    {
+      "fingerprint": "642cfdc81805",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only newsletter link in the FOLLOW ECHO row: a grey #9d9d9c square with a white newspaper/NEWS glyph knocked out, 2.71:1 against the white page and 2.71:1 between glyph and tile, under the 3:1 of 1.4.11 for a graphic that is all the control shows. The live HTML serves the same inline SVG with the same .st0 fill #9d9d9c, and the screenshot is a fully styled render, so the capture matches what users receive. I looked for a way out: the FOLLOW ECHO text above the row labels the group but does not tell the links apart, so the icon is still the only visual identification of this control. This is the site's own generic icon, not a brand logo, so no logo exemption applies. The claim names the failure."
+    },
+    {
+      "fingerprint": "2bb6f1a8323e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only facebook link: the SVG path is a filled #9d9d9c square with the 'f' cut out, so the glyph is white on grey and the tile is grey on white, both 2.71:1, under 1.4.11's 3:1 for the only visual identifying the control. The live HTML serves the same inline SVG with the same .st0 fill #9d9d9c, and the screenshot is a fully styled render, so the capture matches what users receive. I looked for a way out: the FOLLOW ECHO text above the row labels the group but does not tell the links apart, so the icon is still the only visual identification of this control. Understanding 1.4.11 exempts logos on the assumption that brand guidelines dictate their colours, but says a logo is not exempt when the author chose the low-contrast variant; a neutral grey rendition is the site's own styling, not a colour these brands require. The claim names the failure."
+    },
+    {
+      "fingerprint": "3827dfccac32",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Lead teaser image (generic stock photo of a garda seen from behind) inside the link to the hijacking story. Its alt is the article's photo caption, with literal '<p>' tags: an appeal for witnesses at Curraheen Road Sports Grounds between 1pm and 2pm. I opened the article: the caption belongs to this same story, so it is not text from another item. The claim is true of the capture (the appeal, place and time are not in the picture). I lean to a failure, because the alt is a caption rather than an alternative and screen readers announce the stray markup. But a concrete counter-reason holds up in part: the image is a generic stock photo whose only information is 'gardaí', which the alt does convey, and it sits inside a link whose text gives the story. Competent auditors would split on whether that fails F30's replace-the-image test. The story has since rotated off the live homepage, but the live markup still emits caption alts with escaped <p> tags the same way, so the capture shows what users received."
+    },
+    {
+      "fingerprint": "173d3f654af1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only twitter/X link: the X glyph is drawn in white on a grey #9d9d9c tile (the polygon picks up the page-wide .st0 fill), 2.71:1 against the white page and between glyph and tile, under 1.4.11's 3:1 for the only visual identifying the control. The live HTML serves the same inline SVG with the same .st0 fill #9d9d9c, and the screenshot is a fully styled render, so the capture matches what users receive. I looked for a way out: the FOLLOW ECHO text above the row labels the group but does not tell the links apart, so the icon is still the only visual identification of this control. Understanding 1.4.11 exempts logos on the assumption that brand guidelines dictate their colours, but says a logo is not exempt when the author chose the low-contrast variant; a neutral grey rendition is the site's own styling, not a colour these brands require. The claim names the failure."
+    },
+    {
+      "fingerprint": "sb06a94011a8",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Teaser photo inside the link 'Rent inflation in Cork city up 11% year-on-year'. The crop shows a key in a door lock with a small house-shaped keyring, a door edge and a blurred figure behind: that is what the alt 'House key with home keyring in keyhole on wood door, copy space' says. 'Copy space' is stock-photo jargon, not a mismatch. The claim is false, and the alt is an accurate alternative for an image that supplements the headline, so 1.1.1 is met. The model had the crop and judged wrongly. The story has rotated off the live homepage; nothing suggests the capture differed from what users received."
+    },
+    {
+      "fingerprint": "s77ddd4da28a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Cork Lives teaser photo (file 'OthelloPic': people in costume by a stone building) inside a link whose visible text is the same headline quote the alt repeats: 'I left LA to be an actor in Cork ... I've always loved the rain!'. Literally, the alt is a quote, and LA and the rain are not in the picture, so the sentence holds. The skeptic's counter-reasons: the alt names the story's subject (the actress quoted, who appears to be in the cast photo); the image only supplements a link that already carries the same words; and duplicating the headline is a redundancy problem (H2 suggests a null alt), not something a 1.1.1 failure names. I lean to a pass, but auditors would reasonably split on whether a headline-as-alt that says nothing about the photo is an equivalent. The live homepage still serves the same image and alt."
+    },
+    {
+      "fingerprint": "p0c2610cd5e0",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. Teaser photo of three people holding a large cheque in front of an Irish Guide Dogs van, with a guide dog, inside the link of the same name. The alt 'Ford Ireland drive raises €49,000 for Guide Dogs' conveys what the photo shows (a fundraising cheque handover for Guide Dogs), so the image meets 1.1.1 and Rampa was right to report nothing. The story has rotated off the live homepage; nothing suggests the capture differed from what users received."
+    },
+    {
+      "fingerprint": "p74f8264ffa7",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. Cork Sport lead photo of a player in black and amber kicking a ball, with players behind him. The alt is the photo caption 'Jack Kelleher kicks a point for Canovee in difficult wind conditions against CJ Kickhams Mullinahone. Picture: Larry Cummins', which describes the picture accurately. The literal '<p>' tags around it are a markup-quality defect that screen readers may read out, but they do not stop the text from serving as the equivalent, so 1.1.1 is met and Rampa was right to report nothing. The live homepage has rotated this teaser; its markup still emits caption alts the same way."
+    },
+    {
+      "fingerprint": "6de38563b4f5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Cork Sport teaser photo of a man in a Knocknagree-crested beanie at a ground (the manager in the story) inside the link 'John Fintan Daly steps down after transformational 14-year spell with Knocknagree'. The alt is the agency caption naming the match where the photo was taken, 'Knocknagree v Multyfarnham - AIB GAA Football All-Ireland Junior Club Championship Final'. The match itself is not pictured, so the sentence holds literally. Skeptic's reasons: the alt names the occasion truthfully, the crest matches it, and the man pictured is named by the headline in the same link, so a blind user loses little. Against that, the alt leaves out who and what is shown. I lean to a pass; auditors would reasonably disagree. The live homepage still serves the same image and alt."
+    },
+    {
+      "fingerprint": "s7fdb6f2c2f1",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Header icon link named 'instagram' (fa icon, aria-label) to https://www.instagram.com/echolive.ie/. The snapshot has three such links in the accessibility tree (header, the FOLLOW ECHO sidebar 'Instagram', and the footer under 'Follow Us') plus a hidden subnav copy. Their only URL difference is that the sidebar adds '?hl=en', which just sets Instagram's interface language on the same @echolive.ie profile: the same or an equivalent resource under R1. The preceding headings also differ (none, FOLLOW ECHO, Follow Us), so they are not even one set. The claim that they lead to two different places is wrong; the link's purpose is clear. The model had the hrefs and misread a language parameter as a different destination. The live HTML has the same links."
+    },
+    {
+      "fingerprint": "bb23b5fdd36e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Search button of the embedded myhome property-search widget in the sidebar: white bold 13px text on a #009cdb button. The crop of the screenshot shows exactly that, and the computed ratio is 3.10:1. 13px bold is not large text (that needs 14pt bold, about 18.7px), so 1.4.3 asks for 4.5:1. I looked for a reason it passes: the colours are solid, not an anti-aliasing artefact, there is no incidental or logotype exception, and the widget is in the page's own DOM (not an iframe), so it is part of the page's content. My fetch of the live raw HTML does not render the script-injected widget, but the capture is a fully styled browser render and nothing suggests a different style for users. The claim names the failure."
+    },
+    {
+      "fingerprint": "9873edc102f2",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The 'MORE' item of the main navigation (href='#', a hover dropdown toggle). Its own list item, which the rubric counts as programmatically determined context, contains the dropdown's links (Advertise with us, Mini Marathon 2026, Find a House, Find a Job, Competitions ... Echo Sport Podcast), exposed in the accessibility tree. So the link text with its list item tells users it opens more site sections. The claim's 'nothing around it does' is false. Using a link rather than a button for a menu toggle is a 4.1.2 matter, not 2.4.4. The model had that list-item text in its context. The live HTML is the same."
+    },
+    {
+      "fingerprint": "s47f864abc99",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Main-navigation link 'Wow!' (shown as WOW!) to /wow/, a section whose page title is 'WoW - Echolive', in a list of section links (Cork News, Cork Sport, Cork Lives, Nostalgia...). The link text is the destination section's name, which tells users where it goes: to the Wow! section. If someone still finds the name opaque, sighted users have exactly the same information, so the purpose would be ambiguous to users in general, the criterion's exception. The claim is literally true (the text does not explain the section's content), but 2.4.4 does not require that. The checker applied a stricter rule than WCAG's. The live HTML is the same."
+    },
+    {
+      "fingerprint": "p08ffefbc34e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. Black-and-white teaser photo of a bride and groom inside the link of the same name; the alt 'Wedding of the Week: Love blossomed across the counter for Cork couple' says it is a Cork couple's wedding, which is what the photo shows. It repeats the headline (a redundancy that H2 would avoid with a null alt), but it is a fitting alternative, so 1.1.1 is met and Rampa was right to report nothing. The live homepage still serves the same image and alt."
+    },
+    {
+      "fingerprint": "p9c8e62ffcc7",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. 'Find a Job' in the MORE dropdown of the main navigation, linking to recruitireland.com, a jobs site. The link text states its purpose plainly; that it leaves the site does not make the purpose unclear. 2.4.4 is met, and Rampa was right to report nothing. The live HTML has the same link."
+    }
+  ]
+}

@@ -1,0 +1,354 @@
+{
+  "page": "https://www.polishop.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "sd4e1c6413f4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The 'saiba mais' link (href '/#', opens the perk's details) belongs to the 'Até 10x s/ juros / no cartão de crédito' perk card. The card title and description are sibling styled divs, not a p, li, td or heading; the link has no title, aria-label or aria-describedby; the heading before it is 'Marcas' in the hidden sidebar and the region name is not on the rubric's list. So nothing in its programmatic context gives its purpose, only the visual card label, and per the rubric's fixed context rule the link fails 2.4.4, which is what the claim says. Live render shows the same markup (a.Perks_perks-item-learn-more, href '/#', no ARIA): no capture difference."
+    },
+    {
+      "fingerprint": "sf19b8143747",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the disabled, checked 'Estritamente necessários' checkbox in the Cookie-Script consent dialog, labelled by a for/id label. A checkbox takes no entry; the label names the cookie category it toggles, next to 'Desempenho', 'Segmentação', 'Funcionalidade' and 'Não classificado' inside the 'Cookie consent dialog', which describes its purpose as 2.4.6 asks. The claim that it does not say what to enter is wrong. The live Cookie-Script config has the same label."
+    },
+    {
+      "fingerprint": "pcb1bb4650d6",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The 32px cleaning-appliance icon (alt 'Limpeza') sits in the 'Limpeza' category link, which has aria-label 'Limpeza' and a visible 'Limpeza' text span. The alt names what the icon stands for and the link's purpose; at worst it is redundant with the text, which is not a 1.1.1 failure. Live page shows the same nav. Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "ecd3de228aba",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Desejo receber' is the accept button of the Inngage push pre-permission prompt. Its inline style sets font-size clamp(6px, 1vw, 8px), so the text is 8px bold, not large text. Pixels in the screenshot give #ffffff on #0091ff, 3.23:1, and the live CSS confirms (.opt .btn-primary {background:#0091FF; color:#FFFFFF}). That is below 4.5:1, it is an active control (not disabled, not a logo), and a fresh headless Edge render of the live page shows the same prompt. No reason to doubt it."
+    },
+    {
+      "fingerprint": "s2b81b959e80",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The icon is a hair dryer inside the 'Beleza' category link (aria-label 'Beleza', visible text 'Beleza', href /beleza-e-cuidados-pessoais). A hair dryer is the usual symbol for the beauty category, and in a link the alternative should give the function, which 'Beleza' does (and the link's name comes from aria-label anyway). The claim treats the alt as a literal picture description, a stricter rule than 1.1.1 sets for functional images. Live nav is the same."
+    },
+    {
+      "fingerprint": "d1376b468ce3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "'VTEX' provider link (row VtexRCSessionIdv7, href /us-en/terms-and-conditions/). The link sits in the 'Provider / Domínio' column of the Cookie-Script cookie report (strict category table), which is collapsed and inert at load and shown after 'Mostrar detalhes'. Its rubric context is the link text, its cell ('VTEX www.polishop.com.br') and the column header; the cookie name sits in another td, not a header cell. So it is in one set with the other 'VTEX' links of the same domain group, whose hrefs differ (privacy URLs in several locales plus /us-en/terms-and-conditions/), and the claim's count (13 links, 7 hrefs) is exact for the capture. Skeptic check on the destinations: every one of these VTEX URLs (br-pt/privacy, br-pt/privacy-policy, en/privacy, en/privacy-policy, privacy-policy/en, www.vtex.com/privacy-policy, us-en/terms-and-conditions) now redirects to VTEX's new locale paths and answers HTTP 404; rendered in a real browser each shows the identical '404 Page Not Found' page (VTEX moved its legal pages under /trust/). Under R1 every pair in the set therefore resolves to the same or an equivalent resource, so the link meets 2.4.4 on this ground (the dead links are a defect, but not a 2.4.4 one). Checked about 2.5 hours after Rampa's read; nothing suggests the old paths were live then. The live Cookie-Script config carries the same 13 VTEX links and hrefs, so the capture matches. Rampa never read the destinations and judged from differing URLs."
+    },
+    {
+      "fingerprint": "5edfdbe65e4d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "'VTEX' provider link (row VtexWorkspace, href /br-pt/privacy-policy/). The link sits in the 'Provider / Domínio' column of the Cookie-Script cookie report (strict category table), which is collapsed and inert at load and shown after 'Mostrar detalhes'. Its rubric context is the link text, its cell ('VTEX www.polishop.com.br') and the column header; the cookie name sits in another td, not a header cell. So it is in one set with the other 'VTEX' links of the same domain group, whose hrefs differ (privacy URLs in several locales plus /us-en/terms-and-conditions/), and the claim's count (13 links, 7 hrefs) is exact for the capture. Skeptic check on the destinations: every one of these VTEX URLs (br-pt/privacy, br-pt/privacy-policy, en/privacy, en/privacy-policy, privacy-policy/en, www.vtex.com/privacy-policy, us-en/terms-and-conditions) now redirects to VTEX's new locale paths and answers HTTP 404; rendered in a real browser each shows the identical '404 Page Not Found' page (VTEX moved its legal pages under /trust/). Under R1 every pair in the set therefore resolves to the same or an equivalent resource, so the link meets 2.4.4 on this ground (the dead links are a defect, but not a 2.4.4 one). Checked about 2.5 hours after Rampa's read; nothing suggests the old paths were live then. The live Cookie-Script config carries the same 13 VTEX links and hrefs, so the capture matches. Rampa never read the destinations and judged from differing URLs."
+    },
+    {
+      "fingerprint": "77e5523e373e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Google Analytics cookie description ('This cookie name is associated with Google Analytics...'). The cell is a Cookie-Script cookie description in the cookie report (collapsed and inert at load, shown after 'Mostrar detalhes' and the category tab). It is a full English sentence; neither it, its span, the table, the dialog nor body sets lang, so it inherits html lang='pt-BR'. The claim is true of the capture. Skeptic checks: these are whole sentences, not proper names or technical terms, so no 3.1.2 exception applies; content revealed by a control is still page content; the live Cookie-Script config (cdn.cookie-script.com/s/366bff...js) fixes currentLang='pt' and stores this very English text under the 'pt' key with no lang, so every visitor gets the same untagged English passage and the capture matches the live page. Nothing makes it pass: true positive."
+    },
+    {
+      "fingerprint": "0edff01292fe",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "'VTEX' provider link (row vtex_segment, href /privacy-policy/en/). The link sits in the 'Provider / Domínio' column of the Cookie-Script cookie report (strict category table), which is collapsed and inert at load and shown after 'Mostrar detalhes'. Its rubric context is the link text, its cell ('VTEX .polishop.com.br') and the column header; the cookie name sits in another td, not a header cell. So it is in one set with the other 'VTEX' links of the same domain group, whose hrefs differ (privacy URLs in several locales plus /us-en/terms-and-conditions/), and the claim's count (13 links, 7 hrefs) is exact for the capture. Skeptic check on the destinations: every one of these VTEX URLs (br-pt/privacy, br-pt/privacy-policy, en/privacy, en/privacy-policy, privacy-policy/en, www.vtex.com/privacy-policy, us-en/terms-and-conditions) now redirects to VTEX's new locale paths and answers HTTP 404; rendered in a real browser each shows the identical '404 Page Not Found' page (VTEX moved its legal pages under /trust/). Under R1 every pair in the set therefore resolves to the same or an equivalent resource, so the link meets 2.4.4 on this ground (the dead links are a defect, but not a 2.4.4 one). Checked about 2.5 hours after Rampa's read; nothing suggests the old paths were live then. The live Cookie-Script config carries the same 13 VTEX links and hrefs, so the capture matches. Rampa never read the destinations and judged from differing URLs."
+    },
+    {
+      "fingerprint": "270ca3a67e59",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "'VTEX' provider link (row checkout.vtex.com, href /br-pt/privacy/). The link sits in the 'Provider / Domínio' column of the Cookie-Script cookie report (strict category table), which is collapsed and inert at load and shown after 'Mostrar detalhes'. Its rubric context is the link text, its cell ('VTEX www.polishop.com.br') and the column header; the cookie name sits in another td, not a header cell. So it is in one set with the other 'VTEX' links of the same domain group, whose hrefs differ (privacy URLs in several locales plus /us-en/terms-and-conditions/), and the claim's count (13 links, 7 hrefs) is exact for the capture. Skeptic check on the destinations: every one of these VTEX URLs (br-pt/privacy, br-pt/privacy-policy, en/privacy, en/privacy-policy, privacy-policy/en, www.vtex.com/privacy-policy, us-en/terms-and-conditions) now redirects to VTEX's new locale paths and answers HTTP 404; rendered in a real browser each shows the identical '404 Page Not Found' page (VTEX moved its legal pages under /trust/). Under R1 every pair in the set therefore resolves to the same or an equivalent resource, so the link meets 2.4.4 on this ground (the dead links are a defect, but not a 2.4.4 one). Checked about 2.5 hours after Rampa's read; nothing suggests the old paths were live then. The live Cookie-Script config carries the same 13 VTEX links and hrefs, so the capture matches. Rampa never read the destinations and judged from differing URLs."
+    },
+    {
+      "fingerprint": "6fe6115e7096",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header search submit button (aria-label 'Submit Search') shows only a 20px magnifier SVG stroked with currentColor; it has no visible text. Screenshot pixels give #b8b8b8 strokes on the white field, 1.98:1. The icon is the only visual that identifies this separate, focusable control, so 1.4.11 asks for 3:1 (G207). Skeptic checks: the button is enabled, the look is author-set, the 'Buscar' placeholder labels the input and not the button, and pressing Enter does not exempt a visible control. The live markup and a fresh render show the same icon. True positive."
+    },
+    {
+      "fingerprint": "pf59402dec77",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The airfryer icon (alt 'Airfryer') sits in the 'Airfryer' category link with aria-label 'Airfryer' and visible 'Airfryer' text. The alt names what the icon shows and the link's destination; a redundant alt is not a 1.1.1 failure. Live nav is the same. Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "a696b0dcafce",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "'VTEX' provider link (row VtexRCMacIdv7, href /en/privacy/). The link sits in the 'Provider / Domínio' column of the Cookie-Script cookie report (strict category table), which is collapsed and inert at load and shown after 'Mostrar detalhes'. Its rubric context is the link text, its cell ('VTEX www.polishop.com.br') and the column header; the cookie name sits in another td, not a header cell. So it is in one set with the other 'VTEX' links of the same domain group, whose hrefs differ (privacy URLs in several locales plus /us-en/terms-and-conditions/), and the claim's count (13 links, 7 hrefs) is exact for the capture. Skeptic check on the destinations: every one of these VTEX URLs (br-pt/privacy, br-pt/privacy-policy, en/privacy, en/privacy-policy, privacy-policy/en, www.vtex.com/privacy-policy, us-en/terms-and-conditions) now redirects to VTEX's new locale paths and answers HTTP 404; rendered in a real browser each shows the identical '404 Page Not Found' page (VTEX moved its legal pages under /trust/). Under R1 every pair in the set therefore resolves to the same or an equivalent resource, so the link meets 2.4.4 on this ground (the dead links are a defect, but not a 2.4.4 one). Checked about 2.5 hours after Rampa's read; nothing suggests the old paths were live then. The live Cookie-Script config carries the same 13 VTEX links and hrefs, so the capture matches. Rampa never read the destinations and judged from differing URLs."
+    },
+    {
+      "fingerprint": "f3f038535464",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "'VTEX' provider link (row VtexRCRequestCounter, href /en/privacy/). The link sits in the 'Provider / Domínio' column of the Cookie-Script cookie report (strict category table), which is collapsed and inert at load and shown after 'Mostrar detalhes'. Its rubric context is the link text, its cell ('VTEX www.polishop.com.br') and the column header; the cookie name sits in another td, not a header cell. So it is in one set with the other 'VTEX' links of the same domain group, whose hrefs differ (privacy URLs in several locales plus /us-en/terms-and-conditions/), and the claim's count (13 links, 7 hrefs) is exact for the capture. Skeptic check on the destinations: every one of these VTEX URLs (br-pt/privacy, br-pt/privacy-policy, en/privacy, en/privacy-policy, privacy-policy/en, www.vtex.com/privacy-policy, us-en/terms-and-conditions) now redirects to VTEX's new locale paths and answers HTTP 404; rendered in a real browser each shows the identical '404 Page Not Found' page (VTEX moved its legal pages under /trust/). Under R1 every pair in the set therefore resolves to the same or an equivalent resource, so the link meets 2.4.4 on this ground (the dead links are a defect, but not a 2.4.4 one). Checked about 2.5 hours after Rampa's read; nothing suggests the old paths were live then. The live Cookie-Script config carries the same 13 VTEX links and hrefs, so the capture matches. Rampa never read the destinations and judged from differing URLs."
+    },
+    {
+      "fingerprint": "dc2e24451a70",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Não obrigado' is the refuse button of the Inngage push prompt: inline font-size clamp(6px, 1vw, 8px), so 8px bold, not large. Pixels give #a4a4a4 on #ffffff, 2.49:1, and the live CSS confirms (.opt .btn-primary-nao {color:#A4A4A4} on the white .opt box). Below 4.5:1, an active control with no exemption, and the same prompt shows in a fresh render of the live page."
+    },
+    {
+      "fingerprint": "ae0b7cbf8bf1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "'VTEX' provider link (row VtexRCMacIdv7, href /en/privacy/). The link sits in the 'Provider / Domínio' column of the Cookie-Script cookie report (strict category table), which is collapsed and inert at load and shown after 'Mostrar detalhes'. Its rubric context is the link text, its cell ('VTEX .polishop.com.br') and the column header; the cookie name sits in another td, not a header cell. So it is in one set with the other 'VTEX' links of the same domain group, whose hrefs differ (privacy URLs in several locales plus /us-en/terms-and-conditions/), and the claim's count (13 links, 7 hrefs) is exact for the capture. Skeptic check on the destinations: every one of these VTEX URLs (br-pt/privacy, br-pt/privacy-policy, en/privacy, en/privacy-policy, privacy-policy/en, www.vtex.com/privacy-policy, us-en/terms-and-conditions) now redirects to VTEX's new locale paths and answers HTTP 404; rendered in a real browser each shows the identical '404 Page Not Found' page (VTEX moved its legal pages under /trust/). Under R1 every pair in the set therefore resolves to the same or an equivalent resource, so the link meets 2.4.4 on this ground (the dead links are a defect, but not a 2.4.4 one). Checked about 2.5 hours after Rampa's read; nothing suggests the old paths were live then. The live Cookie-Script config carries the same 13 VTEX links and hrefs, so the capture matches. Rampa never read the destinations and judged from differing URLs."
+    },
+    {
+      "fingerprint": "74c517c41049",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "YouTube preferences cookie description ('This cookie is set by Youtube to keep track of user preferences...'). The cell is a Cookie-Script cookie description in the cookie report (collapsed and inert at load, shown after 'Mostrar detalhes' and the category tab). It is a full English sentence; neither it, its span, the table, the dialog nor body sets lang, so it inherits html lang='pt-BR'. The claim is true of the capture. Skeptic checks: these are whole sentences, not proper names or technical terms, so no 3.1.2 exception applies; content revealed by a control is still page content; the live Cookie-Script config (cdn.cookie-script.com/s/366bff...js) fixes currentLang='pt' and stores this very English text under the 'pt' key with no lang, so every visitor gets the same untagged English passage and the capture matches the live page. Nothing makes it pass: true positive."
+    },
+    {
+      "fingerprint": "0d06f923bdd8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Facebook advertising cookie description ('Used by Facebook to deliver a series of advertisement products...'). The cell is a Cookie-Script cookie description in the cookie report (collapsed and inert at load, shown after 'Mostrar detalhes' and the category tab). It is a full English sentence; neither it, its span, the table, the dialog nor body sets lang, so it inherits html lang='pt-BR'. The claim is true of the capture. Skeptic checks: these are whole sentences, not proper names or technical terms, so no 3.1.2 exception applies; content revealed by a control is still page content; the live Cookie-Script config (cdn.cookie-script.com/s/366bff...js) fixes currentLang='pt' and stores this very English text under the 'pt' key with no lang, so every visitor gets the same untagged English passage and the capture matches the live page. Nothing makes it pass: true positive."
+    },
+    {
+      "fingerprint": "dabb3deca881",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "'VTEX' provider link (row VtexWorkspace, href /br-pt/privacy-policy/). The link sits in the 'Provider / Domínio' column of the Cookie-Script cookie report (strict category table), which is collapsed and inert at load and shown after 'Mostrar detalhes'. Its rubric context is the link text, its cell ('VTEX .polishop.com.br') and the column header; the cookie name sits in another td, not a header cell. So it is in one set with the other 'VTEX' links of the same domain group, whose hrefs differ (privacy URLs in several locales plus /us-en/terms-and-conditions/), and the claim's count (13 links, 7 hrefs) is exact for the capture. Skeptic check on the destinations: every one of these VTEX URLs (br-pt/privacy, br-pt/privacy-policy, en/privacy, en/privacy-policy, privacy-policy/en, www.vtex.com/privacy-policy, us-en/terms-and-conditions) now redirects to VTEX's new locale paths and answers HTTP 404; rendered in a real browser each shows the identical '404 Page Not Found' page (VTEX moved its legal pages under /trust/). Under R1 every pair in the set therefore resolves to the same or an equivalent resource, so the link meets 2.4.4 on this ground (the dead links are a defect, but not a 2.4.4 one). Checked about 2.5 hours after Rampa's read; nothing suggests the old paths were live then. The live Cookie-Script config carries the same 13 VTEX links and hrefs, so the capture matches. Rampa never read the destinations and judged from differing URLs."
+    },
+    {
+      "fingerprint": "p65611575a58",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The off-canvas sidebar menu link's name is 'Televendas 0800 007 8989 Converse também pelo Whastsapp', href /televendas. The text names the telesales service the page is about, so its purpose comes from the link text alone. The live page data has the same item (label Televendas, url /televendas). Passes 2.4.4."
+    },
+    {
+      "fingerprint": "s8cf894de7bf",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Amazon.com Inc.' is the provider link for the AWSALBCORS cookie in the cookie report's 'Provider / Domínio' column. It leads to advertising.amazon.com/legal/privacy-notice (200, 'Privacy Notice - Legal Policies | Amazon Ads'), Amazon's privacy notice. The link names the provider and, with its column header, gives the purpose: the provider's policy page. Text and destination match, so the claim is wrong. The live Cookie-Script config has the same link."
+    },
+    {
+      "fingerprint": "2af81c30c9fd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Google Analytics pattern cookie description ('This is a pattern type cookie set by Google Analytics...'). The cell is a Cookie-Script cookie description in the cookie report (collapsed and inert at load, shown after 'Mostrar detalhes' and the category tab). It is a full English sentence; neither it, its span, the table, the dialog nor body sets lang, so it inherits html lang='pt-BR'. The claim is true of the capture. Skeptic checks: these are whole sentences, not proper names or technical terms, so no 3.1.2 exception applies; content revealed by a control is still page content; the live Cookie-Script config (cdn.cookie-script.com/s/366bff...js) fixes currentLang='pt' and stores this very English text under the 'pt' key with no lang, so every visitor gets the same untagged English passage and the capture matches the live page. Nothing makes it pass: true positive."
+    },
+    {
+      "fingerprint": "cc0fca14e704",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "'VTEX' provider link (row vtex_segment, href /privacy-policy/en/). The link sits in the 'Provider / Domínio' column of the Cookie-Script cookie report (strict category table), which is collapsed and inert at load and shown after 'Mostrar detalhes'. Its rubric context is the link text, its cell ('VTEX www.polishop.com.br') and the column header; the cookie name sits in another td, not a header cell. So it is in one set with the other 'VTEX' links of the same domain group, whose hrefs differ (privacy URLs in several locales plus /us-en/terms-and-conditions/), and the claim's count (13 links, 7 hrefs) is exact for the capture. Skeptic check on the destinations: every one of these VTEX URLs (br-pt/privacy, br-pt/privacy-policy, en/privacy, en/privacy-policy, privacy-policy/en, www.vtex.com/privacy-policy, us-en/terms-and-conditions) now redirects to VTEX's new locale paths and answers HTTP 404; rendered in a real browser each shows the identical '404 Page Not Found' page (VTEX moved its legal pages under /trust/). Under R1 every pair in the set therefore resolves to the same or an equivalent resource, so the link meets 2.4.4 on this ground (the dead links are a defect, but not a 2.4.4 one). Checked about 2.5 hours after Rampa's read; nothing suggests the old paths were live then. The live Cookie-Script config carries the same 13 VTEX links and hrefs, so the capture matches. Rampa never read the destinations and judged from differing URLs."
+    },
+    {
+      "fingerprint": "s858c9f3869f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'VTEX Commerce Cloud Solutions LLC' is the provider link for the vtex_session cookie in the cookie report's provider column. Its href, vtex.com/us-en/privacy-and-agreements/external-notice/, redirects to compliance.vtex.com, the VTEX Trust Center (rendered in a browser). The text names VTEX's legal entity, and the URL and destination are VTEX's privacy/compliance pages, so the text matches where it goes, and with its column header the purpose is clear. The live config has the same link."
+    },
+    {
+      "fingerprint": "3055d8419f0a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "'VTEX' provider link (row checkout.vtex.com, href /br-pt/privacy/). The link sits in the 'Provider / Domínio' column of the Cookie-Script cookie report (strict category table), which is collapsed and inert at load and shown after 'Mostrar detalhes'. Its rubric context is the link text, its cell ('VTEX .polishop.com.br') and the column header; the cookie name sits in another td, not a header cell. So it is in one set with the other 'VTEX' links of the same domain group, whose hrefs differ (privacy URLs in several locales plus /us-en/terms-and-conditions/), and the claim's count (13 links, 7 hrefs) is exact for the capture. Skeptic check on the destinations: every one of these VTEX URLs (br-pt/privacy, br-pt/privacy-policy, en/privacy, en/privacy-policy, privacy-policy/en, www.vtex.com/privacy-policy, us-en/terms-and-conditions) now redirects to VTEX's new locale paths and answers HTTP 404; rendered in a real browser each shows the identical '404 Page Not Found' page (VTEX moved its legal pages under /trust/). Under R1 every pair in the set therefore resolves to the same or an equivalent resource, so the link meets 2.4.4 on this ground (the dead links are a defect, but not a 2.4.4 one). Checked about 2.5 hours after Rampa's read; nothing suggests the old paths were live then. The live Cookie-Script config carries the same 13 VTEX links and hrefs, so the capture matches. Rampa never read the destinations and judged from differing URLs."
+    },
+    {
+      "fingerprint": "beb5c130d5bc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "YouTube views cookie description ('This cookie is set by YouTube to track views of embedded videos.'). The cell is a Cookie-Script cookie description in the cookie report (collapsed and inert at load, shown after 'Mostrar detalhes' and the category tab). It is a full English sentence; neither it, its span, the table, the dialog nor body sets lang, so it inherits html lang='pt-BR'. The claim is true of the capture. Skeptic checks: these are whole sentences, not proper names or technical terms, so no 3.1.2 exception applies; content revealed by a control is still page content; the live Cookie-Script config (cdn.cookie-script.com/s/366bff...js) fixes currentLang='pt' and stores this very English text under the 'pt' key with no lang, so every visitor gets the same untagged English passage and the capture matches the live page. Nothing makes it pass: true positive."
+    },
+    {
+      "fingerprint": "7cc55691a075",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "_ga cookie description ('This cookie name is associated with Google Universal Analytics...'), in the strict table. The cell is a Cookie-Script cookie description in the cookie report (collapsed and inert at load, shown after 'Mostrar detalhes' and the category tab). It is a full English sentence; neither it, its span, the table, the dialog nor body sets lang, so it inherits html lang='pt-BR'. The claim is true of the capture. Skeptic checks: these are whole sentences, not proper names or technical terms, so no 3.1.2 exception applies; content revealed by a control is still page content; the live Cookie-Script config (cdn.cookie-script.com/s/366bff...js) fixes currentLang='pt' and stores this very English text under the 'pt' key with no lang, so every visitor gets the same untagged English passage and the capture matches the live page. Nothing makes it pass: true positive."
+    },
+    {
+      "fingerprint": "pd5cf54f9d2c",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The POLISHOP logo image (alt 'Polishop | Produtos Exclusivos e Ofertas Imperdíveis') is in the h1 home link, whose aria-label 'Ir para página inicial' gives the control's purpose. A visually hidden 'Polishop' span in the h1 conveys the logo text, and the alt itself contains 'Polishop'. The non-text content and the control both have suitable alternatives, so 1.1.1 is met. Live header is the same."
+    },
+    {
+      "fingerprint": "c8576b305cd3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "'VTEX' provider link (row VtexFingerPrint, href www.vtex.com/privacy-policy/). The link sits in the 'Provider / Domínio' column of the Cookie-Script cookie report (strict category table), which is collapsed and inert at load and shown after 'Mostrar detalhes'. Its rubric context is the link text, its cell ('VTEX www.polishop.com.br') and the column header; the cookie name sits in another td, not a header cell. So it is in one set with the other 'VTEX' links of the same domain group, whose hrefs differ (privacy URLs in several locales plus /us-en/terms-and-conditions/), and the claim's count (13 links, 7 hrefs) is exact for the capture. Skeptic check on the destinations: every one of these VTEX URLs (br-pt/privacy, br-pt/privacy-policy, en/privacy, en/privacy-policy, privacy-policy/en, www.vtex.com/privacy-policy, us-en/terms-and-conditions) now redirects to VTEX's new locale paths and answers HTTP 404; rendered in a real browser each shows the identical '404 Page Not Found' page (VTEX moved its legal pages under /trust/). Under R1 every pair in the set therefore resolves to the same or an equivalent resource, so the link meets 2.4.4 on this ground (the dead links are a defect, but not a 2.4.4 one). Checked about 2.5 hours after Rampa's read; nothing suggests the old paths were live then. The live Cookie-Script config carries the same 13 VTEX links and hrefs, so the capture matches. Rampa never read the destinations and judged from differing URLs."
+    },
+    {
+      "fingerprint": "e44fbfc42459",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Google AdSense cookie description ('Used by Google AdSense for experimenting with advertisement efficiency...'). The cell is a Cookie-Script cookie description in the cookie report (collapsed and inert at load, shown after 'Mostrar detalhes' and the category tab). It is a full English sentence; neither it, its span, the table, the dialog nor body sets lang, so it inherits html lang='pt-BR'. The claim is true of the capture. Skeptic checks: these are whole sentences, not proper names or technical terms, so no 3.1.2 exception applies; content revealed by a control is still page content; the live Cookie-Script config (cdn.cookie-script.com/s/366bff...js) fixes currentLang='pt' and stores this very English text under the 'pt' key with no lang, so every visitor gets the same untagged English passage and the capture matches the live page. Nothing makes it pass: true positive."
+    },
+    {
+      "fingerprint": "91d4e7c59784",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "'VTEX' provider link (row VtexRCSessionIdv7, href /us-en/terms-and-conditions/). The link sits in the 'Provider / Domínio' column of the Cookie-Script cookie report (strict category table), which is collapsed and inert at load and shown after 'Mostrar detalhes'. Its rubric context is the link text, its cell ('VTEX .polishop.com.br') and the column header; the cookie name sits in another td, not a header cell. So it is in one set with the other 'VTEX' links of the same domain group, whose hrefs differ (privacy URLs in several locales plus /us-en/terms-and-conditions/), and the claim's count (13 links, 7 hrefs) is exact for the capture. Skeptic check on the destinations: every one of these VTEX URLs (br-pt/privacy, br-pt/privacy-policy, en/privacy, en/privacy-policy, privacy-policy/en, www.vtex.com/privacy-policy, us-en/terms-and-conditions) now redirects to VTEX's new locale paths and answers HTTP 404; rendered in a real browser each shows the identical '404 Page Not Found' page (VTEX moved its legal pages under /trust/). Under R1 every pair in the set therefore resolves to the same or an equivalent resource, so the link meets 2.4.4 on this ground (the dead links are a defect, but not a 2.4.4 one). Checked about 2.5 hours after Rampa's read; nothing suggests the old paths were live then. The live Cookie-Script config carries the same 13 VTEX links and hrefs, so the capture matches. Rampa never read the destinations and judged from differing URLs."
+    },
+    {
+      "fingerprint": "a66fcb8de994",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "'VTEX' provider link (row vtex_binding_address, href /en/privacy-policy/). The link sits in the 'Provider / Domínio' column of the Cookie-Script cookie report (strict category table), which is collapsed and inert at load and shown after 'Mostrar detalhes'. Its rubric context is the link text, its cell ('VTEX www.polishop.com.br') and the column header; the cookie name sits in another td, not a header cell. So it is in one set with the other 'VTEX' links of the same domain group, whose hrefs differ (privacy URLs in several locales plus /us-en/terms-and-conditions/), and the claim's count (13 links, 7 hrefs) is exact for the capture. Skeptic check on the destinations: every one of these VTEX URLs (br-pt/privacy, br-pt/privacy-policy, en/privacy, en/privacy-policy, privacy-policy/en, www.vtex.com/privacy-policy, us-en/terms-and-conditions) now redirects to VTEX's new locale paths and answers HTTP 404; rendered in a real browser each shows the identical '404 Page Not Found' page (VTEX moved its legal pages under /trust/). Under R1 every pair in the set therefore resolves to the same or an equivalent resource, so the link meets 2.4.4 on this ground (the dead links are a defect, but not a 2.4.4 one). Checked about 2.5 hours after Rampa's read; nothing suggests the old paths were live then. The live Cookie-Script config carries the same 13 VTEX links and hrefs, so the capture matches. Rampa never read the destinations and judged from differing URLs."
+    }
+  ]
+}

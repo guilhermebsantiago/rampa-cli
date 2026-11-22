@@ -1,0 +1,105 @@
+{
+  "page": "https://prefeitura.belem.pa.gov.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s456f25d6b32",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link is the 'Veja os serviços' card (href /secretarias/) in the 'COMO PODEMOS AJUDAR?' block. A second link with the same name goes to /modalidade-do-servico/online, so the first half of the claim holds. But by this rubric's context list the two links are not in one R1 set: no title or aria-describedby, no shared sentence, list item or cell, and their preceding headings differ. The nearest heading before this link is the h2 'COMO PODEMOS AJUDAR?'. The nearest heading before the other is the h2 'Processo Eletrônico' (the cards in between use paragraphs, not headings). So 'nothing around this one tells it apart' is false of the capture, and the shared name is not a 2.4.4 failure here. On its own, 'Veja os serviços' fits the destination, the 'Secretarias e Órgãos' page ('Acesse os serviços a partir da seleção de um órgão ou secretaria', with VER SERVIÇOS per agency). The live HTML has the same hrefs, text and no title, so the capture matches. The packet listed the preceding heading, so Rampa had that context and misjudged it."
+    },
+    {
+      "fingerprint": "4199c7a37be8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the footer's vertical 'BELÉM PREFEITURA – CAPITAL DA AMAZÔNIA' logo. It is not a link and has alt=\"\" (the same in the live HTML). The footer text around it (social links, address, phones, '© Todos os direitos reservados') does not name the organisation or the slogan, so the claim holds for the capture. My lean is that it fails 1.1.1, because a logo that conveys identity is usually treated as informative. Against that: it repeats the header logo, the organisation's name is visible text at the top ('PREFEITURA MUNICIPAL DE BELÉM' link) and in the page title, and the only thing it adds is the small slogan. Competent auditors split on whether a repeated, non-linked footer logo is redundant or decorative, so the label is uncertain."
+    },
+    {
+      "fingerprint": "sf21f6aedf51",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The link is the 'TLPL' card in the 'Serviços mais buscados' grid. It goes to '2ª via da Taxa de Licença para Localização e Funcionamento (TLPL)'. The link text names the municipal fee that the destination is about, just as its siblings 'IPTU', 'ITBI' and 'ISS' name theirs, so its purpose, the TLPL service, can be told from the text. Understanding 2.4.4 does not require the destination's full name. Expanding an abbreviation is 3.1.4 (AAA), not 2.4.4. Sighted users see the same 'TLPL' with an arrow, so screen-reader users lose nothing. No title, but the claim's 'does not tell where the link goes' is not true. The live page is the same. Rampa demanded an expansion that 2.4.4 does not ask for."
+    },
+    {
+      "fingerprint": "2c2645a694f2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the h2 'COMO PODEMOS AJUDAR?'. The live Elementor CSS sets it to Bebas Neue, 53px, weight 400, color #4FAF47, and the screenshot pixels show solid #4faf47 text on #ffffff, which is 2.78:1. It is large text, so the 3:1 threshold applies, and it misses that. It is a real heading, not a logotype, decorative or inactive, so no exception applies. The live HTML and CSS match the capture. I found no reason the measurement is wrong."
+    },
+    {
+      "fingerprint": "6370e488851d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the carousel's 'Next slide' control (div role=button, focusable, no disabled class). It sits outside the banner on a white background, and its only visual is a chevron. Pixels show #4faf47 on #ffffff, 2.78:1, below the 3:1 that 1.4.11 asks for the visual information needed to identify a component. I checked for reasons it could pass. The carousel has one slide but runs in loop mode with duplicate slides, so the button is not disabled or hidden and stays operable. The live CSS sets the arrow colour from a global colour, and the capture matches the live page."
+    },
+    {
+      "fingerprint": "2c3139fbc809",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the carousel's 'Previous slide' control. Same case as the Next button: a chevron on white outside the banner, #4faf47 on #ffffff (2.78:1) measured from the screenshot, and focusable, with no disabled or lock state in loop mode. The chevron is all that identifies the control, so it fails the 3:1 of 1.4.11. The live markup and CSS are the same as the capture."
+    },
+    {
+      "fingerprint": "388d0d4d21cb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer image 'unesco / Member of Creative Cities Network' (Frame-355unesco.png), not a link, with alt=\"\" in both the snapshot and the live HTML. It states that Belém belongs to the UNESCO Creative Cities Network. No text on the page says this: the snapshot has no 'UNESCO', 'criativa' or 'creative' text anywhere. So it is informative, not decorative, and a null alternative hides that information from screen-reader users. I found no technique or nearby text that makes it pass."
+    },
+    {
+      "fingerprint": "a5357cc29865",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the header search field. Its label 'Campo de Busca' is screen-reader-only, and the visible placeholder 'Buscando em Prefeitura de Belém' is 15px, weight 400. Elementor gives the placeholder the field colour #474747 at 0.6 opacity, and screenshot pixels show #919191 on #ffffff, 3.15:1. That is below the 4.5:1 for normal-size text. The placeholder is the visible text that says what the field searches. It is not incidental (the field is active, the text is not decoration), and 1.4.3 has no placeholder exception. The live markup is the same as the capture."
+    },
+    {
+      "fingerprint": "s6f339dc3461",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link is the 'Veja os serviços' card at the end of the 'SERVIÇOS ONLINE' grid (href /modalidade-do-servico/online; Rampa recorded 'Online' with status 200; my own fetch of it got 403). Another link with the same name goes to /secretarias/. Under this rubric's context list the two are not in one R1 set. Neither has a title or aria-describedby, and they share no sentence, list item or cell, but their preceding headings differ: 'Processo Eletrônico' (the h2 of the card just before) here, 'COMO PODEMOS AJUDAR?' for the other. So 'nothing around this one tells it apart' is not true of the capture by the rubric's context. On its own, 'Veja os serviços' fairly describes a link to a list of services. The live homepage has the same hrefs and no titles. The packet listed the preceding headings, so Rampa had that context and misjudged it."
+    }
+  ]
+}

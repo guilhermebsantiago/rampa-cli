@@ -1,0 +1,47 @@
+{
+  "page": "https://www.va.gov/find-locations/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p07bf7e1d942",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer link 'Small business programs' (no title or aria-label) in a list under the h2 'Veteran programs and services', pointing to https://www.va.gov/osdbu/, which I opened: 'Office of Small & Disadvantaged Business Utilization', VA's small business office. The link text alone describes that purpose. The only other link with this name is the hidden mobile copy of the footer, with the same href, so R1 finds no non-equivalent pair. The live HTML's footerData has the same title and href, and the screenshot shows the styled footer, so the capture does not differ. The element meets 2.4.4; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "pae0f794a36c",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer link 'VA news' under the h2 'Get VA updates', pointing to https://news.va.gov/. Rampa did not read it, but I did: 'VA News and Information', with the heading 'Welcome to VA News'. The text alone describes the purpose. Its only namesake is the hidden mobile footer copy, with the same href, so there is no R1 problem. The live footerData has the same title and href, and the screenshot matches. The element meets 2.4.4."
+    },
+    {
+      "fingerprint": "p86cb86b700e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer link 'Your VA welcome kit' under the h2 'More VA resources', pointing to https://www.va.gov/welcome-kit/, which I opened: 'Print out your VA Welcome Kit'. The text alone describes the purpose. Its only namesake is the hidden mobile footer copy, with the same href. The live footerData has the same title and href, and the screenshot matches. The element meets 2.4.4."
+    },
+    {
+      "fingerprint": "sff303c10176",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Mapbox attribution link: visible text '© OpenStreetMap', aria-label and title 'OpenStreetMap', href https://www.openstreetmap.org/copyright/ (tabindex -1). The destination, which I opened, is OpenStreetMap's 'Copyright and License' page. So the name does match where the link goes: it names the site, and the © in its own text marks it as the data attribution and licence credit. Understanding 2.4.4 says the link need not use the target document's name. Seen this way the claim is false and the link meets 2.4.4. The screenshot shows the attribution rendered as on a live Mapbox map. My plain fetch cannot run the map script, but the footer data in the live HTML matches the snapshot and nothing points to a different capture. The href was in the HTML the model saw, so this is a judgment error."
+    }
+  ]
+}

@@ -1,0 +1,308 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://downsyndrome.ie/our-members/meet-oisin/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "0e9c581b0f12",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#app > footer > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Our Funders\" describes something the image does not show.",
+   "evidence": "Our Funders",
+   "subject": "Our Funders",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#app > footer > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Our Funders",
+    "to": "Logos for the Government of Ireland and Pobal",
+    "before": "<img class=\"aligncenter wp-image-225\" src=\"https://downsyndrome.ie/wp-content/uploads/2025/05/WvETHByeDX8vCF6EbU4s6skOU2Xj4HJTWM5OjRyE-1.webp\" alt=\"Our Funders\" width=\"500\" height=\"108\">",
+    "after": "<img class=\"aligncenter wp-image-225\" src=\"https://downsyndrome.ie/wp-content/uploads/2025/05/WvETHByeDX8vCF6EbU4s6skOU2Xj4HJTWM5OjRyE-1.webp\" alt=\"Logos for the Government of Ireland and Pobal\" width=\"500\" height=\"108\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9997882449740619
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 1
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#app > header > div > div:nth-of-type(1) > a > img",
+   "message": "The text alternative \"Down Syndrom Ireland\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"Down Syndrome Ireland\" · Offline: the second pass has no cached answer, so the claim stays a suggestion",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#main > p:nth-of-type(12) > strong > a",
+   "message": "The link text \"Learn more about Early Year here.\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Learn more about Early Years\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#app > header > div > div:nth-of-type(1) > a > img",
+   "reason": "the alternative is a logo that leads to the site's home page",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Down Syndrom Ireland",
+    "problem": "missing_information",
+    "imageShows": "The logo for Down Syndrome Ireland featuring two hands reaching towards each other and the organisation's name.",
+    "suggestedAlt": "Down Syndrome Ireland",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 8,
+   "judged": 8,
+   "failed": 1,
+   "passed": 6,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 1,
+   "suggested": 1,
+   "unconfirmed": 1,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 26,
+   "judged": 26,
+   "failed": 0,
+   "passed": 25,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 4,
+   "judged": 4,
+   "failed": 0,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Verification was off (--no-verify): model claims whose quoted evidence is not on the page are reported as if it were. This run is for measurement only.",
+  "2 image(s) were left without a capture, so no judgment looked at them: 2 blank in its capture. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 43,
+  "inputTokens": 38090,
+  "outputTokens": 3261,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 234,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 17
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 14,
+    "prepareMs": 0,
+    "candidates": 8,
+    "judged": 8,
+    "calls": 0,
+    "cachedCalls": 11
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 10,
+    "prepareMs": 0,
+    "candidates": 26,
+    "judged": 26,
+    "calls": 0,
+    "cachedCalls": 26
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 4,
+    "judged": 4,
+    "calls": 0,
+    "cachedCalls": 4
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 137,
+    "prepareMs": 134,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 29,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 23
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 10,
+   "notCaptured": 2,
+   "reasons": {
+    "blank": 2
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "1.1.1",
+    "candidates": 8,
+    "offlineMisses": 1
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

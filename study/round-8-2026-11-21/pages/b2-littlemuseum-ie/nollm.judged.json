@@ -1,0 +1,228 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.littlemuseum.ie/",
+ "model": null,
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "26cb3d9807b1",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > img",
+   "target": "html > body > footer > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Tripadvisor-Tag_1x\" repeats the image's file name: a screen reader reads it in place of the image. Describe what the image conveys, or use alt=\"\" if it is decorative.",
+   "evidence": "alt=\"Tripadvisor-Tag_1x\"",
+   "subject": "Tripadvisor-Tag_1x",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-alt",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F30",
+   "html": "<img src=\"https://www.littlemuseum.ie/wp-content/uploads/2022/09/Tripadvisor-Tag_1x.png\" alt=\"Tripadvisor-Tag_1x\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "8eefe212d27e",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#input_1_1",
+   "target": "#input_1_1",
+   "message": "The placeholder \"Enter your email address\" has a contrast of 3.95:1 with the field (#808080 on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#808080 on #ffffff · 3.95:1 at best, 3.95:1 at worst · 18px, 400",
+   "subject": "Enter your email address",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input name=\"input_1\" id=\"input_1_1\" type=\"email\" value=\"\" class=\"large\" placeholder=\"Enter your email address\" aria-required=\"true\" aria-invalid=\"false\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "e5ccd66a84e2",
+   "criterion": "3.3.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#input_1_4",
+   "target": "#input_1_4",
+   "message": "Nothing on screen says what to enter in this field: its label is hidden from view (\"Company\"), and no text, button or legend sits near it.",
+   "evidence": "<input name=\"input_4\" id=\"input_1_4\" type=\"text\" value=\"\" autocomplete=\"new-password\">",
+   "subject": "Company",
+   "patch": {
+    "ref": "#input_1_4",
+    "kind": "replace-element",
+    "to": "Company",
+    "before": "<input name=\"input_4\" id=\"input_1_4\" type=\"text\" value=\"\" autocomplete=\"new-password\">",
+    "after": "<label for=\"input_1_4\">Company</label> <input name=\"input_4\" id=\"input_1_4\" type=\"text\" value=\"\" autocomplete=\"new-password\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/no-visible-label",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/labels-or-instructions.html",
+   "html": "<input name=\"input_4\" id=\"input_1_4\" type=\"text\" value=\"\" autocomplete=\"new-password\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 7
+ },
+ "groups": [
+  {
+   "id": "g-caa6eccc5028",
+   "list": "findings",
+   "criterion": "2.5.3",
+   "level": "A",
+   "source": "engine",
+   "check": "label-content-name-mismatch",
+   "count": 6,
+   "members": [
+    "e8003d6aea1e",
+    "d8a351b1cd3b",
+    "d130f5f1078a",
+    "115702e267c6",
+    "d4915f906dbf",
+    "3e74d31b74d9"
+   ],
+   "example": "e8003d6aea1e"
+  }
+ ],
+ "needsReview": [],
+ "discarded": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 25,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 56,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 20,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were not checked at all, so whatever they hold was missed: html > body > iframe:nth-of-type(2) (cross-origin; skipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 0,
+  "inputTokens": 0,
+  "outputTokens": 0,
+  "latencyMs": 0
+ },
+ "timings": null,
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 25,
+   "notCaptured": 3,
+   "reasons": {
+    "limit": 3
+   }
+  }
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > iframe:nth-of-type(2)",
+     "url": "https://consentcdn.cookiebot.com/sdk/bc-v5.min.html",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": false,
+     "engineReason": "skipped"
+    }
+   ]
+  }
+ }
+}

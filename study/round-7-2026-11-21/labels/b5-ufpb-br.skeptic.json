@@ -1,0 +1,145 @@
+{
+  "page": "https://www.ufpb.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p73d894d3c74",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Hero card link (a.noticia-card with a CSS background image) whose only text is the div \"Conexão Extensão\"; its accessible name is \"Conexão Extensão\". The destination is the page titled and headed \"Conexão Extensão\", so the link text alone gives its purpose. The only other links with that name are the Extensão e Cultura submenu items in the desktop and mobile menus, which go to the same address, so R1 finds no failing pair. The live page still has this card with the same markup. The link meets 2.4.4 and Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "99a0185874eb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Photo above the \"Ensino\" section heading (students working at desktop computers in a lab), alt=\"Imagem da página\". The snapshot and the live page (fetched 2026-11-21) carry the same src and alt, and the screenshot shows the photo as captured, so the capture does not differ. Skeptic checks: the image is not inside a link (R2 does not apply), there is no caption or figure that would make the alt redundant, and no capture artefact. Whether the photo is read as informative or as decorative eye-candy beside the heading, alt=\"Imagem da página\" fails 1.1.1: as an informative image it is placeholder text that is not an alternative (F30), as a decorative one it is a non-null alt of the alt=\"image\" kind (F39). The claim, read in good faith, points at that defect: the alternative does not describe what the image shows. No reason against the finding holds up."
+    },
+    {
+      "fingerprint": "e05103e232fa",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Photo above the \"Internacionalização\" section heading (three smiling young women, foreign students, outdoors), alt=\"Imagem da página\". The snapshot and the live page (fetched 2026-11-21) carry the same src and alt, and the screenshot shows the photo as captured, so the capture does not differ. Skeptic checks: the image is not inside a link (R2 does not apply), there is no caption or figure that would make the alt redundant, and no capture artefact. Whether the photo is read as informative or as decorative eye-candy beside the heading, alt=\"Imagem da página\" fails 1.1.1: as an informative image it is placeholder text that is not an alternative (F30), as a decorative one it is a non-null alt of the alt=\"image\" kind (F39). The claim, read in good faith, points at that defect: the alternative does not describe what the image shows. No reason against the finding holds up."
+    },
+    {
+      "fingerprint": "cb08cb53c23e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Photo above the \"Pesquisa e Inovação\" section heading (a woman in a green cap holding a young goat in a stable), alt=\"Imagem da página\". The snapshot and the live page (fetched 2026-11-21) carry the same src and alt, and the screenshot shows the photo as captured, so the capture does not differ. Skeptic checks: the image is not inside a link (R2 does not apply), there is no caption or figure that would make the alt redundant, and no capture artefact. Whether the photo is read as informative or as decorative eye-candy beside the heading, alt=\"Imagem da página\" fails 1.1.1: as an informative image it is placeholder text that is not an alternative (F30), as a decorative one it is a non-null alt of the alt=\"image\" kind (F39). The claim, read in good faith, points at that defect: the alternative does not describe what the image shows. No reason against the finding holds up."
+    },
+    {
+      "fingerprint": "pffebcc0b25e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Link inside the h2 \"79ª Reunião da SBPC na UFPB\", leading to the category archive headed \"Postagens / 79ª Reunião da SBPC na UFPB\" that lists the news about the meeting. The link text names exactly what the destination is (the destination's <title> is just its latest post, which does not change its purpose). The only other link to this category is \"Mais Notícias\", with a different name, so R1 does not apply. The live page has the same link. It meets 2.4.4; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "sc810b6d7b55",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Top-level desktop menu item \"Ações Afirmativas\" with href=\"#\". It is not a link to a page: the theme's controller.js prevents the default action on click and toggles the item's submenu (setting aria-expanded), and hover opens it too. Its purpose is to open the Ações Afirmativas submenu, and its text names that submenu; its own list item holds the nested list (Acessibilidade, Comunidades Tradicionais, LGBTQIAPN+, Mulheres, Negros), which is programmatically determined context. So the claim that nothing around it tells its purpose is false of the capture, which gave the model that list item text. The live page has the same markup. Using a link with href=\"#\" as a disclosure is a 4.1.2 role matter at most, not a 2.4.4 failure. The model had the context and judged wrongly."
+    },
+    {
+      "fingerprint": "pff6d17d9802",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "News card link whose name is the full headline \"UFPB recebe representantes da SBPC para definir infraestrutura da 79ª Reunião\" plus its date (the card image has alt=\"\"). The destination's title and heading are that same headline, so the text alone gives the purpose, and no other link shares the name. The live page has the same card. It meets 2.4.4; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "pbeb2b3096ff",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "News card link whose name is the full headline \"UFPB abre submissão de propostas científicas para a 79ª Reunião Anual da SBPC\" plus its date (the card image has alt=\"\"). The destination's title and heading are that same headline, so the text alone gives the purpose, and no other link shares the name. The live page has the same card. It meets 2.4.4; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "5778dfbcecf5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Photo above the \"Extensão e Cultura\" section heading (a young woman playing marimba in front of an orchestra), alt=\"Imagem da página\". The snapshot and the live page (fetched 2026-11-21) carry the same src and alt, and the screenshot shows the photo as captured, so the capture does not differ. Skeptic checks: the image is not inside a link (R2 does not apply), there is no caption or figure that would make the alt redundant, and no capture artefact. Whether the photo is read as informative or as decorative eye-candy beside the heading, alt=\"Imagem da página\" fails 1.1.1: as an informative image it is placeholder text that is not an alternative (F30), as a decorative one it is a non-null alt of the alt=\"image\" kind (F39). The claim, read in good faith, points at that defect: the alternative does not describe what the image shows. No reason against the finding holds up."
+    },
+    {
+      "fingerprint": "s6c4e964b091",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The site search field in the header (input#s, no label element, placeholder \"Busca\", next to a magnifier submit button). Its only label is the placeholder \"Busca\" (Search). 2.4.6 asks that labels describe topic or purpose; \"Busca\" on a header search box states its purpose, and that tells users to enter what they want to search for, so the claim is not true of it. Demanding that the label spell out what to enter asks for instructions (a 3.3.2-style requirement), which is more than 2.4.6 requires. Other problems here belong to other criteria: the placeholder's 3.03:1 contrast (1.4.3) and the unnamed icon button (4.1.2, a different element). The live page has the same field."
+    },
+    {
+      "fingerprint": "b5d14733ea73",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Placeholder \"Busca\" in the header search field. The theme's live style.css sets input[type=text] color to --cor-texto-medio #949494 and ::placeholder to inherit (and #949494 on focus), with no background, so it sits on white; the screenshot's darkest glyph pixels are exactly #949494 on #ffffff, 3.03:1, at 14px normal weight (the 801-1420px media query sets --fonte-pequena to 14px), so 4.5:1 applies. Skeptic checks: the placeholder is the field's only visible label, so it is information-bearing text and no 1.4.3 exception (incidental, logotype, large text) applies. The page offers an \"Alto Contraste\" toggle that turns the field white on black, but G174 holds only if the alternate version conforms to all success criteria, and the same DOM in that mode keeps failures such as the alt=\"Imagem da página\" images (1.1.1), so it does not rescue the default presentation. The capture matches the live CSS. The claim names the failure."
+    },
+    {
+      "fingerprint": "18e6e57e0da7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Large photo beside the \"Estude na UFPB\" section (a young woman holding a notebook and a young man with a backpack, on campus), alt=\"Imagem da página\". The snapshot and the live page (fetched 2026-11-21) carry the same src and alt, and the screenshot shows the photo as captured, so the capture does not differ. Skeptic checks: the image is not inside a link (R2 does not apply), there is no caption or figure that would make the alt redundant, and no capture artefact. Whether the photo is read as informative or as decorative eye-candy beside the heading, alt=\"Imagem da página\" fails 1.1.1: as an informative image it is placeholder text that is not an alternative (F30), as a decorative one it is a non-null alt of the alt=\"image\" kind (F39). The claim, read in good faith, points at that defect: the alternative does not describe what the image shows. No reason against the finding holds up."
+    },
+    {
+      "fingerprint": "sc79d34ab52e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Top-level item \"Vida Acadêmica\" in the off-canvas mobile menu (#menu-overlay, moved off screen with right:-100% but still exposed to assistive technology), linking to https://www.ufpb.br/vida-academica/. That address is the archive of the \"Vida Acadêmica Sem Dúvidas\" series: heading \"Postagens / Vida Acadêmica Sem Dúvidas\" and a list of explainers about student life (institutional e-mail, student policy, internships, CRA, where to eat, academic centres). Its <title> is just the latest post's title, as captured, so the claim's sentence is true of the capture. But the link text \"Vida Acadêmica\" (academic life) does describe what the destination offers; Understanding 2.4.4 does not require the destination's name, and the odd <title> is the destination's own 2.4.2 matter. No other link shares the name and leads elsewhere (the desktop \"Vida Acadêmica\" has the same href). The live page matches. The model read the archive's latest-post <title> as the page's identity and judged wrongly, though it also had the heading."
+    }
+  ]
+}

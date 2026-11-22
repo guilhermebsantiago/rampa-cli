@@ -1,0 +1,180 @@
+{
+  "page": "https://www.ufes.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "2041c3d3eb4a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img is the only content of a link to the news story 'Emoção e memórias marcam concessão de título de Professoras Eméritas às docentes Edna Oliveira e Janete Carvalho'; its alt, which becomes the link's name, describes the group photo. claimTrue: the snapshot shows the link holds only this img, and the alt says nothing of where the link leads. elementFails: an image that is the only content of a link is a functional image, and its text alternative has to identify what the link does (H30; WAI Images tutorial, functional images); this alt describes the photo instead, so a screen-reader user tabbing or listing links meets a picture description as the link. The headline link to the same URL that follows in the card is a separate link and does not give this one a purpose (H2 would combine them, or the image link would be removed from the tab order). captureDiffers: the live HTML fetched on 2026-11-21 has the same img, alt and href, and the screenshot shows the card as captured. The claim names this failure, so true positive."
+    },
+    {
+      "fingerprint": "7e073811aeb4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The img is the animated GIF in slide 4 of an auto-playing slick carousel (autoplay, dots, variableWidth). claimTrue: in the snapshot its slide is not the current one and has aria-hidden=true, and no nearby text gives the emergency numbers. elementFails: yes, but not for the claim's reason. Slick removes aria-hidden from whichever slide is current, the carousel rotates every few seconds and its dots let a user pick this slide; the screenshot from the same run shows it as the current slide, when its alt is exposed. The image fails 1.1.1 because its alt is not equivalent: the GIF frames (checked on the live file) show Campus de Alegre as (28) 99901-9139 while the alt says 'Alegre: 27 99901-9139', and the alt leaves out the last frame (Polícia Rodoviária Estadual 198, Corpo de Bombeiros 193) and 'Central de Segurança'. The claim does not name that failure, so false positive. Visible non-current slides being aria-hidden (variableWidth) belongs rather under 1.3.1/4.1.2, and the auto-rotation under 2.2.2. captureDiffers: the live HTML has the same markup, alt and carousel settings; the aria-hidden state is one moment of the rotation that users also get."
+    },
+    {
+      "fingerprint": "s29b09634059",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "An image-only link in the Pesquisa e Inovação image group, name from the alt 'Foto de coral no fundo do mar', to a Revista Universidade article 'Pesquisadores da Ufes embarcam em expedição científica para mapear fundo marinho na Zona de Fratura de Romanche' (checked live). claimTrue: the link text describes a photo, not the article it opens. In DOM order the heading just before is 'Assistência estudantil', which does not help, and the link has no title or aria-describedby of its own, so by the rubric's list its purpose cannot be determined and I lean to a failure. But the img inside the link has title equal to the article's headline (in the snapshot it is the image's accessible description, and a tooltip on hover), so the purpose is programmatically present within the link itself; whether a title on the link's only child counts as the link's context is not settled by H33 or the rubric, and competent auditors would split on it, so uncertain. captureDiffers: the live HTML has the same alt, title and href; the screenshot shows the image still blurred by lazy loading, which does not touch the claim."
+    },
+    {
+      "fingerprint": "pe09cf40aa04",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The link is the headline of a news card, inside an h5: 'Seminário discute medicalização da educação e da vida. Inscrições abertas'. Its text alone states the story, and it leads to the story page with that same title and h1, so its purpose is clear; it meets 2.4.4. captureDiffers: the live page has the same headline link and href."
+    },
+    {
+      "fingerprint": "se517adbd978",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The link 'Pós-graduação' is one of four cards (Graduação, Extensão, Ensino a distância, Pós-graduação) in the 'Estude na Ufes' section and leads to PRPPG's 'Mestrados e doutorados da UFES' (checked live). claimTrue: the snapshot does have five visible links named Pós-graduação/Pós-Graduação going to two URLs (this one and a footer link to the PRPPG list; three Editais category labels to /categoria-edital/pos-graduacao), but 'nothing around this one tells it apart' is not so: it sits under the section heading 'Estude na Ufes', whose paragraph speaks of its master's and doctoral courses. elementFails: the link text alone gives the purpose, postgraduate study at Ufes, and the destination is that list of programmes; 2.4.4 does not require link texts to be unique, and the Editais labels are category tags in another section. It passes. Cause: a uniqueness rule stricter than the criterion. captureDiffers: live HTML is the same."
+    },
+    {
+      "fingerprint": "89e3b65e7a02",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img is the only content of a link to the news story 'Seminário discute medicalização da educação e da vida. Inscrições abertas'; its alt 'Imagem de uma criança com comprimidos na mão' describes the photo and becomes the link's name. claimTrue: the link holds only this img in the snapshot, and the alt does not say where it leads. elementFails: an image that is the only content of a link is a functional image, and its text alternative has to identify what the link does (H30; WAI Images tutorial, functional images); this alt describes the photo instead, so a screen-reader user tabbing or listing links meets a picture description as the link. The headline link to the same URL that follows in the card is a separate link and does not give this one a purpose (H2 would combine them, or the image link would be removed from the tab order). captureDiffers: the live HTML fetched on 2026-11-21 has the same img, alt and href, and the screenshot shows the card as captured. The claim names this failure, so true positive."
+    },
+    {
+      "fingerprint": "c6bb2ace81b5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The text is the category label 'Pós-Graduação' (a link in an h2) at the top of the third Editais card, 'Mestrado em Administração'. claimTrue: the snapshot and the screenshot show the label in #6a8dae on the card's #f1f6fb, 16px, weight 700, as the claim says. captureDiffers: the live HTML has the same three Editais cards and the live style sheet has '.view-editais .card .categorias a {font-weight:700; color:#6a8dae}', font-size 1rem, on '.view-editais .card {background:#f1f6fb}', the same colours Rampa measured; the screenshot shows the pale blue label. elementFails: #6a8dae on #f1f6fb is 3.20:1 (recomputed); 16px bold is not large text (that needs 14pt bold, about 18.7px), so 4.5:1 applies and the text fails. The claim names this failure, so true positive."
+    },
+    {
+      "fingerprint": "s5d8f2cad095",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The link 'Extensão' is one of the four cards in the 'Estude na Ufes' section (Graduação, Extensão, Ensino a distância, Pós-graduação) and leads to mooc.ufes.br, whose title is 'MOOCQUECA UFES - Cursos gratuitos de extensão' (checked live; Rampa did not read it). claimTrue: the text names the area the link goes to, extension courses, and the section's paragraph speaks of 'cursos de extensão e cursos livres', so 'does not tell where the link goes, and nothing around it does' does not hold. elementFails: as a way to study at Ufes, 'Extensão' tells the user the link is about extension courses, and it lands on the free extension course platform; the purpose can be determined from the link text, so it meets 2.4.4. Cause: the checker never read the destination. captureDiffers: the live HTML has the same card and href."
+    },
+    {
+      "fingerprint": "06c8e5754941",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img is the only content of the banner link to 'População de Alegre e São Mateus já pode acessar canal da Ufes na TV aberta'; its alt 'Foto da placa de inauguração com as autoridades em volta' describes the photo and becomes the link's name. claimTrue: the snapshot shows the link holds only the picture/img, and the alt does not say where it leads. elementFails: an image that is the only content of a link is a functional image, and its text alternative has to identify what the link does (H30; WAI Images tutorial, functional images); this alt describes the photo instead, so a screen-reader user tabbing or listing links meets a picture description as the link. The headline link to the same URL that sits beside it in the banner is a separate link and does not give this one a purpose (H2 would combine them, or the image link would be removed from the tab order). captureDiffers: the live HTML fetched on 2026-11-21 has the same img, alt and href, and the screenshot shows the card as captured. The claim names this failure, so true positive."
+    },
+    {
+      "fingerprint": "af0a7baa5b2d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The text is the category label 'Pós-Graduação' (a link in an h2) at the top of the second Editais card, 'Mestrado e Doutorado em Química'. claimTrue: the snapshot and the screenshot show the label in #6a8dae on the card's #f1f6fb, 16px, weight 700, as the claim says. captureDiffers: the live HTML has the same three Editais cards and the live style sheet has '.view-editais .card .categorias a {font-weight:700; color:#6a8dae}', font-size 1rem, on '.view-editais .card {background:#f1f6fb}', the same colours Rampa measured; the screenshot shows the pale blue label. elementFails: #6a8dae on #f1f6fb is 3.20:1 (recomputed); 16px bold is not large text (that needs 14pt bold, about 18.7px), so 4.5:1 applies and the text fails. The claim names this failure, so true positive."
+    },
+    {
+      "fingerprint": "sa70d2cb89cf",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An image-only link in the Assistência estudantil image group (that h2 is the heading just before it), name from the alt 'Três mulheres jovens estudando em uma mesa da biblioteca', to biblioteca.ufes.br, the 'Sistema Integrado de Bibliotecas' (checked live). The img also has title 'Biblioteca Central', its accessible description and a tooltip. claimTrue: the text names the library and the link goes to the library system's site, so 'does not match where the link goes' does not hold. elementFails: from the link text a user can tell the link is about the university library, which is where it goes; the purpose can be determined, so it meets 2.4.4. An alt naming the destination would be better, and some auditors would report the photo-description alt under 1.1.1 as a functional image. Cause: the href itself names the library, so the checker had what it needed. captureDiffers: the live HTML has the same alt, title and href."
+    },
+    {
+      "fingerprint": "b790244f2440",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img is the only content of the lead news card's image link to 'Fordan/Ufes anuncia pacote de tecnologias e observatório para atendimento às mulheres vítimas de violência. Negras são maioria'; its alt 'Imagem de uma mulher negra sentada no sofá abraçando as pernas' describes the photo and becomes the link's name. claimTrue: the link holds only this img in the snapshot, and the alt does not say where it leads. elementFails: an image that is the only content of a link is a functional image, and its text alternative has to identify what the link does (H30; WAI Images tutorial, functional images); this alt describes the photo instead, so a screen-reader user tabbing or listing links meets a picture description as the link. The headline link to the same URL that follows in the card is a separate link and does not give this one a purpose (H2 would combine them, or the image link would be removed from the tab order). captureDiffers: the live HTML fetched on 2026-11-21 has the same img, alt and href, and the screenshot shows the card as captured. The claim names this failure, so true positive."
+    },
+    {
+      "fingerprint": "p8e76021146a",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The link 'Divulgação Científica' (an external-link icon with aria-hidden, then the text) is in the list of links under the h2 'Pesquisa e Inovação', the heading just before it, and leads to the Revista Universidade blog, 'As pesquisas e a produção científica da UFES' (checked live). Its text with that heading tells the purpose, the university's science communication outlet, so it meets 2.4.4. captureDiffers: the live HTML has the same link and href."
+    },
+    {
+      "fingerprint": "s1abd5195708",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "An image-only link in the Assistência estudantil image group (that h2 is the heading just before it), name from the alt 'Pessoa com prato na mão sendo servida no restaurante', to ru.ufes.br, the Restaurante Universitário site (checked live; Rampa did not read it). The img also has title 'Restaurante Universitário', its accessible description and a tooltip. claimTrue: the text names the restaurant and the link goes to the university restaurant's site, so 'does not match where the link goes' does not hold. elementFails: under the heading Assistência estudantil, a link about being served at the restaurant tells the user it leads to the university restaurant; the purpose can be determined, so it meets 2.4.4, though an alt naming the destination would be better (some auditors would report it under 1.1.1). Cause: the destination was not read and 'ru' in the href does not say restaurant. captureDiffers: the live HTML has the same alt, title and href."
+    },
+    {
+      "fingerprint": "d47797ae3b72",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The text is the category label 'Pós-Graduação' (a link in an h2) at the top of the first Editais card, 'Mestrado e Doutorado em Engenharia Elétrica'. claimTrue: the snapshot and the screenshot show the label in #6a8dae on the card's #f1f6fb, 16px, weight 700, as the claim says. captureDiffers: the live HTML has the same three Editais cards and the live style sheet has '.view-editais .card .categorias a {font-weight:700; color:#6a8dae}', font-size 1rem, on '.view-editais .card {background:#f1f6fb}', the same colours Rampa measured; the screenshot shows the pale blue label. elementFails: #6a8dae on #f1f6fb is 3.20:1 (recomputed); 16px bold is not large text (that needs 14pt bold, about 18.7px), so 4.5:1 applies and the text fails. The claim names this failure, so true positive."
+    },
+    {
+      "fingerprint": "e5848eac5332",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img is the only content of a link to 'Congresso de Extensão Universitária vai movimentar o campus de Goiabeiras nos dias 26 e 27 de novembro. Veja a programação'; its alt 'Cartaz de divulgação do evento' becomes the link's name. claimTrue: the link holds only this img in the snapshot, and the alt does not say where it leads (nor which event). The alt also leaves out the poster's text, 'I Congresso de Extensão Universitária do Espírito Santo - Conectando Saberes, Territórios e Pessoas', another 1.1.1 gap. elementFails: an image that is the only content of a link is a functional image, and its text alternative has to identify what the link does (H30; WAI Images tutorial, functional images); this alt describes the photo instead, so a screen-reader user tabbing or listing links meets a picture description as the link. The headline link to the same URL that follows in the card is a separate link and does not give this one a purpose (H2 would combine them, or the image link would be removed from the tab order). captureDiffers: the live HTML fetched on 2026-11-21 has the same img, alt and href, and the screenshot shows the card as captured. The claim names this failure, so true positive."
+    }
+  ]
+}

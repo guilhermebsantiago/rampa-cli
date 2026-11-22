@@ -1,0 +1,340 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.orquestraouropreto.com.br/site/contato/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "ca9b795f719d",
+   "criterion": "3.3.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#wpcf7-6b01f123c76a0-field",
+   "target": "#wpcf7-6b01f123c76a0-field",
+   "message": "Nothing on screen says what to enter in this field: its label is on the page, but its text does not show: the label looks the same with its text made transparent (\"PLEASE LEAVE THIS FIELD EMPTY.\"), and no text, button or legend sits near it.",
+   "evidence": "<input id=\"wpcf7-6b01f123c76a0-field\" class=\"wpcf7-form-control wpcf7-text\" type=\"text\" name=\"honey-196\" value=\"\" autocomplete=\"new-password\" tabindex=\"1000\" data-cf7apps-tabindex=\"1000\">",
+   "subject": "PLEASE LEAVE THIS FIELD EMPTY.",
+   "patch": {
+    "ref": "#wpcf7-6b01f123c76a0-field",
+    "kind": "replace-element",
+    "to": "PLEASE LEAVE THIS FIELD EMPTY.",
+    "before": "<input id=\"wpcf7-6b01f123c76a0-field\" class=\"wpcf7-form-control wpcf7-text\" type=\"text\" name=\"honey-196\" value=\"\" autocomplete=\"new-password\" tabindex=\"1000\" data-cf7apps-tabindex=\"1000\">",
+    "after": "<label for=\"wpcf7-6b01f123c76a0-field\">PLEASE LEAVE THIS FIELD EMPTY.</label> <input id=\"wpcf7-6b01f123c76a0-field\" class=\"wpcf7-form-control wpcf7-text\" type=\"text\" name=\"honey-196\" value=\"\" autocomplete=\"new-password\" tabindex=\"1000\" data-cf7apps-tabindex=\"1000\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/no-visible-label",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/labels-or-instructions.html",
+   "html": "<input id=\"wpcf7-6b01f123c76a0-field\" class=\"wpcf7-form-control wpcf7-text\" type=\"text\" name=\"honey-196\" value=\"\" autocomplete=\"new-password\" tabindex=\"1000\" data-cf7apps-tabindex=\"1000\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 5
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-item-7087 > a",
+   "message": "The link text \"EDUCACIONAL\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Portal Educacional\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#wpcf7-6b01f123c76a0-field",
+   "message": "The label \"PLEASE LEAVE THIS FIELD EMPTY.\" does not say what to enter.",
+   "evidence": "The model suggests: \"Campo de segurança (deixe em branco)\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "3.3.2",
+   "level": "A",
+   "ruleId": "judgment/3.3.2",
+   "ref": "#wpcf7-6b01f123c76a0-field",
+   "message": "Nothing on screen tells what to enter in the field \"PLEASE LEAVE THIS FIELD EMPTY.\": its label is on the page, but its text does not show: the label looks the same with its text made transparent.",
+   "evidence": "The model suggests: \"PLEASE LEAVE THIS FIELD EMPTY.\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#logo > img:nth-of-type(2)",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Orquestra Ouro Preto",
+    "problem": "wrong_content",
+    "imageShows": "O logotipo da Orquestra Ouro Preto com o nome do maestro Rodrigo Coelho.",
+    "suggestedAlt": "Orquestra Ouro Preto - Maestro Rodrigo Coelho",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 24,
+   "judged": 10,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 14,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "batched": {
+    "candidates": 3,
+    "calls": 1
+   },
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  }
+ ],
+ "notes": [
+  "1 of the page's 19 stylesheet(s) had not applied when it was read (https://www.orquestraouropreto.com.br/site/wp-content/plugins/contact-form-7-honeypot/legacy-honeypot/includes/css/honeypot-frontend.css?ver=3.9.0 (no rules)): the page was read with the styles it had, which may differ from what people see.",
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #cf7sr-6b01f123c7329 > div > div > iframe (https://www.google.com/recaptcha/api2/anchor?ar=1&k=6LfizTwtAAAAAFmay2Qxo9eLQ8tyFDNa0dVlyYA7&co=aHR0cHM6Ly93d3cub3JxdWVzdHJhb3Vyb3ByZXRvLmNvbS5icjo0NDM.&hl=pt-BR&type=image&v=4i3aN5wAweL7i3ADI7BSX4B-&theme=light&size=normal&anchor-ms=20000&execute-ms=30000&ovv=CADq00gF&cb=1j8500fyd22y).",
+  "1 image(s) were left without a capture, so no judgment looked at them: 1 covered where it sits by other content, such as a popup or a cookie banner. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 14 of 24 for 2.4.4. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (3 in 1 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 19,
+  "cachedCalls": 0,
+  "inputTokens": 16266,
+  "outputTokens": 1958,
+  "latencyMs": 57983
+ },
+ "timings": {
+  "totalMs": 36912,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 15
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 4101,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1663,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1310,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 20355,
+    "prepareMs": 0,
+    "candidates": 24,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 3854,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 1,
+    "cachedCalls": 0,
+    "batches": 1
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 1597,
+    "prepareMs": 193,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 2323,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1671,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 23
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "stylesheets": {
+   "linked": 19,
+   "applied": 18,
+   "failed": 1
+  },
+  "unsettledAfterMs": 1000,
+  "images": {
+   "captured": 2,
+   "notCaptured": 1,
+   "reasons": {
+    "covered": 1
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 24,
+    "capped": 14
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#cf7sr-6b01f123c7329 > div > div > iframe",
+     "url": "https://www.google.com/recaptcha/api2/anchor?ar=1&k=6LfizTwtAAAAAFmay2Qxo9eLQ8tyFDNa0dVlyYA7&co=aHR0cHM6Ly93d3cub3JxdWVzdHJhb3Vyb3ByZXRvLmNvbS5icjo0NDM.&hl=pt-BR&type=image&v=4i3aN5wAweL7i3ADI7BSX4B-&theme=light&size=normal&anchor-ms=20000&execute-ms=30000&ovv=CADq00gF&cb=1j8500fyd22y",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ],
+   "stylesheets": {
+    "linked": 19,
+    "applied": 18,
+    "failed": [
+     {
+      "href": "https://www.orquestraouropreto.com.br/site/wp-content/plugins/contact-form-7-honeypot/legacy-honeypot/includes/css/honeypot-frontend.css?ver=3.9.0",
+      "reason": "no rules"
+     }
+    ]
+   }
+  }
+ }
+}

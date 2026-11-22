@@ -1,0 +1,111 @@
+{
+  "page": "https://mam.rio/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p2926784b6df",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The image is the photo of the Biblioteca card (people around a table of books in the library) inside a link that also holds an h4 and a caption, to https://mam.rio/biblioteca. Its alt, \"Biblioteca MAM Rio aberta para consultas públicas\", names the library and so the link's destination; it repeats the card's heading, which is redundant (H2 would advise a null alt) but is not a 1.1.1 failure. The live HTML fetched on 2026-11-21 has the same card, image and alt, and the screenshot shows the styled card as captured, so the capture does not differ. The element meets 1.1.1, so with no claim the row is a false positive."
+    },
+    {
+      "fingerprint": "ce37b5b8cf2e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is a footer logo that reads \"ISSO É CULTURA\" with the line \"LEI MUNICIPAL DE INCENTIVO À CULTURA\" (I opened the source PNG), and it is all its link holds; the link goes to https://prefeitura.rio/, the Rio city hall portal (title \"Prefeitura da Cidade do Rio de Janeiro\"), which does not mention the program. The alt \"Isso é cultura\" gives the program's wordmark only. It names neither the city hall nor even the municipal incentive law that would hint at it, so a user cannot tell where the link leads. The claim is true of the capture. Under H30 and the rubric's R2 reading, an image that is a link's only content needs an alternative that identifies the destination, so the image fails 1.1.1 for the reason the claim gives. The live HTML has the same link, href and alt, so the capture does not differ."
+    },
+    {
+      "fingerprint": "d7de58d90193",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer newsletter e-mail field, whose placeholder \"insira seu e-mail\" is the only visible text in the field. I sampled the screenshot pixels inside the field: the darkest text pixel is #c7c7c7 on a #fbfbfb background, 1.63:1, and the live CSS has input::placeholder { color: #c7c7c7 !important }. That rule outranks the lower-specificity *::-webkit-input-placeholder #000 rule, so users get the same light gray. Placeholder text is visible text with no 1.4.3 exception (it is not incidental and the control is not inactive), so 16px regular text needs 4.5:1 and the field fails. The live page matches the capture."
+    },
+    {
+      "fingerprint": "pe625e9b10f8",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The image is the \"+ cinemateca\" graphic (colored shapes with the words \"+ cinemateca\") inside a card link to https://mam.rio/cinemateca/mais-cinemateca, whose page heading is \"+ Cinemateca\"; the link also holds an h4 and a caption. Its alt, \"A curadoria da Cinemateca do MAM em mais espaços\", identifies the +Cinemateca program and so the link's purpose, and it carries the image's own text, so the image meets 1.1.1; repeating the h4 is only redundant. The live HTML has the same card and alt, and the screenshot matches, so the capture does not differ. With no claim, the row is a false positive."
+    },
+    {
+      "fingerprint": "7732a4215f15",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter sign-up field under \"Receba a programação do MAM Rio\". It asks for the user's own e-mail address, an input purpose listed in WCAG 2.1 section 7. Its HTML (type=email, name=EMAIL, no autocomplete attribute) is the same in the snapshot and the live HTML. type=email does not identify the input purpose programmatically the way autocomplete=\"email\" does (H98), so the field fails 1.3.5. The claim is true of the capture, and the snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError for this field, which backs the claim's second sentence. Capture and live page match."
+    },
+    {
+      "fingerprint": "s7e79f5b76ee",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the footer logo \"PREFEITURA RIO | Cultura\" under the h3 \"Patrocínio\". It is all its link holds, and the link goes to https://prefeitura.rio, the portal of the Prefeitura da Cidade do Rio de Janeiro (its live title). The alt \"Prefeitura do Rio\" names exactly that organization and site, so it does say where the link leads, and the claim is false. The image meets 1.1.1 (H30); leaving out the small \"Cultura\" tag does not hide the destination. The link's href was in the element context, so the checker had what it needed and judged wrongly. The live HTML has the same link and alt, so the capture does not differ."
+    },
+    {
+      "fingerprint": "s313d5fa53ce",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the first item, \"Visite\", of the museum's main navigation list (Visite, Programação, Acervo, Cinemateca...). It links to https://mam.rio/visite/, which redirects to a page headed \"VISITE O MAM RIO\" with tickets and visiting information. In a museum's main menu, the link text alone tells users this is the section about visiting the museum, and it matches the destination's heading; Understanding 2.4.4 does not require the destination page's name. So the link meets 2.4.4 from its text, and the claim that the text does not tell where it goes is false, even though no heading or other context surrounds it. The live menu item is the same (an li with a plain a and no submenu), so the capture does not differ."
+    },
+    {
+      "fingerprint": "p5bcaee14d3f",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The image is the sponsors card's GIF (\"Patrocínio Oficial\" with the Petrobras logo in the capture) inside a link that also holds an h4 and a caption, to https://mam.rio/apoie-o-mam/patrocinadores-e-apoiadores/ (\"Patrocinadores e Apoiadores\"). Its alt, \"Confira as empresas que patrocinam e apoiam o museu\", states the link's purpose, which is what 1.1.1 requires of an image that is part of a link; listing the sponsors shown in the animation is not needed, because the destination page lists them. The live HTML has the same card and alt, and the screenshot matches, so the capture does not differ. The element meets 1.1.1: false positive with no claim."
+    },
+    {
+      "fingerprint": "p5bf96497703",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the Biblioteca card link to https://mam.rio/biblioteca (page \"Biblioteca – MAM Rio\"). Its text holds the h4 \"Biblioteca MAM Rio aberta para consultas públicas\" and the caption about the library's new space, which states its purpose plainly. No other link on the page shares this accessible name, so R1 does not apply. The link meets 2.4.4 from its own text. The live HTML has the same card, and the screenshot shows it as captured, so the capture does not differ. With no claim, the row is a false positive."
+    },
+    {
+      "fingerprint": "pa08d5211c97",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The image is the footer logo \"Lei Rouanet\" (a starburst mark and the words \"Lei Rouanet\"), the only content of a link to the Ministry of Culture's Lei Rouanet page on gov.br. Its alt, \"Lei Rouanet\", reproduces the logo text and names the destination's subject, so it describes the link's purpose and meets 1.1.1 (H30). The live HTML has the same link, href and alt. That URL returned 404 to my automated fetch, a possible broken link, but that is not a 1.1.1 question and does not touch this judgment, so the capture does not differ for this claim. With no claim, the row is a false positive."
+    }
+  ]
+}

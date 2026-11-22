@@ -1,0 +1,156 @@
+{
+  "page": "https://www.leicestermercury.co.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s3182f86fecc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser photo for the Swannington path story: the crop shows a 'Welcome to Stokeswood Park' sign by a fence and a field; the alt is the story's headline, word for word. The image sits in its own div in a teaser card; it is not inside a link, and the same headline follows it as the h3 text of the card's link. Live HTML fetched on 2026-11-21 serves the same img with the same alt and src, and the screenshot shows the card styled as captured, so captureDiffers is no. claimTrue: the alt speaks of a collapsed path reopening after works, which the photo does not show, and it leaves out what the photo does show (the park and the sign's text). elementFails: my reading is yes, since the alt is no alternative for this image: if the photo is informative it should say what it shows, and if it is decorative next to the headline it should be null; the headline repeated conveys none of the picture. But competent auditors split on headline alts for illustrative teaser photos (some accept them as identifying what the image illustrates, and tools such as axe treat duplicated alt text as best practice rather than a WCAG failure), so the label is uncertain."
+    },
+    {
+      "fingerprint": "a93761debdbe",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Teaser photo for the Donington Park story: the crop is an aerial view of the Donington Park circuit; the alt is the headline 'Experienced racer died after tragic start-line crash at Donington Park'. The image sits in its own div in a teaser card; it is not inside a link, and the same headline follows it as the h3 text of the card's link. Live HTML fetched on 2026-11-21 serves the same img with the same alt and src, and the screenshot shows the card styled as captured, so captureDiffers is no. claimTrue: yes as worded, the crash and the racer are not in the photo. elementFails: no, the alt names the place the photo shows (Donington Park) in the context of the story it illustrates, which conveys the image's essential content for a short teaser alternative; that it also names an event not pictured is not a 1.1.1 failure. At most it duplicates the adjacent headline (a redundancy point, which this claim does not name). Rampa demanded that the alt describe only what is visible, a stricter rule than 1.1.1."
+    },
+    {
+      "fingerprint": "b53c74110fbb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser photo for the King Power takeover story: the crop shows a man in sunglasses and a black jacket, arms folded, on a training pitch (the club's King Power chairman, as far as can be seen); the alt is the headline. The image sits in its own div in a teaser card; it is not inside a link, and the same headline follows it as the h3 text of the card's link. Live HTML fetched on 2026-11-21 serves the same img with the same alt and src, and the screenshot shows the card styled as captured, so captureDiffers is no. claimTrue: yes, the takeover U-turn and sale decision are not shown, and the alt neither names nor describes the man pictured. elementFails: my lean is yes (the alt only repeats the headline and gives none of the photo's content, so it is neither a description nor a null alt for a decorative image), but competent auditors disagree on whether a headline alt on an illustrative teaser photo fails 1.1.1 or is only redundant, so the label is uncertain."
+    },
+    {
+      "fingerprint": "pf08756a3c98",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The 'Crime' link in the primary header navigation list, href /all-about/crime. Its text alone gives its purpose in a site navigation: the destination, fetched on 2026-11-21, is 'Crime latest news - LeicestershireLive'. Every other link on the page named 'Crime' (the More menu, the mobile nav and four teaser tag links with href all-about/crime) resolves to the same address, so no shared-name failure (R1) arises. The live HTML has the same link and href as the snapshot. It meets 2.4.4; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "p5bb591fef60",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The masthead image inside the h1 home link: the crop shows the 'LeicestershireLive' wordmark and the alt is 'Leicestershire Live', the same text, which is the right alternative for a logo of text. The link itself is named 'Go to Leicestershire Live homepage' by aria-label, so the control's purpose is given too. The live HTML has the same img, alt and link. (The full-page screenshot shows the header area blank, an artefact of the full-page capture of the sticky header; the packet crop shows the logo, and the live markup is unchanged.) It meets 1.1.1."
+    },
+    {
+      "fingerprint": "se5b1791e9cd",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The logo at the top of the consent dialog (InMobi Choice, role dialog 'Privacy'): the crop shows the 'LeicestershireLive' wordmark, and the alt is 'Publisher Logo'. claimTrue: no as worded, the image is a publisher's logo, so the alt does not describe something absent; it is generic and leaves out what the image conveys, the publisher's name. The dialog's text does not name Leicestershire Live either (it reads 'At Reach and across our entities we and our...'), so the name is only in the image. elementFails: yes, a logo of text needs an alternative that gives that text; 'Publisher Logo' is a placeholder-like label (F30's kind of failure). Read in good faith, the claim points at this defect, the alternative leaving out most of what the image conveys, as the rubric's example says. captureDiffers: no; the dialog is drawn by script, so it is not in the server HTML, but the site's Choice config (displayUi 'always', publisherLogo the same cop-leicestermercury.jpg) and the CMP's UI bundle cmp2ui-en.js, which hard-codes alt 'Publisher Logo' on that img, show real visitors get the same image and alt. It is not in the full-page screenshot, but it is in the snapshot and the crop."
+    },
+    {
+      "fingerprint": "pd9e1c1bf9d1",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The 'Leicester City FC' topic tag in the footer of the King Power takeover teaser (aria-label the same as its text), href all-about/leicester-city-fc, whose destination is the site's Leicester City news page ('Leicester City breaking news, transfer rumours...'). The text names the topic the link leads to, which describes its purpose; the heading before it is the card's own headline. All fourteen links named 'Leicester City FC' on the page resolve to the same address (and the nav's 'Leicester City' links go there too), so no shared-name failure (R1). The live HTML has the same tags. It meets 2.4.4."
+    },
+    {
+      "fingerprint": "sb269f9897d5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The premium badge above the 'What Russell Martin did straight after...' headline: the crop and the screenshot show an 'L' roundel and the word 'PREMIUM', marking the article as subscriber-only content; the alt is 'leicestermercury', a brand slug matching the file name premium-byline-leicestermercury.svg. Nothing else in this card says Premium (the headline link's aria-label and the footer tag 'Leicester City FC' do not), so the information is conveyed only by the image and lost to screen-reader users. claimTrue: yes, the alt is a label and not what the image conveys. elementFails: yes, the alternative does not serve the equivalent purpose (it should say 'Premium'). The live HTML serves the same img and alt; captureDiffers no."
+    },
+    {
+      "fingerprint": "e0b1f02208cd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser photo for the 'Awful stench' premium story: the crop is a Street View style picture of a rural road junction with signposts and hedges; the alt is the headline about stench, humming noises and flies. The image sits in its own div in a teaser card; it is not inside a link, and the same headline follows it as the h3 text of the card's link. Live HTML fetched on 2026-11-21 serves the same img with the same alt and src, and the screenshot shows the card styled as captured, so captureDiffers is no. claimTrue: yes, nothing of the alt's content is visible and the alt says nothing of the road pictured. elementFails: my lean is yes (the headline repeated is neither a description of the photo nor a null alt), but whether a headline alt on an illustrative teaser image fails 1.1.1 or is only redundant is a point on which competent auditors disagree, so the label is uncertain."
+    },
+    {
+      "fingerprint": "p7e99a825772",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. Teaser photo for the 'Billy Elliot' story: the crop shows a man in front of a banner offering mental-health support; the alt is the headline 'Meet Leicester's 'Billy Elliot' helping men open up about mental health'. The image sits in its own div in a teaser card; it is not inside a link, and the same headline follows it as the h3 text of the card's link. Live HTML fetched on 2026-11-21 serves the same img with the same alt and src, and the screenshot shows the card styled as captured, so captureDiffers is no. The alt identifies the person pictured (Leicester's 'Billy Elliot') and what the banner behind him is about, so it carries the photo's essential content for a teaser; the duplication of the adjacent headline is a redundancy point, not a loss of information. It meets 1.1.1."
+    },
+    {
+      "fingerprint": "se79fc23a814",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser photo for the 'Seven players could miss...' story: the crop is a composite of three footballers (two in Leicester kit, one in another club's kit); the alt is the headline. The image sits in its own div in a teaser card; it is not inside a link, and the same headline follows it as the h3 text of the card's link. Live HTML fetched on 2026-11-21 serves the same img with the same alt and src, and the screenshot shows the card styled as captured, so captureDiffers is no. claimTrue: yes, the illness update and the seven players are not what the picture shows, and the alt neither names nor describes the three players. elementFails: my lean is yes (the alt repeats the headline and conveys none of the image), but competent auditors disagree on whether a headline alt on an illustrative teaser photo is a 1.1.1 failure or only redundant text, so the label is uncertain."
+    },
+    {
+      "fingerprint": "af69d32435a4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Teaser photo for the mayoral role story: the crop shows an older white-haired, bearded man speaking at a desk, Sir Peter Soulsby (the file is from a July 2020 briefing); the alt is the headline ''Fantastic news' say Leicester residents as Sir Peter Soulsby's Mayor role scrapped'. The image sits in its own div in a teaser card; it is not inside a link, and the same headline follows it as the h3 text of the card's link. Live HTML fetched on 2026-11-21 serves the same img with the same alt and src, and the screenshot shows the card styled as captured, so captureDiffers is no. claimTrue: yes as worded, the residents and the scrapping of the role are not shown. elementFails: no, the alt names the person the photo shows in the context of the story it illustrates, which is the photo's essential content for a teaser; that it also states news not pictured is not a 1.1.1 failure, and the duplication of the headline (a redundancy point) is not what the claim says. Rampa required the alt to describe only the visible scene, a stricter rule than 1.1.1."
+    },
+    {
+      "fingerprint": "37c6e8326856",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Lead teaser photo for the house-prices story: the crop shows estate agents' boards ('SOLD', 'TO LET', 'LET BY', Foxtons, Nelsons, Kalmars, with London numbers), a stock picture of the property market; the alt is the headline. The img is not in a link; the same headline follows as the card's link. The live HTML serves the same img and alt, and the screenshot matches, so captureDiffers is no. claimTrue: yes, no list of areas is shown. elementFails: my lean is no, the picture is generic illustration of the topic and the alt names that topic, so no information a user needs is lost (it is at most redundant with the headline, or decorative with a non-null alt, which this claim does not name). Other competent auditors would treat the boards as informative and fail an alt that does not describe them, so the label is uncertain."
+    },
+    {
+      "fingerprint": "s965047d4b68",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image inside the header 'Subscribe' button: the crop shows an 'L' roundel and 'SUBSCRIBE'; the alt is 'leicestermercury'. The image is the link's only content, and the link has aria-label 'Subscribe to premium membership', which is its accessible name (the snapshot computes it so) and overrides the image's alt for assistive technology. claimTrue: yes, the alt is a brand slug and not what the image conveys. elementFails: no, for an image that is a control 1.1.1 requires a name describing its purpose, and the control is named 'Subscribe to premium membership', which also contains the visible word. The stray alt is untidy but users never hear it as the link's name. Rampa had the link's name in context and judged the alt in isolation. captureDiffers: no; the button is added by script (it is not in the server HTML), the capture ran the scripts as a browser does, and nothing suggests users get a different button."
+    }
+  ]
+}

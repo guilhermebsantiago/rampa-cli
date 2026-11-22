@@ -1,0 +1,112 @@
+{
+  "page": "https://www.chroniclelive.co.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "c936d0830884",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser photo in the NEWS section, alt = the headline \"Fight on to save busy Wetherspoons in the North East as pub's future in doubt\". The crop shows an empty pub interior (bar, chequered floor, chairs): the alt names the subject shown (a Wetherspoons pub) but the campaign, the doubt and 'busy' are not in the picture, so the claim holds as worded. The snapshot gave the image a height of 0 (lazy load at capture time), but the crop shows the real image, so the model judged the right picture. The image is not inside a link: the teaser's headline is a separate link (with an aria-label equal to the headline) right below it, so R2 does not apply. Whether a headline used as the alt of an illustrative teaser photo fails 1.1.1 is disputed among competent auditors: one reading treats the photo as informative and requires the alt to convey what it shows; another treats it as illustrating the adjacent headline, where the headline-as-alt is redundant (axe ranks redundant alt text as best practice, not a WCAG failure) and the alt still names the story the photo stands for; a third calls the photo decorative and would want alt=\"\" (F38). The evidence cannot settle which purpose the photo serves, so elementFails is cannot_tell and the label is uncertain. The live server HTML has the same img, alt and src, so the capture matches."
+    },
+    {
+      "fingerprint": "s306765ba815",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "h3 inside the headline link of an affiliate 'shopwindow' teaser (mirror.co.uk) placed in the NUFC section. The content under the heading, before the next heading (h2 UNMISSABLE), is only the teaser's source label 'mirror.co.uk'; the heading names the very article its own teaser links to (a mirror.co.uk shopping-deals story about the shampoo). Nothing under it is about a different topic, so the claim is false; that the teaser is off-topic for the NUFC section is a placement choice, not a 2.4.6 failure, since the h3 describes its own content. The affiliate widget is injected client-side and is absent from the live server HTML, so I could not compare it live; nothing suggests the capture differed from what users got at capture time."
+    },
+    {
+      "fingerprint": "pf783f0a2f29",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "'Health News' link in the News submenu of the mobile navigation, href /news/health/, destination titled 'Health - Chronicle Live'. The link text alone gives the purpose. R1: every other link named 'Health News' in the snapshot (MoreCurtain menu) goes to the same /news/health/, so no shared-name failure. The live server HTML has the same links. It meets 2.4.4; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "pb25b94c0f86",
+      "answers": {
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Lead teaser photo in the NEWS section, alt = the headline \"Greggs axes favourite item from menu with fans slamming 'ridiculous' decision\"; the crop shows a Greggs shop counter with pastries. The alt names the subject shown (Greggs, its menu items) but describes a news event the picture does not show. The image is not inside a link: the teaser's headline is a separate link (with an aria-label equal to the headline) right below it, so R2 does not apply. Whether a headline used as the alt of an illustrative teaser photo fails 1.1.1 is disputed among competent auditors: one reading treats the photo as informative and requires the alt to convey what it shows; another treats it as illustrating the adjacent headline, where the headline-as-alt is redundant (axe ranks redundant alt text as best practice, not a WCAG failure) and the alt still names the story the photo stands for; a third calls the photo decorative and would want alt=\"\" (F38). The evidence cannot settle which purpose the photo serves, so elementFails is cannot_tell and the label is uncertain. The live server HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "s92da37148f5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "SVG image 'C SUBSCRIBE' with alt=\"nechronicle\" (the site's internal code name), the only content of the header link to /subscribe. The claim is true of the capture: the alt names a label and omits the word SUBSCRIBE shown in the image. But the link carries aria-label=\"Subscribe to premium membership\", which is the control's accessible name (ARIA8/ARIA6) and overrides the image's alt, so assistive technology announces the link's purpose, not 'nechronicle'. For non-text content that is a control, 1.1.1 asks that it have a name that describes its purpose, and the link does; unlike a title (R2), aria-label is the name itself. The packet gave the link's name, so the model had the context. The button is rendered by script and is not in the live server HTML, so I could not compare it live; the screenshot matches the snapshot."
+    },
+    {
+      "fingerprint": "pc88300bfb39",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "'News' top-level link in the mobile navigation, href /news/, destination titled 'News - Latest Newcastle news and breaking news from the North East'. In a site navigation list the text 'News' gives its purpose (the news section). R1: all other links named 'News' in the snapshot (primary nav, More menu, footer) go to the same /news/, so there is no shared-name failure. The live server HTML has the same nav. It meets 2.4.4."
+    },
+    {
+      "fingerprint": "s528aaa8d347",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Link 'Reach and across our entities' in the consent dialog's sentence 'At Reach and across our entities we and our partners store and/or access information on a device...'. Its href is https://www.reachplc.com/about-us/our-brands, Reach plc's page about its brands, i.e. the entities the sentence refers to, so the text with its sentence matches the destination; the claim is not true of the capture's href. Rampa did not read the destination; reachplc.com blocked my automated fetches too, so I relied on the URL path, which is unambiguous. The live server HTML has a consent notice with the same link text and href. It meets 2.4.4."
+    },
+    {
+      "fingerprint": "991bd6b9791a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser photo (file shot of a river at Middlesbrough: water and a red buoy) with alt = the headline \"Tragedy as body found in North East river in search for missing 34-year-old man\". The picture shows no body, search or man, so the claim holds as worded, though the alt does name the river. The image is not inside a link: the teaser's headline is a separate link (with an aria-label equal to the headline) right below it, so R2 does not apply. Whether a headline used as the alt of an illustrative teaser photo fails 1.1.1 is disputed among competent auditors: one reading treats the photo as informative and requires the alt to convey what it shows; another treats it as illustrating the adjacent headline, where the headline-as-alt is redundant (axe ranks redundant alt text as best practice, not a WCAG failure) and the alt still names the story the photo stands for; a third calls the photo decorative and would want alt=\"\" (F38). The evidence cannot settle which purpose the photo serves, so elementFails is cannot_tell and the label is uncertain. The live server HTML has the same img, alt and src."
+    },
+    {
+      "fingerprint": "3ee12c85fd5a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser photo (stock view of Newcastle's rooftops and Tyne bridges from the cathedral) with alt = the headline \"People with these 113 surnames could inherit a fortune from unclaimed estates in North East\". The picture shows none of that, so the claim holds. The snapshot gave the image a height of 0 (lazy load), but the crop shows the real image, so it is not a collector artefact. The image is not inside a link: the teaser's headline is a separate link (with an aria-label equal to the headline) right below it, so R2 does not apply. Whether a headline used as the alt of an illustrative teaser photo fails 1.1.1 is disputed among competent auditors: one reading treats the photo as informative and requires the alt to convey what it shows; another treats it as illustrating the adjacent headline, where the headline-as-alt is redundant (axe ranks redundant alt text as best practice, not a WCAG failure) and the alt still names the story the photo stands for; a third calls the photo decorative and would want alt=\"\" (F38). The evidence cannot settle which purpose the photo serves, so elementFails is cannot_tell and the label is uncertain. The live server HTML has the same img, alt and src."
+    },
+    {
+      "fingerprint": "pbecab8a7790",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Teaser photo with alt \"Christmas chaos at Costco in November as shoppers stuck in huge queues at Gateshead store\"; the crop shows shoppers with trolleys queuing in a warehouse store, which is what the alt describes. The alt conveys the photo's content, so 1.1.1 is met (redundancy with the headline below is not a failure). The live server HTML has the same img and alt. Rampa was right to report nothing."
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "page": "https://www.bordgaisenergytheatre.ie/contact-us/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "4fcd83bf4ea7",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the TICKETMASTER accordion toggle: div.qna-item__button that holds the h3 and the chevron and opens the hidden qna-item__content panel. The CDP capture records it with role generic, no name, focusable, and click and keydown listeners attached to it, so the claim holds for the capture. One caveat: CDP's focusable flag would also be set by tabindex=-1, but the keydown listener points to intended keyboard use. I looked for something that would make it pass and found none. It has no role, no aria-expanded and no name, and the item holds no native button or link (the h3 is plain text). That is F59, and the expanded/collapsed state isn't exposed either. It would still fail 4.1.2 even if it were not in the tab order. The screenshot shows the fully styled page, with nothing to suggest a bot-only version. The live page returns 403 to curl, and WebFetch gives text only. It still shows the four accordion sections, but I could not compare the markup or roles, so captureDiffers is cannot_tell. The claim names the actual failure."
+    },
+    {
+      "fingerprint": "s60c0f59817d",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the chevron icon (angle-down-white.svg, alt \"angle down white\") inside the CAREERS accordion toggle. The crop the model saw, and the screenshot, show exactly that: a white down-pointing angle on dark navy. So the claim that the alternative describes something the image does not show is false of the capture. WebFetch shows the live page carries the same alt on the same icons. The image does fail 1.1.1, but for a different reason. The alt is the file name restated, describing how the icon looks (F30). It should be null if the icon is decorative (F38), or should convey the expand function, which the toggle doesn't expose anywhere. The claim points at a mismatch with the picture, not at that, so this is a false positive. The model had the crop and judged it wrongly."
+    },
+    {
+      "fingerprint": "se0c03be63b4",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the chevron icon (angle-down-white.svg, alt \"angle down white\") in the TICKETMASTER accordion toggle. The model's crop and the screenshot show a white down-pointing angle, which is just what the alt says, so the claim that the alt describes something not shown is false. The live page (WebFetch) has the same alt. The icon does fail 1.1.1 for another reason: a file-name alt that describes its look (F30), rather than a null alt for a decorative icon (F38) or one that conveys the toggle's function. The claim doesn't name that, so it's a false positive. The model had the crop and still misjudged it."
+    },
+    {
+      "fingerprint": "e57e203fdb03",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the LOST & FOUND accordion toggle, div.qna-item__button, which toggles a hidden content panel. The CDP capture records role generic, no name, focusable, and click plus keydown listeners on the div itself, so the claim is true of the capture. Same caveat as the other toggles: the focusable flag could come from tabindex=-1, but the keydown handler points to keyboard use. Nothing makes it pass: no role, no aria-expanded and no name, and no native button or link inside (the h3 is plain text). That is F59, and the state isn't exposed either. It fails 4.1.2 whatever its tab order. The styled screenshot shows no sign of a different version. The live page blocks curl (403) and WebFetch gives text only, so I couldn't compare roles: captureDiffers is cannot_tell. The claim names the failure."
+    },
+    {
+      "fingerprint": "1ff0072d842f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the full-width background photo (img.subscribe__bg) behind the newsletter section: a packed auditorium and a lit stage. Its alt is \"subscribe\". It is not inside the 'Sign me up' link, which is a separate anchor in the form. The heading, intro text and button are HTML laid over the photo, and their text matches the snapshot. The alt names the section's action (a label), not the picture, so the claim is true of the capture. WebFetch shows the live page uses the same alt. I looked for a reason it might pass and found none. Read as decorative, the image must be ignorable by assistive technology, yet alt=\"subscribe\" makes screen readers announce it (1.1.1 pure decoration, F38). Read as informative, \"subscribe\" doesn't describe it. Either way, the fault is the label used as its alternative, which is what the claim points at, so this is a true positive."
+    },
+    {
+      "fingerprint": "1efc674246e5",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the CAREERS accordion toggle, div.qna-item__button, which opens a hidden panel with the careers text and the gender pay-gap link. The CDP capture shows role generic, no name, focusable, and click and keydown listeners on the div, so the claim holds for the capture (CDP's focusable flag can't tell tabindex 0 from -1, but the keydown handler implies keyboard use). Nothing makes it pass: no role, no aria-expanded and no name, and no native control inside. That is F59, plus an unexposed state. It fails 4.1.2 regardless of tab order. The screenshot is the styled page, with no sign of a bot version. The live markup couldn't be compared (curl 403, WebFetch text only), so captureDiffers is cannot_tell. The claim names the failure."
+    },
+    {
+      "fingerprint": "sa4f6a9b19b8",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the chevron icon (angle-down-white.svg, alt \"angle down white\") in the BOX OFFICE accordion toggle. The crop and the screenshot show a white down-pointing angle, so the alt describes exactly what the image shows, and the claim is false. The live page (WebFetch) has the same alt. The icon fails 1.1.1 only for a reason the claim doesn't give. Its alt restates the file name and describes the icon's look (F30), where it should be null for a decorative icon (F38) or convey the expand function. So this is a false positive. The model had the crop and misjudged it."
+    },
+    {
+      "fingerprint": "7f916680aad8",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the BOX OFFICE accordion toggle, div.qna-item__button, which toggles the hidden Box Office details panel. The CDP capture records role generic, no name, focusable, and click plus keydown listeners on the element, so the claim is true of the capture. The caveat on CDP's focusable flag is the same as for the other toggles; the keydown handler suggests keyboard use. I found nothing that makes it pass: no role, no aria-expanded and no name, and the only content is a plain h3 and an img, with no button or link. That is F59, and the open/closed state isn't exposed. It fails 4.1.2 even outside the tab order. The screenshot is the styled page. The live page blocks curl and WebFetch is text only, so I couldn't compare the markup: captureDiffers is cannot_tell. The claim names the failure."
+    }
+  ]
+}

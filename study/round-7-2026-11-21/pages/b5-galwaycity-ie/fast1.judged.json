@@ -1,0 +1,421 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.galwaycity.ie/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "3ea565d0a50f",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#CybotCookiebotDialogPoweredbyImage",
+   "message": "The text alternative \"logo\" is a file name or a placeholder.",
+   "evidence": "logo",
+   "subject": "logo",
+   "claim": "wrong_content",
+   "techniques": [
+    "F30"
+   ],
+   "patch": {
+    "ref": "#CybotCookiebotDialogPoweredbyImage",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "logo",
+    "to": "Cookiebot logo"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "f13199d3c0ad",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#block-lgd-localgov-mainpagecontent-scarfolk--2 > article > div:nth-of-type(2) > div:nth-of-type(7) > div > div > div > div > section > div:nth-of-type(2) > div > div > div > picture > img",
+   "message": "The text alternative \"slider_BathingWaters.jpg\" is a file name or a placeholder.",
+   "evidence": "slider_BathingWaters.jpg",
+   "subject": "slider_BathingWaters.jpg",
+   "claim": "filename_or_placeholder",
+   "techniques": [
+    "F30"
+   ],
+   "patch": {
+    "ref": "#block-lgd-localgov-mainpagecontent-scarfolk--2 > article > div:nth-of-type(2) > div:nth-of-type(7) > div > div > div > div > section > div:nth-of-type(2) > div > div > div > picture > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "slider_BathingWaters.jpg",
+    "to": "A person swimming in clear blue water near a coastal pier and lifeguard station.",
+    "before": "<img loading=\"eager\" width=\"768\" height=\"512\" src=\"/sites/default/files/styles/large_3_2_768x512/public/2026-06/slider_BathingWaters.jpg?itok=RB0uOtvK\" alt=\"slider_BathingWaters.jpg\" data-once=\"allImages\">",
+    "after": "<img loading=\"eager\" width=\"768\" height=\"512\" src=\"/sites/default/files/styles/large_3_2_768x512/public/2026-06/slider_BathingWaters.jpg?itok=RB0uOtvK\" alt=\"A person swimming in clear blue water near a coastal pier and lifeguard station.\" data-once=\"allImages\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "7ef04e3e4b2a",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#block-lgd-languageswitcher--2 > ul > li:nth-of-type(2) > a",
+   "target": "#block-lgd-languageswitcher--2 > ul > li:nth-of-type(2) > a",
+   "message": "\"Gaeilge\" is in Irish, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"ga\" to the link.",
+   "evidence": "Gaeilge",
+   "subject": "Gaeilge",
+   "patch": {
+    "ref": "#block-lgd-languageswitcher--2 > ul > li:nth-of-type(2) > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "ga",
+    "before": "<a href=\"/ga\" class=\"language-link\" hreflang=\"ga\" data-drupal-link-system-path=\"&lt;front&gt;\">",
+    "after": "<a href=\"/ga\" class=\"language-link\" hreflang=\"ga\" data-drupal-link-system-path=\"&lt;front&gt;\" lang=\"ga\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/ga\" class=\"language-link\" hreflang=\"ga\" data-drupal-link-system-path=\"&lt;front&gt;\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {},
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#block-lgd-localgov-mainpagecontent-scarfolk--2 > article > div:nth-of-type(2) > div:nth-of-type(4) > div > div > div > div > section > div:nth-of-type(2) > div > div > div > picture > img",
+   "message": "The text alternative \"Parking Webpage Spotlight\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Parking location icon\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (0.72), claim: yes (1.00), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#block-lgd-localgov-mainpagecontent-scarfolk--2 > article > div:nth-of-type(2) > div:nth-of-type(6) > div > div > div > div:nth-of-type(1) > div > div > div > div > div > div:nth-of-type(1) > div > div > div > picture > img",
+   "message": "The text alternative \"Starter Sli na habhann\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Starter Home Portal going LIVE on Thursday 24th September at 12 noon\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: yes (0.59), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#block-lgd-localgov-mainpagecontent-scarfolk--2 > article > div:nth-of-type(2) > div:nth-of-type(6) > div > div > div > div:nth-of-type(1) > div > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(1) > h3",
+   "message": "The heading \"Sli na hAbhann -portal going live\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"Sli na hAbhann New Homes\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#block-lgd-localgov-mainpagecontent-scarfolk--2 > article > div:nth-of-type(2) > div:nth-of-type(8) > div > div > div > div > div:nth-of-type(2) > div > div > div > div > div > article:nth-of-type(1) > div:nth-of-type(1) > div > div > div > img",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Streets 2030",
+    "problem": "wrong_content",
+    "imageShows": "A poster showing people cycling and walking in a green urban space with text about climate-resilient infrastructure.",
+    "suggestedAlt": "Poster for Streets 2030 project: Providing climate-resilient infrastructures for pedestrians and cyclists.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#block-lgd-localgov-mainnavigation-scarfolk-menu",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "M",
+    "verdict": "fail",
+    "evidence": "M",
+    "problem": "generic",
+    "suggestedText": "Main navigation",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#edit-s",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "S",
+    "verdict": "fail",
+    "evidence": "S",
+    "problem": "generic",
+    "suggestedText": "Search",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 14,
+   "judged": 10,
+   "failed": 2,
+   "passed": 5,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 4,
+   "suggested": 2,
+   "unconfirmed": 2
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 49,
+   "judged": 10,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 39
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 16,
+   "judged": 10,
+   "failed": 0,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 6,
+   "batched": {
+    "candidates": 9,
+    "calls": 2
+   },
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 7,
+   "judged": 7,
+   "failed": 0,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "batched": {
+    "candidates": 1,
+    "calls": 1
+   }
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were not checked at all, so whatever they hold was missed: html > body > iframe:nth-of-type(2) (cross-origin; skipped).",
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 4 of 14 for 1.1.1, 39 of 49 for 2.4.4, 6 of 16 for 2.4.6. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (9 in 2 calls), 3.1.2 (1 in 1 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 38,
+  "cachedCalls": 0,
+  "inputTokens": 28791,
+  "outputTokens": 3498,
+  "latencyMs": 97278
+ },
+ "timings": {
+  "totalMs": 58642,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 20
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 18785,
+    "prepareMs": 0,
+    "candidates": 14,
+    "judged": 10,
+    "calls": 16,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1321,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1181,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 16429,
+    "prepareMs": 0,
+    "candidates": 49,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 10430,
+    "prepareMs": 0,
+    "candidates": 16,
+    "judged": 10,
+    "calls": 3,
+    "cachedCalls": 0,
+    "batches": 2
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 243,
+    "prepareMs": 240,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 10201,
+    "prepareMs": 0,
+    "candidates": 7,
+    "judged": 7,
+    "calls": 7,
+    "cachedCalls": 0,
+    "batches": 1
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 29
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 1000,
+  "images": {
+   "captured": 14,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "1.1.1",
+    "candidates": 14,
+    "capped": 4
+   },
+   {
+    "criterion": "2.4.4",
+    "candidates": 49,
+    "capped": 39
+   },
+   {
+    "criterion": "2.4.6",
+    "candidates": 16,
+    "capped": 6
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > iframe:nth-of-type(2)",
+     "url": "https://consentcdn.cookiebot.com/sdk/bc-v5.min.html",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": false,
+     "engineReason": "skipped"
+    }
+   ]
+  }
+ }
+}

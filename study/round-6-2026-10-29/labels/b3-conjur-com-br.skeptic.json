@@ -1,0 +1,83 @@
+{
+  "page": "https://conjur.com.br/2026-out-28/toffoli-suspende-julgamento-sobre-restricoes-a-buser-em-mg/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p045caeed643",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the 'Estúdio' item in the site's main navigation list (Capa, Notícias, Colunas, Artigos, Entrevistas, Estúdio, Áreas, Anuários, Loja), and it leads to the 'Estúdio ConJur' section. The link text names the section it opens, so its purpose (go to the Estúdio section of the site) can be determined from the text alone. Not knowing what the section holds is the same for every reader and is not a 2.4.4 failure. The live HTML has the same link (plus a tabindex=-1 copy in the mobile menu), so the capture does not differ. The element passes and Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "d3e6ede75bcd",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the search submit button in the header. Its only visible content is an SVG magnifier (aria-hidden; the name 'Buscar' comes from aria-label and is not visible). In the live page's inline CSS the button has a transparent background, color #b99c63 with fill: currentColor, and a 1px #b99c63 circular border, all on the white header. Sampling the screenshot's pixels gives #ffffff behind the icon and #b99c63 for the strokes: 2.63:1, below the 3:1 that 1.4.11 asks for the visual information that identifies a component (G207). I looked for a reason it might pass. White on #1d4a7d applies only on hover and focus, not in the default state. The border is the same low-contrast gold. The button is not inactive, and its styling is the author's, not the browser default. Neither the neighbouring search field nor the fact that Enter also submits exempts the button's own icon. The claim names this failure, and the live CSS matches the capture."
+    },
+    {
+      "fingerprint": "s5eaf9129289",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is an inline link, 'deslocamento coletivo', in the sentence 'os estados conservam competência para disciplinar o deslocamento coletivo entre municípios de seus territórios'. It leads to a ConJur article about Buser being barred from running an intermunicipal line. The claim is literally true: the link text differs from the destination's title. But 2.4.4 does not ask link text to match the destination's title. The sentence and paragraph that frame the link are its programmatically determined context, and the destination is related coverage of that topic (state regulation of intermunicipal collective transport). Whatever more a reader cannot tell before following the link, a sighted reader cannot tell either. That is the criterion's 'ambiguous to users in general' exception, illustrated in WCAG by the 'guava' example: all readers are unsure, so the person with a disability is at no disadvantage. The live HTML is the same."
+    },
+    {
+      "fingerprint": "s62a23372215",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is a 120x90 thumbnail inside a 'Leia também' card link. The crop shows a generic pink Buser bus, the same stock photo used for four of the six cards. The alt repeats the card's headline, which also appears as visible h3 text in the same link and matches the destination's subject. The claim is true of the capture: the alt describes a court decision, not the bus. But 1.1.1 does not require describing this image. Inside the link it either serves the link's function, and an alt naming the destination is acceptable for that, or it is redundant decoration. The only thing the photo shows, Buser, is already in the headline. If one holds that it should have alt='' (F39), that is a different defect from the one the claim states, so the label is still false_positive. Redundant alt text is a best-practice issue here, not this failure. The live markup is the same."
+    },
+    {
+      "fingerprint": "7752184ecc5c",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the article's inline press photo (credit 'Divulgação'), with alt=''. It sits in a figure whose figcaption, also referenced by aria-describedby, reads 'Normas contestadas atingem a operação de plataformas como a Buser'. The image shows a pink bus with the Buser logo. The claim is true of the capture: the image is hidden, and no text describes a pink bus with the logo. Against the claim, the caption and the opening paragraph already identify the subject (Buser), and the photo is a stock handout illustration that adds no information the article relies on. On that reading it is illustrative, and alt='' with the caption passes. My lean is that it passes. But whether an editorial photo of the company's bus is informative or decorative is a known point on which competent auditors disagree, and a strict auditor would ask for a short alt. If it fails, the claim names that failure. Hence uncertain. The live markup is the same as the capture."
+    },
+    {
+      "fingerprint": "p62aad573f44",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is a 'Leia também' card thumbnail: a stock photo of a pink Buser bus, inside a link whose visible h3 has the same text as the alt ('STJ libera ANTT para autuar empresas de fretamento por aplicativo'). The alt names the link's destination, which is an acceptable text alternative for an image that is part of a link. The photo is a generic illustration, and the brand on the bus is not information a reader of the card needs. The repetition of the h3 is redundancy, a best-practice issue rather than a 1.1.1 failure. The live markup is identical, so I judge the element to pass, and Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "pa13337cd50b",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the category chip 'Concorrencial' under the byline, linking to /areas-do-direito/concorrencial/. Rampa could not read the destination (403), and my fetch got the same Cloudflare challenge, but the URL shows it is the listing for that area of law. The link text names the category it opens, so its purpose can be determined from the text. The chip styling gives sighted readers nothing beyond that text. No visual label is needed to explain it. The live link is identical to the captured one, and the element passes."
+    },
+    {
+      "fingerprint": "p9946f7c30da",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is a 'Leia também' card link whose accessible name is 'LIVRE INICIATIVA STF libera operação da Buser no Paraná até julgamento pelo Plenário'. It leads to the article 'Nunes Marques libera operação da Buser no Paraná até julgamento pelo Plenário do STF'. The link text alone states the destination's subject, and the h4 'Leia também' heading before it marks it as related reading. The live markup is the same, and the element passes."
+    },
+    {
+      "fingerprint": "s1110ad1e811",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the header search field, inside a form with role='search' next to a 'Buscar' button. Its only label is the visible placeholder 'Pesquisar...'. 2.4.6 asks that a label, where there is one, describe the topic or purpose of the field. 'Pesquisar...' does: it says the field is for searching the site, which tells users to type search terms. So the claim that it 'does not say what to enter' does not hold, and asking for more is a stricter rule than the criterion's. Relying on a placeholder with no programmatic label may raise questions under 1.3.1, 3.3.2 or 4.1.2, but it is not a 2.4.6 failure. The live HTML and CSS show the same input and placeholder."
+    },
+    {
+      "fingerprint": "s178315b1900",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is an inline link, 'atendimento dos passageiros', in the sentence 'a proteção à iniciativa privada e à competição admite condicionamentos destinados à segurança e ao atendimento dos passageiros'. It leads to a ConJur article on TRF-1 upholding the closed-circuit requirement for Buser. The claim is literally true: the text does not match the destination's title. But 2.4.4 does not require that match. All the context a sighted reader has, the sentence and paragraph about restrictions on transport companies, is the link's programmatically determined context. Whatever is left unclear about where the link goes is equally unclear to every reader. That is the criterion's 'ambiguous to users in general' exception (WCAG's 'guava' example), so the person using assistive technology is at no disadvantage. The live HTML is the same."
+    },
+    {
+      "fingerprint": "sab2d3b77877",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is a 'Leia também' card thumbnail inside a link. It shows a caricature of Ingo Sarlet, one of the column's two authors (filename 'caricatura-ingo-sarlet', and the linked article lists him as an author). The alt repeats the card's headline, which is also the visible h3 in the same link. The claim is true of the capture: the alt says nothing about what the image shows. Against it, the image is part of a link that already has text, so an alt naming the destination, or alt='', is a common and accepted pattern. My lean is that it passes. But the caricature identifies an author whose name appears nowhere in the card, and competent auditors would reasonably disagree on whether that likeness is information the alt must carry. If it is, the claim names the failure (an alt that leaves out what the image conveys). Hence uncertain. The live markup is the same as the capture."
+    }
+  ]
+}

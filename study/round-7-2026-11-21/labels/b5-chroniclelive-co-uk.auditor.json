@@ -1,0 +1,112 @@
+{
+  "page": "https://www.chroniclelive.co.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "c936d0830884",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News-teaser photo in the NEWS group (not a link). The crop shows an empty pub interior: bar, chequered floor, wooden chairs. The alt is the story headline, 'Fight on to save busy Wetherspoons in the North East as pub's future in doubt', and the same headline follows as an h3 link. claimTrue yes: the campaign to save the pub and its uncertain future are not shown; only the pub interior is. captureDiffers no: the snapshot caught the lazy image before it loaded (height 0), but the screenshot shows the small teasers with their photos, and the alt and src match the live HTML. The live page (fetched 2026-11-21) has the same markup: the img sits in its own cover div, not in a link, followed by the h3 headline link, with alt equal to the headline. Competent auditors split on this news-teaser pattern: one reading says the photo is informative and an alt that repeats the headline neither describes it (G94) nor is null as a redundant or decorative image should be, so 1.1.1 fails; another accepts the headline as an alternative that serves the image's purpose in the teaser (illustrating that story), since the picture adds nothing the user needs. My own reading leans to a failure, but the disagreement is real and no rubric rule settles it, so the label is uncertain. If it fails, the claim names that failure: the alt describes the story, not what the picture shows."
+    },
+    {
+      "fingerprint": "s306765ba815",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "h3 headline of an affiliate teaser (mirror.co.uk shopping-deals item) placed in the last cell of the NUFC grid, inside its own link and article. The content under it is its own card: the source link 'mirror.co.uk', then an ad slot and the next section's h2 'UNMISSABLE'. The screenshot shows the card with a hair photo, this headline and the mirror.co.uk label. The heading describes exactly the item it heads, so 2.4.6 is met. That the item is off-topic for the NUFC section is not this heading's 2.4.6 problem. claimTrue no: the content under the heading matches its topic. captureDiffers no: the commercial unit is filled client-side (empty NCU placeholders in the live server HTML) for every visitor, and the screenshot matches the snapshot. The live unit may now show another item, but that does not change what users received at capture. The model had the card's text and judged wrongly."
+    },
+    {
+      "fingerprint": "pf783f0a2f29",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Link 'Health News' in the News submenu of the site navigation, href /news/health/, whose destination is the Health section ('Health - Chronicle Live'). The text alone gives the purpose. R1: the only other link with that name (the More curtain copy) goes to the same URL, so there is no conflicting set. Meets 2.4.4; Rampa was right not to flag it. captureDiffers no: the live HTML has the same link with the same href."
+    },
+    {
+      "fingerprint": "pb25b94c0f86",
+      "answers": {
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News-teaser photo heading the NEWS group (not a link). The crop shows a Greggs shop counter with pastries and drinks; the alt is the headline 'Greggs axes favourite item from menu with fans slamming 'ridiculous' decision', repeated by the h3 link below. The alt names Greggs but describes the story (an item axed, fans' reaction), not the counter shown. captureDiffers no: the image was loaded in the capture and the screenshot, and the live alt is identical. The live page (fetched 2026-11-21) has the same markup: the img sits in its own cover div, not in a link, followed by the h3 headline link, with alt equal to the headline. Competent auditors split on this news-teaser pattern: one reading says the photo is informative and an alt that repeats the headline neither describes it (G94) nor is null as a redundant or decorative image should be, so 1.1.1 fails; another accepts the headline as an alternative that serves the image's purpose in the teaser (illustrating that story), since the picture adds nothing the user needs. My own reading leans to a failure, but the disagreement is real and no rubric rule settles it, so the label is uncertain."
+    },
+    {
+      "fingerprint": "s92da37148f5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Header image (Chronicle 'C' logo plus the word SUBSCRIBE) that is the only content of a link to /subscribe. The link carries aria-label 'Subscribe to premium membership'. claimTrue yes: 'nechronicle' is a site label and does not convey the SUBSCRIBE button the image shows. But the control is the link, and its name, set by aria-label, describes its purpose; that name, not the alt, is what assistive technology announces. 1.1.1 asks a control to have a name that describes its purpose (Situation C, ARIA6/G82), which is met. The ACT rule qt1vmo leaves out images with an ancestor named from author ('ignored because it is a child of a link that provides its accessible name'). alt='' would be cleaner, but the element does not fail. captureDiffers no: the button is rendered client-side (absent from the server HTML for every visitor) and the screenshot shows it as captured. Rampa judged the image's alt as if it named the control."
+    },
+    {
+      "fingerprint": "pc88300bfb39",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Top-level 'News' link of the site navigation, href /news/, whose destination is the News section ('News - Latest Newcastle news and breaking news from the North East'). The text gives the purpose. R1: every other 'News' link on the page (desktop nav, More curtain, footer) goes to the same /news/ URL, so no conflicting pair. Meets 2.4.4; Rampa was right not to flag it. captureDiffers no: the live HTML has the same navigation links."
+    },
+    {
+      "fingerprint": "s528aaa8d347",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Link in the cookie-consent dialog's sentence 'At Reach and across our entities we and our partners store and/or access information...', href https://www.reachplc.com/about-us/our-brands. The link text with its sentence says it explains who Reach and 'our entities' are; the destination is Reach plc's 'Our brands' page, which lists the titles (entities) the group runs. So text and destination agree and 2.4.4 is met. The text is clumsy, but its purpose is clear. My fetch of reachplc.com got a bot-challenge page, so this rests on the URL path and the page's known role, not a live read. claimTrue no: nothing shows a mismatch. captureDiffers no: the dialog is injected by the consent script for real visitors (absent from server HTML) and the screenshot shows the same text and link. Rampa did not read the destination, but the href it had already said 'our-brands', matching 'our entities'."
+    },
+    {
+      "fingerprint": "991bd6b9791a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News-teaser photo (not a link) in the top group; the file name says it is a Middlesbrough file shot. The crop shows a wide grey river with a red buoy and a far bank. The alt is the headline 'Tragedy as body found in North East river in search for missing 34-year-old man', repeated by the h3 link. claimTrue yes: no body, search or person is shown, only a river. captureDiffers no: the image was loaded in the capture and the screenshot shows it, and the live alt is identical. The live page (fetched 2026-11-21) has the same markup: the img sits in its own cover div, not in a link, followed by the h3 headline link, with alt equal to the headline. Competent auditors split on this news-teaser pattern: one reading says the photo is informative and an alt that repeats the headline neither describes it (G94) nor is null as a redundant or decorative image should be, so 1.1.1 fails; another accepts the headline as an alternative that serves the image's purpose in the teaser (illustrating that story), since the picture adds nothing the user needs. My own reading leans to a failure, but the disagreement is real and no rubric rule settles it, so the label is uncertain. If it fails, the claim names that failure."
+    },
+    {
+      "fingerprint": "3ee12c85fd5a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News-teaser photo (not a link) in the NEWS group. The crop shows a Newcastle rooftop view toward the Sage and the Tyne bridges (file name CATHEDRAL); the alt is the headline 'People with these 113 surnames could inherit a fortune from unclaimed estates in North East', repeated by the h3 link. claimTrue yes: nothing about surnames, inheritance or estates is shown. captureDiffers no: the snapshot had the lazy image unloaded (height 0), but the screenshot shows the small teasers with their photos, and the alt and src match the live HTML. The live page (fetched 2026-11-21) has the same markup: the img sits in its own cover div, not in a link, followed by the h3 headline link, with alt equal to the headline. Competent auditors split on this news-teaser pattern: one reading says the photo is informative and an alt that repeats the headline neither describes it (G94) nor is null as a redundant or decorative image should be, so 1.1.1 fails; another accepts the headline as an alternative that serves the image's purpose in the teaser (illustrating that story), since the picture adds nothing the user needs. My own reading leans to a failure, but the disagreement is real and no rubric rule settles it, so the label is uncertain. If it fails, the claim names that failure."
+    },
+    {
+      "fingerprint": "pbecab8a7790",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "News-teaser photo (not a link). The crop shows long lines of shoppers with trolleys inside a warehouse store; the alt, 'Christmas chaos at Costco in November as shoppers stuck in huge queues at Gateshead store', is also the headline, but here it says what the picture shows: shoppers stuck in long queues in the Costco store. A user who cannot see the image gets its content, so 1.1.1 is met (repeating the adjacent headline is redundant, not a failure). Rampa was right not to flag it. captureDiffers no: the image was loaded in the capture and the screenshot, and the live alt is identical."
+    }
+  ]
+}

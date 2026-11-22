@@ -1,0 +1,68 @@
+Sixth real-page study: notes of the run (2026-11-21, times UTC-3)
+
+02:13  Pre-registration frozen in dae1522 ("Round 6 pre-registration: frozen before collection") and pushed to GitHub main
+       as a fast-forward (df32363..dae1522), before any page was collected. Code under study: rampa-cli 0.1.2, tag v0.1.2 =
+       df32363, built in the worktree .claude/worktrees/v0.1.2 (pnpm install --frozen-lockfile, pnpm build); node
+       dist/cli.mjs --version prints 0.1.2. Node 24.21.0, Edge 157.0.4341.60, Ollama 0.40.3, gemma4:12b digest
+       6114515d63c1 (Q4_K_M); no other model installed or used. Long paths are off on this PC: pages run under
+       C:/Users/guilh/dev/rampa-study-recordings/round-6 (longest recording path 246 characters).
+       Before the freeze: the 72 pages were screened again 01:56-01:59 (data/screen-6.json); calmatters.org's article
+       (bot check) and rsc.org.uk's contact page (HTTP 403) were refused again at 02:10 (data/screen-7.json) and replaced
+       by their slots' next backups, lbc.co.uk and lso.co.uk, whose inner pages pick.py proposed and the screen passed
+       (data/screen-8.json). The Public Suffix List file of 2026-10-29 is no longer on disk: pick.py and redact.py ran
+       with a list of the six suffixes these hosts need (uk, co.uk, org.uk, com, org, ie), which gives the same
+       registrable domains for them; recheck_domains.py uses a suffix rule (pre-registration, section 2).
+02:13  Collection started (collect.sh main).
+02:15  b1-ufam-edu-br (dev): the server answered HTTP 500 (an error page of 2 nodes; the screen at 01:57 had a 200). Read
+       as a refusal (section 6 names 403, 429 and 503 pages; a 500 error page in place of the page is the same kind of
+       answer): set aside, tried once more after at least 10 minutes.
+02:18  b1-graacc-org-br (dev): net::ERR_TOO_MANY_REDIRECTS on both attempts of collect.sh, no snapshot (the screen at
+       01:57 had a 200). A net::ERR_* failure: the attempts do not count; tried again up to three more times.
+02:27  b2-santacasabh-org-br (dev): the collector crashed on both attempts, no snapshot ("page.evaluate: Cannot serialize
+       result: object reference chain is too long."). A crash that saves no snapshot (section 6): tried once more after
+       at least 10 minutes; if it crashes again, its slot's next backup that passed the screen replaces it.
+02:44  Collection loop done (02:13-02:43, 72 pages, one at a time). Attempts set aside in DATA/pages/<slug>/discarded-1/.
+       b1-ufam-edu-br, tried once more: collected (892 nodes, its home page).
+       b1-graacc-org-br: net::ERR_TOO_MANY_REDIRECTS again on two attempts; curl shows the server answering HTTP 301 to its
+       own address, a loop on the server, not a connection drop. After four attempts in 26 minutes it was read as refused
+       again and replaced by its slot's next backup that passed the screen: aacd.org.br (b2; hospitalmaterdei.com.br, the
+       primary, had not resolved on 2026-10-29). Strictly the network rule allows three more tries; the fourth was not
+       spent, since the loop was the server's answer.
+       b2-santacasabh-org-br: the collector crashed again on both attempts; replaced by its slot's next backup that
+       passed the screen: hospitaldeamor.com.br (b1).
+       Both backups screened again (data/screen-9.json, scripts/candidates-replace.tsv) and collected at 02:46.
+       scripts/pages.tsv, selection.tsv and data/pages-input.json (split.py) updated: slots, blocks, splits, coins and the
+       T4 subset unchanged; both domains clear of data/excluded-domains.json and of recheck_domains.py (0 hits). The old
+       folders are kept as DATA/pages/replaced-<slug>/. 72 of 72 pages collected. Both replaced slots are dev pages.
+02:47  Main judgment started (run-judged.sh main), block order, --concurrency 2.
+02:51  compact.py fixed before its first use: the report's field is wcagTarget, not wcag (144effb). analyze.py was
+       committed in d7a2f03 and t4.py in 4241311, before any label file and before T4.
+03:27  pass_list.ts dry-tested on a scratch copy over the 9 test pages judged by then: every page matched the main
+       run's report (counts only were printed).
+05:18  Main judgment done (02:47-05:18): 72 of 72 pages, exits 1 (71) and 0 (1), 9 to 240 s a page (median 126 s), no
+       report with an error, a time-out or an offline miss; no pause for heat or memory (GPU 52-65 C when read).
+05:23  Ablations done (run-ablation.sh, 05:18-05:23, 72 pages each): noconfirm, noverify, nop2, nollm; offline misses 0,
+       97 (noverify: the second pass of claims verification had discarded, as section 3 says), 0, 0; no errors. The nop2
+       build differs from dist/ in the one line (data/nop2-variant.diff).
+05:23  p1_facts.ts: on 3,322 dev and 3,949 test 2.4.4 candidates, no link where P1 changes the generic fact.
+       compact.py (360 compact reports), hashes.py (216 recording and screenshot files, 476 MB), sample_suggestions.py
+       (20 drawn per block and split; 4 labelled in full).
+05:24  pass_list.ts: every one of the 36 test pages matched the main run's report. pass_draw.py: 200 items (1.1.1: 60
+       passed, 20 discarded, 20 held back; 2.4.4: the same); a second run wrote the same bytes.
+05:24  packets.py: 71 packets (b3-donegaldaily-com, dev, has nothing to label), 819 items: dev 295, test 524. judge_prompt.py
+       --all: 142 prompt files in judge-prompts/, index.json largest first. No judge launched.
+05:25  analyze.py ran end to end on synthetic labels in a scratch copy outside the repository (its numbers not read;
+       the copy deleted). T4 started, as section 3 allows after the packets: the live --fast collection of the 12 T4
+       pages (05:25-05:28, each on its first attempt, no refusal), then fast1-fast5 and full2-full5 (run-judged.sh).
+08:05  T4 done: fast1-fast5 05:28-06:14, full2-full5 06:14-08:05; 12 of 12 pages complete in both modes, every run
+       exited 0 or 1. compact.py (468 compact reports), hashes.py (240 files, 511 MB) and t4.py (data/t4.json) run.
+       Nothing was pushed after the freeze push.
+06:49  Judges (launched from the main session, not by the runner): 142 judge agents, an auditor and a skeptic for each
+       of the 71 packets, largest packets first from judge-prompts/index.json, up to 8 at once, each new packet's pair
+       launched when two running agents had finished. No model or effort was set on them (they inherit the session's,
+       Claude Opus 5.5). Launch form: each agent was told to read its prompt file and carry out the task it describes
+       exactly as written, so it received the same text as the prompt file, delivered by file. Each replied with its
+       one-line count only; no label file, answer or rationale was read during labelling. No judge stopped early or had
+       to be launched again.
+08:44  Last judge done. check_labels.py: 142 files, problems 0. analyze.py run (data/summary.json, data/findings.json,
+       data/pages.json).

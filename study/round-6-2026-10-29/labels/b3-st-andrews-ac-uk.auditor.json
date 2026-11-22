@@ -1,0 +1,34 @@
+{
+  "page": "https://www.st-andrews.ac.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "684fb38fb4a3",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the lazy-loaded picture (data-src mw-navbox.jpg) beside the 'Making Waves: The Campaign for St Andrews' heading. The image crop and the screenshot show it: a teal sea/water scene with a pattern of white curved wave lines over it. The alt 'waves pattern on sea' says just that, so the claim that it describes something the image does not show is false of the capture. The image is close to decorative next to its heading, and a short, accurate alt does not fail 1.1.1. The live HTML on 2026-11-21 has the same data-src and alt. The snapshot's 1x1 bounds come from the lazyload placeholder at capture time, but the crop the model saw and the screenshot both show the real image, so this changes nothing for the claim. The model had the right image and judged it wrongly."
+    },
+    {
+      "fingerprint": "c835738ecce5",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the homepage hero image. Its file is st-salvators-hall-autumn (750x500 img, with a 1920x600 source at min-width 640px). The screenshot and crop show a sandstone hall building with autumn trees and one person walking at its foot. There is no pier and there are no students sitting. The alt 'Students sitting on the pier during golden hour at the Gaudie pier walk in St Andrews.' describes a different photograph, so the claim holds. A text alternative that describes a different image does not serve the equivalent purpose, and AT users get false information. That fails 1.1.1 whether the image is treated as informative or decorative, since the alt is non-null and misleading. The live page fetched on 2026-11-21 has the same picture sources and the same alt, and the screenshot matches it, so the capture does not differ."
+    },
+    {
+      "fingerprint": "sf01855e452a",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the link 'MMS' (href mms.st-andrews.ac.uk/mms/), one item in a list of student systems (MySaint, Moodle, Library, MMS, Semester dates). The heading just before it, which counts as context under this rubric, is the h3 'Current students'. The link text is the proper name of the service it opens: the University's Module Management System, whose login page is titled 'Module Management System'. Under the 'Current students' heading, the text tells a user that the link goes to MMS, the student system, and that is the link's purpose. So the claim that nothing tells where it goes is not true of the capture. Expanding the abbreviation is a 3.1.4 (AAA) matter, not 2.4.4, and sighted users get the same text. The live HTML is identical to the snapshot. The checker applied a stricter rule than 2.4.4 requires."
+    },
+    {
+      "fingerprint": "5e5c406ee50f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the course search text input (#txt-search-course). Its placeholder 'Search by keyword or phrase' is the only visible prompt inside the field, set in 18px at normal weight. The site's live stylesheet (dpl 1.27.5 screen.css) sets .form-control placeholder colour to #999 on a white field. Sampling the uncovered crop gives glyph pixels of exactly #999999 on #ffffff, which is 2.85:1. That is below 4.5:1, and below even the 3:1 for large text. Placeholder text is visible text, and none of 1.4.3's exceptions (inactive component, incidental, logotype) applies, so the element fails 1.4.3 for the reason the claim gives. The dimming over this area in the full screenshot is the cookie banner's overlay; the field is white once the banner is dismissed, as the crop shows. The live HTML and CSS match the capture."
+    }
+  ]
+}

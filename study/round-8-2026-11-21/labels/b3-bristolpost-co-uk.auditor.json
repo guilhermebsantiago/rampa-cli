@@ -1,0 +1,93 @@
+{
+  "page": "https://www.bristolpost.co.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "pc7f59b66ae4",
+      "answers": {
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Row with no claim. A teaser photo for the Bristol City player ratings opinion piece; the crop shows a match action shot, a Bristol City player in grey (#20) against a Middlesbrough player in red. The OPINION badge on it is a separate text label, not part of the image. The image is not inside a link: it sits in the teaser's cover div, and the headline is a separate link (an h3) right beside it in the same article. Its alt copies that headline word for word. Its alt does not describe the picture. My own reading is that it fails 1.1.1. A photo shown next to its own headline is either decoration, in which case it should be hidden from assistive technology (alt=\"\"), or it carries information, in which case the alt should describe the picture. A copy of the headline does neither: screen reader users hear the headline twice and get nothing of what the picture shows. Competent auditors do reasonably disagree here, though. Many accept a teaser thumbnail whose alt names the story it illustrates, or treat the repeat as a best-practice issue rather than a 1.1.1 failure, so the label is uncertain. captureDiffers: the live server HTML has the same img with the same alt and src, and the screenshot shows the page fully styled."
+    },
+    {
+      "fingerprint": "se5b1791e9cd",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The logo at the top of the InMobi Choice consent dialog (qc-cmp2-ui), named Privacy. The crop shows the 'BristolLive' wordmark, white on blue. claimTrue: no. The image really is a publisher logo, so 'Publisher Logo' does not describe something it fails to show. elementFails: yes. The alt names the kind of image but not what it says. The logo's only content is the name Bristol Live, and nothing else in the dialog gives that name either (the body text reads 'At we and our partners...' with the publisher left blank), so users of assistive technology cannot tell who is asking for consent. A logo's text alternative should carry the name it shows. Read in good faith, the claim points at this: an alternative said to 'describe something the image does not show' when it leaves out what the image conveys is the rubric's own example of a claim that names the defect. captureDiffers: the live page loads the InMobi Choice CMP script (cmp.inmobi.com/choice), so ordinary visitors get this dialog too, and the logo URL is still served. I found nothing suggesting a version made for bots."
+    },
+    {
+      "fingerprint": "b26eefc128eb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The lead teaser photo in the NEWS section: a Getty stock image of a stethoscope on a laptop. claimTrue: yes. The alt 'Hundreds stuck at A&E for more than 12 hours in Bristol' describes nothing the picture shows. The image is not inside a link: it sits in the teaser's cover div, and the headline is a separate link (an h3) right beside it in the same article. Its alt copies that headline word for word. A generic stock image like this is close to pure decoration. My own reading is that it fails 1.1.1. A photo shown next to its own headline is either decoration, in which case it should be hidden from assistive technology (alt=\"\"), or it carries information, in which case the alt should describe the picture. A copy of the headline does neither: screen reader users hear the headline twice and get nothing of what the picture shows. Competent auditors do reasonably disagree here, though. Many accept a teaser thumbnail whose alt names the story it illustrates, or treat the repeat as a best-practice issue rather than a 1.1.1 failure, so the label is uncertain. captureDiffers: the live HTML has the same img, alt and src."
+    },
+    {
+      "fingerprint": "38923a00460c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "A teaser photo in the FOOTBALL section showing three Bristol Rovers players celebrating. claimTrue: yes. The alt is a quote from manager Steve Evans, who is not in the picture, and the alt says nothing about the celebration it does show. The image is not inside a link: it sits in the teaser's cover div, and the headline is a separate link (an h3) right beside it in the same article. Its alt copies that headline word for word. My own reading is that it fails 1.1.1. A photo shown next to its own headline is either decoration, in which case it should be hidden from assistive technology (alt=\"\"), or it carries information, in which case the alt should describe the picture. A copy of the headline does neither: screen reader users hear the headline twice and get nothing of what the picture shows. Competent auditors do reasonably disagree here, though. Many accept a teaser thumbnail whose alt names the story it illustrates, or treat the repeat as a best-practice issue rather than a 1.1.1 failure, so the label is uncertain. captureDiffers: the live HTML has the same img, alt and src."
+    },
+    {
+      "fingerprint": "s5bd285a12cf",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The topic tag link 'LOCKLEAZE' (aria-label 'Lockleaze', href all-about/lockleaze) in the footer of the lead teaser, under the h3 'Hit-and-run leaves two cyclists in hospital'. I opened the destination: https://www.bristolpost.co.uk/all-about/lockleaze is the Lockleaze topic page (title 'Lockleaze - Bristol Live', h1 'Lockleaze'). So the link text is the destination's own name, Understanding 2.4.4 accepts that, and the preceding heading places it as the tag of a Lockleaze story. No other link on the page is named Lockleaze, so R1 does not apply. claimTrue: no. The text does say where the link goes, and the heading before it gives context. elementFails: no. captureDiffers: the live HTML has the same link and aria-label, and the screenshot shows it as a styled tag under the headline. Rampa never read the destination, which would have settled the purpose."
+    },
+    {
+      "fingerprint": "sb1b226a5afe",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The premium badge (PremiumArticleBadge, premium-byline-bristolpost.svg) above the headline of the 'Floating sauna and waterside gardens' teaser. The crop shows the B logo followed by the word PREMIUM. Its alt is 'bristolpost'. claimTrue: yes. 'bristolpost' is a brand label and leaves out what the badge conveys here, that the story is Premium (paywalled) content. elementFails: yes. No other text in the article (image alt, headline, tag, comment count) says it is premium, so that information is lost to screen reader users, while sighted users see it. The claim names this. captureDiffers: the live HTML has the same badge images with alt 'bristolpost'."
+    },
+    {
+      "fingerprint": "s93e01771acc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The image inside the header's Subscribe button. The crop shows the B logo and the word SUBSCRIBE, and the image's alt is 'bristolpost'. claimTrue: yes. The alt is a brand label, not what the image says. elementFails: no. The image is the only content of the link <a aria-label=\"Subscribe to premium membership\" href=\"/subscribe\">, and the aria-label gives that control its accessible name, overriding the image's alt. The control therefore has a name that describes its purpose, which is what 1.1.1 asks of non-text content that is a control, and screen readers announce the link by its aria-label. The wrong alt is a tidiness issue with no effect on what users get. The checker judged the alt on its own and ignored the name the link already has. captureDiffers: the button is rendered by script and is not in the server HTML I fetched, but the snapshot shows the rendered header of a fully styled page, and nothing suggests users get a different button."
+    },
+    {
+      "fingerprint": "bd49a561d1a6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "A teaser photo in the top section: a street-level screenshot of a terraced shopping street with a bar front and parked vans, presumably the scene of the assault. claimTrue: yes. The alt 'Man fighting for his life after early-morning assault outside Bristol bar' describes nothing the picture shows. The image is not inside a link: it sits in the teaser's cover div, and the headline is a separate link (an h3) right beside it in the same article. Its alt copies that headline word for word. What the picture does convey, the street where it happened, is not in the alt. My own reading is that it fails 1.1.1. A photo shown next to its own headline is either decoration, in which case it should be hidden from assistive technology (alt=\"\"), or it carries information, in which case the alt should describe the picture. A copy of the headline does neither: screen reader users hear the headline twice and get nothing of what the picture shows. Competent auditors do reasonably disagree here, though. Many accept a teaser thumbnail whose alt names the story it illustrates, or treat the repeat as a best-practice issue rather than a 1.1.1 failure, so the label is uncertain. captureDiffers: the live HTML has the same img, alt and src, and the screenshot shows the same photo."
+    }
+  ]
+}

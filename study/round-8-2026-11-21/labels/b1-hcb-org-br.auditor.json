@@ -1,0 +1,38 @@
+{
+  "page": "https://www.hcb.org.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "e28f85730bd5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the top-bar link 'Usuários HCB' (16px, weight 400, so not large text). Sampling the screenshot over the text area (right of the icon) gives glyph colour #787a82 on #dee2eb, 3.30:1, exactly as claimed. The live general.css confirms it: 'div.barra ul.ferramentas li a' sets color #787a82 and font-size 16px, 'div.barra' sets background #dee2eb, and the background image on a.icIntranet is only a small icon in the 30px left padding, not behind the text. The text is visible link text, not incidental or a logo, so it needs 4.5:1 and fails 1.4.3. The live HTML and CSS match the styled capture, so the capture does not differ. (The packet's image crop shows only the icon and background, with no glyphs, but that does not change the measured colours.)"
+    },
+    {
+      "fingerprint": "p0d2f08b1ffe",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the footer button-styled link 'Acesso Restrito' (href /intranet/, which redirects to /login/intranet/). The heading just before it in document order is the h3 'Intranet HCB', in the same footer column, which counts as context in this round; link text plus heading says the link gives restricted access (sign-in) to the HCB intranet, which is what the destination is. No other link on the page has the name 'Acesso Restrito' (checked in the snapshot and the live HTML), so R1 does not apply. The element meets 2.4.4 and Rampa was right to report nothing. The live HTML has the same h3 and link, and the screenshot shows the styled footer, so the capture does not differ."
+    },
+    {
+      "fingerprint": "fe46615bab50",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the top-bar link 'Mapa do Site' (16px, weight 400, not large text). Sampling the screenshot over the text gives #787a82 on #dee2eb, 3.30:1, as claimed. The live general.css confirms it: color #787a82 at 16px on the #dee2eb bar, with the a.icMapa background image being only an icon in the left padding, not behind the text. Visible link text below 4.5:1 fails 1.4.3. The live HTML and CSS match the styled capture, so the capture does not differ. (The packet's crop shows the icon and background without glyphs, which does not affect the measurement.)"
+    }
+  ]
+}

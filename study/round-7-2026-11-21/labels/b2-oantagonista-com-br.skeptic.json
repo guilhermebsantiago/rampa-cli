@@ -1,0 +1,76 @@
+{
+  "page": "https://oantagonista.com.br/analise/relatorio-da-pf-sobre-mendonca-saiu-pela-culatra/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "pb9e87ed0d05",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the footer logo, an img (not inside a link) whose crop shows the wordmark 'o antagonista', and its alt is 'o antagonista': the alternative gives the same text the image shows, which is all 1.1.1 asks of a logo. The live server HTML carries the same img with the same alt, and the screenshot shows the same wordmark in the footer, so nothing differs. It meets 1.1.1; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "sdda11b52ef9",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h3 is the title of the 'Notícia Anterior' card at the end of the article. In the snapshot what follows it inside its card is that story's date and reading time and the card link (#prev-post) whose text is the same headline and whose href is that coffee-harvest story; the next h3 ('Homem é condenado...') opens the separate 'Próxima notícia' card. So the heading names exactly the content it introduces, a teaser for the previous story, and the claim that it names a different topic is false. The live server HTML has the same two card titles, and the screenshot shows the same layout. The heading meets 2.4.6; the model had this context and misjudged it."
+    },
+    {
+      "fingerprint": "bc69579333a3",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The footer newsletter email field. It has a label 'Email*' associated by for=, but the RD Station form CSS sets .bricks-form__label to display:none, so the visible label is only the placeholder 'Email *' (seen in the screenshot). The snapshot's CDP tree gives the textbox the name '' (label notRendered), so the claim that the browser computes no name is true of Chrome, and in Chrome's accessibility tree the field has no name. I fetched the RD Station form the page loads (forms.rdstation.com.br) and it has the same markup and the same display:none rule, so the capture matches what users get. Why uncertain: HTML-AAM lists placeholder as a fallback name source after the label, Chrome still exposes the placeholder to assistive technology as its placeholder property (NVDA, JAWS and VoiceOver announce it), other engines may use the hidden label's text, and axe-core's label rule passes a field with a non-empty placeholder; competent auditors would disagree over whether this fails 4.1.2 or is a 3.3.2 or best-practice issue."
+    },
+    {
+      "fingerprint": "13bb4a8827e3",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The newsletter email field in the article body (type=email, name=email, placeholder 'Email *'), which asks for the visitor's own email address to subscribe. It has no autocomplete attribute in the snapshot, and the snapshot's formIssues records Chromium's FormInputAssignedAutocompleteValueToIdOrNameAttributeError, so both parts of the claim hold. I looked for a reason it could pass: type=email gives a data format, not the purpose 'the user's email', and name=email is not a programmatic purpose; H98 (autocomplete) is the technique, and HTML supports it, so the purpose is not programmatically determinable. The RD Station form fetched live has the same input without autocomplete, so the capture does not differ. It fails 1.3.5 for the reason the claim gives."
+    },
+    {
+      "fingerprint": "36e1000123e7",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The article's lead photo (credit Gustavo Moreno/STF). The crop shows minister André Mendonça writing at the STF bench in his robe, with Alexandre de Moraes and another minister out of focus behind him. Its alt repeats the headline word for word ('Relatório da PF sobre Mendonça saiu pela culatra'), which already stands as the h1 just above; it speaks of a police report backfiring, which the photo does not show, and does not say who is pictured or that Moraes, the article's other subject, is there. I looked for a reason it passes: the photo is not decorative (it shows the people the story is about), and even read as decorative the alt would have to be null (F39), so neither reading saves it. The live HTML has the same src and alt. Read in good faith, the claim names the real defect: the alternative leaves out what the image conveys."
+    },
+    {
+      "fingerprint": "9b833db3184a",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The newsletter email field in the article body. Its label 'Email*' is associated by for= but hidden with display:none by the RD Station form CSS, so only the placeholder 'Email *' is visible (screenshot). The snapshot's CDP tree gives the textbox the name '' (label notRendered), so the claim is true of Chrome, and the field has no name in Chrome's accessibility tree. The form fetched live from forms.rdstation.com.br has the same markup and CSS, so the capture matches. Why uncertain: HTML-AAM makes the placeholder a fallback name, Chrome exposes it to assistive technology as the placeholder property that screen readers announce, other engines may use the hidden label, and axe-core passes such a field on its placeholder; competent auditors would disagree over whether this is a 4.1.2 failure."
+    },
+    {
+      "fingerprint": "s4ec6b03d617",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The icon inside the green 'Inscreva-se' button that opens the site's WhatsApp channel. The crop shows the WhatsApp logo (a white phone in a speech bubble on green), and the alt is 'Logo WhatsApp': it describes exactly what the image shows, so the claim is false. Chrome names the button 'Logo WhatsApp Inscreva-se', so the image's alternative also helps the control's purpose (subscribe on WhatsApp). The live HTML has the same img and alt. It meets 1.1.1; the model misread a clear crop."
+    },
+    {
+      "fingerprint": "se51983ae539",
+      "answers": { "claimTrue": "yes", "elementFails": "cannot_tell", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The 28px author photo in the byline (crop: Rodolfo Borges's face), alt 'avatar', placed in the same container as the text 'Rodolfo Borges'. The claim is true of the capture: 'avatar' names the kind of image, not whose face it is. Whether it fails 1.1.1 is a judgment call: one reading treats 'avatar' as generic placeholder text (F30) or, if the photo is redundant with the name beside it, as a non-null alt where a null one was due (F39); the other reading holds that 'avatar' followed by the author's name tells a screen reader user exactly what the image conveys (this is the author's picture), so nothing is lost. The live HTML has the same alt. Competent auditors would disagree, so the label is uncertain."
+    },
+    {
+      "fingerprint": "a4f4749fc480",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer newsletter email field ('Quer receber notícias do Antagonista em seu e-mail?'), type=email, name=email, placeholder 'Email *', which asks for the visitor's own email address. The snapshot shows no autocomplete attribute, and its formIssues records Chromium's FormInputAssignedAutocompleteValueToIdOrNameAttributeError, so the claim holds as worded. No technique saves it: type=email and name=email do not make the purpose programmatically determinable, and HTML supports autocomplete (H98). The RD Station footer form fetched live has the same input without autocomplete. It fails 1.3.5 as claimed."
+    },
+    {
+      "fingerprint": "s091f9a0562a",
+      "answers": { "claimTrue": "yes", "elementFails": "cannot_tell", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The 78px author photo in the author box under the article (crop: Rodolfo Borges's face), alt 'avatar', followed in the same container by the h4 'Rodolfo Borges' and his bio. The claim is true of the capture: 'avatar' gives the image's kind, not its content. Whether that fails 1.1.1 divides auditors: generic text like 'avatar' can be read as placeholder text (F30), or as a non-null alt on an image made redundant by the name heading next to it (F39); or it can be read as accurately telling the user this is the author's picture, with the name right after it, so the image's information reaches them. The live HTML has the same alt. Uncertain."
+    }
+  ]
+}

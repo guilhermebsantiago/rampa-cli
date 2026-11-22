@@ -1,0 +1,48 @@
+{
+  "page": "https://ultimosegundo.ig.com.br/2026-10-25/lula-vira-no-2-turno-e-e-reeleito-presidente-pela-quarta-vez.html",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s6cca74c830b",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An inline link on the word \"Meta\" in the article body. Its sentence, which is programmatically determined context, reads (snapshot readingText and live HTML) \"O TSE cobrou da Meta tratamento isonômico para os conteúdos políticos das duas campanhas.\" The link leads to an iG story, \"Comitê da Meta vê 'falhas recorrentes' na moderação eleitoral\", about Meta's handling of electoral political content (the treatment of Lula's ad accounts), which is what the sentence is about, so the link text with its sentence tells users the link gives more on Meta's treatment of campaign content. The claim that nothing around it tells where it goes is not true of the capture: the sentence does. The paragraph's text field in the snapshot moves the link text to the end (\"cobrou da tratamento ... Meta\"), but the sentence context was still there. The live page has the same sentence and link (only rel changed from sponsored to nofollow) and the screenshot shows it inline, so the capture does not differ in a way that matters. The element meets 2.4.4."
+    },
+    {
+      "fingerprint": "sc7c923770aa",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A footer link \"Deles\" (title \"Deles\") in the list of iG channels (Home, Último Segundo, Economia, Gente, Esporte, Carros, Delas, Deles, Saúde...), leading to https://deles.ig.com.br/, whose title is \"Deles - Um site de estilo beleza e atualidades para o homem moderno.\" The link text is the name of the destination channel, which Understanding 2.4.4 accepts as describing the purpose, and its list of sibling channel links confirms it is a channel link. The claim that the text does not tell where the link goes is false: it names the site it opens. The live page has the same link in the footer list (and the same address in the header menu); the footer is under the cookie banner in the screenshot, which does not touch this claim. The element meets 2.4.4."
+    },
+    {
+      "fingerprint": "s8feeaacc9a5",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The \"e-mail\" item of the site's top navigation bar (visible in the screenshot after \"ig mais\"), a link to https://minhaconta.ig.com.br/ with title \"E-mail\". Its list item, which is its programmatically determined context, holds its submenu \"Minha conta\", \"Criar nova conta\", \"Suporte e-mail\". The destination is \"iG Minha Conta\", a login form for the iG e-mail account (its script validates an e-mail and password). In iG's product menu, the text \"E-mail\" with that list item tells users the link opens iG's e-mail service, which is where it goes, so the claim that neither the text nor anything around it tells where it goes is not true. The live page has the same link and submenu. The element meets 2.4.4."
+    },
+    {
+      "fingerprint": "s541d5ede41b",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An h3 in the site's orange header bar holding a link \"Último Segundo\" (shown uppercase by CSS) to the channel's home, next to the iG logo, the iG Mail link and search. It names the iG news channel the page belongs to; the content after it (the header tools, then the news article whose h1 follows) is that channel's content, so it does not name a different topic. A site or channel name used as a heading in the banner describes the section it heads; at most the heading level is a structure point, not a 2.4.6 failure. The live HTML has the same h3 and the screenshot shows the bar (drawn lower because it is fixed). The element meets 2.4.6."
+    },
+    {
+      "fingerprint": "5a2961cdfbb7",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"iG Mail\" link in the orange header bar. The live CSS sets #busca .ig-email a to color #fff and font-size 13px (regular weight), and the bar's background behind it in the screenshot samples at #f54932 to #f54c30, which gives 3.52:1 to 3.57:1 against white (computed with the WCAG luminance formula). 13px regular text needs 4.5:1 under 1.4.3, so the text fails, as the claim states. The live page has the same markup and style, so the capture does not differ."
+    },
+    {
+      "fingerprint": "s31b36f4985b",
+      "answers": { "claimTrue": "cannot_tell", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A tag link \"lula\" (uppercase by CSS) in the article's \"Tags:\" row (eleições 2026, lula, presidente...), leading to https://ultimosegundo.ig.com.br/noticias/lula. The destination's static title and heading are the generic \"Último Segundo - Últimas notícias\", which the capture records truly, but the capture does not show the page's content, so whether it fails to match cannot be told from it. On the live site the page's list is filled by its script, which takes the last segment of the address as the search term (canais.min.js sets options.termos from the /noticias/ path), and iG's content API queried with that term returns Lula news. So the link opens the list of news about Lula, as its text and its tag row say. The generic title is a template title and is what users get too; the tag link is the same live. The element meets 2.4.4."
+    }
+  ]
+}

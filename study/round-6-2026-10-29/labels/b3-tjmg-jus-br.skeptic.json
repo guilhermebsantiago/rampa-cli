@@ -1,0 +1,126 @@
+{
+  "page": "https://www.tjmg.jus.br/ouvidoria/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "3db866c52319",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the header image inside the link to Rádio TJ Minas (the link's name comes from aria-label=\"Rádio TJ Minas\"). The crop shows a microphone with radio waves and the words \"radiotjminas\", i.e. the Rádio TJ Minas logo; the alt \"icone rede social radio tjmg\" names that radio (TJMG = TJ Minas Gerais), so it does not describe something the image fails to show: the claim is false of the capture. The alt serves the image's purpose (identifying the link to the court's radio), and the link's aria-label already gives the destination; the \"icone rede social\" wording is verbose, not a 1.1.1 failure. The live HTML has the same alt, title and aria-label, so the capture does not differ. The model judged the visible logo wrongly."
+    },
+    {
+      "fingerprint": "p59c552403a2",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the utility-bar link \"REDE TJMG\" (target=_blank) to the REDE TJMG login at rede.tjmg.jus.br. The link text names the destination system (the court's network/intranet portal), which is the usual way a link's purpose is given; nothing in 2.4.4 requires the text to also say a login is needed, and opening in a new window is not a 2.4.4 matter. The live HTML is identical. The element meets 2.4.4, so Rampa's silence was right."
+    },
+    {
+      "fingerprint": "s1125188d4bc",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the top-level desktop menu trigger \"Cidadão\" (href=javascript:void, title=\"Cidadão\") inside an li with role=menuitem and aria-haspopup=\"true\" that holds the Cidadão submenu. \"Cidadão\" is a section name, not an address, so the claim is false of the capture. The link's purpose is to open the menu of services for citizens, and its text names that menu; the popup is exposed on the menuitem. Using a link instead of a button with aria-expanded is a 4.1.2 concern, not a 2.4.4 failure. The live HTML matches the snapshot. The model had the text, title and menu context and judged wrongly."
+    },
+    {
+      "fingerprint": "af9e70b9f9c4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field; its placeholder \"O que deseja encontrar?\" is the only visible text prompting the field (the label \"Busca global do Portal\" is not visible in the screenshot). Screenshot pixels give #d1d1d1 on #ffffff, 1.53:1, and the live bundle.css sets ::placeholder {color:#d1d1d1}, at 14px normal weight, so 4.5:1 applies and the claim is true. Reasons it could pass were checked and do not hold: Understanding 1.4.3 says the criterion applies to placeholder text; the page's \"Alto contraste\" control (G174) loads /tjmg/rede/css/high-contrast.css, which returns 404 on the live site, and bundle.css has no high-contrast rules, so no conforming alternate presentation exists; the field is not disabled and the text is not incidental. The live CSS and HTML match the capture. The element fails 1.4.3 for the reason the claim names."
+    },
+    {
+      "fingerprint": "ed5110d30789",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the icon-only \"Compartilhar no Twitter\" share link (fa-twitter glyph, name only in title) in the article header. The live bundle.css sets .share-article li.twitter a {color:#55acee} and the surrounding background measures #f7f7f7 in the screenshot, so 2.30:1 is true of the capture (in the full-page screenshot the fixed chatbot button happens to cover the icon, which does not change its colours). Whether it fails 1.4.11 is open: the glyph is the Twitter bird logo in Twitter's brand blue, and Understanding 1.4.11 says logos are exempted on the assumption that brand guidelines mandate their colours, only recommending a contrasting variant when a logo acts as a control; against that, the icon is the control's only visual identifier (G207), the page renders other share icons in #576180, and the bird and its blue are no longer a current brand requirement. Competent auditors would reasonably disagree on whether the logo exemption applies, so the label is uncertain."
+    },
+    {
+      "fingerprint": "s3ab12c8fbd2",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the top-level desktop menu trigger \"Links Rápidos\" (href=javascript:void) inside an li with role=menuitem and aria-haspopup=\"true\" that contains the quick-links submenu. The link does not lead to a page; it opens a menu, and its text names that menu (quick links), with the popup exposed on its menuitem, so the claim that neither the text nor anything around it tells its purpose is false. Purpose is determinable from the text; a link used as a menu button is a 4.1.2 issue, not 2.4.4. The live HTML matches. The model judged wrongly with the context it had."
+    },
+    {
+      "fingerprint": "se1e5f8eb769",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is \"Cidadão\" in the off-canvas mobile menu (#menu-mobile, class collapsible-header, href=javascript:void), which expands an accordion with the citizen links; the expand_more icon is aria-hidden. \"Cidadão\" is a section name, not an address, so the claim is false. The text names the section the control expands, which is its purpose; the snapshot's name \"Cidadãoexpand_more\" includes an aria-hidden icon, but the claim and the browser name use \"CIDADÃO\" and that quirk does not change the judgment. The live HTML matches. The element meets 2.4.4."
+    },
+    {
+      "fingerprint": "sfc274b0f33f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the top-level desktop menu trigger \"Comunicação\" (href=javascript:void) in an li with role=menuitem and aria-haspopup=\"true\" holding the Comunicação submenu (Agenda, Notícias, Rádio TJ Minas and so on). \"Comunicação\" is a section name, not an address, so the claim is false. Its purpose, opening the communication menu, is clear from its text and the exposed popup; the link-as-button pattern is a 4.1.2 matter. The live HTML matches the capture."
+    },
+    {
+      "fingerprint": "s51a1d2a87c9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the image inside the TikTok link (link name from aria-label=\"Tiktok\"). The crop shows the TikTok logo, and the alt \"icone rede social tiktok\" (TikTok social-network icon) describes exactly that, so the claim is false. The alternative serves the image's purpose and the link is also named by aria-label; 1.1.1 is met. The live HTML has the same alt and image."
+    },
+    {
+      "fingerprint": "sd0e3583f2b6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the skip link \"Ir para o conteúdo\" with accesskey 1 (the visible \"1\" shows the key), href=#go-to-main, which is the main element where the Ouvidoria content starts. The text says \"go to the content\" and the target is the page's main content, so the claim that it does not match where it leads is false. Its purpose is fully determinable from the text; the live page has the same link and the same main id=\"go-to-main\"."
+    },
+    {
+      "fingerprint": "s80df0187be6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is \"Institucional\" in the off-canvas mobile menu (#menu-mobile, collapsible-header, href=javascript:void(0)), inside an li with role=menuitem and aria-haspopup=\"true\" that expands the institutional links; the expand_more icon is aria-hidden. \"Institucional\" is a section name, not an address, so the claim is false. The text names the section the control expands, so its purpose is determinable; the link-as-toggle pattern belongs to 4.1.2. The live HTML matches the capture."
+    }
+  ]
+}

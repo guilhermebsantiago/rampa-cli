@@ -1,0 +1,27 @@
+{
+  "page": "https://alzheimer.ie/real-stories/we-will-tell-everyone/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "scd5c1bc3c50",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the footer badge under \"Supported by:\", an image (not a link) whose crop and the screenshot show the Charities Institute Ireland logo plus the boxed text \"2026 TRIPLE LOCK MEMBER / Promoting Trust\"; its alt is \"Charity Institute Ireland\". claimTrue is no: the alternative names the organisation the logo shows (only \"Charity\" for \"Charities\" differs), so it does not describe something the image does not show. elementFails leans yes: the badge is a trust mark whose information is that the Society is a 2026 Triple Lock member, and the alternative leaves that out, so it does not serve the equivalent purpose (G94/G95); but many auditors accept a partner or certifier logo whose alt names the organisation, and the claim's wording points at a mismatch rather than at that omission, which is part of the badge, not most of it. Because competent auditors would reasonably disagree both on the failure and on whether this claim names it, the label is uncertain. captureDiffers is no: the live HTML has the same img src and alt in the same \"charity_img\" block, and the screenshot shows the same badge."
+    },
+    {
+      "fingerprint": "p9916bd8c109",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the YouTube icon (red play button, per the crop and screenshot), the only content of a footer social link to https://www.youtube.com/user/AlzheimerIreland (title \"Youtube\"), in a list with Bluesky, Facebook, LinkedIn and Instagram icons. Its alt \"YouTube\" gives the link's function, the Society's YouTube channel, as H30 asks for an image that is all a link holds, so it meets 1.1.1 and Rampa was right to report nothing. captureDiffers is no: the live HTML has the same img alt and link href and title."
+    },
+    {
+      "fingerprint": "sc6964ddc6d6",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the header menu item \"National Helpline 1800-341-341\", an a href=\"#\" with aria-expanded=\"false\" and aria-controls=\"mega-sub-menu-15894\" that opens the helpline panel (\"Need help? Call the National Helpline\", number, email, opening hours). claimTrue is no: the text is not just an address; \"National Helpline\" names what it is about, and the number is extra information. elementFails is no: the name, with its expanded/collapsed state, tells users the control opens the National Helpline details, which is its purpose, so 2.4.4 is met. The other link with this name in the snapshot is hidden (mobile menu), so no shared-name set arises. Using a link with href=\"#\" as a disclosure is at most a 4.1.2 role question, not a 2.4.4 failure. The model had the text and the markup and judged wrongly, so the cause is model_error. captureDiffers is no: the live HTML has the same markup (the snapshot only adds tabindex=\"0\", which the menu script sets)."
+    }
+  ]
+}

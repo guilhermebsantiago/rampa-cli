@@ -1,0 +1,205 @@
+Eighth real-page study: notes of the run (2026-11-21, local time, UTC-3). Run by an agent while the author was away,
+with the author's authorisation; every decision is written here. Nothing is pushed, tagged, published or opened as a
+pull request (the author's rule: nothing goes to main until the tool improves); every commit is local, on
+study/round-8-run.
+
+17:00  Setup. Worktree .claude/worktrees/round-8-run, branch study/round-8-run from fix/round-7 (2f5f88f: rampa-cli 0.1.2
+       plus the sixth study's seven precision fixes and the seventh study's seven, CHANGELOG "Unreleased"). pnpm install
+       --frozen-lockfile (no new dependency), pnpm build; node dist/cli.mjs --version prints 0.1.2: the version was not
+       bumped, the code is 2f5f88f, not the published 0.1.2. Node 24.21.0, Edge 158.0.4370.33 (the seventh study ran
+       157.0.4341.60 this morning: Edge updated itself in between; noted, not changed), Ollama 0.40.3 (already running,
+       started by the seventh study's runner), gemma4:12b digest
+       6114515d63c17436a7c0417d82820ac65ad643e2806c5a3c89cb62846436ed0b (Q4_K_M), the only model installed.
+17:06  study/round-7-run (7d06cd8) merged into this branch (421201e, no conflict; only study/round-6-2026-10-29/ and
+       study/round-7-2026-11-21/ added) so that the sixth and seventh studies' pools, exclusions, rubric, scripts and data
+       sit in this worktree: src/ stays identical to 2f5f88f. The main checkout and the other worktrees were only read
+       (the round-7-run worktree for its files' host names and, later, its label files on a copy outside the repository;
+       the main checkout's study/human-review-2026-10/ for host names only, no label or review file read for content).
+17:12  New candidate pools (scripts/pools.tsv, committed in b04e51d before any check or load). Round 6's pool leftovers
+       were all dealt by round 7, so new candidates were written the way round 6 wrote its pools: the agent wrote 24 sites
+       for each of the 24 pools (12 strata x home or inner) from its own knowledge of public sites, in the same kinds as
+       round 6's pools (Brazilian state and city portals; courts, prosecution services and courts of accounts; federal
+       and state universities; private universities; regional newspapers; national news sites; stores; hospitals;
+       medical societies and health organisations; museums; theatres, orchestras and cultural centres; and, outside
+       Brazil, UK, Irish and US councils and states, search forms of public registers, universities, newspapers, stores,
+       hospitals, health charities, museums and theatres). Round 6's pool sites were not written on purpose; two slipped
+       in (teatroguaira.pr.gov.br, abrale.org.br) and one round-7 page (museudeartedorio.org.br, in pools-2); the
+       exclusions drop them.
+17:13  Exclusions built (scripts/exclusions.py build; the seventh study's Public Suffix List of the same day, SHA-256
+       017501d3...a2b9, copied to DATA/psl/): the seventh study's list (2,723 domains), plus its 60 pages, the sixth
+       study's 327 other pool sites, 66 more hosts named by the sixth and seventh studies' files (all of them this time,
+       candidate lists included; and the 1,118 files of the seventh study's folder in its own worktree, labels included,
+       read only), 4 junk tokens from lines added since 0bada65, none new from the human-review folder: 3,180 in all.
+       pools.tsv checked: 184 of 576 sites excluded (big Brazilian retailers, newspapers, hospitals and museums above all).
+17:16  Eleven pools were left with fewer than 16 sites (br-gov-h, br-edu-h, br-news-h, br-shop-h, br-health-h,
+       br-culture-h, in-gov-i, in-edu-h, in-shop-h, in-health-i, in-culture-h): a supplementary list for them,
+       scripts/pools-2.tsv (12 to 16 sites each, 167 in all), written the same way before any load and committed in
+       d562d8e; only the survivor counts were read before writing it. 7 of its sites excluded.
+17:17  Design and seed fixed (scripts/deal.py; seed 202611218: the date and the round, so that no draw repeats the
+       seventh study's 20261121): 60 pages, all test, five blocks of 12, one page per stratum per block; home-heavy strata
+       drawn: br-edu, br-gov, br-health, br-shop, in-edu, in-news. Pools dealt in their written order (pools.tsv, then
+       pools-2.tsv): 191 excluded, 1 duplicate registrable domain (oldnavy.gap.com after gap.com), 2 look-alikes of the
+       same organisation as an excluded site dropped by hand (revistaoeste.com.br, decathlon.com.br); 541 candidates, 5 to
+       14 per slot. Other look-alikes kept (different organisations; listed in scripts/candidates.tsv). Committed before
+       any candidate loaded: 8aff965.
+17:18  The time ranges first written in the headers of pools.tsv and pools-2.tsv were wrong (written ahead); corrected
+       to the commits' times (comment lines only; no site changed).
+17:18  Screen wave 1 (scripts/screen.mjs, headless Edge): the first two candidates of every slot, 120 rows. The seventh
+       study's T4 had ended at 17:12 (its data/t4.json exists); the screen loads no model.
+17:27  Screen wave 1 done (17:18-17:27). Wave 2 (17:28-17:31): every network failure of wave 1 again (12; hcb.org.br,
+       ufac.br, ig.com.br and startribune.com passed the second time, the rest failed again: hospitalportugues.com.br,
+       folhape.com.br, bestbuy.com, ufpi.br, sephora.com.br, hospitalnovedejulho.com.br, tecmundo.com.br, helix.ie) and
+       the next three candidates of the 6 slots with no pass. Waves 3 to 6 (17:40-17:45): two backups for the two slots
+       whose sites gave no inner page, the 30 inner pages, and the two inner pages that timed out once (both passed).
+       Raw files in DATA/screen/; kept files redacted (scripts/redact.py). 190 screen rows in all.
+       Flags cleared by a look (scripts/build_selection.py): theatromunicipal.rj.gov.br has no lang attribute but
+       Portuguese text; indiana.edu redirects to bloomington.iu.edu (Indiana University's own domain), kilkennyshop.com
+       to kilkennydesign.com (the same store's), limetreetheatre.ie to limetreebelltable.ie (Lime Tree Theatre and
+       Belltable's joint site). The only wall phrase met (a candidate's e-paper notice, b3-in-news-h.b1) was on a slot
+       already chosen before it.
+17:32  Inner pages (scripts/pick_inner.sh: links.mjs listing in DATA/links/<slot>.txt, then pick.py's proposals). The
+       person choosing set aside some mechanical proposals before any Rampa run, by the seventh study's readings (each in
+       scripts/selection.tsv): a seasonal collection (matalan), a store's sale and its season's collection (cantao) are
+       not product categories; a tuition and aid page (bc.edu), a newsletter sign-up (grist.org), an annual report
+       (alone.ie) and a programme page of 414 characters (diabetes.org.br; screened to read its title) are not the page
+       the rule asks for; a fragment (bordgaisenergytheatre.ie) or a tracking query string (jigsaw.ie, gap.com's menu
+       parameters) is dropped; a query string that chooses a level or a mode is kept (syracuse.edu, unp.br); an inner page
+       that redirects is taken at its target (gap.com, unp.br; tjes.jus.br's "Ouvidoria Judiciária" redirects to the
+       transparency portal's ombudsman page, pick.py's first proposal, so the two are one page). New readings, written
+       down here and in selection.tsv: iG's 200-link menu sits outside a nav element, so pick.py read its sections and
+       columnists' pages as content; the first article after it was taken. Down Syndrome Ireland's first story in its
+       content is a member's story ("Meet Oisín", an image link) that pick.py's four-word slug rule misses; taken, as the
+       seventh study took alzheimer.ie's "real stories" page. animale.com.br's first menu category, "ACESSÓRIOS", sits
+       under its /new-collection/ path (closed menu, 15 links): read as a product category (its text), not a "new"
+       collection. Sites that gave no page by the rule went to the slot's next backup: everymancork.com and
+       limetreebelltable.ie (no contact page), alz.org (no story in its content). The tjrj.jus.br listing timed out once
+       and was taken again.
+17:45  Selection fixed: scripts/selection.tsv (build_selection.py), scripts/pages.tsv (build_pages.py; its country table
+       rewritten for this study's candidates), data/pages-input.json (design.py: it draws the six strata again, checks
+       them against candidates.tsv, then draws the T4 subset). 22 of 60 slots on a backup; 25 candidates failed before a
+       chosen one (12 HTTP 403, 1 HTTP 404, 1 HTTP 405, 8 network twice, 1 bot check, 1 almost empty, 1 language); 3
+       inner sites gave no page. The 60 pages: 0 excluded; five first-label look-alikes (theatromunicipal.rj.gov.br,
+       mam.rio, diabetes.org.br, bristol.gov.uk, kent.ac.uk), each a different organisation from the excluded one. T4
+       subset: b1 medicalcouncil.ie (form), b1 leicestermercury.co.uk, b2 puc-campinas (undergraduate), b2 tjrj
+       (ombudsman), b2 endocrino.org.br (story), b2 syracuse (undergraduate), b2 barnesandnoble.com, b3 salasaopaulo
+       (contact), b3 metsul (article), b4 cantao (category), b5 paviliontheatre (contact), b5 downsyndrome.ie (story).
+17:20  (in parallel with the screen) Scripts adapted from the seventh study (study/round-8-2026-11-21/scripts/): env.sh,
+       common.py, collect.sh, run-judged.sh, run-ablation.sh, compact.py, hashes.py, check_collect.py, build_hash.py
+       (2f5f88f), crop.mjs, screen.mjs, screen_pass.py, links.mjs, pick.py, pick_inner.sh, redact.py, design.py,
+       build_pages.py, build_selection.py, sample_suggestions.py (seed 202611218), pass_draw.py (seed string
+       rampa-round-8-passes), packets.py (seed 202611218; the X6 sample as suggestion rows), judge_prompt.py and
+       judge-prompt.txt (this folder's paths), check_labels.py, t4.py, estimate.py (the seventh study's timings, read in
+       its own worktree), analyze.py (secondary measures a, b and h; the comparison with the seventh study). New:
+       pass_list.ts marks the X6 rows (a held-back, ungrounded 2.4.4 `ambiguous` claim whose candidate carries
+       sameTextUnread and that `grounded` accepts once that field is taken away), with the confidence it would have had;
+       x6_draw.py counts them and draws up to 20 at the default threshold (ascending SHA-256 of rampa-round-8-x6|slug|ref).
+       judge-rubric.md copied byte for byte from the seventh study (SHA-256 c0de491a..., the same file).
+17:31  Checks before the freeze, on copies outside the repository (the scratchpad's r7test, deleted after the run notes are
+       written): check_labels.py and analyze.py on a copy of the seventh study's folder with its 116 label files (read
+       from its worktree): 0 label problems; primary 69 TP / 24 FP / 12 uncertain, precision 0.742, Wilson 0.645-0.820,
+       "inconclusive" (the seventh study's own summary.json gives the same; only the page bootstrap differs, by its seed:
+       0.558-0.931 here against 0.552-0.932); kappa 0.935; recall 0.636 (1.1.1) and 0.198 (2.4.4); 69 true findings
+       axe-core does not report; T4 decision level 0.987 full, 0.992 fast (read from its t4.json). Secondary (a) on that
+       folder: 63 TP / 0 FP / 10 uncertain; (b): 6 / 24 / 2 (in-sample for this code, read only as a test of the
+       script). Measure (h) on synthetic rows (six rows marked as drawn, a made-up count): runs. pass_list.ts imports and
+       starts with 2f5f88f (it stops at the missing pages-input.json, as it should before the selection);
+       judge_prompt.py --self-test passed. Estimate (estimate.py): about 4.4 h of machine time after the freeze
+       (collection 0.5 h, main judgment 1.8 h, T4 1.4 h full plus 0.7 h fast).
+17:47  Build hashed (build_hash.py write: 24 files, combined SHA-256
+       c675d283c3256eadf6a33f394b9190338a5ce5d6d2c46f82c5aff6b67b5eb8a1); src/ identical to 2f5f88f. Exclusions rebuilt
+       just before the freeze: the same 3,180 domains (only the recorded HEAD and refs changed); candidates.tsv dealt
+       again gives the same file; the 60 pages are clear (0 excluded).
+17:49  FREEZE: commit 771e4a36262aeb2f69792574e6080a0a1aebc73e ("Round 8 pre-registration: frozen before collection (local,
+       not pushed)"), on study/round-8-run, before any page was collected. Not pushed: its timestamp is local only.
+       SHA-256 of preregistration.md: d736de2ced18305623dc0144527ac75552f46bdc625e24e9e2f71ed0ad382df8
+       SHA-256 of judge-rubric.md:    c0de491aea33ba72b1e69c5b229c8cb37ff518a6623e7231e77e0a49eaa306ef (the seventh study's file)
+       dist/ (24 files) combined SHA-256 c675d283c3256eadf6a33f394b9190338a5ce5d6d2c46f82c5aff6b67b5eb8a1 (data/build.json);
+       src/ identical to 2f5f88f. At the freeze: the seventh study's data/t4.json exists (its T4 ended 17:12), Ollama has no
+       model loaded and no node process runs: no other Rampa or Ollama run is active.
+17:49  Collection started (collect.sh main), blocks 1 to 5 in order, one page at a time.
+18:31  Collection loop done (17:49-18:31, 42 min; the seventh study took 25 min): 60 of 60 pages saved a snapshot on the
+       first attempt; no attempt 2, no network error in any console. Every collection exits 2 (an offline run that judges
+       nothing; the snapshot is saved), as in the seventh study. Capture notes (check_collect.py; counts only):
+       b5-startribune-com saved a bot check, not the page ("Vercel Security Checkpoint", HTTP 429): a refusal by section
+       6. Cut at 5,000 elements (reported, not a refusal): b2-barnesandnoble-com, b3-alone-ie, b4-kilkennydesign-com,
+       b5-kent-ac-uk (the last has no destination read and 3 judged 2.4.4 candidates: the cut leaves little to judge; it
+       stays as captured). b2-puc-campinas-edu-br's load reached the 30 s time-out (recorded in its capture; the page
+       stays). No page read as unstyled by the collection report.
+18:33  The refused attempt of b5-startribune-com set aside in DATA/pages/b5-startribune-com/discarded-1/; it is tried once
+       more after 18:41 (10 minutes after the refusal). Main judgment started at 18:33 (run-judged.sh main), block order,
+       --concurrency 2, gemma4:12b on local Ollama, so as not to idle the GPU for those 10 minutes: the page comes 59th,
+       so its retry ends long before the run reaches it; the retry's one-minute collection overlaps the judgment of an
+       early page (noted for the time figures).
+18:39  pass_list.ts dry-tested on a scratch copy (outside the repository, deleted after) of the 3 pages judged by then:
+       every page matched the main run's report, and the X6 marking runs (counts only were printed).
+18:41  b5-startribune-com collected once more, 10 minutes after the refusal: the same bot check ("Vercel Security
+       Checkpoint", HTTP 429). Refused twice: by section 6 the slot's next backup that passed the screen replaces it,
+       keeping its block and stratum: b5-in-news-h.b1, https://www.nottinghampost.com/ (passed the screen at 17:18; a home
+       slot, so no inner page to pick). Both attempts set aside (discarded-1/, discarded-2/). Recorded in
+       build_selection.py's OVERRIDE (a record of the pre-registered rule, no rule changed), then selection.tsv, pages.tsv
+       and data/pages-input.json written again (23 of 60 slots now on a backup); the T4 subset is drawn by slot and does
+       not change (in-news: b1-leicestermercury-co-uk). b5-nottinghampost-com collected at 18:42 on its first attempt, no
+       network error in its console. The main judgment loop, started before the replacement, reads its page list once:
+       it will log b5-startribune-com as having no recording, and b5-nottinghampost-com is judged right after the loop.
+20:29  Main judgment loop done (18:32-20:29): 59 pages judged; b5-startribune-com logged "no recording" (set aside, as
+       planned). b5-nottinghampost-com judged right after (20:29-20:32). 60 of 60 pages: exits 1 (56) and 0 (4), 12 to 209 s
+       a page (median 119 s); no report with an error, a time-out or an offline miss; no pause for heat or memory (GPU about
+       50-65 C when read). The seventh study's main run took 1 h 46 min; this one 2 h.
+20:36  Ablations done (run-ablation.sh, 20:33-20:36): noconfirm, noverify, nollm on 60 pages each, every run exit 0 or 1;
+       offline misses 0, 63 (noverify: claims verification had discarded, as section 3 says), 0; no errors. Not labelled.
+20:36  compact.py: 240 compact reports. pass_list.ts: every one of the 60 pages matched the main run's report. X6 (counts
+       only): 14 shared-text claims the proof rule moved to suggestions, all 14 at the default threshold (high), on 6
+       pages.
+20:37  pass_draw.py: 200 items (1.1.1: 60 passed, 20 discarded, 20 held back; 2.4.4: the same); a second run wrote the same
+       bytes. x6_draw.py: 14 of 14 drawn (fewer than 20); a second run wrote the same bytes. sample_suggestions.py: 12 drawn
+       in each of the 5 blocks, 3 more labelled in full (two 2.4.2, one 3.3.2; no page read as unstyled).
+20:37  packets.py: 60 packets, 563 items: 294 from the main run (156 of them default-threshold judged findings, the primary
+       population: 1.1.1 90, 1.3.5 29, 2.4.4 23, 3.1.2 14; 21 experimental judgments, 111 rule findings), 195 pass-sample
+       rows (5 drawn items were already in a packet), 63 suggestions, 11 X6 rows (the other 3 drawn X6 claims were already
+       in a packet and are marked x6Rank). judge_prompt.py --all: 120 prompt files, judge-prompts/index.json, largest
+       packets first (30 items down to 1). No judge launched by the runner.
+20:40  Main session told (SendMessage) that judge-prompts/index.json is ready; T4 started (full2-full5 on the 12-page
+       subset, then the live --fast collection; fast1-fast5 after a look at that collection), GPU only, apart from
+       packets/ and labels/.
+20:41  analyze.py and check_labels.py ran end to end on synthetic random labels over this round's packets, in a copy
+       outside the repository (0 label problems; every summary section written, secondary a, b and h among them; its
+       numbers not read; the copy deleted). The comparison with the seventh study needs that study's labels, which are
+       not in this branch (they are in its own worktree and branch): run analyze.py with ROUND7 set to the seventh
+       study's folder that holds its labels/ (for example
+       C:/Users/guilh/dev/rampa-cli/.claude/worktrees/round-7-run/study/round-7-2026-11-21); without it the summary says
+       so and skips the comparison.
+22:04  T4 full mode done: full2 20:37-20:59, full3 -21:21, full4 -21:43, full5 -22:04; 12 of 12 pages in each run, every
+       run exited 0 or 1. Judges were writing label files meanwhile (launched by the main session; not read here); CPU
+       11-20% when sampled at 21:06, so the T4 times are not disturbed.
+22:07  T4 live --fast collection (22:04-22:07): 12 of 12 on the first attempt, no network error or refusal in their
+       consoles (fast mode reads no link destinations). fast1-fast5 started.
+22:49  T4 fast mode done: fast1 22:08-22:16, fast2-fast5 to 22:49; 12 of 12 pages in each run, every run exited 0 or 1.
+22:30  The main session reported all 120 judge label files written (launched from the main session; launch log in its
+       scratchpad, judges8-launch-log.txt) and asked for check_labels, the analysis, a local commit and the
+       pre-registered result once T4 ended. check_labels.py: 120 of 120 files, 0 problems.
+22:50  compact.py: 348 compact reports. hashes.py: 204 recording and screenshot files (372.2 MB) in data/recordings.json.
+       t4.py (data/t4.json): decision level full 1,587 of 1,599 candidates the same in all five runs (0.992, Wilson
+       0.987-0.996), fast 1,615 of 1,623 (0.995, 0.990-0.998), both over the 0.95 target; prompt level 0.970 and 0.934;
+       default-threshold findings in all five 30 of 32 (full) and 22 of 22 (fast).
+22:51  analyze.py, with ROUND7 set to the seventh study's folder in its own worktree (read only), for the comparison.
+       0 items without labels. All numbers AI-judged (two Claude judges, final label by agreement), held-out for 2f5f88f:
+       PRIMARY (156 default-threshold judged findings on 41 of the 60 pages): 120 true, 11 false, 25 uncertain; 131 decided
+       (70 or more: yes); precision 0.916, Wilson 0.856-0.952, page bootstrap 0.842-0.969: "favourable" by the article's
+       rule (precision >= 0.90 and Wilson lower bound >= 0.80).
+       (a) without judged 2.4.4: 104 / 8 / 21, precision 0.929, Wilson 0.865-0.963, bootstrap 0.854-0.980; favourable by
+           the same rule (not a decision).
+       (b) judged 2.4.4 alone: 16 / 3 / 4, precision 0.842, Wilson 0.624-0.945, bootstrap 0.400-1.000.
+       (d) same-name link sets: 4 sets (12 findings), unit precision 0.920 (115 / 10 / 23 units), Wilson 0.859-0.956.
+       (e) uncertain share 25 of 156 = 0.160, over the 0.15 target.
+       (f) per criterion: 1.1.1 69 / 2 / 19 (0.972); 1.3.5 23 / 6 / 0 (0.793); 2.4.4 16 / 3 / 4 (0.842); 3.1.2 12 / 0 / 2
+           (1.000); no default-threshold finding of 2.4.2, 2.4.6, 3.1.1 or 3.3.2.
+       (g) T4 above.
+       (h) X6: the proof rule moved 14 shared-text claims to suggestions, all 14 at the default threshold; all 14 labelled:
+           12 true, 2 false, 0 uncertain (0.857, Wilson 0.601-0.960): an estimated 12 real failures moved (8.4-13.4).
+       Beside them: comparison with the seventh study (0.742, 69 / 24 / 12; other pages and the code before its fixes):
+       difference +0.174, Newcombe 0.076-0.277, unpaired page bootstrap -0.031-0.368: "no measurable change" by the
+       pre-registered reading (both intervals must lie above 0). True findings axe-core does not report on the same
+       element and criterion: 120 of 120. Recall among judged candidates: 1.1.1 0.611 (bootstrap 0.394-0.879), 2.4.4 0.113
+       (0.018-0.350). Time per page, collection plus judgment: full median 156 s (p90 230 s), fast median 58 s (p90 66 s).
+       Judge agreement (consistency, not validity): 0.929 raw, kappa 0.880. False positives counted by check and cause in
+       data/summary.json, not read for patterns.

@@ -1,0 +1,90 @@
+{
+  "page": "https://www.pernambucanas.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "73521738f9df",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image in hero carousel slide 2 of 9. It is the only content of a link to /eletronicos (sorted by price), and the link takes its name from it. Its alt is the placeholder \"Descriptive text for the image\". The crop shows a Black Friday banner for small appliances (\"Todos os eletroportáteis em até 10x sem juros ou 10% off à vista no PIX\", \"Compre agora\"). The alternative names neither the destination nor the offer, so the link's purpose is lost and 1.1.1 fails for a control (H30/G82). The claim says exactly this. Live page: the server-rendered data still holds this slide with the same image and CTA and no alt value, so the capture matches."
+    },
+    {
+      "fingerprint": "pda9342f9b70",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the round category image of a model in a denim jacket and jeans, inside a link to /moda-jeans (\"Mundo Jeans\"). The same link also holds the visible text \"MODA JEANS\". The alt \"Moda Jeans\" names the category the link leads to, which satisfies 1.1.1 for an image in a control. Repeating the adjacent link text is redundant, but it is not a 1.1.1 failure. The live CategoryNavigation data has the same alt and URL."
+    },
+    {
+      "fingerprint": "6982a269f459",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter field #newsletter-email (type=email, required), labelled by \"ex.: nome@email.com\", in the form \"Não fique de fora das novidades! Preencha com seu email...\". It asks for the user's own email address, which is an input purpose listed for 1.3.5. Neither the input nor the form has an autocomplete attribute, so the purpose is not exposed through the HTML autocomplete mechanism (H98). type=email only constrains the format; it does not say that the address is the user's own. The live page renders on the client, so I could not see its markup, but the newsletter section config is unchanged and offers no autocomplete option. Nothing suggests a difference from the capture."
+    },
+    {
+      "fingerprint": "pa4ca771cca4",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the round category image showing the \"BLACK FRIDAY / PERNAMBUCANAS\" badge, inside a link to /black-friday (\"Black Friday 2026: Ofertas Imperdíveis\") that also holds the visible text \"BLACK FRIDAY\". The alt \"Black Friday\" gives the badge's text and the link's destination, so 1.1.1 is met. Live data has the same alt and URL."
+    },
+    {
+      "fingerprint": "sab4fca184cb",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the footer link \"Black Friday\" to /black-friday, the Black Friday 2026 landing page, in the \"Institucional\" column; \"Institucional\" is a styled paragraph, not a heading. The claim holds for the capture. Two links in the accessibility tree are named Black Friday: this one, and the header nav \"BLACK FRIDAY\" to /colecao-completa. The category image link is named \"Black Friday BLACK FRIDAY\" and also goes to /black-friday, and a hidden mobile copy is out of the tree. The two links do not share a context by this rubric's list. The footer link is preceded by the h3 \"Não fique de fora das novidades!\", while no heading precedes the header link. Their list items hold only the link, and neither has a title. So R1 does not put them in one set. On its own, the text \"Black Friday\" describes its destination, the Black Friday landing page, so the link meets 2.4.4. If both were judged together, the header link would be the one whose name fits its destination (the full product listing) less well. The live navbar and footer data are unchanged."
+    },
+    {
+      "fingerprint": "sa5421c2b79b",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the round category image of an orange sofa with cushions and a throw, inside a link to /casa (home textiles: pillows, duvets, sheets) that also shows the text \"CASA\". The alt \"Casa\" (home) names the category that the picture of home goods stands for and that the link leads to, so it does not describe something absent, and 1.1.1 is met. Live data keeps alt \"Casa\" and /casa. The live desktop image file differs from the captured src, which is the live mobile image, but that does not touch the claim."
+    },
+    {
+      "fingerprint": "p851162d325b",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the header nav link \"BELEZA\" to /beleza, whose destination is the beauty listing (\"Maquiagens, Kits, Fragrâncias e Mais\"). Its list item holds the submenu Cuidados Pessoais, Perfumes e Fragrâncias, Maquiagem. The text describes the purpose. The visible category image link named \"Beleza BELEZA\" goes to /Beleza, the same page. The \"Beleza\" link under Saldos is hidden and sits in a list nested under another item. No same-context link goes elsewhere, so 2.4.4 is met. Live navbar data is unchanged."
+    },
+    {
+      "fingerprint": "p20c124f6f99",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the round category image showing \"SALDOS / PERNAMBUCANAS\", inside a link to /saldao that also shows \"SALDOS 70%\". The alt \"Saldos 70%\" gives the image's main text and the link's destination, the clearance section, so it describes the control's purpose and 1.1.1 is met. Live data has the same alt and URL."
+    },
+    {
+      "fingerprint": "s1bb1142ba97",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the footer link \"LGPD\" to /lgpd, in the \"Atendimento e Ouvidoria\" list. The destination's <title> is the generic \"Pernambucanas\", but its content (fetched live; same generic title and description as the capture) is an LGPD notice: \"LGPD - Para assuntos relacionados à LGPD, enviar um e-mail para a encarregada de dados pessoais (DPO)... lgpd@pernambucanas.com.br\". The link text therefore matches where it leads, so the claimed mismatch is false and 2.4.4 is met. The generic page title is a 2.4.2 issue of the destination page. The checker saw only that title."
+    },
+    {
+      "fingerprint": "seb0ce3ce8ba",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the header search input (in a role=search form), named by aria-label \"O que você procura?\". The snapshot has a visible, aria-hidden span over the field reading \"Estou buscando por: air fryer\". The screenshot shows the same overlay (\"Estou buscando por: jogo de cama\", rotating) and a magnifying-glass submit button beside it. So something on screen does tell users to enter a search term: the visible prompt plus the adjacent search button (G167). 3.3.2 is met and the claim is false. The live navbar config is unchanged."
+    },
+    {
+      "fingerprint": "88602cb0ab17",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the only control besides Close in a modal popup with aria-label \"Live Sawary Jeans\". It is an image link to /colecao-completa, the full product listing. aria-label=\"Confira\" (\"check it out\") sets its name, and the banner image inside has alt=\"\". The image shows a different offer: 10% OFF EXTRA on the first purchase over R$79,99 with coupon BEMVINDO10, \"APROVEITE\". \"Confira\" says nothing of the destination. The link has no title or description, no sentence or list item, and no heading before it; a dialog's name is not in the rubric's context list. Even if \"Live Sawary Jeans\" counted, it names another campaign. 2.4.4 fails, and the claim names this. The popup is not ambiguous to users in general, since sighted users see the offer. Live data still has the PopupBanner (imageOnly, same image, alt \"\", title \"Live Sawary Jeans\", CTA \"Confira\" to /colecao-completa), shown once per session. The empty alt on a text image is also a 1.1.1 issue."
+    },
+    {
+      "fingerprint": "sa7c504d58e3",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the round category image of an eyeshadow palette, a body splash and a lip gloss, inside a link to /Beleza (\"Maquiagens, Kits, Fragrâncias e Mais\") that also shows \"BELEZA\". The alt \"Beleza\" (beauty) names exactly what the products depict and where the link leads, so it does not describe something absent, and 1.1.1 is met. Live data has the same alt and URL."
+    }
+  ]
+}

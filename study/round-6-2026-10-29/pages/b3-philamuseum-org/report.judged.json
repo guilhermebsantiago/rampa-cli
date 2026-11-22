@@ -1,0 +1,279 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.philamuseum.org/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 2
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(2) > label > input",
+   "message": "The label \"Simplify Fonts\" does not say what to enter.",
+   "evidence": "The model suggests: \"Enable simplified fonts\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#maincontent > div > div > section:nth-of-type(2) > div > h1",
+   "message": "The heading \"WELCOME\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Exhibitions\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#maincontent > div > div > section:nth-of-type(3) > div > div:nth-of-type(2) > div > div:nth-of-type(3) > div > div:nth-of-type(2) > a > h3",
+   "message": "The heading \"HIGHLIGHTS OF THE MUSEUM\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"Museum Highlights Tour\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > footer > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(6) > h3",
+   "message": "The heading \"EXPLORE\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Explore our site\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > footer > div:nth-of-type(2) > div:nth-of-type(2) > label:nth-of-type(1) > input",
+   "message": "The label \"Simplify Fonts\" does not say what to enter.",
+   "evidence": "The model suggests: \"Enable simplified fonts\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 12,
+   "judged": 12,
+   "failed": 0,
+   "passed": 12,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 46,
+   "judged": 46,
+   "failed": 0,
+   "passed": 46,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 30,
+   "judged": 30,
+   "failed": 0,
+   "passed": 25,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 5
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "14 image(s) were left without a capture, so no judgment looked at them: 2 outside the page (an off-canvas menu); 2 still loading after the wait; 1 blank in its capture; 9 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 91,
+  "cachedCalls": 0,
+  "inputTokens": 85302,
+  "outputTokens": 7988,
+  "latencyMs": 269243
+ },
+ "timings": {
+  "totalMs": 138309,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 17
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 22025,
+    "prepareMs": 0,
+    "candidates": 12,
+    "judged": 12,
+    "calls": 12,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1241,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 75789,
+    "prepareMs": 0,
+    "candidates": 46,
+    "judged": 46,
+    "calls": 46,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 37040,
+    "prepareMs": 0,
+    "candidates": 30,
+    "judged": 30,
+    "calls": 30,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 177,
+    "prepareMs": 175,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 1995,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 23
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 20,
+   "notCaptured": 14,
+   "reasons": {
+    "outside-page": 2,
+    "not-loaded": 2,
+    "blank": 1,
+    "limit": 9
+   }
+  }
+ },
+ "coverage": {
+  "reach": null
+ }
+}

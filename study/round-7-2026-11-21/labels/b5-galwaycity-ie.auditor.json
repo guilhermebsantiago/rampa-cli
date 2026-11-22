@@ -1,0 +1,136 @@
+{
+  "page": "https://www.galwaycity.ie/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "ed29736648f8",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link \"Read more...\" closes the EUI-IA WATERWAY Project teaser card and leads to the page \"EUI-IA WATERWAY Project\". The heading just before it in document order is the card's h3 \"EUI-IA WATERWAY Project\" (listed in the packet's nearby headings), which this round counts as link context, so the claim that nothing around it tells where it goes is false of the capture, and with that heading the purpose is determinable: the link meets 2.4.4. The other \"Read More...\" links on the page sit under other headings, so they do not form a shared-name set with it. The live HTML has the same markup. The checker had the heading in its context and still judged wrongly."
+    },
+    {
+      "fingerprint": "s7f85e30ce12",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image beside \"Many Ways to Pay for Parking\" is a generic illustration, a blue map pin with a P over a pattern of car outlines; it is not in a link. Its alt \"Parking Webpage Spotlight\" is the media file's name (Parking Webpage Spotlight_1.png): \"Parking\" matches what the picture shows and \"Webpage Spotlight\" is a CMS slot label, not a description of anything, so the claim that the alt describes something the image does not show only half holds. I lean to a failure because the alt is file-derived text (F30) on an image that is either decorative (should be null, F39) or should simply say what it shows, but competent auditors would reasonably pass it because the alt conveys the gist (parking), and would disagree whether \"describes something the image does not show\" names a file-name defect. The live page has the same alt."
+    },
+    {
+      "fingerprint": "7ef04e3e4b2a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The language switcher link \"Gaeilge\" is the Irish name of the Irish language, on a page whose html element has lang=\"en\". Neither the a element, its li nor its ul carries a lang attribute, in the snapshot and in the live HTML alike; hreflang=\"ga\" describes the linked page, not the language of the link text. Understanding 3.1.2 treats a single word as part of the surrounding language unless a change of language is clearly intended; here it is, since the endonym is offered to Irish speakers, and an English voice does not pronounce it the same. It is not a proper name carried across languages untranslated (English says \"Irish\"), so no exception applies: the word's language is not programmatically determined (H58 not met). The claim names this failure."
+    },
+    {
+      "fingerprint": "34da023c12ca",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the line icon of the \"Pay For It\" box (a phone with a euro sign, a stack of coins and a card), inside a div with aria-hidden=\"true\"; the box's link is the h3 \"Pay For It\". The claim's facts hold of the capture: the icon is hidden and the text does not mention a phone, card or coins. But the icon only illustrates the link text: it is decorative, and implementing it so assistive technology ignores it is what 1.1.1 asks for decorative content, so the element passes. The live HTML is the same. The checker misjudged a decorative icon as informative."
+    },
+    {
+      "fingerprint": "pa4529dadfb4",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A quick link \"Vacant And Derelict Properties\" in the list below the four service boxes; it leads to the page \"Vacant and Derelict Properties\", so its text alone gives its purpose. No other link on the page shares its name. The live HTML has the same link. It meets 2.4.4, and Rampa rightly reported nothing."
+    },
+    {
+      "fingerprint": "f13199d3c0ad",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The photo in the bathing waters section (a seaside diving tower with a swimmer wading in the sea) has alt \"slider_BathingWaters.jpg\", a file name. That is F30 (text alternatives that are not alternatives, such as file names): whether the photo is read as informative or decorative, the alt neither describes it nor is null (F39). The live HTML has the same alt. The claim names this failure."
+    },
+    {
+      "fingerprint": "353572d82991",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link \"Read More...\" ends the \"Public Participation: Identification of Bathing Waters\" section and leads to the news article with that title. The heading just before it is the section's h2 \"Public Participation: Identification of Bathing Waters\", which counts as link context in this round, so the claim that nothing around it tells where it goes is false, and the purpose is determinable: the link meets 2.4.4. The other \"Read more\" links are under other headings, so there is no shared-name set. The live HTML is the same. The checker had the heading in its context."
+    },
+    {
+      "fingerprint": "3ea565d0a50f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the Galway City Council \"g\" mark at the top of the Cookiebot consent banner, which the snapshot captured open (class CybotCookiebotDialogActive), as a first-time visitor sees it; it is not in a link. Its alt \"logo\" says what kind of image it is but not whose logo it is: placeholder text (F30); if the logo were taken as decorative, the non-null alt would fail F39 instead. The full-page screenshot does not show the banner, but the live Cookiebot configuration for this site still sets logoAltText = 'logo' for the same image, so the capture matches what users get on a first visit. The claim names the failure."
+    },
+    {
+      "fingerprint": "se94c7a63658",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link \"More details....\" ends the \"Many Ways to Pay for Parking\" section and leads to \"Parking in Galway City\", the page on the ways to pay for parking. The heading just before it is the section's h2 \"Many Ways to Pay for Parking\", which counts as link context in this round, so the claim that nothing around it tells where it goes is false, and heading plus link text give the purpose (more details on paying for parking): the link meets 2.4.4. No other link shares its name. The live HTML is the same."
+    },
+    {
+      "fingerprint": "p7df02357ea0",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The teaser photo of the third Latest News item shows a red \"ROAD CLOSED\" sign and a yellow \"Diversion\" sign; it is not in a link (the h3 headline is the link). Its alt \"Road Closure\" conveys what the photo shows and why it is there, illustrating a road closure notice; the signage words are summed up by the alt. It meets 1.1.1. The live HTML has the same image and alt."
+    },
+    {
+      "fingerprint": "s1a3018d1abd",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The teaser image is a promotional graphic with text, \"Slí Na hAbhann / Starter Home Portal / Going LIVE on / Thursday 24th September at 12 noon\", the development's logo and a rendering of the houses; it is not in a link. Its alt \"Starter Sli na habhann\" names only the development: the date and time the portal goes live appear neither in the alt nor in the card's heading (\"Sli na hAbhann -portal going live\") or text, so the alternative leaves out most of what the image conveys and the element fails 1.1.1. The claim's sentence is not literally true (the image does show the name and \"Starter\"), but under the rubric's good-faith reading an alternative said to describe something the image does not show, when it leaves out most of what the image conveys, names this defect. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "s7a30b1753fa",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The header's site search field is labelled by a visually hidden label element \"Search\"; the placeholder \"Search\" and the adjacent \"Search\" button show the same word. The sentence is literally true (the label does not spell out what to type), but 2.4.6 asks that a label describe the field's topic or purpose, and \"Search\" in the site header beside a Search button does: it is the site search box and users type search terms. The element meets 2.4.6. The live HTML has the same label. The checker applied a stricter rule than the criterion."
+    }
+  ]
+}

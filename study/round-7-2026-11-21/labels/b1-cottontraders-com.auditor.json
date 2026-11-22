@@ -1,0 +1,28 @@
+{
+  "page": "https://www.cottontraders.com/women/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "14d4926778ae",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the Trustpilot rating badge in the header USP bar (image crop and screenshot: the word 'Excellent', 4.5 green stars and the Trustpilot logotype). It is the only content of a link to /customer-service/about-us/customer-reviews.html, a Cotton Traders page titled 'Cotton Traders Reviews' that embeds a Trustpilot review widget; the footer links to the same address as 'Trustpilot Reviews'. The link has no title, and its name comes only from alt='Trustpilot logo'. claimTrue yes: the image is all the link holds, and the alternative describes the picture as a logo without naming the reviews page. elementFails yes for 1.1.1: the alternative leaves out what the badge conveys (an 'Excellent', 4.5-star rating, shown as text in the image) and names the picture instead of the link's function, which H30 asks for. Uncertain because competent auditors would reasonably disagree on whether the claim names that failure. 'Trustpilot', read as link text on a retailer's header, arguably lets users tell that the link leads to the store's Trustpilot reviews (R2's first test, and the site's own footer name for the page), so the destination point is borderline. The clearer defect is the omitted rating, which the claim does not mention. captureDiffers no: the live HTML has the same link, img, alt and href, the badge SVG (same dw8501b568 version) is static, and the screenshot shows the badge as captured."
+    },
+    {
+      "fingerprint": "a24afb77d926",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field. Its placeholder 'Search here...' is its only visible label besides the magnifier button, and it is also its aria-label. claimTrue yes: the snapshot records the placeholder foreground #8c8c8c from CSS on #ffffff, at 16px weight 400. I measured the screenshot pixels: the darkest glyph pixel is #8c8c8c on white, 3.36:1. elementFails yes: the live stylesheet refapp-style.css still has '.b-header-slim .b-header-slim-mid-bar-search input[type=text]::placeholder{color:#8c8c8c;font-size:16px}', and the live input sits inside div.b-header-slim and .b-header-slim-mid-bar-search. 16px normal text is not large text, so 4.5:1 applies, and 3.36:1 falls short. Placeholder text conveys the field's purpose and is not incidental (the field is not disabled), and W3C's WAI forms tutorial treats placeholder colour as subject to WCAG's minimum contrast. captureDiffers no: the live markup and CSS match the capture, and the screenshot shows the full styled page."
+    }
+  ]
+}

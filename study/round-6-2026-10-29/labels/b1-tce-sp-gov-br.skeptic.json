@@ -1,0 +1,27 @@
+{
+  "page": "https://www.tce.sp.gov.br/ouvidoria",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "6eff4ae550f2",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field (input.form-control, placeholder \"Pesquisar\", no label, so the placeholder is also its only accessible name). The snapshot's pixel measurement gives #999999 on #ffffff, 2.85:1, at 14px weight 400. I sampled the screenshot and the darkest placeholder pixels are exactly #999999 on a white field. I looked for a reason it could pass and found none. Understanding 1.4.3 (WCAG 2.1) says the criterion applies to text in the page, including placeholder text. 14px normal is not large text. The field is enabled, so the inactive-component exemption does not apply. It is neither decoration nor a logo, and it carries the field's purpose. The live page has the same input markup, and its CSS sets .form-control::-webkit-input-placeholder / ::-moz-placeholder to #999 with no override, on Bootstrap's white form-control. So users get the same 2.85:1, below 4.5:1, and the claim names that failure."
+    },
+    {
+      "fingerprint": "7311d0b9ce6e",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is <a id=\"main-content\"></a>, Drupal's empty skip-link target. It has no href, no content, no tabindex, no recorded listeners and no rendered box (bounds null). The claim is true of the capture: Chrome's CDP tree gives it the role link with no name. The screen-reader announcement in the claim is an inference the snapshot cannot show. But 4.1.2 asks for names on user interface components. Under the HTML spec, an a element without href is only a placeholder for a link. HTML-AAM maps it to generic, as Rampa's own role field does. The ACT link-name rule applies only to the semantic role link, and nothing on the page uses this element as a control. The live HTML has the same element, and no skip link even points to it. Users perceive nothing they could operate, so it is not a component and does not fail 4.1.2. The rule took Chrome's heuristic role as proof of a component and applied the naming requirement outside the criterion's scope."
+    },
+    {
+      "fingerprint": "s9a621ae50bd",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page is TCESP's Ouvidoria (ombudsman) landing page. Its breadcrumb, banner (\"Ouvidoria do TCESP\") and text all welcome users to the Ouvidoria. The title \"Ouvidoria | Tribunal de Contas do Estado de São Paulo\" names this exact topic and the site it belongs to, which is what 2.4.2 asks for (technique G88, H25). The claim that it says nothing about the page is false of the capture. The live page serves the same title, so the capture matches what users get. The model had the title and the page content and judged wrongly."
+    }
+  ]
+}

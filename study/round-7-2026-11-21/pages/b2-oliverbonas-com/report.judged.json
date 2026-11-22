@@ -1,0 +1,618 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.oliverbonas.com/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "3bb9bc875b77",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#page-footer > div:nth-of-type(1) > div > div > div:nth-of-type(2) > newsletter-form > form > input-wrap > div > div > input",
+   "message": "The field \"Email\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "Email",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#page-footer > div:nth-of-type(1) > div > div > div:nth-of-type(2) > newsletter-form > form > input-wrap > div > div > input",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input _ngcontent-ng-c3205616206=\"\" type=\"email\" name=\"email\" maxlength=\"100\" required=\"\" validatepatternasync=\"email\" class=\"input bg-col-w p-t-2 p-t-3-s p-b-2 p-b-3-s p-l p-l-5-s p1 _newsletter-input ng-untouched ng-pristine ng-invalid\" placeholder=\"Email\">",
+    "after": "<input _ngcontent-ng-c3205616206=\"\" type=\"email\" name=\"email\" maxlength=\"100\" required=\"\" validatepatternasync=\"email\" class=\"input bg-col-w p-t-2 p-t-3-s p-b-2 p-b-3-s p-l p-l-5-s p1 _newsletter-input ng-untouched ng-pristine ng-invalid\" placeholder=\"Email\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "a091927a24a3",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#page-header > div > div > meganav-content > div > div > div:nth-of-type(3) > icms-outlet > icms-component > div > page-component-submenu > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div > ul > li:nth-of-type(4) > href > a",
+   "message": "The link text \"Bestsellers\" is shared by 5 links that lead to 5 different places, and nothing around this one tells it apart.",
+   "evidence": "Bestsellers",
+   "subject": "Bestsellers",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#page-header > div > div > meganav-content > div > div > div:nth-of-type(3) > icms-outlet > icms-component > div > page-component-submenu > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div > ul > li:nth-of-type(4) > href > a",
+    "kind": "set-text",
+    "from": "Bestsellers",
+    "to": "Fashion Bestsellers",
+    "before": "<a href=\"/fashion/most-wanted\" tabindex=\"0\" class=\"link\">Bestsellers</a>",
+    "after": "<a href=\"/fashion/most-wanted\" tabindex=\"0\" class=\"link\">Fashion Bestsellers</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "d481ecd8dedb",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#page-header > div > div > meganav-content > div > div > div:nth-of-type(4) > icms-outlet > icms-component > div > page-component-submenu > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div > ul > li:nth-of-type(4) > href > a",
+   "message": "The link text \"Bestsellers\" is shared by 5 links that lead to 5 different places, and nothing around this one tells it apart.",
+   "evidence": "Bestsellers",
+   "subject": "Bestsellers",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#page-header > div > div > meganav-content > div > div > div:nth-of-type(4) > icms-outlet > icms-component > div > page-component-submenu > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div > ul > li:nth-of-type(4) > href > a",
+    "kind": "set-text",
+    "from": "Bestsellers",
+    "to": "Homeware Bestsellers",
+    "before": "<a href=\"/homeware/category/bestsellers\" tabindex=\"0\" class=\"link\">Bestsellers</a>",
+    "after": "<a href=\"/homeware/category/bestsellers\" tabindex=\"0\" class=\"link\">Homeware Bestsellers</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "5cfbe75f9e30",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#page-header > div > div > meganav-content > div > div > div:nth-of-type(5) > icms-outlet > icms-component > div > page-component-submenu > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div > ul > li:nth-of-type(4) > href > a",
+   "message": "The link text \"Bestsellers\" is shared by 5 links that lead to 5 different places, and nothing around this one tells it apart.",
+   "evidence": "Bestsellers",
+   "subject": "Bestsellers",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#page-header > div > div > meganav-content > div > div > div:nth-of-type(5) > icms-outlet > icms-component > div > page-component-submenu > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div > ul > li:nth-of-type(4) > href > a",
+    "kind": "set-text",
+    "from": "Bestsellers",
+    "to": "Accessories Bestsellers",
+    "before": "<a href=\"/accessories/bestsellers\" tabindex=\"0\" class=\"link\">Bestsellers</a>",
+    "after": "<a href=\"/accessories/bestsellers\" tabindex=\"0\" class=\"link\">Accessories Bestsellers</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "6797bf34e672",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#page-header > div > div > meganav-content > div > div > div:nth-of-type(7) > icms-outlet > icms-component > div > page-component-submenu > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div > ul > li:nth-of-type(3) > href > a",
+   "message": "The link text \"Bestsellers\" is shared by 5 links that lead to 5 different places, and nothing around this one tells it apart.",
+   "evidence": "Bestsellers",
+   "subject": "Bestsellers",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#page-header > div > div > meganav-content > div > div > div:nth-of-type(7) > icms-outlet > icms-component > div > page-component-submenu > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div > ul > li:nth-of-type(3) > href > a",
+    "kind": "set-text",
+    "from": "Bestsellers",
+    "to": "Gift Bestsellers",
+    "before": "<a href=\"/gift/category/bestsellers\" tabindex=\"0\" class=\"link\">Bestsellers</a>",
+    "after": "<a href=\"/gift/category/bestsellers\" tabindex=\"0\" class=\"link\">Gift Bestsellers</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "5c69cae6c4ac",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > app > app-root > div > div > div:nth-of-type(1) > catalog-view > page-view > icms-outlet > icms-component:nth-of-type(1) > div > cms-component-hero-image-multi-column > div > div > div:nth-of-type(3) > hero-image > div > div > div > div > div > href > a",
+   "message": "The link text \"Christmas Gifts\" is shared by 6 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "Christmas Gifts",
+   "subject": "Christmas Gifts",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "html > body > app > app-root > div > div > div:nth-of-type(1) > catalog-view > page-view > icms-outlet > icms-component:nth-of-type(1) > div > cms-component-hero-image-multi-column > div > div > div:nth-of-type(3) > hero-image > div > div > div > div > div > href > a",
+    "kind": "set-text",
+    "from": "Christmas Gifts",
+    "to": "Shop all Christmas Gifts",
+    "before": "<a href=\"/christmas-gifts/all-christmas-gifts\" tabindex=\"0\">Christmas Gifts</a>",
+    "after": "<a href=\"/christmas-gifts/all-christmas-gifts\" tabindex=\"0\">Shop all Christmas Gifts</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "1c24b06b333d",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > app > app-root > div > div > div:nth-of-type(1) > catalog-view > page-view > icms-outlet > icms-component:nth-of-type(3) > div > cms-component-row > div > div > icms-outlet:nth-of-type(2) > icms-component > div > cms-component-row > div > div > icms-outlet > icms-component:nth-of-type(2) > div > cms-component-row > div > div > icms-outlet:nth-of-type(2) > icms-component > div > cms-component-hero-image > hero-image > div > div > div > div > div > href > a",
+   "message": "The link text \"Jewellery\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "<link>Jewellery</link>",
+   "subject": "Jewellery",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "html > body > app > app-root > div > div > div:nth-of-type(1) > catalog-view > page-view > icms-outlet > icms-component:nth-of-type(3) > div > cms-component-row > div > div > icms-outlet:nth-of-type(2) > icms-component > div > cms-component-row > div > div > icms-outlet > icms-component:nth-of-type(2) > div > cms-component-row > div > div > icms-outlet:nth-of-type(2) > icms-component > div > cms-component-hero-image > hero-image > div > div > div > div > div > href > a",
+    "kind": "set-text",
+    "from": "Jewellery",
+    "to": "All Jewellery",
+    "before": "<a href=\"/jewellery/all\" tabindex=\"0\">Jewellery</a>",
+    "after": "<a href=\"/jewellery/all\" tabindex=\"0\">All Jewellery</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 41
+ },
+ "groups": [
+  {
+   "id": "g-18cd12b3e5c9",
+   "list": "findings",
+   "criterion": "1.3.1",
+   "level": "A",
+   "source": "engine",
+   "check": "list",
+   "count": 20,
+   "members": [
+    "af1efd92ad19",
+    "af084dfed238",
+    "66db0ce26620",
+    "5037d1e0c21e",
+    "491e689971a6",
+    "63c8426bbda5",
+    "cf4184f5103c",
+    "44858e78e11b",
+    "eae74c68c4a0",
+    "66e49563c190",
+    "58d92a09e4f6",
+    "2633a64bc365",
+    "359d8910429f",
+    "5cb8946b2c75",
+    "b263a4602837",
+    "ff2f29e467ff",
+    "8575cb172dde",
+    "995bd2c83f00",
+    "6009899759f5",
+    "1045359f495e"
+   ],
+   "example": "af1efd92ad19"
+  },
+  {
+   "id": "g-7cb3a1db08d4",
+   "list": "findings",
+   "criterion": "1.3.1",
+   "level": "A",
+   "source": "engine",
+   "check": "listitem",
+   "count": 7,
+   "members": [
+    "7a0030fd6e24",
+    "0986efd78ea7",
+    "7692b4aae0bf",
+    "ddf926181e55",
+    "3dd3b8c162aa",
+    "e096b747e4db",
+    "f7d454f121f3"
+   ],
+   "example": "7a0030fd6e24"
+  },
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 6,
+   "members": [
+    "bf508f0c1632",
+    "adee00a8055e",
+    "0b3d91eb95bf",
+    "a4284d6f9aea",
+    "a797189bcd2e",
+    "1fca5b1ded8e"
+   ],
+   "example": "bf508f0c1632"
+  },
+  {
+   "id": "g-fd88e87d9218",
+   "list": "findings",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "check": "judgment/2.4.4",
+   "claim": "ambiguous",
+   "count": 6,
+   "members": [
+    "a091927a24a3",
+    "d481ecd8dedb",
+    "5cfbe75f9e30",
+    "6797bf34e672",
+    "5c69cae6c4ac",
+    "1c24b06b333d"
+   ],
+   "example": "a091927a24a3"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#page-header > div > div > meganav > nav > ul > li:nth-of-type(2) > href > a",
+   "message": "The link text \"Christmas Gifts\" is shared by 6 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "The model suggests: \"Christmas Gifts 2026\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#page-header > div > div > meganav > nav > ul > li:nth-of-type(6) > href > a",
+   "message": "The link text \"Jewellery\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "The model suggests: \"Women's Jewellery\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#page-header > div > div > meganav-content > div > div > div:nth-of-type(1) > icms-outlet > icms-component > div > page-component-submenu > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div > ul > li:nth-of-type(2) > href > a",
+   "message": "The link text \"Bestsellers\" is shared by 5 links that lead to 5 different places, and nothing around this one tells it apart.",
+   "evidence": "The model suggests: \"Oliver Bonas Bestsellers\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#page-header > div > div > meganav-content > div > div > div:nth-of-type(1) > icms-outlet > icms-component > div > page-component-submenu > div > div:nth-of-type(1) > div > div:nth-of-type(3) > div > div > div > href > a",
+   "message": "The link text \"Christmas Gifts\" is shared by 6 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "The model suggests: \"Christmas Gifts 2026\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#page-footer > div:nth-of-type(1) > div > div > div:nth-of-type(4) > href > a > div > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Reviews",
+    "problem": "wrong_content",
+    "imageShows": "The Reviews.io logo featuring a star inside a circle and the text 'REVIEWS.io'.",
+    "suggestedAlt": "Reviews.io",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#page-header > div > div > meganav-content > div > div > div:nth-of-type(2) > icms-outlet > icms-component > div > page-component-submenu > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > ul > li:nth-of-type(4) > href > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Christmas Hosting' suggests a page about hosting Christmas events or parties.",
+    "leadsTo": "/christmas-gifts/christmas-tableware",
+    "verdict": "fail",
+    "evidence": "Christmas Hosting",
+    "problem": "mismatch",
+    "suggestedText": "Christmas Tableware",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 428,
+   "judged": 50,
+   "failed": 6,
+   "passed": 39,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 378,
+   "suggested": 4
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 0,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "A layer lay over the viewport when the page was read (div, on top at 89% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: html > body > app > app-root > div > div > div:nth-of-type(1) > catalog-view > page-view > icms-outlet > icms-component:nth-of-type(1) > div > cms-component-hero-image-multi-column > div > div > div:nth-of-type(2) > hero-image > div > href > a > div > local-vimeo-player > div > iframe (https://player.vimeo.com/video/1247920400?title=0&byline=0&portrait=0&badge=0&color=ffffff&muted=1&autoplay=1&controls=0&loop=1&background=1&app_id=122963).",
+  "6 image(s) were left without a capture, so no judgment looked at them: 6 covered where it sits by other content, such as a popup or a cookie banner. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 378 of 428 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 55,
+  "cachedCalls": 1,
+  "inputTokens": 52963,
+  "outputTokens": 5084,
+  "latencyMs": 154083
+ },
+ "timings": {
+  "totalMs": 80226,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 31
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 2861,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1328,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 72116,
+    "prepareMs": 0,
+    "candidates": 428,
+    "judged": 50,
+    "calls": 49,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 3650,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 3,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 176,
+    "prepareMs": 173,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 8,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 51
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "overlay": {
+   "selector": "div",
+   "coverage": 0.89,
+   "hidden": true
+  },
+  "images": {
+   "captured": 13,
+   "notCaptured": 6,
+   "reasons": {
+    "covered": 6
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 428,
+    "capped": 378
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > app > app-root > div > div > div:nth-of-type(1) > catalog-view > page-view > icms-outlet > icms-component:nth-of-type(1) > div > cms-component-hero-image-multi-column > div > div > div:nth-of-type(2) > hero-image > div > href > a > div > local-vimeo-player > div > iframe",
+     "url": "https://player.vimeo.com/video/1247920400?title=0&byline=0&portrait=0&badge=0&color=ffffff&muted=1&autoplay=1&controls=0&loop=1&background=1&app_id=122963",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ],
+   "overlay": {
+    "ref": "#onetrust-consent-sdk > div:nth-of-type(1)",
+    "selector": "div",
+    "coverage": 0.89,
+    "hidden": true
+   }
+  }
+ }
+}

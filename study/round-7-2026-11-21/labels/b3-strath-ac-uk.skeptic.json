@@ -1,0 +1,37 @@
+{
+  "page": "https://www.strath.ac.uk/studywithus/undergraduate/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "peab9ad0831b",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the card link in the 'Information & advice' grid. Its only content is an h3 that reads 'Students with disabilities or additional support needs for learning' (the commented-out sr-only span adds nothing). The text alone says where it goes, and the destination, which I opened live, is the page with that same title. I looked for a reason it could fail: no other link in the snapshot has this name, so R1 does not apply, and the card image is outside the link. It meets 2.4.4, so Rampa was right to report nothing. The live HTML has the same anchor, href and heading as the snapshot, and the screenshot shows the card laid out with styles. Rampa's own destination read failed with ENOTFOUND, which is a problem with its fetch, not with the page."
+    },
+    {
+      "fingerprint": "sceb31d41718",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the footer logo. It is a plain img, not inside a link, with alt 'University of Strathclyde'. The crop and the screenshot show the university crest with the white wordmark 'University of Strathclyde Glasgow'. The alternative gives the organisation's name, which is the logo's text and its purpose, so it does not describe anything the image fails to show. The claim is false of the capture. Leaving out 'Glasgow' does not stop the alternative serving the image's purpose under 1.1.1. The live HTML has the same img with the same alt; only the pagespeed file variant differs (png rather than webp), and it is the same picture. The model saw the right crop and judged it wrongly."
+    },
+    {
+      "fingerprint": "p26467cd4f87",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the 'Tuition fees' button link in the 'Fees & funding' section. The h3 'Tuition fees' comes just before it, followed by a paragraph about the cost of study. The link text alone gives the purpose, and the heading confirms it. The destination, which I opened live, is the 'Fees' page. In the snapshot only one link has this name (the other 'Tuition fees' node is the h3), so no shared-name set exists under R1. It meets 2.4.4, so Rampa was right to report nothing. The live HTML has the same anchor and href, and the screenshot shows the styled button. Rampa's destination read failing with ENOTFOUND is a problem with its fetch, not with the page."
+    }
+  ]
+}

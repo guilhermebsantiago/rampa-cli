@@ -1,0 +1,16 @@
+{
+  "page": "https://www.syracuse.edu/academics/programs/?level=undergraduate",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "pd33ca7e9861",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the degree tag link in the program finder's results whose visible text is 'B.F.A.' (plus a hidden chevron icon). Its aria-label is 'Acting B.F.A.', and the accessibility tree shows the name comes from aria-label (technique ARIA8). That name says where the link goes: the destination's title and h1 are both 'Acting B.F.A.'. The visible 'B.F.A.' is part of the name, so 2.5.3 is met too. No other link in the snapshot has this name, so R1 shared-name scoring does not apply. Looking for a reason it might fail, I found none: the label is neither empty, misleading nor copied onto the wrong link. elementFails is no. The live HTML I fetched today has the same markup with the same aria-label and href, inside a result row whose visible program title is 'Acting', so the capture matches. The screenshot shows only the 1280x800 viewport and does not reach the element at y=1479, but the markup is server-rendered and matches. captureDiffers is no. Since the element meets 2.4.4 and Rampa reported nothing, the label is false_positive."
+    }
+  ]
+}

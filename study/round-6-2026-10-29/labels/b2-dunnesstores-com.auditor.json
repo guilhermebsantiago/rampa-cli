@@ -1,0 +1,136 @@
+{
+  "page": "https://www.dunnesstores.com/women",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "37c64d712559",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img is a 24px colour swatch (a brown circle in the crop and screenshot) and the only content of a focusable div role=button in the Paul Costelloe faux fur hat tile; the button's name, from contents, is 'swatch'. claimTrue: the button holds only this img with alt 'swatch', which does not say what the button does (select the Brown variant), so the sentence holds. elementFails: 'swatch' is placeholder text that conveys neither the colour nor the control's purpose (F30; H30/G82), so the image fails 1.1.1 even though the product name happens to contain 'Brown'; the button also fails 4.1.2 for the same reason. captureDiffers: the capture is a styled, rendered page (screenshot matches the live layout); the Gifts for Her shelf is rendered client-side so my fetch could not show these exact tiles, but the live page's product data labels every swatch image 'swatch' (imageLabel), which VTEX's SKU selector uses as the img alt, so users get the same alt. True positive."
+    },
+    {
+      "fingerprint": "p93358b4c386",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The img is the Irish flag in the header's country selector, alt 'Ireland', followed by the text 'IE ( € )'. The alt names what the flag conveys (the selected country), so it serves the equivalent purpose and meets 1.1.1. (The selector is a clickable div with no button role, a possible 2.1.1/4.1.2 issue, not a 1.1.1 one.) captureDiffers: the full-page screenshot does not paint the sticky header, but the DOM capture has it; the live page renders the selector client-side from an initial state whose name is 'Ireland' with the same flagIE.svg, so nothing that matters differs. The element passes, so false positive (Rampa was right to report nothing)."
+    },
+    {
+      "fingerprint": "3ac5f222b2e4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The img is the only content of a link to the 'Jumpers & Cardigans' category; its alt is a long visual description (a woman and a girl in burgundy sweaters with gold sequin bows). claimTrue: the link holds only this img and the alt never names the destination, so the sentence holds; the link and the img both carry title=\"Jumpers & Cardigans\", which Chrome exposes as the accessible description, not the name, and a separate text link 'Jumpers & Cardigans' to the same URL sits just below. elementFails: by H30 an image that is a link's only content should have an alt that describes the link's function, and this one describes the photo, so I lean to a 1.1.1 failure (the claim names it). But the category is programmatically tied to the image through its title (accessible description), which some auditors accept as part of the text alternative, while others discount title as unreliably announced. captureDiffers: the live server HTML has the same link (href, title) and the same img (alt, title) as the snapshot; no difference. Competent auditors would reasonably disagree, so uncertain."
+    },
+    {
+      "fingerprint": "2faeb1f07a15",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img is a 24px red colour swatch and the only content of a focusable div role=button in the Ruffle Edge Triangle Scarf tile; the button's name, from contents, is 'swatch'. claimTrue: the button holds only this img with alt 'swatch', which does not say what the button does (select the Red variant), so the sentence holds. elementFails: 'swatch' is placeholder text; the colour appears nowhere else in the tile (the name has no colour), so the swatch's information and the control's purpose are lost: fails 1.1.1 (F30; H30/G82), and 4.1.2 for the button. captureDiffers: the capture is a styled, rendered page (screenshot matches the live layout); the Gifts for Her shelf is rendered client-side so my fetch could not show these exact tiles, but the live page's product data labels every swatch image 'swatch' (imageLabel), which VTEX's SKU selector uses as the img alt, so users get the same alt. True positive."
+    },
+    {
+      "fingerprint": "p73cebc621ea",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The header link 'Shop Grocery' goes to https://www.dunnesstoresgrocery.com/ (opens in a new tab). Its text alone says what it does: shop Dunnes Stores' grocery site, so 2.4.4 is met; opening a new window without warning is not a 2.4.4 matter. captureDiffers: the live server HTML has the same link text, rendered with href='#' and hydrated to the grocery URL by the page's own content data; the screenshot omits the sticky header but the DOM capture has it. Nothing that matters differs. The link passes, so false positive (Rampa was right to report nothing)."
+    },
+    {
+      "fingerprint": "a92f5308d091",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img is the only content of a link to the '/women/footwear' page; the link has no aria-label or title, so its name is the alt, a long visual description (black high-heeled shoes in a spotlight). claimTrue: the link holds only this img and the alt never says where it leads, so the sentence holds. elementFails: by H30 (sufficient for 1.1.1) an image that is a link's only content needs an alt that describes the link's function; this one describes the photo, so a screen reader user hears a photo description with no destination. The visible 'Shop Footwear' button is a separate link (its alt attribute on the anchor is invalid and ignored); a user might guess shoes, but not that this is the Footwear category rather than one product. Fails 1.1.1 (and arguably 2.4.4), and the claim names that failure. captureDiffers: the live server HTML has the same structure, the same alt and no title or aria-label on this link; no difference. True positive."
+    },
+    {
+      "fingerprint": "s6a9f689cb94",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The img is the only content of a link to the 'Trousers' category; its alt is a long visual description (a woman in a black sequinned two-piece set). claimTrue: the link holds only this img and the alt never names the destination, so the sentence holds; the link and the img both carry title=\"Trousers\", which Chrome exposes as the accessible description, not the name, and a separate text link 'Trousers' to the same URL sits just below. elementFails: by H30 an image that is a link's only content should have an alt that describes the link's function, and this one describes the photo, so I lean to a 1.1.1 failure (the claim names it). But the category is programmatically tied to the image through its title (accessible description), which some auditors accept as part of the text alternative, while others discount title as unreliably announced. captureDiffers: the live server HTML has the same link (href, title) and the same img (alt, title) as the snapshot; no difference. Competent auditors would reasonably disagree, so uncertain."
+    },
+    {
+      "fingerprint": "77228dfa5ca7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The img is the only content of a link to the 'Dresses' category; its alt is a long visual description (a woman in a black sequin and satin dress). claimTrue: the link holds only this img and the alt never names the destination, so the sentence holds; the link and the img both carry title=\"Dresses\", which Chrome exposes as the accessible description, not the name, and a separate text link 'Dresses' to the same URL sits just below. elementFails: by H30 an image that is a link's only content should have an alt that describes the link's function, and this one describes the photo, so I lean to a 1.1.1 failure (the claim names it). But the category is programmatically tied to the image through its title (accessible description), which some auditors accept as part of the text alternative, while others discount title as unreliably announced. captureDiffers: the live server HTML has the same link (href, title) and the same img (alt, title) as the snapshot; no difference. Competent auditors would reasonably disagree, so uncertain."
+    },
+    {
+      "fingerprint": "acf5b3f0b7e4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img is the only content of a link to the '/women/clothing/partywear' page; the link has no aria-label or title, so its name is the alt, a long visual description (a woman in a one-shoulder black velvet dress). claimTrue: the link holds only this img and the alt never says where it leads, so the sentence holds. elementFails: by H30 (sufficient for 1.1.1) an image that is a link's only content needs an alt that describes the link's function; this one describes the photo, so a screen reader user hears a photo description with no destination. The visible 'Shop Partywear' button is a separate link to the same page; nothing in the alt suggests a Partywear category. Fails 1.1.1 (and arguably 2.4.4), and the claim names that failure. captureDiffers: the live server HTML has the same structure, the same alt and no title or aria-label on this link; no difference. True positive."
+    },
+    {
+      "fingerprint": "807ff7a3178a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The img is the only content of a link to the 'Blouses & Shirts' category; its alt is a long visual description (a woman in a burgundy sequin top). claimTrue: the link holds only this img and the alt never names the destination, so the sentence holds; the link and the img both carry title=\"Blouses & Shirts\", which Chrome exposes as the accessible description, not the name, and a separate text link 'Blouses & Shirts' to the same URL sits just below. elementFails: by H30 an image that is a link's only content should have an alt that describes the link's function, and this one describes the photo, so I lean to a 1.1.1 failure (the claim names it). But the category is programmatically tied to the image through its title (accessible description), which some auditors accept as part of the text alternative, while others discount title as unreliably announced. captureDiffers: the live server HTML has the same link (href, title) and the same img (alt, title) as the snapshot; no difference. Competent auditors would reasonably disagree, so uncertain."
+    },
+    {
+      "fingerprint": "6f71fbe2418a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img is the only content of a link to the '/women/clothing/winter-layering' page; the link has no aria-label or title, so its name is the alt, a long visual description (a blonde woman in a black coat, grey turtleneck and jeans). claimTrue: the link holds only this img and the alt never says where it leads, so the sentence holds. elementFails: by H30 (sufficient for 1.1.1) an image that is a link's only content needs an alt that describes the link's function; this one describes the photo, so a screen reader user hears a photo description with no destination. The 'Winter Layering' headline (a styled div, not a heading) and the 'Shop Winter Layering' button sit in a separate column and a separate link. Fails 1.1.1 (and arguably 2.4.4), and the claim names that failure. captureDiffers: the live server HTML has the same structure, the same alt and no title or aria-label on this link; no difference. True positive."
+    },
+    {
+      "fingerprint": "10c5651ebff5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img is the only content of a link to the '/women/clothing/coats-and-jackets' page; the link has no aria-label or title, so its name is the alt, a long visual description (a woman in a red double-breasted overcoat). claimTrue: the link holds only this img and the alt never says where it leads, so the sentence holds. elementFails: by H30 (sufficient for 1.1.1) an image that is a link's only content needs an alt that describes the link's function; this one describes the photo, so a screen reader user hears a photo description with no destination. The visible 'Shop Coats & Jackets' button is a separate link to the same page; the alt suggests a coat but not the Coats & Jackets category. Fails 1.1.1 (and arguably 2.4.4), and the claim names that failure. captureDiffers: the live server HTML has the same structure, the same alt and no title or aria-label on this link; no difference. True positive."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "page": "https://filarmonica.art.br/fale-conosco/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "sbf3640e5de0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is <h1 class=\"number mv0 pv0\">22</h1>, the day number in the fixed 'Próximo Concerto' sidebar box (22 / novembro / Concertos para a Juventude 7 (2026) / ver mais). It is the page's only h1 and the first heading in document order; the page's real title heading is the h2 'Fale Conosco'. claimTrue: in the snapshot the heading's whole text is '22', and neither that box (the next concert) nor the page's contact content is described by it. elementFails: I looked for reasons it might pass. No context fixes it, because heading navigation announces 'heading level 1, 22', and the month ('novembro', a <small>) and the 'Próximo Concerto' label are separate non-heading text. G130's test (each heading identifies its section) fails, and nothing about it is stricter than 2.4.6, which requires headings that are provided to be descriptive. The strongest counter-argument is that the number is styling and not a real heading, which is a 1.3.1 failure (F43, structural markup that does not represent the content). That adds a second failure but does not cancel this one, because users of assistive technology receive it as a heading. captureDiffers: the live HTML fetched now has the same h1 with '22' and the same sidebar structure. The full-page screenshot draws the fixed sidebar near the bottom, but that is only a stitching artefact and does not affect this claim. The claim names the real defect."
+    },
+    {
+      "fingerprint": "2e43a5325075",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer logo strip img.logoh (data-src 2026_Grid_Site-v5.png) with alt=\"\". The crop shows the Lei Rouanet, Ministério da Cultura 'cultura' and Descentra Cultura logos, the 'Mantenedor: Cultura e Turismo / Governo de Minas' logo, and 'Apoio' logos including Amigos da Filarmônica. claimTrue: alt is empty, and the snapshot and live HTML show no nearby text naming these funders. The barra-logos div holds only the two images, the previous text is 'Assine nossa newsletter', and the sidebar's 'Seja nosso patrocinador!' and the menu link 'Patrocinadores' do not name them. elementFails: I looked for a reason to treat it as decoration. These are sponsor and funder credits with 'Mantenedor' and 'Apoio' roles, and the Lei Rouanet credit is a mandatory public acknowledgement, so the strip informs rather than decorates. Null alt (H67/C9) is sufficient only for pure decoration, and no text equivalent exists elsewhere on the page. That is a 1.1.1 failure. captureDiffers: the snapshot's src is the LiteSpeed lazy-load SVG placeholder, but the live HTML is the same (same placeholder, data-src and alt=\"\"). A browser swaps in the logo PNG, which is what the crop shows, and the alt stays empty, so nothing relevant differs. The claim names the failure: informative logos hidden with empty alt."
+    },
+    {
+      "fingerprint": "sc796625411a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the select #skip-content-select in the OneTap accessibility-toolbar panel (nav 'Accessibility Options'). The panel sits off-screen at x=-542 until it is opened, but the select stays focusable and exposed. A real <label for=\"skip-content-select\">Skip To Content</label> labels it, and its options are Choose..., Main Content, Navigation and Footer. claimTrue: for a select, users choose rather than enter. Read with its options, the label says what the control is for: jumping to a chosen part of the page. So 'does not say what to enter' does not hold for the captured control. elementFails: 2.4.6 asks that a label describe the topic or purpose and says labels need not be lengthy. 'Skip To Content' states the purpose, the option names state the choices, and G131 is met. Wording like 'Skip to section' might be marginally clearer, but requiring it would be stricter than WCAG. captureDiffers: the live HTML has the same label, select and options in the same off-screen panel, so nothing differs that bears on the claim. The model had the label and the options in context and still judged the label inadequate, so the cause is model_error."
+    }
+  ]
+}

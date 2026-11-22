@@ -1,0 +1,27 @@
+{
+  "page": "https://www.massgeneralbrigham.org/en/about/massachusetts-general-hospital",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "5fcb26792be7",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "yes" },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the img in the 'Massachusetts General Hospital clinical trials and research' section, src sd-clinical-trials-bl-04-604x368-2x.jpg, alt 'Scientist working in laboratory with pipette equipment.' claimTrue: the image crop the model was given shows a marathon runner (the photo of the 'Alexa's story' section above), so as a sentence about that crop the claim holds. But the snapshot's own src and the full screenshot cropped at the element's bounds (759, 5215, 496x302) show a lab worker in a white coat and purple gloves using a pipette at a lab bench. The live page's source still has the same asset with the same alt. elementFails: the alt describes the image users actually see accurately and briefly, so 1.1.1 is met. captureDiffers: yes. The crop is taken about 627 px above the element and shows a neighbouring photo, not the image users get at that element; that wrong crop is the only basis for the claim. A false positive from a wrong crop is a collector_error."
+    },
+    {
+      "fingerprint": "s30dd15a07b4",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the header logo link in nav 'Main', href https://www.massgeneralbrigham.org/en/, aria-label 'mass-general-brigham-logo', with a logo img that has the same alt. It has no title, no heading before it, and its paragraph holds only the image. claimTrue: the context part is true, but the name does say where the link goes. It names the organisation, Mass General Brigham, and the link goes to that organisation's home page (destination title 'Mass General Brigham | Integrated Health Care System'). elementFails: a site logo link named after the organisation and leading to its home page follows a convention users widely understand. The purpose (go to Mass General Brigham's home) can be worked out from the link text alone, so 2.4.4 is met. The filename-style hyphens and the word 'logo' are best-practice problems (better: 'Mass General Brigham home'), not a 2.4.4 failure. captureDiffers: the live nav fragment (/en/global/nav) still sets the text 'mass-general-brigham-logo' for this logo link, so it matches the snapshot. The model had the destination and judged wrongly."
+    },
+    {
+      "fingerprint": "3852d8682b64",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the inline svg phone-handset icon (role img, named by its title 'Call linked number'). It sits inside the tel: link '617-726-2000' (link title 'Call Massachusetts General Hospital at 617-726-2000') in the Contact section. claimTrue: the crop and the screenshot show a phone handset icon. 'Call linked number' gives what that icon stands for, a call to the number in the link, so it does not describe something the image fails to show. elementFails: for a functional icon in a link, a text alternative that states its purpose meets 1.1.1. The link's name becomes '617-726-2000 Call linked number', which is a little redundant but accurate, not a failure. captureDiffers: the live /icons/phone.svg still carries the title 'Call linked number', and the live page source still has the phone button, so it matches the capture."
+    }
+  ]
+}

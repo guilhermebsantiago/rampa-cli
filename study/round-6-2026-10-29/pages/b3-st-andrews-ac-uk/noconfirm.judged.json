@@ -1,0 +1,361 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.st-andrews.ac.uk/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "c835738ecce5",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#content-begin > section:nth-of-type(1) > div:nth-of-type(1) > picture > img",
+   "message": "The text alternative \"Students sitting on the pier during golden hour at the Gaudie pier walk in St Andrews.\" describes something the image does not show.",
+   "evidence": "Students sitting on the pier during golden hour at the Gaudie pier walk in St Andrews.",
+   "subject": "Students sitting on the pier during golden hour at the Gaudie pier walk in St Andrews.",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#content-begin > section:nth-of-type(1) > div:nth-of-type(1) > picture > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Students sitting on the pier during golden hour at the Gaudie pier walk in St Andrews.",
+    "to": "The historic stone facade of St Salvator's Hall at the University of St Andrews during autumn.",
+    "before": "<img src=\"/assets/university/homepage/images/hero-banner/st-salvators-hall-autumn-750x500.jpg\" alt=\"Students sitting on the pier during golden hour at the Gaudie pier walk in St Andrews.\">",
+    "after": "<img src=\"/assets/university/homepage/images/hero-banner/st-salvators-hall-autumn-750x500.jpg\" alt=\"The historic stone facade of St Salvator's Hall at the University of St Andrews during autumn.\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "684fb38fb4a3",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#d\\.en\\.235006 > div > div > div:nth-of-type(2) > div > figure > img",
+   "message": "The text alternative \"waves pattern on sea\" describes something the image does not show.",
+   "evidence": "waves pattern on sea",
+   "subject": "waves pattern on sea",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#d\\.en\\.235006 > div > div > div:nth-of-type(2) > div > figure > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "waves pattern on sea",
+    "to": "Underwater bubbles with a white wavy line graphic overlay",
+    "before": "<img class=\"lazyload\" src=\"data:…\" data-src=\"/assets/university/alumni-and-donors/images/new-campaign/mw-navbox.jpg\" alt=\"waves pattern on sea\">",
+    "after": "<img class=\"lazyload\" src=\"data:…\" data-src=\"/assets/university/alumni-and-donors/images/new-campaign/mw-navbox.jpg\" alt=\"Underwater bubbles with a white wavy line graphic overlay\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "5e5c406ee50f",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#txt-search-course",
+   "target": "#txt-search-course",
+   "message": "The placeholder \"Search by keyword or phrase\" has a contrast of 2.85:1 with the field (#999999 on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#999999 on #ffffff · 2.85:1 at best, 2.85:1 at worst · 18px, 400",
+   "subject": "Search by keyword or phrase",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input id=\"txt-search-course\" class=\"form-control course-autocomplete search-box tt-input\" type=\"text\" aria-label=\"Search for a course, use arrow keys to move between suggested search terms\" maxlength=\"256\" name=\"query\" placeholder=\"Search by keyword or phrase\" autocomplete=\"off\" spellcheck=\"false\" dir=\"auto\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {},
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#d\\.en\\.34645 > div > div:nth-of-type(2) > ul > li:nth-of-type(4) > a",
+   "message": "The link text \"MMS\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"MMS student portal\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#d\\.en\\.222654 > div > div > div:nth-of-type(2) > div > figure > img",
+   "reason": "the suggested alternative repeats the text around the image",
+   "output": {
+    "imageShows": "A gold and white badge from The Sunday Times Good University Guide 2027.",
+    "textInImage": "THE TIMES THE SUNDAY TIMES GOOD UNIVERSITY GUIDE 2027 1 RANKED FIRST IN THE UNITED KINGDOM",
+    "verdict": "fail",
+    "evidence": "Ranked first in the United Kingdom, Good University Guide 2027",
+    "suggestedAlt": "The Sunday Times Good University Guide 2027: Ranked first in the United Kingdom",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#d\\.en\\.294177 > div > div:nth-of-type(1) > h3 > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "A research post by a professor.",
+    "leadsTo": "A news article about Professor Christopher Smith being named Executive Chair of Research England and Global Partnerships.",
+    "verdict": "fail",
+    "evidence": "Professor's research post",
+    "problem": "mismatch",
+    "suggestedText": "Professor Christopher Smith named Executive Chair of Research England",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#d\\.en\\.2484 > div > div:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page for postgraduate students.",
+    "leadsTo": "Current postgraduates - University of St Andrews",
+    "verdict": "fail",
+    "evidence": "Postgraduate",
+    "problem": "ambiguous",
+    "suggestedText": "Postgraduate students",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 8,
+   "judged": 8,
+   "failed": 2,
+   "passed": 5,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 72,
+   "judged": 50,
+   "failed": 0,
+   "passed": 47,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 22,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 19,
+   "judged": 19,
+   "failed": 0,
+   "passed": 19,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 22 of 72 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 79,
+  "inputTokens": 70742,
+  "outputTokens": 7041,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 220,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 17
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 12,
+    "prepareMs": 0,
+    "candidates": 8,
+    "judged": 8,
+    "calls": 0,
+    "cachedCalls": 8
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 14,
+    "prepareMs": 0,
+    "candidates": 72,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 5,
+    "prepareMs": 0,
+    "candidates": 19,
+    "judged": 19,
+    "calls": 0,
+    "cachedCalls": 19
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 139,
+    "prepareMs": 136,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 8,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 21
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 11,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 72,
+    "capped": 22
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

@@ -1,0 +1,551 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://sbgg.org.br/gga-passa-a-integrar-a-colecao-scielo-brasil/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "4c98dced18cd",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(3) > div > footer > div > div > div > section > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(7) > div > img",
+   "message": "The text alternative \"csm_logo_amb2\" describes something the image does not show.",
+   "evidence": "csm_logo_amb2",
+   "subject": "csm_logo_amb2",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "html > body > div:nth-of-type(3) > div > footer > div > div > div > section > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(7) > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "csm_logo_amb2",
+    "to": "Logotipo da Associação Médica Brasileira (AMB)",
+    "before": "<img src=\"https://sbgg.org.br/wp-content/uploads/elementor/thumbs/csm_logo_amb2-qx02tsn5onrp6ru1uq8n2wlene8q2y2stn83kl7ed0.webp\" title=\"csm_logo_amb2\" alt=\"csm_logo_amb2\">",
+    "after": "<img src=\"https://sbgg.org.br/wp-content/uploads/elementor/thumbs/csm_logo_amb2-qx02tsn5onrp6ru1uq8n2wlene8q2y2stn83kl7ed0.webp\" title=\"csm_logo_amb2\" alt=\"Logotipo da Associação Médica Brasileira (AMB)\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "959425bf5af4",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(3) > div > footer > div > div > div > div > div > div > div > div > div > a > img",
+   "message": "The text alternative \"itarget-icon\" is all its link holds, and does not say where the link leads.",
+   "evidence": "itarget-icon",
+   "subject": "itarget-icon",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "html > body > div:nth-of-type(3) > div > footer > div > div > div > div > div > div > div > div > div > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "itarget-icon",
+    "to": "iTarget Tecnologia",
+    "before": "<img src=\"https://sbgg.org.br/wp-content/uploads/elementor/thumbs/itarget-icon-ohtnxaq10600ximpmx02zm6zoyezv66cw6f5wo9zn0.png\" title=\"itarget-icon\" alt=\"itarget-icon\">",
+    "after": "<img src=\"https://sbgg.org.br/wp-content/uploads/elementor/thumbs/itarget-icon-ohtnxaq10600ximpmx02zm6zoyezv66cw6f5wo9zn0.png\" title=\"itarget-icon\" alt=\"iTarget Tecnologia\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "be61ec8f2bc2",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(2) > div > section:nth-of-type(1) > div > div > div > section > div > div > div > div:nth-of-type(1) > div > h1",
+   "target": "html > body > div:nth-of-type(2) > div > section:nth-of-type(1) > div > div > div > section > div > div > div > div:nth-of-type(1) > div > h1",
+   "message": "The text \"GGA passa a integrar a Coleção SciELO Brasil\" has at most 2.79:1 contrast with what is behind it (#ffffff on #2eb0c6…#22a9c3), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 3:1 for large text.",
+   "evidence": "#ffffff on #25abc4; #2eb0c6…#22a9c3 · 2.79:1 at best, 2.58:1 at worst · 56px, 300",
+   "subject": "GGA passa a integrar a Coleção SciELO Brasil",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<h1 class=\"elementor-heading-title elementor-size-default\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "6170da8c0143",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#breadcrumbs > span > span > a",
+   "target": "#breadcrumbs > span > span > a",
+   "message": "The text \"Início\" has at most 2.67:1 contrast with what is behind it (#ffffff on #2baec5…#2aadc4), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #2aaec5; #2baec5…#2aadc4 · 2.67:1 at best, 2.64:1 at worst · 13.6px, 400",
+   "subject": "Início",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://sbgg.org.br/\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "c351e73efb91",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#breadcrumbs > span > span > span > a",
+   "target": "#breadcrumbs > span > span > span > a",
+   "message": "The text \"SBGG\" has at most 2.67:1 contrast with what is behind it (#ffffff on #2aaec5…#29adc4), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #2aaec5; #2aaec5…#29adc4 · 2.67:1 at best, 2.64:1 at worst · 13.6px, 400",
+   "subject": "SBGG",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://sbgg.org.br/sbgg/\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "db89ec10fed8",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#breadcrumbs > span > span > span > strong",
+   "target": "#breadcrumbs > span > span > span > strong",
+   "message": "The text \"GGA passa a integrar a Coleção SciELO Brasil\" has at most 2.73:1 contrast with what is behind it (#ffffff on #29aec5…#25abc4), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #27acc4; #29aec5…#25abc4 · 2.73:1 at best, 2.64:1 at worst · 13.6px, 700",
+   "subject": "GGA passa a integrar a Coleção SciELO Brasil",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<strong class=\"breadcrumb_last\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "de0be614a776",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(2) > div > section:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div > article > div > div:nth-of-type(3) > div > div > div > section > div > div > div > div > div",
+   "target": "html > body > div:nth-of-type(2) > div > section:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div > article > div > div:nth-of-type(3) > div > div > div > section > div > div > div > div > div",
+   "message": "The text \"A Geriatrics, Gerontology and Aging (GGA), publicação cient…\" has at most 4.29:1 contrast with what is behind it (#7a7a7a on #ffffff), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#7a7a7a on #ffffff · 4.29:1 at best, 4.29:1 at worst · 16px, 400",
+   "subject": "A Geriatrics, Gerontology and Aging (GGA), publicação científica oficial da Sociedade Brasileira de Geriatria e Gerontologia (SBGG), agora faz parte da Coleção SciELO Brasil. A inclusão representa uma conquista importante para a revista e para toda a comunidade científica dedicada ao estudo do envelhecimento humano. A novidade amplia as oportunidades de visibilidade, acesso e disseminação das pesquisas publicadas pela GGA, fortalecendo seu compromisso com a ciência aberta e com a produção de conhecimento de qualidade. A entrada na Coleção SciELO Brasil traz benefícios para diferentes públicos envolvidos na produção, na avaliação e na aplicação do conhecimento científico. Para autores e pesquisadores, representa mais oportunidades para que seus artigos sejam encontrados, lidos e citados por pesquisadores do Brasil e de outros países. Para programas de pós-graduação, amplia as possibilidades de divulgação das pesquisas desenvolvidas, contribuindo para sua visibilidade internacional, sem custos adicionais de publicação, conforme as condições destacadas pela revista. Para revisores e editores, reforça o reconhecimento do trabalho essencial da avaliação por pares e do compromisso com a qualidade científica. Para profissionais de saúde e gestores, amplia o acesso aberto a evidências e conhecimentos que podem contribuir para a prática profissional, a organização dos serviços de saúde e a formulação de políticas públicas. Para toda a comunidade do envelhecimento, fortalece a circulação do conhecimento científico, com acesso gratuito para leitores e sem taxas de publicação, conforme informado pela GGA. A inclusão na Coleção SciELO Brasil reforça a missão da GGA de contribuir para o avanço da ciência em Geriatria e Gerontologia e para a disseminação de pesquisas relevantes sobre o envelhecimento. Essa conquista é resultado de um esforço coletivo e representa mais um passo no fortalecimento da produção científica da área, aproximando pesquisadores, profissionais, estudantes e gestores do conhecimento que pode contribuir para um envelhecimento mais saudável. Acesse a GGA e conheça as pesquisas publicadas: Compartilhe essa conquista com orientadores, pesquisadores, estudantes e colegas que contribuem para o desenvolvimento da Geriatria e da Gerontologia.",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<div class=\"elementor-widget-container\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "4dabb2d24a4b",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(2) > div > section:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div > article > div > div:nth-of-type(3) > div > div > div > section > div > div > div > div > div > em",
+   "target": "html > body > div:nth-of-type(2) > div > section:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div > article > div > div:nth-of-type(3) > div > div > div > section > div > div > div > div > div > em",
+   "message": "The text \"A conquista amplia as oportunidades de visibilidade e disse…\" has at most 4.29:1 contrast with what is behind it (#7a7a7a on #ffffff), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#7a7a7a on #ffffff · 4.29:1 at best, 4.29:1 at worst · 16px, 400",
+   "subject": "A conquista amplia as oportunidades de visibilidade e disseminação do conhecimento científico em Geriatria e Gerontologia.",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<em>",
+   "experimental": true
+  },
+  {
+   "fingerprint": "bb970ef87ff7",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(2) > div > section:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div > article > div > div:nth-of-type(3) > div > div > div > section > div > div > div > div > div > strong:nth-of-type(1)",
+   "target": "html > body > div:nth-of-type(2) > div > section:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div > article > div > div:nth-of-type(3) > div > div > div > section > div > div > div > div > div > strong:nth-of-type(1)",
+   "message": "The text \"O que essa conquista representa?\" has at most 4.29:1 contrast with what is behind it (#7a7a7a on #ffffff), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#7a7a7a on #ffffff · 4.29:1 at best, 4.29:1 at worst · 16px, 700",
+   "subject": "O que essa conquista representa?",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<strong>",
+   "experimental": true
+  },
+  {
+   "fingerprint": "d796077fce10",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(2) > div > section:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div > article > div > div:nth-of-type(3) > div > div > div > section > div > div > div > div > div > strong:nth-of-type(2)",
+   "target": "html > body > div:nth-of-type(2) > div > section:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div > article > div > div:nth-of-type(3) > div > div > div > section > div > div > div > div > div > strong:nth-of-type(2)",
+   "message": "The text \"Ciência aberta e compromisso com o envelhecimento\" has at most 4.29:1 contrast with what is behind it (#7a7a7a on #ffffff), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#7a7a7a on #ffffff · 4.29:1 at best, 4.29:1 at worst · 16px, 700",
+   "subject": "Ciência aberta e compromisso com o envelhecimento",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<strong>",
+   "experimental": true
+  },
+  {
+   "fingerprint": "e3c1eb41e960",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(2) > div > section:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div > article > div > div:nth-of-type(3) > div > div > div > section > div > div > div > div > div > strong:nth-of-type(3)",
+   "target": "html > body > div:nth-of-type(2) > div > section:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div > article > div > div:nth-of-type(3) > div > div > div > section > div > div > div > div > div > strong:nth-of-type(3)",
+   "message": "The text \"saudável\" has at most 4.29:1 contrast with what is behind it (#7a7a7a on #ffffff), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#7a7a7a on #ffffff · 4.29:1 at best, 4.29:1 at worst · 16px, 700",
+   "subject": "saudável",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<strong>",
+   "experimental": true
+  },
+  {
+   "fingerprint": "e9a87eadae3b",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(2) > div > section:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div > article > div > div:nth-of-type(3) > div > div > div > section > div > div > div > div > div > a",
+   "target": "html > body > div:nth-of-type(2) > div > section:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div > article > div > div:nth-of-type(3) > div > div > div > section > div > div > div > div > div > a",
+   "message": "The text \"https://ggaging.com\" has at most 3.49:1 contrast with what is behind it (#0095bb on #ffffff), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#0095bb on #ffffff · 3.49:1 at best, 3.49:1 at worst · 16px, 400",
+   "subject": "https://ggaging.com",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://ggaging.com\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "0e8803895659",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(2) > div > section:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div > div > div > section > div > div > div > div:nth-of-type(19) > div > div > div:nth-of-type(1) > a",
+   "target": "html > body > div:nth-of-type(2) > div > section:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div > div > div > section > div > div > div > div:nth-of-type(19) > div > div > div:nth-of-type(1) > a",
+   "message": "The icon of this link (\"Facebook\") has at most 1.99:1 contrast with the pixels next to it (#31c5ff on #ffffff). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#31c5ff on #ffffff · 1.99:1 at best, 1.99:1 at worst",
+   "subject": "Facebook",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<a class=\"elementor-icon elementor-social-icon elementor-social-icon-facebook elementor-animation-shrink elementor-repeater-item-788cc15\" href=\"https://www.facebook.com/SBGGOficial\" target=\"_blank\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "b01b28127208",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(2) > div > section:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div > div > div > section > div > div > div > div:nth-of-type(19) > div > div > div:nth-of-type(2) > a",
+   "target": "html > body > div:nth-of-type(2) > div > section:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div > div > div > section > div > div > div > div:nth-of-type(19) > div > div > div:nth-of-type(2) > a",
+   "message": "The icon of this link (\"Map-marked-alt\") has at most 1.99:1 contrast with the pixels next to it (#31c5ff on #ffffff). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#31c5ff on #ffffff · 1.99:1 at best, 1.99:1 at worst",
+   "subject": "Map-marked-alt",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<a class=\"elementor-icon elementor-social-icon elementor-social-icon-map-marked-alt elementor-animation-shrink elementor-repeater-item-74c133c\" href=\"https://goo.gl/maps/v8U1S8FkiUdEYjkv7\" target=\"_blank\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 5
+ },
+ "groups": [
+  {
+   "id": "g-6ed0ab07ef69",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "check": "rampa/pixel-contrast",
+   "count": 10,
+   "members": [
+    "be61ec8f2bc2",
+    "6170da8c0143",
+    "c351e73efb91",
+    "db89ec10fed8",
+    "de0be614a776",
+    "4dabb2d24a4b",
+    "bb970ef87ff7",
+    "d796077fce10",
+    "e3c1eb41e960",
+    "e9a87eadae3b"
+   ],
+   "example": "be61ec8f2bc2"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > div:nth-of-type(2) > div > section:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div > article > div > div:nth-of-type(3) > div > div > div > section > div > div > div > div > div > a",
+   "message": "The link text \"https://ggaging.com\" is an address, not a purpose.",
+   "evidence": "The model suggests: \"Acesse a GGA\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > div > section:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div > article > div > div:nth-of-type(1) > div > img",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "A blue graphic with logos and text announcing that GGA is joining the SciELO Brasil collection.",
+    "textInImage": "GGA Geriatrics, Gerontology and Aging SBGG 65 anos Sociedade Brasileira de Geriatria e Gerontologia SciELO Brasil GGA passa a integrar a Coleção SciELO Brasil Uma conquista para a ciência aberta e para a disseminação do conhecimento em Geriatria e Gerontologia.",
+    "verdict": "fail",
+    "evidence": "GGA passa a integrar a Coleção SciELO Brasil",
+    "suggestedAlt": "GGA passa a integrar a Coleção SciELO Brasil. Uma conquista para a ciência aberta e para a disseminação do conhecimento em Geriatria e Gerontologia.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-1-0774b25 > li:nth-of-type(1) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page explaining what the 'Título de Especialista' is.",
+    "leadsTo": "A page titled 'O que é? - SBGG' describing the Specialist Title in Geriatrics and Gerontology.",
+    "verdict": "fail",
+    "evidence": "O que é?",
+    "problem": "ambiguous",
+    "suggestedText": "O que é o Título de Especialista?",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 4,
+   "judged": 4,
+   "failed": 2,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 71,
+   "judged": 50,
+   "failed": 0,
+   "passed": 48,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 21,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 10,
+   "judged": 10,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "The page's load event had not fired after 30000 ms (--timeout), often because an ad or a widget keeps loading: Rampa read the page as it was then, so what was still loading may be missing.",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 21 of 71 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 67,
+  "inputTokens": 63967,
+  "outputTokens": 7053,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 222,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 19
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 10,
+    "prepareMs": 0,
+    "candidates": 4,
+    "judged": 4,
+    "calls": 0,
+    "cachedCalls": 4
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 21,
+    "prepareMs": 0,
+    "candidates": 71,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 5,
+    "prepareMs": 0,
+    "candidates": 10,
+    "judged": 10,
+    "calls": 0,
+    "cachedCalls": 10
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 139,
+    "prepareMs": 136,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 4,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 22
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "loadTimedOutMs": 30000,
+  "images": {
+   "captured": 5,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 71,
+    "capped": 21
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "loadTimedOutMs": 30000
+  }
+ }
+}

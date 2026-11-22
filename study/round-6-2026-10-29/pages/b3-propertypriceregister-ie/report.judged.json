@@ -1,0 +1,347 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.propertypriceregister.ie/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "9fae541a5a55",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > form > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(1) > div > div > div:nth-of-type(2) > address > a",
+   "target": "html > body > form > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(1) > div > div > div:nth-of-type(2) > address > a",
+   "message": "The text \"info@psr.ie\" has at most 2.04:1 contrast with what is behind it (#2e6200 on #272727), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#2e6200 on #272727 · 2.04:1 at best, 2.04:1 at worst · 14.4px, 400",
+   "subject": "info@psr.ie",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"mailto:info@psr.ie\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "c51bbe4e0688",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#maincontent > div > div:nth-of-type(1) > p:nth-of-type(2) > a",
+   "message": "The link text \"https://www.revenue.ie/en/contact-us/customer-service-contact/local-property-tax-lpt.aspx\" is an address, not a purpose.",
+   "evidence": "https://www.revenue.ie/en/contact-us/customer-service-contact/local-property-tax-lpt.aspx",
+   "subject": "https://www.revenue.ie/en/contact-us/customer-service-contact/local-property-tax-lpt.aspx",
+   "claim": "url_or_filename",
+   "techniques": [
+    "G91"
+   ],
+   "patch": {
+    "ref": "#maincontent > div > div:nth-of-type(1) > p:nth-of-type(2) > a",
+    "kind": "set-text",
+    "from": "https://www.revenue.ie/en/contact-us/customer-service-contact/local-property-tax-lpt.aspx",
+    "to": "Contact customer service regarding Local Property Tax",
+    "before": "<a href=\"https://www.revenue.ie/en/contact-us/customer-service-contact/local-property-tax-lpt.aspx\" target=\"_blank\">https://www.revenue.ie/en/contact-us/customer-service-contact/local-property-tax-lpt.aspx</a>",
+    "after": "<a href=\"https://www.revenue.ie/en/contact-us/customer-service-contact/local-property-tax-lpt.aspx\" target=\"_blank\">Contact customer service regarding Local Property Tax</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 17
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 7,
+   "members": [
+    "8e5ec5791ac6",
+    "c1bd6d29ae53",
+    "c9e748624bab",
+    "dd0d7860fc80",
+    "d088e0245ae6",
+    "6da9c99723ba",
+    "a05babe5d652"
+   ],
+   "example": "8e5ec5791ac6"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#logoimgdiv > a > img",
+   "message": "The text alternative \"PSRA Logo\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"Property Services Regulatory Authority (PSRA) home page\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (0.95), claim: yes (1.00), reversed: no (0.99))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#maincontent > div > div:nth-of-type(1) > h3:nth-of-type(2)",
+   "message": "The heading \"Information Note\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Register Information Note\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#cookiescript_category_strict",
+   "message": "The label \"STRICTLY NECESSARY\" does not say what to enter.",
+   "evidence": "The model suggests: \"Strictly necessary cookies\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#cookiescript_category_performance",
+   "message": "The label \"PERFORMANCE\" does not say what to enter.",
+   "evidence": "The model suggests: \"Performance Cookies\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 26,
+   "judged": 26,
+   "failed": 1,
+   "passed": 25,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 12,
+   "judged": 12,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 3
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 of the page's 12 stylesheet(s) had not applied when it was read (https://www.propertypriceregister.ie/unify-v1.9.1-J3B3/html/assets/css/theme-colors/default.css (no rules)): the page was read with the styles it had, which may differ from what people see.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 44,
+  "cachedCalls": 0,
+  "inputTokens": 37900,
+  "outputTokens": 3407,
+  "latencyMs": 105138
+ },
+ "timings": {
+  "totalMs": 56726,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 14
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 3231,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 4,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1018,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 37132,
+    "prepareMs": 0,
+    "candidates": 26,
+    "judged": 26,
+    "calls": 26,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 14210,
+    "prepareMs": 0,
+    "candidates": 12,
+    "judged": 12,
+    "calls": 12,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 177,
+    "prepareMs": 177,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 926,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 18
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "stylesheets": {
+   "linked": 12,
+   "applied": 11,
+   "failed": 1
+  },
+  "images": {
+   "captured": 1,
+   "notCaptured": 0,
+   "reasons": {}
+  }
+ },
+ "coverage": {
+  "reach": {
+   "stylesheets": {
+    "linked": 12,
+    "applied": 11,
+    "failed": [
+     {
+      "href": "https://www.propertypriceregister.ie/unify-v1.9.1-J3B3/html/assets/css/theme-colors/default.css",
+      "reason": "no rules"
+     }
+    ]
+   }
+  }
+ }
+}

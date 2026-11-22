@@ -1,0 +1,83 @@
+{
+  "page": "https://www.laphil.com/about-us/contact-us",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "21bac8f25cb2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the inline SVG Walt Disney Concert Hall logo in the footer logo row (between the LA Phil and Hollywood Bowl logos). The crop and the screenshot show it reads 'WALT DISNEY CONCERT HALL'. The live HTML has the same markup: <svg class=\"o-icon ...\"><use xlink:href=\"#logo-...\"></use></svg> with no role, <title>, aria-label or aria-hidden, and the sprite symbol has no <title> either, so captureDiffers is no. The snapshot exposes it as an image with no name (not aria-hidden), so 'hidden' is loose wording, but the point that no text reaches assistive technology holds. The logo is not decoration: it is an image of text naming one of the LA Phil venues in the footer's brand row, and the paragraph beside it ('The LA Phil creates space for artists and audiences...') does not name the venue; the only text with that name is a top-bar link far away. An informative image with no text alternative fails 1.1.1, and the claim names exactly that, so true_positive."
+    },
+    {
+      "fingerprint": "a4280b841431",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the inline SVG Hollywood Bowl logo in the footer logo row. The crop and the screenshot show it reads 'HOLLYWOOD BOWL'. The live HTML has the same markup: <svg class=\"o-icon ...\"><use xlink:href=\"#logo-...\"></use></svg> with no role, <title>, aria-label or aria-hidden, and the sprite symbol has no <title> either, so captureDiffers is no. The snapshot exposes it as an image with no name (not aria-hidden), so 'hidden' is loose wording, but the point that no text reaches assistive technology holds. The logo is not decoration: it is an image of text naming one of the LA Phil venues in the footer's brand row, and the paragraph beside it ('The LA Phil creates space for artists and audiences...') does not name the venue; the only text with that name is a top-bar link far away. An informative image with no text alternative fails 1.1.1, and the claim names exactly that, so true_positive."
+    },
+    {
+      "fingerprint": "ad3c9843960e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the inline SVG logo of The Ford in the footer logo row. The crop and the screenshot show 'FORD' with 'THE' set inside the O, so 'the logo for THE FORD' is accurate. The live HTML has the same markup: <svg class=\"o-icon ...\"><use xlink:href=\"#logo-...\"></use></svg> with no role, <title>, aria-label or aria-hidden, and the sprite symbol has no <title> either, so captureDiffers is no. The snapshot exposes it as an image with no name (not aria-hidden), so 'hidden' is loose wording, but the point that no text reaches assistive technology holds. The logo is not decoration: it is an image of text naming one of the LA Phil venues in the footer's brand row, and the paragraph beside it ('The LA Phil creates space for artists and audiences...') does not name the venue; the only text with that name is a top-bar link far away. An informative image with no text alternative fails 1.1.1, and the claim names exactly that, so true_positive."
+    },
+    {
+      "fingerprint": "fba0a7e10adc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer newsletter email field. Its <label> holds only a visually hidden span 'Email', so the placeholder 'Your Email' is the only visible text telling users what to type, and it is text that 1.4.3 covers. The live stylesheet (style-phil.css) sets .global-newsletter__form input[type=email]::placeholder to color rgba(0,0,0,0.3) with font-size 18px and font-weight 700, on the field's default white background, as the screenshot shows. Blended that is about #b3b3b3 on #ffffff, about 2.1:1, matching the claim's 2.12:1. 18px bold is below the large-text threshold (14pt bold, about 18.66px), so 4.5:1 applies and the text fails. The live CSS and markup match the capture. The claim names that failure, so true_positive."
+    },
+    {
+      "fingerprint": "8536512d0951",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Español' link in the footer language switcher, linking to es.laphil.com. The page is lang=\"en\" and neither the link nor its container has a lang attribute. The live site's bundle.js builds these links with document.createElement('a'), a.text = Weglot.getLanguageName(...) and only the classes language-toggle__item and no-translate, so users get the same markup with no lang (captureDiffers no). 'Español' is a Spanish word, not a proper name or vernacular English, and Understanding 3.1.2 says even a single word can be subject to the criterion. Its 'Alternative language links' example has link text that is the language's name in that language, with 'the language of each link indicated via a lang attribute'. Without it, an English voice mispronounces the word, as the claim says. true_positive."
+    },
+    {
+      "fingerprint": "sc8cc8d20e1d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'Terms of Use' link in the fixed cookie banner. The live Cookiebot banner script (cc.js) holds the same markup as the snapshot, and the live href /terms-of-use/cookie-consent still redirects to /cookie-consent, titled 'Cookie Consent — LA Phil' (captureDiffers no). Literally, the link text differs from the destination's title, so the sentence holds of the capture. But the link sits in the sentence 'For details on how we use cookies, see our Terms of Use.', which is programmatically determined context, so its purpose is 'details on how we use cookies'. The destination gives exactly that: a Cookiebot cookie declaration page, sitting under the terms-of-use path. The site's Terms of Use page also has a 'Cookie Consent' section pointing to that policy. Link text with its sentence lets users know where the link goes, so it passes 2.4.4. The model had the sentence and the destination and still judged a mismatch."
+    },
+    {
+      "fingerprint": "s6d078227a5c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h3 'YOLA' in the Learning section of the contact page, beside the h3 'General inquiries'. The only content under it is the address YOLA@laphil.org. YOLA is the name of the LA Phil's youth orchestra program (Youth Orchestra Los Angeles, as the site's own navigation spells it out). The heading names the program whose contact details follow, so it describes its topic and passes 2.4.6. Expanding the acronym is not required there; that is 3.1.4, Level AAA. The claim that it says nothing about the content under it is false, since the content is the YOLA contact address. The live HTML has the same heading and content."
+    }
+  ]
+}

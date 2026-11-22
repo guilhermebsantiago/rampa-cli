@@ -1,0 +1,59 @@
+{
+  "page": "https://www.orquestraouropreto.com.br/site/contato/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p65db467a9de",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the header logo image (alt \"Orquestra Ouro Preto\"), the first of two images that make up the home link #logo; the logo shows the OP monogram and the words \"Orquestra Ouro Preto\" with a small \"Maestro Rodrigo Toffolo\" tagline. As a control's alternative it names the destination, the orchestra's home page (titled \"Orquestra Ouro Preto - Excelência e Versatilidade\"), the same way H30's \"Smallville Times\" example names the site, so it describes the link's purpose and meets 1.1.1; leaving out the tagline does not stop users from knowing where the link goes. The snapshot's own link name (the text of a PageSpeed script inside the link) is a collector artefact; the browser's accessibility tree gives \"Orquestra Ouro Preto Orquestra Ouro Preto\", repeated because the second logo image has the same alt. That repetition is redundant, not a 1.1.1 failure of this image. The live HTML fetched today has the same two images with the same alt, so the capture does not differ on this point. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "ec672e8aa331",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the Contact Form 7 honeypot input (name honey-196), an anti-spam trap. Its wrapper span is visually hidden with an inline screen-reader-only style (position:absolute; 1px by 1px; overflow:hidden; clip:rect(0,0,0,0)). The snapshot gives the wrapper as 1x1, and the screenshot shows nothing under the reCAPTCHA where the input's bounds fall. The claim is true of the capture: the label \"Please leave this field empty.\" exists and is associated, but its text does not show (textVisible false). But the field does not show either. Sighted users are never shown a field to fill in, and screen reader users hear the label, which tells them what to do. Understanding 3.3.2 is about fields and controls \"that expect user input\". This one expects none: it is meant to stay empty. A visible label is not required for a control that is not presented visually, so the element does not fail 3.3.2. The rule asks for visible label text without checking that the field itself is visually hidden, which is stricter than the criterion. The real problem here is a different one: tabindex=1000 puts this invisible field early in the keyboard tab order (2.4.3 focus order and 2.4.7 focus visible), and the claim does not name that. The live HTML fetched today has the same hidden wrapper, label and tabindex, so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "sc800a40cca2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the same honeypot input (honey-196) as the rule finding, judged by the model. The claim holds of the capture: the label \"Please leave this field empty.\" is associated but its text is not visible. The model had the label text, which says the field is a trap to leave empty, and the field's context, yet it judged a failure. The whole wrapper is clipped to 1x1 by an inline screen-reader-only style, so the input is no more visible than its label. Sighted users see no field, and assistive technology users get the label's instruction. 3.3.2 covers fields that expect user input, and this one expects none, so the element meets it. The live page has the same markup, so the capture matches it. What does fail is something else: the invisible field takes keyboard focus (tabindex=1000), which falls under 2.4.3 and 2.4.7, and the claim does not name it."
+    },
+    {
+      "fingerprint": "fd458334a413",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the page's h1 \"CONTATO\": white (#ffffff), 51px Oswald bold, so large text that needs 3:1. It sits on the page-header photograph (an img, 010.jpg, scaled to cover the 500px header) of an orange-lit violin with a white glare. I looked for a way it could pass and found none. The live HTML has data-parallax=0, so the image does not move with scroll. It has no overlay over the image, and neither the inline styles nor Salient's style.css put a text-shadow on the page-header h1. I measured the screenshot's pixels within the h1's glyph area myself. Column by column, the median background contrast with white runs from 2.65:1 under the \"C\" down to 1.65:1 under the final \"O\", where the glare is. Only an isolated corner pixel reaches 3.2:1. This agrees with Rampa's 2.95:1 best and 1.64:1 worst. The snapshot keeps the class \"not-loaded\" on the header, but the screenshot shows the image rendered, which is the final state users see. The live page has the same image, header and heading, so the capture matches it. The text fails 1.4.3, and the claim names that failure."
+    },
+    {
+      "fingerprint": "pb8aa6808ea6",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the main-menu item \"Apresentação\": a link with href=\"#\", aria-haspopup=true and aria-expanded=false, which opens a submenu. Its parent list item holds the submenu links (Orquestra, Maestro, Revista OOP Experience, Eventos), and that list item counts as its programmatically determined context. The browser exposes it as having a menu popup and being collapsed. The name, the state and that list item together make its purpose clear: it opens the Apresentação section's submenu. So it meets 2.4.4. The only other link with that name is in the off-canvas mobile menu, which is hidden from the accessibility tree; it has the same href and does the same job, so no shared-name problem arises. A link with href=\"#\" used as a menu toggle might raise a 4.1.2 role question, but that is not 2.4.4. The live HTML has the same markup. Rampa was right to report nothing."
+    }
+  ]
+}

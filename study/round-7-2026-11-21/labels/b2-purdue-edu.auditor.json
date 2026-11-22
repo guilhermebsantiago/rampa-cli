@@ -1,0 +1,34 @@
+{
+  "page": "https://www.purdue.edu/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s05b415c669c",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "yes" },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is one tile of the hero's auto-scrolling photo collage, img src 11_GBR_5957-1.jpg with alt \"Purdue University astronauts speaking event.\" I downloaded that image: it shows a row of astronauts, several in NASA flight jackets, seated on a stage next to a speaker at a podium, in front of large letters reading \"YEARS OF GIANT L...\". That is exactly an astronauts' speaking event, so the alternative describes what the image shows and the claim is false of the captured element (its src and alt). The element was offscreen when captured (x = -300.5 in a moving marquee), and the crop the model saw shows white space over part of a different photo (two women at a laptop, the PUindy-1 tile), so the crop is not this image. The live HTML has the same img, src and alt. The image meets 1.1.1: it is a decorative collage photo with an accurate short description. captureDiffers is yes only because of that wrong crop, which is what led to the false claim, so the cause is collector_error."
+    },
+    {
+      "fingerprint": "p134efe182b7",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The element is a tile in the hero's auto-scrolling photo collage, img PUedu-TopSlider-evergreen-PUindy-1.jpg with alt=\"\" (role presentation). The image (crop and downloaded file agree) is a generic photo of two students laughing at a laptop, with no text and nothing the page needs. The collage sits above the h1 \"Every Giant Leap Starts with One Small Step\" and the Quick Links buttons and only sets the mood, so the photo is decorative and a null alternative meets 1.1.1 (technique H67). Other collage tiles have descriptive alternatives, which is inconsistent authoring but not a failure for this image. The live HTML has the same img with alt=\"\", so the capture does not differ."
+    },
+    {
+      "fingerprint": "p47f8f5e5764",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The element is the Snapchat icon link in the footer social list, accessible name \"snapchat\" (visually hidden span) with a Snapchat ghost icon, href snapchat.com/add/lifeatpurdue, aria-describedby pointing to the new-tab note. The heading just before it is the h2 \"Follow Us\", and its list holds the other social networks, so its name with that context says it leads to Purdue's Snapchat account, which is where it goes. No other link shares its name. It meets 2.4.4. The live server HTML has the same link (with title=\"SnapChat\", which the site's wp-accessibility script replaces with aria-describedby for every user), so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "p7ee3ef0d80c",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The element is the \"Become a Student\" item in the main navigation bar, href /home/become-a-student/, whose destination is \"Purdue University Admissions - Become a Student\" about visits, majors and applying. The link text alone describes that purpose. The only other link with that name (in the collapsed menu) goes to the same address, so there is no shared-name problem. It meets 2.4.4. The live HTML has the same link and address (with a redundant title the site's script removes), and the screenshot shows the item in the nav bar, so the capture does not differ."
+    }
+  ]
+}

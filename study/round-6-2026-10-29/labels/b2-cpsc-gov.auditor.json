@@ -1,0 +1,188 @@
+{
+  "page": "https://www.cpsc.gov/Recalls",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "320d85ad73ee",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The header CPSC seal (cpsc_logo.png, the eagle mark with no text at 46 px) sits inside the home link next to the visible text 'United States Consumer Product Safety Commission'. A logo conveys the organisation's identity, and alt 'CPSC logo' conveys exactly that, so the claim that it names a label rather than what the image conveys does not hold. The link's purpose is carried by its visible text, so the image need not repeat it; the alt is at most redundant (empty alt would be the H2 best practice), which is not a 1.1.1 failure. I fetched the live page on 2026-11-21 with browser-like headers (an automated fetch, like Rampa's); its HTML for this element is the same as the snapshot's, and the screenshot is a fully styled render, so nothing about the capture changes this item."
+    },
+    {
+      "fingerprint": "a9aa98b1d1cc",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The English 'Twitter' footer icon link (twitter.com/USCPSC) has the name ' Twitter' from a visually hidden span and a title 'CPSC Twitter', which the browser exposes as its accessible description (CDP shows it). The rubric counts the title as context (H33), so the purpose, CPSC's Twitter account, can be determined, and the other 'Twitter' link is told apart by its own description 'CPSC Twitter en EspaÃ±ol'. The claim that nothing around this link tells it apart is false: the model ignored the title. I fetched the live page on 2026-11-21 with browser-like headers (an automated fetch, like Rampa's); its HTML for this element is the same as the snapshot's, and the screenshot is a fully styled render, so nothing about the capture changes this item."
+    },
+    {
+      "fingerprint": "pe9864f9b35d",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The Truth Social 'T.' icon inside the footer social link has alt 'Truth Social Logo'; the link also has the hidden text 'TruthSocial' and title 'CPSC Truth Social'. The alt identifies the image and, with the link text, serves its purpose (the link's name is 'Truth Social Logo TruthSocial'), so 1.1.1 is met; the redundancy is only a best-practice matter. I fetched the live page on 2026-11-21 with browser-like headers (an automated fetch, like Rampa's); its HTML for this element is the same as the snapshot's, and the screenshot is a fully styled render, so nothing about the capture changes this item."
+    },
+    {
+      "fingerprint": "p3ab21701049",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The header quick link 'News' (title 'News') leads to the Newsroom Press Releases page. 'News' in the site's utility navigation states that purpose clearly enough, so 2.4.4 is met and Rampa rightly reported nothing. I fetched the live page on 2026-11-21 with browser-like headers (an automated fetch, like Rampa's); its HTML for this element is the same as the snapshot's, and the screenshot is a fully styled render, so nothing about the capture changes this item."
+    },
+    {
+      "fingerprint": "pd09959581e4",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The recall title link 'Cipton Recalls Bicycle Helmets Due to Risk of Serious Injury or Death from Head Injury; ...' leads to that recall's page, whose title and heading are the same text. The link text alone states the purpose, so 2.4.4 is met. I fetched the live page on 2026-11-21 with browser-like headers (an automated fetch, like Rampa's); its HTML for this element is the same as the snapshot's, and the screenshot is a fully styled render, so nothing about the capture changes this item."
+    },
+    {
+      "fingerprint": "s119f63f0a21",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link 'children's sleepwear' sits in the sentence 'The recalled children's pajama sets violate the mandatory safety standards for children's sleepwear posing a risk of serious burn injuries.' and leads to CPSC's Flammable Fabrics Act guidance page. The destination's title is as the claim says, but the claim that the link does not match is false: the FFA is the law under which the children's sleepwear flammability standards (16 CFR 1615/1616) are issued, and the page has a 'Children's Sleepwear' section describing them. Link text and sentence give the purpose (the mandatory standards for children's sleepwear), which the destination serves. The model had the sentence and the destination's description of flammable-clothing standards and judged wrongly. I fetched the live page on 2026-11-21 with browser-like headers (an automated fetch, like Rampa's); its HTML for this element is the same as the snapshot's, and the screenshot is a fully styled render, so nothing about the capture changes this item."
+    },
+    {
+      "fingerprint": "b04d7417745c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The English 'facebook' footer icon link (facebook.com/USCPSC) has the name ' facebook' and the title 'CPSC Facebook', exposed as its accessible description. With the title counted as context (H33), the purpose, CPSC's Facebook page, can be determined, and the other 'facebook' link has the distinct description 'CPSC Facebook en Español'. So the claim that nothing tells this one apart is false, and 2.4.4 is met. I fetched the live page on 2026-11-21 with browser-like headers (an automated fetch, like Rampa's); its HTML for this element is the same as the snapshot's, and the screenshot is a fully styled render, so nothing about the capture changes this item."
+    },
+    {
+      "fingerprint": "p5e624e68b90",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The footer seal (cpsc_logo_text.png, the eagle with 'Consumer Product Safety Commission / United States' around it) has alt 'CPSC logo' and is not a link. For a logo the alternative needs to identify the organisation, and 'CPSC' is the agency's own acronym on cpsc.gov, right after the address line 'U.S. Consumer Product Safety Commission'. The text in the logo is exempt from 1.4.5, and the alt serves the equivalent purpose, so 1.1.1 is met. I fetched the live page on 2026-11-21 with browser-like headers (an automated fetch, like Rampa's); its HTML for this element is the same as the snapshot's, and the screenshot is a fully styled render, so nothing about the capture changes this item."
+    },
+    {
+      "fingerprint": "3f5c29938c9a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is '<a id=\"main-content-section\" tabindex=\"0\"></a>' at the start of main: no href, no content, no size. The skip link targets #main-content, not this anchor. The claim is true of the capture: Chrome's tree (CDP) gives it the role link, focusable, with no name. In Chrome it is a Tab stop that a screen reader announces only as 'link', which I would log as a 4.1.2 failure (links are named as UI components, and its name cannot be determined). But competent auditors would reasonably disagree: under HTML-AAM an a without href is generic, it performs no function, link-name rules (ACT, axe) do not apply to it, and many would file the stray tabindex under 2.4.3 rather than 4.1.2. Hence uncertain. I fetched the live page on 2026-11-21 with browser-like headers (an automated fetch, like Rampa's); its HTML for this element is the same as the snapshot's, and the screenshot is a fully styled render, so nothing about the capture changes this item."
+    },
+    {
+      "fingerprint": "c87be2f48805",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The Spanish 'Twitter' footer icon link (twitter.com/seguridadconsum) has the name ' Twitter' and the title 'CPSC Twitter en EspaÃ±ol' (double-encoded on the live page too), exposed as its accessible description. Even garbled, 'CPSC Twitter en Espa…ol' tells users that this is CPSC's Spanish account and sets it apart from the English link's 'CPSC Twitter'. So the claim that nothing tells it apart is false, and the purpose can be determined from the name plus the description (H33). The visible 'En español' label is a styled div, not a heading, and was not needed. The mojibake is a content-quality issue, not this failure. I fetched the live page on 2026-11-21 with browser-like headers (an automated fetch, like Rampa's); its HTML for this element is the same as the snapshot's, and the screenshot is a fully styled render, so nothing about the capture changes this item."
+    },
+    {
+      "fingerprint": "91316b255b88",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The Spanish 'facebook' footer icon link (facebook.com/USCPSCenEspanol) has the name ' facebook' and the title 'CPSC Facebook en Español', exposed as its accessible description. That description (H33, counted by the rubric) states the purpose, CPSC's Spanish-language Facebook page, and sets it apart from the English link. So the claim that nothing around it tells it apart is false, and 2.4.4 is met. I fetched the live page on 2026-11-21 with browser-like headers (an automated fetch, like Rampa's); its HTML for this element is the same as the snapshot's, and the screenshot is a fully styled render, so nothing about the capture changes this item."
+    },
+    {
+      "fingerprint": "82208d2c5cef",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The language-switcher link '繁體中文' (Traditional Chinese) has no lang attribute, and neither do its li or ul, so it inherits the page's lang='en' (the snapshot and the live HTML agree). Understanding 3.1.2 gives exactly this case, alternative-language links with each language name marked with lang (including lang='zh-hant' on 繁體中文), as how to meet the criterion. A language name written in its own language is not a proper name or vernacular English, so the element fails 3.1.2, and the claim names that failure. I fetched the live page on 2026-11-21 with browser-like headers (an automated fetch, like Rampa's); its HTML for this element is the same as the snapshot's, and the screenshot is a fully styled render, so nothing about the capture changes this item."
+    },
+    {
+      "fingerprint": "67e0e2441e54",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The language-switcher link 'Español' has no lang attribute (none on its li or ul either), so it inherits lang='en'. Understanding 3.1.2's 'Alternative language links' example says each language name, written in that language, should be marked with lang. 'Español' is not a proper name or a word of the English vernacular, so an English voice mispronounces it, and the element fails 3.1.2 as the claim says. I fetched the live page on 2026-11-21 with browser-like headers (an automated fetch, like Rampa's); its HTML for this element is the same as the snapshot's, and the screenshot is a fully styled render, so nothing about the capture changes this item."
+    },
+    {
+      "fingerprint": "s503bcb03b02",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The link text is the URL 'https://southerntelecom.com/recall-2026-11-19/', in the line 'Website: <link>' of the recall's Consumer Contact block. The sentence holds (the text is an address), but 2.4.4 does not forbid a URL as link text: this one is short and readable, and says that it is a recall page on southerntelecom.com. Together with the 'Website:' text in the same line, the purpose (the firm's recall website) can be determined. Rampa applied a stricter rule than the criterion. I fetched the live page on 2026-11-21 with browser-like headers (an automated fetch, like Rampa's); its HTML for this element is the same as the snapshot's, and the screenshot is a fully styled render, so nothing about the capture changes this item."
+    },
+    {
+      "fingerprint": "909a98fb67f2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The language-switcher link '简体中文' (Simplified Chinese) has no lang attribute, and nothing above it sets one, so it inherits lang='en'. Understanding 3.1.2's alternative-language-links example marks each language name with lang, and Chinese characters under an English language tag cannot be voiced properly. The element fails 3.1.2, and the claim names that failure. I fetched the live page on 2026-11-21 with browser-like headers (an automated fetch, like Rampa's); its HTML for this element is the same as the snapshot's, and the screenshot is a fully styled render, so nothing about the capture changes this item."
+    },
+    {
+      "fingerprint": "s323fdb49714",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The link text is the URL 'http://www.fidlock.us/pages/recall', in the line 'Website: <link>' of the Fidlock recall's Consumer Contact block. The text is an address, as the claim says, but a short, readable URL stating 'fidlock.us ... recall', with 'Website:' in the same line, gives the purpose (Fidlock's recall page). 2.4.4 does not require prose link text in place of a meaningful URL, so Rampa applied a stricter rule. I fetched the live page on 2026-11-21 with browser-like headers (an automated fetch, like Rampa's); its HTML for this element is the same as the snapshot's, and the screenshot is a fully styled render, so nothing about the capture changes this item."
+    },
+    {
+      "fingerprint": "p9dba8f92e07",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The mailto link 'qpancyrecall@outlook.com' sits in the remedy sentence '...send a photo of the destroyed pajamas to qpancyrecall@outlook.com.' An email address as link text, in that sentence, states the purpose (write to that address), so 2.4.4 is met and Rampa rightly reported nothing. I fetched the live page on 2026-11-21 with browser-like headers (an automated fetch, like Rampa's); its HTML for this element is the same as the snapshot's, and the screenshot is a fully styled render, so nothing about the capture changes this item."
+    }
+  ]
+}

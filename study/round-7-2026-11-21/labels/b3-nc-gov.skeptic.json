@@ -1,0 +1,27 @@
+{
+  "page": "https://www.nc.gov/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "4bd064ea6feb",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the thumbnail of the 'Join Team North Carolina' card in 'In the Spotlight': a stock photo of a roadside 'Welcome To North Carolina' sign in bushes, alt=\"\", sitting above the card's h3 link and its description of state job openings. claimTrue yes: the image is hidden (alt=\"\", role presentation), the crop shows the sign reading 'Welcome To North Carolina', and those words are not in the card text. elementFails no: the photo is ambiance for a jobs card. The heading and paragraph carry everything the card offers, and the words on the sign are part of the scene, not information the user needs on the nc.gov home page. That is pure decoration in 1.1.1's sense, and a null alt is the right treatment (C9/H67; W3C's decorative-images tutorial, 'eye-candy' and 'image with adjacent text'). The site's CMS data in the live HTML also marks this media \"decorative\": true. captureDiffers no: the live server HTML has the same img (same src and VersionId, alt=\"\") and the same card text. The model had the card text and treated the depicted sign wording as missing information, so this is a judgment error."
+    },
+    {
+      "fingerprint": "pe96072c48c5",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the large photo beside the featured press release in 'Press Releases': the NC State Capitol with flags and bunting under a cloudy sky (file america-250-nc-capitol-building.png), alt=\"\". The release next to it ('November Column: Living Out Our Thanks...', with date, summary and 'Read more details' link) is fully in text. The photo is a generic illustration reused for the section, with no text in it, and it adds no information the release needs. Treating it as decorative with a null alt meets 1.1.1, and the CMS data in the live HTML marks it \"decorative\": true. captureDiffers no: the live HTML has the same img (same src and VersionId, alt=\"\") next to the same featured release. No failure, so Rampa reporting nothing was correct."
+    },
+    {
+      "fingerprint": "e087f5d3b5f4",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the hero background img (NC-Grandfather-Mountain-fall-hero_0.jpg, 1280x410, alt=\"\"): a fall landscape of Grandfather Mountain reflected in a lake. claimTrue no: the image does not show a search interface. The search box and the 'Popular Topics' pills are separate HTML laid over it: a form with 'Search NC.gov' and a nav list of links ('Find a job in NC', 'Get unemployment help', ...) that the snapshot holds as text, siblings of the picture. So the claim that the text around it does not say this is also false. The image crop was cut from the page screenshot at the img's bounds, so it captured that overlay, and the model described the overlay, not the image. elementFails no: a scenic hero background is ambiance with no information, and a null alt meets 1.1.1. The live CMS data marks it \"decorative\": true. captureDiffers no: the live HTML matches (same img, alt=\"\", same overlay). The error comes from the collector's crop including overlaid page content."
+    }
+  ]
+}

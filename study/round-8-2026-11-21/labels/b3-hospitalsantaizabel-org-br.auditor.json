@@ -1,0 +1,76 @@
+{
+  "page": "https://www.hospitalsantaizabel.org.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "pd2d49a164e7",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the 'Pesquisa' link in the 'Ensino e Pesquisa' submenu of the main navigation, href /ensino-e-pesquisa/pesquisa/. Its text alone names the Research page, and it sits in a nested list under the 'Ensino e Pesquisa' list item (H81), which makes the purpose plain. The only other link named 'Pesquisa' in the snapshot is the hidden mobile-menu copy with the same href, so no shared-name (R1) problem. The live HTML has the same markup and href. It meets 2.4.4. (The submenu opens only on hover via CSS, which is a keyboard/focus-visible matter, not 2.4.4.)"
+    },
+    {
+      "fingerprint": "s054e49b7272",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the top-level 'Ensino e Pesquisa' item of the main menu, <a href=\"#\">, the parent of a nested list of 12 links that opens on hover (CSS li:hover .sub-menu). As worded the claim holds for the capture: the href is '#', which is the top of the current page, not an 'Ensino e Pesquisa' page. But this link is a submenu trigger, not a link to a page, and its text names the section whose submenu it heads, with the submenu nested in the same list item. Its purpose can be determined, so it meets 2.4.4. The real defects are elsewhere: it is a link acting as a disclosure with no button role or expanded state (4.1.2), and the submenu does not open from the keyboard (2.1.1). The live page has the same markup. The checker judged the text against the '#' href, which is a stricter, different test than 2.4.4 sets."
+    },
+    {
+      "fingerprint": "c94a8f744737",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the home-page site search field (name=s, placeholder 'Pesquise aqui...') in the green pill under the hero banner. The screenshot pixels show white text on #92c665, which works out to 2.00:1 for 16px regular text, well below 4.5:1. The live stylesheet confirms it: the form has background #92c665, and the input and its ::placeholder have color #fff. The placeholder is visible text that tells users what the field does. It is not decorative, not part of an inactive control and not a logotype, so 1.4.3 applies and fails. Text a user types in the field also renders #fff at the same ratio."
+    },
+    {
+      "fingerprint": "p0292b54e398",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the photo in the third news card. The photo shows people on stage at the Conahp award ceremony. Its alt is the story headline, 'Hospital Santa Izabel é premiado com o Selo de Excelência Anahp durante Conahp 2026'. The image is not the only content of its link: the link also holds the date and the same headline as an h3, so the link name is clear. The alt matches what the photo shows (the hospital receiving the Anahp award at Conahp). It duplicates the headline, so a null alt would be better (H2), but redundancy is not a 1.1.1 failure. The live HTML has the same card and alt. It meets 1.1.1."
+    },
+    {
+      "fingerprint": "f3756b533fe4",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer Facebook link. Its only visible content is a white Facebook glyph (icon-face.svg, fill #fff, alt=\"\") on a #92c665 circle; the name comes from title. The screenshot pixels and the live CSS (.redes a {background:#92c665}) both give white on #92c665 at 2.00:1. The circle itself is only about 1.9:1 against the #f8f8f7 page background. The glyph is the only visual cue that identifies the control, so 1.4.11 asks for 3:1 (G207). Understanding 1.4.11 removes the logo exemption when the low contrast is the author's choice. Here the white-on-light-green look is the hospital's colour scheme, not Facebook's brand colours, so the icon fails 1.4.11."
+    },
+    {
+      "fingerprint": "e729ce45278f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer WhatsApp link. Its only content is a white WhatsApp glyph (icon-what.svg, fill #fff, alt=\"\") on a #92c665 circle; the name comes from title. The screenshot pixels and the live CSS give white on #92c665 at 2.00:1, and the circle is about 1.9:1 against the #f8f8f7 page. The glyph alone identifies the control, so 1.4.11 asks for 3:1 (G207). The low contrast comes from the site's own green, not from WhatsApp's brand rules, so the logo exemption does not apply (Understanding 1.4.11, author choice). Fails 1.4.11."
+    },
+    {
+      "fingerprint": "fdb98f93422c",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the body text of the DPOeasy cookie banner, rendered in an open shadow root: 'We use cookies to personalize your experience...'. The page is html lang=pt-br, and neither the banner host nor any banner node has a lang attribute, so the English passage is read as Portuguese. That is a 3.1.2 failure, and the claim names it. I checked the live banner.js. It picks its strings from navigator.language and ships pt, en and es sets. It never sets lang. The capture matches what a visitor with an English-language browser gets today. Visitors whose browser is in Portuguese get Portuguese strings, so they do not meet this failure, but English-locale browsers are ordinary browsers, and for them the unmarked English passage is real."
+    },
+    {
+      "fingerprint": "838a77b7387b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer YouTube link. Its only content is a white YouTube glyph (icon-yout.svg, fill #fff, alt=\"\") on a #92c665 circle; the name comes from title. The screenshot pixels and the live CSS give white on #92c665 at 2.00:1, and the circle is about 1.9:1 against the #f8f8f7 page. The glyph alone identifies the control, so 1.4.11 asks for 3:1 (G207). The white-on-light-green look is the author's choice, not YouTube's brand presentation, so the logo exemption does not apply (Understanding 1.4.11). Fails 1.4.11."
+    },
+    {
+      "fingerprint": "pea7795dba0b",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the line icon of an adult holding a child on the 'Pediatria' card of the specialties carousel, alt='Pediatria'. It sits inside a link that also holds the h3 'Pediatria' and a description, so it is not the link's only content. The alt names what the icon stands for (paediatrics), which is an equivalent for its purpose. It repeats the visible heading, so alt=\"\" would be cleaner, but redundancy is not a 1.1.1 failure. The live HTML matches. It meets 1.1.1."
+    },
+    {
+      "fingerprint": "sbc396fd5124",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the home-page site search field (WordPress search, name=s). Its only label is the placeholder 'Pesquise aqui...' ('Search here...'), next to a 'Pesquisar Agora' submit button. 2.4.6 asks that labels describe topic or purpose. 'Search here' says this is a search box and implies the entry is a search term, which is enough for a site-wide search. So the claim that it does not say what to enter does not hold, and the label meets 2.4.6. A placeholder that disappears on input could be raised under 3.3.2, but that is a different criterion. The live HTML has the same form. The checker held the label to a stricter 'say exactly what to enter' standard than 2.4.6 requires."
+    }
+  ]
+}

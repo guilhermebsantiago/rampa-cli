@@ -1,0 +1,380 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.tribunapr.com.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "62c123271f4f",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#app > div:nth-of-type(4) > div:nth-of-type(1) > article > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Homem é condenado a 37 anos de prisão por crime bárbaro que chocou o país\" describes something the image does not show.",
+   "evidence": "Homem é condenado a 37 anos de prisão por crime bárbaro que chocou o país",
+   "subject": "Homem é condenado a 37 anos de prisão por crime bárbaro que chocou o país",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#app > div:nth-of-type(4) > div:nth-of-type(1) > article > div > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Homem é condenado a 37 anos de prisão por crime bárbaro que chocou o país",
+    "to": "Fachada do Tribunal do Júri",
+    "before": "<img decoding=\"async\" src=\"https://www.tribunapr.com.br/wp-content/uploads/2026/11/21103906/juri-ar-570x325.jpg\" alt=\"Homem é condenado a 37 anos de prisão por crime bárbaro que chocou o país\" loading=\"lazy\" style=\"object-position: 50% 50%\">",
+    "after": "<img decoding=\"async\" src=\"https://www.tribunapr.com.br/wp-content/uploads/2026/11/21103906/juri-ar-570x325.jpg\" alt=\"Fachada do Tribunal do Júri\" loading=\"lazy\" style=\"object-position: 50% 50%\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "398859bacc15",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#app > div:nth-of-type(4) > div:nth-of-type(2) > article > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Lula deixa promessas econômicas de 2022 sem cumprimento efetivo\" describes something the image does not show.",
+   "evidence": "Lula deixa promessas econômicas de 2022 sem cumprimento efetivo",
+   "subject": "Lula deixa promessas econômicas de 2022 sem cumprimento efetivo",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#app > div:nth-of-type(4) > div:nth-of-type(2) > article > div > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Lula deixa promessas econômicas de 2022 sem cumprimento efetivo",
+    "to": "Presidente Lula falando ao microfone",
+    "before": "<img decoding=\"async\" src=\"https://www.tribunapr.com.br/wp-content/uploads/2026/05/12195934/lula-570x325.png\" alt=\"Lula deixa promessas econômicas de 2022 sem cumprimento efetivo\" loading=\"lazy\" style=\"object-position: 50% 50%\">",
+    "after": "<img decoding=\"async\" src=\"https://www.tribunapr.com.br/wp-content/uploads/2026/05/12195934/lula-570x325.png\" alt=\"Presidente Lula falando ao microfone\" loading=\"lazy\" style=\"object-position: 50% 50%\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "179a6a29869a",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#app > div:nth-of-type(21) > div:nth-of-type(2) > article > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Número de pacientes em tratamento com cannabis chega a 1,1 milhão\" describes something the image does not show.",
+   "evidence": "Número de pacientes em tratamento com cannabis chega a 1,1 milhão",
+   "subject": "Número de pacientes em tratamento com cannabis chega a 1,1 milhão",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#app > div:nth-of-type(21) > div:nth-of-type(2) > article > div > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Número de pacientes em tratamento com cannabis chega a 1,1 milhão",
+    "to": "Médico ou profissional de saúde anotando informações em uma prancheta.",
+    "before": "<img decoding=\"async\" src=\"https://www.tribunapr.com.br/wp-content/uploads/2026/10/23134520/medico-prancheta-orientacao-570x325.jpg\" alt=\"Número de pacientes em tratamento com cannabis chega a 1,1 milhão\" loading=\"lazy\">",
+    "after": "<img decoding=\"async\" src=\"https://www.tribunapr.com.br/wp-content/uploads/2026/10/23134520/medico-prancheta-orientacao-570x325.jpg\" alt=\"Médico ou profissional de saúde anotando informações em uma prancheta.\" loading=\"lazy\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 1
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#card-section-title-block_d7032aebaef65cfe89ad4f7077fa0a0e",
+   "message": "The heading \"Paraná\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Notícias do Paraná\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#card-section-title-block_e65b883e51926579e5db0c300cf9a4c6",
+   "message": "The heading \"Saúde e bem-estar\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"Notícias do Paraná\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#card-section-title-block_d32bc456c1d431865eb07b2f9fee000b",
+   "message": "The heading \"Tribuna Carros\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Notícias sobre carros\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#card-section-title-block_d16b17505d78afe08d603038276b4894",
+   "message": "The heading \"Economia\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Notícias de Economia\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#app > div:nth-of-type(21) > div:nth-of-type(1) > article > div > div:nth-of-type(1) > img",
+   "reason": "evidence is not the current text alternative",
+   "output": {
+    "verdict": "pass",
+    "evidence": "PSA alto significa câncer de próstata?&nbsp;Entenda o que pode alterar o exame",
+    "problem": "none",
+    "imageShows": "Uma profissional de saúde em traje de proteção realiza um exame de sangue em um homem sentado.",
+    "suggestedAlt": "PSA alto significa câncer de próstata? Entenda o que pode alterar o exame",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 24,
+   "judged": 24,
+   "failed": 3,
+   "passed": 20,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 97,
+   "judged": 50,
+   "failed": 0,
+   "passed": 50,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 47
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 10,
+   "judged": 10,
+   "failed": 0,
+   "passed": 6,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 4
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "25 image(s) were left without a capture, so no judgment looked at them: 25 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 47 of 97 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 84,
+  "inputTokens": 81767,
+  "outputTokens": 9514,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 244,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 18
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 16,
+    "prepareMs": 0,
+    "candidates": 24,
+    "judged": 24,
+    "calls": 0,
+    "cachedCalls": 24
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 18,
+    "prepareMs": 0,
+    "candidates": 97,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 5,
+    "prepareMs": 0,
+    "candidates": 10,
+    "judged": 10,
+    "calls": 0,
+    "cachedCalls": 10
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 141,
+    "prepareMs": 138,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 12,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 32
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 25,
+   "notCaptured": 25,
+   "reasons": {
+    "limit": 25
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 97,
+    "capped": 47
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

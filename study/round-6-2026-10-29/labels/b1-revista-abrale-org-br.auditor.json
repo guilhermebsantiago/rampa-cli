@@ -1,0 +1,264 @@
+{
+  "page": "https://revista.abrale.org.br/destaques/2026/10/policitemia-vera-pesquisa-da-abrale-revela-desafios-no-diagnostico/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p26e14050a6e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The article's featured image (img alt=\"\"): a stock photo of a doctor, back to the camera with pen and notebook, listening to an older woman patient. It sits between the h1 and the audio player and illustrates the topic (patients and diagnosis), but it carries no data, text or detail that the article needs. I lean toward a null alt being acceptable for it. Whether a news article's lead photo is ambience (null alt fine) or informative (needs a short alt) is a point competent auditors reasonably disagree on, so the label is uncertain. captureDiffers: the live HTML has the same img with alt=\"\", and the screenshot shows the same photo."
+    },
+    {
+      "fingerprint": "edb5e6b96d5f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "A link in the bottom 'Compartilhe' share bar: a 40px circle in #55acee with the white Twitter bird and no visible text. claimTrue: the screenshot pixels are #55acee and #ffffff, 2.46:1, and the circle against the white page is also 2.46:1, so the sentence holds. elementFails: the icon is the Twitter logo shown in Twitter's own brand blue (#55ACEE) with the white bird; Understanding 1.4.11 exempts logos presented in brand colours ('Logos and logotypes ... it is therefore exempt') and says the exemption carries over to a control made of the logo, so I lean toward no failure. Whether a share plugin's circular social button counts as the brand logo is a point competent auditors reasonably disagree on (many flag such icons), so the label is uncertain. captureDiffers: the live HTML has the same inline background-color:#55acee."
+    },
+    {
+      "fingerprint": "7557104040f2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The Novartis logo, alone in a paragraph at the end of the article right after the last paragraph on patients' rights, with alt=\"\". claimTrue: the crop and the screenshot show the word NOVARTIS and its symbol, and Novartis is named nowhere in the article's text, headings or captions (I searched the snapshot). elementFails: the logo tells readers which company is associated with the survey or article. That information is lost to screen-reader users, so the image is not decorative and fails 1.1.1. The claim names this failure. captureDiffers: the live HTML still has alt=\"\"."
+    },
+    {
+      "fingerprint": "pef7726d3be1",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A link in the sidebar list 'Últimas publicações' whose text is the full title of an article ('A jornada do paciente com Mielofibrose: uma visão do diagnóstico ao tratamento'); the destination's heading is the same title. The link text alone identifies its purpose, so it meets 2.4.4 and Rampa was right to report nothing. captureDiffers: the live HTML has the same link."
+    },
+    {
+      "fingerprint": "3f7784d85777",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A button in the wpDiscuz/Quill comment-editor toolbar whose only visible content is a thin SVG stroke glyph (an italic I); its name comes only from the title attribute. claimTrue: the live stylesheet sets '#wpdcom .ql-toolbar .ql-stroke{stroke:#999999}' on a toolbar with background-color #fafafa, and the screenshot pixels of the toolbar icons are #999999 on #fafafa, 2.73:1, as stated. elementFails: the glyph is the only visual information that identifies the control (no border or text), it is not a logo, not inactive and not a user-agent default, so 1.4.11 asks for 3:1 and it is not met. captureDiffers: the live CSS gives the same colours. The claim names this failure."
+    },
+    {
+      "fingerprint": "s6d37f76488c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The seek slider of the 'Ouça essa página' text-to-speech player, labelled by aria-label 'Audio position'. claimTrue: nothing is typed into a slider, and the label says what the control sets: the playback position in the audio. So the sentence that it does not say what to enter does not hold. elementFails: that label describes the control's purpose, which is what 2.4.6 asks; it passes. An English label on a pt-BR page could matter for 3.1.2, not for 2.4.6. captureDiffers: the player is built by a third-party script that I could not re-render, but the screenshot shows it rendered normally and nothing suggests a different label. The model had the label and misjudged it."
+    },
+    {
+      "fingerprint": "9931d7ab6ca1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The newsletter sign-up field (input type=\"email\" name=\"ne\" aria-label=\"E-mail\") collects the visitor's own email address, which is the 'email' purpose in WCAG's list of input purposes. claimTrue and elementFails: neither the input nor its form has an autocomplete attribute (checked in the snapshot and the live HTML). type=\"email\" sets the data format, not the purpose, so the purpose is not programmatically determinable (H98 is not met). That fails 1.3.5, and the claim names it. captureDiffers: the live markup is identical."
+    },
+    {
+      "fingerprint": "cbae28b3b625",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A pie chart titled 'Onde realiza o tratamento', with alt=\"\". claimTrue: the paragraph just above it, in the same text block, says all of it: where participants get treatment, 48,2% SUS only, 37,3% plano de saúde/convênio, 9,6% both, and almost 5% paying out of pocket. So the image conveys nothing the surrounding text does not. elementFails: the chart adds no information beyond that text, so a null alt is acceptable (the information is in adjacent text, as in WAI's decorative-images guidance); it meets 1.1.1. captureDiffers: the live HTML is the same. The paragraph was in the element's context, so the model misjudged it."
+    },
+    {
+      "fingerprint": "bd942e4ae8c6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An infographic of five symptom icons, labelled 'Tontura e dor de cabeça', 'Fraqueza/Fadiga', 'Suor noturno', 'Perda de peso' and 'Coceiras, queimação ou formigamentos na pele após contato com água', with alt=\"\". claimTrue: the paragraph under the heading 'Sinais e sintomas mais frequentes', in the same text block, lists exactly these symptoms (tontura, dor de cabeça, fraqueza, fadiga, suor noturno, perda de peso, and coceira, queimação or formigamento after contact with water). So the image conveys nothing the text does not. elementFails: a null alt is acceptable for an image whose content is in adjacent text; it meets 1.1.1. captureDiffers: the live HTML is the same. The model had that paragraph in the context and misjudged it."
+    },
+    {
+      "fingerprint": "pd3ab50c00f3",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The link 'Alimentação' in the sidebar's category list leads to the Alimentação category archive (destination heading 'Alimentação'). The widget title 'Categorias' is a styled div, not a heading, so it does not count under the rubric. The nearest preceding heading, the author box's h3 'Tatiane Mota', does not help either. Still, the link text alone tells users where it goes: the magazine's Alimentação section, with the same name and URL as the main-menu item. Its purpose can be determined from the link text, so it meets 2.4.4. captureDiffers: the live HTML is the same."
+    },
+    {
+      "fingerprint": "5a6fff6829f5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A button in the wpDiscuz/Quill comment-editor toolbar whose only visible content is a thin SVG stroke glyph (a bold B); its name comes only from the title attribute. claimTrue: the live stylesheet sets '#wpdcom .ql-toolbar .ql-stroke{stroke:#999999}' on a toolbar with background-color #fafafa, and the screenshot pixels of the toolbar icons are #999999 on #fafafa, 2.73:1, as stated. elementFails: the glyph is the only visual information that identifies the control (no border or text), it is not a logo, not inactive and not a user-agent default, so 1.4.11 asks for 3:1 and it is not met. captureDiffers: the live CSS gives the same colours. The claim names this failure."
+    },
+    {
+      "fingerprint": "2b9ebb707275",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'More' link in the top 'Compartilhe' share bar: an orange circle (#ee8e2d) with a white plus sign and no text (it opens more sharing options). claimTrue: the screenshot pixels are #ffffff on #ee8e2d, 2.46:1, as stated. elementFails: the plus sign against the circle is 2.46:1 and the orange circle against the white page is also 2.46:1, so neither the glyph nor the button shape reaches 3:1. It is the plugin's generic icon, not a brand logo, so no exemption applies; it fails 1.4.11 and the claim names that. captureDiffers: the live HTML has the same inline background-color:#ee8e2d."
+    },
+    {
+      "fingerprint": "7bc286211bd3",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image in the sidebar's 'Sobre a ABRALE' box is the ABRALE badge. It holds the flower logo, 'abrale' with 'Associação Brasileira de Câncer do Sangue', the slogan '100% de esforço onde houver 1% de chance' and 'www.abrale.org.br', all inside a purple ring. claimTrue: the alt 'Sobre a ABRALE' repeats the box title. It names ABRALE, which the image does show, so the sentence that it describes something the image does not show is not true as worded. elementFails: the logo's purpose, identifying ABRALE, is served by the alt and by the paragraph after it, which names the association in full. What is missing is the slogan and the URL text in the image. I lean toward that not failing 1.1.1, but whether the missing image text makes the alternative non-equivalent is a point competent auditors reasonably disagree on, so the label is uncertain. captureDiffers: the live HTML has the same alt."
+    },
+    {
+      "fingerprint": "s120491fb1b4",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The sidebar search field (input type=\"search\") has a visually hidden <label> 'Search' and the placeholder 'Buscar'. It sits under the visible title 'O que você quer ler?' next to a magnifier icon. claimTrue: for a search box, the label 'Search' says what goes in, a search query, so the sentence that it does not say what to enter does not hold. elementFails: the label describes the field's purpose, as 2.4.6 asks; it passes. The label being in English on a pt-BR page is a 3.1.2 matter, not 2.4.6. captureDiffers: the live HTML has the same label. The model had the label and misjudged it."
+    },
+    {
+      "fingerprint": "p27e8bf71e8e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "An unnamed, aria-hidden canvas inside the audio player that draws the faint waveform behind the seek bar (the crop shows only that waveform). It decorates the progress bar. The playback position is available from the slider 'Audio position' and the times '0:00' and '≈4:45', so no information or function is lost and it meets 1.1.1; Rampa was right to report nothing. captureDiffers: the screenshot shows the player rendered normally, and nothing suggests a difference."
+    },
+    {
+      "fingerprint": "ad85c048dc84",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The placeholder 'Buscar' of the sidebar search field, in 16px normal-weight text. claimTrue: the theme's stylesheet sets '::placeholder{color:inherit;opacity:.7}', and the screenshot pixels give #909090 on #ffffff, 3.19:1, as stated. elementFails: placeholder text is visible text and falls under none of 1.4.3's exceptions (not incidental, not a logotype). Here it is the only visible text inside the field saying what it is for, so 4.5:1 applies and is not met. captureDiffers: the live CSS is the same."
+    },
+    {
+      "fingerprint": "5bb776b8ecff",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "A link in the top 'Compartilhe' share bar: a green circle (#55eb4c) with the white WhatsApp glyph and no visible text. claimTrue: the screenshot pixels are #ffffff on #55eb4c, 1.57:1, and the circle against the white page is also 1.57:1, so the sentence holds. elementFails: the glyph is WhatsApp's logo, and white on WhatsApp green is low contrast in the brand's own colours too (#25D366 against white is about 2:1); Understanding 1.4.11 exempts logos and carries the exemption over to controls made of them, so I lean toward no failure. Against that, the plugin uses a lighter green than the brand's, and the Understanding says a low-contrast presentation that is the author's choice is not exempt. Competent auditors would reasonably disagree on whether this button fails, so the label is uncertain. captureDiffers: the live HTML has the same inline background-color:#55eb4c."
+    },
+    {
+      "fingerprint": "p4554eb71419",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "One of three rows in a Google AdSense 'Descobrir mais' related-topics box injected into the article: a div with role=\"link\" and aria-label 'Câncer'. The box's first row is a role=\"heading\" span named 'Estes são tópicos relacionados com o artigo que podem ser do seu interesse', which is the nearest preceding heading. Together with it, 'Câncer' tells users the link opens more on the related topic 'Câncer', which is its purpose, so it meets 2.4.4. captureDiffers: adsbygoogle.js injects the box and its contents vary by visitor. It is not in the server HTML I fetched, and my fetch cannot run the ad script, so I could not compare it with what users get."
+    },
+    {
+      "fingerprint": "89d1307fb2d7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "A link in the top 'Compartilhe' share bar: a 40px circle in #55acee with the white Twitter bird and no visible text. claimTrue: the screenshot pixels are #55acee and #ffffff, 2.46:1, and the circle against the white page is also 2.46:1, so the sentence holds. elementFails: the icon is the Twitter logo shown in Twitter's own brand blue (#55ACEE) with the white bird; Understanding 1.4.11 exempts logos presented in brand colours ('Logos and logotypes ... it is therefore exempt') and says the exemption carries over to a control made of the logo, so I lean toward no failure. Whether a share plugin's circular social button counts as the brand logo is a point competent auditors reasonably disagree on (many flag such icons), so the label is uncertain. captureDiffers: the live HTML has the same inline background-color:#55acee."
+    },
+    {
+      "fingerprint": "6f3fc4f869d4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The placeholder 'E-mail' of the newsletter field, in 14px normal-weight text. claimTrue: the theme's stylesheet sets '::placeholder{color:inherit;opacity:.7}' on input text #444 over the field background #f4f4f4. The screenshot pixels give #797979 on #f4f4f4, 3.96:1, as stated. elementFails: the field has no visible label (aria-label only), so this placeholder is the only visible text saying what to type. It is not incidental, and 1.4.3 asks for 4.5:1, which it does not meet. captureDiffers: the live CSS and markup are the same."
+    },
+    {
+      "fingerprint": "pda13daef69d",
+      "answers": {
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The link's accessible name and title are both 'Whatsapp'. Its href opens WhatsApp with this article's title and URL filled in, so its purpose is to share the article. The only thing that says 'share' is the bold 'Compartilhe' above the icons. That is a sibling div (heateor_sss_sharing_title), not a heading and not a list item or paragraph containing the link, so it does not count. The nearest preceding heading is the article's h1, which says nothing about sharing. 'Whatsapp' alone does not tell sharing apart from going to ABRALE on WhatsApp: the same bar's 'Instagram' link goes to ABRALE's Instagram profile, and the top bar's links named after networks are profile links. The purpose cannot be determined from the link text and its programmatic context, so it fails 2.4.4 and Rampa missed it. captureDiffers: the live HTML has the same share bar markup."
+    },
+    {
+      "fingerprint": "afe2f6b520a8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "A link in the bottom 'Compartilhe' share bar: a green circle (#55eb4c) with the white WhatsApp glyph and no visible text. claimTrue: the screenshot pixels are #ffffff on #55eb4c, 1.57:1, and the circle against the white page is also 1.57:1, so the sentence holds. elementFails: the glyph is WhatsApp's logo, and white on WhatsApp green is low contrast in the brand's own colours too (#25D366 against white is about 2:1); Understanding 1.4.11 exempts logos and carries the exemption over to controls made of them, so I lean toward no failure. Against that, the plugin uses a lighter green than the brand's, and the Understanding says a low-contrast presentation that is the author's choice is not exempt. Competent auditors would reasonably disagree on whether this button fails, so the label is uncertain. captureDiffers: the live HTML has the same inline background-color:#55eb4c."
+    },
+    {
+      "fingerprint": "92017ea949a6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A button in the wpDiscuz/Quill comment-editor toolbar whose only visible content is a thin SVG stroke glyph (an underlined U); its name comes only from the title attribute. claimTrue: the live stylesheet sets '#wpdcom .ql-toolbar .ql-stroke{stroke:#999999}' on a toolbar with background-color #fafafa, and the screenshot pixels of the toolbar icons are #999999 on #fafafa, 2.73:1, as stated. elementFails: the glyph is the only visual information that identifies the control (no border or text), it is not a logo, not inactive and not a user-agent default, so 1.4.11 asks for 3:1 and it is not met. captureDiffers: the live CSS gives the same colours. The claim names this failure."
+    },
+    {
+      "fingerprint": "7d2abe342f36",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'More' link in the bottom 'Compartilhe' share bar: an orange circle (#ee8e2d) with a white plus sign and no text (it opens more sharing options). claimTrue: the screenshot pixels are #ffffff on #ee8e2d, 2.46:1, as stated. elementFails: the plus sign against the circle is 2.46:1 and the orange circle against the white page is also 2.46:1, so neither the glyph nor the button shape reaches 3:1. It is the plugin's generic icon, not a brand logo, so no exemption applies; it fails 1.4.11 and the claim names that. captureDiffers: the live HTML has the same inline background-color:#ee8e2d."
+    }
+  ]
+}

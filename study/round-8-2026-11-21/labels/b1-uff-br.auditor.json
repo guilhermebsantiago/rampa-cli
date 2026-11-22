@@ -1,0 +1,55 @@
+{
+  "page": "https://www.uff.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "c6a5b4068330",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of the link to https://www.uff.br/guia-para-estudantes/ (live title 'Guia para Estudantes'), first card of the 'Vida na UFF' row. Its alt 'Estudantes deitados na grama da orla do campus Gragoatá da UFF, com um prédio da universidade ao fundo' describes the photo (the crop shows students on the lawn in front of a UFF building) and does not name the student guide, so the link's name does not identify its destination; the img title is the filename 'inicio-guia-calouros'. The visible caption 'Guia para estudantes' is a separate h2 in a sibling div, made clickable only by a Divi script, not a link and not in the image link's context; per R2 neither a headline nor a title cures 1.1.1 (H30: the alternative must describe the link's function). The live HTML has the same link, alt and structure as the snapshot, and the screenshot is fully styled, so the capture does not differ. The claim names this failure."
+    },
+    {
+      "fingerprint": "s8136edf0cd0",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The link to https://www.uff.br/unidades-local/ (live title 'Unidades de ensino por localidade', a list of teaching units by city) holds only an image whose alt, the link's name, is a photo description of the IME / Turismo e Hotelaria facade with blocks H, G and F. Read as link text, it suggests a page about that institute, not the list of all teaching units. The link has no title or aria-describedby (the title 'Fachada do Instituto...' is on the img, not the link); the heading just before it in document order is the previous card's h2 'Assistência Estudantil'; the visible caption h2 'Unidades de ensino' comes after it in a sibling div, clickable only through a Divi script, so it is not in the link's context (F63). The link therefore fails 2.4.4. Live HTML matches the snapshot. The claim that the text does not match where the link goes names this failure."
+    },
+    {
+      "fingerprint": "p9fc920cc194",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Category tag link 'UFF Responde' in the meta line ('Destaques, UFF Responde', after a folder icon) of the news card 'UFF Responde: Mulheres no Mercado de Trabalho', pointing to https://www.uff.br/editoria/uff-responde/. I opened the destination: its title is 'UFF Responde|Universidade Federal Fluminense', the archive of that editorial section, so the link text alone names where it goes, and the preceding h3 (the post title) adds context. No other link on the page has the name 'UFF Responde' (the snapshot's other matches are the post-title links), so R1 does not apply. The link meets 2.4.4; Rampa was right to report nothing. Live HTML matches the snapshot."
+    },
+    {
+      "fingerprint": "sb60018fddea",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Header logo, the only content of a link to https://www.uff.br/ (the site's home page, the page itself). The alt 'Logotipo da Universidade Federal Fluminense' is literally true to the claim in that it does not say 'home page', but it names the organization whose home page the link opens, and the crop and screenshot show the UFF logo. Per R2's first test (G82), read as link text in the header, the name lets users tell where the link goes: the conventional site-home link named after the site. The word 'Logotipo' is superfluous but does not make the alternative fail 1.1.1. Rampa demanded an explicit destination statement where naming the organization suffices. Live HTML has the same alt and title."
+    },
+    {
+      "fingerprint": "b8e22e2e9f03",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The facade photo is the only content of the link to https://www.uff.br/unidades-local/ (live title 'Unidades de ensino por localidade'). Its alt describes the picture (IME and Faculdade de Turismo e Hotelaria facade, beige blocks H, G and F; the crop matches) and does not identify the destination, the list of teaching units by location. Per R2 and H30, an image that is all a link holds needs an alternative that describes the link's function; the img title ('Fachada do Instituto...') and the separate h2 caption 'Unidades de ensino' (a sibling div, not a link) do not cure 1.1.1. Live HTML matches the snapshot. The claim names this failure."
+    },
+    {
+      "fingerprint": "s36716dace0b",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Image inside the 'Repositório Institucional - RIUFF' card link (which also holds the h2 and the text 'Produção acadêmica e científica da UFF.'). The claim says the alt 'Imagem ilustrativa com o logotipo do Repositório Institucional da UFF.' describes something the image does not show, but the crop the model saw and my own screenshot crop both show the 'Repositório Institucional' logo with the riuff mark and a tagline, so the alt is accurate. It repeats the link text and a null alt would be better (H2), but that redundancy is not a 1.1.1 failure, and the link's name is given by its text. The element meets 1.1.1. Live HTML has the same image and alt."
+    },
+    {
+      "fingerprint": "d4d404e00891",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The photo is the only content of the link to https://www.uff.br/assistencia-estudantil/ (title 'Assistência Estudantil da UFF'). Its alt is a detailed photo description of the Moradia Estudantil building (white facade, two floors, garden, lamp posts, sign); the crop matches. The destination is the student assistance page as a whole (grants, food, transport and housing, accessibility, health), of which housing is one item, so the alternative, read as the link's name, points users to a housing page and does not identify the link's function. Per R2 and H30 this fails 1.1.1 regardless of the visible caption h2 'Assistência Estudantil', which is a separate script-clickable div. Live HTML matches the snapshot. The claim names this failure."
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "page": "https://www.ufac.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "a9562144f6ef",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of a link to periodicos.capes.gov.br (the banner shows the '.periodicos.' logo of the CAPES Periódicos portal); its alt and title are 'Periodicos.jpg', so the link's accessible name is the file name, as the claim says. A file name used as the text alternative is the documented failure F30, and as a control the image needs a name that describes its purpose (H30); a screen reader announces the file name with its extension. The alt=\"\" part of the advice would not fit a link image, but that is a suggested fix, not the claim. The snapshot held the lazy-load placeholder src while the screenshot shows the loaded banner; the live HTML has the same alt, so that difference does not touch the claim."
+    },
+    {
+      "fingerprint": "p2e047ad26c1",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Event card link in the 'Eventos' carousel that the theme's aux.js builds. Its image has alt=\"\" and its visible title span gives the name '35 Anos de Iniciação Científica na Ufac: Conhecimento, Ciência e Inovação', which matches the title and heading of the destination event page. The link text alone gives the purpose, so it meets 2.4.4 and Rampa was right to report nothing. The raw server HTML has no carousel and puts the same title in the image alt instead; with scripts on (what the snapshot and the screenshot show) or without them, the link is named by the event title, so nothing that matters here differs."
+    },
+    {
+      "fingerprint": "sb881947e06e",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The link 'Comunicado: Reitoria' is the whole content of an h3 in the Comunicados list. Two more items have links with the same text inside identical h3 headings (reitoria-9, -8 and -7: three links, three addresses, as the claim says). There is no title or aria-describedby, and the link is not in a list item or table cell. The date and the description paragraph ('Feriado do Dia Nacional de Zumbi...') are separate elements, so they don't count as context; the heading around the link has the same text in each item. So the three links form one set under R1. They lead to different communiqués (holiday notice vs Enem building list), which are not equivalent, and the visible dates and descriptions tell them apart, so every link in the set fails 2.4.4. None of the names says which communiqué it opens. The live page has the same three items."
+    },
+    {
+      "fingerprint": "70d4203d86c6",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of a link to andifes.org.br (the ANDIFES logo); its alt and title are 'Andifes.jpg', a file name, as the claim says. The organisation's name is recognisable inside it, but the alt is the CMS file name with its extension, not an authored alternative, which is the failure F30 (filenames used as text alternatives); for a link image, H30 asks for an alternative that describes the link's function. The capture had the lazy-load placeholder src, but the live HTML has the same alt and the screenshot shows the logo, so nothing that matters here differs."
+    },
+    {
+      "fingerprint": "3b14e4acc67b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of a link to /site/pgd/pgd/. The crop shows a banner reading 'Programa de Gestão e Desempenho - PGD - Saiba o que é e como participar'. Its alt (and title) is 'PGD.jpg', a file name, as the claim says. A screen reader reads the file name in place of the banner: the program's name and the call to learn about it are lost, and the link's purpose is not described. That is F30 and H30, so it fails 1.1.1. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "370b3ee2e9d8",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "UFAC's own skip link 'Ir para o conteúdo' (href #content, which exists: the main content div), positioned offscreen. The gov.br bar injects a second 'Ir para o conteúdo' link pointing to #conteudo, which no element on the page has. So the claim as worded holds (two links, two different targets, no distinguishing context). But under R1 the pair meets the expectation: both links are visually hidden (one at y -3158, the other inside a 1x1.6 px 'conteudo-escondido' container) and nothing visible tells them apart. Both are same-page 'skip to content' links with the same intended purpose. The gov.br link's missing target is a functional or bypass-blocks defect, not a link-purpose failure. The live HTML has the same skip link."
+    },
+    {
+      "fingerprint": "sbccc314d33f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The header utility link 'Acesso à Informação' (href /transparencia, UFAC's 'Portal da Transparência / Acesso à Informação da Ufac', which I opened: 200) sits alone in its list item with no title and no heading before it. The gov.br bar's 'Acesso à informação' link (gov.br/acessoainformacao, the federal government's portal, run by CGU) has the same context: a list item with only its text, no heading before. So under R1 the two form one set. They lead to non-equivalent resources (UFAC's own transparency section vs the federal access-to-information portal). Visible information tells them apart: one sits in the navy gov.br bar beside the gov.br logo, the other in UFAC's header in yellow with an icon, under the university's name. So the link fails 2.4.4. Neither name says whose information it opens. The claim's count is low (with the tile heading and footer links, 5 links share the name), but its two destinations and the empty context are right."
+    },
+    {
+      "fingerprint": "pdfab7a93a2f",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "News photo (five men in front of a Cebraspe sign) that is the only content of a link to the article 'Ufac inclui 4 municípios para aplicação do Vestibular de Medicina'. Its alt is that headline. Read as the link's text, it names the story the link opens, which is what H30 and G82 ask of a link image, so the image meets 1.1.1 and Rampa was right to report nothing. The duplicate headline link next to it is at most an advisory H2 point. The live HTML has the same item and alt."
+    },
+    {
+      "fingerprint": "58d97f5175ed",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of a link to the EBSCO searchbox widget; the banner reads 'EBSCO Discovery Service'. Its alt and title are 'Ebsco.jpg', a file name, as the claim says. Read in place of the image, it loses 'Discovery Service' and does not distinguish this link from the nearby EBSCO eBooks link. A file name as the alternative is F30, and the alt does not describe the link's function as H30 requires, so it fails 1.1.1. The lazy-load placeholder in the capture doesn't matter: the live HTML has the same alt."
+    },
+    {
+      "fingerprint": "862bd198f888",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of a link to EBSCO's eBook collection (search.ebscohost.com, nlebk); the banner reads 'EBSCO eBooks'. Its alt and title are 'ebooks.jpg', a file name, as the claim says. It loses the provider and is read with its extension. That is F30, and the alt does not describe the link's function (H30), so it fails 1.1.1. The live HTML has the same alt; the placeholder src in the snapshot does not touch the claim."
+    },
+    {
+      "fingerprint": "d1961eaf26e0",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of a link to eaud.cgu.gov.br/relatorios; the banner reads 'CGU - Pesquisa de Relatórios'. Its alt and title are 'cgu.jpg', a file name, as the claim says. Read in place of the image, it loses the link's function (searching audit reports). That is F30 and H30, so it fails 1.1.1. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "6372013456a0",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of a link to revistas.ufac.br; the banner reads 'Portal de Publicações Eletrônicas da Ufac'. Its alt is 'Portal.jpg', a file name, as the claim says; the browser computes the link's name from it ('Portal.jpg'). The link's title 'Revistas UFAC' is only its description. Under R2 a title is neither the image's alternative nor the link's name, so it does not cure 1.1.1. 'Portal.jpg' does not identify the destination, which is F30 and H30, so it fails. The live HTML has the same alt and title."
+    },
+    {
+      "fingerprint": "b67dcd57125d",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content (besides a br) of a link to UFAC's record in the e-MEC system; the banner says the institution is in the 'Sistema e-MEC', with 'Acesse já!'. Its alt and title are 'emecufac.jpg', a file name, as the claim says. A screen reader reads a run-together string with an extension that does not describe the link's purpose. That is F30 and H30, so it fails 1.1.1. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "s0ccc5b6a4e7",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The gov.br bar's link 'Acesso à informação' (to gov.br/acessoainformacao, the federal access-to-information portal) sits alone in its list item with no title and no heading before it. UFAC's header link 'Acesso à Informação' (to /transparencia, UFAC's own transparency and access-to-information section) has identical context, so the two form one set under R1 (letter case ignored). The resources are not equivalent: federal portal vs UFAC-specific information. Visible information tells them apart (navy gov.br bar with the gov.br logo vs the yellow item in UFAC's header under the university's name), so the link fails 2.4.4. Neither name says whose information it opens. The claim's count of 3 is low (5 links share the name), but its two destinations and its point about the context are right. The bar is injected by the gov.br script; the screenshot and snapshot show the rendered bar users get."
+    },
+    {
+      "fingerprint": "58aac6d7a2f7",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The gov.br bar's skip link 'Ir para o conteúdo' (href #conteudo) sits in a 1x1.6 px 'conteudo-escondido' container and is invisible in the screenshot. UFAC's own skip link with the same text points to #content and is positioned offscreen. The claim as worded holds: two links, two different fragment targets (#conteudo matches no element), nothing in context tells them apart. But under R1 the pair meets the expectation, because nothing visible tells the two links apart, and both are same-page 'skip to content' links with the same intended purpose. The broken #conteudo target is a functional problem (2.4.1 territory, with UFAC's own skip link still working), not a 2.4.4 failure."
+    }
+  ]
+}

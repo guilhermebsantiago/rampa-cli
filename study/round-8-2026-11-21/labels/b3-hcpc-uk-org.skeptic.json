@@ -1,0 +1,48 @@
+{
+  "page": "https://www.hcpc-uk.org/check-the-register/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "bc74c3ed91fa",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The top-menu link 'Cymraeg' (the Welsh name of Welsh, title='Cymraeg') points to the Welsh version of the page (/cy-gb/gwirior-gofrestr/). In the snapshot, neither the link nor any ancestor carries a lang attribute, so it inherits html lang='en', and the claim holds. I tested the skeptic's counter-arguments. The proper-name exception does not hold up: the endonym is not used unchanged across languages (English says 'Welsh'), and it is shown here precisely because it is Welsh. The single-word guidance in Understanding 3.1.2 applies only 'unless it is clear that a change in language was intended', and a language switcher to the Welsh version makes that intent clear. Understanding 3.1.2's own 'Alternative language links' example marks each language name with lang (lang='de' Deutsch, and so on), which is exactly this pattern. On the live page (curl, 2026-11-21) the markup is the same and still has no lang; the hidden mobile-menu copy also lacks one. So the capture does not differ, the element fails 3.1.2, and the claim names that failure."
+    },
+    {
+      "fingerprint": "sca619c41051",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page title 'Check the Register and find a registered health and care professional | The HCPC' names the page's purpose and the site. It matches the h1 'Check the Register' and the register search form that makes up the page, so the claim that it 'says nothing about this page' is false, and the title meets 2.4.2. The live page has the same title. The checker had the title, URL and h1 and still judged wrongly."
+    },
+    {
+      "fingerprint": "pf493668dc8f",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the header logo image, alt='Health & Care Professions Council'. It is the only content of a link to https://www.hcpc-uk.org/, the home page. The crop shows the logo 'hcpc health & care professions council', so the alt gives the logo's text and also identifies the destination, the organisation's home page. That is the H30 pattern ('Smallville Times' for a link to the publication). The link's computed name comes from this alt. The live HTML has the same img and alt. The element meets 1.1.1."
+    },
+    {
+      "fingerprint": "3ea565d0a50f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This image sits in the header of the Cookiebot consent banner (#CybotCookiebotDialogPoweredbyImage, a data-URI PNG, not inside a link). The crop shows the HCPC 'hcpc' logo, and its alt is 'logo', a generic placeholder word, so the claim holds. I looked for an escape and found none. If the image is informative, 'logo' does not convey 'hcpc' (F30, placeholder text). If it is decorative, a non-null alt such as 'logo' is F39. Either way it fails 1.1.1. Rampa's stitched full-page screenshot does not show the banner, but the snapshot has it active: class CybotCookiebotDialogActive, display:flex, fixed at the bottom of the viewport, image rendered at 46x46. Cookiebot shows this banner to every visitor who has not yet consented, so it is part of the page users receive. The site's live Cookiebot configuration (cc.js for its cbid, loaded through GTM, fetched 2026-11-21) sets logoAltText = 'logo', and the template renders alt from it, so the live page matches the capture. Third-party content is still part of the page for conformance."
+    },
+    {
+      "fingerprint": "76ea243a28d3",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "select#Profession ('Choose a profession') sits in the Check the Register search form, next to 'Surname or registration number'. It asks for the profession of the registered professional being looked up, not the user's own job title. 1.3.5 covers only input fields 'collecting information about the user', so the field is out of scope and has no need for autocomplete='organization-title'. The claim's premise (it asks for the user's job title) is false, although autocomplete is indeed absent. The live markup is identical. The page heading and form labels made the field's purpose clear to the checker, so this is a misjudgment."
+    },
+    {
+      "fingerprint": "p49665e8f5a7",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the footer 'Popular links' list item 'News and events', linking to https://www.hcpc-uk.org/news-and-events/ (destination title 'News and events | The HCPC'). The link text alone describes its purpose. The other links named 'News and events' (the header nav item and the hidden mega-menu link) go to the same URL, so the R1 shared-name rule finds no failure. The live footer markup is unchanged. The element meets 2.4.4."
+    }
+  ]
+}

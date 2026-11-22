@@ -1,0 +1,39 @@
+{
+  "page": "https://www.utah.gov/index.html",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s48168f81166",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the home-page search field (input type=search, id homeSearch). Its label element reads \"Suggested:\" in the capture, which gives the accessible name \"Suggested:\". That label does not say what to enter, so claimTrue is yes. The skeptic's reason against the finding is the page's own script. The static HTML label is \"Search\". The live scripts.min.js 'typer' sets it to \"Suggested:\" only while it types example queries into the field at rest (\"State Parks\" and \"Jobs near me\" in the capture). On focus it runs halt(), which sets the label to \"Search:\" and clears the value. So any user who goes into the field to type, by keyboard, mouse or a screen reader moving focus there, gets the label \"Search:\", which does describe its purpose. At rest, \"Suggested:\" sits next to an example query and a magnifier button named \"Search\". Read that way, the element passes 2.4.6, and I answer elementFails no. captureDiffers is no: the live HTML, script and search.json give the same resting state that the snapshot and screenshot show, and the focus-time label is a state change, not a capture defect. Still, a screen reader user in browse mode who does not focus the field hears only \"Suggested:\" as its name, and whether the name change on focus is announced depends on timing. Competent auditors would reasonably disagree on whether the resting label fails 2.4.6, so the label is uncertain."
+    },
+    {
+      "fingerprint": "s10db7026e18",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the last of six links in the home-page persona row: \"View More\", href ./services/personas.html. It sits inside div#personas--home, whose first child is a real heading, h3 \"I am:\" (role heading in the snapshot). That heading is the nearest heading before the link, and this round counts it as context (H80). The sibling links are persona choices (\"An outdoor person\", \"Self Employed\", \"Parenting Teens\", \"Moving to Utah\", \"Turning 18\"). Under \"I am:\", \"View More\" plainly means more of these 'I am' options. The claim says nothing around the link tells where it goes, but the heading does, so claimTrue is no. The destination confirms the purpose: the live personas.html, titled \"Persona Services\", lists the same choices plus more under an h2 \"I am:\". So the link's purpose can be determined from its text and preceding heading, and elementFails is no. captureDiffers is no: the live index.html has the same h3 and links in static markup, matching the snapshot and screenshot. The heading was in the snapshot and in the element's nearby headings, so this is a model_error."
+    },
+    {
+      "fingerprint": "sb1cb46a35f9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the footer link \"Terms of Use\", href https://www.utah.gov/support/disclaimer.html, target _blank. It has visually hidden text \", opens in a new tab\", which is accurate. The footer is rendered by the Utah Design System header script, which uses the id utds-footer-terms-link for its terms-of-use link. The capture records the destination's title and h1 as \"Disclaimer\", but the claimed mismatch does not hold. I fetched the destination: the live disclaimer.html (title and h1 the same as Rampa recorded) opens under the h1 \"Disclaimer\" with the heading \"Utah.gov Terms of Use\", followed by the site's terms (warranties, submissions, external links). So the link leads exactly to the terms of use its text names, and claimTrue is no. The link text alone states the purpose, so elementFails is no. captureDiffers is no: the snapshot's footer link matches the screenshot and the live page's design-system footer, and the destination's title and h1 are unchanged. The checker saw only the destination's title and h1, not the body heading that names it the Terms of Use, so the cause is context_missing."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "page": "https://loja.imaginarium.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "7f82b6541ab9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter 'Nome' text field. It has no label, so its placeholder (shown lowercase as 'nome') is the only visible text saying what goes in it. Claim: the screenshot's pixels inside the field are #f4f4f4 with glyph pixels at #979899 (151,152,153). The page CSS sets ::-webkit-input-placeholder{color:#979899} and the inline style sets background:#f4f4f4, which gives 2.63:1 for 14px weight-400 Montserrat, so the sentence holds. I looked for reasons it could be wrong. Understanding 1.4.3 says the criterion 'applies to text in the page, including placeholder text'. The field is active, not inactive, and the text is neither decoration nor a logotype. It is normal-size text, so 4.5:1 applies, and no technique makes it pass. Capture: the live HTML I fetched (an automated fetch) has the same inline style and the same placeholder rule, and the screenshot is fully styled. Nothing found differs."
+    },
+    {
+      "fingerprint": "dbc93cc564f3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the fixed 60px support button ('Abrir Central de Suporte'). Its only content is an SVG of the WhatsApp glyph, painted white (#fff), on the button's CSS background-color #25d366. The screenshot shows a white WhatsApp glyph on a green disc. White on #25d366 is 1.98:1 and the glyph is all the control shows, so the claim holds of the capture. The live page serves the same button, CSS and SVG, so captureDiffers is no. The skeptic's reason is the logo exemption. Understanding 1.4.11 says 'Logos and logotypes: The brand logo of an organization or product ... is generally presented in the brand's specific colors; it is therefore exempt'. It also says that 'normatively the exemption \"carries over\" to the user interface component', and that choosing a higher-contrast variant is only encouraged. The glyph is the WhatsApp logo in WhatsApp's own brand green and white, its normal presentation rather than a dimmed author choice. Read that way, the element does not fail, which is my elementFails. Competent auditors would reasonably disagree, though. The button opens a support centre, so the third-party logo works as a generic chat icon and does not represent the site's organisation. Some auditors also hold that icons on controls must reach 3:1 whatever the brand. The rubric fixes neither reading, so the label is uncertain."
+    },
+    {
+      "fingerprint": "396f4c463dc1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter 'E-mail' text field. Its placeholder (shown as 'e-mail') is the only visible text saying what goes in it. Claim: the screenshot's field pixels are #f4f4f4 with placeholder glyph pixels at #979899. The page CSS sets ::-webkit-input-placeholder{color:#979899} and the inline style sets background:#f4f4f4, which gives 2.63:1 for 14px weight-400 text, so the sentence holds. I looked for reasons it could be wrong. Understanding 1.4.3 explicitly covers placeholder text. The field is active, the text is not decoration, a logotype or large text, and nothing raises the contrast, so it fails the 4.5:1 minimum. Capture: the live HTML has the same inline style and the same placeholder rule, and the screenshot is styled. Nothing found differs."
+    }
+  ]
+}

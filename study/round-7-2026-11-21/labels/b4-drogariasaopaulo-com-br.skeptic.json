@@ -1,0 +1,377 @@
+{
+  "page": "https://www.drogariasaopaulo.com.br/medicamentos",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p089a8265bec",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the link 'O que são Descontos Laboratório?' inside a product card's 'Desconto Laboratório' (PBM) panel, href /descontos/pbm, a page titled 'Descontos – Drogaria Sao Paulo'. No claim. elementFails no: the link text alone says it explains what laboratory discounts are, which is what the page is for; the 21 other links with this name in the snapshot all have the same href, so under R1 they resolve to the same resource and no shared-name failure arises. captureDiffers no: the live HTML serves the same link and href in every card's PBM panel. False positive (Rampa missed nothing)."
+    },
+    {
+      "fingerprint": "9d5650001d23",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Pregabalina 75mg Genérico EMS 30 Cápsulas Duras\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, Medicamento Genérico, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "4c627f3684c1",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Semavy Semaglutida 1mg/1,34mg/ml Solução Injetável 3ml + 1 Caneta Aplicadora com 4 Agulhas Descartáveis\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, Medicamento Refrigerado, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "sfd528d75460",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is one of three banner slices in the 'Promoções em Destaque' list (the middle slice, a photo of three Sensodyne Repair/White toothpaste tubes); each slice is the only content of a link to /busca?fq=H:26651, a search page titled 'Campanha Haleon' (the Sensodyne promotion), and each has alt=\"promoção\". The link has no title, aria-label or text. claimTrue yes: the alternative is all the link holds and 'promoção' does not name the brand, the campaign or the offer. elementFails yes: the image is a control, and 1.1.1 requires a name that describes its purpose (H30: the alternative of a linked image describes the link's function); 'promoção', even after the visually hidden heading 'Promoções em Destaque', does not tell users which promotion or page the link opens, and it also drops the image text ('Sensodyne', 'até 40% OFF'). Looking for a reason it passes: no title, no adjacent text link, no aria-describedby; the heading only says these are promotions. captureDiffers no: the live HTML serves the same three images with alt=\"promoção\" and the same href. True positive."
+    },
+    {
+      "fingerprint": "sbc711c23fba",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is one of three banner slices in the 'Promoções em Destaque' list (the right slice, the text \"até 40% OFF\" and a \"comprar agora\" button graphic); each slice is the only content of a link to /busca?fq=H:26651, a search page titled 'Campanha Haleon' (the Sensodyne promotion), and each has alt=\"promoção\". The link has no title, aria-label or text. claimTrue yes: the alternative is all the link holds and 'promoção' does not name the brand, the campaign or the offer. elementFails yes: the image is a control, and 1.1.1 requires a name that describes its purpose (H30: the alternative of a linked image describes the link's function); 'promoção', even after the visually hidden heading 'Promoções em Destaque', does not tell users which promotion or page the link opens, and it also drops the image text ('Sensodyne', 'até 40% OFF'). Looking for a reason it passes: no title, no adjacent text link, no aria-describedby; the heading only says these are promotions. captureDiffers no: the live HTML serves the same three images with alt=\"promoção\" and the same href. True positive."
+    },
+    {
+      "fingerprint": "7b5861e59af9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Pantoprazol Sódico 40mg Genérico Cimed 28 Comprimidos\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, Medicamento Genérico, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "bdb8cacfb76e",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Fluconazol 150mg Genérico Cimed 2 Comprimidos\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, Medicamento Genérico, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "296bdee9df7d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Ozivy Semaglutida 1mg Solução Injetável 3ml + 1 Caneta Aplicadora com 4 Agulhas\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, Medicamento Refrigerado, Medicamento De Referência, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "pe0632d02b16",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the link 'O que são Descontos Laboratório?' inside a product card's 'Desconto Laboratório' (PBM) panel, href /descontos/pbm, a page titled 'Descontos – Drogaria Sao Paulo'. No claim. elementFails no: the link text alone says it explains what laboratory discounts are, which is what the page is for; the 21 other links with this name in the snapshot all have the same href, so under R1 they resolve to the same resource and no shared-name failure arises. captureDiffers no: the live HTML serves the same link and href in every card's PBM panel. False positive (Rampa missed nothing)."
+    },
+    {
+      "fingerprint": "89ede17dd0df",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Mounjaro Tirzepatida 5mg/0,5ml 4 Canetas Preenchidas Solução Injetável Subcutânea\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, Medicamento Refrigerado, Medicamento De Referência, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "2cc803cd9a58",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the product photo in a shelf card, the only content of a.collection-image-link to the product page of \"Mounjaro Tirzepatida 2,5mg/0,5ml 4 Canetas Preenchidas Solução Injetável Subcutânea\"; its alt is \"887528-DSP\", the image file's name (the src ends in the same string) and a numeric product code. claimTrue yes: the alternative repeats the file name and is what a screen reader announces (the CDP accessibility tree names the link from it, nameFrom contents; Rampa's own snapshot shows the link name as the title, a collector slip that does not affect the image). elementFails yes: a code such as this is a programming reference, not an alternative (F30), and as the only content of a link it does not describe the link's purpose (H30). The link's title (the product name, exposed as its description) and the neighbouring collection-link text link with the product name do not cure 1.1.1 under this rubric (R2). captureDiffers no: the live HTML has the same img alt and src. True positive; the claim's alternative fix (alt=\"\" if decorative) is not the right fix for a linked image, but the defect it names is the real one."
+    },
+    {
+      "fingerprint": "6cd0c0e20fd3",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Tanduo Dutasterida 0,5mg + Cloridrato de Tansulosina 0,4mg 30 Cápsulas Liberação Prolongada\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, Medicamento Similar, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "a3b6505b08c6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Tadalafila 5mg Genérico EMS 30 Comprimidos Revestidos\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, Medicamento Genérico, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "9671d75d2dd4",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Losartana Potássica 50mg Genérico EMS 30 Comprimidos\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, Medicamento Genérico, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "a192bdfd478c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Dipirona 500mg Genérico Prati Donaduzzi 30 Comprimidos\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, Medicamento Genérico, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "67139d242bdd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the product photo in a shelf card, the only content of a.collection-image-link to the product page of \"Dipirona 500mg Genérico Prati Donaduzzi 30 Comprimidos\"; its alt is \"701173---Dipirona-500mg-Generico-Prati-Donaduzzi-30-Comprimidos-1.jpg\", which is the file name (the src is the same name with a second .jpg). claimTrue yes: it is a file name and is what a screen reader reads for the image and the link. elementFails no, by my reading: F30 lists 'filenames that are not valid text alternatives in their own right', and this one does name the product (drug, strength/size and form), so read as the link's text it lets users tell where the link goes, which the rubric's R2 first step accepts as describing the purpose; what it adds is noise (a numeric prefix, hyphens, '.jpg'). captureDiffers no: the live HTML has the same alt and src (the capture's src was still the lazy-load placeholder, which does not touch the alt). Uncertain: competent auditors would reasonably disagree, since many treat any file-name alt with an extension and code prefix as F30, while F30's own wording spares file names that work as alternatives."
+    },
+    {
+      "fingerprint": "5ccdef936734",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Semavy Semaglutida 1mg/1,34mg/ml Solução Injetável 3ml + 1 Caneta Aplicadora com 4 Agulhas Descartáveis\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, Medicamento Refrigerado, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "c3041b471374",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Mounjaro Tirzepatida 7,5mg 4 Canetas preenchidas de 0,5ml Solução Injetável Subcutâneo\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, Medicamento Refrigerado, Medicamento De Referência, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "485886bcf24f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Rosuvastatina Calcica 10mg Genérico EMS 30 Comprimidos Revestidos\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, Medicamento Genérico, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "c6bd30523e90",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Cloridrato De Sertralina 50mg Genérico Ems 30 Comprimidos Revestidos\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, Medicamento Genérico, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "49273db43af9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Rosuvastatina Cálcica 20mg Genérico EMS 30 Comprimidos Revestidos\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, Medicamento Genérico, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "fb37f6d4e6e3",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Glyxambi Empagliflozina 25mg + Linagliptina 5mg 30 Comprimidos Revestidos\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "2103e0071a4c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the product photo in a shelf card, the only content of a.collection-image-link to the product page of \"Semavy Semaglutida 1mg/1,34mg/ml Solução Injetável 3ml + 1 Caneta Aplicadora com 4 Agulhas Descartáveis\"; its alt is \"978663-1\", the image file's name (the src ends in the same string) and a numeric product code. claimTrue yes: the alternative repeats the file name and is what a screen reader announces (the CDP accessibility tree names the link from it, nameFrom contents; Rampa's own snapshot shows the link name as the title, a collector slip that does not affect the image). elementFails yes: a code such as this is a programming reference, not an alternative (F30), and as the only content of a link it does not describe the link's purpose (H30). The link's title (the product name, exposed as its description) and the neighbouring collection-link text link with the product name do not cure 1.1.1 under this rubric (R2). captureDiffers no: the live HTML has the same img alt and src. True positive; the claim's alternative fix (alt=\"\" if decorative) is not the right fix for a linked image, but the defect it names is the real one."
+    },
+    {
+      "fingerprint": "1cd18a7eae59",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Lyberdia Dimesilato De Lisdexanfetamina 30mg 30 Cápsulas Duras\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Preta, Medicamento Similar, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "96535414a77a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Mounjaro Tirzepatida 2,5mg/0,5ml 4 Canetas Preenchidas Solução Injetável Subcutânea\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, Medicamento Refrigerado, Medicamento De Referência, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "1c15d67947a0",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Cetoprofeno 150mg Genérico Eurofarma 10 Comprimidos De Liberação Prolongada\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, Medicamento Genérico, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "s30331401202",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'Comprar' add-to-cart link (title=\"Comprar\") of the card for Rosuvastatina Cálcica 20mg Genérico EMS 30 Comprimidos Revestidos. The snapshot does hold 22 visible 'Comprar' links, but each sits inside its own product card, which is an li in the shelf ul, and that list item holds the product name. claimTrue no: 'nothing around this one tells it apart' is false, since its enclosing list item names the product. elementFails no: the enclosing list item is programmatically determined link context (H77, and this rubric's context list), so 'Comprar' plus its list item gives 'buy Rosuvastatina 20mg'; under R1 links whose list items tell them apart are not one set, so no shared-name failure applies. captureDiffers no: the live page builds the same li cards with the buy-button link inside. False positive: the packet gave the model the list item with the product name, and it still judged the link context empty."
+    },
+    {
+      "fingerprint": "1c2c57379d72",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Tanduo Dutasterida 0,5mg + Cloridrato de Tansulosina 0,4mg 90 Cápsulas Liberação Prolongada\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, Medicamento Similar, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "2b473fe7f02e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the product photo in a shelf card, the only content of a.collection-image-link to the product page of \"Ozivy Semaglutida 1mg Solução Injetável 3ml + 1 Caneta Aplicadora com 4 Agulhas\"; its alt is \"948683-1\", the image file's name (the src ends in the same string) and a numeric product code. claimTrue yes: the alternative repeats the file name and is what a screen reader announces (the CDP accessibility tree names the link from it, nameFrom contents; Rampa's own snapshot shows the link name as the title, a collector slip that does not affect the image). elementFails yes: a code such as this is a programming reference, not an alternative (F30), and as the only content of a link it does not describe the link's purpose (H30). The link's title (the product name, exposed as its description) and the neighbouring collection-link text link with the product name do not cure 1.1.1 under this rubric (R2). captureDiffers no: the live HTML has the same img alt and src. True positive; the claim's alternative fix (alt=\"\" if decorative) is not the right fix for a linked image, but the defect it names is the real one."
+    },
+    {
+      "fingerprint": "fc9f61c81273",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the product photo in a shelf card, the only content of a.collection-image-link to the product page of \"Descongestionante Neosoro Adulto Cloridrato De Nafazolina 30ml Solução Nasal\"; its alt is \"116408-neosoro-adulto-solucao-nasal-30ml.jpg\", which is the file name (the src is the same name with a second .jpg). claimTrue yes: it is a file name and is what a screen reader reads for the image and the link. elementFails no, by my reading: F30 lists 'filenames that are not valid text alternatives in their own right', and this one does name the product (drug, strength/size and form), so read as the link's text it lets users tell where the link goes, which the rubric's R2 first step accepts as describing the purpose; what it adds is noise (a numeric prefix, hyphens, '.jpg'). captureDiffers no: the live HTML has the same alt and src (the capture's src was still the lazy-load placeholder, which does not touch the alt). Uncertain: competent auditors would reasonably disagree, since many treat any file-name alt with an extension and code prefix as F30, while F30's own wording spares file names that work as alternatives."
+    },
+    {
+      "fingerprint": "pc45a3d2913f",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the skip link 'Ir direto para a notificações' in the header's 'Navegue pela página' list, href #rnk-comp-header-notificacoes; that id exists (the notifications nav item, displayed at desktop width). No claim. elementFails no: the text says it jumps to the notifications area, which is what it does; the grammar slip ('a notificações') does not hide the purpose, and its siblings have distinct names. captureDiffers no: the live HTML has the same skip-link list and target. False positive (Rampa missed nothing)."
+    },
+    {
+      "fingerprint": "eb4d869723d8",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Glifage XR Cloridrato De Metformina 500mg 30 comprimidos\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, Medicamento De Referência, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    },
+    {
+      "fingerprint": "s11e880ea44a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the price link 'A partir de R$148,70*' (a.valor-desconto-minimo) in the card for Lyberdia Dimesilato De Lisdexanfetamina 30mg 30 Cápsulas Duras; it leads to that product's page. claimTrue no: the link sits in the card's li, which holds the product name, so something around it does tell where it goes. elementFails no: with its enclosing list item (H77, this rubric's context list) the link reads as the Lyberdia product's from-price, and a price link in a product card leading to that product's page is a determinable purpose; the card's image and name links go to the same page. captureDiffers no: the live page, rendered with scripts, still adds this valor-desconto-minimo link inside p.price within the product li (the sponsored products in the first slots rotate, which does not touch the pattern). False positive: the list item context was in the packet and the model ignored it."
+    },
+    {
+      "fingerprint": "0eef5faf3e3c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the div.descricao-prateleira of the product card for \"Descongestionante Neosoro Adulto Cloridrato De Nafazolina 30ml Solução Nasal\". Its badge list (ul.rnk-comp-flags-medicamento: Tarja Vermelha, Medicamento Similar, each a visually hidden span plus an icon) is absolutely positioned in the card's top-right corner, just below the heart-icon button \"Adicionar aos Favoritos\"; in the DOM the order is product name, badges, Patrocinado/offer flag, price, favourites button, Comprar. claimTrue no: the badges do show under the heart icon and precede the button in the markup, but they are not read 'as part of another section': the favourites control is a button, not a heading, and both sit in the same product list item, so no section boundary is crossed. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning, and F1 is about CSS positioning that changes the meaning; reading the prescription/type badges right after the product name, before the favourites button, is a meaningful order (arguably better than the visual one), and no relationship or meaning depends on the badges coming after the button. captureDiffers no: the live page rendered in a headless browser builds the same card markup (flags list before the rnk-btn-favoritos button), and the screenshot shows the styled layout; only the sponsored products in the first slots differ, which does not touch this pattern. False positive: the rule treated a favourites button as a section heading (its subject reads 'heading|Adicionar aos Favoritos') with the right data in hand."
+    }
+  ]
+}

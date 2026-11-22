@@ -1,0 +1,28 @@
+{
+  "page": "https://www.kent.ac.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "12d88cd9612b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the page's meta viewport, content \"width=device-width, initial-scale=1.0 maximum-scale=1\". A comma is missing before maximum-scale, but the viewport parsing algorithm and browsers treat whitespace as a separator, so maximum-scale=1 is parsed and the claim (mobile browsers that honor it block pinch zoom to 200%) holds; claimTrue yes. The live page sends the same meta to both a desktop and a mobile user agent, and nothing else in the HTML rewrites it, so captureDiffers no. elementFails yes by the approved ACT rule b4f0c3 (Expectation 2: maximum-scale is not less than 2; any failed outcome means 1.4.4 is not satisfied), and Chrome on Android honors it by default unless the user turns on Force enable zoom. The skeptic's reason does hold up in part, though. The same rule's Accessibility Support section says desktop browsers ignore the element and 'most modern mobile browsers either ignore it by default or have an accessibility option which will allow zooming', that the rule 'is not relevant for desktop browsers, nor for most modern mobile browsers', and its Assumptions allow 1.4.4 to be met when another mechanism resizes the text. iOS Safari ignores maximum-scale, desktop zoom works, and Android Chrome offers text scaling and page zoom settings. WCAG 2.1 has no documented failure for this meta, and G142 accepts zoom in commonly available user agents. Competent auditors split on whether this alone fails 1.4.4 (axe and most audit practices fail it; desktop-scoped methodologies and the rule's own support note do not), so the label is uncertain rather than true_positive."
+    },
+    {
+      "fingerprint": "s961b9f874ee",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the disabled, checked 'Necessary' toggle in the Cookiebot consent banner. Its <label for> reads 'Necessary', and it sits in a group named 'Consent Selection' (a visually hidden legend) under the banner heading 'Responsible use of your data', in a visible row with 'Preferences', 'Statistics' and 'Marketing' toggles and 'Show details' (screenshot crop checked). A checkbox takes no typed input: the label only has to say what the choice is, and in that context 'Necessary' names the cookie category the toggle consents to. The toggle is also disabled and permanently on, so the user enters nothing. claimTrue is no because the claim treats the label as failing to say what the control takes, when in its group it does. Understanding 2.4.6 says labels need not be long, 'a word ... may suffice if it provides an appropriate cue', and 'Necessary' is the standard, understood name for this category, so elementFails is no. The live page loads the same Cookiebot banner (its CSS styles #CybotCookiebotDialog and the footer calls Cookiebot.renew()). The script-injected banner cannot be seen in raw HTML, but its standard category labels do not depend on the capture, so captureDiffers is no. Rampa's model applied a 'say what to enter' test meant for text inputs, a stricter rule than 2.4.6 sets for a checkbox: criterion_misapplied."
+    }
+  ]
+}

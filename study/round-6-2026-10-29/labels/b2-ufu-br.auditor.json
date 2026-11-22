@@ -1,0 +1,41 @@
+{
+  "page": "https://ufu.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s932f6d9f59b",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'Leia mais' button on the first slide of the home-page news carousel, linking to the article 'Diversidade racial qualifica a ciência' on comunica.ufu.br. claimTrue is no: in the capture the link has title=\"Diversidade racial qualifica a ciência\", and the snapshot's accessibility tree exposes it as the link's description, so something around it does tell where it goes. elementFails is no: under this round's context rule an accessible description from a title attribute counts (H33), and 'Leia mais' together with the article title makes the purpose clear. The slide's title is a styled paragraph, not a heading, and the nearest preceding heading ('Navegação principal') does not help, but the title attribute is enough. captureDiffers is no: the live HTML I fetched has the same first slide and the same anchor with the same title and href. The checker had the title in its data and still said nothing explains the link, so the cause is model_error."
+    },
+    {
+      "fingerprint": "40281bee303a",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the 'Acesso à informação' link in the federal gov.br bar at the top of the page (rendered in upper case), going to gov.br/acessoainformacao. claimTrue is yes: the capture also has 'Acesso à informação' in the collapsed main menu and an 'Acesso à Informação' button in the footer, and both go to UFU's own /acesso-a-informacao. So the text is shared by links to two different places (three links counting the footer button, so the count of 2 is slightly off). Its list item holds only the link, its nav has no label, it has no title and no heading comes before it, so nothing programmatic sets it apart. elementFails, in my reading, is no: the text does state the purpose (the access-to-information section required by Brazil's LAI) and the link delivers that, at the federal level. Understanding 2.4.4 presents different link text for different destinations as advice, not as a requirement of the criterion (tools map that check to 2.4.9). But a user who meets both links in a links list cannot tell the federal portal from UFU's own page, and competent auditors would reasonably disagree on whether that leaves the purpose undetermined, so the label is uncertain. captureDiffers is no: the bar is injected by barras.ufu.br/barra_2.0.js, and the script I fetched builds the same markup (nav#menu-barra-brasil, same href, no label or title), while the live HTML has the same menu and footer links."
+    },
+    {
+      "fingerprint": "sa2543f0192f",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'A' control in the header's accessibility row ('Acessibilidade A- A A+'), an anchor with id resetarZoom, href=\"#\" and title=\"Reiniciar Zoom\" that resets the text size. claimTrue is no: the capture gives it title 'Reiniciar Zoom', which the accessibility tree exposes as its description, so something around it does tell what it does. elementFails is no: under this round's rule an accessible description from a title attribute is context (H33), and 'A' with 'Reiniciar Zoom' makes the purpose determinable. The neighbouring 'A-' and 'A+' are in a plain div and do not count, but they are not needed. Using an href=\"#\" link as a button may raise a 4.1.2 role question, which is not this criterion. captureDiffers is no: the live HTML has the identical anchor and title. The checker had the title and said nothing explains the link, so the cause is model_error."
+    },
+    {
+      "fingerprint": "50681b2f7fcb",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the first banner in the three-image grid below the carousel: an illustration with the large text '#QuestãodeÉtica' and the UFU logo, alt=\"Questão de ética\". It is the only content of a link to /unidades-organizacionais/comissao-de-etica (UFU's Ethics Commission). claimTrue is yes: the link holds only this image, and the alt names a topic, not the Ethics Commission page itself. elementFails is no: because the image is the link's only content, 1.1.1 asks for a text alternative that serves the same purpose (G94/H30). The alt repeats the banner's text, which is all a sighted user gets too, and it signals the ethics topic the destination covers. That gives screen-reader users the same information about where the link leads. Asking the alt to name the exact destination page is stricter than 1.1.1 requires, so the cause is criterion_misapplied. captureDiffers is no: the live HTML has the same img, alt and href, and the screenshot shows the banner as in the crop."
+    },
+    {
+      "fingerprint": "c108d989528d",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the second banner in the grid: an illustration with the large text '#GOVERNANÇA' and the UFU logo, alt=\"Governança\". It is the only content of a link to UFU's Comitê de Governança, Gestão de Riscos, Controles e Integridade page. claimTrue is yes: the link holds only this image, and the alt does not name the committee. elementFails is no: for an image that is a link's only content, 1.1.1 asks for an alternative with the same purpose. 'Governança' repeats the banner's only text, so it gives the same information sighted users get. It also matches the subject of the destination, a governance committee, so the link's purpose is conveyed. Requiring the alt to name the exact destination applies a stricter rule than 1.1.1, so the cause is criterion_misapplied. captureDiffers is no: the live HTML has the same img, alt and href, and the screenshot matches the crop."
+    }
+  ]
+}

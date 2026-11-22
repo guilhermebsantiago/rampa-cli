@@ -1,0 +1,201 @@
+{
+  "page": "https://www.chop.edu/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "07e3dc14d296",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer link \"Italiano\" in the \"Language Assistance/Auxiliary Aids and Services Available\" list, the name of Italian written in Italian. In the snapshot neither the link nor any ancestor has a lang attribute, so it inherits lang=\"en\" from the html element; the claim is true of the capture. The live HTML fetched on 2026-11-21 has the same markup: the only lang attribute on the page is the one on html, and the screenshot shows the list rendered with its styles. So there is no capture difference. Understanding 3.1.2 gives this case as an example: links whose text is a language name written in that language should carry a lang attribute. H58's test (content language matches the inherited language) fails here, and no exception applies, because a language name is not a proper name in the sense of the exception and is pronounced differently from English. The element fails 3.1.2, and the claim names that failure and the fix (lang=\"it\")."
+    },
+    {
+      "fingerprint": "03159235ba6c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer link \"Polski\" in the \"Language Assistance/Auxiliary Aids and Services Available\" list, the name of Polish written in Polish. In the snapshot neither the link nor any ancestor has a lang attribute, so it inherits lang=\"en\" from the html element; the claim is true of the capture. The live HTML fetched on 2026-11-21 has the same markup: the only lang attribute on the page is the one on html, and the screenshot shows the list rendered with its styles. So there is no capture difference. Understanding 3.1.2 gives this case as an example: links whose text is a language name written in that language should carry a lang attribute. H58's test (content language matches the inherited language) fails here, and no exception applies, because a language name is not a proper name in the sense of the exception and is pronounced differently from English. The element fails 3.1.2, and the claim names that failure and the fix (lang=\"pl\")."
+    },
+    {
+      "fingerprint": "530307cdbb38",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the white link text \"Login to MyCHOP\" on the green \"dark_green\" chop-color-cta card in the hero. The card has a two-tone diagonal background. I sampled the screenshot over the text's bounds: the background pixels there are #648727 (4.17:1 against #ffffff), with a few #638626 (4.23:1). The darker #5e7f24 half (4.63:1) lies lower right, mostly away from the text. The text is 16px at weight 600, below the large-text threshold (14pt bold, about 18.7px), so 4.5:1 applies. The claim's figures match the capture. The live HTML has the same component and colour attribute, and the screenshot is fully styled (custom fonts, layout), so the capture shows what users get. The text falls short of 4.5:1, so it fails 1.4.3, as the claim says."
+    },
+    {
+      "fingerprint": "pdb322575d39",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The element is the footer link \"Refer a patient\" (to /healthcare-professionals/patient-referral-toolkit), nested in the list under the parent list item \"Healthcare Providers\" (H81 context). The link text on its own describes its purpose, and its context confirms it. No other link in the accessibility tree has this name; the mobile and mega-menu \"Refer a patient\" items are a button and a span, not links. The live HTML has the same footer markup. The link meets 2.4.4, so Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "bd7ae50d2961",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer link \"繁體中文\" in the \"Language Assistance/Auxiliary Aids and Services Available\" list, the name of Traditional Chinese written in Traditional Chinese. In the snapshot neither the link nor any ancestor has a lang attribute, so it inherits lang=\"en\" from the html element; the claim is true of the capture. The live HTML fetched on 2026-11-21 has the same markup: the only lang attribute on the page is the one on html, and the screenshot shows the list rendered with its styles. So there is no capture difference. Understanding 3.1.2 gives this case as an example: links whose text is a language name written in that language should carry a lang attribute. H58's test (content language matches the inherited language) fails here, and no exception applies, because a language name is not a proper name in the sense of the exception and is pronounced differently from English. The element fails 3.1.2, and the claim names that failure and the fix (lang=\"zh-Hant\")."
+    },
+    {
+      "fingerprint": "sa5b40381644",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the image in the news carousel slide about the U.S. News ranking. It is not a link, and its alt is \"Children holding badge\". The crop shows two toddlers holding a \"Best Children's Hospitals / U.S. News Honor Roll\" badge, so the alternative describes what the image shows; the claim is false. The badge's message is carried by the slide's own heading right after it (\"...Ranked One of the Best Children's Hospitals in the Nation by U.S. News & World Report\"), so the short alternative serves the image's purpose in context. The live HTML has the same alt. The image meets 1.1.1. The model had the crop and judged it wrongly."
+    },
+    {
+      "fingerprint": "4ee0721a1893",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer link \"Español\" in the \"Language Assistance/Auxiliary Aids and Services Available\" list, the name of Spanish written in Spanish. In the snapshot neither the link nor any ancestor has a lang attribute, so it inherits lang=\"en\" from the html element; the claim is true of the capture. The live HTML fetched on 2026-11-21 has the same markup: the only lang attribute on the page is the one on html, and the screenshot shows the list rendered with its styles. So there is no capture difference. Understanding 3.1.2 gives this case as an example: links whose text is a language name written in that language should carry a lang attribute. H58's test (content language matches the inherited language) fails here, and no exception applies, because a language name is not a proper name in the sense of the exception and is pronounced differently from English. The element fails 3.1.2, and the claim names that failure and the fix (lang=\"es\")."
+    },
+    {
+      "fingerprint": "361aaefc498b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer link \"Português\" in the \"Language Assistance/Auxiliary Aids and Services Available\" list, the name of Portuguese written in Portuguese. In the snapshot neither the link nor any ancestor has a lang attribute, so it inherits lang=\"en\" from the html element; the claim is true of the capture. The live HTML fetched on 2026-11-21 has the same markup: the only lang attribute on the page is the one on html, and the screenshot shows the list rendered with its styles. So there is no capture difference. Understanding 3.1.2 gives this case as an example: links whose text is a language name written in that language should carry a lang attribute. H58's test (content language matches the inherited language) fails here, and no exception applies, because a language name is not a proper name in the sense of the exception and is pronounced differently from English. The element fails 3.1.2, and the claim names that failure and the fix (lang=\"pt\")."
+    },
+    {
+      "fingerprint": "19b91dace51a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer link \"Français\" in the \"Language Assistance/Auxiliary Aids and Services Available\" list, the name of French written in French. In the snapshot neither the link nor any ancestor has a lang attribute, so it inherits lang=\"en\" from the html element; the claim is true of the capture. The live HTML fetched on 2026-11-21 has the same markup: the only lang attribute on the page is the one on html, and the screenshot shows the list rendered with its styles. So there is no capture difference. Understanding 3.1.2 gives this case as an example: links whose text is a language name written in that language should carry a lang attribute. H58's test (content language matches the inherited language) fails here, and no exception applies, because a language name is not a proper name in the sense of the exception and is pronounced differently from English. The element fails 3.1.2, and the claim names that failure and the fix (lang=\"fr\")."
+    },
+    {
+      "fingerprint": "p8f0fad447e9",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "No claim. The element is the second footer award badge (not a link). The image reads \"WORLD'S BEST SPECIALIZED HOSPITALS 2025\", with the Newsweek wordmark and \"powered by statista\" fine print. Its alt is \"World's Best Specialized Hospitals - 2025\". That gives the award's name and year, which is the badge's main purpose in an awards row, so I lean towards a pass. But it leaves out the issuer, Newsweek, which is prominent text in the image and part of what the badge says. Competent auditors would reasonably disagree about whether an award badge's alternative must name its issuer to serve an equivalent purpose, so the label is uncertain. The live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "c81eee23397a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer link \"Русский\" in the \"Language Assistance/Auxiliary Aids and Services Available\" list, the name of Russian written in Russian. In the snapshot neither the link nor any ancestor has a lang attribute, so it inherits lang=\"en\" from the html element; the claim is true of the capture. The live HTML fetched on 2026-11-21 has the same markup: the only lang attribute on the page is the one on html, and the screenshot shows the list rendered with its styles. So there is no capture difference. Understanding 3.1.2 gives this case as an example: links whose text is a language name written in that language should carry a lang attribute. H58's test (content language matches the inherited language) fails here, and no exception applies, because a language name is not a proper name in the sense of the exception and is pronounced differently from English. The element fails 3.1.2, and the claim names that failure and the fix (lang=\"ru\")."
+    },
+    {
+      "fingerprint": "b7eafbbfc6cc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer link \"한국어\" in the \"Language Assistance/Auxiliary Aids and Services Available\" list, the name of Korean written in Korean. In the snapshot neither the link nor any ancestor has a lang attribute, so it inherits lang=\"en\" from the html element; the claim is true of the capture. The live HTML fetched on 2026-11-21 has the same markup: the only lang attribute on the page is the one on html, and the screenshot shows the list rendered with its styles. So there is no capture difference. Understanding 3.1.2 gives this case as an example: links whose text is a language name written in that language should carry a lang attribute. H58's test (content language matches the inherited language) fails here, and no exception applies, because a language name is not a proper name in the sense of the exception and is pronounced differently from English. The element fails 3.1.2, and the claim names that failure and the fix (lang=\"ko\")."
+    },
+    {
+      "fingerprint": "f1c8512d5715",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer link \"العربية\" in the \"Language Assistance/Auxiliary Aids and Services Available\" list, the name of Arabic written in Arabic. In the snapshot neither the link nor any ancestor has a lang attribute, so it inherits lang=\"en\" from the html element; the claim is true of the capture. The live HTML fetched on 2026-11-21 has the same markup: the only lang attribute on the page is the one on html, and the screenshot shows the list rendered with its styles. So there is no capture difference. Understanding 3.1.2 gives this case as an example: links whose text is a language name written in that language should carry a lang attribute. H58's test (content language matches the inherited language) fails here, and no exception applies, because a language name is not a proper name in the sense of the exception and is pronounced differently from English. The element fails 3.1.2, and the claim names that failure and the fix (lang=\"ar\")."
+    },
+    {
+      "fingerprint": "6369b2c3002d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the sub-footer link \"Privacy policy\" (/privacy-policy). The snapshot holds three links with that name: this one, and two \"Privacy Policy\" links in the OneTrust cookie banner text, both to https://www.chop.edu/privacy-policy. That is the same page as /privacy-policy (the snapshot's destinations record a single Privacy Policy page). So the claim that they lead to two different places is false. In any case the banner links sit in a different paragraph, so this link does not share their context, and all three resolve to the same resource. Under R1 nothing fails, and \"Privacy policy\" alone describes the purpose. The live HTML has the same footer link (the banner is script-injected, and the snapshot shows its links). It meets 2.4.4. The checker probably counted the relative and absolute forms of one URL as two places."
+    },
+    {
+      "fingerprint": "bdf2c16079d4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer link \"Tiếng Việt\" in the \"Language Assistance/Auxiliary Aids and Services Available\" list, the name of Vietnamese written in Vietnamese. In the snapshot neither the link nor any ancestor has a lang attribute, so it inherits lang=\"en\" from the html element; the claim is true of the capture. The live HTML fetched on 2026-11-21 has the same markup: the only lang attribute on the page is the one on html, and the screenshot shows the list rendered with its styles. So there is no capture difference. Understanding 3.1.2 gives this case as an example: links whose text is a language name written in that language should carry a lang attribute. H58's test (content language matches the inherited language) fails here, and no exception applies, because a language name is not a proper name in the sense of the exception and is pronounced differently from English. The element fails 3.1.2, and the claim names that failure and the fix (lang=\"vi\")."
+    },
+    {
+      "fingerprint": "af26698394e9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the sub-footer link \"Terms of use\" (/terms-use). The only other link with that name (ignoring case) is \"Terms of Use\" in the OneTrust cookie banner, to https://www.chop.edu/terms-use. That is the same resource (the snapshot's destinations hold one Terms of Use page), so the claim that the two lead to two different places is false. The two links also have different contexts (a sub-footer list item and the banner paragraph). The link text alone describes the purpose, so it meets 2.4.4 under R1 and in general. The live HTML has the same footer link. The checker probably counted relative and absolute forms of one URL as different places."
+    },
+    {
+      "fingerprint": "38b1eafe17ad",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer link \"Deutsch\" in the \"Language Assistance/Auxiliary Aids and Services Available\" list, the name of German written in German. In the snapshot neither the link nor any ancestor has a lang attribute, so it inherits lang=\"en\" from the html element; the claim is true of the capture. The live HTML fetched on 2026-11-21 has the same markup: the only lang attribute on the page is the one on html, and the screenshot shows the list rendered with its styles. So there is no capture difference. Understanding 3.1.2 gives this case as an example: links whose text is a language name written in that language should carry a lang attribute. H58's test (content language matches the inherited language) fails here, and no exception applies, because a language name is not a proper name in the sense of the exception and is pronounced differently from English. The element fails 3.1.2, and the claim names that failure and the fix (lang=\"de\")."
+    },
+    {
+      "fingerprint": "p1d971c81dfd",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The element is the third footer award badge (not a link). It reads \"MAGNET RECOGNIZED / AMERICAN NURSES CREDENTIALING CENTER\", and its alt is \"Magnet Recognized - American Nurses Credentialing Center\": it reproduces the badge's text and conveys the award and its issuer. The live HTML has the same alt. It meets 1.1.1, so Rampa was right to report nothing."
+    }
+  ]
+}

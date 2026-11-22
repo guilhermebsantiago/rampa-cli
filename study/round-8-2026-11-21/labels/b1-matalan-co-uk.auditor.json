@@ -1,0 +1,115 @@
+{
+  "page": "https://www.matalan.co.uk/c/womens/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "b4fbccfdcb03",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the campaign photo of the 'New In' card (img alt=\"\", role presentation). The crop and the screenshot show 'BELIEVE' across the photo and an 'IT'S MATALAN' lockup baked into the image. The card's HTML holds only the h3 'New In' and the link 'Shop Now: New In', and no text anywhere in the snapshot says 'Believe it's Matalan'. claimTrue no: 'SHOP NOW' is not in the image. It is the HTML link laid over it, and the text around the image does say it. elementFails yes: the slogan and brand lockup are text that carries a message, not decoration, and alt=\"\" hides them; W3C's images-of-text guidance asks for the same words in the alternative. captureDiffers no: the live HTML serves the same img with alt=\"\" and the same overlay. Read in good faith, the claim points at the hidden BELIEVE / IT'S MATALAN text, despite wrongly listing SHOP NOW, so true positive."
+    },
+    {
+      "fingerprint": "s7d437042570",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "A thumbnail in the #LoveMatalan StoryStream gallery, alt 'Instagram post by shopmatalan' (the same alt as every shopmatalan tile); the crop shows a woman in a black outfit beside a Christmas tree. claimTrue no: the alt is accurate about the source (author @shopmatalan, Instagram icon); it describes nothing absent, it leaves the content out. elementFails yes, on balance: the alternative tied to the image says nothing of what the photo shows. But the tile's caption 'There's nothing that a good blazer can't handle x ...' and the sibling video ('Video by shopmatalan') with an accessible description of the clip give its content next to it. A competent auditor could pass it as a post thumbnail identified by source whose content is given in adjacent text, and another could fail the templated alt, so the label is uncertain. captureDiffers no: the capture is a styled browser render with the StoryStream widget loaded; the live page serves the same widget (same StoryStream id, live channel), whose tiles are built client-side, so my automated fetch could not re-render them, and nothing suggests a different version; the headless 'Unable to play media' on the sibling video does not touch the image's alt."
+    },
+    {
+      "fingerprint": "s268e0ecd54b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "A StoryStream gallery thumbnail, alt 'Instagram post by shopmatalan'; the crop shows a person in a camel knit with the text 'Forecast: 100% chance of knitwear' in the image. claimTrue no: the alt correctly names the source; it omits the content rather than describing something absent. elementFails yes, on balance: the image's own alternative carries neither the picture nor its text. But the caption 'Permanently dressed for cosy season x ... GBP 24 Camel...' and the sibling video's description 'Autumn knitwear styling montage with the text' (cut off) convey the gist next to it. A competent auditor could pass it as a post thumbnail identified by source whose content is given in adjacent text, and another could fail the templated alt, so the label is uncertain. captureDiffers no: the capture is a styled browser render with the StoryStream widget loaded; the live page serves the same widget (same StoryStream id, live channel), whose tiles are built client-side, so my automated fetch could not re-render them, and nothing suggests a different version; the headless 'Unable to play media' on the sibling video does not touch the image's alt."
+    },
+    {
+      "fingerprint": "sa351442847c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "A StoryStream gallery thumbnail (an image post, no video), alt 'Instagram post by shopmatalan'; the crop shows a flat lay of a leopard print coat with boots, skirt and knit. claimTrue no: the alt is accurate about the source; it leaves the content out. elementFails yes, on balance: the alternative conveys none of the look the image shows. The caption 'One leopard print coat. Endless ways to style it. ...' gives the gist next to it, though. A competent auditor could pass it as a post thumbnail identified by source whose content is given in adjacent text, and another could fail the templated alt, so the label is uncertain. captureDiffers no: the capture is a styled browser render with the StoryStream widget loaded; the live page serves the same widget (same StoryStream id, live channel), whose tiles are built client-side, so my automated fetch could not re-render them, and nothing suggests a different version; the headless 'Unable to play media' on the sibling video does not touch the image's alt."
+    },
+    {
+      "fingerprint": "pa2e6c915b3a",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A tile link in the 'Multi Category navigation' carousel wrapping a product image and the h3 'Footwear'; name 'Footwear', href /c/womens/footwear/, destination 'Women's Shoes'. On the Women's page the link text alone tells its purpose. The other links named 'Footwear' are mega-menu items, hidden while their menus are closed, that go to the same address or sit under the Men's menu, and an aria-hidden duplicate tile to the same address; none shares its context while leading elsewhere. captureDiffers no: the live HTML has the same link and href. It meets 2.4.4, so Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "s4e976707b5f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The first full-width banner link, aria-label 'Primary Banner Link' (it overrides the banner image, which has alt=\"\"), href /c/offers/womens/offers-2/ ('25% Off (Almost) All Womenswear'). claimTrue yes: the capture has three links with that name going to three addresses, and nothing programmatic (no title, no describedby, the same 'Primary Banner' region) tells this one apart. elementFails yes: the second banner link has the same name and the same preceding heading (h1 'Women's Clothes'), and it leads to 'Exclusive 40% Off Selected Lines - Online Only' (opened live), a non-equivalent page. The banner artwork ('25% off (almost) all women's' vs 'HURRY! 40% off selected lines') tells them apart visually, so the pair fails under R1. The name also gives no purpose on its own. The third (nightwear) follows the 'New In' heading, so it is outside this set and the claim's count is off, which R1 says does not matter. captureDiffers no: the live HTML has the same three aria-labels and hrefs."
+    },
+    {
+      "fingerprint": "s82e5fbf9aa9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The second banner link, aria-label 'Primary Banner Link' over an image with alt=\"\", href /c/womens/reward-offer/. The packet's destination timed out; opened live, it is 'Exclusive 40% Off Selected Lines - Online Only'. claimTrue yes: three links share the name and go to three addresses, and nothing programmatic tells this one apart. elementFails yes: it shares its name and preceding heading (h1 'Women's Clothes') with the first banner link, which goes to '25% Off (Almost) All Womenswear', a non-equivalent page. Only the banner artwork ('HURRY! 40% off selected lines' vs the Black Friday 25% banner) tells them apart, so the pair fails R1. The name also describes no purpose. The count of three is off (the nightwear banner follows another heading), which R1 says does not matter. captureDiffers no: the live HTML matches."
+    },
+    {
+      "fingerprint": "s8d8aaa097c4",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "A StoryStream gallery thumbnail, alt 'Instagram post by shopmatalan'; the crop shows a grid of behind-the-scenes shots labelled with times of day. claimTrue no: the alt is accurate about the source; it leaves the content out. elementFails yes, on balance, because nothing tied to the image conveys it. But the caption 'What goes on behind the lens... Shop the edit in...' and the sibling video's description ('Behind-the-scenes look at a fashion photoshoot, shown as a timeline from 9 am to 5 pm...') convey it next to it. A competent auditor could pass it as a post thumbnail identified by source whose content is given in adjacent text, and another could fail the templated alt, so the label is uncertain. captureDiffers no: the capture is a styled browser render with the StoryStream widget loaded; the live page serves the same widget (same StoryStream id, live channel), whose tiles are built client-side, so my automated fetch could not re-render them, and nothing suggests a different version; the headless 'Unable to play media' on the sibling video does not touch the image's alt."
+    },
+    {
+      "fingerprint": "se1f970d587f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "A StoryStream gallery thumbnail (an image post, no video), alt 'Instagram post by shopmatalan'; the crop shows printed photos of an argyle cardigan clipped over an argyle knit. claimTrue no: the alt is accurate about the source; it omits the content rather than describing something absent. elementFails yes, on balance: the alternative says nothing of the looks shown. The caption 'We're 100% faithful to argyle ... Shop the looks i...' gives the subject next to it, though. A competent auditor could pass it as a post thumbnail identified by source whose content is given in adjacent text, and another could fail the templated alt, so the label is uncertain. captureDiffers no: the capture is a styled browser render with the StoryStream widget loaded; the live page serves the same widget (same StoryStream id, live channel), whose tiles are built client-side, so my automated fetch could not re-render them, and nothing suggests a different version; the headless 'Unable to play media' on the sibling video does not touch the image's alt."
+    },
+    {
+      "fingerprint": "s04e5e537149",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "A StoryStream gallery thumbnail, alt 'Instagram post by thesilvercrop'; the crop shows a faux fur jacket in a store with the large text 'Part 2 of the Faux Fur Try-on'. claimTrue no: the post is by thesilvercrop (author shown), so the alt describes nothing absent; it omits the content. elementFails yes, on balance: the image's text and subject are not in its alternative, and the caption 'Lots of you lovely ladies have been asking to see ...' does not give them. But the sibling video's description ('...tries on three faux fur jackets in turn, with a title reading', cut off) conveys the gist. A competent auditor could pass it as a post thumbnail identified by source whose content is given in adjacent text, and another could fail the templated alt, so the label is uncertain. captureDiffers no: the capture is a styled browser render with the StoryStream widget loaded; the live page serves the same widget (same StoryStream id, live channel), whose tiles are built client-side, so my automated fetch could not re-render them, and nothing suggests a different version; the headless 'Unable to play media' on the sibling video does not touch the image's alt."
+    }
+  ]
+}

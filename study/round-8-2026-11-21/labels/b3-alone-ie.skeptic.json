@@ -1,0 +1,37 @@
+{
+  "page": "https://alone.ie/alone-launches-christmas-campaign-as-more-than-half-of-older-people-struggle-to-pay-bills/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p6e31ff69bae",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Main-menu link 'Contact' (href https://alone.ie/contact/, destination titled 'Contact - ALONE'). The link text alone gives its purpose. The other links on the page that share the name or nearly do (the cookie banner's 'Contact' and the footer's 'Contact Us') go to the same URL, so R1 does not apply. The live HTML has the same menu item (#menu-item-43892, same href and text), and the screenshot shows the styled page with CONTACT in the header, so the capture does not differ in any way that matters here. The element meets 2.4.4, so Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "p333017fdce2",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Icon-only social link in the off-canvas responsive menu (#Side_slide), aria-label 'X (Twitter) icon', title 'X (Twitter)', href https://twitter.com/alone_ireland. The accessible name says the link goes to X (Twitter), which together with the site's social-icon context is its purpose (ALONE's X profile). The word 'icon' is redundant but not misleading, and the title adds a supplementary description (H33). The only other link with this name, in the footer, has the same href, so there is no R1 conflict. The live HTML has the same markup. The panel sits off screen at desktop width but is not hidden from the accessibility tree; that may raise a focus-visibility question under another criterion, but it is not a 2.4.4 failure. The element passes, so Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "sd473ef997f2",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Sidebar link under the heading 'Publications & Resources', text 'Financial Statements and Annual Reports' (h6) plus a date, href /financial-statements-and-annual-reports/. It is true that the final page is titled 'Knowledge Hub - ALONE'. But the claim that the text does not match the destination fails on the capture's own data: the snapshot's finalUrl is https://alone.ie/alones-knowledge-hub/#Annual-Reports. With curl, the old URL redirects to /publications-resources/#Annual-Reports and then to /alones-knowledge-hub/. That page is ALONE's document library: its listing includes 'ALONE Annual Report 2025' and '2025 ALONE Audited Financial Statement and Trustees Report', and its Type filter has a 'Financial Statements' option. So the link leads to where the organisation keeps its financial statements and annual reports, as its text says, and its purpose is determinable from the text. The #Annual-Reports anchor no longer matches an id, so the user lands at the top of the library rather than on a dedicated section; that is a usability issue, not a 2.4.4 failure. The live article and the live redirect match the capture (same link HTML, same final URL and title). The consent banner covers the link in the screenshot, but that does not change the claim. Rampa only had the destination's title and generic description, not its content, so it lacked the context it needed."
+    }
+  ]
+}

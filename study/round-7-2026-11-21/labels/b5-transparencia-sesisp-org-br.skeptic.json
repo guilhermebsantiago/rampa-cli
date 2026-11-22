@@ -1,0 +1,48 @@
+{
+  "page": "https://transparencia.sesisp.org.br/sac",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s739e8861b19",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is the Bootstrap collapse toggle <a href=\"#collapse_do_saiba_mais\" data-toggle=\"collapse\">Ver mais</a> in the card \"Falar sobre seus dados pessoais\"; it stays a link (no role=button, no aria-expanded in the snapshot, and none is added in the live markup). It has no title, aria-label or aria-describedby, and it is not in the same sentence, paragraph, list item or table cell as any explaining text: the LGPD text is a sibling div.card-title and the card name is a styled div.menu-title, not a heading. The heading just before it is the h2 \"SAC - Serviço de Atendimento ao Cidadão\", which covers all four cards and does not say what \"Ver mais\" reveals (more on the personal-data request channel). So under this round's context rule the purpose cannot be determined from the text or its programmatic context; only the visual card title explains it. I looked for a passing technique (H33, ARIA7/8, a containing paragraph or list) and found none. The live HTML fetched today matches the snapshot (the screenshot hides the button under the stitched fixed header, but that is a screenshot artefact and does not touch the claim). The claim names this failure."
+    },
+    {
+      "fingerprint": "s1a7946e6e5d",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the header search box: <input placeholder=\"Localizar\" aria-label=\"Título do Curso\"> followed by a magnifier button that submits to /busca, a Google custom site search (h2 \"Busca\"). The claim is not true of the capture: the field's label (accessible name) is \"Título do Curso\"; \"Localizar\" is only the placeholder. And \"Localizar\" next to a search button does describe the purpose (find on the site), which is all 2.4.6 asks; saying what exactly to type is a 3.3.2-type instruction, so the model applied a stricter rule than 2.4.6 requires. The field does fail 2.4.6 for another reason the claim does not name: its programmatic label \"Título do Curso\" (course title) describes a purpose the field does not have, since it searches the whole transparency site, which has no course catalogue (this also touches 2.5.3, visible \"Localizar\" not in the name). Live HTML today has the same attributes as the snapshot, so no capture difference. Because the element fails only for a reason the claim does not name, the label is false_positive."
+    },
+    {
+      "fingerprint": "saf73e2c524f",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page title is \"Transparência - Sesi-SP - Serviço Social da Indústria Serviço de Atendimento ao Cidadão\". The page is the SAC (Serviço de Atendimento ao Cidadão) page: breadcrumb \"Serviço de Atendimento ao Cidadão\", h2 \"SAC - Serviço de Atendimento ao Cidadão\". The title names the site and this page's topic, so it does describe the page; the claim that it says nothing about this page is false, and 2.4.2 is met. The live page's <title> (fetched today) is identical to the captured one; a second <title> inside an embedded chat-bot snippet in the body does not change document.title, which comes from the first title element in head. The model had the title and the headings and judged wrongly."
+    },
+    {
+      "fingerprint": "pc71f6bec2cc",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the side-menu link \"Dados de Infraestrutura\" (/dados-infraestrutura), in a nested list under the list item \"Transparência\". The text alone gives the purpose: the destination, fetched today, has the breadcrumb and h2 \"Dados de Infraestrutura\" and an infrastructure data table. No other link on the page shares its name, so the shared-name rule does not apply. It meets 2.4.4. The live markup matches the snapshot."
+    },
+    {
+      "fingerprint": "p72fb82de3ec",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is <a href=\"/acessibilidade\" title=\"Acesso à página de acessibilidade\">Acessibilidade:</a> in the accessibility bar. Visually it may read like a label for the A+/A-/Contraste controls, but its text \"Acessibilidade\" together with the title (H33) describes the purpose, and the destination is the page titled \"... Acessibilidade\" with h2 \"Acessibilidade\". No other link shares its name. It meets 2.4.4. The live markup matches the snapshot."
+    },
+    {
+      "fingerprint": "p699bb2ab276",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the VLibras widget's popup image <img id=\"vlibras-popup\" alt=\"Acessível com VLibras\">, which the third-party plugin shows when its button is hovered or focused (the container widens to 200px). I downloaded the image file: it shows three cartoon avatars and the words \"Acessível com VLibras\". The alt reproduces the text in the image, which is its information; the avatars are decorative. It is not the content of a control (the separate button has its own aria-label and an aria-hidden icon), so no control-purpose requirement applies. It meets 1.1.1. The live page loads the same plugin, whose current code injects the same img and alt."
+    }
+  ]
+}

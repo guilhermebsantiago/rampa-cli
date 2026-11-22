@@ -1,0 +1,213 @@
+{
+  "page": "https://www.dlrcoco.ie/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "be9eb789d591",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card link to /careers that wraps an <article> holding an unlabelled SVG and a span 'Job Vacancies'. In Chrome's accessibility tree in the snapshot (CDP), the link's name is empty, as the claim says. The live HTML has the same <a rel=\"bookmark\"><article>...</article></a> markup, so the capture matches what users get. Chrome leaves article content out when it computes a name from content, so users of Chrome-based browsers with a screen reader or voice control get an unnamed link. AccName would include the text and Firefox may expose it, but the pattern is not accessibility supported in the dominant engine, so the name cannot be programmatically determined there. The claim names that failure."
+    },
+    {
+      "fingerprint": "pcfeb21696ca",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer link 'FAQs' in the About US list goes to /faq, a page titled 'Frequently Asked Questions (FAQs)'. Its text alone gives its purpose. The page's other 'FAQs' links all go to /faq, so no shared-name problem. Live footer is the same. It passes 2.4.4."
+    },
+    {
+      "fingerprint": "4397cd003c8a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "An image that is all its link holds, linking to the event 'Free Repair Cafe at Coolevin-Ballybrack Scouts Den' (live page title checked). Its alt is a photo caption about a participant repairing furniture at a Repair Café workshop in Sandyford. Read as link text, it describes the picture and points to a Sandyford workshop, not to the Coolevin-Ballybrack event, so it does not identify the destination (H30, R2). The headline link beside it does not cure 1.1.1. Live HTML is the same. The claim names the failure."
+    },
+    {
+      "fingerprint": "1b8378c3c919",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "An image that is all its link holds, linking to the news story 'Santa Parade Dún Laoghaire 2026'. The alt 'man with drums' describes the photo (a stilt drummer) and gives no hint of the destination. Under H30 and R2 that fails 1.1.1, and no title or neighbouring headline cures it. Live HTML is the same."
+    },
+    {
+      "fingerprint": "7ab4def48879",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "An image that is all its link holds, linking to 'Discover Inclusive Sport at SportAbility Day 2026'. The alt 'Multipurpose indoor sports hall' describes the photo and does not name the event or story, so it does not give the link's purpose (H30, R2). Live HTML is the same. The claim names the failure."
+    },
+    {
+      "fingerprint": "535f39e9d719",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card link to /public-consultation-hub (redirects to the Citizen Space consultation hub). It wraps an <article> with an SVG whose <title> is 'Public Consultation' and a span 'Public Consultation Hub'. In Chrome's accessibility tree in the snapshot, the link's name is empty. The live HTML has the same <a rel=\"bookmark\"><article>...</article></a> markup, so the capture matches what users get. Chrome leaves article content out when it computes a name from content, so users of Chrome-based browsers with a screen reader or voice control get an unnamed link. AccName would include the text and Firefox may expose it, but the pattern is not accessibility supported in the dominant engine, so the name cannot be programmatically determined there. The claim names that failure."
+    },
+    {
+      "fingerprint": "se8ffc04cc26",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Footer link 'Opening Hours' to /node/65714, which redirects to /contact-us, titled 'Contact Us'. The claim is true about the title. But the live page body lists the council's opening hours: County Hall Monday-Thursday 9am-5pm, Friday 9am-4:30pm, the Civic Hub, Housing and Planning counters, and the Dundrum office hours. So the link leads to the opening hours its text promises, and Understanding 2.4.4 does not require the link text to match the page title. It passes. Rampa saw only the destination's title, not its content."
+    },
+    {
+      "fingerprint": "2504f254f19c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] 'Find out more' button link (CSS uppercase) to the Transforming Dundrum project page. The visual label 'Transforming Dundrum:' is a <div> inside a styled <span>, not a heading, and the descriptive paragraphs are separate blocks. The link sits alone in its own div, with no title or aria-describedby. The nearest preceding heading is the unrelated news card h2 '€335 Million Budget Adopted...', which also precedes that card's own 'Find out more' link to a different page. So the purpose cannot be determined from the link and its programmatic context. Live HTML is the same. The claim names the failure."
+    },
+    {
+      "fingerprint": "29f7c3c77e6d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Top-menu link 'Gaeilge' (href #gaeilge, the Recite Me Irish-translation trigger) has no lang attribute and inherits lang=en. Understanding 3.1.2's 'Alternative language links' example gives exactly this pattern, a language's name written in that language, marked with lang. An English voice mispronounces 'Gaeilge', so the vernacular exception does not apply in practice. Live HTML has the same markup in both menus. The claim names the failure."
+    },
+    {
+      "fingerprint": "73d6b6445bd5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card link to /housing (a live page titled 'Housing'; Rampa's fetch timed out). It wraps an <article> holding an SVG icon and the text 'Housing'. In Chrome's accessibility tree in the snapshot, the link's name is empty. The live HTML has the same <a rel=\"bookmark\"><article>...</article></a> markup, so the capture matches what users get. Chrome leaves article content out when it computes a name from content, so users of Chrome-based browsers with a screen reader or voice control get an unnamed link. AccName would include the text and Firefox may expose it, but the pattern is not accessibility supported in the dominant engine, so the name cannot be programmatically determined there. The claim names that failure."
+    },
+    {
+      "fingerprint": "53b76dd96ecc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer mailto link 'info@dlrcoco.ie', white, 14px bold (not large text). The footer is blue-500 with a decorative lighter logo swoosh (.logo-bkg). Screenshot pixels behind the address are #566af5 (4.40:1) to #5569f3 (4.47:1); only the 'E-mail:' label lies on the darker #435af5. That is below 4.5:1 at the 1280px viewport. The screenshot's vertical offset differs from the snapshot bounds, but the footer colours are the same and the live markup is unchanged. The claim names the failure."
+    },
+    {
+      "fingerprint": "d2239b74d503",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card link to /node/61762 ('Councillors & Democracy'). It wraps an <article> with an SVG icon and the visible text. In Chrome's accessibility tree in the snapshot, the link's name is empty. The live HTML has the same <a rel=\"bookmark\"><article>...</article></a> markup, so the capture matches what users get. Chrome leaves article content out when it computes a name from content, so users of Chrome-based browsers with a screen reader or voice control get an unnamed link. AccName would include the text and Firefox may expose it, but the pattern is not accessibility supported in the dominant engine, so the name cannot be programmatically determined there. The claim names that failure."
+    },
+    {
+      "fingerprint": "8667b1c6a419",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card link to /planning ('Planning'). It wraps an <article> with an SVG icon and the visible text. In Chrome's accessibility tree in the snapshot, the link's name is empty. The live HTML has the same <a rel=\"bookmark\"><article>...</article></a> markup, so the capture matches what users get. Chrome leaves article content out when it computes a name from content, so users of Chrome-based browsers with a screen reader or voice control get an unnamed link. AccName would include the text and Firefox may expose it, but the pattern is not accessibility supported in the dominant engine, so the name cannot be programmatically determined there. The claim names that failure."
+    },
+    {
+      "fingerprint": "3ea565d0a50f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Cookiebot consent dialog header image (#CybotCookiebotDialogPoweredbyImage). The crop and screenshot show the dlr / Dún Laoghaire-Rathdown County Council logo. Its alt 'logo' is a generic placeholder that does not say whose logo it is. If the image is informative, it needs the organisation's name. If it is decorative, it needs alt=\"\". Either way 1.1.1 fails. The live page loads Cookiebot's uc.js, so first-time visitors get this dialog as captured."
+    },
+    {
+      "fingerprint": "dd6bdfec9870",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An image that is all its link holds, linking to the event 'TradFest 2027' (live title checked). The image is a wordmark reading 'TradFest 2027 20-24 JAN', and its alt is 'tradfest wording'. Read as link text, the alt names TradFest, so users can tell the link goes to TradFest. By R2's first step it gives the link's purpose, and the claim that it does not say where the link leads is false. The alt is weak ('wording' is filler; the year and dates are left out), but that is not the failure claimed. Live HTML is the same."
+    },
+    {
+      "fingerprint": "pc4b3afb6162",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer link 'Accessibility Statement' to /communications-media/accessibility-statement, titled 'Accessibility Statement'. Its text alone gives its purpose, and no other link shares the name. Live footer is the same. It passes 2.4.4."
+    },
+    {
+      "fingerprint": "6ead9963d834",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "An image that is all its link holds, linking to the 'Christmas Storytime' event at Shankill Library. The alt is a long description of the illustration: a teacher reading to children by a Christmas tree with presents. It describes the picture and does not name the event or the page, so the link's purpose has to be inferred from the scene (H30, R2). The headline link beside it does not cure 1.1.1. Live HTML is the same. The claim names the failure."
+    },
+    {
+      "fingerprint": "5236c4ee8a52",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card link to /parks-outdoors ('Parks & Outdoors'). It wraps an <article> with an SVG icon and the visible text. In Chrome's accessibility tree in the snapshot, the link's name is empty. The live HTML has the same <a rel=\"bookmark\"><article>...</article></a> markup, so the capture matches what users get. Chrome leaves article content out when it computes a name from content, so users of Chrome-based browsers with a screen reader or voice control get an unnamed link. AccName would include the text and Firefox may expose it, but the pattern is not accessibility supported in the dominant engine, so the name cannot be programmatically determined there. The claim names that failure."
+    },
+    {
+      "fingerprint": "aaef0eddf940",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Search field #edit-keys with the placeholder 'Search for anything...'. The darkest glyph pixel in the screenshot is #9ca3af (the Tailwind placeholder colour) on white, which is 2.54:1, well below 4.5:1 for 16px regular text. Placeholder text is text, not an inactive component, and here it is the field's only visible prompt. The live page has the same field and styles. The claim names the failure."
+    }
+  ]
+}

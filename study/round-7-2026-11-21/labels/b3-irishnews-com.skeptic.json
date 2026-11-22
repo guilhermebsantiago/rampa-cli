@@ -1,0 +1,36 @@
+{
+  "page": "https://www.irishnews.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p1cbaf856aa4",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the 'Place a Notice' link in the 'Top Links' navigation, with a visually hidden 'Opens in new window' suffix, leading to https://secure.irishnews.com/notice. The link text alone states its purpose (placing a notice in the paper); the live destination answers 200 with the title 'Family Notices - IrishNews', which matches what the text promises. No other link in the snapshot shares its name (the neighbouring link is 'Notices'), so the shared-name rule (R1) does not apply. I looked for a reason it could fail and found none, so it meets 2.4.4 and Rampa was right to report nothing. The live HTML has the same anchor, href, target and hidden text as the snapshot, so the capture does not differ."
+    },
+    {
+      "fingerprint": "pac22273d4a8",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the 'News' link (href /news) in the off-screen flyout Sections Menu, in a list item that also holds its sub-sections (Northern Ireland, Ireland, UK, World, Politics). As a section link in a site navigation menu, 'News' clearly describes where it goes: the News section. The only other link with the same name in the snapshot is the footer 'News' link, and it has the same href /news, so under R1 the pair resolves to the same resource; their list items differ anyway. So it meets 2.4.4 and Rampa was right to report nothing. The live HTML has both anchors with href /news, exactly as captured, so the capture does not differ."
+    },
+    {
+      "fingerprint": "p7d5cfc72a72",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is a headline link inside an h2 in an article card: 'The eye of the hurricane: How Crossmaglen's first Ulster title 30 years ago changed everything'. Its text is the story's full headline, and the destination Rampa read has that same title and h1, so the purpose is clear from the link text alone. Two other links on the page share this name, and all three have the identical href, so under R1 they resolve to the same resource. So it meets 2.4.4 and Rampa was right to report nothing. The live HTML has the three anchors with the same href and text as the snapshot, so the capture does not differ."
+    }
+  ]
+}

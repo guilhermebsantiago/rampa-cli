@@ -1,0 +1,28 @@
+{
+  "page": "https://www.birminghammail.co.uk/news/midlands-news/crash-near-birmingham-airport-live-34947543",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s0dd12930130",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 20x20 brand icon (/assets/icons/birmingham-mail.svg) at the start of the article breadcrumb, inside a link to the home page whose accessible name comes from aria-label=\"birminghammail Home\". The crop and the screenshot show a white 'B' on the publication's purple square, the Birmingham Live / Birmingham Mail logo mark, so the alt \"Birminghammail Live Icon\" names exactly what the image is; the claim that it describes something the image does not show is false of the capture. The link (the control) already has a name that gives its purpose (aria-label, ARIA8), so the image's alternative does not even form the control's name, and as a logo identified by its brand it meets 1.1.1 either way. The live HTML fetched now is identical (same aria-label, alt and src) and the screenshot is fully styled, so the capture does not differ. The model had the crop and the alt and judged wrongly."
+    },
+    {
+      "fingerprint": "731a57aa732f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the Trust Project kite-mark image in the footer, the only content of a link to /about-us/ with no aria-label, title or aria-describedby, so the link's name is the alt \"trust project logo\" (snapshot nameFrom: contents). The claim holds of the capture: the alternative is all the link holds and it says what the picture is (an outside organisation's logo), not where the link goes. I opened the destination: it is \"About Us - Birmingham Live\", the publisher's own page on its editorial standards, ethics, corrections and people, which mentions The Trust Project in two passing sentences; a user hearing \"trust project logo, link\" would expect the Trust Project's site or a page about it, not the site's About Us page. The skeptical reading that the Trust Project trust mark conventionally leads to the publisher's standards page does not hold up for users in general, and under the rubric (R2, H30: the alternative of an image that is the only content of a link describes the link's function) neither the visible 'About Us' text link elsewhere in the footer nor anything else cures 1.1.1. The live HTML is identical to the snapshot (same href, alt, no title) and the screenshot is fully styled, so the capture does not differ."
+    }
+  ]
+}

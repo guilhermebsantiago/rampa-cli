@@ -1,0 +1,27 @@
+{
+  "page": "https://diabetes.org.br/comprimido-de-semaglutida-tambem-ajuda-a-controlar-o-diabetes/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p124fdd05e29",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the post's featured image (Elementor theme-post-featured-image widget, not a link) placed between the h1 'Comprimido de Semaglutida também ajuda a controlar o diabetes' and the article text, with alt=\"\", so it is exposed as presentation. The crop and screenshot show a generic stock photo (file name people-prepare-daily-medicine-tablet-pillbox): a hand holding a pill above a few loose tablets and a weekly pill organizer. It is not the Wegovy pill, a chart or text, and it adds no information beyond what the heading and article already say (a pill/medicine); it is illustrative ambience, which 1.1.1 allows to be implemented so assistive technology ignores it (technique H67, null alt). So the element meets 1.1.1 and Rampa was right not to report it; the label for this no-claim row is false_positive. captureDiffers: the live page fetched today serves the same img with alt=\"\" in the same place, and the screenshot is fully styled; no difference touches this."
+    },
+    {
+      "fingerprint": "73bb382302c7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field (input type=search, placeholder 'Pesquisar...', 15px, weight 400, not disabled), which shows its placeholder as visible text in the red top bar. The live CSS confirms the claim's colours: the kit sets the input colour to var(--e-global-color-text) = #7A7A7A, Elementor Pro's widget-search-form.min.css gives ::placeholder color:inherit with opacity .6, and the container background is #f1f2f3; #7a7a7a at 60% over #f1f2f3 is about #aaaaaa, 2.07:1. Measuring the screenshot, the darkest placeholder pixel is (169,170,170) on (241,242,243), 2.08:1. Placeholder text is visible text that conveys what the field is for, it is not a disabled control, logo or incidental text, so 1.4.3 asks for 4.5:1 at this size and it fails. The claim names exactly that failure. captureDiffers: the live HTML and style sheets fetched today give the same markup and colours, and the screenshot is fully styled; no difference."
+    }
+  ]
+}

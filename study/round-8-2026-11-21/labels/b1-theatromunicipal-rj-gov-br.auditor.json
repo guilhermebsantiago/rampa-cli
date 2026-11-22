@@ -1,0 +1,27 @@
+{
+  "page": "https://theatromunicipal.rj.gov.br/fale-conosco/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s67386906574",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The link under the h3 'Sistema Eletrônico do Serviço de Informação ao Cidadão (e-SIC)' shows 'Saiba mais sobre a Lei de Acesso à Informação' but carries aria-label=\" (abre numa nova aba)\", which replaces its content: the browser's tree gives nameFrom aria-label, name '(abre numa nova aba)'. claimTrue: four links on the captured page have exactly that name (the two mailto links under Presidência and Divisão Administrativa, and the two gov.br links under the e-SIC heading), and they go to four different places. Its paragraph holds only the link, there is no title or aria-describedby, and the heading before it is the same as for its sibling, so nothing in its context tells it apart from that sibling. The heading does set it apart from the two mailto links, so the count is a little high, but R1 allows that. elementFails: under R1, this link and the sibling 'Relatórios de pedidos de acesso à informação' share their name and context but go to different resources (the gov.br/acessoainformacao/pt-br home, titled 'Home - Acesso à Informação', and the perguntas-frequentes FAQ page, which now redirects to a gov.br login). Their visible texts tell them apart, so both links of the pair fail. Apart from R1, the name 'opens in a new tab' says nothing about where the link goes, and the e-SIC heading does not make up for it. The name also fails 2.5.3 because it does not contain the visible label. captureDiffers: the live HTML fetched today has the same markup and aria-label, and the screenshot matches. The claim, read in good faith, names this failure."
+    },
+    {
+      "fingerprint": "sb659fc6f81e",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The link under the e-SIC h3 shows 'Relatórios de pedidos de acesso à informação' but carries aria-label=\" (abre numa nova aba)\", so its accessible name is '(abre numa nova aba)' (nameFrom aria-label in the captured tree). Its visible text is not exposed to assistive technology. claimTrue: four links in the capture share that name and lead to four different destinations (two mailto addresses and two gov.br pages). The only context that would tell this link apart from its sibling 'Saiba mais sobre a Lei de Acesso à Informação' is the heading, and they share it; each paragraph holds only its link, and neither link has a title or description. elementFails: under R1 this link and its sibling form one set, and they resolve to non-equivalent resources: the Acesso à Informação portal home versus its FAQ page, which now redirects to a login. The visible text tells them apart, so both fail. Besides, 'opens in a new tab' gives no purpose at all, and the name also fails 2.5.3 Label in Name. captureDiffers: the live HTML is identical, and the screenshot shows the same section. The claim points at the real defect: an uninformative, shared accessible name."
+    },
+    {
+      "fingerprint": "s9c2ab8b4d70",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is a top-level item 'PEDTIC' in the main navigation (title='PEDTIC'). It opens pedtic2026_V16_final_.pdf, which is the institution's PEDTIC 2026 document (Plano Estratégico e Diretor de Tecnologia da Informação e Comunicação, going by the text in the PDF). claimTrue: nothing around the link expands the acronym, since the title only repeats it and no heading comes before it. But the link text is the name of the document it opens, so it does say where the link goes, if tersely; that part of the sentence does not hold. elementFails: Understanding 2.4.4 accepts link text that names the destination. Every user sees the same bare 'PEDTIC' label, so assistive-technology users get the same information sighted users get, and anyone who does not know the acronym is in the same position, which is the criterion's 'ambiguous to users in general' exception. Leaving the abbreviation unexpanded is a 3.1.4 (AAA) matter, not a 2.4.4 failure. Not saying that the target is a PDF is advisory, not required. captureDiffers: the live HTML has the same anchor, and the screenshot shows 'PEDTIC' in the navigation bar. The checker asked for an expanded, self-explanatory label, which is stricter than 2.4.4."
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "page": "https://www.tjmg.jus.br/ouvidoria/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "3db866c52319",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the header image inside the link to radiotjminas.com.br (the link has aria-label \"Rádio TJ Minas\"). The crop and the screenshot show a radio microphone icon with the text \"radiotjminas\", so the alt \"icone rede social radio tjmg\" names what the image shows and where the link goes. The claim that it describes something the image does not show is false of the capture. The \"icone rede social\" prefix is wordy but does no harm, and the link's aria-label gives the purpose too, so 1.1.1 is met. The live HTML has the same img, alt and aria-label, and the screenshot is fully styled. The model had the crop and judged wrongly."
+    },
+    {
+      "fingerprint": "p59c552403a2",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the utility-bar link \"REDE TJMG\" (target=_blank). It leads to the login of the court's Rede TJMG portal, which now redirects to auth.tjmg.jus.br, titled \"Log in to tjmg\". The link text names the destination, and naming the site a link goes to is enough for 2.4.4, so the element meets it and Rampa was right to report nothing. Opening a new window without warning is advisory (G201), not 2.4.4. The live HTML has the same link."
+    },
+    {
+      "fingerprint": "s1125188d4bc",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "\"Cidadão\" is a top-level item of the main navigation (nav \"Menu Principal\"). It is an anchor with href javascript:void inside an li role=menuitem with aria-haspopup, and it opens the citizen submenu. That list item also holds the submenu links (TJMG contra golpes, Carta de Serviços, SIC...). The text names the section the item opens, which is its purpose, and its list-item context confirms it, so 2.4.4 is met. \"Cidadão\" is not an address, so the claim is false. It treats a section name as not a purpose, which is stricter than 2.4.4. Using a link as a menu button is a 4.1.2 matter, not 2.4.4. The live HTML is the same."
+    },
+    {
+      "fingerprint": "af9e70b9f9c4",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the global search field in the header. The site's bundle.css sets ::placeholder color #d1d1d1, and the field background is white. Pixels in the screenshot confirm #d1d1d1 on #ffffff, which is 1.53:1 at 14px, well under 4.5:1. Understanding 1.4.3 states that the criterion applies to placeholder text. The placeholder \"O que deseja encontrar?\" is the only visible text in the field, since the legend \"Busca global do Portal\" is not shown, so no exception applies. The live CSS and HTML are the same as the capture."
+    },
+    {
+      "fingerprint": "ed5110d30789",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the icon-only AddToAny share link \"Compartilhar no Twitter\" (<i class=\"fa fa-twitter\">). The live bundle.css sets .share-article li.twitter a{color:#55acee}, on the #f7f7f7 article background: 2.30:1, as claimed. The glyph is the Twitter bird in Twitter's brand blue, much as the Facebook icon uses #3b5998. Understanding 1.4.11 exempts brand logos shown in their brand colours under the essential exception, and says the exemption normatively carries over to a UI component, so I lean to a pass. Competent auditors would still reasonably disagree on whether a share-button glyph in a legacy brand colour is an exempt logo or a functional icon that needs 3:1. In the 1280px screenshot the floating chat button also covers most of this icon, a separate issue. The live CSS matches the capture."
+    },
+    {
+      "fingerprint": "s3ab12c8fbd2",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Links Rápidos\" is the last top-level item of the main navigation: an anchor with href javascript:void in an li role=menuitem with aria-haspopup, which opens a submenu of quick links. That list item holds the links (Escola Judicial, Certidão Judicial, Guia de custas...). The text says what the item opens, and its list-item context lists the destinations, so the claim that nothing around it tells where it goes is false and 2.4.4 is met. The model had the ancestor text and judged wrongly. The live HTML is the same."
+    },
+    {
+      "fingerprint": "se1e5f8eb769",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the \"Cidadão\" collapsible header of the off-canvas mobile menu (#menu-mobile, a side-nav at x=-300). It is offscreen but focusable and in the accessibility tree. The browser computes its name as \"CIDADÃO\"; Rampa's own name \"Cidadãoexpand_more\" wrongly includes the aria-hidden icon text, but the claim uses the right one. It expands the citizen section, whose links sit in the same list item, so the purpose is clear from the text and its list-item context, and 2.4.4 is met. \"Cidadão\" is not an address, so the claim is false, and rejecting a section name as a purpose is stricter than 2.4.4. The live HTML is the same."
+    },
+    {
+      "fingerprint": "sfc274b0f33f",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "\"Comunicação\" is a top-level item of the main navigation: an anchor with href javascript:void in an li role=menuitem with aria-haspopup. It opens the communication submenu, whose links (Agenda, Notícias, Rádio TJ Minas...) sit in the same list item. The text names the section it opens, so the purpose can be determined with its list-item context, and 2.4.4 is met. \"Comunicação\" is not an address, so the claim is false, and treating a section name as not a purpose is stricter than the criterion. The live HTML is the same."
+    },
+    {
+      "fingerprint": "s51a1d2a87c9",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the header image in the link to tiktok.com/@tjmgoficial (the link has aria-label \"Tiktok\"). The crop and the screenshot show the TikTok logo, and the alt \"icone rede social tiktok\" says exactly that. The claim that it describes something the image does not show is false, and the alt plus the link's aria-label give the purpose, so 1.1.1 is met. The live HTML has the same img and alt. The model had the crop and judged wrongly."
+    },
+    {
+      "fingerprint": "sd0e3583f2b6",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the skip link \"Ir para o conteúdo\" (accesskey 1, the visible \"1\" being its key hint), with href #go-to-main. Both the live HTML and the capture have <main role=\"main\" id=\"go-to-main\">, and the main content starts with the \"Ouvidoria\" heading and its text. The quoted destination is the page's content, so the text matches where the link goes: the claim is false and 2.4.4 is met. The model had the destination text and judged wrongly."
+    },
+    {
+      "fingerprint": "s80df0187be6",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the \"Institucional\" collapsible header (href javascript:void(0)) of the off-canvas mobile menu. It is offscreen but focusable and exposed; Rampa's name \"Institucionalexpand_more\" wrongly includes the aria-hidden icon text, while the browser name is \"INSTITUCIONAL\". It expands the institutional section, whose links (O TJMG, Presidência, Ouvidoria...) sit in the same list item, so the text with that context gives the purpose and 2.4.4 is met. It is not an address, so the claim is false, and rejecting a section name as a purpose is stricter than the criterion. The live HTML is the same."
+    }
+  ]
+}

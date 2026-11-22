@@ -1,0 +1,27 @@
+{
+  "page": "https://www.ageuk.org.uk/discover/2026/september/a-tribute-to-dame-esther-rantzen/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p01fd12b46ac",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer link 'Charity shops' (href /services/charity-shops/) in the list under the footer heading h2 'Services'. Its text alone says where it goes, and the destination is the Age UK charity shops page (heading 'Age UK charity shops'), so the purpose is clear from the link text, helped by the preceding heading. No other link in the snapshot or the live HTML has the name 'Charity shops'; the two header-menu links to the same address are named 'Find charity shops near you' and lead to the same resource anyway. The element meets 2.4.4, so Rampa was right to report nothing. captureDiffers: the live HTML fetched on 2026-11-21 has the same anchor and the same footer list, and the screenshot shows the styled footer with the link under 'Services'."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter sign-up field (form action /AgeUKNewsletterSignup/Index, legend 'Sign up today', label 'Email address', input type=text name=email id=email) that asks for the user's own email address. claimTrue: the captured HTML has no autocomplete attribute, and the snapshot's formIssues lists Chromium's FormInputAssignedAutocompleteValueToIdOrNameAttributeError for this input, so the sentence and its Chromium remark hold. elementFails: 1.3.5 covers input fields that collect information about the user, and 'email' is one of the listed input purposes; with type=text and no autocomplete token, the purpose is not programmatically determinable (technique H98 is not used), so the field fails 1.3.5 for the reason the claim gives. captureDiffers: the live HTML fetched on 2026-11-21 has the same input without autocomplete, and the snapshot was taken after scripts ran, with no autocomplete added; the screenshot shows the same styled field."
+    }
+  ]
+}

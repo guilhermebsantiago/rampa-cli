@@ -1,0 +1,34 @@
+{
+  "page": "https://hospitaldeamor.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "63e65958af26",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer credit line \"Hospital de Amor – Desenvolvido pela\" (13px, weight 500). The live Divi CSS sets .et_pb_text_4_tb_footer.et_pb_text{color:rgba(21,21,21,0.2)!important}. Over white that blends to about #d0d0d0, which gives roughly 1.54:1, so the claim holds for the capture. I looked for reasons it could be wrong. The 'background image' that stopped axe is Grupo-1595.jpg, a 2013x6 colour strip at the top of the footer section, so the text sits on the white footer, not on the image. The cookie banner covers the line in the full-page screenshot, but it can be dismissed and does not change the text's own contrast. The line is a real credit, not decoration, and no 1.4.3 exception fits it. The live HTML and CSS match the capture. It fails 1.4.3 for the reason the claim gives."
+    },
+    {
+      "fingerprint": "sff921a8b155",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the top-level main-menu item <a href=\"#\">Transparência</a>, a dropdown trigger. Its computed name 'Transparência 3' picks up the chevron icon-font glyph. Its purpose is to open the hospital's Transparency section. That is a standard section on Brazilian non-profit and public-funding sites, and the link text alone makes it clear. Its own list item, which counts as programmatically determined context, also holds the submenu (Relatórios Anuais, Balanços Patrimoniais e Subvenções Públicas, Doações Alimentícias, Leilões, Estatuto Social, Membros dos Conselhos, Transparência Cora). That submenu is in the DOM and was in the snapshot Rampa read, so 'nothing around it does' is false of the capture. The live menu markup is identical. Possible problems lie under other criteria: a href=\"#\" trigger without button semantics or aria-expanded (4.1.2), and the glyph read aloud. Neither is a 2.4.4 failure. The checker had this context and judged it wrongly."
+    },
+    {
+      "fingerprint": "s8932f968f85",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the first main-menu item <a href=\"#\">Sobre</a>, a dropdown trigger. Its computed name 'Sobre 3' picks up the chevron icon-font glyph. 'Sobre' (About) as a top-level navigation item is a conventional label: it opens the section about the hospital, and the text alone makes that clear. Its own list item, which counts as programmatically determined context, also contains the submenu (Quem Somos, Conheça mais sobre nossa história, Unidades do HA, Conheça o nosso mascote, Seja um herói, Além da oncologia). The snapshot holds that submenu, so 'nothing around it does' does not hold for the capture. The live menu markup matches the capture. The href=\"#\" trigger lacks button semantics or aria-expanded, which is a 4.1.2 matter, not a 2.4.4 failure. The checker had the context and misjudged it."
+    },
+    {
+      "fingerprint": "ba94e4e0cc01",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Williarts' developer-credit link in the footer (13px, weight 500). Its inline style, in both the snapshot and the live HTML, is color: rgba(21,21,21,0.2). It sits on the white footer, giving about 1.54:1, so the claim is true of the capture. I checked the skeptical angles. The footer background image is only a 6px-tall strip at the top of the section, so the text is on white. The cookie banner covers it in the screenshot only until it is dismissed. The logotype exception does not fit: this is plain inline link text in a sentence, in the page font, not a logo. The text is not decorative either. The live page has the same styling, so it fails 1.4.3 as claimed."
+    }
+  ]
+}

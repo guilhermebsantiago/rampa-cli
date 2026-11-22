@@ -1,0 +1,116 @@
+{
+  "page": "https://www.institutoricardobrennand.org.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "357b7a3597de",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the h2 'destaque da semana', the third tab under the home banner. In the screenshot, the text pixels are #9a6325 on #383838 (2.34:1), within the claim's 'at most 2.41:1' (#363636). The live style sheet (style.css) sets '.banner-principal .chamadas .box-chamadas h2' to color #9a6325, 12px, bold, on a box with background rgba(34,34,34,.9); the HTML on the live page is the same as the snapshot. 12px bold is not large text, so 4.5:1 applies. Looking for a way it could pass: the box is 90% #222 over the banner slider, so whatever photo is behind it the backdrop stays between #1f1f1f (over black) and #383838 (over white), and #9a6325 then reaches only about 3.29:1 at best and 2.34:1 at worst. It cannot reach 4.5:1 on any slide. Capture: the screenshot's banner area is blank white where users would see slide photos. That changes the exact backdrop and ratio, but not the failure, so it does not matter for this claim. Hover only moves the heading; its colour stays the same."
+    },
+    {
+      "fingerprint": "d62b973e06af",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'ver mais' link inside the TV IRB box heading. The live CSS sets '.tv h2 a' to color #828282, 10px, and the h2 behind it to rgba(34,34,34,.9), laid over the bottom of the TV image. In the screenshot the backdrop is #252525 and the text #828282 (about 3.95-3.99:1), in line with the claim. Looking for a way it could pass: with the 90% #222 overlay, the backdrop can be no darker than #1f1f1f, where #828282 gives only 4.29:1. So it fails at 10px whatever the image shows. Only the hover state (white on #9a6325) differs. The parallax script shifts the box about 120px between the snapshot bounds and the screenshot, but the colours match the style sheet, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "sbdfb03292f6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'ver mais' link (href #single-video, opens a TV IRB YouTube video in a fancybox). It sits inside the h2 'tv irb' (the heading's accessible name is 'tv irb ver mais'), so the heading that holds it and comes before it in document order gives the context: 'TV IRB - ver mais', i.e. see more TV IRB video. That determines the purpose, and it matches the destination, a TV IRB video. No other link on the page is named 'ver mais', so R1 does not apply. The claim's 'nothing around it does' is false of the capture, since the packet's ancestors and nearby headings show 'tv irb'. The live HTML is the same as the snapshot. Rampa had this context and judged wrongly."
+    },
+    {
+      "fingerprint": "s1c120b0eb6b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'Saiba mais' button in the 'Horários' box. It links to index.php/horarioseingressos, the hours and tickets page. The heading just before it is the h2 'Horários' (H80 context under this rubric), so 'Saiba mais' about opening hours determines the purpose, and it fits the destination. R1: the four 'Saiba mais' links are each preceded by a different heading ('Compre aqui!.', 'Horários', 'Agende sua visita', 'Como chegar'), so none share a context set. The claim's 'nothing around it does' is false: the heading is in the packet's nearby headings. The live HTML is identical to the snapshot. Rampa had the context and judged wrongly."
+    },
+    {
+      "fingerprint": "8b05f5c39555",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the h2 'faça seu evento', the middle tab under the home banner. In the screenshot, the text is #9a6325 on #383838 (2.34:1), within the claim's 'at most 2.41:1'. The live style sheet (style.css) sets '.banner-principal .chamadas .box-chamadas h2' to color #9a6325, 12px, bold, on a box with background rgba(34,34,34,.9); the HTML on the live page is the same as the snapshot. 12px bold is not large text, so 4.5:1 applies. Looking for a way it could pass: the box is 90% #222 over the banner slider, so whatever photo is behind it the backdrop stays between #1f1f1f (over black) and #383838 (over white), and #9a6325 then reaches only about 3.29:1 at best and 2.34:1 at worst. It cannot reach 4.5:1 on any slide. Capture: the screenshot's banner area is blank white where users would see slide photos. That changes the exact backdrop and ratio, but not the failure, so it does not matter for this claim. Hover only moves the heading; its colour stays the same."
+    },
+    {
+      "fingerprint": "s788c986e962",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'Saiba mais' button in the 'Como chegar' box. It links to Google Maps directions to the Instituto Ricardo Brennand. The heading just before it is the h2 'Como chegar' ('how to get there'), so the purpose is determined: directions to the institute. The paragraph beside it (which names HERE Maps) is a sibling, not context, and it is not needed. R1: each 'Saiba mais' is preceded by a different heading, so there is no shared set. The claim's 'nothing around it does' is false of the capture. The live HTML is identical. Rampa had the heading and judged wrongly."
+    },
+    {
+      "fingerprint": "7f432d27771e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the h2 'programação do museu', the first tab under the home banner. Rampa's own capture had a slightly tinted backdrop (#322d28, 2.72:1). In the screenshot it is #383838 (2.34:1), which is still within 'at most 2.72:1'. The live style sheet (style.css) sets '.banner-principal .chamadas .box-chamadas h2' to color #9a6325, 12px, bold, on a box with background rgba(34,34,34,.9); the HTML on the live page is the same as the snapshot. 12px bold is not large text, so 4.5:1 applies. Looking for a way it could pass: the box is 90% #222 over the banner slider, so whatever photo is behind it the backdrop stays between #1f1f1f (over black) and #383838 (over white), and #9a6325 then reaches only about 3.29:1 at best and 2.34:1 at worst. It cannot reach 4.5:1 on any slide. Capture: the screenshot's banner area is blank white where users would see slide photos. That changes the exact backdrop and ratio, but not the failure, so it does not matter for this claim. Hover only moves the heading; its colour stays the same."
+    },
+    {
+      "fingerprint": "e1d86a415b21",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer image patrocinio2026.png with alt=''. The crop shows the Lei Rouanet mark, a 'PATROCÍNIO' list of sponsor logos (Cimento Nacional, Bradesco, Mateus, J.P.Morgan, SulAmérica, Rede D'Or, B3, Stellantis, PwC, TCS and others) and 'REALIZAÇÃO' (Instituto Ricardo Brennand, Ministério da Cultura). Looking for a reason it could pass: no text in the snapshot or on the live page names the sponsors or the funding law (the only matches for 'patroc' are the file name and commented-out HTML). There is no caption, aria-describedby or visually hidden list. The image conveys sponsorship and funding information, not decoration, so a null alt fails 1.1.1. The live page serves the same image with alt=''. The claim names exactly this failure."
+    },
+    {
+      "fingerprint": "497e96e7e00f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the h2 'tv irb'. The live CSS sets '.tv h2' to color #9a6325, 18px, weight 500, on rgba(34,34,34,.9) over the bottom of the TV image. 18px at weight 500 is below the large-text threshold (14pt bold or 18pt), so 4.5:1 applies. In the screenshot, #9a6325 on #242424 gives 3.09:1, in line with the claim's 3.10:1. Looking for a way it could pass: even over a pure black image the backdrop would be #1f1f1f, and #9a6325 there reaches only 3.29:1. The parallax shift between the snapshot bounds and the screenshot does not change the colours, so the capture does not matter here."
+    },
+    {
+      "fingerprint": "18fff3c3544d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer list item with the opening hours. The labels 'Terça e Quarta' and 'Quinta a Domingo' are set by 'footer .primeiro-bloco ul li' to color #8f8f8f (16px, or 14px under the narrower media queries), regular weight, on the white footer. The calendar icon is a background image at the left, not under the text. In the screenshot the darkest text pixels are #8f8f8f on #ffffff, 3.23:1. Only the bold times (#424242) pass. No large-text or other exception applies, so 4.5:1 is required and not met. The live HTML and CSS are the same as the capture."
+    }
+  ]
+}

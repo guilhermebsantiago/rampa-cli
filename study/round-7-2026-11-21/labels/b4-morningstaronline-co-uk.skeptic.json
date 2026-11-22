@@ -1,0 +1,72 @@
+{
+  "page": "https://morningstaronline.co.uk/article/amazon-access-rights-sweetheart-deals",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "sf4e13954152",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Element: the 'Wales' link in the desktop sub-menu, href '/index%2Ephp/tags/wales'; the other two 'Wales' links go to '/tags/wales' (mobile menu) and '/index%2Ephp/tags/wales' (footer). In the snapshot, the links sharing this name are the desktop sub-menu link, the mobile-menu-container link (at x=82.5, not visible in the desktop screenshot) and the footer link; two of them point to the '/index%2Ephp/...' form and one to the plain path. '/index%2Ephp/' is Drupal's front controller (index.php) in front of the same route: the snapshot's destinations give both addresses the same status and the same title, and on the live site both serve the same page (curl: '/index.php/tags/wales' redirects to '/tags/wales', and the '/index%2Ephp/' and plain forms list the identical set of 13 article links). So every link of the set resolves to the same resource, and by the ACT rule fd3a94 expectation (R1) the pair passes; nothing on the page claims they go to different pages either. claimTrue is no because the '2 different places' are one page reached by two address spellings. captureDiffers is yes: the live page (fetched 2026-11-21 19:24 UTC, Drupal page cache HIT) now uses the plain path for all three links, so the '/index%2Ephp/' variants the claim rests on are gone; the label does not depend on this, since the capture's addresses already resolve to the same resource. Cause model_error: Rampa had both addresses and identical destination titles and still counted different href strings as different places."
+    },
+    {
+      "fingerprint": "s5eb2553fd1b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Element: the 'Climate Crisis' link in the mobile menu container, href '/tags/climate-crisis-0'; the other two go to '/index%2Ephp/tags/climate-crisis-0' (desktop sub-menu and footer). In the snapshot, the links sharing this name are the desktop sub-menu link, the mobile-menu-container link (at x=82.5, not visible in the desktop screenshot) and the footer link; two of them point to the '/index%2Ephp/...' form and one to the plain path. '/index%2Ephp/' is Drupal's front controller (index.php) in front of the same route: the snapshot's destinations give both addresses the same status and the same title, and on the live site both serve the same page (curl: '/index.php/tags/wales' redirects to '/tags/wales', and the '/index%2Ephp/' and plain forms list the identical set of 13 article links). So every link of the set resolves to the same resource, and by the ACT rule fd3a94 expectation (R1) the pair passes; nothing on the page claims they go to different pages either. claimTrue is no because the '2 different places' are one page reached by two address spellings. captureDiffers is yes: the live page (fetched 2026-11-21 19:24 UTC, Drupal page cache HIT) now uses the plain path for all three links, so the '/index%2Ephp/' variants the claim rests on are gone; the label does not depend on this, since the capture's addresses already resolve to the same resource. Cause model_error: Rampa had both addresses and identical destination titles and still counted different href strings as different places."
+    },
+    {
+      "fingerprint": "s31e17a87c57",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Element: the 'Climate Crisis' link in the desktop sub-menu, href '/index%2Ephp/tags/climate-crisis-0'; the others go to '/tags/climate-crisis-0' (mobile menu) and '/index%2Ephp/tags/climate-crisis-0' (footer). In the snapshot, the links sharing this name are the desktop sub-menu link, the mobile-menu-container link (at x=82.5, not visible in the desktop screenshot) and the footer link; two of them point to the '/index%2Ephp/...' form and one to the plain path. '/index%2Ephp/' is Drupal's front controller (index.php) in front of the same route: the snapshot's destinations give both addresses the same status and the same title, and on the live site both serve the same page (curl: '/index.php/tags/wales' redirects to '/tags/wales', and the '/index%2Ephp/' and plain forms list the identical set of 13 article links). So every link of the set resolves to the same resource, and by the ACT rule fd3a94 expectation (R1) the pair passes; nothing on the page claims they go to different pages either. claimTrue is no because the '2 different places' are one page reached by two address spellings. captureDiffers is yes: the live page (fetched 2026-11-21 19:24 UTC, Drupal page cache HIT) now uses the plain path for all three links, so the '/index%2Ephp/' variants the claim rests on are gone; the label does not depend on this, since the capture's addresses already resolve to the same resource. Cause model_error: Rampa had both addresses and identical destination titles and still counted different href strings as different places."
+    },
+    {
+      "fingerprint": "sc46133a0a06",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Element: the 'Cop31' link in the mobile menu container, href '/tags/cop31'; the other two go to '/index%2Ephp/tags/cop31' (desktop sub-menu and footer). In the snapshot, the links sharing this name are the desktop sub-menu link, the mobile-menu-container link (at x=82.5, not visible in the desktop screenshot) and the footer link; two of them point to the '/index%2Ephp/...' form and one to the plain path. '/index%2Ephp/' is Drupal's front controller (index.php) in front of the same route: the snapshot's destinations give both addresses the same status and the same title, and on the live site both serve the same page (curl: '/index.php/tags/wales' redirects to '/tags/wales', and the '/index%2Ephp/' and plain forms list the identical set of 13 article links). So every link of the set resolves to the same resource, and by the ACT rule fd3a94 expectation (R1) the pair passes; nothing on the page claims they go to different pages either. claimTrue is no because the '2 different places' are one page reached by two address spellings. captureDiffers is yes: the live page (fetched 2026-11-21 19:24 UTC, Drupal page cache HIT) now uses the plain path for all three links, so the '/index%2Ephp/' variants the claim rests on are gone; the label does not depend on this, since the capture's addresses already resolve to the same resource. Cause model_error: Rampa had both addresses and identical destination titles and still counted different href strings as different places."
+    },
+    {
+      "fingerprint": "s7c9a6c1207b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Element: the 'Features' link in the mobile menu container, href '/category/features'; the other two go to '/index%2Ephp/category/features' (desktop main menu and footer). In the snapshot, the links sharing this name are the desktop sub-menu link, the mobile-menu-container link (at x=82.5, not visible in the desktop screenshot) and the footer link; two of them point to the '/index%2Ephp/...' form and one to the plain path. '/index%2Ephp/' is Drupal's front controller (index.php) in front of the same route: the snapshot's destinations give both addresses the same status and the same title, and on the live site both serve the same page (curl: '/index.php/tags/wales' redirects to '/tags/wales', and the '/index%2Ephp/' and plain forms list the identical set of 13 article links). So every link of the set resolves to the same resource, and by the ACT rule fd3a94 expectation (R1) the pair passes; nothing on the page claims they go to different pages either. claimTrue is no because the '2 different places' are one page reached by two address spellings. captureDiffers is yes: the live page (fetched 2026-11-21 19:24 UTC, Drupal page cache HIT) now uses the plain path for all three links, so the '/index%2Ephp/' variants the claim rests on are gone; the label does not depend on this, since the capture's addresses already resolve to the same resource. Cause model_error: Rampa had both addresses and identical destination titles and still counted different href strings as different places."
+    },
+    {
+      "fingerprint": "s79ac7222d1d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Element: the 'Wales' link in the mobile menu container, href '/tags/wales'; the other two go to '/index%2Ephp/tags/wales' (desktop sub-menu and footer). In the snapshot, the links sharing this name are the desktop sub-menu link, the mobile-menu-container link (at x=82.5, not visible in the desktop screenshot) and the footer link; two of them point to the '/index%2Ephp/...' form and one to the plain path. '/index%2Ephp/' is Drupal's front controller (index.php) in front of the same route: the snapshot's destinations give both addresses the same status and the same title, and on the live site both serve the same page (curl: '/index.php/tags/wales' redirects to '/tags/wales', and the '/index%2Ephp/' and plain forms list the identical set of 13 article links). So every link of the set resolves to the same resource, and by the ACT rule fd3a94 expectation (R1) the pair passes; nothing on the page claims they go to different pages either. claimTrue is no because the '2 different places' are one page reached by two address spellings. captureDiffers is yes: the live page (fetched 2026-11-21 19:24 UTC, Drupal page cache HIT) now uses the plain path for all three links, so the '/index%2Ephp/' variants the claim rests on are gone; the label does not depend on this, since the capture's addresses already resolve to the same resource. Cause model_error: Rampa had both addresses and identical destination titles and still counted different href strings as different places."
+    }
+  ]
+}

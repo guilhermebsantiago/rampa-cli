@@ -1,0 +1,113 @@
+{
+  "page": "https://tribunadonorte.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p224028b515c",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Link 'Saúde' in the side-menu navigation (Menu lateral), pointing to the Saúde category page /categoria/saude/. In a site navigation menu the category name alone makes the purpose clear (it opens the Saúde section). The only other link with the same name in the snapshot (#menu-editorias footer menu) goes to the same URL, so no shared-name problem under R1. The live HTML still has the same link and href; no difference from the capture. The element meets 2.4.4, so Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "b2b4b19f6ff2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter e-mail field (#newsletter) whose placeholder 'E-mail...' is its only visible label; the field is white (bg-white) and its text colour #6F6F6F is rendered at half strength for the placeholder. Sampling the screenshot gives placeholder pixels around #B6B6B7 on #FFFFFF, about 2.0:1, matching the claimed 2.01:1. It is 18px at weight 500, so normal-size text needing 4.5:1. Placeholder text is visible text that conveys the field's purpose here, so 1.4.3 applies and fails. The live HTML has the same input and classes, and the screenshot shows a fully styled page, so nothing differs from the capture."
+    },
+    {
+      "fingerprint": "84041d8030df",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header search box (#search) with placeholder 'Pesquisar por...' styled placeholder:text-[#303236]/56, sitting in a light grey #F5F7F8 pill. Screenshot pixels for the placeholder are about #87888B on #F5F7F8, roughly 3.3:1, matching the claimed 3.27:1. At 16px weight 400 it needs 4.5:1. The placeholder is the only text saying what the field is for (next to a magnifier icon), so it is text under 1.4.3 and fails. The live HTML has the same input and class; the screenshot is styled; no difference."
+    },
+    {
+      "fingerprint": "9cd411503213",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter sign-up field under 'Receba as principais notícias do RN': it collects the user's own e-mail address, a purpose in the WCAG Input Purposes list (email). The input is type=text, name=newsletter, autocomplete=off, so nothing programmatically identifies that purpose. Understanding 1.3.5 says that even when authors want to stop autofill, input purposes still need to be programmatically determinable. So the field fails 1.3.5 for exactly the reason the claim gives. The live HTML has the same markup."
+    },
+    {
+      "fingerprint": "sad28cb3183b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "h4 'Dácio Galvão' heads one card in the 'Colunistas / Articulistas' carousel. Under it are the columnist's latest column title ('Representação') and a 'Ver perfil' link, and the card's image has the same name. A heading that names the columnist whose card it is describes the card's topic; the other cards follow the same pattern (Rubens Lemos Filho, Notas & Comentários). So the claim that it says nothing about its content is false and the heading meets 2.4.6. The live carousel has rotated and no longer includes this columnist, but it uses the same card template. The screenshot (where the card is visible) matches the snapshot, so no capture difference matters. Rampa had the text under the heading and still judged wrongly."
+    },
+    {
+      "fingerprint": "p55cf0a1d4e0",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "News teaser link that wraps a thumbnail, the category 'Esportes', the date and the headline 'Renan Bragança recebe proposta do Náutico e está de saída do América', and points to that article (whose title and h1 match). The headline in the link text gives its purpose. The only other link with the same name (a later teaser block) goes to the same URL, so R1 does not apply. The live front page has since rotated this teaser out, but the same teaser template is used and nothing suggests the capture differed from what users received. The link meets 2.4.4."
+    },
+    {
+      "fingerprint": "s87045020578",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Thumbnail inside the teaser link for 'Relatório da PF tem diálogos de Vorcaro sobre Mendonça...'. The crop shows a man in judicial robes at a bench (the minister the story is about). Its alt is only a photo credit, 'Foto: Leobark Rodrigues/Secom/TSE'. The image is not the link's only content (the headline is also in the link), so R2 does not apply. Treated as informative, the credit is not an alternative to the picture: it does not convey who or what is shown (F30). Treated as decorative next to the headline, it needed a null alt and instead adds the credit to the link name (F39). Either way it fails 1.1.1. Read in good faith, 'describes something the image does not show' names that defect, and the credit is literally not shown in the image. The live HTML still has the same alt."
+    },
+    {
+      "fingerprint": "sb36b7dd11ed",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Thumbnail inside the teaser link for 'Tati Machado anuncia nascimento do filho Rafael'. The crop shows a newborn baby in a hospital cap held against a face. Its alt is only a source credit, 'Foto: Reprodução/Instagram @tati'. The headline is also in the link, so R2 does not apply. If the image is informative, the alt does not convey what it shows (F30). If it is decorative, it should have a null alt and instead pushes the credit into the link name (F39). Either way it fails 1.1.1. Read in good faith, the claim names that defect, and its sentence is true: the credit is not something the image shows. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "ff5d15fc865e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Aperte aqui para ver' is a white 14px weight-500 label in a translucent pill (bg-white/12, backdrop blur) over the TN PLAY featured video thumbnail. The page's dark gradient overlay is near transparent at the top of the image, where the pill sits. Sampling the screenshot behind the text gives mostly greyish-brown pixels around #93817A, about 3.6 to 3.8:1 against white. Only scattered darker pixels reach 4.5:1, matching the claimed 3.16 to 3.76:1. Normal-size text needs 4.5:1, so it fails 1.4.3. The live HTML still features the same video thumbnail (DROPS-NEWS-Thumb-19-11-26) with the same pill markup, and the screenshot is fully styled; no difference."
+    },
+    {
+      "fingerprint": "p1ee5a1e61e2",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "'Assine Agora' ('Subscribe now') button-styled link at the bottom of the side menu, pointing to loja.tribunadonorte.com.br, whose page title is 'Assine A Tribuna do Norte' (the subscription store). The link text alone tells users it leads to subscribing. No other link shares the name: the header 'Assine' has a different name and goes to the same URL anyway. The live HTML has the same link. It meets 2.4.4."
+    }
+  ]
+}

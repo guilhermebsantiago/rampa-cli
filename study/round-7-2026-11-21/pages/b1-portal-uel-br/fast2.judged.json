@@ -1,0 +1,767 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://portal.uel.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "994b63c2caa7",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > main > section:nth-of-type(6) > div > div > div > div > div:nth-of-type(1) > a > div > img",
+   "message": "The text alternative \"Card image cap\" describes something the image does not show.",
+   "evidence": "Card image cap",
+   "subject": "Card image cap",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "html > body > main > section:nth-of-type(6) > div > div > div > div > div:nth-of-type(1) > a > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Card image cap",
+    "to": "Ícone de livro",
+    "before": "<img class=\"card-img-top\" src=\"https://portal.uel.br/wp-content/themes/portal-wordpress-uel/assets/vida-na-uel/uel-estude-na-uel.png\" alt=\"Card image cap\">",
+    "after": "<img class=\"card-img-top\" src=\"https://portal.uel.br/wp-content/themes/portal-wordpress-uel/assets/vida-na-uel/uel-estude-na-uel.png\" alt=\"Ícone de livro\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.999996458679074
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "5f17510bc7d2",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > main > section:nth-of-type(6) > div > div > div > div > div:nth-of-type(2) > a > div > img",
+   "message": "The text alternative \"Card image cap\" describes something the image does not show.",
+   "evidence": "Card image cap",
+   "subject": "Card image cap",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "html > body > main > section:nth-of-type(6) > div > div > div > div > div:nth-of-type(2) > a > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Card image cap",
+    "to": "Ícone de crachá",
+    "before": "<img class=\"card-img-top\" src=\"https://portal.uel.br/wp-content/themes/portal-wordpress-uel/assets/vida-na-uel/uel-estagio.png\" alt=\"Card image cap\">",
+    "after": "<img class=\"card-img-top\" src=\"https://portal.uel.br/wp-content/themes/portal-wordpress-uel/assets/vida-na-uel/uel-estagio.png\" alt=\"Ícone de crachá\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999982436948358
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "eb980713e7d7",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > main > section:nth-of-type(6) > div > div > div > div > div:nth-of-type(3) > a > div > img",
+   "message": "The text alternative \"Card image cap\" describes something the image does not show.",
+   "evidence": "Card image cap",
+   "subject": "Card image cap",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "html > body > main > section:nth-of-type(6) > div > div > div > div > div:nth-of-type(3) > a > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Card image cap",
+    "to": "Ícone de casa e texto Moradia",
+    "before": "<img class=\"card-img-top\" src=\"https://portal.uel.br/wp-content/themes/portal-wordpress-uel/assets/vida-na-uel/uel-moradia.png\" alt=\"Card image cap\">",
+    "after": "<img class=\"card-img-top\" src=\"https://portal.uel.br/wp-content/themes/portal-wordpress-uel/assets/vida-na-uel/uel-moradia.png\" alt=\"Ícone de casa e texto Moradia\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999984991547722
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "8e3f8c0ffa82",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > main > section:nth-of-type(4) > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Logo with the words \"UEL FM 107,9\"\".",
+   "evidence": "Logo with the words \"UEL FM 107,9\"",
+   "subject": "hidden uel-fm.png",
+   "patch": {
+    "ref": "html > body > main > section:nth-of-type(4) > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Logotipo da UEL FM 107,9",
+    "before": "<img width=\"150\" src=\"https://portal.uel.br/wp-content/themes/portal-wordpress-uel/assets/uel-fm.png\" alt=\"\">",
+    "after": "<img width=\"150\" src=\"https://portal.uel.br/wp-content/themes/portal-wordpress-uel/assets/uel-fm.png\" alt=\"Logotipo da UEL FM 107,9\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "f1d6c429cb4d",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > main > section:nth-of-type(4) > div > div > div:nth-of-type(3) > div > div:nth-of-type(2) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Logo with the words 'TV UEL'\".",
+   "evidence": "Logo with the words 'TV UEL'",
+   "subject": "hidden tv-uel.png",
+   "patch": {
+    "ref": "html > body > main > section:nth-of-type(4) > div > div > div:nth-of-type(3) > div > div:nth-of-type(2) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Logotipo da TV UEL",
+    "before": "<img width=\"150\" src=\"https://portal.uel.br/wp-content/themes/portal-wordpress-uel/assets/tv-uel.png\" alt=\"\">",
+    "after": "<img width=\"150\" src=\"https://portal.uel.br/wp-content/themes/portal-wordpress-uel/assets/tv-uel.png\" alt=\"Logotipo da TV UEL\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "c21f180b9673",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > main > section:nth-of-type(8) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(2) > a",
+   "message": "The link text \"SAIBA MAIS\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "SAIBA MAIS",
+   "subject": "SAIBA MAIS",
+   "claim": "generic",
+   "techniques": [
+    "G91"
+   ],
+   "patch": {
+    "ref": "html > body > main > section:nth-of-type(8) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > p:nth-of-type(2) > a",
+    "kind": "set-text",
+    "from": "SAIBA MAIS",
+    "to": "Serviços para a comunidade",
+    "before": "<a href=\"https://portal.uel.br/servicos-a-comunidade\" class=\"saiba-mais transparent-orange\">SAIBA MAIS</a>",
+    "after": "<a href=\"https://portal.uel.br/servicos-a-comunidade\" class=\"saiba-mais transparent-orange\">Serviços para a comunidade</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "ea2cbfa4164d",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > main > div:nth-of-type(3) > a",
+   "message": "The link text \"VER MAIS\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "VER MAIS",
+   "subject": "VER MAIS",
+   "claim": "generic",
+   "techniques": [
+    "G91"
+   ],
+   "patch": {
+    "ref": "html > body > main > div:nth-of-type(3) > a",
+    "kind": "set-text",
+    "from": "VER MAIS",
+    "to": "Ver mais sobre UEL em Dados",
+    "before": "<a href=\"https://sites.uel.br/proplan/uel-em-dados/\" target=\"_blank\" class=\"saiba-mais green\">VER MAIS</a>",
+    "after": "<a href=\"https://sites.uel.br/proplan/uel-em-dados/\" target=\"_blank\" class=\"saiba-mais green\">Ver mais sobre UEL em Dados</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "4a276aaff70f",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#header > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a",
+   "target": "#header > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a",
+   "message": "The name the browser computes for this link is only an icon-font glyph (U+F107, a private use character from CSS), which screen readers do not read. Give it a text name (aria-label or visually hidden text) and hide the icon (aria-hidden).",
+   "evidence": "role link · name U+F107",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a onclick=\"scrollInto('sectionSocialMedia')\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "b7cf039d7884",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > main > section:nth-of-type(2) > div > div > div > div > div > div > div:nth-of-type(1) > a",
+   "target": "html > body > main > section:nth-of-type(2) > div > div > div > div > div > div > div:nth-of-type(1) > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a href=\"https://operobal.uel.br/encontro/2026/11/17/eaic-2026-tem-800-alunos-apresentacoes-orais-de-trabalhos-de-pesquisa/\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "8df82407da92",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > main > section:nth-of-type(2) > div > div > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(1) > a",
+   "target": "html > body > main > section:nth-of-type(2) > div > div > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(1) > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a href=\"https://operobal.uel.br/ultimas/2026/11/20/nota-oficial-2/\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "46e8b280379a",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > main > section:nth-of-type(2) > div > div > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(2) > a",
+   "target": "html > body > main > section:nth-of-type(2) > div > div > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(2) > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a href=\"https://operobal.uel.br/institucional/2026/11/19/universidade-interrompe-aulas-e-atividades-administrativas-na-sexta-feira-20-feriado-nacional-dia-da-consciencia-negra/\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "b45089550a61",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > main > section:nth-of-type(2) > div > div > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > a",
+   "target": "html > body > main > section:nth-of-type(2) > div > div > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a href=\"https://operobal.uel.br/saude/2026/11/19/hu-uel-e-aprovado-em-todos-os-criterios-da-reavaliacao-do-hospital-amigo-da-crianca/\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "b20a2d06653e",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > main > section:nth-of-type(2) > div > div > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(4) > a",
+   "target": "html > body > main > section:nth-of-type(2) > div > div > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(4) > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a href=\"https://operobal.uel.br/proppg/2026/11/19/comite-cnpq-avalia-edicao-2026-encontro-iniciacao-cientifica/\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "48a7cdae7ada",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > main > section:nth-of-type(3) > div > div > div:nth-of-type(1) > a",
+   "target": "html > body > main > section:nth-of-type(3) > div > div > div:nth-of-type(1) > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a href=\"https://operobal.uel.br/ciencia/2026/11/19/professor-divulga-segundo-episodio-de-podcast-sobre-ciencia-e-pesquisa-clinica/\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "e4e3a51f3a84",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > main > section:nth-of-type(3) > div > div > div:nth-of-type(2) > a",
+   "target": "html > body > main > section:nth-of-type(3) > div > div > div:nth-of-type(2) > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a href=\"https://operobal.uel.br/ciencia/2026/11/17/pesquisa-inedita-e-publicada-em-revista-internacional/\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "a94d0a084edc",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > main > section:nth-of-type(3) > div > div > div:nth-of-type(3) > a",
+   "target": "html > body > main > section:nth-of-type(3) > div > div > div:nth-of-type(3) > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a href=\"https://operobal.uel.br/ciencia/2026/11/16/uel-tera-estacao-monitoramento-satelite-investimento-geotecnologia-de-r-52-milhoes/\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "a49408c2c663",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > main > section:nth-of-type(3) > div > div > div:nth-of-type(4) > a",
+   "target": "html > body > main > section:nth-of-type(3) > div > div > div:nth-of-type(4) > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a href=\"https://operobal.uel.br/pesquisas/2026/11/16/projeto-avanca-debate-sobre-etica-em-pesquisa-em-humanidades/\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 55
+ },
+ "groups": [
+  {
+   "id": "g-a5ea3b6c2dce",
+   "list": "findings",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "engine",
+   "check": "image-alt",
+   "count": 13,
+   "members": [
+    "f9f208b26440",
+    "95a67ab75502",
+    "636efeab9390",
+    "33721fba1a54",
+    "d100c26288d9",
+    "63704e0371ec",
+    "884681939aa9",
+    "2dad3ed98fa0",
+    "f71c3bc65657",
+    "504e83f0020e",
+    "96dbb2b949e7",
+    "b8b014af3e6d",
+    "96cecb205125"
+   ],
+   "example": "f9f208b26440"
+  },
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 18,
+   "members": [
+    "250514770747",
+    "a634ef9df643",
+    "282ec5e7ae53",
+    "59e8609640a1",
+    "64e618903995",
+    "3f4ef48bbf32",
+    "073748e48e45",
+    "ad6aaf60e007",
+    "873eb7b446e8",
+    "6c8dae8931f8",
+    "e3fc7997334f",
+    "a233ef24c964",
+    "6eab17fa01c9",
+    "f07fd075c58a",
+    "9e5930733287",
+    "eba7d0641e54",
+    "e82fbcfee19f",
+    "365101668fb3"
+   ],
+   "example": "250514770747"
+  },
+  {
+   "id": "g-b3cc505a410d",
+   "list": "findings",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "engine",
+   "check": "link-name",
+   "count": 19,
+   "members": [
+    "bf8a9e10d4e6",
+    "a3c587aa060a",
+    "c7bc9a5589ab",
+    "fd43e8ec25ce",
+    "716aa0fce686",
+    "bd06bd38984a",
+    "404bf3db9a8f",
+    "0753d86fd45c",
+    "bdd9fede8e24",
+    "cdc7c1a8eb05",
+    "e1a0021d3a34",
+    "edbfd3bde13a",
+    "e56a299c3c89",
+    "aa66daf6c38b",
+    "0e20791b6222",
+    "3b97cd4da7ba",
+    "884c72f3e831",
+    "da9d95a2b1a8",
+    "df0cb3081a28"
+   ],
+   "example": "bf8a9e10d4e6"
+  },
+  {
+   "id": "g-1a8eb2403383",
+   "list": "findings",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "check": "rampa/widget-name",
+   "count": 10,
+   "members": [
+    "4a276aaff70f",
+    "b7cf039d7884",
+    "8df82407da92",
+    "46e8b280379a",
+    "b45089550a61",
+    "b20a2d06653e",
+    "48a7cdae7ada",
+    "e4e3a51f3a84",
+    "a94d0a084edc",
+    "a49408c2c663"
+   ],
+   "example": "4a276aaff70f"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#navbar-uel-top > li:nth-of-type(1) > a",
+   "message": "The link text \"Portais\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Acessar Portais\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > main > section:nth-of-type(2) > div > div > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(1) > a > div > article > h3",
+   "message": "The heading \"Nota Oficial\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Cancelamento do Artium Festival\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 7,
+   "judged": 7,
+   "failed": 5,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 3
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 76,
+   "judged": 10,
+   "failed": 2,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 66,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 52,
+   "judged": 10,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 42,
+   "batched": {
+    "candidates": 10,
+    "calls": 3
+   },
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "2 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: html > body > main > section:nth-of-type(4) > div > div > div:nth-of-type(1) > div > div:nth-of-type(1) > iframe (https://radio.uel.br/player), html > body > main > section:nth-of-type(4) > div > div > div:nth-of-type(3) > div > div:nth-of-type(1) > iframe (https://youtube.com/embed/AcDo1h1rmJ4).",
+  "34 image(s) were left without a capture, so no judgment looked at them: 34 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 66 of 76 for 2.4.4, 42 of 52 for 2.4.6. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (10 in 3 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 29,
+  "cachedCalls": 0,
+  "inputTokens": 22988,
+  "outputTokens": 2752,
+  "latencyMs": 85693
+ },
+ "timings": {
+  "totalMs": 49019,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 23
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 16036,
+    "prepareMs": 0,
+    "candidates": 7,
+    "judged": 7,
+    "calls": 16,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 19113,
+    "prepareMs": 0,
+    "candidates": 76,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 13343,
+    "prepareMs": 0,
+    "candidates": 52,
+    "judged": 10,
+    "calls": 3,
+    "cachedCalls": 0,
+    "batches": 3
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 383,
+    "prepareMs": 378,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 80,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 36
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 1000,
+  "images": {
+   "captured": 15,
+   "notCaptured": 34,
+   "reasons": {
+    "limit": 34
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 76,
+    "capped": 66
+   },
+   {
+    "criterion": "2.4.6",
+    "candidates": 52,
+    "capped": 42
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > main > section:nth-of-type(4) > div > div > div:nth-of-type(1) > div > div:nth-of-type(1) > iframe",
+     "url": "https://radio.uel.br/player",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "html > body > main > section:nth-of-type(4) > div > div > div:nth-of-type(3) > div > div:nth-of-type(1) > iframe",
+     "url": "https://youtube.com/embed/AcDo1h1rmJ4",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  }
+ }
+}

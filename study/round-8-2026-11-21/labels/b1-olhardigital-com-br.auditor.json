@@ -1,0 +1,62 @@
+{
+  "page": "https://olhardigital.com.br/2026/11/21/ciencia-e-espaco/bepicolombo-faz-manobra-decisiva-para-entrar-na-orbita-de-mercurio/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "pa003f06463d",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Author avatar in the byline: an img with alt \"Ana Luiza Figueiredo\" that is the only content of a link to /author/ana-figueiredo/ (destination title \"Ana Luiza Figueiredo, Autor em Olhar Digital\"); the browser's accessibility tree names the link \"Ana Luiza Figueiredo\". The crop shows her photo. The alternative names the page the link opens (the author's page), which is what H30 asks of an image that is all a link holds, so 1.1.1 is met; it repeats the adjacent text link to the same page, a redundancy H2 advises against but not a 1.1.1 failure. The live HTML has the same markup, so the capture does not differ. No failure, so false_positive (no-claim row)."
+    },
+    {
+      "fingerprint": "s6f7f5ab5129",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "In-article link \"ESA\" in the sentence \"A BepiColombo é uma missão conjunta da ESA e da Agência Japonesa de Exploração Aeroespacial (JAXA)\", under the h2 \"Missão europeia e japonesa está em viagem desde 2018\"; it opens the site's ESA tag page (title \"ESA - Olhar Digital\", heading \"ESA\"). The link text names the subject of the destination, and its sentence (and the article, which spells out \"Agência Espacial Europeia (ESA)\") makes clear it is the space agency, so the claim that neither the text nor anything around it tells where it goes is not true of the capture. Understanding 2.4.4 does not require the document's exact name; a link named for the topic whose page it opens has a determinable purpose, so 2.4.4 is met. The live HTML has the same paragraph and link. False positive: the model had the sentence and the destination and judged wrongly."
+    },
+    {
+      "fingerprint": "s5cd5ae6fc7c",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Comment counter in the byline: a link to #comments (it opens the comments panel) holding a speech-bubble svg and the count \"0\", with title=\"Comentários\"; the browser exposes name \"0\" and description \"Comentários\". The claim says nothing around the text tells where it goes, but the link's own title, which this round counts as context (H33), says it is the comments link, so the claim is not true of the capture. \"0\" together with \"Comentários\" gives the purpose (go to the comments, of which there are 0), so 2.4.4 is met. The live HTML has the same anchor with the same title. False positive: the title was in the evidence and was ignored."
+    },
+    {
+      "fingerprint": "s4e6e26c0b39",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Source link \"Brainberries\" under the MGID ad card \"Jogadores que nasceram sem dinheiro e ficaram milionários graças ao futebol\" (right column of the in-article widget); its href is that card's click-tracking URL (creative 27658078), the same as the card's headline and image links. The other \"Brainberries\" link sits under the card \"Lembras-te deste momento icónico de Jojo Todynho em A Fazenda?\" with a different creative (28460460), so the two lead to two different advertised stories, non-equivalent resources (I did not open the ad click URLs, to avoid registering clicks; the distinct creatives and headlines settle it). Neither has a title or description, both sit in generic divs with no shared sentence, paragraph, list item or cell, and both follow the same heading (the h2 \"Missão europeia e japonesa está em viagem desde 2018\"), so they form one set under R1, and each sits visibly under its own image and headline. The pair fails ACT fd3a94, so this link fails 2.4.4, which the claim names. The widget is injected by script and rotates (the live HTML holds only an empty _mgwidget container), so I could not compare it with what users get now; judged from the capture."
+    },
+    {
+      "fingerprint": "sfed3bb3dd92",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Envelope icon in the share bar under the headline (visible label \"Compartilhe:\" in a sibling span): an img alt=\"Ícone Email\" that is the only content of a mailto link that shares the article by email; the link's title is \"Compartilhar por email\". The browser's accessibility tree names the link \"Ícone Email\" (from contents) with that title as its description; the packet's link name is Rampa's own computation from the title. The claim is true of the capture: the image is all the link holds and its alternative names the icon (\"Email icon\"), not the sharing action. By H30 and R2 (a title does not count for 1.1.1, and the \"Compartilhe:\" span is not in the link's context), I read it as failing to describe the link's function, since neighbouring icons in the same bar mix share links with a profile link (Instagram). But \"Email\" does name the channel the mailto link opens, and alternatives like that are often accepted, so competent auditors would reasonably disagree: uncertain. The live HTML has the same img alt and title (the href is Cloudflare-obfuscated until a script decodes it into mailto), so no difference matters here."
+    },
+    {
+      "fingerprint": "p56d85e4f9a6",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Product photo in the \"Ofertas em Destaque\" carousel: img alt \"JBL Bar 500 MK2 Barra de Som Soundbar 5.1 Canais Dolby Atmos 375W R...\" inside a link that also holds the store, discount, the same visible product name, prices and \"Ver oferta\". The crop shows the JBL soundbar and subwoofer, so the alternative identifies the product the image shows; truncated like the visible title. It duplicates the link text (H2 would suggest a null alt), which is redundancy, not a 1.1.1 failure, and the link's purpose is clear. The carousel is built by vitrine.js, which sets img.alt to the offer title, so users get the same pattern (the products shown rotate; the screenshot has the carousel scrolled to other items). No failure: false_positive (no-claim row)."
+    },
+    {
+      "fingerprint": "s7cbba7a2401",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Source link \"Brainberries\" under the large MGID ad card \"Lembras-te deste momento icónico de Jojo Todynho em A Fazenda?\" (left column of the in-article widget); its href is that card's click-tracking URL (creative 28460460), the same as its headline and image links. The other \"Brainberries\" link sits under the card \"Jogadores que nasceram sem dinheiro e ficaram milionários graças ao futebol\" with creative 27658078, so the two lead to two different advertised stories, non-equivalent resources (ad click URLs not opened, to avoid registering clicks; the distinct creatives and headlines settle it). No title or description, generic div ancestors with no shared sentence, paragraph, list item or cell, and the same preceding heading (h2 \"Missão europeia e japonesa está em viagem desde 2018\") put them in one R1 set, and each sits visibly under its own photo and headline. The pair fails ACT fd3a94, so this link fails 2.4.4, as the claim says. The widget is script-injected and rotates (the live HTML holds only an empty container), so I could not compare it with the live page; judged from the capture."
+    },
+    {
+      "fingerprint": "pb8e9f61b109",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Product photo in the \"Ofertas em Destaque\" carousel: img alt \"I2GO, Caixa De Som Bluetooth 3 Angle Sound. 12W RMS, Resistente à Á...\" inside a link that also holds the store, discount, the same visible product name, prices and \"Ver oferta\". The crop shows the I2GO Bluetooth speaker, so the alternative identifies what the image shows; the truncation matches the visible title. Duplicating the link text is redundancy (H2 advisory), not a 1.1.1 failure, and the link's purpose is clear. vitrine.js sets img.alt to the offer title, so users get the same pattern even though the offers shown rotate. No failure: false_positive (no-claim row)."
+    }
+  ]
+}

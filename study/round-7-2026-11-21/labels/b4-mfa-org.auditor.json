@@ -1,0 +1,62 @@
+{
+  "page": "https://www.mfa.org/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p51711477b20",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the footer link \"Translate\", in the footer navigation list after About, Press, Contact, Accessibility and so on. Its href is Google Translate with u=www.mfa.org; today it redirects (302) to the translate.goog proxy of mfa.org, which shows the museum site machine-translated (target French) with Google's bar for picking another language. \"Translate\" in a site footer tells users the link translates this site, so its purpose can be determined from the link text alone, and no other link on the page has the same name. The link does not fail 2.4.4, so Rampa missed nothing here. The live HTML has the same link with the same href, and the screenshot shows it in the footer, so the capture matches."
+    },
+    {
+      "fingerprint": "ec17a1e3aa7c",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the visually hidden <label for=\"edit-search\">Search</label> in the desktop header search form. The page has two inputs with id=\"edit-search\": a hidden one in the mobile menu (#navbarSupportedContent) and the desktop one beside this label. The snapshot's labelControl shows that this label points at the first, hidden input, so the claim is true of the capture. But 4.1.2 asks for a programmatically determined name, and the field beside the label has one: Chromium's accessibility tree names it \"Search\" (nameFrom: placeholder, from placeholder=\"Search\"). That passes F68's test, which checks the browser's accessibility tree for a name that is not empty. Its role (searchbox) and value are exposed too. The wrong label target is a markup defect (duplicate IDs, which the WCAG 2.1 errata treat as always satisfied under 4.1.1). Whether a placeholder alone is enough as a label is a 3.3.2 question, not a 4.1.2 failure. The live HTML has the same two ids and both labels, so the capture matches. The rule treats the misassociated label as a 4.1.2 failure without checking that the field has a name from another source, which is stricter than the criterion."
+    },
+    {
+      "fingerprint": "12514ecc4710",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the required E-mail input in the footer \"Sign up for MFA Mail\" form, labelled by a visible \"E-mail *\" label. It collects the user's own email address, which is an Input Purpose (email) under 1.3.5, but the input has no autocomplete attribute. type=\"email\" and name=\"email\" do not identify the purpose of the field as the user's email address (H98 uses autocomplete). The snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError on this field, so the claim's last sentence is true as well. The live HTML has the same input, still with no autocomplete. The field fails 1.3.5, and the claim names exactly that failure."
+    },
+    {
+      "fingerprint": "pe9a9797e416",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the thumbnail of the event card \"The Art of the Greek Laouto\" (a musician playing a laouto), alt \"Musician Vasilis Kostas playing a Greek Lauoto.\" It sits inside a duplicate image link to the event page. That link has aria-hidden=\"true\", role=\"presentation\" and tabindex=\"-1\" (tabindex is in the live HTML; the snapshot's attribute list leaves it out). Next to it, the card's h3 holds a focusable text link to the same page, followed by the date. The hidden image only illustrates an event that the heading link already identifies, so hiding the redundant image link from assistive technology is acceptable. The image does not fail 1.1.1, and Rampa missed nothing. The live markup and image src are the same as in the capture."
+    },
+    {
+      "fingerprint": "c0069e779e4b",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the thumbnail of the \"First Fridays\" event card, inside an image link to /event/special-event/mfa-first-fridays that has aria-hidden=\"true\", role=\"presentation\" and tabindex=\"-1\". The h3 text link \"First Fridays\" to the same page and the date \"December 4\" follow it. The image is indeed hidden from screen readers, but the claim's reason is false. The crop and the full-size image show people at tables under a cursive neon artwork whose script does not spell \"Late Nites\". Those words appear only in the alt text (\"Late Nites attendees gather...\"), so the model seems to have taken them from the alt, not from the picture. The image only illustrates the event that the visible heading link identifies, so hiding the duplicate link meets 1.1.1. The live page has the same markup and image."
+    },
+    {
+      "fingerprint": "s84cf4778582",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the image in the \"Maverick Kings\" slide of the On View carousel. It sits inside a link that also holds the h3 \"Maverick Kings\" and leads to the exhibition page. The crop shows a limestone sculpture of an Egyptian pharaoh (Hatshepsut) in a nemes headdress, cut off at the torso, in front of a tilted orange square. That is exactly what the alt says, so the claim that it describes something the image does not show is false. The alt is accurate and the link's text names the destination, so the image meets 1.1.1. The live HTML has the same img, alt and src."
+    },
+    {
+      "fingerprint": "se37d89d2306",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the image in the \"Picasso, Miró, Dalí: Unbound\" slide of the On View carousel. It sits inside a link that also holds the exhibition title as an h3. The crop shows an abstract Miró-style print with black lines and forms and bursts of red, yellow, green and blue. That matches the alt \"Abstract black-line drawing with bursts of red, yellow, green, and blue.\", so the claim is false. The alt is an accurate description and the link's text gives the destination, so the image meets 1.1.1. The live HTML has the same img, alt and src."
+    },
+    {
+      "fingerprint": "s6490f8d19c1",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the required E-mail input of the footer newsletter form. It has the visible label \"E-mail *\" and pattern=\"[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$\". The screenshot shows only the label, the field and a Submit button, with no format instructions, so the claim is true of the capture. The live HTML is the same. The label states the expected data, an email address, which is a customary format, so in my reading 3.3.2 is met. However, the pattern rejects valid addresses with uppercase letters or top-level domains longer than four letters. When that happens the browser shows only \"Please match the requested format\", which is better treated under 3.3.3. Understanding 3.3.2 says instructions may specify formats \"if there are specific rules for correct input\", and some auditors log undisclosed format restrictions under 3.3.2. Competent auditors would reasonably disagree on whether this restriction requires an on-screen instruction, so the label is uncertain."
+    }
+  ]
+}

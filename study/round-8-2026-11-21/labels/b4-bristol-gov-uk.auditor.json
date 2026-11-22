@@ -1,0 +1,79 @@
+{
+  "page": "https://www.bristol.gov.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p2defd4076aa",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A text link 'Parks and estates' in the residents navigation list, under the h3 'Museums, parks, sports and culture'. Its text alone says where it goes, and the destination is titled 'Parks and estates'; the preceding heading confirms the topic. No other link on the page shares the name. It meets 2.4.4, so Rampa was right to report nothing. The live HTML has the same link, href and heading, and the screenshot shows it under that heading, so the capture does not differ."
+    },
+    {
+      "fingerprint": "6ab0cfdcf574",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of a promo-tile link to the Single person discount review page; its alt 'Cityscape view of houses and trees across a wide area.' describes the photo (the crop shows a hillside of houses) and is the link's accessible name. Replaced by its alternative, the link gives no idea that it leads to the council tax single person discount review. The h3 text link 'Single person discount review' beside it to the same address is a separate control and does not cure 1.1.1 (H30; R2). The claim names exactly this failure. The live HTML has the same markup and alt, and the screenshot shows the tile as captured."
+    },
+    {
+      "fingerprint": "s61c7a1e12b3",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An h2 'bristol.gov.uk' inside the logo link in the page banner; the only content between it and the next heading (the screen-reader-only h1 'Bristol City Council homepage') is the 'Your accounts' link. The heading names the website, which is the topic of the banner it sits in, so it does describe its topic; it is not a heading that says nothing. Marking branding text as a heading is a heading-structure concern (1.3.1 best practice), not a 2.4.6 failure of the heading's wording. The live HTML has the same h2 in the same link; in the screenshot the cookie panel covers it, which does not touch the heading's text."
+    },
+    {
+      "fingerprint": "p06bd0d10193",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A top-task tile link 'Pay online' on the council homepage, leading to 'Pay council bills, fines and invoices'. The tile section's own h1 and h3 are empty and display:none, so the heading before it in the accessibility tree is the h1 'Bristol City Council homepage'; with that, 'Pay online' tells users the link is for paying the council online, which is what the destination hub offers. No other link shares the name. It meets 2.4.4. The live HTML is the same, and the screenshot shows the tile row as captured."
+    },
+    {
+      "fingerprint": "pd0463dc5f24",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A top-task tile link 'Dates for school terms and holidays'; its text alone describes the destination, which is titled 'Dates for school terms and holidays'. No other link shares the name. It meets 2.4.4. The live HTML has the same link and href, and the screenshot shows it in the tile grid."
+    },
+    {
+      "fingerprint": "p39fb6d7fb16",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A text link 'Check your rent balance' under the h3 'Housing' in the residents navigation list, leading to 'Council tenants: check your rent balance and other payments'. The text with its preceding heading describes the purpose; no other link shares the name. It meets 2.4.4. The live HTML has the same link and heading, and the screenshot shows it under 'Housing'."
+    },
+    {
+      "fingerprint": "6319ff77a05f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of a promo-tile link to the Annual Canvass page; its alt 'Postal letter on a desk with a mug nearby.' describes the photo (an envelope under a mug) and is the link's accessible name. It does not name the annual canvass or electoral registration, so users cannot tell where the link goes. The h3 text link 'Annual Canvass' beside it to the same address is another control and does not cure 1.1.1 (H30; R2). The claim names this failure. The live HTML has the same markup and alt, and the screenshot matches."
+    }
+  ]
+}

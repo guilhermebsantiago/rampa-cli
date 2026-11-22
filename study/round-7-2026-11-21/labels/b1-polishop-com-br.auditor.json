@@ -1,0 +1,354 @@
+{
+  "page": "https://www.polishop.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "sd4e1c6413f4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The fourth 'saiba mais' link (href '/#') of the Perks region 'Benefícios e vantagens'; a script opens a modal with the perk's conditions (the live page data holds learnMoreLabel 'saiba mais' with a modalText per perk). Its only explanation is the card it sits in: sibling divs 'Até 10x s/ juros' (title) and 'no cartão de crédito' (description) and an icon with alt 'Cartão de crédito'. None of them is a heading, paragraph, list item or table cell; there is no title or aria-describedby, and the heading before it is 'Marcas' in the sidebar menu. By the rubric's context list nothing gives the purpose, and four links named 'saiba mais' open different modals. claimTrue yes in that sense: the card text is visual context only. elementFails yes. captureDiffers no: the screenshot shows the same styled card, and the live page data has the same perks. True positive."
+    },
+    {
+      "fingerprint": "sf19b8143747",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The disabled, checked checkbox for the 'Estritamente necessários' cookie category in the CookieScript consent dialog, labelled by <label for='cookiescript_category_strict'>. A checkbox takes no entry: in a cookie-consent panel listing categories (Desempenho, Segmentação, Funcionalidade, Não classificado), the label names the category of cookies the box allows, which is its purpose. So 2.4.6 is met and the claim that it does not say what to enter is wrong. captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. False positive: the model had the context and judged wrongly."
+    },
+    {
+      "fingerprint": "pcb1bb4650d6",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A 32 px white vacuum-cleaner pictogram (alt 'Limpeza') in the category nav link 'Limpeza' (/limpeza), next to the visible text 'Limpeza' in the same link. The alt names the category the icon stands for, which is its purpose; it repeats the link text (alt='' would be better), but redundancy is not a 1.1.1 failure and the link's name still describes its purpose. elementFails no. captureDiffers no: the screenshot shows the same icon and text, and the live page data lists the same category with the same icon. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "ecd3de228aba",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Desejo receber' button of the push-notification prompt ('Ative as notificações para receber nossas novidades') shown at the top of the page. Its font size is clamp(6px, 1vw, 8px), so 8 px bold at this width: not large text, so 4.5:1 applies. Sampling the screenshot gives #ffffff text on #0091ff, 3.23:1, as the claim says. claimTrue yes, elementFails yes. captureDiffers no: the screenshot is a fully styled render and the prompt is what a first-time visitor gets (it is script-injected, so my own fetch, which runs no scripts, cannot show it). True positive."
+    },
+    {
+      "fingerprint": "s2b81b959e80",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "A 32 px white hair-dryer pictogram (alt 'Beleza') in the category nav link 'Beleza' (/beleza-e-cuidados-pessoais), next to the visible text 'Beleza' in the same link. The crop shows a hair dryer, the pictogram for the beauty category; 'Beleza' does not describe something absent, it names what the icon stands for, which is the equivalent purpose 1.1.1 asks for (the alt repeats the link text, a redundancy that is no failure). claimTrue no, elementFails no. captureDiffers no: the screenshot and the live page data show the same icon for 'Beleza'. False positive: the check wanted a literal description of a functional icon."
+    },
+    {
+      "fingerprint": "d1376b468ce3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "A 'VTEX' link in the Provider / Domínio column of the strictly-necessary cookie table (row 11, cell text 'www.polishop.com.br VTEX', href https://vtex.com/us-en/terms-and-conditions/). Context under the rubric: its cell (provider + cookie domain) and the column header 'Provider / Domínio'; no title, no aria-describedby, the cookie name is in a plain td (not a row header), and the heading before it ('Marcas' in the sidebar) is the same for all. claimTrue yes: the capture has 13 links named VTEX with 7 distinct hrefs, and the cells with the same domain text are identical contexts. elementFails no by R1: I opened all seven VTEX hrefs of the table on 2026-11-21: each redirects to www.vtex.com/(pt-br|en-us|en)/... and answers HTTP 404 with the same ~29 KB not-found template (the vtex.com home page and its real privacy notice at /en-us/trust/general-external-privacy-notice answer 200 to the same client), so every VTEX link of the table, terms-and-conditions included, lands on the same not-found page and they resolve to equivalent resources. Nothing visible tells a sighted user that one VTEX link leads somewhere different from another either: each is the provider entry of a cookie row. So the shared name does not fail 2.4.4; the link text with the Provider header gives its purpose (the provider's page). captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. False positive: Rampa counted distinct URLs without reading the destinations."
+    },
+    {
+      "fingerprint": "5edfdbe65e4d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "A 'VTEX' link in the Provider / Domínio column of the strictly-necessary cookie table (row 16, cell text 'www.polishop.com.br VTEX', href https://vtex.com/br-pt/privacy-policy/). Context under the rubric: its cell (provider + cookie domain) and the column header 'Provider / Domínio'; no title, no aria-describedby, the cookie name is in a plain td (not a row header), and the heading before it ('Marcas' in the sidebar) is the same for all. claimTrue yes: the capture has 13 links named VTEX with 7 distinct hrefs, and the cells with the same domain text are identical contexts. elementFails no by R1: I opened all seven VTEX hrefs of the table on 2026-11-21: each redirects to www.vtex.com/(pt-br|en-us|en)/... and answers HTTP 404 with the same ~29 KB not-found template (the vtex.com home page and its real privacy notice at /en-us/trust/general-external-privacy-notice answer 200 to the same client), so every VTEX link of the table, terms-and-conditions included, lands on the same not-found page and they resolve to equivalent resources. Nothing visible tells a sighted user that one VTEX link leads somewhere different from another either: each is the provider entry of a cookie row. So the shared name does not fail 2.4.4; the link text with the Provider header gives its purpose (the provider's page). captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. False positive: Rampa counted distinct URLs without reading the destinations."
+    },
+    {
+      "fingerprint": "77e5523e373e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A description cell of the CookieScript cookie table (performance table, cookie _gid: 'This cookie name is associated with Google Analytics. It is used by gtag.js ...') holding a full English sentence. No element from the cell up to html carries a lang attribute; html is lang='pt-BR', and the live CookieScript markup has no lang attribute at all (its 'pt' translation of this description is the English text itself). claimTrue yes. elementFails yes: English sentences are not proper names, technical terms or vernacular words, so 3.1.2 needs lang='en' on them; users reach them by opening 'Mostrar detalhes' (and the category tab), which is content of the page. captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. True positive: the claim names the missing language marking."
+    },
+    {
+      "fingerprint": "0edff01292fe",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "A 'VTEX' link in the Provider / Domínio column of the strictly-necessary cookie table (row 6, cell text '.polishop.com.br VTEX', href https://vtex.com/privacy-policy/en/). Context under the rubric: its cell (provider + cookie domain) and the column header 'Provider / Domínio'; no title, no aria-describedby, the cookie name is in a plain td (not a row header), and the heading before it ('Marcas' in the sidebar) is the same for all. claimTrue yes: the capture has 13 links named VTEX with 7 distinct hrefs, and the cells with the same domain text are identical contexts. elementFails no by R1: I opened all seven VTEX hrefs of the table on 2026-11-21: each redirects to www.vtex.com/(pt-br|en-us|en)/... and answers HTTP 404 with the same ~29 KB not-found template (the vtex.com home page and its real privacy notice at /en-us/trust/general-external-privacy-notice answer 200 to the same client), so every VTEX link of the table, terms-and-conditions included, lands on the same not-found page and they resolve to equivalent resources. Nothing visible tells a sighted user that one VTEX link leads somewhere different from another either: each is the provider entry of a cookie row. So the shared name does not fail 2.4.4; the link text with the Provider header gives its purpose (the provider's page). captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. False positive: Rampa counted distinct URLs without reading the destinations."
+    },
+    {
+      "fingerprint": "270ca3a67e59",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "A 'VTEX' link in the Provider / Domínio column of the strictly-necessary cookie table (row 2, cell text 'www.polishop.com.br VTEX', href https://vtex.com/br-pt/privacy/). Context under the rubric: its cell (provider + cookie domain) and the column header 'Provider / Domínio'; no title, no aria-describedby, the cookie name is in a plain td (not a row header), and the heading before it ('Marcas' in the sidebar) is the same for all. claimTrue yes: the capture has 13 links named VTEX with 7 distinct hrefs, and the cells with the same domain text are identical contexts. elementFails no by R1: I opened all seven VTEX hrefs of the table on 2026-11-21: each redirects to www.vtex.com/(pt-br|en-us|en)/... and answers HTTP 404 with the same ~29 KB not-found template (the vtex.com home page and its real privacy notice at /en-us/trust/general-external-privacy-notice answer 200 to the same client), so every VTEX link of the table, terms-and-conditions included, lands on the same not-found page and they resolve to equivalent resources. Nothing visible tells a sighted user that one VTEX link leads somewhere different from another either: each is the provider entry of a cookie row. So the shared name does not fail 2.4.4; the link text with the Provider header gives its purpose (the provider's page). captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. False positive: Rampa counted distinct URLs without reading the destinations."
+    },
+    {
+      "fingerprint": "6fe6115e7096",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The search submit button (aria-label 'Submit Search') at the left of the header search field: an icon-only button whose only visible content is a magnifying-glass SVG. Sampling the screenshot gives #b8b8b8 strokes on the #ffffff field, 1.98:1. The icon is what identifies the presence of this control (Understanding 1.4.11: a control with 'a sufficiently contrasting icon' needs no boundary; G207 asks 3:1 for such icons), so it falls short. claimTrue yes, elementFails yes. captureDiffers no: the screenshot is a fully styled render; the header is client-rendered, so my script-less fetch shows only the page data, which has nothing contrary. True positive."
+    },
+    {
+      "fingerprint": "pf59402dec77",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A 32 px white air-fryer pictogram (alt 'Airfryer') in the category nav link 'Airfryer' (/eletroportateis/airfryer), next to the visible text 'Airfryer' in the same link. The crop shows an air fryer; the alt names it and the category, which is the icon's purpose. It repeats the link text, a redundancy that is not a 1.1.1 failure. elementFails no. captureDiffers no: the screenshot and the live page data show the same icon and label. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "a696b0dcafce",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "A 'VTEX' link in the Provider / Domínio column of the strictly-necessary cookie table (row 9, cell text 'www.polishop.com.br VTEX', href https://vtex.com/en/privacy/). Context under the rubric: its cell (provider + cookie domain) and the column header 'Provider / Domínio'; no title, no aria-describedby, the cookie name is in a plain td (not a row header), and the heading before it ('Marcas' in the sidebar) is the same for all. claimTrue yes: the capture has 13 links named VTEX with 7 distinct hrefs, and the cells with the same domain text are identical contexts. elementFails no by R1: I opened all seven VTEX hrefs of the table on 2026-11-21: each redirects to www.vtex.com/(pt-br|en-us|en)/... and answers HTTP 404 with the same ~29 KB not-found template (the vtex.com home page and its real privacy notice at /en-us/trust/general-external-privacy-notice answer 200 to the same client), so every VTEX link of the table, terms-and-conditions included, lands on the same not-found page and they resolve to equivalent resources. Nothing visible tells a sighted user that one VTEX link leads somewhere different from another either: each is the provider entry of a cookie row. So the shared name does not fail 2.4.4; the link text with the Provider header gives its purpose (the provider's page). captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. False positive: Rampa counted distinct URLs without reading the destinations."
+    },
+    {
+      "fingerprint": "f3f038535464",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "A 'VTEX' link in the Provider / Domínio column of the strictly-necessary cookie table (row 10, cell text 'www.polishop.com.br VTEX', href https://vtex.com/en/privacy/). Context under the rubric: its cell (provider + cookie domain) and the column header 'Provider / Domínio'; no title, no aria-describedby, the cookie name is in a plain td (not a row header), and the heading before it ('Marcas' in the sidebar) is the same for all. claimTrue yes: the capture has 13 links named VTEX with 7 distinct hrefs, and the cells with the same domain text are identical contexts. elementFails no by R1: I opened all seven VTEX hrefs of the table on 2026-11-21: each redirects to www.vtex.com/(pt-br|en-us|en)/... and answers HTTP 404 with the same ~29 KB not-found template (the vtex.com home page and its real privacy notice at /en-us/trust/general-external-privacy-notice answer 200 to the same client), so every VTEX link of the table, terms-and-conditions included, lands on the same not-found page and they resolve to equivalent resources. Nothing visible tells a sighted user that one VTEX link leads somewhere different from another either: each is the provider entry of a cookie row. So the shared name does not fail 2.4.4; the link text with the Provider header gives its purpose (the provider's page). captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. False positive: Rampa counted distinct URLs without reading the destinations."
+    },
+    {
+      "fingerprint": "dc2e24451a70",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Não obrigado' button of the push-notification prompt at the top of the page, 8 px bold underlined text (font-size clamp(6px, 1vw, 8px)), so 4.5:1 applies. Sampling the screenshot gives #a4a4a4 text on #ffffff, 2.49:1, as the claim says. It is an active control, not an inactive one. claimTrue yes, elementFails yes. captureDiffers no: the screenshot is a fully styled render and the prompt is what a first-time visitor gets (it is script-injected, so my own fetch cannot show it). True positive."
+    },
+    {
+      "fingerprint": "ae0b7cbf8bf1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "A 'VTEX' link in the Provider / Domínio column of the strictly-necessary cookie table (row 22, cell text '.polishop.com.br VTEX', href https://vtex.com/en/privacy/). Context under the rubric: its cell (provider + cookie domain) and the column header 'Provider / Domínio'; no title, no aria-describedby, the cookie name is in a plain td (not a row header), and the heading before it ('Marcas' in the sidebar) is the same for all. claimTrue yes: the capture has 13 links named VTEX with 7 distinct hrefs, and the cells with the same domain text are identical contexts. elementFails no by R1: I opened all seven VTEX hrefs of the table on 2026-11-21: each redirects to www.vtex.com/(pt-br|en-us|en)/... and answers HTTP 404 with the same ~29 KB not-found template (the vtex.com home page and its real privacy notice at /en-us/trust/general-external-privacy-notice answer 200 to the same client), so every VTEX link of the table, terms-and-conditions included, lands on the same not-found page and they resolve to equivalent resources. Nothing visible tells a sighted user that one VTEX link leads somewhere different from another either: each is the provider entry of a cookie row. So the shared name does not fail 2.4.4; the link text with the Provider header gives its purpose (the provider's page). captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. False positive: Rampa counted distinct URLs without reading the destinations."
+    },
+    {
+      "fingerprint": "74c517c41049",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A description cell of the CookieScript cookie table (targeting table, cookie VISITOR_INFO1_LIVE: 'This cookie is set by Youtube to keep track of user preferences ...') holding a full English sentence. No element from the cell up to html carries a lang attribute; html is lang='pt-BR', and the live CookieScript markup has no lang attribute at all (its 'pt' translation of this description is the English text itself). claimTrue yes. elementFails yes: English sentences are not proper names, technical terms or vernacular words, so 3.1.2 needs lang='en' on them; users reach them by opening 'Mostrar detalhes' (and the category tab), which is content of the page. captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. True positive: the claim names the missing language marking."
+    },
+    {
+      "fingerprint": "0d06f923bdd8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A description cell of the CookieScript cookie table (targeting table, cookie _fbp: 'Used by Facebook to deliver a series of advertisement products ...') holding a full English sentence. No element from the cell up to html carries a lang attribute; html is lang='pt-BR', and the live CookieScript markup has no lang attribute at all (its 'pt' translation of this description is the English text itself). claimTrue yes. elementFails yes: English sentences are not proper names, technical terms or vernacular words, so 3.1.2 needs lang='en' on them; users reach them by opening 'Mostrar detalhes' (and the category tab), which is content of the page. captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. True positive: the claim names the missing language marking."
+    },
+    {
+      "fingerprint": "dabb3deca881",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "A 'VTEX' link in the Provider / Domínio column of the strictly-necessary cookie table (row 12, cell text '.polishop.com.br VTEX', href https://vtex.com/br-pt/privacy-policy/). Context under the rubric: its cell (provider + cookie domain) and the column header 'Provider / Domínio'; no title, no aria-describedby, the cookie name is in a plain td (not a row header), and the heading before it ('Marcas' in the sidebar) is the same for all. claimTrue yes: the capture has 13 links named VTEX with 7 distinct hrefs, and the cells with the same domain text are identical contexts. elementFails no by R1: I opened all seven VTEX hrefs of the table on 2026-11-21: each redirects to www.vtex.com/(pt-br|en-us|en)/... and answers HTTP 404 with the same ~29 KB not-found template (the vtex.com home page and its real privacy notice at /en-us/trust/general-external-privacy-notice answer 200 to the same client), so every VTEX link of the table, terms-and-conditions included, lands on the same not-found page and they resolve to equivalent resources. Nothing visible tells a sighted user that one VTEX link leads somewhere different from another either: each is the provider entry of a cookie row. So the shared name does not fail 2.4.4; the link text with the Provider header gives its purpose (the provider's page). captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. False positive: Rampa counted distinct URLs without reading the destinations."
+    },
+    {
+      "fingerprint": "p65611575a58",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A link in the side menu drawer (offscreen while the drawer is closed) whose text is 'Televendas', the phone number '0800 007 8989' and 'Converse também pelo Whastsapp', leading to /televendas (200 on 2026-11-21). The link text alone says it leads to the telesales contact page, so 2.4.4 is met. elementFails no. captureDiffers no: the live page data has the same item (label Televendas, url /televendas, the same phone and subtitle). Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "s8cf894de7bf",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The 'Amazon.com Inc.' link in the Provider / Domínio column of the cookie table (cookie AWSALBCORS, domain life.enviou.com.br), href https://advertising.amazon.com/legal/privacy-notice, which answers 200 with the page 'Privacy Notice - Legal Policies | Amazon Ads'. Like every provider link of the table it leads to the provider's privacy notice, and this one is an Amazon page: the text, with its Provider column header, matches the destination. claimTrue no, elementFails no. captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. False positive: the href already showed an Amazon address."
+    },
+    {
+      "fingerprint": "2af81c30c9fd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A description cell of the CookieScript cookie table (performance table, cookie _gat_UA-225224-27: 'This is a pattern type cookie set by Google Analytics ...') holding a full English sentence. No element from the cell up to html carries a lang attribute; html is lang='pt-BR', and the live CookieScript markup has no lang attribute at all (its 'pt' translation of this description is the English text itself). claimTrue yes. elementFails yes: English sentences are not proper names, technical terms or vernacular words, so 3.1.2 needs lang='en' on them; users reach them by opening 'Mostrar detalhes' (and the category tab), which is content of the page. captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. True positive: the claim names the missing language marking."
+    },
+    {
+      "fingerprint": "cc0fca14e704",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "A 'VTEX' link in the Provider / Domínio column of the strictly-necessary cookie table (row 20, cell text 'www.polishop.com.br VTEX', href https://vtex.com/privacy-policy/en/). Context under the rubric: its cell (provider + cookie domain) and the column header 'Provider / Domínio'; no title, no aria-describedby, the cookie name is in a plain td (not a row header), and the heading before it ('Marcas' in the sidebar) is the same for all. claimTrue yes: the capture has 13 links named VTEX with 7 distinct hrefs, and the cells with the same domain text are identical contexts. elementFails no by R1: I opened all seven VTEX hrefs of the table on 2026-11-21: each redirects to www.vtex.com/(pt-br|en-us|en)/... and answers HTTP 404 with the same ~29 KB not-found template (the vtex.com home page and its real privacy notice at /en-us/trust/general-external-privacy-notice answer 200 to the same client), so every VTEX link of the table, terms-and-conditions included, lands on the same not-found page and they resolve to equivalent resources. Nothing visible tells a sighted user that one VTEX link leads somewhere different from another either: each is the provider entry of a cookie row. So the shared name does not fail 2.4.4; the link text with the Provider header gives its purpose (the provider's page). captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. False positive: Rampa counted distinct URLs without reading the destinations."
+    },
+    {
+      "fingerprint": "s858c9f3869f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The 'VTEX Commerce Cloud Solutions LLC' link in the Provider / Domínio column of the cookie table (cookie vtex_session), href https://vtex.com/us-en/privacy-and-agreements/external-notice/, which redirects to VTEX's compliance portal (compliance.vtex.com/?itemName=legal...; it refused my script-less client with 403). The text names VTEX's legal entity and the link leads to VTEX's legal/privacy notice: with the Provider column header the purpose is clear and matches. claimTrue no, elementFails no. captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. False positive."
+    },
+    {
+      "fingerprint": "3055d8419f0a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "A 'VTEX' link in the Provider / Domínio column of the strictly-necessary cookie table (row 13, cell text '.polishop.com.br VTEX', href https://vtex.com/br-pt/privacy/). Context under the rubric: its cell (provider + cookie domain) and the column header 'Provider / Domínio'; no title, no aria-describedby, the cookie name is in a plain td (not a row header), and the heading before it ('Marcas' in the sidebar) is the same for all. claimTrue yes: the capture has 13 links named VTEX with 7 distinct hrefs, and the cells with the same domain text are identical contexts. elementFails no by R1: I opened all seven VTEX hrefs of the table on 2026-11-21: each redirects to www.vtex.com/(pt-br|en-us|en)/... and answers HTTP 404 with the same ~29 KB not-found template (the vtex.com home page and its real privacy notice at /en-us/trust/general-external-privacy-notice answer 200 to the same client), so every VTEX link of the table, terms-and-conditions included, lands on the same not-found page and they resolve to equivalent resources. Nothing visible tells a sighted user that one VTEX link leads somewhere different from another either: each is the provider entry of a cookie row. So the shared name does not fail 2.4.4; the link text with the Provider header gives its purpose (the provider's page). captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. False positive: Rampa counted distinct URLs without reading the destinations."
+    },
+    {
+      "fingerprint": "beb5c130d5bc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A description cell of the CookieScript cookie table (targeting table, cookie YSC: 'This cookie is set by YouTube to track views of embedded videos.') holding a full English sentence. No element from the cell up to html carries a lang attribute; html is lang='pt-BR', and the live CookieScript markup has no lang attribute at all (its 'pt' translation of this description is the English text itself). claimTrue yes. elementFails yes: English sentences are not proper names, technical terms or vernacular words, so 3.1.2 needs lang='en' on them; users reach them by opening 'Mostrar detalhes' (and the category tab), which is content of the page. captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. True positive: the claim names the missing language marking."
+    },
+    {
+      "fingerprint": "7cc55691a075",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A description cell of the CookieScript cookie table (strictly-necessary table, cookie _ga: 'This cookie name is associated with Google Universal Analytics ...') holding a full English sentence. No element from the cell up to html carries a lang attribute; html is lang='pt-BR', and the live CookieScript markup has no lang attribute at all (its 'pt' translation of this description is the English text itself). claimTrue yes. elementFails yes: English sentences are not proper names, technical terms or vernacular words, so 3.1.2 needs lang='en' on them; users reach them by opening 'Mostrar detalhes' (and the category tab), which is content of the page. captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. True positive: the claim names the missing language marking."
+    },
+    {
+      "fingerprint": "pd5cf54f9d2c",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The Polishop logo (an image of the word 'POLISHOP') with alt 'Polishop | Produtos Exclusivos e Ofertas Imperdíveis', the only content of the home link inside the h1; the link takes its name from aria-label 'Ir para página inicial'. The alt carries the logo's text (the tagline is extra but not wrong), and the control has a name that describes its purpose, so 1.1.1 is met. Not judged here: the link's name omits the visible word 'Polishop', a likely 2.5.3 (Label in Name) issue. captureDiffers no: the screenshot shows the same logo and the live page has the same title text. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "c8576b305cd3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "A 'VTEX' link in the Provider / Domínio column of the strictly-necessary cookie table (row 8, cell text 'www.polishop.com.br VTEX', href https://www.vtex.com/privacy-policy/). Context under the rubric: its cell (provider + cookie domain) and the column header 'Provider / Domínio'; no title, no aria-describedby, the cookie name is in a plain td (not a row header), and the heading before it ('Marcas' in the sidebar) is the same for all. claimTrue yes: the capture has 13 links named VTEX with 7 distinct hrefs, and the cells with the same domain text are identical contexts. elementFails no by R1: I opened all seven VTEX hrefs of the table on 2026-11-21: each redirects to www.vtex.com/(pt-br|en-us|en)/... and answers HTTP 404 with the same ~29 KB not-found template (the vtex.com home page and its real privacy notice at /en-us/trust/general-external-privacy-notice answer 200 to the same client), so every VTEX link of the table, terms-and-conditions included, lands on the same not-found page and they resolve to equivalent resources. Nothing visible tells a sighted user that one VTEX link leads somewhere different from another either: each is the provider entry of a cookie row. So the shared name does not fail 2.4.4; the link text with the Provider header gives its purpose (the provider's page). captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. False positive: Rampa counted distinct URLs without reading the destinations."
+    },
+    {
+      "fingerprint": "e44fbfc42459",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A description cell of the CookieScript cookie table (targeting table, cookie _gcl_au: 'Used by Google AdSense for experimenting with advertisement efficiency ...') holding a full English sentence. No element from the cell up to html carries a lang attribute; html is lang='pt-BR', and the live CookieScript markup has no lang attribute at all (its 'pt' translation of this description is the English text itself). claimTrue yes. elementFails yes: English sentences are not proper names, technical terms or vernacular words, so 3.1.2 needs lang='en' on them; users reach them by opening 'Mostrar detalhes' (and the category tab), which is content of the page. captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. True positive: the claim names the missing language marking."
+    },
+    {
+      "fingerprint": "91d4e7c59784",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "A 'VTEX' link in the Provider / Domínio column of the strictly-necessary cookie table (row 21, cell text '.polishop.com.br VTEX', href https://vtex.com/us-en/terms-and-conditions/). Context under the rubric: its cell (provider + cookie domain) and the column header 'Provider / Domínio'; no title, no aria-describedby, the cookie name is in a plain td (not a row header), and the heading before it ('Marcas' in the sidebar) is the same for all. claimTrue yes: the capture has 13 links named VTEX with 7 distinct hrefs, and the cells with the same domain text are identical contexts. elementFails no by R1: I opened all seven VTEX hrefs of the table on 2026-11-21: each redirects to www.vtex.com/(pt-br|en-us|en)/... and answers HTTP 404 with the same ~29 KB not-found template (the vtex.com home page and its real privacy notice at /en-us/trust/general-external-privacy-notice answer 200 to the same client), so every VTEX link of the table, terms-and-conditions included, lands on the same not-found page and they resolve to equivalent resources. Nothing visible tells a sighted user that one VTEX link leads somewhere different from another either: each is the provider entry of a cookie row. So the shared name does not fail 2.4.4; the link text with the Provider header gives its purpose (the provider's page). captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. False positive: Rampa counted distinct URLs without reading the destinations."
+    },
+    {
+      "fingerprint": "a66fcb8de994",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "A 'VTEX' link in the Provider / Domínio column of the strictly-necessary cookie table (row 17, cell text 'www.polishop.com.br VTEX', href https://vtex.com/en/privacy-policy/). Context under the rubric: its cell (provider + cookie domain) and the column header 'Provider / Domínio'; no title, no aria-describedby, the cookie name is in a plain td (not a row header), and the heading before it ('Marcas' in the sidebar) is the same for all. claimTrue yes: the capture has 13 links named VTEX with 7 distinct hrefs, and the cells with the same domain text are identical contexts. elementFails no by R1: I opened all seven VTEX hrefs of the table on 2026-11-21: each redirects to www.vtex.com/(pt-br|en-us|en)/... and answers HTTP 404 with the same ~29 KB not-found template (the vtex.com home page and its real privacy notice at /en-us/trust/general-external-privacy-notice answer 200 to the same client), so every VTEX link of the table, terms-and-conditions included, lands on the same not-found page and they resolve to equivalent resources. Nothing visible tells a sighted user that one VTEX link leads somewhere different from another either: each is the provider entry of a cookie row. So the shared name does not fail 2.4.4; the link text with the Provider header gives its purpose (the provider's page). captureDiffers no: At capture the cookie details panel (#cookiescript_cookietablewrap) is collapsed: CookieScript marks it inert with opacity 0 and height 0 (the snapshot's CDP data lists its cells as ignored for inertElement), and it opens when the user activates 'Mostrar detalhes'; the content is the same once opened, and the live CookieScript file (cdn.cookie-script.com/s/366bff387d0c0ec4b071dcadb6e609d0.js, read 2026-11-21) carries the same rows, so the capture does not differ in a way that matters. False positive: Rampa counted distinct URLs without reading the destinations."
+    }
+  ]
+}

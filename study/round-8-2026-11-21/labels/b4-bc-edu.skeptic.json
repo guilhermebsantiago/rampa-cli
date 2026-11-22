@@ -1,0 +1,70 @@
+{
+  "page": "https://www.bc.edu/content/bc-web/academics/undergraduate-programs.html",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s512a29c4917",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The header logo link (href /content/bc-web.html, the 'Home - Boston College' page) holds only the seal image with alt 'Boston College logo', so the link's name is 'Boston College logo'. The claim that this alternative does not say where the link leads does not hold: the alternative names Boston College, which is the destination's own name (the site's home page), and in a site banner a link named after the site leads to that site's home. By the rubric's first test for image links (replace the image with its alternative; it passes when it names the page, as H30's example 'Smallville Times' names the destination), the purpose is clear; the word 'logo' is redundant but makes this a best-practice note, not a 1.1.1 failure. The live HTML has the same markup and alt, and the screenshot shows the same seal-and-wordmark, so the capture does not differ. Rampa applied a stricter reading than H30/G82 require."
+    },
+    {
+      "fingerprint": "c0860ca7cfe2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The hero image under the header (three students on a bench with laptops) has alt 'undergraduate-1920x500-021325CC075v1', which is the image's file name (the src ends in undergraduate-1920x500-021325CC075v1.webp). It is exposed in the accessibility tree as an image with that name, with no aria-hidden or presentation role on it or its ancestors. Whether the photo is taken as informative or decorative, a file name exposed as its alternative fails 1.1.1 (F30, text alternatives that are not alternatives such as file names; and a decorative image would need a null alt). I looked for a reason it could pass and found none: the live HTML carries the same img and alt, and the screenshot shows the same photo, so the capture does not differ."
+    },
+    {
+      "fingerprint": "p2f74a2a7699",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The 'Find Your Program' button link (with an icon-font span) under the 'Many Views. One Vision.' heading leads to /content/bc-web/academics/find-your-program.html, titled 'Find Your Program - Academics - Boston College'. Its text alone describes its purpose. The other links with the same name (the left sub-navigation and the hidden main-nav menu item) go to the same address, so under R1 no pair resolves to different resources. The accessible name includes an icon-font glyph before the text, which does not hide the purpose. The live HTML matches the capture. The element meets 2.4.4; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "p21f16870843",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The link 'Islamic Civilization and Societies' in the Undergraduate Majors tab, under the heading 'MORRISSEY COLLEGE OF ARTS AND SCIENCES', in the list item 'Islamic Civilization and Societies: B.A.', leads to the ICS major page (it redirects to .../morrissey/sites/ics/academics/major.html, titled 'Major - Islamic Civilization and Societies - Boston College'). The link text with its list item and heading describes its purpose: the B.A. major in that program. A same-name link in the Academic Departments tab goes to the ICS program home, but it was in a hidden tab panel at capture and its context differs (list item 'Islamic Civilization and Societies - MCAS', a different heading), so R1 does not place them in one set; the minors link has a different name ('&'). The live HTML matches the capture. The element meets 2.4.4."
+    },
+    {
+      "fingerprint": "537a5d19e280",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The full-width photo above 'Academic Tools' (src classroom-1920x800-120622CC101v1.webp) shows smiling students at desks in a classroom, one holding coloured cards, with a clipboard on a desk; there are no seedlings or plants anywhere in it. Its alt 'students working with seedlings' describes a different scene, so it is not an equivalent of the image. I checked for reasons it could pass: the crop matches the photo at that position in the full screenshot (no wrong crop), the live HTML has the same src and alt, and there is no responsive source that would show another picture. If the image were decorative, a non-null alt would still fail (F39), so the element fails 1.1.1 either way, for the reason the claim gives."
+    },
+    {
+      "fingerprint": "5a5695deddb2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The tablist (ul role=tablist) holds three links with role=tab: Undergraduate Majors, Undergraduate Minors and Academic Departments & Programs. None has aria-selected (or aria-expanded); the browser's accessibility tree in the snapshot reports selected=false for all three, and the visible selection (the gold 'Undergraduate Majors' tab) is shown only through a class 'active' on the presentational li. The live HTML has the same markup, no aria-selected anywhere on the page, and its inline tab script only toggles the 'active' class on click, so the capture does not differ and the state is never exposed. The current tab is a state the user sets, and it cannot be programmatically determined, which fails 4.1.2 as the claim says. I found no technique that would expose it (no hidden 'selected' text, no aria-current). The duplicated aria-controls='tab-0' is a separate defect."
+    }
+  ]
+}

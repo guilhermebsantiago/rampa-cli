@@ -1,0 +1,212 @@
+{
+  "page": "https://www.casaevideo.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "d5aab27aa2f9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a carousel tile link to /ofertas/frete-gratis. All it holds is <figure><img alt=\"Frete Gratis\"></figure>, and the image shows the same words. claimTrue: yes. The capture's CDP node for the link has role link and no name, so Chromium computed none. The clause that a screen reader announces only \"link\" goes beyond what the capture shows, because the named img stays in the tree under the link. elementFails: cannot_tell. AccName 1.2 (step 2H, recursive name from content) recurses into the figure, so by the spec, and by ACT rule c487ae, the link's name is \"Frete Gratis\", which states its purpose. Chromium leaves figure content out of name-from-content; the capture shows this on the product cards too, whose browser names drop everything inside their figure. So in Chrome and Edge the name is empty and name-based tools such as voice control get nothing, while screen readers in browse mode usually still read the image's alt. Competent auditors split on whether a browser deviation on spec-valid markup fails 4.1.2, and I could not test assistive technology output here. captureDiffers: cannot_tell. The tile carousel is a deferred section that script renders (the server HTML holds only skeleton tiles), and my automated fetch runs no script, so I could not compare its live markup. Nothing in the capture suggests a different version: the screenshot is fully styled and the server shell matches the snapshot. Label uncertain."
+    },
+    {
+      "fingerprint": "f5769920c94a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a carousel tile link to /baixe-o-app. All it holds is <figure><img alt=\"Baixe o App\"></figure>, and the image shows the same words. claimTrue: yes. The capture's CDP node for the link has role link and no name, so Chromium computed none. The clause that a screen reader announces only \"link\" goes beyond what the capture shows, because the named img stays in the tree under the link. elementFails: cannot_tell. AccName 1.2 (step 2H, recursive name from content) recurses into the figure, so by the spec, and by ACT rule c487ae, the link's name is \"Baixe o App\", which states its purpose. Chromium leaves figure content out of name-from-content; the capture shows this on the product cards too, whose browser names drop everything inside their figure. So in Chrome and Edge the name is empty and name-based tools such as voice control get nothing, while screen readers in browse mode usually still read the image's alt. Competent auditors split on whether a browser deviation on spec-valid markup fails 4.1.2, and I could not test assistive technology output here. captureDiffers: cannot_tell. The tile carousel is a deferred section that script renders (the server HTML holds only skeleton tiles), and my automated fetch runs no script, so I could not compare its live markup. Nothing in the capture suggests a different version: the screenshot is fully styled and the server shell matches the snapshot. Label uncertain."
+    },
+    {
+      "fingerprint": "c00111073d61",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a carousel tile link to /natal. All it holds is <figure><img alt=\"Natal\"></figure>, and the image shows the same words. claimTrue: yes. The capture's CDP node for the link has role link and no name, so Chromium computed none. The clause that a screen reader announces only \"link\" goes beyond what the capture shows, because the named img stays in the tree under the link. elementFails: cannot_tell. AccName 1.2 (step 2H, recursive name from content) recurses into the figure, so by the spec, and by ACT rule c487ae, the link's name is \"Natal\", which states its purpose. Chromium leaves figure content out of name-from-content; the capture shows this on the product cards too, whose browser names drop everything inside their figure. So in Chrome and Edge the name is empty and name-based tools such as voice control get nothing, while screen readers in browse mode usually still read the image's alt. Competent auditors split on whether a browser deviation on spec-valid markup fails 4.1.2, and I could not test assistive technology output here. captureDiffers: cannot_tell. The tile carousel is a deferred section that script renders (the server HTML holds only skeleton tiles), and my automated fetch runs no script, so I could not compare its live markup. Nothing in the capture suggests a different version: the screenshot is fully styled and the server shell matches the snapshot. Label uncertain."
+    },
+    {
+      "fingerprint": "s34b4361e208",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the header link to /my-account/meus-pedidos: a box icon, the visible text \"Pedidos\" and aria-label \"Meus pedidos\". claimTrue: no. The destination's title, as captured, is the site's generic default title, but that is not a mismatch. The address is the account's orders page, a client-rendered account area that keeps the default title. elementFails: no. \"Meus pedidos\" (My orders) states the purpose of a link to the orders page. The menu's other \"Meus pedidos\" entry, in the server data, goes to the same address, so R1 does not apply. captureDiffers: no. The live destination returns 200 with the same generic title. The header link is hydrated by script, but the screenshot shows \"Pedidos\" and the server data lists the same label and address. Label false_positive. Cause model_error: it read a generic site title as evidence that the link text does not match."
+    },
+    {
+      "fingerprint": "733f70b328fe",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a carousel tile link to /cupom-de-desconto. All it holds is <figure><img alt=\"Pegue seu Cupom\"></figure>, and the image shows the same words. claimTrue: yes. The capture's CDP node for the link has role link and no name, so Chromium computed none. The clause that a screen reader announces only \"link\" goes beyond what the capture shows, because the named img stays in the tree under the link. elementFails: cannot_tell. AccName 1.2 (step 2H, recursive name from content) recurses into the figure, so by the spec, and by ACT rule c487ae, the link's name is \"Pegue seu Cupom\", which states its purpose. Chromium leaves figure content out of name-from-content; the capture shows this on the product cards too, whose browser names drop everything inside their figure. So in Chrome and Edge the name is empty and name-based tools such as voice control get nothing, while screen readers in browse mode usually still read the image's alt. Competent auditors split on whether a browser deviation on spec-valid markup fails 4.1.2, and I could not test assistive technology output here. captureDiffers: cannot_tell. The tile carousel is a deferred section that script renders (the server HTML holds only skeleton tiles), and my automated fetch runs no script, so I could not compare its live markup. Nothing in the capture suggests a different version: the screenshot is fully styled and the server shell matches the snapshot. Label uncertain."
+    },
+    {
+      "fingerprint": "p1aab6c4c61e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the img with alt \"Emprestimo Pessoal\", the only content of the tile link to /emprestimo-dim-dim. The crop shows the words \"Empréstimo pessoal\". elementFails: no. The alt gives the image's text, and as the link's only text it names where the link goes: the store's personal-loan service, which the footer lists as \"Empréstimo Dim Dim\". The missing accent does not matter (G82, H30, R2). How Chromium exposes the link's name is a 4.1.2 matter judged on the link's own finding. captureDiffers: cannot_tell. The tile carousel is a deferred section that script renders (the server HTML holds only skeleton tiles), and my automated fetch runs no script, so I could not compare its live markup. Nothing in the capture suggests a different version: the screenshot is fully styled and the server shell matches the snapshot. Label false_positive: Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "18ab9a38d0ad",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a carousel tile link to https://wa.me/5521988825310. All it holds is <figure><img alt=\"Venda para Empresas ou Atacado\"></figure>, and the image shows the same words. claimTrue: yes. The capture's CDP node for the link has role link and no name, so Chromium computed none. The clause that a screen reader announces only \"link\" goes beyond what the capture shows, because the named img stays in the tree under the link. elementFails: cannot_tell. AccName 1.2 (step 2H, recursive name from content) recurses into the figure, so by the spec, and by ACT rule c487ae, the link's name is \"Venda para Empresas ou Atacado\", which states its purpose. Chromium leaves figure content out of name-from-content; the capture shows this on the product cards too, whose browser names drop everything inside their figure. So in Chrome and Edge the name is empty and name-based tools such as voice control get nothing, while screen readers in browse mode usually still read the image's alt. Competent auditors split on whether a browser deviation on spec-valid markup fails 4.1.2, and I could not test assistive technology output here. captureDiffers: cannot_tell. The tile carousel is a deferred section that script renders (the server HTML holds only skeleton tiles), and my automated fetch runs no script, so I could not compare its live markup. Nothing in the capture suggests a different version: the screenshot is fully styled and the server shell matches the snapshot. Label uncertain."
+    },
+    {
+      "fingerprint": "effddfa0320d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a carousel tile link to /cashback. All it holds is <figure><img alt=\"Cashback\"></figure>, and the image shows the same words. claimTrue: yes. The capture's CDP node for the link has role link and no name, so Chromium computed none. The clause that a screen reader announces only \"link\" goes beyond what the capture shows, because the named img stays in the tree under the link. elementFails: cannot_tell. AccName 1.2 (step 2H, recursive name from content) recurses into the figure, so by the spec, and by ACT rule c487ae, the link's name is \"Cashback\", which states its purpose. Chromium leaves figure content out of name-from-content; the capture shows this on the product cards too, whose browser names drop everything inside their figure. So in Chrome and Edge the name is empty and name-based tools such as voice control get nothing, while screen readers in browse mode usually still read the image's alt. Competent auditors split on whether a browser deviation on spec-valid markup fails 4.1.2, and I could not test assistive technology output here. captureDiffers: cannot_tell. The tile carousel is a deferred section that script renders (the server HTML holds only skeleton tiles), and my automated fetch runs no script, so I could not compare its live markup. Nothing in the capture suggests a different version: the screenshot is fully styled and the server shell matches the snapshot. Label uncertain."
+    },
+    {
+      "fingerprint": "67851c8fd92f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a carousel tile link to /ofertas/ofertas-da-tv. All it holds is <figure><img alt=\"Ofertas da TV\"></figure>, and the image shows the same words. claimTrue: yes. The capture's CDP node for the link has role link and no name, so Chromium computed none. The clause that a screen reader announces only \"link\" goes beyond what the capture shows, because the named img stays in the tree under the link. elementFails: cannot_tell. AccName 1.2 (step 2H, recursive name from content) recurses into the figure, so by the spec, and by ACT rule c487ae, the link's name is \"Ofertas da TV\", which states its purpose. Chromium leaves figure content out of name-from-content; the capture shows this on the product cards too, whose browser names drop everything inside their figure. So in Chrome and Edge the name is empty and name-based tools such as voice control get nothing, while screen readers in browse mode usually still read the image's alt. Competent auditors split on whether a browser deviation on spec-valid markup fails 4.1.2, and I could not test assistive technology output here. captureDiffers: cannot_tell. The tile carousel is a deferred section that script renders (the server HTML holds only skeleton tiles), and my automated fetch runs no script, so I could not compare its live markup. Nothing in the capture suggests a different version: the screenshot is fully styled and the server shell matches the snapshot. Label uncertain."
+    },
+    {
+      "fingerprint": "34a20e690e2c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a carousel tile link to /ofertas/retire-na-loja-em-3h. All it holds is <figure><img alt=\"Retire em 3 horas\"></figure>, and the image shows the same words. claimTrue: yes. The capture's CDP node for the link has role link and no name, so Chromium computed none. The clause that a screen reader announces only \"link\" goes beyond what the capture shows, because the named img stays in the tree under the link. elementFails: cannot_tell. AccName 1.2 (step 2H, recursive name from content) recurses into the figure, so by the spec, and by ACT rule c487ae, the link's name is \"Retire em 3 horas\", which states its purpose. Chromium leaves figure content out of name-from-content; the capture shows this on the product cards too, whose browser names drop everything inside their figure. So in Chrome and Edge the name is empty and name-based tools such as voice control get nothing, while screen readers in browse mode usually still read the image's alt. Competent auditors split on whether a browser deviation on spec-valid markup fails 4.1.2, and I could not test assistive technology output here. captureDiffers: cannot_tell. The tile carousel is a deferred section that script renders (the server HTML holds only skeleton tiles), and my automated fetch runs no script, so I could not compare its live markup. Nothing in the capture suggests a different version: the screenshot is fully styled and the server shell matches the snapshot. Label uncertain."
+    },
+    {
+      "fingerprint": "b42472ec211c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a carousel tile link to /emprestimo-dim-dim. All it holds is <figure><img alt=\"Emprestimo Pessoal\"></figure>, and the image shows the same words. claimTrue: yes. The capture's CDP node for the link has role link and no name, so Chromium computed none. The clause that a screen reader announces only \"link\" goes beyond what the capture shows, because the named img stays in the tree under the link. elementFails: cannot_tell. AccName 1.2 (step 2H, recursive name from content) recurses into the figure, so by the spec, and by ACT rule c487ae, the link's name is \"Emprestimo Pessoal\", which states its purpose. Chromium leaves figure content out of name-from-content; the capture shows this on the product cards too, whose browser names drop everything inside their figure. So in Chrome and Edge the name is empty and name-based tools such as voice control get nothing, while screen readers in browse mode usually still read the image's alt. Competent auditors split on whether a browser deviation on spec-valid markup fails 4.1.2, and I could not test assistive technology output here. captureDiffers: cannot_tell. The tile carousel is a deferred section that script renders (the server HTML holds only skeleton tiles), and my automated fetch runs no script, so I could not compare its live markup. Nothing in the capture suggests a different version: the screenshot is fully styled and the server shell matches the snapshot. Label uncertain."
+    },
+    {
+      "fingerprint": "13e15b0392ac",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a carousel tile link to /ofertas/ofertas-do-dia. All it holds is <figure><img alt=\"Oferta do dia\"></figure>, and the image shows the same words. claimTrue: yes. The capture's CDP node for the link has role link and no name, so Chromium computed none. The clause that a screen reader announces only \"link\" goes beyond what the capture shows, because the named img stays in the tree under the link. elementFails: cannot_tell. AccName 1.2 (step 2H, recursive name from content) recurses into the figure, so by the spec, and by ACT rule c487ae, the link's name is \"Oferta do dia\", which states its purpose. Chromium leaves figure content out of name-from-content; the capture shows this on the product cards too, whose browser names drop everything inside their figure. So in Chrome and Edge the name is empty and name-based tools such as voice control get nothing, while screen readers in browse mode usually still read the image's alt. Competent auditors split on whether a browser deviation on spec-valid markup fails 4.1.2, and I could not test assistive technology output here. captureDiffers: cannot_tell. The tile carousel is a deferred section that script renders (the server HTML holds only skeleton tiles), and my automated fetch runs no script, so I could not compare its live markup. Nothing in the capture suggests a different version: the screenshot is fully styled and the server shell matches the snapshot. Label uncertain."
+    },
+    {
+      "fingerprint": "pd481ab5eac2",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is a product-card link to /fritadeira-air-fryer-oven-mondial-afon-12l-bi-127v/p. Its browser name is \"CASA20 1P Frete grátis Fritadeira Air Fryer Oven 12L Mondial AFON-12L-BI 127V Mondial R$ 649,90 R$ 549,90 no PIX ... COMPRAR AGORA\", and it holds the h3 with the product name. elementFails: no. The link text names the product, and the destination is that product's page (title \"Air Fryer Oven 12L Mondial – Casa&Video\"). Any other link with this name leads to the same product page, so R1 does not apply. The buttons nested inside the link (Add to wishlist, COMPRAR AGORA) raise a structure or 4.1.2 question, not a 2.4.4 one. captureDiffers: cannot_tell. The product shelf is a deferred, script-rendered section that my fetch could not render. Prices may change, but nothing suggests the link's purpose differs. Label false_positive: Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "10cd99b6a5dd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a carousel tile link to /cartao-casa-e-video. All it holds is <figure><img alt=\"Faça seu Cartão\"></figure>, and the image shows the same words. claimTrue: yes. The capture's CDP node for the link has role link and no name, so Chromium computed none. The clause that a screen reader announces only \"link\" goes beyond what the capture shows, because the named img stays in the tree under the link. elementFails: cannot_tell. AccName 1.2 (step 2H, recursive name from content) recurses into the figure, so by the spec, and by ACT rule c487ae, the link's name is \"Faça seu Cartão\", which states its purpose. Chromium leaves figure content out of name-from-content; the capture shows this on the product cards too, whose browser names drop everything inside their figure. So in Chrome and Edge the name is empty and name-based tools such as voice control get nothing, while screen readers in browse mode usually still read the image's alt. Competent auditors split on whether a browser deviation on spec-valid markup fails 4.1.2, and I could not test assistive technology output here. captureDiffers: cannot_tell. The tile carousel is a deferred section that script renders (the server HTML holds only skeleton tiles), and my automated fetch runs no script, so I could not compare its live markup. Nothing in the capture suggests a different version: the screenshot is fully styled and the server shell matches the snapshot. Label uncertain."
+    },
+    {
+      "fingerprint": "8759fcd9f312",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a carousel tile link to /black-friday. All it holds is <figure><img alt=\"Esquenta Black da Casa\"></figure>, and the image shows the same words. claimTrue: yes. The capture's CDP node for the link has role link and no name, so Chromium computed none. The clause that a screen reader announces only \"link\" goes beyond what the capture shows, because the named img stays in the tree under the link. elementFails: cannot_tell. AccName 1.2 (step 2H, recursive name from content) recurses into the figure, so by the spec, and by ACT rule c487ae, the link's name is \"Esquenta Black da Casa\", which states its purpose. Chromium leaves figure content out of name-from-content; the capture shows this on the product cards too, whose browser names drop everything inside their figure. So in Chrome and Edge the name is empty and name-based tools such as voice control get nothing, while screen readers in browse mode usually still read the image's alt. Competent auditors split on whether a browser deviation on spec-valid markup fails 4.1.2, and I could not test assistive technology output here. captureDiffers: cannot_tell. The tile carousel is a deferred section that script renders (the server HTML holds only skeleton tiles), and my automated fetch runs no script, so I could not compare its live markup. Nothing in the capture suggests a different version: the screenshot is fully styled and the server shell matches the snapshot. Label uncertain."
+    },
+    {
+      "fingerprint": "s76ab1e0d3bc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is DaisyUI's drawer toggle, <input type=\"checkbox\" class=\"drawer-toggle\" aria-label=\"closed drawer\">, inside the Menu list item. It has no bounds and nothing visible; the visible control is the \"Menu\" button beside it. claimTrue: yes. \"closed drawer\" names a state, not what the control is for, though \"what to enter\" fits a checkbox poorly. elementFails: no. 2.4.6 covers headings and labels, and WCAG's glossary defines a label as presented to all users, noting that a name \"may be hidden and only exposed by assistive technology\". This checkbox has no visible label, only an aria-label name, and 2.4.6 does not require labels. A vague name on a focusable control with nothing visible is a matter for other criteria, such as 4.1.2 or focus order and visibility, not 2.4.6. captureDiffers: no. The live server HTML has the same input, id _R_ad2p96_ and aria-label. Label false_positive. Cause criterion_misapplied: it applied 2.4.6 to the hidden accessible name of a control that has no label."
+    },
+    {
+      "fingerprint": "3f6d4ae19e00",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a carousel tile link to https://ebookpremiadocvlb.landloja.com/. All it holds is <figure><img alt=\"Ebook Premiado\"></figure>, and the image shows the same words. claimTrue: yes. The capture's CDP node for the link has role link and no name, so Chromium computed none. The clause that a screen reader announces only \"link\" goes beyond what the capture shows, because the named img stays in the tree under the link. elementFails: cannot_tell. AccName 1.2 (step 2H, recursive name from content) recurses into the figure, so by the spec, and by ACT rule c487ae, the link's name is \"Ebook Premiado\", which states its purpose. Chromium leaves figure content out of name-from-content; the capture shows this on the product cards too, whose browser names drop everything inside their figure. So in Chrome and Edge the name is empty and name-based tools such as voice control get nothing, while screen readers in browse mode usually still read the image's alt. Competent auditors split on whether a browser deviation on spec-valid markup fails 4.1.2, and I could not test assistive technology output here. captureDiffers: cannot_tell. The tile carousel is a deferred section that script renders (the server HTML holds only skeleton tiles), and my automated fetch runs no script, so I could not compare its live markup. Nothing in the capture suggests a different version: the screenshot is fully styled and the server shell matches the snapshot. Label uncertain."
+    },
+    {
+      "fingerprint": "s0b2367bc030",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the img with alt \"Esquenta Black da Casa\", all the first tile link to /black-friday holds. The crop shows the words \"Esquenta Black da Casa\". claimTrue: no. It is all its link holds, but it does say where the link leads. \"Esquenta Black\" is the store's Black Friday warm-up campaign, the destination is the campaign page titled \"Antecipa Black Friday 2026 Casa&Video\", and the nav's text link to the same address reads \"Esquenta Black Friday\". elementFails: no. Replace the image with its alternative and the link's purpose stays clear: it names the page (G82, H30, R2's first test), and it matches the image's text. Chromium leaves the alt out of the link's name because of the figure wrapper, but that is a 4.1.2 matter judged on the link's own finding, and this claim does not name it. captureDiffers: cannot_tell. The tile carousel is a deferred section that script renders (the server HTML holds only skeleton tiles), and my automated fetch runs no script, so I could not compare its live markup. Nothing in the capture suggests a different version: the screenshot is fully styled and the server shell matches the snapshot. Label false_positive. Cause model_error."
+    },
+    {
+      "fingerprint": "p536ae9186b7",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the img with alt \"Retire em 3 horas\", the only content of the tile link to /ofertas/retire-na-loja-em-3h. The crop shows \"Retire na loja em 3 horas\". elementFails: no. As the link's text, the alt names the 3-hour pick-up offer the link opens. Dropping \"na loja\" loses nothing a user needs to know where the link goes, and the address says the same (G82, H30, R2). The destination's generic title, as captured, does not change that. captureDiffers: cannot_tell. The tile carousel is a deferred section that script renders (the server HTML holds only skeleton tiles), and my automated fetch runs no script, so I could not compare its live markup. Nothing in the capture suggests a different version: the screenshot is fully styled and the server shell matches the snapshot. Label false_positive: Rampa was right to report nothing."
+    }
+  ]
+}

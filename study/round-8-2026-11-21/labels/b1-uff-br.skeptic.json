@@ -1,0 +1,82 @@
+{
+  "page": "https://www.uff.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "c6a5b4068330",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of the 'Vida na UFF' card link to /guia-para-estudantes/ (destination titled 'Guia para Estudantes'); the link has no aria-label or title, and its name is the alt, a caption of the photo (students lying on the grass at Gragoatá). Read as link text, it does not identify a students' guide, so the claim holds of the capture. Skeptic checks: the visible caption 'Guia para estudantes' is an h2 in a separate Divi text module made clickable only by script (not a link in the tree, not in the image link's context), and the img title 'inicio-guia-calouros' is a file name on the img, not the link's name; by R2 neither cures 1.1.1 (H30: the alternative must describe the link's function). The live HTML fetched today has the same markup, alt and href, and the screenshot is a fully styled render, so the capture matches what users get."
+    },
+    {
+      "fingerprint": "s8136edf0cd0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The link to /unidades-local/ (destination titled 'Unidades de ensino por localidade', a list of teaching units by city; the main menu labels the same address 'Unidades Acadêmicas') holds only an image whose alt describes the photo of the IME and Turismo e Hotelaria buildings, blocks H, G and F. That name points users to those two units or to a picture, not to the units-by-location page. Context by the rubric: the link has no title or aria-describedby (the title 'Fachada do Instituto...' is on the img and also describes the photo), no sentence, paragraph or list item around it, and the heading just before it is the previous card's h2 'Assistência Estudantil', which is misleading. The visible caption 'Unidades de ensino' is an h2 that comes after the link and is only made clickable by script, so it is visual context, not programmatic context. No technique makes it pass; the claim names this failure. Live HTML matches the capture."
+    },
+    {
+      "fingerprint": "p9fc920cc194",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The link 'UFF Responde' is the category tag (rel=tag) in the meta line of the news card 'UFF Responde: Mulheres no Mercado de Trabalho' (the h3 just before it), next to a 'Destaques' category link, and leads to /editoria/uff-responde/, whose page title is 'UFF Responde': the link text names the section it opens, which is enough for 2.4.4. It is the only link on the page with that name (the two post links are named 'UFF Responde: Mulheres no Mercado de Trabalho'), so R1 does not apply. The live HTML has the same markup and href."
+    },
+    {
+      "fingerprint": "sb60018fddea",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The header logo is the only content of a link to https://www.uff.br/, the university's home page (the page itself). Its alt 'Logotipo da Universidade Federal Fluminense' names the university whose site the link opens; by R2's first step an alternative that names the page or site lets users tell where the link goes, and H30's own example uses the site's name ('Smallville Times') for a linked logo. The words 'Logotipo da' are redundant, a best-practice point, not a failure, so the claim that it does not say where the link leads is not true. Requiring the alt to say 'home page' is stricter than 1.1.1. The live HTML has the same alt and href."
+    },
+    {
+      "fingerprint": "b8e22e2e9f03",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of the card link to /unidades-local/ ('Unidades de ensino por localidade'), with no aria-label or link title. Its alt is a long photo caption (facade of IME and Faculdade de Turismo e Hotelaria, three beige blocks H, G, F); naming two specific units does not identify a page listing all teaching units by location, and would lead users to expect those units' pages. Skeptic checks: the img title also describes the photo; the caption 'Unidades de ensino' is a separate h2 clickable only by script, which by R2 does not cure 1.1.1 (H30). Live HTML matches; screenshot is a styled render."
+    },
+    {
+      "fingerprint": "s36716dace0b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image sits in the 'Universidade e Sociedade' card link to app.uff.br/riuff/, which also holds the h2 'Repositório Institucional - RIUFF' and a description, plus a title. The crop and the screenshot show the RIUFF logo ('Repositório Institucional' with its icon and tagline) on a white card, exactly what the alt 'Imagem ilustrativa com o logotipo do Repositório Institucional da UFF.' says, so the claim that it describes something not shown is false. Since the link text is present, the alt is at most redundant (H2 would allow a null alt), which is not a 1.1.1 failure. The model had the right crop and misjudged it. Live HTML has the same alt."
+    },
+    {
+      "fingerprint": "d4d404e00891",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of the card link to /assistencia-estudantil/ (destination 'Assistência Estudantil da UFF', a page on student-assistance policy, grants and programmes), with no aria-label or link title (img title 'inicio-moradia' is a file name). The alt describes the photo of the student housing building (white facade, two floors, garden, lamp posts, sign). Skeptic check: housing is one assistance programme, but read as link text the alt leads users to expect a housing page or a photo, not the student-assistance page, so it does not identify the destination. The caption 'Assistência Estudantil' is a separate h2 clickable only by script; by R2 it does not cure 1.1.1. Live HTML matches."
+    }
+  ]
+}

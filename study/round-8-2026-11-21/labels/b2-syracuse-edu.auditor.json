@@ -1,0 +1,16 @@
+{
+  "page": "https://www.syracuse.edu/academics/programs/?level=undergraduate",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "pd33ca7e9861",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is a degree tag link in the program finder's results list, visible text \"B.F.A.\" with aria-label=\"Acting B.F.A.\", linking to /academics/programs/acting/, whose title and heading are \"Acting B.F.A.\". Its accessible name (ARIA8) alone states the program and degree it leads to, so its purpose is determined from the link text; no other link on the page has the name \"Acting B.F.A.\" (one occurrence in the snapshot and in the live HTML), so the shared-name reading (R1) does not apply, and the visible text is contained in the name. The element meets 2.4.4 and Rampa was right to report nothing. The live page, fetched with curl on 2026-11-21, serves the same markup for this link (same href, aria-label and text, inside the visible Acting result row), and the screenshot shows a normally styled page, so the capture does not differ for this point."
+    }
+  ]
+}

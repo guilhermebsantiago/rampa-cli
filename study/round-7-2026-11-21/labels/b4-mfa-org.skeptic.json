@@ -1,0 +1,62 @@
+{
+  "page": "https://www.mfa.org/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p51711477b20",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The footer link 'Translate' (the only link of that name on the page, in the Footer navigation list under the 'Footer' heading) points to Google Translate with u=www.mfa.org; today it redirects (302) to www-mfa-org.translate.goog, the MFA site machine-translated (French by default, language switchable). 'Translate' states that purpose: translating this site. 2.4.4 does not require the link to name the service or the target language, and no other link shares its name, so the shared-name rule does not apply. The live HTML has the same link and the screenshot shows it in the styled footer, so the capture does not differ. The element passes; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "ec17a1e3aa7c",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the visually hidden label for=\"edit-search\" of the header search form. The claim holds of the capture: two inputs have id=\"edit-search\" (live HTML has the same duplicate, from a mobile-menu copy and a header copy), the label's for resolves to the first, hidden one, and Chrome's tree shows this label unattached (LabelText, empty name). But the visible field beside it still gets the accessible name 'Search' from its placeholder (ax nameFrom placeholder), the same text the label carries, and its role and value are exposed. Duplicate IDs fail 4.1.2 only when they break a name, role or value relationship (the old 4.1.1 issue, always satisfied for HTML in WCAG 2.1 as amended); here nothing is lost, because the label is invisible anyway and the name is unchanged. Not a 4.1.2 failure: the rule treats the duplicate id itself as the failure."
+    },
+    {
+      "fingerprint": "12514ecc4710",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer 'Sign up for MFA Mail' field (input type=email name=email, visible label 'E-mail') asks for the visitor's own email address, a purpose in WCAG's Input Purposes list (email). It has no autocomplete attribute in the snapshot or in the live HTML, and Chromium flagged it (formIssues: FormInputAssignedAutocompleteValueToIdOrNameAttributeError), so both sentences of the claim are true. I looked for a reason it could pass: type=email gives only the data format, not that the address is the user's own, and name=email is not a mechanism WCAG recognises. So the purpose cannot be programmatically determined (H98 not met), and the field fails 1.3.5 for exactly the reason the claim gives."
+    },
+    {
+      "fingerprint": "pe9a9797e416",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The photo of a man playing a laouto sits inside an image link with aria-hidden=\"true\", role=presentation and tabindex=-1, which duplicates the visible heading link 'The Art of the Greek Laouto' (same href /event/music/the-art-of-the-greek-laouto) in the same event card; live HTML matches. In this card the image is an illustrative thumbnail: what it shows visually (a laouto being played) is already given by the event title. The performer's name in its alt is not something the picture shows to sighted users. Hiding a redundant thumbnail link from assistive technology is an accepted pattern and loses no information, so the element passes 1.1.1, and Rampa was right not to report it. Crop and screenshot match the live image."
+    },
+    {
+      "fingerprint": "c0069e779e4b",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image (alt 'Late Nites attendees gather around round tables...') is in the aria-hidden, tabindex=-1 duplicate image link of the 'First Fridays' event card. The visible heading link 'First Fridays' goes to the same URL, with the date 'December 4' below it. The claim's evidence is false: the picture does not contain the words 'Late Nites'. The cursive neon in the photo reads something like '(Re)member me' (checked on the crop and the full-size source image); 'Late Nites' appears only in the alt text, which the model seems to have read as text in the image. The photo is an ambiance shot that gives nothing the card text lacks; incidental neon in a photograph is not information the card depends on. So hiding it does not fail 1.1.1. The live page has the same markup and image."
+    },
+    {
+      "fingerprint": "s84cf4778582",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is in the 'Maverick Kings' carousel card, inside a link that also contains the visible h3 'Maverick Kings', so the link's purpose comes from its text and the alt only adds to it. The crop, the screenshot and the live image all show exactly what the alt says: a limestone statue of a pharaoh in a nemes headdress, cut off at the torso, in front of a tilted orange square. The claim that the alt describes something the image does not show is false, and an accurate description fails nothing in 1.1.1. A null alt would be the H2 ideal, but that is not required."
+    },
+    {
+      "fingerprint": "se37d89d2306",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is in the 'Picasso, Miró, Dalí: Unbound' carousel card, inside a link that also holds the visible heading of that name. The crop and the screenshot show a Miró-style print of black lines and black shapes with bursts of red, yellow, green and blue on a speckled ground, which matches the alt 'Abstract black-line drawing with bursts of red, yellow, green, and blue.' The alt does not describe anything absent from the image, so the claim is false. Within a link that has its own text, the description serves 1.1.1 adequately. The live page carries the same alt and image."
+    },
+    {
+      "fingerprint": "s6490f8d19c1",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Of the capture the sentence holds: the newsletter field has pattern=\"[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$\" and no on-screen hint (live HTML identical, form without novalidate, and the page's scripts only use native validity). But on the page users receive, the pattern constrains nothing: browsers compile pattern with the v flag, where an unescaped '-' in a character class is a syntax error (verified in V8: 'Invalid character in character class'), so the element has no compiled pattern and accepts any address type=email accepts. The field has a visible label 'E-mail' with a required marker, which identifies the expected input in its customary format. 3.3.2 needs no further instruction here: the finding demands one for any pattern attribute, which is stricter than the criterion."
+    }
+  ]
+}

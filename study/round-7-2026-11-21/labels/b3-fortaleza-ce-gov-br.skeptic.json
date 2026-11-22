@@ -1,0 +1,379 @@
+{
+  "page": "https://www.fortaleza.ce.gov.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "d67dfb9360ce",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link \"Notícias\" in the orange footer, white bold 12px text. The live style.css (fetched 2026-11-21) sets footer { background-color: rgb(241, 90, 34) }, footer a and address #FFF, footer nav h6 / li a #fff bold at 14px / 12px (16px on narrow screens); its text-shadow value '(0,0,0,0.5)' is invalid and ignored, and no shadow would count anyway. My own sampling of the screenshot over the element's bounds finds only #f15a22 and #ffffff, 3.37:1. Bold text below 18.66px is not large text, so 4.5:1 applies and none of the incidental exceptions fits. I looked for an overlay, a gradient, an image behind it or a capture without styles and found none; the live page (WebFetch) has the same footer. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "c042ac84598b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image inside the card link (a.link-noticia) whose text is the headline, summary and date; the image's alt is \"Imagem Destacada\" (\"featured image\"), which Chrome puts at the start of the link name. Crop: the \"CULTURA\" theme graphic, text and a theatre-mask icon. Whatever role one gives the picture, the alternative fails 1.1.1: if it is informative it says nothing of what it shows (F30, placeholder alternative), if it is redundant with the headline it should be null (F39, alt=\"image\"-type text for an image AT should ignore). The live page (WebFetch) still serves \"Imagem Destacada\" on all 15 featured images, so the capture matches. The claim's wording is off (the alt describes no content at all rather than absent content, so claimTrue is no), but read in good faith it points at the alternative not matching the picture, which is the defect (the rubric's own example). No reason to doubt the failure holds up."
+    },
+    {
+      "fingerprint": "ec106d4b924f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image inside the card link (a.link-noticia) whose text is the headline, summary and date; the image's alt is \"Imagem Destacada\" (\"featured image\"), which Chrome puts at the start of the link name. Crop: a man with a microphone addressing a seated audience in a training room. Whatever role one gives the picture, the alternative fails 1.1.1: if it is informative it says nothing of what it shows (F30, placeholder alternative), if it is redundant with the headline it should be null (F39, alt=\"image\"-type text for an image AT should ignore). The live page (WebFetch) still serves \"Imagem Destacada\" on all 15 featured images, so the capture matches. The claim's wording is off (the alt describes no content at all rather than absent content, so claimTrue is no), but read in good faith it points at the alternative not matching the picture, which is the defect (the rubric's own example). No reason to doubt the failure holds up."
+    },
+    {
+      "fingerprint": "3a551c22429a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "h6 heading \"Links Importantes\" in the orange footer, white bold 14px text. The live style.css (fetched 2026-11-21) sets footer { background-color: rgb(241, 90, 34) }, footer a and address #FFF, footer nav h6 / li a #fff bold at 14px / 12px (16px on narrow screens); its text-shadow value '(0,0,0,0.5)' is invalid and ignored, and no shadow would count anyway. My own sampling of the screenshot over the element's bounds finds only #f15a22 and #ffffff, 3.37:1. Bold text below 18.66px is not large text, so 4.5:1 applies and none of the incidental exceptions fits. I looked for an overlay, a gradient, an image behind it or a capture without styles and found none; the live page (WebFetch) has the same footer. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "b4ed4bb49b8e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "h6 heading \"Links Úteis\" in the orange footer, white bold 14px text. The live style.css (fetched 2026-11-21) sets footer { background-color: rgb(241, 90, 34) }, footer a and address #FFF, footer nav h6 / li a #fff bold at 14px / 12px (16px on narrow screens); its text-shadow value '(0,0,0,0.5)' is invalid and ignored, and no shadow would count anyway. My own sampling of the screenshot over the element's bounds finds only #f15a22 and #ffffff, 3.37:1. Bold text below 18.66px is not large text, so 4.5:1 applies and none of the incidental exceptions fits. I looked for an overlay, a gradient, an image behind it or a capture without styles and found none; the live page (WebFetch) has the same footer. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "p699bb2ab276",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "VLibras widget popup image (#vlibras-popup, in the widget's open shadow root) with alt \"Acessível com VLibras\". The crop shows the VLibras hands with a short text that appears to read \"Acessível em Libras\"; the alternative conveys the same thing (the content is accessible in Libras via VLibras). The actual control is the sibling button, named by aria-label with its own icon hidden, so the image is not a control's only name. No 1.1.1 failure; the widget is the same script from vlibras.gov.br on the live page."
+    },
+    {
+      "fingerprint": "0305490cd167",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "h6 heading \"ENDEREÇO E CONTATOS\" in the orange footer, white bold 14px text. The live style.css (fetched 2026-11-21) sets footer { background-color: rgb(241, 90, 34) }, footer a and address #FFF, footer nav h6 / li a #fff bold at 14px / 12px (16px on narrow screens); its text-shadow value '(0,0,0,0.5)' is invalid and ignored, and no shadow would count anyway. My own sampling of the screenshot over the element's bounds finds only #f15a22 and #ffffff, 3.37:1. Bold text below 18.66px is not large text, so 4.5:1 applies and none of the incidental exceptions fits. I looked for an overlay, a gradient, an image behind it or a capture without styles and found none; the live page (WebFetch) has the same footer. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "cbb2bd6a294d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link \"A Cidade\" in the orange footer, white bold 12px text. The live style.css (fetched 2026-11-21) sets footer { background-color: rgb(241, 90, 34) }, footer a and address #FFF, footer nav h6 / li a #fff bold at 14px / 12px (16px on narrow screens); its text-shadow value '(0,0,0,0.5)' is invalid and ignored, and no shadow would count anyway. My own sampling of the screenshot over the element's bounds finds only #f15a22 and #ffffff, 3.37:1. Bold text below 18.66px is not large text, so 4.5:1 applies and none of the incidental exceptions fits. I looked for an overlay, a gradient, an image behind it or a capture without styles and found none; the live page (WebFetch) has the same footer. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "f650802fdfe4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Address text \"Rua São José, 01 - Centro Fortaleza-CE - CEP: 60.060-170\" in the orange footer, white bold 12px text. The live style.css (fetched 2026-11-21) sets footer { background-color: rgb(241, 90, 34) }, footer a and address #FFF, footer nav h6 / li a #fff bold at 14px / 12px (16px on narrow screens); its text-shadow value '(0,0,0,0.5)' is invalid and ignored, and no shadow would count anyway. My own sampling of the screenshot over the element's bounds finds only #f15a22 and #ffffff, 3.37:1. Bold text below 18.66px is not large text, so 4.5:1 applies and none of the incidental exceptions fits. I looked for an overlay, a gradient, an image behind it or a capture without styles and found none; the live page (WebFetch) has the same footer. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "cbf615997f6b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header search field #portal-searchbox-field; its placeholder \"Pesquise em todo site!\" is teal bold 14px on a white pill. My sampling of the screenshot gives #009d8a (and #009889 anti-aliasing) on #ffffff, 3.39:1, below 4.5:1 for non-large text. The obvious skeptic objection, that placeholders are hints outside 1.4.3, does not hold: Understanding 1.4.3 says the criterion \"applies to text in the page, including placeholder text\", and here the placeholder is also the field's only visible label. The field and its styling are the site's own header, so no capture difference touches it. Fails as claimed."
+    },
+    {
+      "fingerprint": "s3fa4c581b95",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "bxSlider pager link <a href=\"\" data-slide-index=\"3\" class=\"bx-pager-link\">4</a>, drawn as a dot over the news carousel. Its name is \"4\"; it has no title or aria-describedby; its ancestors are generic divs (no list item, paragraph or cell); the heading just before it is the last slide's h2 (\"Agefis apreende 156 kg...\"), which says nothing about choosing slide 4. So text plus listed context does not give the purpose (show slide 4). Sighted users read the dots as slide selectors, so the ambiguity exception does not apply. The pager is generated by the slider script on the page users receive (absent from the server HTML, present once scripts run, as in the capture). Fails 2.4.4 as claimed."
+    },
+    {
+      "fingerprint": "b0850a5ff80a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Slider image (crop: crowd of people around the mayor) that is the only content of <a href=\"/noticias/prefeitura-de-fortaleza-entrega-requalificacao-da-praca-nossa-senhora-de-guadalupe-no-jose-walter\"><figure><img alt=\"Imagem Destacada\"></figure></a>. The destination is the story about the Praça Nossa Senhora de Guadalupe; \"Imagem Destacada\" neither describes the photo nor identifies that story, so read as the link text it fails G82/H30. Under R2 the h2 headline link beside it does not cure 1.1.1, and the link has no title anyway. Live page still serves the alt \"Imagem Destacada\" on the five slider images. Fails 1.1.1 as claimed."
+    },
+    {
+      "fingerprint": "s1d3fcbeee71",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Footer logo (crop: white \"FORTALEZA PREFEITURA\" logo) that is the only content of <a href=\"/\" title=\"\">, the portal's home page. Its alt \"Logo Branca - Prefeitura Municipal de Fortaleza\" names the Prefeitura whose home page the link opens; read as the link text it lets users tell where the link goes (R2: naming the page suffices; H30's own example uses the destination's name, \"Smallville Times\"). \"Logo Branca\" is noise and \"home\" would be nicer, but neither is a 1.1.1 failure; the logo's text is also covered. Chrome computes this name for the link. The claim that it does not say where the link leads is wrong; the model had the alt and the href and misjudged. Live page has the same alt (WebFetch)."
+    },
+    {
+      "fingerprint": "3c67f316b605",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Slider link <a href=\"/noticias/...praca-nossa-senhora-de-guadalupe...\"><figure><img alt=\"Imagem Destacada\"></figure></a>. In the capture Chrome's CDP tree gives this link no name, while the sibling card links (a > div > div > img) get \"Imagem Destacada ...\": Chromium does not take name from content through the figure element, so the claim is true of the capture and of Chrome users. The skeptic reason: by the accname algorithm the figure's descendants are traversed and the name is \"Imagem Destacada\" (the author used the img-alt-in-link pattern, H30), which Firefox and axe-core's link-name compute; the empty name is a user agent quirk, and with that name the link has a name for 4.1.2 (its poor quality is a 1.1.1/2.4.4 matter). Whether this counts as a 4.1.2 failure turns on accessibility support in Chrome, on which competent auditors would reasonably disagree, so uncertain. Same markup on the live page as far as WebFetch shows."
+    },
+    {
+      "fingerprint": "e8406af8e0d9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Text in an <a> without href \"Fala Fortaleza: 0800.285.0880\" in the orange footer, white bold 12px text. The live style.css (fetched 2026-11-21) sets footer { background-color: rgb(241, 90, 34) }, footer a and address #FFF, footer nav h6 / li a #fff bold at 14px / 12px (16px on narrow screens); its text-shadow value '(0,0,0,0.5)' is invalid and ignored, and no shadow would count anyway. My own sampling of the screenshot over the element's bounds finds only #f15a22 and #ffffff, 3.37:1. Bold text below 18.66px is not large text, so 4.5:1 applies and none of the incidental exceptions fits. I looked for an overlay, a gradient, an image behind it or a capture without styles and found none; the live page (WebFetch) has the same footer. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "32f298d86f4d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link \"Fortaleza Inclusiva\" in the orange footer, white bold 12px text. The live style.css (fetched 2026-11-21) sets footer { background-color: rgb(241, 90, 34) }, footer a and address #FFF, footer nav h6 / li a #fff bold at 14px / 12px (16px on narrow screens); its text-shadow value '(0,0,0,0.5)' is invalid and ignored, and no shadow would count anyway. My own sampling of the screenshot over the element's bounds finds only #f15a22 and #ffffff, 3.37:1. Bold text below 18.66px is not large text, so 4.5:1 applies and none of the incidental exceptions fits. I looked for an overlay, a gradient, an image behind it or a capture without styles and found none; the live page (WebFetch) has the same footer. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "s0ec5bace951",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Text-size control <a href=\"#\">A</a> (reset to normal size) in li.normal-zoom of the header list \"Acessibilidade: A- A A+\". Its own list item holds only \"A\"; there is no title, aria-label or aria-describedby; the list is not nested; no heading precedes it. The \"Acessibilidade:\" label and the A-/A+ neighbours sit in sibling list items, which the rubric does not count as context. Sighted users understand the A- A A+ pattern, so the ambiguity exception does not apply. Live page (WebFetch) still has the same A-/A/A+ links. Fails 2.4.4 as claimed."
+    },
+    {
+      "fingerprint": "e742e4d2f2de",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link \"Política de Privacidade\" in the orange footer, white bold 12px text. The live style.css (fetched 2026-11-21) sets footer { background-color: rgb(241, 90, 34) }, footer a and address #FFF, footer nav h6 / li a #fff bold at 14px / 12px (16px on narrow screens); its text-shadow value '(0,0,0,0.5)' is invalid and ignored, and no shadow would count anyway. My own sampling of the screenshot over the element's bounds finds only #f15a22 and #ffffff, 3.37:1. Bold text below 18.66px is not large text, so 4.5:1 applies and none of the incidental exceptions fits. I looked for an overlay, a gradient, an image behind it or a capture without styles and found none; the live page (WebFetch) has the same footer. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "36fdec57cf00",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Text in an <a> without href \"Central 156\" in the orange footer, white bold 12px text. The live style.css (fetched 2026-11-21) sets footer { background-color: rgb(241, 90, 34) }, footer a and address #FFF, footer nav h6 / li a #fff bold at 14px / 12px (16px on narrow screens); its text-shadow value '(0,0,0,0.5)' is invalid and ignored, and no shadow would count anyway. My own sampling of the screenshot over the element's bounds finds only #f15a22 and #ffffff, 3.37:1. Bold text below 18.66px is not large text, so 4.5:1 applies and none of the incidental exceptions fits. I looked for an overlay, a gradient, an image behind it or a capture without styles and found none; the live page (WebFetch) has the same footer. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "e3dc477e3880",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image inside the card link (a.link-noticia) whose text is the headline, summary and date; the image's alt is \"Imagem Destacada\" (\"featured image\"), which Chrome puts at the start of the link name. Crop: the mayor speaking into a microphone at an event, banner \"Eu Me Vejo Aqui\" behind. Whatever role one gives the picture, the alternative fails 1.1.1: if it is informative it says nothing of what it shows (F30, placeholder alternative), if it is redundant with the headline it should be null (F39, alt=\"image\"-type text for an image AT should ignore). The live page (WebFetch) still serves \"Imagem Destacada\" on all 15 featured images, so the capture matches. The claim's wording is off (the alt describes no content at all rather than absent content, so claimTrue is no), but read in good faith it points at the alternative not matching the picture, which is the defect (the rubric's own example). No reason to doubt the failure holds up."
+    },
+    {
+      "fingerprint": "13dec662928a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image inside the card link (a.link-noticia) whose text is the headline, summary and date; the image's alt is \"Imagem Destacada\" (\"featured image\"), which Chrome puts at the start of the link name. Crop: the \"EMPREGO E RENDA\" theme graphic, text and a money icon. Whatever role one gives the picture, the alternative fails 1.1.1: if it is informative it says nothing of what it shows (F30, placeholder alternative), if it is redundant with the headline it should be null (F39, alt=\"image\"-type text for an image AT should ignore). The live page (WebFetch) still serves \"Imagem Destacada\" on all 15 featured images, so the capture matches. The claim's wording is off (the alt describes no content at all rather than absent content, so claimTrue is no), but read in good faith it points at the alternative not matching the picture, which is the defect (the rubric's own example). No reason to doubt the failure holds up."
+    },
+    {
+      "fingerprint": "4aeeb465db3a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image inside the card link (a.link-noticia) whose text is the headline, summary and date; the image's alt is \"Imagem Destacada\" (\"featured image\"), which Chrome puts at the start of the link name. Crop: five women holding signed documents in front of a COP31 UN Climate Change Conference backdrop. Whatever role one gives the picture, the alternative fails 1.1.1: if it is informative it says nothing of what it shows (F30, placeholder alternative), if it is redundant with the headline it should be null (F39, alt=\"image\"-type text for an image AT should ignore). The live page (WebFetch) still serves \"Imagem Destacada\" on all 15 featured images, so the capture matches. The claim's wording is off (the alt describes no content at all rather than absent content, so claimTrue is no), but read in good faith it points at the alternative not matching the picture, which is the defect (the rubric's own example). No reason to doubt the failure holds up."
+    },
+    {
+      "fingerprint": "s07e0e556a77",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "bxSlider pager link <a href=\"\" data-slide-index=\"0\" class=\"bx-pager-link active\">1</a>, a dot over the news carousel. Name \"1\", no title or aria-describedby, generic div ancestors, and the heading just before it is the last slide's h2 about Agefis, unrelated to selecting slide 1. The purpose (show the first slide) cannot be determined from text and listed context, and the dots are not ambiguous to sighted users, so the exception does not apply. Script-generated pager present for users with scripts, as captured. Fails 2.4.4 as claimed."
+    },
+    {
+      "fingerprint": "4c1640158471",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link \"Identidade visual\" in the orange footer, white bold 12px text. The live style.css (fetched 2026-11-21) sets footer { background-color: rgb(241, 90, 34) }, footer a and address #FFF, footer nav h6 / li a #fff bold at 14px / 12px (16px on narrow screens); its text-shadow value '(0,0,0,0.5)' is invalid and ignored, and no shadow would count anyway. My own sampling of the screenshot over the element's bounds finds only #f15a22 and #ffffff, 3.37:1. Bold text below 18.66px is not large text, so 4.5:1 applies and none of the incidental exceptions fits. I looked for an overlay, a gradient, an image behind it or a capture without styles and found none; the live page (WebFetch) has the same footer. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "ee8a0f5c152a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link \"Portal\" in the orange footer, white bold 12px text. The live style.css (fetched 2026-11-21) sets footer { background-color: rgb(241, 90, 34) }, footer a and address #FFF, footer nav h6 / li a #fff bold at 14px / 12px (16px on narrow screens); its text-shadow value '(0,0,0,0.5)' is invalid and ignored, and no shadow would count anyway. My own sampling of the screenshot over the element's bounds finds only #f15a22 and #ffffff, 3.37:1. Bold text below 18.66px is not large text, so 4.5:1 applies and none of the incidental exceptions fits. I looked for an overlay, a gradient, an image behind it or a capture without styles and found none; the live page (WebFetch) has the same footer. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "fef0f9da0473",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image inside the card link (a.link-noticia) whose text is the headline, summary and date; the image's alt is \"Imagem Destacada\" (\"featured image\"), which Chrome puts at the start of the link name. Crop: a crowd raising hands around the mayor. Whatever role one gives the picture, the alternative fails 1.1.1: if it is informative it says nothing of what it shows (F30, placeholder alternative), if it is redundant with the headline it should be null (F39, alt=\"image\"-type text for an image AT should ignore). The live page (WebFetch) still serves \"Imagem Destacada\" on all 15 featured images, so the capture matches. The claim's wording is off (the alt describes no content at all rather than absent content, so claimTrue is no), but read in good faith it points at the alternative not matching the picture, which is the defect (the rubric's own example). No reason to doubt the failure holds up."
+    },
+    {
+      "fingerprint": "d8199afc6dc4",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image inside the card link (a.link-noticia) whose text is the headline, summary and date; the image's alt is \"Imagem Destacada\" (\"featured image\"), which Chrome puts at the start of the link name. Crop: a \"Limpezinha\" garbage truck with workers in green uniforms. Whatever role one gives the picture, the alternative fails 1.1.1: if it is informative it says nothing of what it shows (F30, placeholder alternative), if it is redundant with the headline it should be null (F39, alt=\"image\"-type text for an image AT should ignore). The live page (WebFetch) still serves \"Imagem Destacada\" on all 15 featured images, so the capture matches. The claim's wording is off (the alt describes no content at all rather than absent content, so claimTrue is no), but read in good faith it points at the alternative not matching the picture, which is the defect (the rubric's own example). No reason to doubt the failure holds up."
+    },
+    {
+      "fingerprint": "875010d96d10",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link \"Institucional\" in the orange footer, white bold 12px text. The live style.css (fetched 2026-11-21) sets footer { background-color: rgb(241, 90, 34) }, footer a and address #FFF, footer nav h6 / li a #fff bold at 14px / 12px (16px on narrow screens); its text-shadow value '(0,0,0,0.5)' is invalid and ignored, and no shadow would count anyway. My own sampling of the screenshot over the element's bounds finds only #f15a22 and #ffffff, 3.37:1. Bold text below 18.66px is not large text, so 4.5:1 applies and none of the incidental exceptions fits. I looked for an overlay, a gradient, an image behind it or a capture without styles and found none; the live page (WebFetch) has the same footer. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "eabedb2348a5",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image inside the card link (a.link-noticia) whose text is the headline, summary and date; the image's alt is \"Imagem Destacada\" (\"featured image\"), which Chrome puts at the start of the link name. Crop: the mayor greeting health workers in a clinic room. Whatever role one gives the picture, the alternative fails 1.1.1: if it is informative it says nothing of what it shows (F30, placeholder alternative), if it is redundant with the headline it should be null (F39, alt=\"image\"-type text for an image AT should ignore). The live page (WebFetch) still serves \"Imagem Destacada\" on all 15 featured images, so the capture matches. The claim's wording is off (the alt describes no content at all rather than absent content, so claimTrue is no), but read in good faith it points at the alternative not matching the picture, which is the defect (the rubric's own example). No reason to doubt the failure holds up."
+    },
+    {
+      "fingerprint": "05fc24c042f0",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image inside the card link (a.link-noticia) whose text is the headline, summary and date; the image's alt is \"Imagem Destacada\" (\"featured image\"), which Chrome puts at the start of the link name. Crop: a performer raising a framed picture on a purple-lit stage. Whatever role one gives the picture, the alternative fails 1.1.1: if it is informative it says nothing of what it shows (F30, placeholder alternative), if it is redundant with the headline it should be null (F39, alt=\"image\"-type text for an image AT should ignore). The live page (WebFetch) still serves \"Imagem Destacada\" on all 15 featured images, so the capture matches. The claim's wording is off (the alt describes no content at all rather than absent content, so claimTrue is no), but read in good faith it points at the alternative not matching the picture, which is the defect (the rubric's own example). No reason to doubt the failure holds up."
+    },
+    {
+      "fingerprint": "s0fdde626b8e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "bxSlider control <a class=\"bx-prev\" href=\"\">Prev</a> for the news carousel. Its name is the English abbreviation \"Prev\"; no title or describedby; generic div ancestors; the heading just before it is the last slide's h2, which does not name the carousel. The claim's sentence holds for the captured context. But the skeptic reason holds up partly: \"Prev\" does state the action (go to the previous item), and many auditors accept Previous/Next carousel controls as giving their purpose, while others require \"previous slide\" and note that an English abbreviation on a pt-BR page is opaque to many users (a 3.1.2 matter, not 2.4.4). Competent auditors would reasonably disagree, so uncertain. Script-generated control, present as captured."
+    },
+    {
+      "fingerprint": "1ca171f89cb1",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image inside the card link (a.link-noticia) whose text is the headline, summary and date; the image's alt is \"Imagem Destacada\" (\"featured image\"), which Chrome puts at the start of the link name. Crop: the facade of a hospital building with signage. Whatever role one gives the picture, the alternative fails 1.1.1: if it is informative it says nothing of what it shows (F30, placeholder alternative), if it is redundant with the headline it should be null (F39, alt=\"image\"-type text for an image AT should ignore). The live page (WebFetch) still serves \"Imagem Destacada\" on all 15 featured images, so the capture matches. The claim's wording is off (the alt describes no content at all rather than absent content, so claimTrue is no), but read in good faith it points at the alternative not matching the picture, which is the defect (the rubric's own example). No reason to doubt the failure holds up."
+    },
+    {
+      "fingerprint": "7e194766eb4c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link \"Área de Imprensa\" in the orange footer, white bold 12px text. The live style.css (fetched 2026-11-21) sets footer { background-color: rgb(241, 90, 34) }, footer a and address #FFF, footer nav h6 / li a #fff bold at 14px / 12px (16px on narrow screens); its text-shadow value '(0,0,0,0.5)' is invalid and ignored, and no shadow would count anyway. My own sampling of the screenshot over the element's bounds finds only #f15a22 and #ffffff, 3.37:1. Bold text below 18.66px is not large text, so 4.5:1 applies and none of the incidental exceptions fits. I looked for an overlay, a gradient, an image behind it or a capture without styles and found none; the live page (WebFetch) has the same footer. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "45974466e9cd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link \"Canais\" in the orange footer, white bold 12px text. The live style.css (fetched 2026-11-21) sets footer { background-color: rgb(241, 90, 34) }, footer a and address #FFF, footer nav h6 / li a #fff bold at 14px / 12px (16px on narrow screens); its text-shadow value '(0,0,0,0.5)' is invalid and ignored, and no shadow would count anyway. My own sampling of the screenshot over the element's bounds finds only #f15a22 and #ffffff, 3.37:1. Bold text below 18.66px is not large text, so 4.5:1 applies and none of the incidental exceptions fits. I looked for an overlay, a gradient, an image behind it or a capture without styles and found none; the live page (WebFetch) has the same footer. Fails 1.4.3 as claimed."
+    }
+  ]
+}

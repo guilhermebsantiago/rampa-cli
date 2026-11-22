@@ -1,0 +1,416 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.puc-campinas.edu.br/graduacao/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 52
+ },
+ "groups": [
+  {
+   "id": "g-a5ea3b6c2dce",
+   "list": "findings",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "engine",
+   "check": "image-alt",
+   "count": 13,
+   "members": [
+    "c44e878b1065",
+    "308cf8f4094d",
+    "89c8d839e846",
+    "a698184ec6e9",
+    "80ed44e5ffe1",
+    "fcdc4445eb6d",
+    "1b5dcead46f3",
+    "1d9f78e6256d",
+    "36256e8d95a1",
+    "303953009032",
+    "549dc996bced",
+    "b079228420ab",
+    "ebbf53cfdc90"
+   ],
+   "example": "c44e878b1065"
+  },
+  {
+   "id": "g-b3cc505a410d",
+   "list": "findings",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "engine",
+   "check": "link-name",
+   "count": 11,
+   "members": [
+    "350d93651fc8",
+    "5e5f14f17ae8",
+    "cf2b3ccdea60",
+    "04ab4468d47f",
+    "cbcb5d6dfc53",
+    "00284a1ab9b5",
+    "2ade886ab11f",
+    "bc2fa1f20da1",
+    "64b6b5190206",
+    "918418fd40a3",
+    "bd4811664e1d"
+   ],
+   "example": "350d93651fc8"
+  },
+  {
+   "id": "g-caa6eccc5028",
+   "list": "findings",
+   "criterion": "2.5.3",
+   "level": "A",
+   "source": "engine",
+   "check": "label-content-name-mismatch",
+   "count": 20,
+   "members": [
+    "15a801e2a2d8",
+    "1d2ac2e637c7",
+    "fe9869d8b86a",
+    "e50555a59862",
+    "489568a948fa",
+    "b1df44a60c72",
+    "a288f3f8a0b6",
+    "1a60fb13ffd8",
+    "ecc804db5905",
+    "428706925e05",
+    "41a58a818e29",
+    "72367444a810",
+    "3cb0a8c6f1e4",
+    "c5bac8ff6cbb",
+    "2d5d0391a40e",
+    "3bc2f150eaf6",
+    "be2c9a370e40",
+    "2794ad900a7f",
+    "91e865b40269",
+    "d1eaaaf0bd0f"
+   ],
+   "example": "15a801e2a2d8"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > div:nth-of-type(2) > div > div > div > div:nth-of-type(1) > div > div:nth-of-type(1) > a",
+   "message": "The link text \"clique aqui\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Política de Cookies\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-item-245873 > a",
+   "message": "The link text \"Para abrir menu tecle shift. Navegue entre os itens com a tecla Tab.\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Acessibilidade\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-item-245877 > a",
+   "message": "The link text \"Para abrir menu tecle shift. Navegue entre os itens com a tecla Tab.\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Acessibilidade\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-item-245878 > a",
+   "message": "The link text \"Para abrir menu tecle shift. Navegue entre os itens com a tecla Tab.\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Acessibilidade\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-item-77338 > a",
+   "message": "The link text \"Para abrir menu tecle shift. Navegue entre os itens com a tecla Tab.\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Menu de navegação\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#graduacao > div > div:nth-of-type(2) > div:nth-of-type(1) > label:nth-of-type(2) > input",
+   "message": "The label \"Ordem alfabética\" does not say what to enter.",
+   "evidence": "The model suggests: \"Ordenar por ordem alfabética\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#top-menu > li:nth-of-type(7) > a > img",
+   "reason": "the alternative names the language of the language link it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "ES",
+    "problem": "missing_information",
+    "imageShows": "Uma bandeira da Espanha dentro de um círculo.",
+    "suggestedAlt": "Espanhol",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > footer > section:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > center > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "e-MEC",
+    "problem": "missing_information",
+    "imageShows": "O logotipo do e-MEC com um QR code e o texto 'Consulte aqui o cadastro da instituição no sistema e-MEC'.",
+    "suggestedAlt": "Consultar o cadastro da instituição no sistema e-MEC",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 227,
+   "judged": 10,
+   "failed": 0,
+   "passed": 5,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 217,
+   "suggested": 5
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 97,
+   "judged": 10,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 87,
+   "batched": {
+    "candidates": 10,
+    "calls": 2
+   },
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "5 image(s) were left without a capture, so no judgment looked at them: 5 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 217 of 227 for 2.4.4, 87 of 97 for 2.4.6. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (10 in 2 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 14,
+  "cachedCalls": 2,
+  "inputTokens": 15895,
+  "outputTokens": 2272,
+  "latencyMs": 49533
+ },
+ "timings": {
+  "totalMs": 30002,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 57
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 5137,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 3,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1283,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 13185,
+    "prepareMs": 0,
+    "candidates": 227,
+    "judged": 10,
+    "calls": 8,
+    "cachedCalls": 2
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 10125,
+    "prepareMs": 0,
+    "candidates": 97,
+    "judged": 10,
+    "calls": 2,
+    "cachedCalls": 0,
+    "batches": 2
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 161,
+    "prepareMs": 154,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 12,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 38
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 1000,
+  "images": {
+   "captured": 15,
+   "notCaptured": 5,
+   "reasons": {
+    "limit": 5
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 227,
+    "capped": 217
+   },
+   {
+    "criterion": "2.4.6",
+    "candidates": 97,
+    "capped": 87
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

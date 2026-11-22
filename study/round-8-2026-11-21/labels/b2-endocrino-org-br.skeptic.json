@@ -1,0 +1,94 @@
+{
+  "page": "https://www.endocrino.org.br/noticias/saude-da-populacao-negra-estudos-brasileiros-revelam-desigualdades-no-cuidado/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "bef8ff8eb791",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Reference 1 in the 'Referências' list (p:nth-of-type(9)): the quoted span \"Mapping the expressions and impacts of racism on health in Brazil: a scoping review. The Lancet\" is English text with no lang, inherited as pt-BR. The page is lang=\"pt-BR\" and neither the p nor its ancestors carry a lang attribute; the live HTML fetched on 2026-11-21 has the same markup (<p class=\"wp-block-paragraph\"> with <strong> number and <em> journal name, no lang), and the screenshot shows the same reference list, so the capture does not differ. Skeptic check: the journal name in <em> and the DOI/year are exempt (proper name, indeterminate), but the article title is descriptive English prose, not a proper name in Understanding 3.1.2's sense (a name that distinctly identifies a person, place or brand) nor Portuguese vernacular, so no exception covers it and a pt-BR voice would mispronounce it. The claim names exactly this failure."
+    },
+    {
+      "fingerprint": "s4d9ba9dce84",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Informes\" is a top-level menu toggle (<a href=\"#\" data-bs-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">) in the main navigation; it does not navigate, it opens the Informes submenu. Its purpose (open the 'Informes' section menu) is given by its text together with its parent list item, which is programmatically determined context and holds the submenu links (Comunicados, Posicionamentos e Notas Oficiais, Notícias Gerais, Noticias Científicas, Podcasts SBEM, Videocasts SBEM, SBEM na Mídia), and aria-haspopup announces it as a menu trigger. So the claim that nothing around it tells its purpose is false of the capture, and the link meets 2.4.4 (using a link with href=\"#\" for a toggle is at most a 4.1.2 role question, not 2.4.4). Live HTML is identical, screenshot shows it as a nav item. The packet gave the checker the list item's text, so this is a model error."
+    },
+    {
+      "fingerprint": "24c7ba4e7939",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Footer SBEM logo (sbem-logotipo-white.webp, alt=\"\"); the crop shows the SBEM mark with the words 'Sociedade Brasileira de Endocrinologia e Metabologia'. The same footer (contentinfo) states that name as text in its copyright line, '2025 Sociedade Brasileira de Endocrinologia e Metabologia - SBEM CNPJ: ...' (#footer > div:nth-of-type(2) > p, visible in the screenshot), and the header logo already carries alt 'Logo SBEM' (page title also ends '- SBEM'). The image's only information is therefore available as text in the same landmark, so a null alt on this repeated logo loses nothing and is acceptable under 1.1.1; the claim that the text around it does not say this is false of the capture. Live HTML matches the snapshot. The copyright line sits outside the ancestor container the checker was given, hence context_missing."
+    },
+    {
+      "fingerprint": "ed60abcf4433",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Reference 2 (p:nth-of-type(10)): the quoted title \"Intersection of Gender-Race/Color and Glycemic Control in Diabetes in Nine Years of Follow-up of the ELSA-Brazil Cohort\" is English with no lang. Author initials and the journal name in <em> are exempt, the title is not. The page is lang=\"pt-BR\" and neither the p nor its ancestors carry a lang attribute; the live HTML fetched on 2026-11-21 has the same markup (<p class=\"wp-block-paragraph\"> with <strong> number and <em> journal name, no lang), and the screenshot shows the same reference list, so the capture does not differ. Skeptic check: the journal name in <em> and the DOI/year are exempt (proper name, indeterminate), but the article title is descriptive English prose, not a proper name in Understanding 3.1.2's sense (a name that distinctly identifies a person, place or brand) nor Portuguese vernacular, so no exception covers it and a pt-BR voice would mispronounce it."
+    },
+    {
+      "fingerprint": "fe125955b192",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Reference 4 (p:nth-of-type(12)): the quoted title \"Factors associated with the age of natural menopause in the ELSA-Brasil cohort\" is English with no lang; 'Climacteric' (journal) and 'Publicado online em 2025' are exempt or Portuguese, the title is not. The page is lang=\"pt-BR\" and neither the p nor its ancestors carry a lang attribute; the live HTML fetched on 2026-11-21 has the same markup (<p class=\"wp-block-paragraph\"> with <strong> number and <em> journal name, no lang), and the screenshot shows the same reference list, so the capture does not differ. Skeptic check: the journal name in <em> and the DOI/year are exempt (proper name, indeterminate), but the article title is descriptive English prose, not a proper name in Understanding 3.1.2's sense (a name that distinctly identifies a person, place or brand) nor Portuguese vernacular, so no exception covers it and a pt-BR voice would mispronounce it."
+    },
+    {
+      "fingerprint": "51c081a180c9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Reference 3 (p:nth-of-type(11)): the quoted span \"3. Racial and gender inequities in the control of\" is the start of the English article title 'Racial and gender inequities in the control of arterial hypertension in ELSA-Brasil: An intersectional approach', unmarked. The page is lang=\"pt-BR\" and neither the p nor its ancestors carry a lang attribute; the live HTML fetched on 2026-11-21 has the same markup (<p class=\"wp-block-paragraph\"> with <strong> number and <em> journal name, no lang), and the screenshot shows the same reference list, so the capture does not differ. Skeptic check: the journal name in <em> and the DOI/year are exempt (proper name, indeterminate), but the article title is descriptive English prose, not a proper name in Understanding 3.1.2's sense (a name that distinctly identifies a person, place or brand) nor Portuguese vernacular, so no exception covers it and a pt-BR voice would mispronounce it."
+    },
+    {
+      "fingerprint": "9cf83b0af397",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Same paragraph as 51c081a180c9 (reference 3, p:nth-of-type(11)), quoted from its tail: \"An intersectional approach. Social Science & Medicine . 2025. DOI: ...\". Skeptic check: 'Social Science & Medicine' is a journal name (proper name) and the year/DOI are of indeterminate language, so much of this span is exempt, but 'An intersectional approach' is the end of the English title and is not exempt; the paragraph does fail 3.1.2 for the reason the claim gives. It duplicates the other finding on this paragraph, which does not make it false. The page is lang=\"pt-BR\" and neither the p nor its ancestors carry a lang attribute; the live HTML fetched on 2026-11-21 has the same markup (<p class=\"wp-block-paragraph\"> with <strong> number and <em> journal name, no lang), and the screenshot shows the same reference list, so the capture does not differ. Skeptic check: the journal name in <em> and the DOI/year are exempt (proper name, indeterminate), but the article title is descriptive English prose, not a proper name in Understanding 3.1.2's sense (a name that distinctly identifies a person, place or brand) nor Portuguese vernacular, so no exception covers it and a pt-BR voice would mispronounce it."
+    },
+    {
+      "fingerprint": "2b147a2f54a1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Home link in the main nav: <a> holding only a Font Awesome fa-house icon (aria-hidden) and a visually-hidden 'Início', so the icon is the only visible thing identifying the control. Pixels in the screenshot around its bounds are solid #dfae00 (87 px) on #ffffff, 2.06:1, below 1.4.11's 3:1. The live site.css colours odd top-level nav items with the theme gold #dfae00 (even ones get #0c4da2) and the header background is white, so this is the normal state, not hover or a capture artefact; no exception applies (not inactive, not user-agent styling). The neighbouring gold text links fail 1.4.3 separately."
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "page": "https://www.migalhas.com.br/quentes/467452/listas-de-boicote-a-comerciantes-podem-configurar-crime",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "7aefe1ce6b36",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the article's first editorial image: a photo collage of a hand holding a phone showing a messaging group with a blurred list, next to a shop front crossed out by a red prohibition sign. Its alt is \" (Imagem: Arte Migalhas)\", a credit line, and its title (the accessible description) repeats the visible caption \"Listas de boicote por motivacao politica podem gerar responsabilizacao por abusos.\". claimTrue: no, taken literally the alt does not describe anything the image fails to show; it names the image's source, which is accurate as a credit, and describes no content at all. elementFails: yes. The accessible name is a credit, not a text alternative (the pattern of F30). I looked for a reason it passes: the title and the caption give the article's legal point, not what the image shows, and no sufficient technique lets a description stand in for a name that carries no alternative; if the image were taken as decorative, a non-null credit alt would still fail by F39. captureDiffers: no; the live server HTML has the same img with the same alt and title, the caption div is added by script as in the snapshot, and the screenshot shows the same image and caption. Read in good faith, the claim points at the real defect (the rubric's own example: an alt said to describe something the image does not show when it leaves out what the image conveys), so true positive."
+    },
+    {
+      "fingerprint": "5f008663a0ec",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the article's second image: a photo of one hand passing a blue Brazilian work card (Carteira de Trabalho e Previdencia Social) to another. Its alt is \" (Imagem: Magnific)\", a stock-source credit, and its title repeats the visible caption \"Liberdade de conviccao politica tambem deve ser respeitada nas relacoes de trabalho.\". claimTrue: no, literally the alt describes nothing the image does not show; it is a credit that describes no content. elementFails: yes; the accessible name is a credit, not an alternative (F30 pattern), the title/caption states the section's point rather than what the image shows (the work card that signals employment), and no technique makes a description substitute for an empty-of-meaning name; read as decorative it would still fail by F39 for a non-null alt. captureDiffers: no; the live server HTML has the same img, alt and title, and the screenshot shows the same photo and caption. The claim, read in good faith, points at the alt not conveying the image, which is its real failure, so true positive."
+    },
+    {
+      "fingerprint": "s842776fc158",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the inline link \"CP\" to the Codigo Penal (Decreto-Lei 2.848) on planalto.gov.br, in the sentence \"Na esfera criminal, o art. 147-A do CP preve o crime de perseguicao quando alguem, reiteradamente ...\". claimTrue: no; the link text alone is a terse abbreviation, but the same sentence, which is its programmatically determined context, says it is the code whose art. 147-A defines the crime of stalking in the criminal sphere, so something around it does tell where it goes. elementFails: no; link text plus sentence context make the purpose (open the cited Penal Code) determinable, and CP for Codigo Penal is standard in Brazilian legal writing on a legal news site; expanding the abbreviation is a 3.1.4 (AAA) matter, not 2.4.4. captureDiffers: no; the live HTML and the screenshot have the same sentence and link. The snapshot's paragraph text field drops CP from mid-sentence and the packet's ancestor text appends it at the end, but even that garbled text kept art. 147-A and crime de perseguicao, and the snapshot's readingText has the sentence intact, so the checker had the context and judged wrongly."
+    },
+    {
+      "fingerprint": "fd3fc1b07ceb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the 14px envelope icon (e-mail.svg) in the bottom share bar, after the label \"Compartilhar\" and the Facebook, X, LinkedIn and WhatsApp icons; it is the share-by-e-mail control. claimTrue: yes; alt=\"e-mail\" does equal the file name without extension, and a screen reader reads it in place of the image. elementFails: no; F30 fails file names used as alt when they are not alternatives, but here the file name happens to be meaningful and \"e-mail\" is exactly what the envelope conveys in a share bar, so it serves the equivalent purpose (G94/H37). The containing <a> has no href and is exposed as generic, which is a 4.1.2/2.1.1 question, not 1.1.1. captureDiffers: no; the share bar is rendered by script (absent from the server HTML, as are all share icons), the screenshot shows it as the snapshot does, and the header's server-rendered social icons use the same alt-equals-file-name pattern. The rule flags any alt that matches the file name, which is stricter than the criterion."
+    },
+    {
+      "fingerprint": "31ca493e0c83",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the envelope icon (e-mail.svg, as the crop shows) in the top share bar, after \"Compartilhar\" and the Facebook, X, LinkedIn and WhatsApp icons: the share-by-e-mail control. claimTrue: yes; alt=\"e-mail\" equals the file name and is what a screen reader reads. elementFails: no; the file name is meaningful and \"e-mail\" correctly names what the envelope means in a share bar, so the alt is a real alternative and F30 (file names that are not alternatives) does not apply. The wrapping <a> lacks an href and is exposed as generic, a 4.1.2/2.1.1 issue rather than 1.1.1. captureDiffers: no; the share bar is script-rendered, so the server HTML cannot show it, but the snapshot is a scripted render consistent with the screenshot and the server-rendered header icons follow the same alt pattern. The rule treats any alt that matches the file name as placeholder text, a stricter test than WCAG's."
+    }
+  ]
+}

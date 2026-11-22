@@ -1,0 +1,453 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://grupocorpo.com.br/contato/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "c331c8eae740",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#form-field-name",
+   "message": "The field \"Nome\" asks for the user's first name but does not identify that purpose: autocomplete=\"given-name\" is missing.",
+   "evidence": "Nome",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#form-field-name",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "given-name",
+    "before": "<input size=\"1\" type=\"text\" name=\"form_fields[name]\" id=\"form-field-name\" class=\"elementor-field elementor-size-sm  elementor-field-textual\" placeholder=\"Nome\">",
+    "after": "<input size=\"1\" type=\"text\" name=\"form_fields[name]\" id=\"form-field-name\" class=\"elementor-field elementor-size-sm  elementor-field-textual\" placeholder=\"Nome\" autocomplete=\"given-name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "9e1ca29695b0",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#form-field-email",
+   "message": "The field \"E-mail\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "E-mail",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#form-field-email",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input size=\"1\" type=\"email\" name=\"form_fields[email]\" id=\"form-field-email\" class=\"elementor-field elementor-size-sm  elementor-field-textual\" placeholder=\"E-mail\" required=\"required\">",
+    "after": "<input size=\"1\" type=\"email\" name=\"form_fields[email]\" id=\"form-field-email\" class=\"elementor-field elementor-size-sm  elementor-field-textual\" placeholder=\"E-mail\" required=\"required\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "a101694a15c1",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#form-field-field_c767ac6",
+   "message": "The field \"Telefone\" asks for the user's telephone number but does not identify that purpose: autocomplete=\"tel\" is missing.",
+   "evidence": "Telefone",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#form-field-field_c767ac6",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "tel",
+    "before": "<input size=\"1\" type=\"tel\" name=\"form_fields[field_c767ac6]\" id=\"form-field-field_c767ac6\" class=\"elementor-field elementor-size-sm  elementor-field-textual\" placeholder=\"Telefone\" pattern=\"[0-9()#&amp;+*-=.]+\" title=\"Somente números e caracteres de telefone (#, -, *, etc) são aceitos.\">",
+    "after": "<input size=\"1\" type=\"tel\" name=\"form_fields[field_c767ac6]\" id=\"form-field-field_c767ac6\" class=\"elementor-field elementor-size-sm  elementor-field-textual\" placeholder=\"Telefone\" pattern=\"[0-9()#&amp;+*-=.]+\" title=\"Somente números e caracteres de telefone (#, -, *, etc) são aceitos.\" autocomplete=\"tel\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "299a664cbe4a",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#trp-switcher-dropdown-list > a",
+   "target": "#trp-switcher-dropdown-list > a",
+   "message": "\"English\" is in English, but it inherits the page's language (pt-BR): a screen reader mispronounces the language's name. Add lang=\"en\" to the link.",
+   "evidence": "English",
+   "subject": "English",
+   "patch": {
+    "ref": "#trp-switcher-dropdown-list > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "en",
+    "before": "<a href=\"https://grupocorpo.com.br/en/contato/\" class=\"trp-language-item\" title=\"English\" data-no-translation=\"\">",
+    "after": "<a href=\"https://grupocorpo.com.br/en/contato/\" class=\"trp-language-item\" title=\"English\" data-no-translation=\"\" lang=\"en\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"https://grupocorpo.com.br/en/contato/\" class=\"trp-language-item\" title=\"English\" data-no-translation=\"\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 4
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#content > div:nth-of-type(2) > div > section:nth-of-type(1) > div > div > div > div:nth-of-type(3) > div > span:nth-of-type(3) > a",
+   "message": "The link text \"Facebook-f\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Facebook\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(1) > div:nth-of-type(2) > div > a:nth-of-type(7)",
+   "message": "The link text \"Política de Privacidade\" does not match where the link leads: a page titled \"Grupo Corpo\".",
+   "evidence": "The model suggests: \"Página inicial do Grupo Corpo\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#froz > div:nth-of-type(3) > div > span:nth-of-type(3) > a",
+   "message": "The link text \"Facebook-f\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Facebook\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#form-field-name",
+   "message": "The label \"Nome\" does not say what to enter.",
+   "evidence": "The model suggests: \"Nome completo\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#form-field-email",
+   "message": "The label \"E-mail\" does not say what to enter.",
+   "evidence": "The model suggests: \"E-mail\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#form-field-field_c767ac6",
+   "message": "The label \"Telefone\" does not say what to enter.",
+   "evidence": "The model suggests: \"Número de telefone\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#form-field-message",
+   "message": "The label \"Mensagem\" does not say what to enter.",
+   "evidence": "The model suggests: \"Escreva sua mensagem aqui\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "2.4.6",
+   "ref": "#form-field-email",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "E-mail",
+    "verdict": "fail",
+    "evidence": "E…",
+    "problem": "generic",
+    "suggestedText": "E-mail",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#form-field-field_c767ac6",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Telefone",
+    "verdict": "fail",
+    "evidence": "T…",
+    "problem": "generic",
+    "suggestedText": "Número de telefone",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 5,
+   "failed": 3,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 43,
+   "judged": 43,
+   "failed": 0,
+   "passed": 40,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 3
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 5,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 4
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Verification was off (--no-verify): model claims whose quoted evidence is not on the page are reported as if it were. This run is for measurement only.",
+  "1 of the page's 32 stylesheet(s) had not applied when it was read (https://grupocorpo.com.br/wp-content/themes/hello-theme-child-master/style.css?ver=2.0.0 (no rules)): the page was read with the styles it had, which may differ from what people see.",
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #content > div:nth-of-type(2) > div > section:nth-of-type(5) > div > div > div > div:nth-of-type(4) > iframe (https://snazzymaps.com/embed/725815).",
+  "1 image(s) were left without a capture, so no judgment looked at them: 1 cut off by the box that holds it. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 55,
+  "inputTokens": 53071,
+  "outputTokens": 5266,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 200,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 18
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 4,
+    "prepareMs": 0,
+    "candidates": 5,
+    "judged": 5,
+    "calls": 0,
+    "cachedCalls": 5
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 11,
+    "prepareMs": 0,
+    "candidates": 43,
+    "judged": 43,
+    "calls": 0,
+    "cachedCalls": 43
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 5,
+    "judged": 5,
+    "calls": 0,
+    "cachedCalls": 5
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 138,
+    "prepareMs": 135,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   }
+  ],
+  "otherMs": 20
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "stylesheets": {
+   "linked": 32,
+   "applied": 31,
+   "failed": 1
+  },
+  "images": {
+   "captured": 3,
+   "notCaptured": 1,
+   "reasons": {
+    "clipped": 1
+   }
+  }
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#content > div:nth-of-type(2) > div > section:nth-of-type(5) > div > div > div > div:nth-of-type(4) > iframe",
+     "url": "https://snazzymaps.com/embed/725815",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ],
+   "stylesheets": {
+    "linked": 32,
+    "applied": 31,
+    "failed": [
+     {
+      "href": "https://grupocorpo.com.br/wp-content/themes/hello-theme-child-master/style.css?ver=2.0.0",
+      "reason": "no rules"
+     }
+    ]
+   }
+  }
+ }
+}

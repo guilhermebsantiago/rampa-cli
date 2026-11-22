@@ -1,0 +1,252 @@
+{
+  "page": "https://sboc.org.br/noticias/sboc-marca-presenca-na-programacao-do-interonco-2026/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "ac230c2b31c8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] 'Leia mais' button whose aria-label is 'Leia mais sobre Assembleia Geral Ordinária da SBOC' in the 'Leia mais notícias' card of article 142 (/noticias/3533-assembleia-geral-ordinaria-da-sboc/). claimTrue: in the snapshot the same accessible name is used by links in the card of article 60 that go to /noticias/3849-assembleia-geral-ordinaria-da-sboc/, so the count and the two destinations are right, and nothing in the link's counted context (no title, no aria-describedby, no enclosing paragraph, list item or cell; the preceding heading is the card's own h3 with the same title) tells them apart. elementFails: the two destinations are different news reports (the 2024 assembly/edition versus the 2025 one, checked on the live pages), so the links have different purposes behind identical names; the only thing that distinguishes them is the visible date span and excerpt in the card, which are sibling elements and not counted link context by the rubric's rule. Sighted users can tell them apart, so the 'ambiguous to users in general' exception does not apply. The live HTML (fetched 2026-11-21) has the same card list in the same order, with the same names, aria-labels, hrefs, dates and excerpts as the snapshot; the full-page screenshot is blank apart from a repeated cookie banner (an artefact of the page's ~246,000 px height), but that does not touch this DOM-based claim, so captureDiffers is no. The claim names this failure: true_positive."
+    },
+    {
+      "fingerprint": "907ffd2b5ff6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Title link (inside the card's h3, tabindex=-1) 'Decisão da Gincana Nacional para Residentes'; the 4 links are the image and title links of both cards in the 'Leia mais notícias' card of article 62 (/noticias/3842-decisao-da-gincana-nacional-para-residentes/). claimTrue: in the snapshot the same accessible name is used by links in the card of article 4 that go to /noticias/decisao-da-gincana-nacional-para-residentes/, so the count and the two destinations are right, and nothing in the link's counted context (no title, no aria-describedby, no enclosing paragraph, list item or cell; the preceding heading is the card's own h3 with the same title) tells them apart. elementFails: the two destinations are different news reports (the 2025 assembly/edition versus the 2026 one, checked on the live pages), so the links have different purposes behind identical names; the only thing that distinguishes them is the visible date span and excerpt in the card, which are sibling elements and not counted link context by the rubric's rule. Sighted users can tell them apart, so the 'ambiguous to users in general' exception does not apply. The live HTML (fetched 2026-11-21) has the same card list in the same order, with the same names, aria-labels, hrefs, dates and excerpts as the snapshot; the full-page screenshot is blank apart from a repeated cookie banner (an artefact of the page's ~246,000 px height), but that does not touch this DOM-based claim, so captureDiffers is no. The claim names this failure: true_positive."
+    },
+    {
+      "fingerprint": "be56d058efe3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Title link 'Galeria de fotos: relembre momentos especiais do ESMO Summit Latin America 2024' (inside the card's h3, tabindex=-1) in the card of article 189 (/noticias/3260-galeria-de-fotos-...-2024/). claimTrue: in the snapshot 3 links carry that name (the image and title links of article 189 and the title link of article 190, whose image link has alt=\"\" and so no name, a separate issue not judged here) with two different hrefs, and nothing in the link's counted context (no title, no aria-describedby, no enclosing paragraph, list item or cell; the preceding heading is the card's own h3 with the same title) tells them apart, so the sentence is true of the capture. elementFails: Rampa never read the destinations; on the live site /noticias/3259-... and /noticias/3260-galeria-de-fotos-relembre-momentos-especiais-do-esmo-summit-latin-america-2024/ are the same post published twice, five minutes apart on 2024-03-25: same title, date and full text (neither shows a photo gallery after 'Relembre alguns dos momentos especiais do encontro:'); the only difference is one header photo on 3260. The links therefore lead to equivalent resources and serve the same purpose, which the name states (the article of that title); identical names to equivalent resources do not fail 2.4.4. The live HTML (fetched 2026-11-21) has the same card list in the same order, with the same names, aria-labels, hrefs, dates and excerpts as the snapshot; the full-page screenshot is blank apart from a repeated cookie banner (an artefact of the page's ~246,000 px height), but that does not touch this DOM-based claim, so captureDiffers is no. false_positive, context_missing: the destinations Rampa did not read show the two URLs are duplicates of one post."
+    },
+    {
+      "fingerprint": "pea02c2a401f",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The element is the card image of article 4, the only content of an image link (tabindex=-1) to the article titled 'Decisão da Gincana Nacional para Residentes'; its alt is that title. The crop shows a group photo of residents and SBOC members with an award certificate. As a functional image, its text alternative must convey the link's purpose, and the alt names the destination article (it matches the destination's title and h1), so it meets 1.1.1 (techniques H30/G94); the photo's details need not be described for a link image. elementFails no. The live HTML has the same img with the same alt in the same card, and the crop shows the real image, so captureDiffers is no (the blank full-page screenshot does not affect this). Rampa was right to report nothing: false_positive."
+    },
+    {
+      "fingerprint": "p6734d582196",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The element is the card image of article 2, the only content of an image link (tabindex=-1) to the article titled 'Cobertura completa do Congresso SBOC 2026'; its alt is that title. The crop shows a group photo on the congress stage. As a functional image, its text alternative must convey the link's purpose, and the alt names the destination article (it matches the destination's title and h1), so it meets 1.1.1 (techniques H30/G94); the photo's details need not be described for a link image. elementFails no. The live HTML has the same img with the same alt in the same card, and the crop shows the real image, so captureDiffers is no (the blank full-page screenshot does not affect this). Rampa was right to report nothing: false_positive."
+    },
+    {
+      "fingerprint": "pabddc9077cc",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The element is the card image of article 11, the only content of an image link (tabindex=-1) to the article titled 'Sustentabilidade do cuidado oncológico, fortalecimento da rede assistencial e defesa profissional'; its alt is that title. The crop shows a collage of six speakers at the congress. As a functional image, its text alternative must convey the link's purpose, and the alt names the destination article (it matches the destination's title and h1), so it meets 1.1.1 (techniques H30/G94); the photo's details need not be described for a link image. elementFails no. The live HTML has the same img with the same alt in the same card, and the crop shows the real image, so captureDiffers is no (the blank full-page screenshot does not affect this). Rampa was right to report nothing: false_positive."
+    },
+    {
+      "fingerprint": "edbdc7f85a85",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Title link 'COMUNICADO OFICIAL' (inside the card's h3, tabindex=-1) in the card of article 76 (/noticias/3828-comunicado-oficial/). claimTrue: in the snapshot 4 links are named 'COMUNICADO OFICIAL' (image and title links of the cards of articles 76 and 77) with two different hrefs, and nothing in the link's counted context (no title, no aria-describedby, no enclosing paragraph, list item or cell; the preceding heading is the card's own h3 with the same title) tells them apart, so the sentence is true of the capture. elementFails: Rampa never read the destinations; on the live site /noticias/3828-comunicado-oficial/ and /noticias/3829-comunicado-oficial/ are the same post published twice: same title 'COMUNICADO OFICIAL', same publication time (2025-10-29T16:23:07), same full text (the SBCO/SBOC statement on security at the V Semana Brasileira da Oncologia); the cards also show the same date and excerpt. The links therefore lead to equivalent resources and serve the same purpose, which the name states (the article of that title); identical names to equivalent resources do not fail 2.4.4. The live HTML (fetched 2026-11-21) has the same card list in the same order, with the same names, aria-labels, hrefs, dates and excerpts as the snapshot; the full-page screenshot is blank apart from a repeated cookie banner (an artefact of the page's ~246,000 px height), but that does not touch this DOM-based claim, so captureDiffers is no. false_positive, context_missing: the destinations Rampa did not read show the two URLs are duplicates of one post."
+    },
+    {
+      "fingerprint": "6998ebf4c9ed",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "'Leia mais' button whose aria-label is 'Leia mais sobre Galeria de fotos: relembre momentos especiais do ESMO Summit Latin America 2024' in the card of article 190 (/noticias/3259-galeria-de-fotos-...-2024/). claimTrue: in the snapshot 2 buttons carry that aria-label (articles 189 and 190) with two different hrefs, and nothing in the link's counted context (no title, no aria-describedby, no enclosing paragraph, list item or cell; the preceding heading is the card's own h3 with the same title) tells them apart, so the sentence is true of the capture. elementFails: Rampa never read the destinations; on the live site /noticias/3259-... and /noticias/3260-galeria-de-fotos-relembre-momentos-especiais-do-esmo-summit-latin-america-2024/ are the same post published twice, five minutes apart on 2024-03-25: same title, date and full text (neither shows a photo gallery after 'Relembre alguns dos momentos especiais do encontro:'); the only difference is one header photo on 3260. The links therefore lead to equivalent resources and serve the same purpose, which the name states (the article of that title); identical names to equivalent resources do not fail 2.4.4. The live HTML (fetched 2026-11-21) has the same card list in the same order, with the same names, aria-labels, hrefs, dates and excerpts as the snapshot; the full-page screenshot is blank apart from a repeated cookie banner (an artefact of the page's ~246,000 px height), but that does not touch this DOM-based claim, so captureDiffers is no. false_positive, context_missing: the destinations Rampa did not read show the two URLs are duplicates of one post."
+    },
+    {
+      "fingerprint": "c5fac706de9f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Title link (inside the card's h3, tabindex=-1) 'Assembleia Geral Ordinária da SBOC'; the 4 links are the image and title links of both cards in the 'Leia mais notícias' card of article 142 (/noticias/3533-assembleia-geral-ordinaria-da-sboc/). claimTrue: in the snapshot the same accessible name is used by links in the card of article 60 that go to /noticias/3849-assembleia-geral-ordinaria-da-sboc/, so the count and the two destinations are right, and nothing in the link's counted context (no title, no aria-describedby, no enclosing paragraph, list item or cell; the preceding heading is the card's own h3 with the same title) tells them apart. elementFails: the two destinations are different news reports (the 2024 assembly/edition versus the 2025 one, checked on the live pages), so the links have different purposes behind identical names; the only thing that distinguishes them is the visible date span and excerpt in the card, which are sibling elements and not counted link context by the rubric's rule. Sighted users can tell them apart, so the 'ambiguous to users in general' exception does not apply. The live HTML (fetched 2026-11-21) has the same card list in the same order, with the same names, aria-labels, hrefs, dates and excerpts as the snapshot; the full-page screenshot is blank apart from a repeated cookie banner (an artefact of the page's ~246,000 px height), but that does not touch this DOM-based claim, so captureDiffers is no. The claim names this failure: true_positive."
+    },
+    {
+      "fingerprint": "735bbccc9475",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Title link (inside the card's h3, tabindex=-1) 'Assembleia Geral Ordinária da SBOC'; the 4 links are the image and title links of both cards in the 'Leia mais notícias' card of article 60 (/noticias/3849-assembleia-geral-ordinaria-da-sboc/). claimTrue: in the snapshot the same accessible name is used by links in the card of article 142 that go to /noticias/3533-assembleia-geral-ordinaria-da-sboc/, so the count and the two destinations are right, and nothing in the link's counted context (no title, no aria-describedby, no enclosing paragraph, list item or cell; the preceding heading is the card's own h3 with the same title) tells them apart. elementFails: the two destinations are different news reports (the 2025 assembly/edition versus the 2024 one, checked on the live pages), so the links have different purposes behind identical names; the only thing that distinguishes them is the visible date span and excerpt in the card, which are sibling elements and not counted link context by the rubric's rule. Sighted users can tell them apart, so the 'ambiguous to users in general' exception does not apply. The live HTML (fetched 2026-11-21) has the same card list in the same order, with the same names, aria-labels, hrefs, dates and excerpts as the snapshot; the full-page screenshot is blank apart from a repeated cookie banner (an artefact of the page's ~246,000 px height), but that does not touch this DOM-based claim, so captureDiffers is no. The claim names this failure: true_positive."
+    },
+    {
+      "fingerprint": "p708810b3ab1",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The element is the card image of article 18, the only content of an image link (tabindex=-1) to the article titled 'Em 2º Workshop de Diversidade, SBOC amplia debate sobre equidade e inclusão na oncologia brasileira'; its alt is that title. The crop shows a group photo next to the 'Diversidade na Oncologia' and SBOC logos (that text is incidental branding, not needed for the link's purpose). As a functional image, its text alternative must convey the link's purpose, and the alt names the destination article (it matches the destination's title and h1), so it meets 1.1.1 (techniques H30/G94); the photo's details need not be described for a link image. elementFails no. The live HTML has the same img with the same alt in the same card, and the crop shows the real image, so captureDiffers is no (the blank full-page screenshot does not affect this). Rampa was right to report nothing: false_positive."
+    },
+    {
+      "fingerprint": "3a4f738569cb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "'Leia mais' button whose aria-label is 'Leia mais sobre COMUNICADO OFICIAL' in the card of article 76 (/noticias/3828-comunicado-oficial/). claimTrue: in the snapshot 2 'Leia mais sobre COMUNICADO OFICIAL' buttons exist (articles 76 and 77) with two different hrefs, and nothing in the link's counted context (no title, no aria-describedby, no enclosing paragraph, list item or cell; the preceding heading is the card's own h3 with the same title) tells them apart, so the sentence is true of the capture. elementFails: Rampa never read the destinations; on the live site /noticias/3828-comunicado-oficial/ and /noticias/3829-comunicado-oficial/ are the same post published twice: same title 'COMUNICADO OFICIAL', same publication time (2025-10-29T16:23:07), same full text (the SBCO/SBOC statement on security at the V Semana Brasileira da Oncologia); the cards also show the same date and excerpt. The links therefore lead to equivalent resources and serve the same purpose, which the name states (the article of that title); identical names to equivalent resources do not fail 2.4.4. The live HTML (fetched 2026-11-21) has the same card list in the same order, with the same names, aria-labels, hrefs, dates and excerpts as the snapshot; the full-page screenshot is blank apart from a repeated cookie banner (an artefact of the page's ~246,000 px height), but that does not touch this DOM-based claim, so captureDiffers is no. false_positive, context_missing: the destinations Rampa did not read show the two URLs are duplicates of one post."
+    },
+    {
+      "fingerprint": "a6dc16e2cc58",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] 'Leia mais' button whose aria-label is 'Leia mais sobre Decisão da Gincana Nacional para Residentes' in the 'Leia mais notícias' card of article 62 (/noticias/3842-decisao-da-gincana-nacional-para-residentes/). claimTrue: in the snapshot the same accessible name is used by links in the card of article 4 that go to /noticias/decisao-da-gincana-nacional-para-residentes/, so the count and the two destinations are right, and nothing in the link's counted context (no title, no aria-describedby, no enclosing paragraph, list item or cell; the preceding heading is the card's own h3 with the same title) tells them apart. elementFails: the two destinations are different news reports (the 2025 assembly/edition versus the 2026 one, checked on the live pages), so the links have different purposes behind identical names; the only thing that distinguishes them is the visible date span and excerpt in the card, which are sibling elements and not counted link context by the rubric's rule. Sighted users can tell them apart, so the 'ambiguous to users in general' exception does not apply. The live HTML (fetched 2026-11-21) has the same card list in the same order, with the same names, aria-labels, hrefs, dates and excerpts as the snapshot; the full-page screenshot is blank apart from a repeated cookie banner (an artefact of the page's ~246,000 px height), but that does not touch this DOM-based claim, so captureDiffers is no. The claim names this failure: true_positive."
+    },
+    {
+      "fingerprint": "81188fe8b869",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] 'Leia mais' button whose aria-label is 'Leia mais sobre Decisão da Gincana Nacional para Residentes' in the 'Leia mais notícias' card of article 4 (/noticias/decisao-da-gincana-nacional-para-residentes/). claimTrue: in the snapshot the same accessible name is used by links in the card of article 62 that go to /noticias/3842-decisao-da-gincana-nacional-para-residentes/, so the count and the two destinations are right, and nothing in the link's counted context (no title, no aria-describedby, no enclosing paragraph, list item or cell; the preceding heading is the card's own h3 with the same title) tells them apart. elementFails: the two destinations are different news reports (the 2026 assembly/edition versus the 2025 one, checked on the live pages), so the links have different purposes behind identical names; the only thing that distinguishes them is the visible date span and excerpt in the card, which are sibling elements and not counted link context by the rubric's rule. Sighted users can tell them apart, so the 'ambiguous to users in general' exception does not apply. The live HTML (fetched 2026-11-21) has the same card list in the same order, with the same names, aria-labels, hrefs, dates and excerpts as the snapshot; the full-page screenshot is blank apart from a repeated cookie banner (an artefact of the page's ~246,000 px height), but that does not touch this DOM-based claim, so captureDiffers is no. The claim names this failure: true_positive."
+    },
+    {
+      "fingerprint": "b67b6b1b040f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Image link (tabindex=-1) whose only content is the card image with alt 'COMUNICADO OFICIAL', so its accessible name is 'COMUNICADO OFICIAL' (the packet shows no name, but the snapshot's accessibility tree gives it that name from contents) in the card of article 77 (/noticias/3829-comunicado-oficial/). claimTrue: in the snapshot 4 links are named 'COMUNICADO OFICIAL' (image and title links of the cards of articles 76 and 77) with two different hrefs, and nothing in the link's counted context (no title, no aria-describedby, no enclosing paragraph, list item or cell; the preceding heading is the card's own h3 with the same title) tells them apart, so the sentence is true of the capture. elementFails: Rampa never read the destinations; on the live site /noticias/3828-comunicado-oficial/ and /noticias/3829-comunicado-oficial/ are the same post published twice: same title 'COMUNICADO OFICIAL', same publication time (2025-10-29T16:23:07), same full text (the SBCO/SBOC statement on security at the V Semana Brasileira da Oncologia); the cards also show the same date and excerpt. The links therefore lead to equivalent resources and serve the same purpose, which the name states (the article of that title); identical names to equivalent resources do not fail 2.4.4. The live HTML (fetched 2026-11-21) has the same card list in the same order, with the same names, aria-labels, hrefs, dates and excerpts as the snapshot; the full-page screenshot is blank apart from a repeated cookie banner (an artefact of the page's ~246,000 px height), but that does not touch this DOM-based claim, so captureDiffers is no. false_positive, context_missing: the destinations Rampa did not read show the two URLs are duplicates of one post."
+    },
+    {
+      "fingerprint": "a51969d93f52",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "'Leia mais' button whose aria-label is 'Leia mais sobre Galeria de fotos: relembre momentos especiais do ESMO Summit Latin America 2024' in the card of article 189 (/noticias/3260-galeria-de-fotos-...-2024/). claimTrue: in the snapshot 2 buttons carry that aria-label (articles 189 and 190) with two different hrefs, and nothing in the link's counted context (no title, no aria-describedby, no enclosing paragraph, list item or cell; the preceding heading is the card's own h3 with the same title) tells them apart, so the sentence is true of the capture. elementFails: Rampa never read the destinations; on the live site /noticias/3259-... and /noticias/3260-galeria-de-fotos-relembre-momentos-especiais-do-esmo-summit-latin-america-2024/ are the same post published twice, five minutes apart on 2024-03-25: same title, date and full text (neither shows a photo gallery after 'Relembre alguns dos momentos especiais do encontro:'); the only difference is one header photo on 3260. The links therefore lead to equivalent resources and serve the same purpose, which the name states (the article of that title); identical names to equivalent resources do not fail 2.4.4. The live HTML (fetched 2026-11-21) has the same card list in the same order, with the same names, aria-labels, hrefs, dates and excerpts as the snapshot; the full-page screenshot is blank apart from a repeated cookie banner (an artefact of the page's ~246,000 px height), but that does not touch this DOM-based claim, so captureDiffers is no. false_positive, context_missing: the destinations Rampa did not read show the two URLs are duplicates of one post."
+    },
+    {
+      "fingerprint": "p46ea48856cb",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim, judged for 2.4.4. The element is the card image of article 12 inside an image link (tabindex=-1) to /noticias/congresso-brasileiro-de-oncologia-clinica-reune-especialistas-para-discutir-avancos-no-cuidado-do-cancer/; the link's name comes from the alt 'Congresso Brasileiro de Oncologia Clínica reúne especialistas para discutir avanços no cuidado do câncer', which is the destination's title and h1. The name alone states the link's purpose, and in the snapshot only this card's three links (image, title, 'Leia mais sobre ...') carry it, all to the same URL. elementFails no. The live HTML has the same alt, href and card, so captureDiffers is no. false_positive."
+    },
+    {
+      "fingerprint": "p0d7809f0903",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The element is the 'Leia mais' button of article 9, whose aria-label is 'Leia mais sobre Congresso SBOC 2026 é aberto com mensagem de inspiração, precisão e olhar para o futuro da oncologia' (technique ARIA8); it goes to the article of that title, which the destination's title and h1 confirm, and only this card's links use that name, all to the same URL. The purpose is determinable from the accessible name alone (it also begins with the visible 'Leia mais'). elementFails no. The live HTML has the same aria-label and href, so captureDiffers is no. false_positive."
+    },
+    {
+      "fingerprint": "aa4d4a57c8b6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] 'Leia mais' button whose aria-label is 'Leia mais sobre Assembleia Geral Ordinária da SBOC' in the 'Leia mais notícias' card of article 60 (/noticias/3849-assembleia-geral-ordinaria-da-sboc/). claimTrue: in the snapshot the same accessible name is used by links in the card of article 142 that go to /noticias/3533-assembleia-geral-ordinaria-da-sboc/, so the count and the two destinations are right, and nothing in the link's counted context (no title, no aria-describedby, no enclosing paragraph, list item or cell; the preceding heading is the card's own h3 with the same title) tells them apart. elementFails: the two destinations are different news reports (the 2025 assembly/edition versus the 2024 one, checked on the live pages), so the links have different purposes behind identical names; the only thing that distinguishes them is the visible date span and excerpt in the card, which are sibling elements and not counted link context by the rubric's rule. Sighted users can tell them apart, so the 'ambiguous to users in general' exception does not apply. The live HTML (fetched 2026-11-21) has the same card list in the same order, with the same names, aria-labels, hrefs, dates and excerpts as the snapshot; the full-page screenshot is blank apart from a repeated cookie banner (an artefact of the page's ~246,000 px height), but that does not touch this DOM-based claim, so captureDiffers is no. The claim names this failure: true_positive."
+    },
+    {
+      "fingerprint": "3e598b6c8fe4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "'Leia mais' button whose aria-label is 'Leia mais sobre COMUNICADO OFICIAL' in the card of article 77 (/noticias/3829-comunicado-oficial/). claimTrue: in the snapshot 2 'Leia mais sobre COMUNICADO OFICIAL' buttons exist (articles 76 and 77) with two different hrefs, and nothing in the link's counted context (no title, no aria-describedby, no enclosing paragraph, list item or cell; the preceding heading is the card's own h3 with the same title) tells them apart, so the sentence is true of the capture. elementFails: Rampa never read the destinations; on the live site /noticias/3828-comunicado-oficial/ and /noticias/3829-comunicado-oficial/ are the same post published twice: same title 'COMUNICADO OFICIAL', same publication time (2025-10-29T16:23:07), same full text (the SBCO/SBOC statement on security at the V Semana Brasileira da Oncologia); the cards also show the same date and excerpt. The links therefore lead to equivalent resources and serve the same purpose, which the name states (the article of that title); identical names to equivalent resources do not fail 2.4.4. The live HTML (fetched 2026-11-21) has the same card list in the same order, with the same names, aria-labels, hrefs, dates and excerpts as the snapshot; the full-page screenshot is blank apart from a repeated cookie banner (an artefact of the page's ~246,000 px height), but that does not touch this DOM-based claim, so captureDiffers is no. false_positive, context_missing: the destinations Rampa did not read show the two URLs are duplicates of one post."
+    },
+    {
+      "fingerprint": "p0c6a457cd9f",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The element is the card image of article 8, the only content of an image link (tabindex=-1) to the article titled 'Diversidade, liderança, comunicação e literatura ampliam o olhar sobre a oncologia no Congresso SBOC 2026'; its alt is that title. The crop shows a group photo of five people at the congress. As a functional image, its text alternative must convey the link's purpose, and the alt names the destination article (it matches the destination's title and h1), so it meets 1.1.1 (techniques H30/G94); the photo's details need not be described for a link image. elementFails no. The live HTML has the same img with the same alt in the same card, and the crop shows the real image, so captureDiffers is no (the blank full-page screenshot does not affect this). Rampa was right to report nothing: false_positive."
+    },
+    {
+      "fingerprint": "cc97b45d6b8e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Title link 'COMUNICADO OFICIAL' (inside the card's h3, tabindex=-1) in the card of article 77 (/noticias/3829-comunicado-oficial/). claimTrue: in the snapshot 4 links are named 'COMUNICADO OFICIAL' (image and title links of the cards of articles 76 and 77) with two different hrefs, and nothing in the link's counted context (no title, no aria-describedby, no enclosing paragraph, list item or cell; the preceding heading is the card's own h3 with the same title) tells them apart, so the sentence is true of the capture. elementFails: Rampa never read the destinations; on the live site /noticias/3828-comunicado-oficial/ and /noticias/3829-comunicado-oficial/ are the same post published twice: same title 'COMUNICADO OFICIAL', same publication time (2025-10-29T16:23:07), same full text (the SBCO/SBOC statement on security at the V Semana Brasileira da Oncologia); the cards also show the same date and excerpt. The links therefore lead to equivalent resources and serve the same purpose, which the name states (the article of that title); identical names to equivalent resources do not fail 2.4.4. The live HTML (fetched 2026-11-21) has the same card list in the same order, with the same names, aria-labels, hrefs, dates and excerpts as the snapshot; the full-page screenshot is blank apart from a repeated cookie banner (an artefact of the page's ~246,000 px height), but that does not touch this DOM-based claim, so captureDiffers is no. false_positive, context_missing: the destinations Rampa did not read show the two URLs are duplicates of one post."
+    },
+    {
+      "fingerprint": "0ff416b43833",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Title link 'Galeria de fotos: relembre momentos especiais do ESMO Summit Latin America 2024' (inside the card's h3, tabindex=-1) in the card of article 190 (/noticias/3259-galeria-de-fotos-...-2024/). claimTrue: in the snapshot 3 links carry that name (the image and title links of article 189 and the title link of article 190, whose image link has alt=\"\" and so no name, a separate issue not judged here) with two different hrefs, and nothing in the link's counted context (no title, no aria-describedby, no enclosing paragraph, list item or cell; the preceding heading is the card's own h3 with the same title) tells them apart, so the sentence is true of the capture. elementFails: Rampa never read the destinations; on the live site /noticias/3259-... and /noticias/3260-galeria-de-fotos-relembre-momentos-especiais-do-esmo-summit-latin-america-2024/ are the same post published twice, five minutes apart on 2024-03-25: same title, date and full text (neither shows a photo gallery after 'Relembre alguns dos momentos especiais do encontro:'); the only difference is one header photo on 3260. The links therefore lead to equivalent resources and serve the same purpose, which the name states (the article of that title); identical names to equivalent resources do not fail 2.4.4. The live HTML (fetched 2026-11-21) has the same card list in the same order, with the same names, aria-labels, hrefs, dates and excerpts as the snapshot; the full-page screenshot is blank apart from a repeated cookie banner (an artefact of the page's ~246,000 px height), but that does not touch this DOM-based claim, so captureDiffers is no. false_positive, context_missing: the destinations Rampa did not read show the two URLs are duplicates of one post."
+    }
+  ]
+}

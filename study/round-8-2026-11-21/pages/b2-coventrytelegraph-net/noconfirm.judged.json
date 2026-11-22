@@ -1,0 +1,449 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.coventrytelegraph.net/news/coventry-news/children-young-12-arrested-knife-34923139",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "cf9554f84f2a",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#qc-cmp2-ui > div:nth-of-type(1) > div > div > div:nth-of-type(1) > figure > div > img",
+   "message": "The text alternative \"Publisher Logo\" describes something the image does not show.",
+   "evidence": "Publisher Logo",
+   "subject": "Publisher Logo",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#qc-cmp2-ui > div:nth-of-type(1) > div > div > div:nth-of-type(1) > figure > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Publisher Logo",
+    "to": "Reach",
+    "before": "<img alt=\"Publisher Logo\" src=\"https://s2-prod.coventrytelegraph.net/@trinitymirrordigital/chameleon-branding/publications/shared/logo-reach.png?qc-size=150,39\">",
+    "after": "<img alt=\"Reach\" src=\"https://s2-prod.coventrytelegraph.net/@trinitymirrordigital/chameleon-branding/publications/shared/logo-reach.png?qc-size=150,39\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "edab46ab7cd7",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(1) > span > div > div:nth-of-type(1) > div:nth-of-type(1) > img",
+   "message": "The text alternative \"coventrytelegraph\" names a label, not what the image conveys here.",
+   "evidence": "coventrytelegraph",
+   "subject": "coventrytelegraph",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(1) > span > div > div:nth-of-type(1) > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "coventrytelegraph",
+    "to": "Coventry Telegraph Premium",
+    "before": "<img alt=\"coventrytelegraph\" class=\"PremiumArticleBadge_premium-badge-image__ceBDv \" data-testid=\"premium-byline-coventrytelegraph\" loading=\"lazy\" src=\"/assets/coventrytelegraph/images/premium-byline-coventrytelegraph.svg\">",
+    "after": "<img alt=\"Coventry Telegraph Premium\" class=\"PremiumArticleBadge_premium-badge-image__ceBDv \" data-testid=\"premium-byline-coventrytelegraph\" loading=\"lazy\" src=\"/assets/coventrytelegraph/images/premium-byline-coventrytelegraph.svg\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "a3771a434222",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main-content > div:nth-of-type(4) > div > section:nth-of-type(1) > button > div > div > div > img",
+   "message": "The text alternative \"Coventry Telegraph Icon\" describes something the image does not show.",
+   "evidence": "Coventry Telegraph Icon",
+   "subject": "Coventry Telegraph Icon",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#main-content > div:nth-of-type(4) > div > section:nth-of-type(1) > button > div > div > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Coventry Telegraph Icon",
+    "to": "Coventry Live logo",
+    "before": "<img alt=\"Coventry Telegraph Icon\" class=\"small\" loading=\"lazy\" src=\"/assets/icons/coventry-telegraph.svg\">",
+    "after": "<img alt=\"Coventry Live logo\" class=\"small\" loading=\"lazy\" src=\"/assets/icons/coventry-telegraph.svg\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "731a57aa732f",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > footer > div:nth-of-type(2) > span > a > img",
+   "message": "The text alternative \"trust project logo\" is all its link holds, and does not say where the link leads.",
+   "evidence": "trust project logo",
+   "subject": "trust project logo",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "html > body > footer > div:nth-of-type(2) > span > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "trust project logo",
+    "to": "About Us",
+    "before": "<img alt=\"trust project logo\" loading=\"lazy\" width=\"153\" height=\"48\" decoding=\"async\" data-nimg=\"1\" src=\"/footer/trust-project.svg\" style=\"color: transparent;\">",
+    "after": "<img alt=\"About Us\" loading=\"lazy\" width=\"153\" height=\"48\" decoding=\"async\" data-nimg=\"1\" src=\"/footer/trust-project.svg\" style=\"color: transparent;\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 7
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > header > div:nth-of-type(1) > div:nth-of-type(2) > span > a > img",
+   "message": "The text alternative \"coventrytelegraph\" names a label, not what the image conveys here.",
+   "evidence": "The model suggests: \"Subscribe\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#article-body > p:nth-of-type(1) > a:nth-of-type(1)",
+   "message": "The link text \"WestLink opens in a new tab.\" does not match where the link leads: a page titled \"West Midlands Police - Coventry Live\".",
+   "evidence": "The model suggests: \"West Midlands Police news\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#article-body > p:nth-of-type(5) > a:nth-of-type(2)",
+   "message": "The link text \"crimeLink opens in a new tab.\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Coventry and Warwickshire crime news\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#article-body > p:nth-of-type(19) > a:nth-of-type(1)",
+   "message": "The link text \"here\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Sign up for our newsletters\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#article-body > p:nth-of-type(19) > a:nth-of-type(2)",
+   "message": "The link text \"here.\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Sign up for our newsletters\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#article-body > p:nth-of-type(20) > a",
+   "message": "The link text \"here\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Sign up for the CoventryLive WhatsApp community\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#main-content > div:nth-of-type(1) > nav > ul > li:nth-of-type(1) > span > a > div > img",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Coventry Telegraph Icon",
+    "problem": "wrong_content",
+    "imageShows": "A blue square icon with a white letter 'C' in the center.",
+    "suggestedAlt": "Coventry Telegraph logo",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > footer > div:nth-of-type(2) > img",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Ipso logo",
+    "problem": "wrong_content",
+    "imageShows": "A logo for Ipso featuring a teal circle with the word 'ipso.' and a white banner with the word 'Regulated'.",
+    "suggestedAlt": "Ipso Regulated logo",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 10,
+   "judged": 10,
+   "failed": 4,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 77,
+   "judged": 50,
+   "failed": 0,
+   "passed": 45,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 27,
+   "suggested": 5
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 5,
+   "failed": 0,
+   "passed": 5,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "A layer lay over the viewport when the page was read (div, on top at 89% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 27 of 77 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 66,
+  "inputTokens": 65314,
+  "outputTokens": 6280,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 255,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 21
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 12,
+    "prepareMs": 0,
+    "candidates": 10,
+    "judged": 10,
+    "calls": 0,
+    "cachedCalls": 10
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 21,
+    "prepareMs": 0,
+    "candidates": 77,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 4,
+    "prepareMs": 0,
+    "candidates": 5,
+    "judged": 5,
+    "calls": 0,
+    "cachedCalls": 5
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 147,
+    "prepareMs": 144,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 11,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 35
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "overlay": {
+   "selector": "div",
+   "coverage": 0.89,
+   "hidden": true
+  },
+  "images": {
+   "captured": 10,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 77,
+    "capped": 27
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "overlay": {
+    "ref": "#qc-cmp2-main > div",
+    "selector": "div",
+    "coverage": 0.89,
+    "hidden": true
+   }
+  }
+ }
+}

@@ -1,0 +1,326 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://imma.ie/",
+ "model": null,
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "e5f30d6df293",
+   "criterion": "1.3.1",
+   "level": "A",
+   "source": "rule",
+   "ref": "#sign-up-input",
+   "target": "#sign-up-input",
+   "message": "The label \"Join the Mailing List\" sits beside this field but is not tied to it: a screen reader announces the field as \"Email address\", without the label.",
+   "evidence": "<label>Join the Mailing List</label>",
+   "subject": "Join the Mailing List",
+   "patch": {
+    "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(2) > form > label",
+    "kind": "set-attribute",
+    "attribute": "for",
+    "to": "sign-up-input",
+    "before": "<label>",
+    "after": "<label for=\"sign-up-input\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/orphan-label",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
+   "html": "<input type=\"email\" name=\"email\" placeholder=\"Email address\" id=\"sign-up-input\" aria-label=\"Email address\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "aef08b73170f",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#wrapper > div:nth-of-type(17) > div > div:nth-of-type(1) > div:nth-of-type(2) > a > div:nth-of-type(2) > div:nth-of-type(1)",
+   "target": "#wrapper > div:nth-of-type(17) > div > div:nth-of-type(1) > div:nth-of-type(2) > a > div:nth-of-type(2) > div:nth-of-type(1)",
+   "message": "The text \"19 Nov 2026 - 4 July 2027\" has at most 4.07:1 contrast with what is behind it (#ffffff on #92c764…#897e4e), measured from pixels because axe-core could not decide (an element over or under it). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #b4895f; #92c764…#897e4e · 4.07:1 at best, 1.99:1 at worst · 18px, 700",
+   "subject": "19 Nov 2026 - 4 July 2027",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<div class=\"banner_timedate\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "18bcd14908d2",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#menu-item-85068 > a",
+   "target": "#menu-item-85068 > a",
+   "message": "\"Gaeilge\" is in Irish, but it inherits the page's language (en-IE): a screen reader mispronounces the language's name. Add lang=\"ga\" to the link.",
+   "evidence": "Gaeilge",
+   "subject": "Gaeilge",
+   "patch": {
+    "ref": "#menu-item-85068 > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "ga",
+    "before": "<a href=\"https://imma.ie/ga/baile/\">",
+    "after": "<a href=\"https://imma.ie/ga/baile/\" lang=\"ga\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"https://imma.ie/ga/baile/\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "cf90feece589",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#menu-item-24814 > a",
+   "target": "#menu-item-24814 > a",
+   "message": "\"Gaeilge\" is in Irish, but it inherits the page's language (en-IE): a screen reader mispronounces the language's name. Add lang=\"ga\" to the link.",
+   "evidence": "Gaeilge",
+   "subject": "Gaeilge",
+   "patch": {
+    "ref": "#menu-item-24814 > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "ga",
+    "before": "<a href=\"https://imma.ie/ga/\">",
+    "after": "<a href=\"https://imma.ie/ga/\" lang=\"ga\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"https://imma.ie/ga/\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "9f3d4fa2dd17",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#menu-mega-nav-1 > li:nth-of-type(1) > ul > li:nth-of-type(8) > a",
+   "target": "#menu-mega-nav-1 > li:nth-of-type(1) > ul > li:nth-of-type(8) > a",
+   "message": "\"Gaeilge\" is in Irish, but it inherits the page's language (en-IE): a screen reader mispronounces the language's name. Add lang=\"ga\" to the link.",
+   "evidence": "Gaeilge",
+   "subject": "Gaeilge",
+   "patch": {
+    "ref": "#menu-mega-nav-1 > li:nth-of-type(1) > ul > li:nth-of-type(8) > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "ga",
+    "before": "<a href=\"https://imma.ie/ga/\" tabindex=\"-1\">",
+    "after": "<a href=\"https://imma.ie/ga/\" tabindex=\"-1\" lang=\"ga\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"https://imma.ie/ga/\" tabindex=\"-1\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "3bb1803c0b38",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#menu-top-right-1 > li:nth-of-type(5) > a",
+   "target": "#menu-top-right-1 > li:nth-of-type(5) > a",
+   "message": "\"Gaeilge\" is in Irish, but it inherits the page's language (en-IE): a screen reader mispronounces the language's name. Add lang=\"ga\" to the link.",
+   "evidence": "Gaeilge",
+   "subject": "Gaeilge",
+   "patch": {
+    "ref": "#menu-top-right-1 > li:nth-of-type(5) > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "ga",
+    "before": "<a href=\"https://imma.ie/ga/baile/\" tabindex=\"-1\">",
+    "after": "<a href=\"https://imma.ie/ga/baile/\" tabindex=\"-1\" lang=\"ga\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"https://imma.ie/ga/baile/\" tabindex=\"-1\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "772a98694a16",
+   "criterion": "3.3.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#search_autocomplete",
+   "target": "#search_autocomplete",
+   "message": "Nothing on screen says what to enter in this field: its name is in aria-label, which only screen readers get (\"Search\"), and no text, button or legend sits near it.",
+   "evidence": "<input class=\"search_autocomplete\" type=\"text\" value=\"\" name=\"q\" id=\"search_autocomplete\" autocomplete=\"off\" data-swplive=\"true\" aria-label=\"Search\">",
+   "subject": "Search",
+   "patch": {
+    "ref": "#search_autocomplete",
+    "kind": "replace-element",
+    "to": "Search",
+    "before": "<input class=\"search_autocomplete\" type=\"text\" value=\"\" name=\"q\" id=\"search_autocomplete\" autocomplete=\"off\" data-swplive=\"true\" aria-label=\"Search\">",
+    "after": "<label for=\"search_autocomplete\">Search</label> <input class=\"search_autocomplete\" type=\"text\" value=\"\" name=\"q\" id=\"search_autocomplete\" autocomplete=\"off\" data-swplive=\"true\" aria-label=\"Search\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/no-visible-label",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/labels-or-instructions.html",
+   "html": "<input class=\"search_autocomplete\" type=\"text\" value=\"\" name=\"q\" id=\"search_autocomplete\" autocomplete=\"off\" data-swplive=\"true\" aria-label=\"Search\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 10
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 10,
+   "members": [
+    "6fda147f7ccc",
+    "96ef8b373f13",
+    "167d2ff62764",
+    "0444308e734d",
+    "6c4dc26b47c2",
+    "8311553036e1",
+    "6c0d71259ea4",
+    "44bf12dee7b4",
+    "3ec3342a6078",
+    "79bb7399923c"
+   ],
+   "example": "6fda147f7ccc"
+  }
+ ],
+ "needsReview": [],
+ "discarded": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 9,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 274,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 66,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 0,
+  "inputTokens": 0,
+  "outputTokens": 0,
+  "latencyMs": 0
+ },
+ "timings": null,
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 9,
+   "notCaptured": 29,
+   "reasons": {
+    "outside-page": 4,
+    "clipped": 7,
+    "not-shown": 5,
+    "limit": 13
+   }
+  }
+ },
+ "coverage": {
+  "reach": null
+ }
+}

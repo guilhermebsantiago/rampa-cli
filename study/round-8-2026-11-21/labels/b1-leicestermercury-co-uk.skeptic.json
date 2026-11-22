@@ -1,0 +1,156 @@
+{
+  "page": "https://www.leicestermercury.co.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s3182f86fecc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser photo for the Swannington Railway path story in the NEWS section. The crop shows a 'Welcome to Stokeswood Park' sign, grass, iron railings and a path in the distance. The alt is the story headline. It speaks of a collapsed path above a railway and £325,000 of works, none of which the photo shows, so the claim holds for the capture. elementFails leans yes: the alt neither describes the photo nor is null. Skeptic's reason against a true positive: the image sits in a cover wrapper beside the headline link, not inside it, and its alt repeats the headline right below it. Competent auditors split on this pattern. Some call the photo informative and want it described (which is the claim's reading). Some call it decorative next to its headline and want alt=\"\" (an F38 problem, which the claim does not name). Others accept the headline as naming what the picture illustrates and treat the duplication as a best-practice redundancy issue, not a 1.1.1 failure. So the label is uncertain even though I lean towards fail. captureDiffers: the live homepage HTML (fetched 2026-11-21) has the same img with the same src and alt, so nothing that matters differs."
+    },
+    {
+      "fingerprint": "a93761debdbe",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser photo for the Donington Park story. The crop is an aerial view of the circuit. The alt, which is the headline, names Donington Park, which is shown, but also a racer's death in a start-line crash, which is not, so the claim holds for the capture. elementFails leans yes: the alt tells the story, not what the aerial photo shows. Skeptic's reason against a true positive: the image sits in a cover wrapper beside the headline link, not inside it, and its alt repeats the headline right below it. Competent auditors split on this pattern. Some call the photo informative and want it described (which is the claim's reading). Some call it decorative next to its headline and want alt=\"\" (an F38 problem, which the claim does not name). Others accept the headline as naming what the picture illustrates and treat the duplication as a best-practice redundancy issue, not a 1.1.1 failure. So the label is uncertain even though I lean towards fail. captureDiffers: the live homepage HTML (fetched 2026-11-21) has the same img with the same src and alt, so nothing that matters differs."
+    },
+    {
+      "fingerprint": "b53c74110fbb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser photo for the King Power takeover story in the LEICESTER CITY section. The crop shows a man in sunglasses and a dark jacket with folded arms on a training pitch. The alt, which is the headline, describes a takeover U-turn and a sale decision. The photo shows neither, and the alt does not identify the man, so the claim holds for the capture. elementFails leans yes. Skeptic's reason against a true positive: the image sits in a cover wrapper beside the headline link, not inside it, and its alt repeats the headline right below it. Competent auditors split on this pattern. Some call the photo informative and want it described (which is the claim's reading). Some call it decorative next to its headline and want alt=\"\" (an F38 problem, which the claim does not name). Others accept the headline as naming what the picture illustrates and treat the duplication as a best-practice redundancy issue, not a 1.1.1 failure. So the label is uncertain even though I lean towards fail. captureDiffers: the live homepage HTML (fetched 2026-11-21) has the same img with the same src and alt, so nothing that matters differs."
+    },
+    {
+      "fingerprint": "pf08756a3c98",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Primary navigation link 'Crime' (list item in the header nav) to /all-about/crime. In a site's section menu the text alone tells users it opens the Crime section, and that is where it goes. R1: the other links named 'Crime' (More curtain, mobile nav, teaser tags) all resolve to the same /all-about/crime, so no pair fails. The live HTML has the same link with the same href. It meets 2.4.4, so Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "p5bb591fef60",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Masthead logo inside the h1 home link. Its alt 'Leicestershire Live' matches the wordmark in the crop, and the link has its own aria-label 'Go to Leicestershire Live homepage', so both the image and the control are properly named. The live HTML is identical. The full-page screenshot shows the header area blank, but that is a screenshot artefact: the image crop and the DOM both have the logo, and it does not touch the alt. It meets 1.1.1, so Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "se5b1791e9cd",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Logo in the InMobi/Quantcast consent dialog ('Take control of your privacy'). The crop shows the 'LeicestershireLive' wordmark, and the alt is 'Publisher Logo'. Read literally the claim is false: the image really is a publisher's logo. But the alt is generic placeholder text that leaves out what the logo conveys, the publisher's name (F30; logos take the organisation's name). The dialog's text names only 'Reach and across our entities', so the logo is its only mention of Leicestershire Live. Skeptic's checks: the page title names the site, but that does not make this alt an equivalent; and the logo is not decoration here. In good faith the claim ('describes something the image does not show' for an alt that leaves out what the image conveys) names the defect, as in the rubric's example. captureDiffers: the live CMP config (choice.js) sets displayUi 'always', the popup layout and the same publisherLogo URL (which returns 200), so users get this dialog and logo."
+    },
+    {
+      "fingerprint": "pd9e1c1bf9d1",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Topic tag link 'Leicester City FC' (its aria-label equals its text) in the footer of the King Power teaser, to all-about/leicester-city-fc. The destination is the site's Leicester City news page ('Leicester City breaking news, transfer rumours...'), which is what the text names. R1: every other 'Leicester City FC' tag link on the page goes to the same address, so no pair fails. The live HTML has the same tag links. It meets 2.4.4, so Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "sb269f9897d5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Premium badge above the headline of 'What Russell Martin did straight after...'. The crop is the L logo plus the word 'PREMIUM'. The alt 'leicestermercury' names the brand and drops the badge's message, so the claim holds. For this teaser the badge is the only sign that the story is subscriber-only: the headline link's name has no 'Premium', and the footer tag is 'Leicester City FC'. So the alt does not present the same information, and the image of text fails 1.1.1. Skeptic's checks: there is no hidden text, title or description supplying 'Premium'; the badge is not decorative; and an img-referenced SVG exposes nothing but its alt. The live HTML has the same markup."
+    },
+    {
+      "fingerprint": "e0b1f02208cd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser photo for the 'Awful' stench story. The crop is a street-view-style image of a village road junction with road signs. The alt, which is the headline, describes a stench, humming noises and flies, none of which a photo of a road can show, so the claim holds for the capture. elementFails leans yes. Skeptic's reason against a true positive: the image sits in a cover wrapper beside the headline link, not inside it, and its alt repeats the headline right below it. Competent auditors split on this pattern. Some call the photo informative and want it described (which is the claim's reading). Some call it decorative next to its headline and want alt=\"\" (an F38 problem, which the claim does not name). Others accept the headline as naming what the picture illustrates and treat the duplication as a best-practice redundancy issue, not a 1.1.1 failure. So the label is uncertain even though I lean towards fail. captureDiffers: the live homepage HTML (fetched 2026-11-21) has the same img with the same src and alt, so nothing that matters differs."
+    },
+    {
+      "fingerprint": "p7e99a825772",
+      "answers": {
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser photo for the 'Billy Elliot' mental-health story. The crop shows a man in front of a men's mental-health support banner. The alt is the headline that follows it. This is the same pattern Rampa reported on the neighbouring teasers, and it leans fail in the same way: the alt neither describes the photo nor is null. The skeptic's doubt here is a little stronger, because the headline roughly identifies the man and the banner's theme. Skeptic's reason against a true positive: the image sits in a cover wrapper beside the headline link, not inside it, and its alt repeats the headline right below it. Competent auditors split on this pattern. Some call the photo informative and want it described (which is the claim's reading). Some call it decorative next to its headline and want alt=\"\" (an F38 problem, which the claim does not name). Others accept the headline as naming what the picture illustrates and treat the duplication as a best-practice redundancy issue, not a 1.1.1 failure. So the label is uncertain even though I lean towards fail. captureDiffers: the live homepage HTML (fetched 2026-11-21) has the same img with the same src and alt, so nothing that matters differs."
+    },
+    {
+      "fingerprint": "se79fc23a814",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser photo for the 'Seven players could miss...' story. The crop is a composite of three players in different kits. The alt, which is the headline, speaks of seven players and an illness update, neither of which the image shows, and it does not say who the three players are, so the claim holds for the capture. elementFails leans yes. Skeptic's reason against a true positive: the image sits in a cover wrapper beside the headline link, not inside it, and its alt repeats the headline right below it. Competent auditors split on this pattern. Some call the photo informative and want it described (which is the claim's reading). Some call it decorative next to its headline and want alt=\"\" (an F38 problem, which the claim does not name). Others accept the headline as naming what the picture illustrates and treat the duplication as a best-practice redundancy issue, not a 1.1.1 failure. So the label is uncertain even though I lean towards fail. captureDiffers: the live homepage HTML (fetched 2026-11-21) has the same img with the same src and alt, so nothing that matters differs."
+    },
+    {
+      "fingerprint": "af69d32435a4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser photo for the Mayor role story. The crop is a white-haired man speaking at a desk (the file name points to a 2020 briefing). The alt, which is the headline, names Sir Peter Soulsby but describes residents' reaction and the role being scrapped, neither of which the photo shows, so the claim holds for the capture. elementFails leans yes. Skeptic's reason against a true positive: the image sits in a cover wrapper beside the headline link, not inside it, and its alt repeats the headline right below it. Competent auditors split on this pattern. Some call the photo informative and want it described (which is the claim's reading). Some call it decorative next to its headline and want alt=\"\" (an F38 problem, which the claim does not name). Others accept the headline as naming what the picture illustrates and treat the duplication as a best-practice redundancy issue, not a 1.1.1 failure. So the label is uncertain even though I lean towards fail. captureDiffers: the live homepage HTML (fetched 2026-11-21) has the same img with the same src and alt, so nothing that matters differs."
+    },
+    {
+      "fingerprint": "37c6e8326856",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Hero teaser photo for the house prices story. The crop shows estate agents' 'To Let' and 'Sold' boards in front of a brick building. The alt, which is the headline, describes a full list of areas where prices rose or fell, which the photo does not show, so the claim holds for the capture. elementFails leans yes. Skeptic's reason against a true positive: the image sits in a cover wrapper beside the headline link, not inside it, and its alt repeats the headline right below it. Competent auditors split on this pattern. Some call the photo informative and want it described (which is the claim's reading). Some call it decorative next to its headline and want alt=\"\" (an F38 problem, which the claim does not name). Others accept the headline as naming what the picture illustrates and treat the duplication as a best-practice redundancy issue, not a 1.1.1 failure. So the label is uncertain even though I lean towards fail. captureDiffers: the live homepage HTML (fetched 2026-11-21) has the same img with the same src and alt, so nothing that matters differs."
+    },
+    {
+      "fingerprint": "s965047d4b68",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The image is all the header's Subscribe button holds. The crop shows the L logo plus 'SUBSCRIBE', and the alt 'leicestermercury' names the brand rather than the button's message, so the claim holds for the capture. But this non-text content is a control, and 1.1.1 asks only that the control have a name that describes its purpose. The link carries aria-label 'Subscribe to premium membership', which becomes its accessible name (the snapshot records nameFrom aria-label) and overrides the image's alt, so screen-reader users hear the right purpose. The visible 'Subscribe' also starts the name. Asking the inner alt to describe the picture is stricter than the criterion. captureDiffers: the button is rendered on the client (the server HTML has only its header container), and nothing suggests users get anything different from the snapshot."
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+{
+  "page": "https://www.ufes.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "2041c3d3eb4a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The img is the only content of a link to the news story on the emeritus titles given to Edna Oliveira and Janete Carvalho. Its alt describes the photo: the honoured professors with the rector and vice-rector. The claim is true of the capture: the alt is the link's whole name and names no destination, though it does name the story's subject. The live HTML has the same alt and markup, and the capture is a fully styled page, so the capture does not differ. I lean that it fails: the 1.1.1 control clause, with G82 and H30 (which Understanding 1.1.1 lists for non-text content that is a control), asks that an image that is a link's only content identify the link's purpose. Concrete reasons point the other way, though: the alt is an accurate description of an informative photo (G94); the same card has a headline link to the same URL right next to it, so the image link is redundant (H2); and WCAG's failure for image-only links, F89, maps to 2.4.4, 2.4.9 and 4.1.2, not to 1.1.1. Competent auditors split on whether this is a 1.1.1 failure at all, so the label is uncertain."
+    },
+    {
+      "fingerprint": "7e073811aeb4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the emergency-phones GIF in slide 4 of a Slick carousel (live data-slick: autoplay, dots, variableWidth, one current slide). In the snapshot the slide was not current, so Slick had set aria-hidden=true on it. The claim is true of the capture: the image is hidden, and its crop shows 'Campus de Alegre 28 99901-9139', which no other text on the page states. The image does fail 1.1.1, but mainly for reasons the claim does not name. I extracted the GIF's six frames: four campus numbers, plus two 'Outros telefones úteis' frames (198, 193, Videomonitoramento 3335-2727, 190, 192) that the alt leaves out. The alt also gives Alegre's area code as 27 where the image shows 28. The claim's own reason is contested. aria-hidden is Slick's rotating state: when the slide is current it gets aria-hidden=false and its alt is exposed (the screenshot, taken at another moment, shows it current at the left), and the dot tabs can reach it. Hiding visible slides that are not current is a real defect of this setup, but auditors would file it under 1.1.1, 1.3.1 or 4.1.2, or accept it. The live HTML has the same alt and settings, so the capture does not differ. The label is uncertain because it is open whether the claim names the failure."
+    },
+    {
+      "fingerprint": "s29b09634059",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is an image-only link named by its alt, 'Foto de coral no fundo do mar'. It leads to a Revista Universidade article about a Ufes expedition mapping the seafloor in the Romanche Fracture Zone. It has no aria-label, title or aria-describedby, and it sits in no paragraph, list item or cell. The heading before it in document order is 'Assistência estudantil', from the previous section, because the 'Pesquisa e Inovação' h2 comes after the images. The claim is true of the capture: the name describes the photo, not the article, and the topics overlap only in 'fundo do mar'. I lean that it fails, since sighted users at least get the placement in the 'Pesquisa e Inovação' block, which AT users do not get programmatically. Against that, the photo has no caption, so sighted users could not tell it opens that article either. The 'ambiguous to users in general' exception is arguable, and the alt does point at the article's seafloor subject. The live page has the same alt and href. The screenshot shows the image blurred by lazy loading, which does not affect the name. Uncertain."
+    },
+    {
+      "fingerprint": "pe09cf40aa04",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the headline link inside an h5: 'Seminário discute medicalização da educação e da vida. Inscrições abertas'. The destination page has the same title and heading. The link text alone states its purpose, so it passes 2.4.4 and Rampa was right to report nothing. The live HTML has the same link, and the capture is fully styled."
+    },
+    {
+      "fingerprint": "se517adbd978",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the card link 'Pós-graduação' (inside an h5) in the 'Estude na Ufes' block, leading to prppg.ufes.br 'Mestrados e doutorados da UFES'. The claim is true of the capture. Five non-hidden links are named Pós-graduação or Pós-Graduação: this one and the footer link go to prppg, and three Editais category tags go to /categoria-edital/pos-graduacao. Under the round's context rule only its own h5 precedes it. But 2.4.4 asks whether each link's purpose can be determined. It does not ask that links with the same text be told apart; that is the ACT rule for 2.4.9 (AAA), and Understanding 2.4.4 only says it 'helps'. On a university home page, 'Pós-graduação' states this link's purpose, and the destination matches it. The live HTML is the same. This is a stricter rule than the criterion."
+    },
+    {
+      "fingerprint": "89e3b65e7a02",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The img is the only content of a link to the story 'Seminário discute medicalização da educação e da vida'. Its alt, 'Imagem de uma criança com comprimidos na mão', describes a stock photo and says nothing of the seminar. The claim is true of the capture. The live HTML has the same alt and markup, and the capture is a fully styled page, so the capture does not differ. I lean that it fails: the 1.1.1 control clause, with G82 and H30 (which Understanding 1.1.1 lists for non-text content that is a control), asks that an image that is a link's only content identify the link's purpose. Concrete reasons point the other way, though: the alt is an accurate description of an informative photo (G94); the same card has a headline link to the same URL right next to it, so the image link is redundant (H2); and WCAG's failure for image-only links, F89, maps to 2.4.4, 2.4.9 and 4.1.2, not to 1.1.1. Competent auditors split on whether this is a 1.1.1 failure at all, so the label is uncertain."
+    },
+    {
+      "fingerprint": "c6bb2ace81b5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Category tag 'Pós-Graduação' (a link inside an h2) in the third Editais card, set in 16px bold. The live CSS sets .view-editais .card .categorias a {color:#6a8dae; font-weight:700} on the card background #f1f6fb, and the screenshot pixels under the text are exactly #6a8dae on #f1f6fb. That is 3.20:1, and I recomputed it. 16px bold is below the large-text threshold (14pt bold, about 18.7px), so 4.5:1 applies and the text fails. It is a working link, not incidental text or a logo, and the 'element partly over it' note does not change the colours. The capture matches the live page and styles. I found no reason that holds up against it."
+    },
+    {
+      "fingerprint": "s5d8f2cad095",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the card link 'Extensão' (inside an h5) in the 'Estude na Ufes' block, next to Graduação, Ensino a distância and Pós-graduação, leading to mooc.ufes.br. Rampa did not read the destination. It is 'MOOCQUECA UFES - Cursos gratuitos de extensão', the Ufes platform of free extension courses, and the footer link 'Extensão' to the same URL has the title 'cursos de extensão'. 'Extensão' names exactly that area, so the link text states the purpose and matches where it goes. The claim that it does not tell is wrong. The live HTML is the same. Reading the destination would have shown that the text and the destination agree."
+    },
+    {
+      "fingerprint": "06c8e5754941",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This hero image link comes just before the h1 headline link to the same story, 'População de Alegre e São Mateus já pode acessar canal da Ufes na TV aberta'. Its alt, 'Foto da placa de inauguração com as autoridades em volta', hints at an inauguration but not at what was inaugurated or where the link leads. The claim is true of the capture. The live HTML has the same alt and markup, and the capture is a fully styled page, so the capture does not differ. I lean that it fails: the 1.1.1 control clause, with G82 and H30 (which Understanding 1.1.1 lists for non-text content that is a control), asks that an image that is a link's only content identify the link's purpose. Concrete reasons point the other way, though: the alt is an accurate description of an informative photo (G94); the same card has a headline link to the same URL right next to it, so the image link is redundant (H2); and WCAG's failure for image-only links, F89, maps to 2.4.4, 2.4.9 and 4.1.2, not to 1.1.1. Competent auditors split on whether this is a 1.1.1 failure at all, so the label is uncertain."
+    },
+    {
+      "fingerprint": "af0a7baa5b2d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Category tag 'Pós-Graduação' (a link inside an h2) in the second Editais card, set in 16px bold. The live CSS sets .view-editais .card .categorias a {color:#6a8dae; font-weight:700} on the card background #f1f6fb, and the screenshot pixels under the text are exactly #6a8dae on #f1f6fb. That is 3.20:1, and I recomputed it. 16px bold is below the large-text threshold (14pt bold, about 18.7px), so 4.5:1 applies and the text fails. It is a working link, not incidental text or a logo, and the 'element partly over it' note does not change the colours. The capture matches the live page and styles. I found no reason that holds up against it."
+    },
+    {
+      "fingerprint": "sa70d2cb89cf",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is an image-only link named by its alt, 'Três mulheres jovens estudando em uma mesa da biblioteca', leading to biblioteca.ufes.br (Sistema Integrado de Bibliotecas). The heading before it is 'Assistência estudantil'. The name says library, and the link goes to the library site, whose domain the capture's href shows. So the claim that the text does not match the destination is false of the capture. Sighted users see only the same uncaptioned photo, so AT users get the same information, and the purpose (the library) can be determined. An alt that names the destination, such as 'Bibliotecas', would be better practice, but 2.4.4 does not require it here. The live page has the same alt and href. Rampa had the href and judged wrongly."
+    },
+    {
+      "fingerprint": "b790244f2440",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The img is the only content of a link to the story on Fordan/Ufes technologies for women victims of violence. Its alt, 'Imagem de uma mulher negra sentada no sofá abraçando as pernas', describes a stock photo and does not name the story. The claim is true of the capture. The live HTML has the same alt and markup, and the capture is a fully styled page, so the capture does not differ. I lean that it fails: the 1.1.1 control clause, with G82 and H30 (which Understanding 1.1.1 lists for non-text content that is a control), asks that an image that is a link's only content identify the link's purpose. Concrete reasons point the other way, though: the alt is an accurate description of an informative photo (G94); the same card has a headline link to the same URL right next to it, so the image link is redundant (H2); and WCAG's failure for image-only links, F89, maps to 2.4.4, 2.4.9 and 4.1.2, not to 1.1.1. Competent auditors split on whether this is a 1.1.1 failure at all, so the label is uncertain."
+    },
+    {
+      "fingerprint": "p8e76021146a",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the link 'Divulgação Científica' (its external-link icon is aria-hidden) in the list under the 'Pesquisa e Inovação' h2, its nearest preceding heading. It leads to blog.ufes.br/revistauniversidade/ ('Revista Universidade – As pesquisas e a produção científica da UFES'). The link text states its purpose, and the heading makes it clearer still. It passes 2.4.4, and Rampa was right to report nothing. The live HTML is the same."
+    },
+    {
+      "fingerprint": "s1abd5195708",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is an image-only link named by its alt, 'Pessoa com prato na mão sendo servida no restaurante', leading to ru.ufes.br (Restaurante Universitário). The heading before it is 'Assistência estudantil', whose paragraph mentions the university restaurants. The name says restaurant, and the link goes to the restaurant site, as the captured href shows. So the claim that the text does not match the destination is false. Sighted users see only the same uncaptioned photo, and the purpose (the university restaurant) can be determined. An alt that names the destination would be better practice, but 2.4.4 does not require it. The live page is the same."
+    },
+    {
+      "fingerprint": "d47797ae3b72",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Category tag 'Pós-Graduação' (a link inside an h2) in the first Editais card, set in 16px bold. The live CSS sets .view-editais .card .categorias a {color:#6a8dae; font-weight:700} on the card background #f1f6fb, and the screenshot pixels under the text are exactly #6a8dae on #f1f6fb. That is 3.20:1, and I recomputed it. 16px bold is below the large-text threshold (14pt bold, about 18.7px), so 4.5:1 applies and the text fails. It is a working link, not incidental text or a logo, and the 'element partly over it' note does not change the colours. The capture matches the live page and styles. I found no reason that holds up against it."
+    },
+    {
+      "fingerprint": "e5848eac5332",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The img is the only content of a link to the story on the I Congresso de Extensão Universitária. Its alt, 'Cartaz de divulgação do evento', does not say which event, and it leaves out the poster's own text ('I Congresso de Extensão Universitária do Espírito Santo – Conectando Saberes, Territórios e Pessoas'). The claim is true of the capture. Under either reading the alt is weak, but a lenient auditor could accept it, because the event is named in the headline link to the same URL right beside it. The live HTML has the same alt and markup, and the capture is a fully styled page, so the capture does not differ. I lean that it fails: the 1.1.1 control clause, with G82 and H30 (which Understanding 1.1.1 lists for non-text content that is a control), asks that an image that is a link's only content identify the link's purpose. Concrete reasons point the other way, though: the alt is an accurate description of an informative photo (G94); the same card has a headline link to the same URL right next to it, so the image link is redundant (H2); and WCAG's failure for image-only links, F89, maps to 2.4.4, 2.4.9 and 4.1.2, not to 1.1.1. Competent auditors split on whether this is a 1.1.1 failure at all, so the label is uncertain."
+    }
+  ]
+}

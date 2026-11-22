@@ -1,0 +1,380 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://transparencia.sesisp.org.br/sac",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 2
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.2",
+   "level": "A",
+   "ruleId": "judgment/2.4.2",
+   "ref": "#topo",
+   "message": "The page title \"Transparência - Sesi-SP - Serviço Social da Indústria Serviço de Atendimento ao Cidadão\" says nothing about this page.",
+   "evidence": "The model suggests: \"Transparência - Sesi-SP - SAC - Serviço de Atendimento ao Cidadão\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#Btn_dados_pessoais",
+   "message": "The link text \"Ver mais \" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Ver mais sobre o tratamento de dados pessoais\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#titulopesquisa",
+   "message": "The label \"Localizar\" does not say what to enter.",
+   "evidence": "The model suggests: \"Pesquisar conteúdo\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#formFiltro > div > div:nth-of-type(1) > a > img",
+   "reason": "the alternative is a logo that leads to the site's home page",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Logo do Sesi São Paulo",
+    "problem": "missing_information",
+    "imageShows": "O logotipo do Sesi São Paulo com o texto 'SESI' em destaque e 'SERVIÇO SOCIAL DA INDÚSTRIA' ao lado.",
+    "suggestedAlt": "Sesi São Paulo - Transparência",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#conteudo > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(2) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'Acessar' (Access) combined with the preceding sentence 'Clique aqui para abrir uma solicitação de informação ou esclarecer dúvida sobre produtos e serviços' (Click here to open an information request or clarify doubts about products and services) indicates that the link leads to a form or page to open a service request.",
+    "leadsTo": "A page titled 'Transparência - Sesi-SP - Serviço Social da Indústria' with the main heading 'Transparência Sesi-SP'.",
+    "verdict": "fail",
+    "evidence": "Acessar",
+    "problem": "mismatch",
+    "suggestedText": "Abrir solicitação de informação",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-site > ul > li:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page about 'Orçamento e Execução Orçamentária' (Budget and Budgetary Execution).",
+    "leadsTo": "A general transparency page for Sesi-SP.",
+    "verdict": "fail",
+    "evidence": "ORÇAMENTO E EXECUÇÃO ORÇAMENTÁRIA",
+    "problem": "mismatch",
+    "suggestedText": "Transparência Sesi-SP",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-site > ul > li:nth-of-type(1) > ul > li:nth-of-type(8) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A link promises to lead to a 'Demonstração de Resultados' (Demonstration of Results) page, which is part of a transparency menu.",
+    "leadsTo": "A page titled 'Transparência' (Transparency) which provides general information about Sesi-SP's social role.",
+    "verdict": "fail",
+    "evidence": "DEMONSTRAÇÃO DE RESULTADOS",
+    "problem": "mismatch",
+    "suggestedText": "Transparência Sesi-SP",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-site > ul > li:nth-of-type(1) > ul > li:nth-of-type(9) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A link text 'GRATUIDADE' (Gratuity/Free of charge) suggests a page about free services or policies, and it is listed among transparency and administrative links.",
+    "leadsTo": "A general transparency page for Sesi-SP.",
+    "verdict": "fail",
+    "evidence": "GRATUIDADE",
+    "problem": "mismatch",
+    "suggestedText": "Transparência Sesi-SP",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-site > ul > li:nth-of-type(2) > ul > li:nth-of-type(2) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page for Frequently Asked Questions (FAQ).",
+    "leadsTo": "A page titled 'Transparência - Sesi-SP - Serviço Social da Indústria' with the heading 'Transparência Sesi-SP'.",
+    "verdict": "fail",
+    "evidence": "DÚVIDAS FREQUENTES (FAQ)",
+    "problem": "mismatch",
+    "suggestedText": "Transparência Sesi-SP",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-site > ul > li:nth-of-type(2) > ul > li:nth-of-type(3) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A link text 'OUVIDORIA' under the heading 'SAC - Serviço de Atendimento ao Cidadão' suggests it leads to a page for the Ombudsman service.",
+    "leadsTo": "A page titled 'Transparência' which describes the social role of Sesi-SP.",
+    "verdict": "fail",
+    "evidence": "OUVIDORIA",
+    "problem": "mismatch",
+    "suggestedText": "Ouvidoria - Transparência Sesi-SP",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#rodape > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page of frequently asked questions (Perguntas frequentes).",
+    "leadsTo": "A page titled 'Transparência - Sesi-SP - Serviço Social da Indústria' about transparency and social development.",
+    "verdict": "fail",
+    "evidence": "Perguntas frequentes",
+    "problem": "mismatch",
+    "suggestedText": "Página de Transparência",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 46,
+   "judged": 46,
+   "failed": 0,
+   "passed": 38,
+   "cannotTell": 0,
+   "discarded": 7,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #Microsoft_Omnichannel_LCWidget_Chat_Iframe_Window (https://oc-cdn-public-sam.azureedge.net/livechatwidget/v2public/htmls/chatv2.html?data-app-id=866b2482-5f7c-45af-afde-a4fbedac87b9&data-org-id=53772ae7-1fbf-4681-8a8e-af597f1b1d7f&data-org-url=https://unq53772ae71fbf46818a8eaf597f1b1-crm2.omnichannelengagementhub.com&hostname=transparencia.sesisp.or).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 53,
+  "cachedCalls": 0,
+  "inputTokens": 51999,
+  "outputTokens": 6140,
+  "latencyMs": 173069
+ },
+ "timings": {
+  "totalMs": 90784,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 15
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 3130,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1567,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1493,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 80279,
+    "prepareMs": 0,
+    "candidates": 46,
+    "judged": 46,
+    "calls": 46,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 4101,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 3,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 180,
+    "prepareMs": 177,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 16
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 3,
+   "notCaptured": 0,
+   "reasons": {}
+  }
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#Microsoft_Omnichannel_LCWidget_Chat_Iframe_Window",
+     "url": "https://oc-cdn-public-sam.azureedge.net/livechatwidget/v2public/htmls/chatv2.html?data-app-id=866b2482-5f7c-45af-afde-a4fbedac87b9&data-org-id=53772ae7-1fbf-4681-8a8e-af597f1b1d7f&data-org-url=https://unq53772ae71fbf46818a8eaf597f1b1-crm2.omnichannelengagementhub.com&hostname=transparencia.sesisp.or",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  }
+ }
+}

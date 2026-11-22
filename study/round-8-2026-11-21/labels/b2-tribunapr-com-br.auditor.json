@@ -1,0 +1,67 @@
+{
+  "page": "https://www.tribunapr.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p1608c77fddb",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "A news-card thumbnail (not inside the card's link, which is a separate empty overlay <a> with an aria-label) whose alt repeats the h2 headline right below it: 'Um dia depois de temporal, 80,5 mil casas seguem sem luz no Paraná'. The photo (crop and screenshot) shows Copel linemen in bucket trucks repairing power lines. The snapshot gives the image height 0 (lazy loading not finished), but the screenshot from the same capture shows it rendered, so users saw it. The alt names the story the photo illustrates (the power outage after the storm) but does not describe the scene; my reading is that, as a teaser illustration next to its headline, it serves an equivalent purpose and passes 1.1.1, but whether a news photo's alt may be the headline instead of a description of the photo is a point on which competent auditors disagree (some fail it as not conveying the photo, others pass it or only flag the redundancy). The live page has changed since the capture: this card and its image (copel-div) are gone, the story now appears only as a related text link, so I judged from the capture. Uncertain."
+    },
+    {
+      "fingerprint": "pf3482661902",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "An empty overlay link covering the news card, named by aria-label (ARIA8) 'Temporal no Paraná bagunça show de famosos e mulher fica pendurada em tirolesa'. The destination's title and main heading are the same headline, so the name alone gives the link's purpose. No other link in the snapshot shares this name, so R1 does not apply. The live page still has the same card with the same markup and href. The link meets 2.4.4, so Rampa was right to report nothing: false_positive by the rubric's rule for rows with no claim."
+    },
+    {
+      "fingerprint": "p1b7b87ad6c5",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Thumbnail of a sponsored Metrocard card, not inside the card's overlay link. It is a promotional graphic whose large text reads 'O embarque ficou mais simples: Sistema da Metrocard supera 1 milhão de pagamentos por aproximação', plus small, illegible-at-display-size promotional lines (benefit icons, '1 milhão de utilizações'). The alt 'Facilidade no embarque: Metrocard supera 1 milhão de pagamentos por aproximação no transporte coletivo' carries the graphic's main message, which is also the h2 below. The snapshot shows the image at height 0 (lazy loading), but the screenshot shows it rendered at about 273x155 px. The alt conveys what the image is there to say, so it meets 1.1.1; the omitted fine print is decorative detail of the ad. The live page has the same image, alt and card. false_positive (Rampa correctly reported nothing)."
+    },
+    {
+      "fingerprint": "62c123271f4f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "A news-card thumbnail, not inside the card's separate overlay link, with alt equal to the h2 headline below it: 'Homem é condenado a 37 anos de prisão por crime bárbaro que chocou o país'. The crop and screenshot show the facade of a courthouse lettered 'Tribunal do Júri', not a man being sentenced, so the claim is true of the capture. Whether that is a 1.1.1 failure is disputed: the alt names the story the photo illustrates and implies the court setting, so as a teaser illustration it arguably serves an equivalent purpose (my lean is a pass, with the duplicate headline a redundancy issue), but competent auditors also fail news photos whose alt is the headline because the alt conveys nothing of the picture, and others would want alt=\"\" for a redundant teaser image. The live page has changed since the capture: the same story's card is now a no-image card, so the element no longer exists there and I judged from the capture. Uncertain."
+    },
+    {
+      "fingerprint": "p293b0112ab6",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "An empty overlay link covering a 'Tribuna Carros' news card, named by aria-label 'Volkswagen Tempest estreia em janeiro de 2027 com quatro modelos e 174 cv'. The destination's title is the same headline (its first heading is the section name 'Tribuna Carros'), so the name alone gives the link's purpose (ARIA8). No other link in the snapshot shares the name, so R1 does not apply. The live page still has the same card, aria-label and href. It meets 2.4.4: false_positive, Rampa correctly reported nothing."
+    },
+    {
+      "fingerprint": "p6e931b1a0e6",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A news-card thumbnail, not inside the card's overlay link, with alt 'Temporal no Paraná bagunça show de famosos e mulher fica pendurada em tirolesa' (the h2 headline). The crop and screenshot show a woman in a helmet dangling from a zipline against a stormy sky, which the alt states ('mulher fica pendurada em tirolesa'), along with the story context. The alt identifies what the photo shows, so it meets 1.1.1 on either reading of news-photo alternatives; the duplicate headline is a redundancy, not a failure. The live page has the same image, alt and card. false_positive (Rampa correctly reported nothing)."
+    }
+  ]
+}

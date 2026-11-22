@@ -1,0 +1,55 @@
+{
+  "page": "https://www.laphil.com/about-us/contact-us",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "21bac8f25cb2",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the Walt Disney Concert Hall logo, an inline svg in the footer's row of brand logos (LA Phil, YOLA, WDCH, Hollywood Bowl, The Ford). It is not a link and not aria-hidden, and it has no title, aria-label or role: the snapshot exposes it as an image with no name, and the crop reads WALT DISNEY CONCERT HALL. I looked for reasons it might pass. The svg uses a sprite symbol, and the symbol in the live HTML holds only paths, with no title. The footer text next to it ('The LA Phil creates space for artists...') does not name the venue. The venue name does appear as a text link in the header's brand bar about 2600px above, but that is not adjacent text that makes the logo redundant: the logo still tells sighted users which venues belong to the organisation, so it is informative, not pure decoration. 'Hidden from screen readers' is a loose way of saying the image has no name; read in good faith, the claim names the real defect, an informative image with no text alternative. The live HTML and CSS match the snapshot."
+    },
+    {
+      "fingerprint": "a4280b841431",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the Hollywood Bowl logo, an inline svg in the footer's brand-logo row. It is not a link and has no title, aria-label, role or aria-hidden; the snapshot exposes it as an unnamed image, and the crop reads HOLLYWOOD BOWL. I checked for a way it could pass. The live page's sprite symbol (#logo-hollywood-bowl) has no title. The surrounding footer text does not name the venue. A header text link elsewhere on the page names it, but that link is not adjacent and does not make this logo decorative: it is an image of the venue's name that conveys information. So the logo fails 1.1.1 for lack of a text alternative, which is what the claim says once 'hidden from screen readers' is read as 'has no name'. The live markup matches the capture."
+    },
+    {
+      "fingerprint": "ad3c9843960e",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is The Ford's logo, an inline svg in the footer's brand-logo row. The crop shows FORD with 'THE' in the O. It has no title, aria-label, role or aria-hidden, and the snapshot gives it image role with no name; the sprite symbol #logo-the-ford in the live HTML holds no title either. No nearby text says 'The Ford': the footer paragraph is generic, and the header's text link 'The Ford' is in another component, far away, so it does not make this logo redundant. The logo conveys the venue's name and has no text alternative, which fails 1.1.1 and is what the claim names. Live and captured markup are the same."
+    },
+    {
+      "fingerprint": "fba0a7e10adc",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer newsletter email field, whose placeholder reads 'Your Email'. Its only label is a visually hidden span, 'Email', so the placeholder is the only visible text that says what to type. The live stylesheet (style-phil.css) sets .global-newsletter__form input[type=email]::placeholder to rgba(0,0,0,0.3) on a white field. Sampling the screenshot gives #b2b2b2 on #ffffff, 2.12:1, which matches the claim. At 18px bold the text is below the large-text threshold (about 18.67px bold), and it would fail even the 3:1 large-text minimum. Understanding 1.4.3 says the criterion applies to text in the page 'including placeholder text', and placeholder text is not inactive or incidental. No exception applies, and the live CSS matches the capture."
+    },
+    {
+      "fingerprint": "8536512d0951",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer language switcher's 'Español' link to es.laphil.com. The snapshot shows it with no lang attribute; the only lang on the page is html lang=en, so it inherits English. The server HTML has only an empty span.js-weglot, and the site's bundle.js builds this link with text, href and classes but no lang, so the rendered page users get matches the capture. I checked the exceptions. Is a single word a 'passage or phrase'? Understanding 3.1.2 says even an individual word can be subject to the criterion, and the change of language here is clearly intended. Is 'Español' a proper name, or part of the English vernacular? Understanding 3.1.2's own example 'Alternative language links' marks exactly such links with lang, including Español with lang=\"es\". So the link fails 3.1.2, for the reason the claim gives."
+    },
+    {
+      "fingerprint": "sc8cc8d20e1d",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'Terms of Use' link in the cookie consent banner (a fixed banner that Cookiebot injects, present in the snapshot). Taken literally the claim holds: the link text is 'Terms of Use' and the address /terms-of-use/cookie-consent redirects to a page titled 'Cookie Consent — LA Phil'. But the link sits in the sentence 'For details on how we use cookies, see our Terms of Use.', which is programmatically determined context, and that sentence gives the purpose: details on how cookies are used. The destination fits that purpose: I fetched it, and it embeds the Cookiebot cookie declaration. It is also part of the Terms of Use: its address sits under /terms-of-use/, and the live Terms of Use page has a 'Cookie Consent' section that links to this policy. Read with its sentence, the link's purpose can be determined and is accurate, so it meets 2.4.4. Rampa had both the sentence and the destination and judged wrongly. (A separate link '.' in the same sentence points to a hollywoodbowl.devspace.net address; that is another element's problem.) The destination's final URL and title are the same live as in the capture. The banner is injected by script, so I could not compare its markup directly, but nothing suggests it differs."
+    },
+    {
+      "fingerprint": "s6d078227a5c",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h3 'YOLA' in the Contact Us page's 'Learning' section (under h2 'Learning', next to 'General inquiries'). The only content under it is the email link YOLA@laphil.org. YOLA is the name of the LA Phil's youth orchestra program; it appears as a text link in the site's header brand bar and in the footer's 'Get Involved' list. On a contact page, a heading that names the program whose contact address follows describes the topic of that block, which is what 2.4.6 asks. That the acronym is not spelled out is at most a 3.1.4 (AAA) matter, not a 2.4.6 failure. So the claim that the heading says nothing about the content under it is false of the capture, where heading and email visibly match. Rampa had the list item and the h2 in context and judged wrongly. The live HTML has the same h3 and email."
+    }
+  ]
+}

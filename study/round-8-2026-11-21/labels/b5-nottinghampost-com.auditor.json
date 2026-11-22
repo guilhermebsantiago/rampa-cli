@@ -1,0 +1,92 @@
+{
+  "page": "https://www.nottinghampost.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "cddcebba3c7c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the teaser photo of the first NEWS card. It is a standalone img, not inside a link, and its alt repeats the headline of the h3 link right below it. The crop and screenshot show a parked police patrol car on a street: no woman, no open door, no chase, so the claim that the alternative describes something the image does not show is true of the capture. My own reading is that it fails 1.1.1: the alternative neither conveys what the photo shows nor lets assistive technology ignore an illustrative photo (alt=\"\"), and it suggests the picture shows the incident. But the headline used as alt for a news teaser photo is a pattern competent auditors split on: many treat the photo as a supplement to the adjacent headline and the alt as merely redundant (a best-practice issue, like axe's image-redundant-alt), not a 1.1.1 failure. So the label is uncertain. The live homepage, fetched on 2026-11-21 shortly after the capture, serves the same teaser markup (same img, alt and surrounding article), and the screenshot shows the same card, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "pc7f59b66ae4",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the teaser photo of the 'Brutal chant' opinion card in FOOTBALL, a standalone img (not a link) whose alt repeats the card's headline. The crop shows match action between a player in light blue and Bournemouth players in red and black; the alt, about a Nottingham Forest afternoon and a Bournemouth loss, is consistent with what the photo shows (the match it comes from). The OPINION label over the photo is HTML text, not part of the image, so nothing in the image is lost. I lean to a pass, with the alt only redundant with the headline, but headline-as-alt on teaser photos is a pattern competent auditors split on (some fail it as not describing the photo, or as an illustrative image that should be null), so uncertain. The live homepage, fetched on 2026-11-21 shortly after the capture, serves the same teaser markup (same img, alt and surrounding article), and the screenshot shows the same card, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "sce04ff98740",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the premium badge in the 'Burglars targeted new-build housing estates' teaser. The crop shows a green N logo and the word PREMIUM, and the SVG at its src draws those letters. Its alt is \"nottinghampost\", the publication name, which says nothing about the article being a Premium (subscriber) story, and no other text in the card conveys that (the article's text is only the photo alt, the headline and the Courts tag). So the claim, that the alternative names a label and not what the image conveys here, is true of the capture, and the image of text fails 1.1.1 for that reason: its information is lost to screen-reader users. The live homepage, fetched on 2026-11-21 shortly after the capture, serves the same teaser markup (same img, alt and surrounding article), and the screenshot shows the same card, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "seeae088a9ca",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the same premium badge in the 'Loads of stuff started coming out' (Ryan Yates) teaser in FOOTBALL. The image shows the N logo and the word PREMIUM (confirmed in the SVG), while its alt is \"nottinghampost\". Nothing else in the card tells assistive-technology users that the story is Premium, so the alternative does not serve the equivalent purpose and the image fails 1.1.1; the claim points at exactly that. The live homepage, fetched on 2026-11-21 shortly after the capture, serves the same teaser markup (same img, alt and surrounding article), and the screenshot shows the same card, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "1e80558040b7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the teaser photo of the Ryan Yates card in FOOTBALL, a standalone img (not a link) whose alt repeats the adjacent headline. The crop shows Ryan Yates smiling in a Nottingham Forest training top outdoors; the alt's quote and 'speech' are not shown, so the sentence is literally true of the capture. But the alt names the person pictured and his club, which is the main information a portrait conveys, so I lean to a pass, with the alt only redundant with the headline. Headline-as-alt on teaser photos is a pattern competent auditors split on (some fail it as not describing the photo or as an illustrative image that should be null), so uncertain. The live homepage, fetched on 2026-11-21 shortly after the capture, serves the same teaser markup (same img, alt and surrounding article), and the screenshot shows the same card, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "03ee0779daf6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the teaser photo of the 'Nottingham Forest handed big injury boost' card, a standalone img (not a link) whose alt repeats the adjacent headline. The crop shows Forest head coach Oliver Glasner smiling pitch-side (the file name says so too); an injury boost is not something the photo shows and the alt does not identify who is pictured, so the claim is true of the capture. I lean to a 1.1.1 failure, since the alternative neither conveys the photo nor lets it be ignored as illustration, but headline-as-alt for news teaser photos is a pattern competent auditors split on (many treat it as redundant, best practice, not a failure), so uncertain. The live homepage, fetched on 2026-11-21 shortly after the capture, serves the same teaser markup (same img, alt and surrounding article), and the screenshot shows the same card, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "sc5683a46fa2",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the topic tag link 'Arnold' (aria-label Arnold, href all-about/arnold) in the footer of the 'Delighted punters flood into pub reopened' teaser; the heading just before it is that card's h3. It leads to https://www.nottinghampost.com/all-about/arnold, which I opened: its title is 'Arnold news and views' and its h1 is 'Arnold', a topic page for the Nottinghamshire town. The link text names exactly the subject of the page it opens, and Understanding 2.4.4 does not require the page's full title, so its purpose (go to Arnold news) is determinable from the text alone; the claim that the text does not tell where the link goes is therefore not true. No other link on the page is named Arnold, so R1 does not apply. Rampa never read the destination, which would have shown it is the Arnold topic page. The live page serves the same tag link and the screenshot shows the ARNOLD tag under the headline, so the capture does not differ."
+    },
+    {
+      "fingerprint": "p453ca1c3dc5",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the teaser image of the 'Unlock Nottingham Post Premium for less than 50p a week this Black Friday' card, a standalone img (not a link). The crop is a promotional image of text: 'NottinghamshireLive PREMIUM', 'This year's best deal', 'Less than 50p a week', a line on unlimited access and subscriber-only articles, '*T&Cs apply', with Black Friday tape. Its alt, \"Unlock Nottingham Post Premium for less than 50p a week this Black Friday\", conveys the offer that is the image's purpose (Premium, under 50p a week, Black Friday); the omitted lines are supporting promotional copy and fine print, and the card links to the full article. I judge it meets 1.1.1. The live homepage, fetched on 2026-11-21 shortly after the capture, serves the same teaser markup (same img, alt and surrounding article), and the screenshot shows the same card, so the capture does not differ in a way that matters."
+    }
+  ]
+}

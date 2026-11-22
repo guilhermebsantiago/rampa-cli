@@ -1,0 +1,69 @@
+{
+  "page": "https://grupocorpo.com.br/contato/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "c331c8eae740",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the contact form's single name input (type=text, placeholder \"Nome\", screen-only label \"Nome\"), with no autocomplete attribute in the snapshot or in the live HTML, which matches the capture. claimTrue is no: one field labelled \"Nome\", with no \"Sobrenome\" field beside it, asks for the person's name (autocomplete token \"name\"), not specifically the first name, so \"asks for the user's first name\" and the given-name token are wrong. elementFails is yes: the field collects the user's own name in a contact form, and nothing identifies that purpose programmatically (H98 is not met). The claim, read in good faith, still names the real defect, a personal-data field whose purpose is not identified because autocomplete is missing. Only the suggested token is wrong (it should be \"name\"). So the label is true_positive."
+    },
+    {
+      "fingerprint": "9e1ca29695b0",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the required e-mail input (type=email, placeholder and screen-only label \"E-mail\") in the contact form. It has no autocomplete attribute, in the snapshot and in the live HTML alike, so the claim is true of the capture and the capture does not differ. The field collects the user's own e-mail address, a purpose in the 1.3.5 list. type=\"email\" only constrains the format and does not say that the address is the user's, so without autocomplete=\"email\" the purpose cannot be programmatically determined. The claim names that failure, so the label is true_positive."
+    },
+    {
+      "fingerprint": "p572cb51b339",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the footer link \"Corpo Loja\" to https://corpoloja.com.br/, in a list of site links under the visual label \"INFORMAÇÕES\", which is a styled paragraph and not a heading. The link text alone gives its purpose: Corpo Loja is Grupo Corpo's shop, on a site whose brand is \"Corpo\", and the same label appears in the main menu. The live HTML has the same markup. The element meets 2.4.4, so Rampa was right to report nothing and the label is false_positive."
+    },
+    {
+      "fingerprint": "a101694a15c1",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the contact form's telephone input (type=tel, placeholder and screen-only label \"Telefone\", with a pattern and a title about allowed characters). It has no autocomplete attribute in the snapshot or in the live HTML, which match. The field collects the user's own telephone number, a purpose in the 1.3.5 list (\"tel\"). type=\"tel\" sets the keyboard and format, not the purpose, so the purpose cannot be programmatically determined. The claim is true and names that failure, so the label is true_positive."
+    },
+    {
+      "fingerprint": "s823f566d80d",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a social icon link in the Contato block (Facebook glyph, aria-hidden SVG) whose accessible name comes from the screen-only span \"Facebook-f\". It points to https://www.facebook.com/GrupoCorpo/, and the live HTML has the same markup. The name says Facebook. The \"-f\" suffix is the icon font's variant name: it is awkward, but it does not hide the purpose. The link also sits in a list of social links under the page's contact block, so a user can tell it opens the organisation's Facebook page. The claim that the text does not tell where the link goes is therefore not true of the capture, and the element meets 2.4.4. A cleaner name such as \"Facebook\" would be a best-practice fix, not a 2.4.4 failure. The model had the link text and judged it wrongly."
+    },
+    {
+      "fingerprint": "s9eaba034f5d",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the contact form's textarea, labelled \"Mensagem\" by a screen-only label and by its visible placeholder. The live HTML matches the snapshot. In a contact form, \"Mensagem\" (message) clearly describes what to enter, the message to send, so the label describes the field's purpose and the element meets 2.4.6. The label being visually hidden, with only a placeholder shown, could matter for 3.3.2 but not for 2.4.6. The claim is false, and the model judged wrongly with the label in hand."
+    },
+    {
+      "fingerprint": "s1469967f8ee",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the contact form's name input, labelled \"Nome\" by a screen-only label and by its visible placeholder, the same in the live HTML. \"Nome\" (name) clearly says what to enter: the sender's name. The label describes the field's purpose, so the element meets 2.4.6 and the claim is false. Whether a placeholder alone is enough as a visible label is a 3.3.2 question, not this criterion's. The model judged wrongly with the label in hand."
+    },
+    {
+      "fingerprint": "pab356e29b98",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the main-menu link \"Notícias\" to https://grupocorpo.com.br/noticias/, whose page title and heading are \"Notícias\". The text alone gives its purpose, the site's news section, and it sits in the site's navigation list. The live HTML matches the snapshot. The element meets 2.4.4, so Rampa was right to report nothing and the label is false_positive."
+    },
+    {
+      "fingerprint": "299a664cbe4a",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the TranslatePress switcher's option link to the English version, with a decorative flag (alt=\"\") and the text \"English\". The page is lang=\"pt-BR\". Neither the link, its span, nor any ancestor carries a lang attribute, in the snapshot or in the live HTML. Live, the option list is hidden until the switcher is opened, but it is content users reach, and the markup is the same, so the capture does not differ. \"English\" is written in English on purpose, as an endonym for English readers, so the change of language is clearly intended. The single-word allowance in Understanding 3.1.2 does not apply, and a pt-BR synthesizer would read the word with Portuguese rules. H58's test (each element's content is in its inherited language) fails. The claim states exactly this, so the label is true_positive."
+    }
+  ]
+}

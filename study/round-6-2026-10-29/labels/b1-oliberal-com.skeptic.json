@@ -1,0 +1,83 @@
+{
+  "page": "https://www.oliberal.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s57664bb11c7",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h3 \"LIBCLUB+\" on the first card of the \"HUB O LIBERAL\" section, which lists the paper's services. The text under it, inside the same card, is \"Área do assinante com conteúdos exclusivos e benefícios\": it describes LIBCLUB+, so the heading names exactly the topic of its content and the claim that it says nothing about it is false of the capture. Under 2.4.6 a heading that names the product a card is about describes its topic; being a brand name does not make it non-descriptive, and the h2 above (\"HUB O LIBERAL\") frames the h3s as service names. The live server HTML has the same <h3>LIBCLUB+</h3> followed by the same paragraph, and the screenshot shows the card as the snapshot does, so the capture does not differ. The model had the description text and still judged the heading empty."
+    },
+    {
+      "fingerprint": "718efaa9e311",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 56 px logo of the third station in the radio player list, alt \"Castanhal\". The image itself (liberal fm castanhal.jfif, fetched at full size from the same URL) reads \"LIBERAL FM - CASTANHAL | 94.1 Mhz\", so it does show Castanhal and the claim that the alternative describes something the image does not show is false; at the 56 px crop the word is a tiny line, but the src filename and the list item's own text (h3 \"Castanhal\", \"Castanhal FM\") both told the model the same thing. The alt identifies the station the logo stands for, which serves the image's purpose next to text that already names it, so 1.1.1 is met (a fuller alt with the frequency would be nicer, not required). The live HTML has the same img and alt; no capture difference."
+    },
+    {
+      "fingerprint": "s011ec3357ff",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h3 \"LibClassificados\" on the fifth card of \"HUB O LIBERAL\". The paragraph under it, \"Compre, venda e encontre tudo que precisa em um só lugar\", describes the classifieds service the heading names, and \"Classificados\" is a plain Portuguese word for classified ads; the heading therefore describes the topic of its content and the claim is false of the capture. 2.4.6 is met. The live HTML has the same h3 and paragraph and the screenshot matches the snapshot, so the capture does not differ. The model had the description and misjudged."
+    },
+    {
+      "fingerprint": "1bde38b55f4e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a 100x72 thumbnail that is the only content of an <a> to the story \"Carlos relata quadro de obstrução intestinal de Bolsonaro\"; its alt \"Ex-presidente Jair Bolsonaro.\" is the link's whole name, and it names who is pictured rather than the story, so the claim holds of the capture. Read strictly, 1.1.1 asks a control's name to describe its purpose, and this name describes the photo, so I lean to a failure. A concrete reason against it: the same card has a text link with the same href and title (the headline), the whole card is a role=link tabindex=0 wrapper whose name includes the headline, and the alt does name the story's subject; many auditors treat such a duplicated thumbnail link as a redundancy (H2, advisory) or file it under 2.4.4, not as a 1.1.1 failure. Competent auditors would reasonably disagree, so uncertain. The live server HTML has the same structure and alt; no capture difference."
+    },
+    {
+      "fingerprint": "9f4bdcf1c0bd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the 21:9 photo of a young man that is the only content of an <a> to the story \"'Cara de Burro' é assassinado a tiros em Palestina do Pará\"; its alt \"A imagem em destaque mostra a vítima do homicídio.\" is the link's whole name and describes the picture, not the destination, so the claim holds of the capture. On a strict reading of 1.1.1 for controls (name describes purpose) this fails, and I lean that way. Against it: the alt does say the story is about a homicide victim, the headline right under it is a text link with the same href and a title, and the card is a role=link tabindex=0 wrapper named by image plus headline; auditors split on whether a duplicated thumbnail link with a descriptive alt fails 1.1.1 or is only a redundancy/2.4.4 matter. Reasonable disagreement, so uncertain. The live HTML matches the snapshot; no capture difference."
+    },
+    {
+      "fingerprint": "2085e64d7aae",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is the \"Ver Mais\" link (arrow aria-hidden) to /play at the top right of the LibPlay video row. It has no title, aria-label or aria-describedby, it is not inside a paragraph, list item or table cell, and the nearest heading before it is the h2 \"Seja membro LIBCLUB+\" of the subscription banner, which says nothing about /play. The only thing that explains it is the LibPlay logo, a separate sibling link (img alt \"LibPlay Título\") in the same div: a visual title, not a heading, so under this round's context rule it does not count and the link fails 2.4.4. The sentence overstates (\"nothing around it\": that sibling logo link does name LibPlay), hence claimTrue no, but the claim points at the real defect. In the capture the lazy logo had no bounds and is not drawn in the screenshot, while users would see it; since it is a visual label and is in the snapshot's DOM anyway, this does not touch the claim. The live HTML matches."
+    },
+    {
+      "fingerprint": "98f4bc367455",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is the \"Ver Mais\" link to /estudio beside the \"Conteúdo de Marca\" section title. That title is a <p> holding its own link to /estudio, not a heading; the \"Ver Mais\" link is a sibling of that paragraph, not inside it, and has no title, aria-label or aria-describedby. The nearest heading before it is the h3 \"Spray de pimenta gratuito: cerca de 100 mulheres já estão cadastradas\" of the previous video row, which does not explain it. The only explanation is the styled paragraph, a visual label this round does not count, so the link fails 2.4.4 (the section title coded as a <p> is also a 1.3.1 concern). The sentence overstates, since that label is right next to it (claimTrue no), but the claim names the real defect. The live HTML has the same <p><a>Conteúdo de Marca</a></p><a>Ver Mais</a> structure; no capture difference."
+    }
+  ]
+}

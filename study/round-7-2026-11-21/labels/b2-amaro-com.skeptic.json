@@ -1,0 +1,276 @@
+{
+  "page": "https://amaro.com/moda1/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "df5cdbbb9bb3",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-name link of the card for 'Calça Barrel Jeans - Azul Médio'. In the snapshot its children carry CSS order: name 1, price container 2 ('R$329,90'), Pix price 3 ('R$313,41'), PIX5%OFF badge 4, installments 5 ('5 x de R$65,98 sem juros'), while the markup goes price, installments, Pix price, badge; the screenshot shows the regular price first, then the Pix price, the badge and the installments last (so the evidence's on-screen sequence, with the Pix price above the regular price, is itself wrong). claimTrue no: the installments do sit visually under the Pix price and after the regular price in the markup, but nothing makes a screen reader read them 'as part of another section': all of it is inside the same link, in the same price block, and the link's name comes from its aria-label, so most screen readers announce only the product name. elementFails no: 1.3.2 applies only when the sequence affects meaning, and F1's test (remove the CSS, check the meaning is unchanged) passes: the markup order reads the regular price, the installments that divide that same price, then the Pix price and its badge, which is at least as meaningful as the visual order; each item stands on its own. captureDiffers no: the live HTML fetched today has the same card markup in the same order with the same classes, and the screenshot matches the snapshot's order values. The rule treats any visual/DOM order mismatch as a failure, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "9d89e1178a13",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-name link of the card for 'Saia Midi New Statement Sarja - Verde Escuro'. In the snapshot its children carry CSS order: name 1, price container 2 ('R$369,90'), Pix price 3 ('R$351,41'), PIX5%OFF badge 4, installments 5 ('6 x de R$61,65 sem juros'), while the markup goes price, installments, Pix price, badge; the screenshot shows the regular price first, then the Pix price, the badge and the installments last (so the evidence's on-screen sequence, with the Pix price above the regular price, is itself wrong). claimTrue no: the installments do sit visually under the Pix price and after the regular price in the markup, but nothing makes a screen reader read them 'as part of another section': all of it is inside the same link, in the same price block, and the link's name comes from its aria-label, so most screen readers announce only the product name. elementFails no: 1.3.2 applies only when the sequence affects meaning, and F1's test (remove the CSS, check the meaning is unchanged) passes: the markup order reads the regular price, the installments that divide that same price, then the Pix price and its badge, which is at least as meaningful as the visual order; each item stands on its own. captureDiffers no: the live HTML fetched today has the same card markup in the same order with the same classes, and the screenshot matches the snapshot's order values. The rule treats any visual/DOM order mismatch as a failure, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "p0e8f689f431",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A product photo, one slide of the image carousel inside the product's image link (whose own name is its aria-label, the product name). The alt 'Saia Midi New Statement - Caramelo - AMARO' names the product, and the crop shows that product (the caramel leather midi skirt seen from behind). For a product thumbnail the product's name serves the equivalent purpose and also identifies where the link goes, so the image meets 1.1.1; the '- AMARO' suffix, where present, is the brand and harmless. elementFails no. captureDiffers no: the live HTML fetched today has the same img with the same alt in the same link. Rampa correctly reported nothing, so the row is a false positive for a missed failure."
+    },
+    {
+      "fingerprint": "p7c1438cd828",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A product photo, one slide of the image carousel inside the product's image link (whose own name is its aria-label, the product name). The alt 'Saia Midi New Statement - Caramelo' names the product, and the crop shows that product (a model wearing the caramel midi skirt). For a product thumbnail the product's name serves the equivalent purpose and also identifies where the link goes, so the image meets 1.1.1; the '- AMARO' suffix, where present, is the brand and harmless. elementFails no. captureDiffers no: the live HTML fetched today has the same img with the same alt in the same link. Rampa correctly reported nothing, so the row is a false positive for a missed failure."
+    },
+    {
+      "fingerprint": "352eefbb8b24",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-name link of the card for 'Saia Midi New Statement Sarja - Bege'. In the snapshot its children carry CSS order: name 1, price container 2 ('R$369,90'), Pix price 3 ('R$351,41'), PIX5%OFF badge 4, installments 5 ('6 x de R$61,65 sem juros'), while the markup goes price, installments, Pix price, badge; the screenshot shows the regular price first, then the Pix price, the badge and the installments last (so the evidence's on-screen sequence, with the Pix price above the regular price, is itself wrong). claimTrue no: the installments do sit visually under the Pix price and after the regular price in the markup, but nothing makes a screen reader read them 'as part of another section': all of it is inside the same link, in the same price block, and the link's name comes from its aria-label, so most screen readers announce only the product name. elementFails no: 1.3.2 applies only when the sequence affects meaning, and F1's test (remove the CSS, check the meaning is unchanged) passes: the markup order reads the regular price, the installments that divide that same price, then the Pix price and its badge, which is at least as meaningful as the visual order; each item stands on its own. captureDiffers no: the live HTML fetched today has the same card markup in the same order with the same classes, and the screenshot matches the snapshot's order values. The rule treats any visual/DOM order mismatch as a failure, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "7c58c1a2cfdd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The category hero banner (picture > img, not in a link) has alt 'MODA'. The crop and the screenshot show an image of text: 'Crazy Black 70% OFF AMARO + desconto progressivo extra: 2 peças 20% OFF extra, cupom EXTRA20; 3 peças 30%, EXTRA30; 4+ peças 40%, EXTRA40'. claimTrue yes: 'MODA' is the category label (the h1 below repeats it) and says nothing of what the banner conveys. Looking for a way it passes: it is not decorative (it carries offers and coupon codes); the snapshot and the live HTML hold no text with EXTRA20/30/40 or the progressive discount (only the nav's 'Crazy Black AMARO' and an unrelated EXTRA10 bar), so the information is available only in the picture. elementFails yes, the failure the claim names. captureDiffers no: the live HTML fetched today has the same picture, the same desktop and mobile banner files and alt 'MODA'."
+    },
+    {
+      "fingerprint": "bf0a639540ed",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-name link of the card for 'Saia Midi New Statement - Verde Escuro'. In the snapshot its children carry CSS order: name 1, price container 2 ('R$499,90'), Pix price 3 ('R$474,91'), PIX5%OFF badge 4, installments 5 ('6 x de R$83,32 sem juros'), while the markup goes price, installments, Pix price, badge; the screenshot shows the regular price first, then the Pix price, the badge and the installments last (so the evidence's on-screen sequence, with the Pix price above the regular price, is itself wrong). claimTrue no: the installments do sit visually under the Pix price and after the regular price in the markup, but nothing makes a screen reader read them 'as part of another section': all of it is inside the same link, in the same price block, and the link's name comes from its aria-label, so most screen readers announce only the product name. elementFails no: 1.3.2 applies only when the sequence affects meaning, and F1's test (remove the CSS, check the meaning is unchanged) passes: the markup order reads the regular price, the installments that divide that same price, then the Pix price and its badge, which is at least as meaningful as the visual order; each item stands on its own. captureDiffers no: the live HTML fetched today has the same card markup in the same order with the same classes, and the screenshot matches the snapshot's order values. The rule treats any visual/DOM order mismatch as a failure, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "bb0266e22e90",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-name link of the card for 'Suéter Cashmere Deluxe Gola Alta - Areia'. In the snapshot its children carry CSS order: name 1, price container 2 ('R$799,90 R$1.199,90 - 33 %'), Pix price 3 ('R$759,91'), PIX5%OFF badge 4, installments 5 ('6 x de R$133,32 sem juros'), while the markup goes price, installments, Pix price, badge; the screenshot shows the regular price first, then the Pix price, the badge and the installments last (so the evidence's on-screen sequence, with the Pix price above the regular price, is itself wrong). claimTrue no: the installments do sit visually under the Pix price and after the regular price in the markup, but nothing makes a screen reader read them 'as part of another section': all of it is inside the same link, in the same price block, and the link's name comes from its aria-label, so most screen readers announce only the product name. elementFails no: 1.3.2 applies only when the sequence affects meaning, and F1's test (remove the CSS, check the meaning is unchanged) passes: the markup order reads the regular price, the installments that divide that same price, then the Pix price and its badge, which is at least as meaningful as the visual order; each item stands on its own. captureDiffers no: the live HTML fetched today has the same card markup in the same order with the same classes, and the screenshot matches the snapshot's order values. The rule treats any visual/DOM order mismatch as a failure, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "p85c617468e4",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A product photo, one slide of the image carousel inside the product's image link (whose own name is its aria-label, the product name). The alt 'Saia Midi New Statement Jeans Tinturado - Azul Escuro - AMARO' names the product, and the crop shows that product (a model in the dark blue dyed denim midi skirt with a black jacket). For a product thumbnail the product's name serves the equivalent purpose and also identifies where the link goes, so the image meets 1.1.1; the '- AMARO' suffix, where present, is the brand and harmless. elementFails no. captureDiffers no: the live HTML fetched today has the same img with the same alt in the same link. Rampa correctly reported nothing, so the row is a false positive for a missed failure."
+    },
+    {
+      "fingerprint": "s77d305df942",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A product photo, a carousel slide inside the product's image link, whose name comes from its aria-label (the product name). The alt 'Saia Midi New Statement - Verde Escuro na internet' names the product and the crop shows that product (the dark green midi skirt); 'na internet' is an SEO suffix, not a description of something else. claimTrue no: the alternative describes the item the image shows; the stray suffix does not make it describe something absent. elementFails no: 1.1.1 asks for an alternative that serves the equivalent purpose; naming the product does that for a product photo in a listing and also identifies the link's destination (R2's first test). captureDiffers no: the live HTML fetched today has the same alt on the same slide. The model judged the suffix against a stricter standard than the criterion."
+    },
+    {
+      "fingerprint": "65001d1c0f9d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-name link of the card for 'Saia Midi New Statement - Caramelo'. In the snapshot its children carry CSS order: name 1, price container 2 ('R$499,90'), Pix price 3 ('R$474,91'), PIX5%OFF badge 4, installments 5 ('6 x de R$83,32 sem juros'), while the markup goes price, installments, Pix price, badge; the screenshot shows the regular price first, then the Pix price, the badge and the installments last (so the evidence's on-screen sequence, with the Pix price above the regular price, is itself wrong). claimTrue no: the installments do sit visually under the Pix price and after the regular price in the markup, but nothing makes a screen reader read them 'as part of another section': all of it is inside the same link, in the same price block, and the link's name comes from its aria-label, so most screen readers announce only the product name. elementFails no: 1.3.2 applies only when the sequence affects meaning, and F1's test (remove the CSS, check the meaning is unchanged) passes: the markup order reads the regular price, the installments that divide that same price, then the Pix price and its badge, which is at least as meaningful as the visual order; each item stands on its own. captureDiffers no: the live HTML fetched today has the same card markup in the same order with the same classes, and the screenshot matches the snapshot's order values. The rule treats any visual/DOM order mismatch as a failure, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "6526d9ff0af5",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-name link of the card for 'Saia Midi New Statement Jeans Tinturado - Azul Escuro'. In the snapshot its children carry CSS order: name 1, price container 2 ('R$369,90'), Pix price 3 ('R$351,41'), PIX5%OFF badge 4, installments 5 ('6 x de R$61,65 sem juros'), while the markup goes price, installments, Pix price, badge; the screenshot shows the regular price first, then the Pix price, the badge and the installments last (so the evidence's on-screen sequence, with the Pix price above the regular price, is itself wrong). claimTrue no: the installments do sit visually under the Pix price and after the regular price in the markup, but nothing makes a screen reader read them 'as part of another section': all of it is inside the same link, in the same price block, and the link's name comes from its aria-label, so most screen readers announce only the product name. elementFails no: 1.3.2 applies only when the sequence affects meaning, and F1's test (remove the CSS, check the meaning is unchanged) passes: the markup order reads the regular price, the installments that divide that same price, then the Pix price and its badge, which is at least as meaningful as the visual order; each item stands on its own. captureDiffers no: the live HTML fetched today has the same card markup in the same order with the same classes, and the screenshot matches the snapshot's order values. The rule treats any visual/DOM order mismatch as a failure, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "55403999da11",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-name link of the card for 'Calça Wideleg Jeans - Azul Claro'. In the snapshot its children carry CSS order: name 1, price container 2 ('R$329,90'), Pix price 3 ('R$313,41'), PIX5%OFF badge 4, installments 5 ('5 x de R$65,98 sem juros'), while the markup goes price, installments, Pix price, badge; the screenshot shows the regular price first, then the Pix price, the badge and the installments last (so the evidence's on-screen sequence, with the Pix price above the regular price, is itself wrong). claimTrue no: the installments do sit visually under the Pix price and after the regular price in the markup, but nothing makes a screen reader read them 'as part of another section': all of it is inside the same link, in the same price block, and the link's name comes from its aria-label, so most screen readers announce only the product name. elementFails no: 1.3.2 applies only when the sequence affects meaning, and F1's test (remove the CSS, check the meaning is unchanged) passes: the markup order reads the regular price, the installments that divide that same price, then the Pix price and its badge, which is at least as meaningful as the visual order; each item stands on its own. captureDiffers no: the live HTML fetched today has the same card markup in the same order with the same classes, and the screenshot matches the snapshot's order values. The rule treats any visual/DOM order mismatch as a failure, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "p6fb2253a2f0",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A product photo, one slide of the image carousel inside the product's image link (whose own name is its aria-label, the product name). The alt 'Saia Midi New Statement Jeans - Azul Escuro' names the product, and the crop shows that product (a model wearing the dark blue denim midi skirt). For a product thumbnail the product's name serves the equivalent purpose and also identifies where the link goes, so the image meets 1.1.1; the '- AMARO' suffix, where present, is the brand and harmless. elementFails no. captureDiffers no: the live HTML fetched today has the same img with the same alt in the same link. Rampa correctly reported nothing, so the row is a false positive for a missed failure."
+    },
+    {
+      "fingerprint": "512e3f0a2d32",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-name link of the card for 'Blazer Oversized Acinturado - Marrom'. In the snapshot its children carry CSS order: name 1, price container 2 ('R$459,90 R$799,90 - 43 %'), Pix price 3 ('R$436,91'), PIX5%OFF badge 4, installments 5 ('6 x de R$76,65 sem juros'), while the markup goes price, installments, Pix price, badge; the screenshot shows the regular price first, then the Pix price, the badge and the installments last (so the evidence's on-screen sequence, with the Pix price above the regular price, is itself wrong). claimTrue no: the installments do sit visually under the Pix price and after the regular price in the markup, but nothing makes a screen reader read them 'as part of another section': all of it is inside the same link, in the same price block, and the link's name comes from its aria-label, so most screen readers announce only the product name. elementFails no: 1.3.2 applies only when the sequence affects meaning, and F1's test (remove the CSS, check the meaning is unchanged) passes: the markup order reads the regular price, the installments that divide that same price, then the Pix price and its badge, which is at least as meaningful as the visual order; each item stands on its own. captureDiffers no: the live HTML fetched today has the same card markup in the same order with the same classes, and the screenshot matches the snapshot's order values. The rule treats any visual/DOM order mismatch as a failure, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "5c7958b5b121",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-name link of the card for 'Calça Wideleg de Sarja - Caramelo'. In the snapshot its children carry CSS order: name 1, price container 2 ('R$189,90 R$289,90 - 34 %'), Pix price 3 ('R$180,41'), PIX5%OFF badge 4, installments 5 ('3 x de R$63,30 sem juros'), while the markup goes price, installments, Pix price, badge; the screenshot shows the regular price first, then the Pix price, the badge and the installments last (so the evidence's on-screen sequence, with the Pix price above the regular price, is itself wrong). claimTrue no: the installments do sit visually under the Pix price and after the regular price in the markup, but nothing makes a screen reader read them 'as part of another section': all of it is inside the same link, in the same price block, and the link's name comes from its aria-label, so most screen readers announce only the product name. elementFails no: 1.3.2 applies only when the sequence affects meaning, and F1's test (remove the CSS, check the meaning is unchanged) passes: the markup order reads the regular price, the installments that divide that same price, then the Pix price and its badge, which is at least as meaningful as the visual order; each item stands on its own. captureDiffers no: the live HTML fetched today has the same card markup in the same order with the same classes, and the screenshot matches the snapshot's order values. The rule treats any visual/DOM order mismatch as a failure, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "dab531b094c4",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-name link of the card for 'Calça Aladim de Chiffon - Marrom'. In the snapshot its children carry CSS order: name 1, price container 2 ('R$139,90 R$469,90 - 70 %'), Pix price 3 ('R$132,91'), PIX5%OFF badge 4, installments 5 ('2 x de R$69,95 sem juros'), while the markup goes price, installments, Pix price, badge; the screenshot shows the regular price first, then the Pix price, the badge and the installments last (so the evidence's on-screen sequence, with the Pix price above the regular price, is itself wrong). claimTrue no: the installments do sit visually under the Pix price and after the regular price in the markup, but nothing makes a screen reader read them 'as part of another section': all of it is inside the same link, in the same price block, and the link's name comes from its aria-label, so most screen readers announce only the product name. elementFails no: 1.3.2 applies only when the sequence affects meaning, and F1's test (remove the CSS, check the meaning is unchanged) passes: the markup order reads the regular price, the installments that divide that same price, then the Pix price and its badge, which is at least as meaningful as the visual order; each item stands on its own. captureDiffers no: the live HTML fetched today has the same card markup in the same order with the same classes, and the screenshot matches the snapshot's order values. The rule treats any visual/DOM order mismatch as a failure, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "se4ea918ae07",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A product photo, a carousel slide inside the product's image link, whose name comes from its aria-label (the product name). The alt 'Saia Midi New Statement - Caramelo na internet' names the product and the crop shows that product (the caramel midi skirt); 'na internet' is an SEO suffix, not a description of something else. claimTrue no: the alternative describes the item the image shows; the stray suffix does not make it describe something absent. elementFails no: 1.1.1 asks for an alternative that serves the equivalent purpose; naming the product does that for a product photo in a listing and also identifies the link's destination (R2's first test). captureDiffers no: the live HTML fetched today has the same alt on the same slide. The model judged the suffix against a stricter standard than the criterion."
+    },
+    {
+      "fingerprint": "39fa10058a15",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-name link of the card for 'Saia Midi New Statement Jeans - Azul Escuro'. In the snapshot its children carry CSS order: name 1, price container 2 ('R$369,90'), Pix price 3 ('R$351,41'), PIX5%OFF badge 4, installments 5 ('6 x de R$61,65 sem juros'), while the markup goes price, installments, Pix price, badge; the screenshot shows the regular price first, then the Pix price, the badge and the installments last (so the evidence's on-screen sequence, with the Pix price above the regular price, is itself wrong). claimTrue no: the installments do sit visually under the Pix price and after the regular price in the markup, but nothing makes a screen reader read them 'as part of another section': all of it is inside the same link, in the same price block, and the link's name comes from its aria-label, so most screen readers announce only the product name. elementFails no: 1.3.2 applies only when the sequence affects meaning, and F1's test (remove the CSS, check the meaning is unchanged) passes: the markup order reads the regular price, the installments that divide that same price, then the Pix price and its badge, which is at least as meaningful as the visual order; each item stands on its own. captureDiffers no: the live HTML fetched today has the same card markup in the same order with the same classes, and the screenshot matches the snapshot's order values. The rule treats any visual/DOM order mismatch as a failure, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "924a7cc1c375",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-name link of the card for 'Suéter Cashmere Deluxe Gola Alta - Cinza Mescla Escuro'. In the snapshot its children carry CSS order: name 1, price container 2 ('R$799,90 R$1.199,90 - 33 %'), Pix price 3 ('R$759,91'), PIX5%OFF badge 4, installments 5 ('6 x de R$133,32 sem juros'), while the markup goes price, installments, Pix price, badge; the screenshot shows the regular price first, then the Pix price, the badge and the installments last (so the evidence's on-screen sequence, with the Pix price above the regular price, is itself wrong). claimTrue no: the installments do sit visually under the Pix price and after the regular price in the markup, but nothing makes a screen reader read them 'as part of another section': all of it is inside the same link, in the same price block, and the link's name comes from its aria-label, so most screen readers announce only the product name. elementFails no: 1.3.2 applies only when the sequence affects meaning, and F1's test (remove the CSS, check the meaning is unchanged) passes: the markup order reads the regular price, the installments that divide that same price, then the Pix price and its badge, which is at least as meaningful as the visual order; each item stands on its own. captureDiffers no: the live HTML fetched today has the same card markup in the same order with the same classes, and the screenshot matches the snapshot's order values. The rule treats any visual/DOM order mismatch as a failure, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "c54b5bc6a920",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-name link of the card for 'Saia Midi New Statement - Bege'. In the snapshot its children carry CSS order: name 1, price container 2 ('R$499,90'), Pix price 3 ('R$474,91'), PIX5%OFF badge 4, installments 5 ('6 x de R$83,32 sem juros'), while the markup goes price, installments, Pix price, badge; the screenshot shows the regular price first, then the Pix price, the badge and the installments last (so the evidence's on-screen sequence, with the Pix price above the regular price, is itself wrong). claimTrue no: the installments do sit visually under the Pix price and after the regular price in the markup, but nothing makes a screen reader read them 'as part of another section': all of it is inside the same link, in the same price block, and the link's name comes from its aria-label, so most screen readers announce only the product name. elementFails no: 1.3.2 applies only when the sequence affects meaning, and F1's test (remove the CSS, check the meaning is unchanged) passes: the markup order reads the regular price, the installments that divide that same price, then the Pix price and its badge, which is at least as meaningful as the visual order; each item stands on its own. captureDiffers no: the live HTML fetched today has the same card markup in the same order with the same classes, and the screenshot matches the snapshot's order values. The rule treats any visual/DOM order mismatch as a failure, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "0c4312ec12bf",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-name link of the card for 'Blazer Oversized de Viscose - Marrom'. In the snapshot its children carry CSS order: name 1, price container 2 ('R$449,90 R$799,90 - 44 %'), Pix price 3 ('R$427,41'), PIX5%OFF badge 4, installments 5 ('6 x de R$74,98 sem juros'), while the markup goes price, installments, Pix price, badge; the screenshot shows the regular price first, then the Pix price, the badge and the installments last (so the evidence's on-screen sequence, with the Pix price above the regular price, is itself wrong). claimTrue no: the installments do sit visually under the Pix price and after the regular price in the markup, but nothing makes a screen reader read them 'as part of another section': all of it is inside the same link, in the same price block, and the link's name comes from its aria-label, so most screen readers announce only the product name. elementFails no: 1.3.2 applies only when the sequence affects meaning, and F1's test (remove the CSS, check the meaning is unchanged) passes: the markup order reads the regular price, the installments that divide that same price, then the Pix price and its badge, which is at least as meaningful as the visual order; each item stands on its own. captureDiffers no: the live HTML fetched today has the same card markup in the same order with the same classes, and the screenshot matches the snapshot's order values. The rule treats any visual/DOM order mismatch as a failure, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "s3cc9b9b2536",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A product photo, a carousel slide inside the product's image link, whose name comes from its aria-label (the product name). The alt 'Saia Midi New Statement Jeans Tinturado - Azul Escuro na internet' names the product and the crop shows that product (a model in the dark blue denim midi skirt); 'na internet' is an SEO suffix, not a description of something else. claimTrue no: the alternative describes the item the image shows; the stray suffix does not make it describe something absent. elementFails no: 1.1.1 asks for an alternative that serves the equivalent purpose; naming the product does that for a product photo in a listing and also identifies the link's destination (R2's first test). captureDiffers no: the live HTML fetched today has the same alt on the same slide. The model judged the suffix against a stricter standard than the criterion."
+    },
+    {
+      "fingerprint": "pff0642b9467",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The image link of the first product card. Its accessible name comes from aria-label 'Saia Midi New Statement Jeans Tinturado - Azul Escuro' (title the same), which names the product, and the destination is that product's page (heading identical). The only other link with that name is the card's text link to the same URL, so no pair leads to non-equivalent resources. The purpose is clear from the link text alone: 2.4.4 is met, elementFails no. captureDiffers no: the live HTML has the same link and aria-label. Rampa correctly reported nothing."
+    },
+    {
+      "fingerprint": "9f7031019085",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-name link of the card for 'Calça Jeans Baggy com Pregas - Jeans'. In the snapshot its children carry CSS order: name 1, price container 2 ('R$189,90 R$289,90 - 34 %'), Pix price 3 ('R$180,41'), PIX5%OFF badge 4, installments 5 ('3 x de R$63,30 sem juros'), while the markup goes price, installments, Pix price, badge; the screenshot shows the regular price first, then the Pix price, the badge and the installments last (so the evidence's on-screen sequence, with the Pix price above the regular price, is itself wrong). claimTrue no: the installments do sit visually under the Pix price and after the regular price in the markup, but nothing makes a screen reader read them 'as part of another section': all of it is inside the same link, in the same price block, and the link's name comes from its aria-label, so most screen readers announce only the product name. elementFails no: 1.3.2 applies only when the sequence affects meaning, and F1's test (remove the CSS, check the meaning is unchanged) passes: the markup order reads the regular price, the installments that divide that same price, then the Pix price and its badge, which is at least as meaningful as the visual order; each item stands on its own. captureDiffers no: the live HTML fetched today has the same card markup in the same order with the same classes, and the screenshot matches the snapshot's order values. The rule treats any visual/DOM order mismatch as a failure, a stricter test than 1.3.2."
+    }
+  ]
+}
