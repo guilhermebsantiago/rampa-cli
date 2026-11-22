@@ -77,6 +77,47 @@ describe('honeypot fields', () => {
     expect(JSON.stringify(candidates.map((c) => c.context))).not.toContain('Leave this empty')
   })
 
+  it('recognizes a field out of sight whose wrapper is marked as a trap, as form plugins build it', () => {
+    // Modeled on round 8's Gravity Forms trap: a "Company" field at -9999 px, in the tab order, with a plain name.
+    const company = input('#input_1_4', 'Company', { id: 'input_1_4', name: 'input_4', type: 'text', autocomplete: 'new-password' }, {
+      states: ['offscreen', 'focusable'],
+      bounds: { x: -9999, y: 5926, width: 177, height: 21 },
+    })
+    const inner = node({ ref: '#field_1_4 > div', native: { tag: 'div', attributes: { class: 'ginput_container' } }, children: [company] })
+    const wrapper = node({ ref: '#field_1_4', native: { tag: 'div', attributes: { id: 'field_1_4', class: 'gfield gfield--type-honeypot gform_validation_container' } }, children: [inner] })
+    expect(isHoneypot(company)).toBe(false)
+    expect(isHoneypot(company, [inner, wrapper])).toBe(true)
+    // WPForms marks its wrapper with an "hp" word.
+    expect(isHoneypot(company, [node({ ref: 'div.wp', native: { tag: 'div', attributes: { class: 'wpforms-field wpforms-field-hp' } } })])).toBe(true)
+    // A visible field in such a wrapper is one people fill in.
+    expect(isHoneypot(input('#shown', 'Company', { name: 'company' }), [inner, wrapper])).toBe(false)
+    // An ordinary wrapper, or a mark too far up, says nothing.
+    const plain = node({ ref: 'div.row', native: { tag: 'div', attributes: { class: 'row form-group' } } })
+    expect(isHoneypot(company, [inner, plain])).toBe(false)
+    expect(isHoneypot(company, [inner, plain, plain, wrapper])).toBe(false)
+
+    const snapshot: A11ySnapshot = {
+      ...contactForm(),
+      root: node({
+        ref: 'html',
+        role: 'document',
+        lang: 'en',
+        children: [
+          node({
+            ref: 'form',
+            role: 'form',
+            native: { tag: 'form' },
+            children: [input('#email', 'Email', { id: 'email', type: 'email', name: 'email' }), wrapper, node({ ref: 'button', role: 'button', name: 'Subscribe', native: { tag: 'button' }, bounds: onScreen })],
+          }),
+        ],
+      }),
+    }
+    // 1.3.5 leaves the trap out of its candidates; the other fields listed for the email stay as the form has them.
+    const candidates = identifyInputPurpose.candidates(snapshot, noFindings)
+    expect(candidates.map((c) => c.ref)).toEqual(['#email'])
+    expect(candidates[0]?.context.otherFields).toEqual(['Company'])
+  })
+
   it('3.3.2 leaves the trap out of its candidates', () => {
     const refs = labelsOrInstructions.candidates(contactForm(), noFindings).map((c) => c.ref)
     expect(refs).toContain('#email')

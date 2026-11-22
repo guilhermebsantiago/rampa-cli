@@ -123,6 +123,65 @@ describe('1.3.5 with Chromium form issues and words for someone else', () => {
     const own = identifyInputPurpose.candidates(page([form([field('#email', 'Email', { type: 'email' })], 'Your details')]), NO_ENGINE)
     expect(own.map((c) => identifyInputPurpose.confidenceCap?.(c))).toEqual([undefined])
   })
+
+  const button = (name: string) => node({ ref: `button-${name}`, role: 'button', name, native: { tag: 'button' } })
+  const select = node({
+    ref: '#profession',
+    role: 'combobox',
+    name: 'Choose a profession',
+    native: { tag: 'select', attributes: { id: 'profession' } },
+    children: ['Dietitian', 'Paramedic'].map((name) => node({ ref: `option-${name}`, name, native: { tag: 'option' } })),
+  })
+
+  it('keeps a fail below the threshold in a form that looks people or records up', () => {
+    // Modeled on round 8's register searches: the names are a registered doctor's, the profession a registrant's.
+    const register = page([form([field('#first', 'First name', {}), field('#last', 'Last name', {}), button('Search registered doctors')])])
+    const candidates = identifyInputPurpose.candidates(register, NO_ENGINE)
+    expect(candidates.map((c) => c.context.lookup)).toEqual(['Search registered doctors', 'Search registered doctors'])
+    expect(candidates.map((c) => identifyInputPurpose.confidenceCap?.(c))).toEqual(['low', 'low'])
+    const [profession] = identifyInputPurpose.candidates(page([form([select, button('Search')])]), NO_ENGINE)
+    expect(profession?.context.lookup).toBe('Search')
+    const [servant] = identifyInputPurpose.candidates(page([form([field('#servidor', 'Nome do servidor', {}), button('Pesquisar')])]), NO_ENGINE)
+    expect(servant?.context.lookup).toBe('Pesquisar')
+    // The cap reads the form; the model's question about the field is the same as before.
+    const first = candidates[0]!
+    expect(identifyInputPurpose.prompt(first, register)).toEqual(identifyInputPurpose.prompt({ ...first, context: { ...first.context, lookup: undefined } }, register))
+  })
+
+  it('does not take a form that asks for an email, telephone, password or message as a search', () => {
+    // A page wrapped in one form element holds the site search's button and a contact form together.
+    const contact = page([form([button('Search'), field('#name', 'Name', {}), field('#email', 'Email', { type: 'email' })])])
+    expect(identifyInputPurpose.candidates(contact, NO_ENGINE).map((c) => c.context.lookup)).toEqual([undefined, undefined])
+    const signIn = page([form([field('#user', 'Username', {}), field('#password', 'Password', { type: 'password' }), button('Find my account')])])
+    expect(identifyInputPurpose.candidates(signIn, NO_ENGINE).map((c) => c.context.lookup)).toEqual([undefined, undefined])
+    // A search word later in the button's name is not a search button.
+    const newsletter = page([form([field('#name', 'Your name', {}), button('Sign up to search jobs')])])
+    expect(identifyInputPurpose.candidates(newsletter, NO_ENGINE).map((c) => identifyInputPurpose.confidenceCap?.(c))).toEqual([undefined])
+  })
+
+  it('reads the submit buttons closest to the field, by the name the browser gives them', () => {
+    const block = (ref: string, children: A11yNode[]) => node({ ref, native: { tag: 'div' }, children })
+    // An ASP.NET page is one form: the site search, a register search and a callback form share it.
+    const submit = (ref: string, name: string) =>
+      node({ ref, role: 'button', native: { tag: 'input', attributes: { type: 'submit' } }, ax: { role: 'button', name, nameFrom: 'value' } })
+    const wholePage = page([
+      form([
+        block('header', [field('#q', 'Search the site', {}), submit('#go', 'Search')]),
+        block('register', [field('#forename', 'Forename', {}), field('#surname', 'Surname', {}), submit('#find', 'SEARCH REGISTERED DOCTORS')]),
+        // The telephone field is a plain text input, as many are; the block's own button is what tells it apart.
+        block('callback', [field('#name', 'Your name', {}), field('#phone', 'Phone number', {}), node({ ref: 'send', role: 'button', name: 'Call me back', native: { tag: 'button' } })]),
+      ]),
+    ])
+    const lookups = Object.fromEntries(identifyInputPurpose.candidates(wholePage, NO_ENGINE).map((c) => [c.ref, c.context.lookup]))
+    expect(lookups).toEqual({ '#q': 'Search', '#forename': 'SEARCH REGISTERED DOCTORS', '#surname': 'SEARCH REGISTERED DOCTORS', '#name': undefined, '#phone': undefined })
+    // A button that only clears or toggles does not submit: the search button further up still counts.
+    const clear = node({ ref: 'clear', role: 'button', name: 'Clear', native: { tag: 'button', attributes: { type: 'button' } } })
+    const [surname] = identifyInputPurpose.candidates(page([form([block('row', [field('#s', 'Surname', {}), clear]), button('Search')])]), NO_ENGINE)
+    expect(surname?.context.lookup).toBe('Search')
+    // Buttons that do not all search are not a search form's.
+    const mixed = page([form([field('#first', 'First name', {}), button('Search'), button('Save')])])
+    expect(identifyInputPurpose.candidates(mixed, NO_ENGINE).map((c) => c.context.lookup)).toEqual([undefined])
+  })
 })
 
 const browser = await launchBrowser().catch(() => undefined)

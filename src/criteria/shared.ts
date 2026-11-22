@@ -43,16 +43,28 @@ export function inertRefs(root: A11yNode): Set<string> {
  * A spam trap: a field placed out of sight (outside the page area, or squeezed to a pixel or less)
  * that is also out of the tab order or named like a trap ("honeypot", "hp", "website").
  * It is not meant for people, so asking for a token or a visible label would spring or show the trap.
+ * Given the field's ancestors, nearest first, a field out of sight inside a container whose class or id
+ * names a trap counts too: form plugins mark the wrapper, not the field (Gravity Forms' `gfield--type-honeypot`).
  */
-export function isHoneypot(node: A11yNode): boolean {
+export function isHoneypot(node: A11yNode, ancestors: readonly A11yNode[] = []): boolean {
   const bounds = node.bounds
   const outOfSight = node.states.includes('offscreen') || (bounds !== undefined && (bounds.width <= 1 || bounds.height <= 1))
   if (!outOfSight) return false
   const attributes = attributesOf(node)
   if (attributes.tabindex?.trim() === '-1') return true
   const words = `${attributes.name ?? ''} ${attributes.id ?? ''}`.toLowerCase().split(/[^a-z0-9]+/)
-  return words.some((word) => word === 'hp' || word === 'website' || word.includes('honey'))
+  if (words.some((word) => word === 'hp' || word === 'website' || word.includes('honey'))) return true
+  return [node, ...ancestors.slice(0, TRAP_CONTAINER_DEPTH)].some((holder) => {
+    const marks = attributesOf(holder)
+    return `${marks.class ?? ''} ${marks.id ?? ''}`
+      .toLowerCase()
+      .split(/[^a-z0-9]+/)
+      .some((word) => word === 'hp' || word.includes('honeypot'))
+  })
 }
+
+/** How many containers up a trap's mark is looked for: plugins wrap the field in one or two elements. */
+const TRAP_CONTAINER_DEPTH = 3
 
 /** Everything a person reads in a subtree: text, and the names of images, in document order. */
 export function subtreeText(node: A11yNode): string {

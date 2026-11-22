@@ -2,6 +2,7 @@ import { z } from 'zod'
 import type { Candidate, Criterion, EngineResults, Patch, Verification } from '../core/types.ts'
 import { dataBlock, tagged, truncate } from '../core/util.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
+import { exposedName } from '../snapshot/ax.ts'
 import { type TreeIndex, indexTree, walkTree } from '../snapshot/tree.ts'
 import {
   type AutocompleteValue,
@@ -74,6 +75,12 @@ export interface IdentifyInputPurposeContext {
   formIssues?: AutocompleteIssue[] | undefined
   /** A word around the field that names someone else's data ("recipient", "destinatário"): a fail stays below the threshold. */
   someoneElse?: string | undefined
+  /**
+   * The search button ("Search", "Pesquisar") that submits the field, when the part of the form it submits asks for no
+   * email, telephone, password or message: its fields describe what to look up, such as a registered doctor's name, so a
+   * fail stays below the threshold.
+   */
+  lookup?: string | undefined
 }
 
 const SYSTEM = `You check exactly one WCAG 2.1 success criterion: 1.3.5 Identify Input Purpose (Level AA).
@@ -121,6 +128,9 @@ export const identifyInputPurpose: Criterion<IdentifyInputPurposeContext, Identi
       if (node.role === 'heading' && node.name?.trim() && !isHidden(node) && !node.states.includes('offscreen')) heading = node.name.trim()
       const field = fieldOf(node)
       if (!field || failed.has(node.ref)) continue
+      // A trap marked on its wrapper (shared.ts isHoneypot). Checked on the field alone: the lists of other fields keep
+      // what fieldOf keeps, so the prompts of the fields around it stay the same.
+      if (isHoneypot(node, ancestors(index, node))) continue
       const attributes = attributesOf(node)
       const placeholder = attributes.placeholder?.trim() || undefined
       // A field with neither a name nor a placeholder is the engine's (label rule); there is nothing to read.
@@ -149,16 +159,17 @@ export const identifyInputPurpose: Criterion<IdentifyInputPurposeContext, Identi
         .filter((line) => line !== undefined)
         .join('\n')
       const someoneElse = someoneElseWord([label, placeholder, legend, heading])
+      const lookup = form ? lookupButton(index, node, form) : undefined
       candidates.push({
         ref: node.ref,
-        context: { label, placeholder, control: field, autocomplete, startTag: startTagOf(node), otherFields: others, facts, formIssues, someoneElse },
+        context: { label, placeholder, control: field, autocomplete, startTag: startTagOf(node), otherFields: others, facts, formIssues, someoneElse, lookup },
       })
     }
     return candidates
   },
 
-  // Whose data a field holds is the judgment most often wrong; words for another person keep a fail for review.
-  confidenceCap: (candidate) => (candidate.context.someoneElse ? 'low' : undefined),
+  // Whose data a field holds is the judgment most often wrong; words for another person, or a search form, keep a fail for review.
+  confidenceCap: (candidate) => (candidate.context.someoneElse || candidate.context.lookup ? 'low' : undefined),
 
   prompt(candidate, snapshot) {
     const c = candidate.context
@@ -302,6 +313,59 @@ function buttonNames(form: A11yNode): string[] {
     if (names.length >= 3) break
   }
   return names
+}
+
+/** Words a search button's name starts with: the form looks something up. */
+const SEARCH_WORDS = new Set([
+  // en
+  'search', 'find', 'lookup',
+  // pt
+  'buscar', 'busca', 'pesquisar', 'procurar', 'consultar', 'localizar',
+  // es
+  'búsqueda', 'buscador',
+])
+/** Fields only a form about the user asks for: a search form that has one is a contact or sign-in form too. */
+const OWN_DATA_CONTROLS = new Set(['email', 'tel', 'password', 'textarea'])
+
+/**
+ * The search button that submits the field: the named submit buttons of the closest container around the field that has
+ * any, up to its form, all with a name that starts with a search word ("Search registered doctors", "Look up"). Undefined
+ * when they are not all search buttons, or when that container holds a field of a kind only a form about the user asks
+ * for. The name is the browser's, so an `<input type="submit">` named by its value counts.
+ */
+function lookupButton(index: TreeIndex, node: A11yNode, form: A11yNode): string | undefined {
+  for (const scope of ancestors(index, node)) {
+    const names = submitNames(scope)
+    if (names.length > 0) {
+      if (!names.every(isSearchName)) return undefined
+      for (const inside of walkTree(scope)) {
+        const control = fieldOf(inside)
+        if (control && OWN_DATA_CONTROLS.has(control)) return undefined
+      }
+      return names[0]
+    }
+    if (scope === form) return undefined
+  }
+  return undefined
+}
+
+/** The names of the shown buttons inside a container that submit a form: a `<button>` of type submit, an input of type submit or image. */
+function submitNames(container: A11yNode): string[] {
+  const names: string[] = []
+  for (const node of walkTree(container)) {
+    if (node.role !== 'button' || isHidden(node)) continue
+    const tag = node.native.tag
+    const type = attributesOf(node).type?.trim().toLowerCase()
+    const submits = tag === 'button' ? type === undefined || type === '' || type === 'submit' : tag === 'input' && (type === 'submit' || type === 'image')
+    const name = exposedName(node)?.trim()
+    if (submits && name) names.push(name)
+  }
+  return names
+}
+
+function isSearchName(name: string): boolean {
+  const words = name.toLowerCase().split(/[^\p{L}\p{N}]+/u).filter((word) => word !== '')
+  return SEARCH_WORDS.has(words[0] ?? '') || (words[0] === 'look' && words[1] === 'up')
 }
 
 function optionsOf(select: A11yNode): string | undefined {
