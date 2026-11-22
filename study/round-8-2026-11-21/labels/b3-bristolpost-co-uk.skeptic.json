@@ -1,0 +1,93 @@
+{
+  "page": "https://www.bristolpost.co.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "pc7f59b66ae4",
+      "answers": {
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the teaser photo for the opinion piece 'Bristol City player ratings vs Middlesbrough...'. The crop shows a Bristol City player and a Middlesbrough player contesting the ball, with an OPINION label that is HTML text beside the img, not part of the image. Its alt repeats the headline word for word and describes none of the photo. The image is not inside a link: it sits in the teaser's cover wrapper, and the headline is a separate h3 link right after it with the same text. Competent auditors split on teaser photos whose alt repeats the headline: one reading takes the photo as illustrative, so the alt should describe it, and the headline does not; a second takes it as redundant or decorative, which calls for alt=\"\" (F38 fails any non-null alt on a purely decorative img); a third holds that the alt still serves the photo's purpose in a teaser (saying which story it illustrates) and that the repetition is a redundancy issue (axe treats it as best practice), not a 1.1.1 failure. The evidence does not settle which reading applies, so elementFails is cannot_tell and the label is uncertain. The live page (fetched 2026-11-21) serves the same img, alt and teaser markup, and the screenshot is a styled render, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "se5b1791e9cd",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the publisher logo at the top of the InMobi/Quantcast consent dialog (role dialog, 'Privacy'). The crop shows the 'BristolLive' wordmark, so the image is a publisher logo and the claim's sentence (it 'describes something the image does not show') is false of the capture. Even so, the alt 'Publisher Logo' is the CMP vendor's generic placeholder: it leaves out the publisher's name, which is all the logo conveys, and the dialog text names only 'Reach', never Bristol Live. That is a 1.1.1 failure (F30, text alternatives that are not alternatives). If the logo were taken as decorative, the non-null alt would fail F38 instead, so neither reading saves it. In good faith the claim points at the alt not conveying what the image shows; the rubric gives this wording as an example of a claim that names the defect. I looked for a reason the finding fails and found none. The live CMP config for www.bristolpost.co.uk still sets the same publisherLogo, and InMobi's current cmp2ui-en.js renders it with alt \"Publisher Logo\". The dialog appears to first-time visitors who have not consented, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "b26eefc128eb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the lead NEWS teaser photo, a generic Getty stock image of a stethoscope on a laptop. Its alt, 'Hundreds stuck at A&E for more than 12 hours in Bristol', is the headline and describes nothing the image shows, so the claim is true of the capture. The image is not inside a link: it sits in the teaser's cover wrapper, and the headline is a separate h3 link right after it with the same text. Competent auditors split on teaser photos whose alt repeats the headline: one reading takes the photo as illustrative, so the alt should describe it, and the headline does not; a second takes it as redundant or decorative, which calls for alt=\"\" (F38 fails any non-null alt on a purely decorative img); a third holds that the alt still serves the photo's purpose in a teaser (saying which story it illustrates) and that the repetition is a redundancy issue (axe treats it as best practice), not a 1.1.1 failure. The evidence does not settle which reading applies, so elementFails is cannot_tell and the label is uncertain. The live page (fetched 2026-11-21) serves the same img, alt and teaser markup, and the screenshot is a styled render, so captureDiffers is no. Being generic stock, this photo is the strongest candidate for the decorative reading, under which the failure would be F38 (non-null alt), and it is not clear that the claim names that failure."
+    },
+    {
+      "fingerprint": "38923a00460c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the FOOTBALL teaser photo for the Steve Evans piece. The crop shows Bristol Rovers players celebrating; Steve Evans is not in it. Its alt is the headline, a quote from him, so it describes something the image does not show, and the claim is true of the capture. The image is not inside a link: it sits in the teaser's cover wrapper, and the headline is a separate h3 link right after it with the same text. Competent auditors split on teaser photos whose alt repeats the headline: one reading takes the photo as illustrative, so the alt should describe it, and the headline does not; a second takes it as redundant or decorative, which calls for alt=\"\" (F38 fails any non-null alt on a purely decorative img); a third holds that the alt still serves the photo's purpose in a teaser (saying which story it illustrates) and that the repetition is a redundancy issue (axe treats it as best practice), not a 1.1.1 failure. The evidence does not settle which reading applies, so elementFails is cannot_tell and the label is uncertain. The live page (fetched 2026-11-21) serves the same img, alt and teaser markup, and the screenshot is a styled render, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "s5bd285a12cf",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the topic tag in the lead teaser's footer: aria-label and text 'Lockleaze', shown as 'LOCKLEAZE' under the headline 'Hit-and-run leaves two cyclists in hospital' (the h3 just before it), with href all-about/lockleaze. On the homepage that resolves to https://www.bristolpost.co.uk/all-about/lockleaze, which loads (200) as the page titled 'Lockleaze - Bristol Live', with h1 'Lockleaze' and a list of the latest Lockleaze articles. The link text is the destination page's name, which Understanding 2.4.4 accepts as describing a link's purpose. No other link on the page is named Lockleaze, so R1 does not come in. The text does tell where the link goes, so the claim is false and the element meets 2.4.4. Rampa did not read the destination, but the href in the snapshot already showed a topic page named after the place, so the model judged wrongly with the context it had. The live page has the same link and markup, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "sb1b226a5afe",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the premium badge above the headline 'Floating sauna and waterside gardens among winning proposals for Bristol'. The crop and the screenshot show a 'B' mark with the word 'PREMIUM', which tells users that the story is subscriber content. The alt 'bristolpost' names the brand and drops 'Premium'. The badge is not inside the headline link, whose aria-label is just the headline, and the teaser has no other text saying the story is premium, so that information has no text alternative: a 1.1.1 failure, and the badge cannot be called decorative. The claim (the alt 'names a label, not what the image conveys here') names that defect. I found no technique or context that would make it pass. The live HTML serves the same img (same src and alt) on every premium teaser, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "s93e01771acc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the img inside the header's subscribe button. The crop shows a 'B' mark and the word 'SUBSCRIBE', and the alt 'bristolpost' does name a label rather than 'subscribe', so the sentence is true of the capture. The image is all the link holds, but the link has aria-label=\"Subscribe to premium membership\", which becomes the link's accessible name in place of its content (ARIA6, sufficient for 1.1.1; ARIA8 for 2.4.4). The control therefore has a name that describes its purpose and covers what the image conveys, as 1.1.1 requires for non-text content that is a control. Requiring the inner img's alt to say this as well is stricter than the criterion. The button is rendered by script, so the server HTML does not contain it, but the screenshot's sticky header shows the same 'B SUBSCRIBE' button and nothing suggests the scripted page differs, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "bd49a561d1a6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the teaser photo for 'Man fighting for his life after early-morning assault outside Bristol bar'. The crop shows a street of shopfronts with a parked van, apparently the location, with no person or incident visible. The alt is the headline and describes what the photo does not show, so the claim is true of the capture. The image is not inside a link: it sits in the teaser's cover wrapper, and the headline is a separate h3 link right after it with the same text. Competent auditors split on teaser photos whose alt repeats the headline: one reading takes the photo as illustrative, so the alt should describe it, and the headline does not; a second takes it as redundant or decorative, which calls for alt=\"\" (F38 fails any non-null alt on a purely decorative img); a third holds that the alt still serves the photo's purpose in a teaser (saying which story it illustrates) and that the repetition is a redundancy issue (axe treats it as best practice), not a 1.1.1 failure. The evidence does not settle which reading applies, so elementFails is cannot_tell and the label is uncertain. The live page (fetched 2026-11-21) serves the same img, alt and teaser markup, and the screenshot is a styled render, so captureDiffers is no."
+    }
+  ]
+}

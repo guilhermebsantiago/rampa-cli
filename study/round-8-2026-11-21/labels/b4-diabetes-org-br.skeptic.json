@@ -1,0 +1,27 @@
+{
+  "page": "https://diabetes.org.br/comprimido-de-semaglutida-tambem-ajuda-a-controlar-o-diabetes/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p124fdd05e29",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the post's featured image (Elementor theme-post-featured-image widget) under the h1. It is a generic stock photo of a hand holding a tablet beside a weekly pill organizer, with alt=\"\", so it is out of the accessibility tree. It is not in a link and has no caption, and it shows nothing specific to the article: not the Wegovy tablet, no data, no text. The headline and the lead paragraph right below it already say the story is about a pill. That makes it decorative or ambient imagery, and a null alt is the sufficient technique for that (H67/C9). F39 does not apply, and no information in the photo is lost to screen reader users. elementFails: no. The live page serves the same img with alt=\"\" and the same src, and the screenshot matches, so captureDiffers: no. Rampa was right to report nothing here. Some auditors ask for alt text on every article hero image, but WCAG does not require it for a non-informative stock picture."
+    },
+    {
+      "fingerprint": "73bb382302c7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the header search field (input#elementor-search-form-ea14c88) with the placeholder \"Pesquisar...\" at 15px, weight 400. That is not large text, so the threshold is 4.5:1. I checked the colour two ways. In the live Elementor Pro CSS the placeholder rule is color: inherit with opacity .6. In the screenshot pixels, the field background is (241,242,243) and the darkest glyph pixels are (169,170,170), a 2.08:1 ratio, which matches #7a7a7a at 60% over #f1f2f3 (2.07:1). So the claim is true of the capture. I looked for ways it could pass and found none. Understanding 1.4.3 says outright that the criterion \"applies to text in the page, including placeholder text\". The field is active, so the incidental exception for inactive components does not cover it. The placeholder is also the only visible label: the 'Pesquisar' label is screen-reader-only. elementFails: yes, for the reason the claim gives. The live page has the same markup and the same placeholder CSS, so captureDiffers: no."
+    }
+  ]
+}

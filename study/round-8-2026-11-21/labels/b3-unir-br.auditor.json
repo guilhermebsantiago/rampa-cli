@@ -1,0 +1,137 @@
+{
+  "page": "https://www.unir.br/homepage",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s85b0574bb48",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A 60x60 quick-access icon (a calendar with a location pin) that is the only content of a link to pagina/exibir/599, a page headed 'Reservas de Espaços'; the h6 'Reservas de Espaços' below it sits outside the link. Its alt 'Licitações e Contratos' names a different service (the 'Licitações' tile next to it links to licitacoes.unir.br), so the link's name describes a purpose it does not have, which fails 1.1.1 for a control (H30: the alternative must describe the link's function); the neighbouring heading is a separate element and does not cure it. The claim, that the alternative is all the link holds and does not say where it leads, is true of the capture and names this failure. The live page fetched on 2026-11-21 (about three hours after the capture) has the same markup for this element and its link, and the screenshot is the fully styled page, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "2ca5b117eb51",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An event-carousel banner image that is the only visible content of a link to evento/exibir/576 (a second img in the link is display:none at this width). The banner's own text is 'MOVIMENTO NO CAMPUS', and the destination page is headed 'Movimento no Campus: Caminhada e Corrida na UNIR – Porto Velho'. Read as the link's text, the alt 'movimento no campus' names the event the link opens, so by G82/H30 (and the rubric's first R2 step) it describes the link's purpose and the image meets 1.1.1 on this point. The claim that it does not say where the link leads is false. Rampa only had the destination's generic site title, but the alt matching the event shown in the crop was enough; the judgment was wrong. The live page fetched on 2026-11-21 (about three hours after the capture) has the same markup for this element and its link, and the screenshot is the fully styled page, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "s58d816a605d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The grey category tag 'Saúde' on a news card is a link to cartao/exibir/397, the story 'Pesquisa da UNIR vence Prêmio Capes de Tese 2026'. Its link text says Health, not the story; it sits alone in a span inside the card-body div, with no title, no aria-describedby, no shared sentence, paragraph, list item or table cell, and the heading just before it is an unrelated carousel h5 ('UNIR tem inscrições abertas em cursos de Pós-Graduação'). Only the headline in the neighbouring paragraph, seen visually in the same card, would explain it, which does not count (F63). A screen-reader user hearing 'Saúde' would expect a Health category, so its purpose cannot be determined from its text and programmatic context: it fails 2.4.4, and the claim that its text does not match the destination names that failure. The live page fetched on 2026-11-21 (about three hours after the capture) has the same markup for this element and its link, and the screenshot is the fully styled page, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "8f939c1c3989",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The category tag link 'Pesquisa' on the 'Feira PopMédio começa em Porto Velho' card leads to cartao/exibir/392. Another card's tag link, also 'Pesquisa', leads to cartao/exibir/398 ('Somos Diversas pesquisa inclusão em universidades'). Both sit alone in a span in a card-body div, with no title, no list item, paragraph or cell around them, and the same preceding heading (the carousel h5), so their contexts do not tell them apart and they form one R1 set; the menu link 'Pesquisa' (pagina/exibir/49) is in a nested list whose parent item sets it apart. The two cards lead to different stories, and the photos and headlines of the two cards visually tell them apart, so by ACT fd3a94 the pair fails 2.4.4. The claim (two links share the text, lead to two places, nothing around this one tells it apart) names this failure. The live page fetched on 2026-11-21 (about three hours after the capture) has the same markup for this element and its link, and the screenshot is the fully styled page, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "p33a028fc609",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A globe icon that is the only content of a link to servidor.unir.br/homepage, whose page title is 'Portal do Servidor'. Its alt 'Portal do Servidor' names the destination, so the control's name describes its purpose (H30) and it meets 1.1.1; the h6 'Portal do Servidor' beside it only repeats the name (H2 is advisory). Rampa reporting nothing was correct. The live page fetched on 2026-11-21 (about three hours after the capture) has the same markup for this element and its link, and the screenshot is the fully styled page, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "62b565df61d0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A news-card photo (a group of older women exercising in a hall) that is the only content of a link to cartao/exibir/396, the story 'Projeto da UNIR integra mapeamento sobre longevidade'. Its alt 'UNIR' names the university, not the story or page the link opens; by R2 and H30 an image that is all a link holds needs an alternative that identifies the destination, and the headline link in the neighbouring paragraph does not cure 1.1.1. The claim is true of the capture and names the failure. The live page fetched on 2026-11-21 (about three hours after the capture) has the same markup for this element and its link, and the screenshot is the fully styled page, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "3af396a60152",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The category tag link 'Pesquisa' on the 'Somos Diversas pesquisa inclusão em universidades' card leads to cartao/exibir/398; the other card tag 'Pesquisa' leads to cartao/exibir/392 ('Feira PopMédio começa em Porto Velho'). Neither has a title, list item, paragraph or cell context, and both have the same preceding heading (a carousel h5), so they form one R1 set (the nested menu link 'Pesquisa' is set apart by its parent list item). They lead to different stories, and the two cards' photos and headlines visually tell them apart, so the pair fails 2.4.4 by ACT fd3a94. The claim names this failure. The live page fetched on 2026-11-21 (about three hours after the capture) has the same markup for this element and its link, and the screenshot is the fully styled page, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "s7117c19f54b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A full-width SOU banner that is the only content of a link opening a WhatsApp chat with +55 69 2182-2016. Its alt starts by describing the photo but goes on to 'SOU - SERVIÇO DE ORIENTAÇÃO AO USUÁRIO - WHATSAPP 69 21822016', which names the service and the WhatsApp number the link opens, so, replacing the image with the alternative (G82), users can tell where the link goes; the leading picture description is verbose but does not hide the purpose, and the image meets 1.1.1 for this control. The claim that it does not say where the link leads is false. The live page fetched on 2026-11-21 (about three hours after the capture) has the same markup for this element and its link, and the screenshot is the fully styled page, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "s8be9dc1cede",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The main-menu link 'Acesso à informação' leads to pagina/exibir/51, a page whose heading is 'Acesso à informação' (only its title is the site-wide generic 'UNIR - Universidade Federal de Rondônia'), so its text matches its destination and the claim's ground is false; a generic site title does not show a mismatch. The link does fail 2.4.4 for another reason the claim does not name: the gov.br bar at the top of the page has a link with the same name (shown as 'ACESSO À INFORMAÇÃO') to http://www.acessoainformacao.gov.br, which redirects to the federal CGU access-to-information landing (it refused my automated fetch, but its address settles that it is the federal portal, not UNIR's page). Both sit alone in a top-level list item with no preceding heading, so their contexts are identical and they form one R1 set; they lead to non-equivalent resources, and the gov.br bar versus the UNIR menu visually tells them apart, so by ACT fd3a94 the pair fails. Because the claim names a destination mismatch rather than this shared name, the label is false positive. The live page fetched on 2026-11-21 (about three hours after the capture) has the same markup for this element and its link, and the screenshot is the fully styled page, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "e51aa784c02a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page is the home page of the Universidade Federal de Rondônia, and its title 'UNIR - Universidade Federal de Rondônia' names the institution and site the page presents, which describes its topic and purpose for a home page (G88). It meets 2.4.2; the claim that the title says nothing about this page is false. (Other pages of the site reuse the same title, which matters for them, not for the home page.) The live page has the same title."
+    },
+    {
+      "fingerprint": "sab11da82c62",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The site search field (type=search, name q) in the header, collapsed behind a magnifier icon until opened, with the placeholder 'busca...' as its only label and accessible name, and a submit button. 2.4.6 asks that a label, where there is one, describe the field's topic or purpose: 'busca' (search) with the magnifier says what the field is for, entering search terms for the site. It meets 2.4.6; a placeholder used as the only label is a 1.3.1/3.3.2 matter, not this criterion. The claim that the label does not say what to enter is false. The live page fetched on 2026-11-21 (about three hours after the capture) has the same markup for this element and its link, and the screenshot is the fully styled page, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "be7dd7ac4201",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The header logo (the UNIR star mark with 'UNIR Universidade Federal de Rondônia') is the only content of a link to https://www.unir.br/homepage. Its alt 'logomarca da UNIR - duas setas na cor azul se cruzando' names UNIR, the site whose home page the link opens, as H30's linked-logo example names the destination ('Smallville Times'); the description of the arrows is extra wording, not a missing purpose. It meets 1.1.1 for this control, and the claim that it does not say where the link leads is false. The live page fetched on 2026-11-21 (about three hours after the capture) has the same markup for this element and its link, and the screenshot is the fully styled page, so the capture does not differ in a way that matters."
+    }
+  ]
+}

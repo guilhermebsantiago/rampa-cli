@@ -1,0 +1,62 @@
+{
+  "page": "https://olhardigital.com.br/2026/11/21/ciencia-e-espaco/bepicolombo-faz-manobra-decisiva-para-entrar-na-orbita-de-mercurio/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "pa003f06463d",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the author's round avatar photo, the only content of a link to https://olhardigital.com.br/author/ana-figueiredo/ (destination title 'Ana Luiza Figueiredo, Autor em Olhar Digital'). Its alt 'Ana Luiza Figueiredo' names the author, which is exactly where the link goes, so the control's name describes its purpose (H30: the alternative describes the function of the link); the browser's own accessibility tree gives the link that name from its contents. The alt repeats the adjacent text link to the same address, a redundancy H2 advises against but no 1.1.1 failure. The live raw HTML has the same link, image and alt, and the screenshot shows the same avatar and byline, so nothing in the capture differs. The element meets 1.1.1."
+    },
+    {
+      "fingerprint": "s6f7f5ab5129",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link 'ESA' sits in the sentence 'A BepiColombo é uma missão conjunta da ESA e da Agência Japonesa de Exploração Aeroespacial (JAXA)', under the heading 'Missão europeia e japonesa está em viagem desde 2018', and leads to the site's ESA tag page (title 'ESA - Olhar Digital', heading 'ESA'), a page about ESA. The link text names the subject of the page it opens, and its sentence makes clear that ESA is the space agency; Understanding 2.4.4 does not require the text to name the kind of page, only that users can tell its purpose and decide whether to follow it, and a link named after an organisation that opens a page about that organisation meets that. So the claim that neither the text nor anything around it tells where it goes is false of the capture. The live raw HTML has the same paragraph and link, so the capture does not differ. The element meets 2.4.4; the model had the sentence and the destination and judged wrongly."
+    },
+    {
+      "fingerprint": "s5cd5ae6fc7c",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link is the comment counter in the article's meta bar: a speech-bubble SVG and a span with the count '0', href '#comments', data-comments='open-modal', and title='Comentários'. Its accessible name is '0' and the browser's accessibility tree exposes 'Comentários' as its accessible description. The rubric counts a title as link context (H33, sufficient for 2.4.4), and '0' together with 'Comentários' tells that the link opens the article's comments; the comments section itself is headed 'Comentários (0)'. So 'nothing around it' telling where it goes is false of the capture, which holds the title in the element's own HTML. The live raw HTML has the same link and title (the count is filled in by script, as in the capture), so nothing differs. The element meets 2.4.4."
+    },
+    {
+      "fingerprint": "s4e6e26c0b39",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This 'Brainberries' link is the source line of an MGID ad teaser (teaser-27658078) in the widget inside the article; its href is the same clck.mgid.com address as that teaser's title link 'Jogadores que nasceram sem dinheiro e ficaram milionários graças ao futebol'. The widget's other teaser (teaser-28460460) has a second 'Brainberries' link whose href matches its own title 'Lembras-te deste momento icónico de Jojo Todynho em A Fazenda?'. Both links are in the accessibility tree with the same name; neither has a title or aria-describedby, neither is in a paragraph, list item or table cell with its teaser title (all generic divs), and the heading before both is the same h2, so they form one set under R1. They resolve through different ad IDs to different advertised articles, which are not equivalent resources, and the two cards, with different photos and headlines, visibly tell them apart. By R1 the pair fails 2.4.4 and both links get yes; the name 'Brainberries' names the publisher, not the article, and is the inaccurate name on both. I did not open the click-tracking URLs (that would register ad clicks); the matching teaser IDs and titles settle that the destinations differ. The widget is injected by script in a shadow root and its ads rotate per load, so I could not compare it with the live page; judged on the capture, as the rubric says. The claim names this failure."
+    },
+    {
+      "fingerprint": "sfed3bb3dd92",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is an envelope icon with alt 'Ícone Email', the only content of the email share link in the 'Compartilhe:' row (mailto with the article URL; title 'Compartilhar por email'). The browser's accessibility tree gives the link the name 'Ícone Email' from its contents and 'Compartilhar por email' as its description; the packet's link name 'Compartilhar por email' comes from Rampa's collector taking the title as the name. So the claim is true of the capture: the alt is all the link holds and it names the icon rather than the action of sharing the article. Per R2, the title does not cure 1.1.1, so the question is whether the alternative itself identifies the destination. Against the finding: 'Email' does tell users the link opens an email message, it sits in a row visibly labelled 'Compartilhe:' among 'Ícone Whatsapp', 'Ícone Facebook' and so on, and platform-name alternatives for share icons are commonly accepted, with 'Ícone' only redundant noise; my own reading is that it passes. For the finding: the alternative describes the picture and never says the link shares this article, which H30's 'unique function of the link' asks for. Competent auditors would reasonably split on this, so the label is uncertain. The live raw HTML has the same image, alt and title (its href is Cloudflare's email-protection link, which a script turns into the captured mailto), so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "p56d85e4f9a6",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The image is the product photo of a JBL Bar 500 MK2 soundbar card in the 'Ofertas em Destaque' carousel; the crop shows a soundbar and subwoofer. Its alt is the product title 'JBL Bar 500 MK2 Barra de Som Soundbar 5.1 Canais Dolby Atmos 375W R...', truncated exactly as the visible title is, and it sits inside a link whose text also holds the store, discount, product title, prices and 'Ver oferta'. The alt identifies what the photo shows and the link already has text that gives its purpose, so 1.1.1 is met; the repetition of the title in the link's name is the redundancy H2 advises against, not a failure, and the truncation does not hide what the product is. The carousel is injected by bi.olhardigital.com.br/vitrine.js, which sets img.alt to the offer title for every visitor, so although the offers rotate the alt pattern users receive is the one captured."
+    },
+    {
+      "fingerprint": "s7cbba7a2401",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This 'Brainberries' link is the source line of the large MGID ad teaser (teaser-28460460) in the widget inside the article; its href is the same clck.mgid.com address as that teaser's title link 'Lembras-te deste momento icónico de Jojo Todynho em A Fazenda?'. The widget's other teaser (teaser-27658078) has a second 'Brainberries' link whose href matches its own title 'Jogadores que nasceram sem dinheiro e ficaram milionários graças ao futebol'. Both are in the accessibility tree with the same name; no title or aria-describedby, no shared paragraph, list item or table cell with their teaser titles (all generic divs), and the same preceding h2, so they form one set under R1. They resolve through different ad IDs to different advertised articles, not equivalent resources, and the cards' different photos and headlines visibly tell them apart, so by R1 the pair fails 2.4.4 and both links get yes; 'Brainberries' names the publisher, not the article, and is the inaccurate name on both. I did not open the click-tracking URLs (that would register ad clicks); the teaser IDs and titles settle that the destinations differ. The widget is script-injected in a shadow root and its ads rotate per load, so I could not compare it with the live page; judged on the capture. The claim names this failure."
+    },
+    {
+      "fingerprint": "pb8e9f61b109",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The image is the product photo of an I2GO Bluetooth speaker card in the 'Ofertas em Destaque' carousel; the crop shows a speaker with a strap and water splash. Its alt is the product title 'I2GO, Caixa De Som Bluetooth 3 Angle Sound. 12W RMS, Resistente à Á...', truncated as the visible title is, inside a link whose text also gives the store, discount, title, prices and 'Ver oferta'. The alt identifies the product the photo shows and the link has its own text, so 1.1.1 is met; the repeated title is H2's redundancy, not a failure, and the truncation does not hide what the product is. The carousel comes from vitrine.js, which sets img.alt to the offer title for every visitor, so the alt pattern users receive matches the capture even though the offers rotate."
+    }
+  ]
+}

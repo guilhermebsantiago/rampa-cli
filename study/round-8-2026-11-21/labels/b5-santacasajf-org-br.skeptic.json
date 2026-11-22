@@ -1,0 +1,180 @@
+{
+  "page": "https://www.santacasajf.org.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "28147494124b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the 'Saiba mais' button (<a href=\"\" target=\"\" class=\"cta mt-5\">) under 'Conheça a Santa Casa JF'. The live HTML fetched on 2026-11-21 and the styled screenshot match the snapshot for this element, including the empty href; no script on the page handles it, so activating it only reloads the home page. The claim says nothing around the link tells where it goes, but the h2 'Conheça a Santa Casa JF' is the nearest heading before it, which this round counts as context, so 'Saiba mais' reads as 'learn more about the Santa Casa JF': the ground the claim gives does not hold. What remains is that the href is empty, a placeholder link that leads back to the page itself. Whether such a dead link fails 2.4.4 (its real effect, a reload, is not what text and heading promise) or is a broken link that 2.4.4 does not cover is something competent auditors would split on. They would also split on whether this generic 'no context' claim, made without Rampa reading the destination, names that defect. So I do not confirm it and label it uncertain."
+    },
+    {
+      "fingerprint": "d782f33199f0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon in the 'Resultados de exames' card link. The live HTML fetched on 2026-11-21 and the styled screenshot match the snapshot for this element. The image is an icon at the top of a card link whose own text (an h3 heading and a paragraph) already gives the link's purpose, so the icon only illustrates that text. I looked for something that would make it pass: no aria-hidden, no role=presentation, no null alt, no other name source. Its alt \"ícone\" (\"icon\") is a placeholder word, not a file name, so the claim's disjunction holds. An illustrative icon next to text that says the same should be ignored by assistive technology (alt=\"\"), and F39 names exactly this as a 1.1.1 failure, with alt=\"image\" as its example; read as an informative image it fails F30 instead (placeholder text). Either way screen readers announce a meaningless \"ícone\" inside the link, which is what the claim points at. No reason that the element passes held up."
+    },
+    {
+      "fingerprint": "cc07c518443a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The live HTML fetched on 2026-11-21 and the styled screenshot match the snapshot for this element: the footer image sits in a div.box-cert under the h2 \"Certificações de Qualidade\", with alt=\"\" and no title, aria-label or caption, so it is hidden from screen readers. The heading only says that quality certifications follow; it does not name any of them, and no footer text names them either. The crop and the screenshot show the logo carrying 'HOSPITAL DE ENSINO - Ministérios da Saúde e Educação' and, vertically, 'Portaria 1.035 de 6 de agosto de 2013' (teaching-hospital certification), which is information about the hospital, not decoration. An informative image marked as decorative has no text alternative, so it fails 1.1.1 on the page users receive, which is the claim's point. I found no technique that makes it pass (no adjacent text naming the seal, no link with a name)."
+    },
+    {
+      "fingerprint": "8f9928e5de8c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon in the 'Convênios' card link. The live HTML fetched on 2026-11-21 and the styled screenshot match the snapshot for this element. The image is an icon at the top of a card link whose own text (an h3 heading and a paragraph) already gives the link's purpose, so the icon only illustrates that text. I looked for something that would make it pass: no aria-hidden, no role=presentation, no null alt, no other name source. Its alt \"ícone\" (\"icon\") is a placeholder word, not a file name, so the claim's disjunction holds. An illustrative icon next to text that says the same should be ignored by assistive technology (alt=\"\"), and F39 names exactly this as a 1.1.1 failure, with alt=\"image\" as its example; read as an informative image it fails F30 instead (placeholder text). Either way screen readers announce a meaningless \"ícone\" inside the link, which is what the claim points at. No reason that the element passes held up."
+    },
+    {
+      "fingerprint": "b1c592647dd7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon in the 'Certificações de qualidade' card link. The live HTML fetched on 2026-11-21 and the styled screenshot match the snapshot for this element. The image is an icon at the top of a card link whose own text (an h3 heading and a paragraph) already gives the link's purpose, so the icon only illustrates that text. I looked for something that would make it pass: no aria-hidden, no role=presentation, no null alt, no other name source. Its alt \"ícone\" (\"icon\") is a placeholder word, not a file name, so the claim's disjunction holds. An illustrative icon next to text that says the same should be ignored by assistive technology (alt=\"\"), and F39 names exactly this as a 1.1.1 failure, with alt=\"image\" as its example; read as an informative image it fails F30 instead (placeholder text). Either way screen readers announce a meaningless \"ícone\" inside the link, which is what the claim points at. No reason that the element passes held up."
+    },
+    {
+      "fingerprint": "p436978829fb",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim: the main-menu link 'Ouvidoria' (href /ouvidoria/). The live HTML fetched on 2026-11-21 and the styled screenshot match the snapshot for this element. Its text names the ombudsman page, and the destination, though it answers HTTP 500 to automated fetches, renders an h1 'Ouvidoria', so the text describes the link's purpose. The only other link with that name (#menu-item-379, the other menu copy) goes to the same address, so R1 finds no pair to tell apart. The element meets 2.4.4."
+    },
+    {
+      "fingerprint": "5055469e3467",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The live HTML fetched on 2026-11-21 and the styled screenshot match the snapshot for this element: the footer image sits in a div.box-cert under the h2 \"Certificações de Qualidade\", with alt=\"\" and no title, aria-label or caption, so it is hidden from screen readers. The heading only says that quality certifications follow; it does not name any of them, and no footer text names them either. The crop and the screenshot show the logo carrying 'ACREDITADO COM EXCELÊNCIA - ONA' (ONA accreditation with excellence), which is information about the hospital, not decoration. An informative image marked as decorative has no text alternative, so it fails 1.1.1 on the page users receive, which is the claim's point. I found no technique that makes it pass (no adjacent text naming the seal, no link with a name)."
+    },
+    {
+      "fingerprint": "49a8809d1e7e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Comunicado' category label on the second news card. The live HTML fetched on 2026-11-21 and the styled screenshot match the snapshot for this element. The theme's style.css (.blog .posts .box .texto span) sets color #FFF on background #0078D7, font-size .9em (14.4px at the 16px default), weight 500, uppercase, so the pixel measurement matches the CSS: the ratio is 4.499:1. The text is not large (under 18pt, and not 14pt bold), so 4.5:1 applies, and Understanding 1.4.3 says the computed value is not rounded (\"4.499:1 would not meet the 4.5:1 threshold\"). I checked whether the page's 'Contraste' toggle could make it pass by G174: its script adds .bgdark to body and #home .blog and .textdark to p, a, h1-h5 and li, but leaves this span's own #0078D7 background and #FFF text unchanged, so the alternate presentation keeps 4.499:1. The label is real text, not a logo or an inactive control. The claim states the right colours and a ratio just under 4.5:1 ('at most 4.49' is the truncated 4.499), and the element fails 1.4.3."
+    },
+    {
+      "fingerprint": "76cdd3bdf47c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The live HTML fetched on 2026-11-21 and the styled screenshot match the snapshot for this element: the footer image sits in a div.box-cert under the h2 \"Certificações de Qualidade\", with alt=\"\" and no title, aria-label or caption, so it is hidden from screen readers. The heading only says that quality certifications follow; it does not name any of them, and no footer text names them either. The crop and the screenshot show the logo carrying 'CERTIFIED ISO 9001:2015 COMPANY' (an ISO 9001:2015 certification seal), which is information about the hospital, not decoration. An informative image marked as decorative has no text alternative, so it fails 1.1.1 on the page users receive, which is the claim's point. I found no technique that makes it pass (no adjacent text naming the seal, no link with a name)."
+    },
+    {
+      "fingerprint": "sbe0b1aa9420",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The 'Saiba mais' button in the PLASC banner, linking to https://www.plasc.org.br/. The live HTML fetched on 2026-11-21 and the styled screenshot match the snapshot for this element. The nearest heading before it is the h2 'PLASC' in the same banner, followed by the line 'Venha para o plano de saúde do hospital mais completo da região.' The heading counts as context in this round, so 'Saiba mais' plus 'PLASC' tells users the link gives more about PLASC, the hospital's health plan, which is where it leads (PLASC's site, HTTP 200). The claim that nothing around it tells where it goes is false. The other 'Saiba mais' link sits under a different heading ('Conheça a Santa Casa JF'), so R1 does not put them in one set. The element meets 2.4.4. The heading was in the context Rampa had, so this was a wrong judgment."
+    },
+    {
+      "fingerprint": "p0ddc7ebc293",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim: the button 'ver todos as notícias' under the h3 'Notícias', linking to /noticias (redirects to /noticias/, heading 'Notícias'). The live HTML fetched on 2026-11-21 and the styled screenshot match the snapshot for this element. The text alone says it lists all the news, which is where it leads. No other link shares the name. The element meets 2.4.4 (the grammar slip 'todos as' does not obscure the purpose)."
+    },
+    {
+      "fingerprint": "2d6d740af5b0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Dica de Saúde' category label on the first news card. The live HTML fetched on 2026-11-21 and the styled screenshot match the snapshot for this element. The theme's style.css (.blog .posts .box .texto span) sets color #FFF on background #0078D7, font-size .9em (14.4px at the 16px default), weight 500, uppercase, so the pixel measurement matches the CSS: the ratio is 4.499:1. The text is not large (under 18pt, and not 14pt bold), so 4.5:1 applies, and Understanding 1.4.3 says the computed value is not rounded (\"4.499:1 would not meet the 4.5:1 threshold\"). I checked whether the page's 'Contraste' toggle could make it pass by G174: its script adds .bgdark to body and #home .blog and .textdark to p, a, h1-h5 and li, but leaves this span's own #0078D7 background and #FFF text unchanged, so the alternate presentation keeps 4.499:1. The label is real text, not a logo or an inactive control. The claim states the right colours and a ratio just under 4.5:1 ('at most 4.49' is the truncated 4.499), and the element fails 1.4.3."
+    },
+    {
+      "fingerprint": "c167093f67e8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The live HTML fetched on 2026-11-21 and the styled screenshot match the snapshot for this element: the footer image sits in a div.box-cert under the h2 \"Certificações de Qualidade\", with alt=\"\" and no title, aria-label or caption, so it is hidden from screen readers. The heading only says that quality certifications follow; it does not name any of them, and no footer text names them either. The crop and the screenshot show the logo carrying 'CEMIG SIM REC - 100% ENERGIA SOLAR' (a renewable-energy certificate seal), which is information about the hospital, not decoration. An informative image marked as decorative has no text alternative, so it fails 1.1.1 on the page users receive, which is the claim's point. I found no technique that makes it pass (no adjacent text naming the seal, no link with a name)."
+    },
+    {
+      "fingerprint": "37ba0e49fe88",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon in the 'Horários de visitas' card link. The live HTML fetched on 2026-11-21 and the styled screenshot match the snapshot for this element. The image is an icon at the top of a card link whose own text (an h3 heading and a paragraph) already gives the link's purpose, so the icon only illustrates that text. I looked for something that would make it pass: no aria-hidden, no role=presentation, no null alt, no other name source. Its alt \"ícone\" (\"icon\") is a placeholder word, not a file name, so the claim's disjunction holds. An illustrative icon next to text that says the same should be ignored by assistive technology (alt=\"\"), and F39 names exactly this as a 1.1.1 failure, with alt=\"image\" as its example; read as an informative image it fails F30 instead (placeholder text). Either way screen readers announce a meaningless \"ícone\" inside the link, which is what the claim points at. No reason that the element passes held up."
+    },
+    {
+      "fingerprint": "1948b742a18b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The video thumbnail is the only content of a link to a YouTube video (youtu.be/Pzx-P8IGWBY, new tab). The live HTML fetched on 2026-11-21 and the styled screenshot match the snapshot for this element; the browser computes the link's name from the image as 'imagem' (the packet's null link name is a collector quirk, which the ax node corrects). The thumbnail shows a play button over the hospital with the text 'Cuidado que se faz presente em cada detalhe.' The link has no aria-label, title or visible text that could name it. Its alt 'imagem' ('image') is placeholder text (F30), and as the sole content of a link the image is a control whose alternative must give its purpose (H30), for example playing the institutional video. It fails 1.1.1, which is what the claim says. No reason that it passes held up."
+    },
+    {
+      "fingerprint": "10e0313db5f9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Comunicado' category label on the third news card. The live HTML fetched on 2026-11-21 and the styled screenshot match the snapshot for this element. The theme's style.css (.blog .posts .box .texto span) sets color #FFF on background #0078D7, font-size .9em (14.4px at the 16px default), weight 500, uppercase, so the pixel measurement matches the CSS: the ratio is 4.499:1. The text is not large (under 18pt, and not 14pt bold), so 4.5:1 applies, and Understanding 1.4.3 says the computed value is not rounded (\"4.499:1 would not meet the 4.5:1 threshold\"). I checked whether the page's 'Contraste' toggle could make it pass by G174: its script adds .bgdark to body and #home .blog and .textdark to p, a, h1-h5 and li, but leaves this span's own #0078D7 background and #FFF text unchanged, so the alternate presentation keeps 4.499:1. The label is real text, not a logo or an inactive control. The claim states the right colours and a ratio just under 4.5:1 ('at most 4.49' is the truncated 4.499), and the element fails 1.4.3."
+    }
+  ]
+}

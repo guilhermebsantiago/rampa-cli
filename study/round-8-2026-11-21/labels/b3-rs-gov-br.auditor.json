@@ -1,0 +1,102 @@
+{
+  "page": "https://www.rs.gov.br/inicial",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "23d6e81b69fa",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the title link of the 'Saiba mais...' group in the footer site map (href /saiba-mais, no title). claimTrue: the snapshot shows its own list item holding a nested list with the links 'Portal do Estado do RS', 'Agência de Notícias', 'Agenda do Governador' and 'Secretarias e Órgãos do Estado', so something around it does speak to where it goes. The heading just before it (h2 'Descomplica RS') does not help, but the list item is programmatically determined context under this rubric. I opened /saiba-mais live: it is a page titled 'Saiba mais...' whose only content is a list of exactly those four child pages. So the link text with its list item tells users it opens the index page of that group, and sighted users get no more than that from the column layout. elementFails: no for 2.4.4 (the generic wording is a 2.4.9 matter, Level AAA). The header menu's 'Saiba mais...' is a dropdown toggle that opens the same four links, so it serves an equivalent purpose and R1 does not make this link fail. captureDiffers: the live HTML has the same footer markup and the screenshot is fully styled. The model had the list item text and still judged wrongly."
+    },
+    {
+      "fingerprint": "18088591057d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the document title of the home page https://www.rs.gov.br/inicial: 'RS.GOV.BR - Portal de Serviços Digitais'. claimTrue: no. On the portal's home page the title names the site and says what it is, a portal of the State of Rio Grande do Sul's digital services, which is what this page is (a search box, service categories, journeys, service channels). The h1 says the same. elementFails: no. A home page titled with the site's name and purpose describes its topic and purpose, which meets 2.4.2 (G88/H25). Other pages of the site add their own name before it (/saiba-mais is 'Saiba mais... - RS.GOV.BR - ...'). captureDiffers: no. The live page's <title> is the same, apart from a trailing space."
+    },
+    {
+      "fingerprint": "e941a61f2d2a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is a '[Go Back]' link (javascript:history.back()) inside the header's div.login-cidadao, next to the text 'The requested URL was rejected. Please consult with your administrator. Your support ID is: ...'. That is a web application firewall rejection page. claimTrue: yes. In the capture the teal #156b66 text sits below the red bar, over the yellow hero image (visible in the screenshot). The stated colours give about 3.4 to 3.9:1, below 4.5:1 for 16px text at weight 400. captureDiffers: yes. The live HTML shows that div.login-cidadao is a lazy component that login-cidadao.js fills from /_service/componentes/logincidadao. Fetching that endpoint now returns 200 with an 'Entrar' login button, not the rejection page. So the firewall blocked Rampa's automated browser's request, and the WAF text and its link are not on the page an ordinary browser receives (the blank logo box in the screenshot points the same way). elementFails: no. The link does not exist for users, so it cannot fail 1.4.3. The finding exists only because the capture differs."
+    },
+    {
+      "fingerprint": "p14d49de52b6",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Busca [3]' link in the accessibility bar (accesskey 3, href #buscageralTextBox, title 'Ir para a busca'). Its text, which sits in a list with 'Conteúdo [1]' and 'Menu [2]', plus its title (H33), tells users it jumps to the search field. elementFails: no for 2.4.4. On the side: two inputs share the id buscageralTextBox, and the first is in the collapsed header form, so the jump may not land in the visible search field. That is a functional or 2.4.1 matter, not link purpose. captureDiffers: no. The live HTML has the same link and title."
+    },
+    {
+      "fingerprint": "b69f6bc63775",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the search submit button of the hero search (aria-label 'Buscar'). Its only visible content is a glyphicon magnifier. claimTrue: yes. In the screenshot the icon is plain white #ffffff with no shadow or outline, on the yellow hero image (#f8b601 to #ffc508 around it). That is about 1.8:1, as stated. elementFails: yes. The live master.css gives the button 'background: transparent; color: #fff' over the same single background image (04203142-background-destaque-full.jpg). The magnifier is the visual information that identifies the control's function, and at about 1.8:1 it is far below 3:1, so 1.4.11 fails (G207). The white pill border around the input group is equally low. captureDiffers: no. Live markup, CSS and background image match the capture."
+    },
+    {
+      "fingerprint": "e044312026ab",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the voice search button (#btn-pagina-inicia-busca-voz, aria-label and title 'Pesquisar por voz'). Its only visible content is a Font Awesome microphone; its text is sr-only. claimTrue: yes. The screenshot shows a plain white microphone with no shadow on the yellow hero background, about 1.8:1, as stated. elementFails: yes. Live CSS gives the button a transparent background and white colour over the same hero image. The microphone is all that identifies the control, and it is well under the 3:1 that 1.4.11 asks for (G207). captureDiffers: no. The live markup and CSS match. An inline script hides the button in browsers without webkitSpeechRecognition, but Chrome and Edge users (like the capture) receive it."
+    },
+    {
+      "fingerprint": "pc560c40a031",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Previdência' link in the 'Serviços por categoria' section (href /busca?categoria=21&categorianome=Previdência...). The heading just before it is h2 'Serviços por categoria', and with the link text that tells users it opens the services in the Previdência (social security) category. The destination is the portal's search filtered by that category (I checked the parallel Educação link live: it lists Education services). No other link shares its name. elementFails: no for 2.4.4. captureDiffers: no. The live HTML and the screenshot show the same section."
+    },
+    {
+      "fingerprint": "p7335610f471",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Educação' link in the 'Serviços por categoria' section (href /busca?categoria=3&categorianome=Educação...). With the preceding h2 'Serviços por categoria', its purpose (the services in the Education category) is clear. Opened live, the destination is the search page headed 'Educação', listing SEDUC/UERGS services such as .Escola RS and Centrais de Matrículas. No other link shares its name. elementFails: no for 2.4.4. captureDiffers: no. The live HTML and the screenshot match the snapshot."
+    },
+    {
+      "fingerprint": "5ae5f8eb2ed4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Tudo Fácil' shortcut link under the hero search (title 'Central de Atendimento do RS'), shown uppercase at 18px, weight 500. That is not large text, so 4.5:1 applies. claimTrue: yes. The screenshot pixels show pure white letters with no dark shadow or halo on the yellow hero image (mostly #f8ac00 to #fdb103), about 1.8 to 2.0:1. elementFails: yes. Live master.css sets .destaque_topo_links {color: #fff !important} with no text-shadow, over the same single hero background image, so the text fails 1.4.3 (F83) even against the 3:1 for large text. captureDiffers: no. Live markup, CSS and background match the capture."
+    }
+  ]
+}

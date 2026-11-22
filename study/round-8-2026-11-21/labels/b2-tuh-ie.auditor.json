@@ -1,0 +1,146 @@
+{
+  "page": "https://www.tuh.ie/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "8f77bd8efbce",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the stock photo (a woman in a hijab talking across a desk) at the top of the sub-navigation tile link 'Healthcare Professionals /GPs'; its alt 'home healthcare' is the stem of its file name (home-healthcare.jpg), like the sibling tiles' 'home emergency' and 'home patient'. claimTrue: the alt is a CMS label and says nothing of what the photo shows, as the claim states. elementFails: the photo adds nothing to the visible link text, so it is decorative and should be alt=\"\" (F38), and the filename-derived alt adds misleading words ('home healthcare') to the link name (F30); I lean to a failure. But 'home healthcare' reads as a short topical label, and competent auditors would reasonably pass it as a harmless redundant alt inside a text link, so the label is uncertain. captureDiffers: the live HTML has the same img, alt and link text, and the screenshot shows the styled tile."
+    },
+    {
+      "fingerprint": "s93103e25bca",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the Innovate Health logo in the sub-navigation tile link 'Innovate Health'; the crop shows the words 'Innovate Health Tallaght University Hospital' with coloured shapes. claimTrue: no, the alt 'Innovate Health2' names exactly what the logo shows, apart from a stray '2'; it does not describe something absent from the image. elementFails: a logo's alternative that gives its name serves its purpose, and the link text repeats it; the trailing '2' is a CMS artefact and a blemish, not a lost equivalent, so the image meets 1.1.1 (an auditor who logged the '2' or the redundancy would be logging a reason the claim does not name). Rampa could not read the destination (ENOTFOUND), which does not bear on this 1.1.1 claim. captureDiffers: the live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "p0fee63ec9f1",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The link is a video tile in the 'Tallaght University Hospital TV test' section to https://youtu.be/3i2D5n-4y-k; its name (image alt plus visible title) is 'The Many Faces of Alzheimer's - 08 Meeting the team - L Sheridan & M Ryan, Speech & Lang Therapists'. YouTube's oEmbed gives the video's title as 'THE MANY FACES OF ALZHEIMER'S | 08 Meeting the team - L Sheridan & M Ryan, Speech & Lang Therapists', so the link text alone describes its purpose. No other link shares the name (the next tile is episode 07). It meets 2.4.4. captureDiffers: the live HTML has the same link."
+    },
+    {
+      "fingerprint": "sa2817a3dff6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image in the footer copyright line shows the words 'Smoke Free Campus' with a no-smoking sign (crop and screenshot agree). claimTrue: no, the alt 'smoke free cmapus' describes exactly what the image shows; only 'campus' is misspelt. elementFails: the alternative conveys the image's message (a smoke-free campus); a typo is a quality defect that most auditors would not fail 1.1.1 for, and in any case the claim's reason (describing something the image does not show) is not that typo. captureDiffers: the live HTML has the same img with the same alt and title."
+    },
+    {
+      "fingerprint": "cbcef71c0823",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is a small photo of a woman working at a computer in an office, in the 'Video Consultations' box beside 'Click on the button below to go to Video Consultations'. claimTrue: the alt 'front picture' is placeholder text that describes nothing of the image. elementFails: read in place of the image, 'front picture' is not an alternative (F30, placeholder text); if the photo is taken as decorative it should have alt=\"\" (F38), and if informative the alt says nothing of it, so it fails either way. The claim ('too generic to describe the image') names that failure. captureDiffers: the live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "pc78934b32b3",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The image is the playlist cover (TUH logo, Institute of Memory and Cognition, 'The Many Faces of Alzheimer's presented by Fionnuala Sweeney') inside the video link to https://youtu.be/TpwPVkd6Uso, which also holds the visible title. Its alt 'The Many Faces of Alzheimer's - 07 Meeting the team - F Tobin & E Nolan, Occupational' names the series the cover shows and the video the link opens (oEmbed title '... 07 Meeting the team - F Tobin & E Nolan, Occupational Therapists'), so it serves the image's purpose in the link. It repeats the link's visible text, a redundancy H2 advises against but no documented 1.1.1 failure; the same cover is used for every episode. It meets 1.1.1. captureDiffers: the live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "66a653f7e385",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the stock photo (blood sample tubes on a hospital form) in the sub-navigation tile link 'Adult Services'; its alt 'Adult Services 14.09.2023' is the CMS media item's title with its upload date. claimTrue: the alt is a label, not a description of what the image shows. elementFails: read in place of the image the link becomes 'Adult Services 14.09.2023 Adult Services'; the date is not an alternative for anything in the image (F30), and the photo, which adds nothing to the link text, should be alt=\"\" (F38). It fails 1.1.1, and 'names a label, not what the image conveys here' names that defect in good faith. captureDiffers: the live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "9fa18a7e6f01",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image in the header is an image of text: 'Ospidéal Ollscoile Thamhlachta' (the hospital's Irish name) and 'An Academic Partner of Trinity College Dublin'. Its alt is 'test logo'. claimTrue: yes, that is a placeholder label and not what the image conveys. elementFails: users of the alternative lose the Irish name and the Trinity College partnership the image states; placeholder text is F30. The claim names that failure. captureDiffers: the live HTML has the same img and alt, and the screenshot shows the text under the hospital name."
+    },
+    {
+      "fingerprint": "p6e48534dfbf",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of a link in the 'Keep in Touch' list to https://tallaghthospital.myservicemysay.org/patientconnect/public/smartphoneapps/index; it is an app icon reading 'Hospital APP', and its alt is '\\tPatient APP' (the browser's name for the link is 'Patient APP'). That alternative says the link leads to the hospital's patient app, which the destination path (smartphone apps page of the patient portal) confirms; the destination did not load from here, but the path settles it. It describes the link's purpose (H30) and meets 1.1.1. captureDiffers: the live HTML has the same link and img."
+    },
+    {
+      "fingerprint": "fbf13cdce014",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is a small calendar-with-clock icon in the 'Book a Blood Test' box beside 'Click on the button below to book your Appointment'. Its alt is 'blood icon'. claimTrue: yes, the alt is a label (and a wrong one: no blood is shown), not what the image conveys. elementFails: the icon is decorative next to the heading and button and should be alt=\"\" (F38); read as an alternative, 'blood icon' is placeholder-like and misdescribes the image (F30). It fails 1.1.1, and the claim names that defect. captureDiffers: the live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "s52fce76d18f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link 'link' sits in the paragraph 'For all TUH videos, click on this link' under the heading 'Tallaght University Hospital TV test', and leads to the hospital's YouTube channel. claimTrue: no, its own sentence says what it is for (all TUH videos), and the packet gave that paragraph. elementFails: the purpose is determinable from the link text with the text of its enclosing sentence (G53), which this round counts as context; it meets 2.4.4. captureDiffers: the live HTML has the same paragraph and link."
+    },
+    {
+      "fingerprint": "se6b13cee9d3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The link is the FlexSlider 'Previous' arrow (href=\"#\") of the home-page carousel, in a list 'Previous Next' after the slides and the 1-5 paging dots; visually it is the left arrow on the slide. claimTrue: in the capture the text is 'Previous' and none of its counted context names what it moves: its list item holds only 'Previous', and the heading before it is a slide headline ('Better healthcare through growth', or its hidden clone 'Every time we meet'). elementFails: I lean to a failure, since 'Previous' alone does not say it shows the previous slide (W3C's carousel tutorial labels such controls 'Previous slide'); but many competent auditors accept bare Previous/Next as clear for carousel controls in place, so the label is uncertain. captureDiffers: the live page loads the same FlexSlider with its default 'Previous' text and the screenshot shows the arrow."
+    },
+    {
+      "fingerprint": "s24300158a28",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the hospital crest, the only content of the header link to '/' (the home page; the browser's link name is 'Crest Logo White'). claimTrue: yes, the alt is all the link holds and names neither the home page nor even the hospital. elementFails: under H30 an image that is all a link holds needs an alternative that describes the link's function; 'Crest Logo White' describes the picture and its colour, an asset name, so users cannot tell where the link leads (R2: no title, and the neighbouring 'Tallaght University Hospital' text is not part of the link). It fails 1.1.1 and the claim names it. captureDiffers: the live HTML has the same link and img."
+    }
+  ]
+}

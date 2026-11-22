@@ -1,0 +1,62 @@
+{
+  "page": "https://www.bordgaisenergytheatre.ie/contact-us/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "4fcd83bf4ea7",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the TICKETMASTER accordion toggle: a div.qna-item__button holding an h3 and a chevron img, which opens a hidden qna-item__content panel. The snapshot's CDP tree gives it role generic, focusable true, and click and keydown listeners, with no role attribute and no aria-expanded, so the claim is true of the capture. A div scripted into a disclosure button with no role (and no expanded state) is F59, so it fails 4.1.2: a screen reader hears a heading and an image, not a button or its collapsed state. The screenshot is the styled page with the accordion collapsed, and the live page (WebFetch; curl gets an nginx 403) shows the same accordion content; nothing suggests the capture differs. The claim names that failure."
+    },
+    {
+      "fingerprint": "s60c0f59817d",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 17x30 chevron SVG inside the CAREERS accordion toggle, alt \"angle down white\". The crop and the screenshot show exactly a white down-pointing chevron on the dark navy band, so the alternative describes what the image shows and the claim that it describes something the image does not show is false. The image does fail 1.1.1, for another reason: it is a decorative expand indicator next to the visible heading, and F38 fails a decorative img whose alt is not null (screen readers announce \"angle down white\"); read as informative, the alt gives the picture's look, not its expand/collapse meaning. The claim points at a mismatch that does not exist, not at that defect, so it is a false positive; the model had the crop and judged wrongly. The live page (WebFetch) shows the same alt. The parent toggle also fails 4.1.2 (no role or expanded state)."
+    },
+    {
+      "fingerprint": "se0c03be63b4",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the chevron SVG inside the TICKETMASTER accordion toggle, alt \"angle down white\". The crop and the screenshot show a white down-pointing chevron, which is what the alternative says, so the claim that it describes something the image does not show is false. The image fails 1.1.1 for a reason the claim does not name: it is a decorative expand indicator beside the visible heading, and F38 fails a decorative img with a non-null alt (or, read as informative, the alt gives its look rather than its expand/collapse meaning). False positive; the model saw the chevron and still called the alt a mismatch. The live page (WebFetch) shows the same alt, so the capture does not differ. The parent toggle fails 4.1.2."
+    },
+    {
+      "fingerprint": "e57e203fdb03",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the LOST & FOUND accordion toggle, a div.qna-item__button with an h3 and a chevron img that expands a hidden content panel. The snapshot's CDP data give role generic, focusable, and click and keydown listeners, and there is no role or aria-expanded, so the claim holds for the capture. A scripted div acting as a disclosure button without a role or state is the F59 failure of 4.1.2. The styled screenshot and the live page (WebFetch) show the same collapsed accordion; nothing suggests a different version for users. The claim names the failure."
+    },
+    {
+      "fingerprint": "1ff0072d842f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is img.subscribe__bg, the full-width background photo of the newsletter band (a packed auditorium facing a lit stage), alt \"subscribe\". The heading, intro and Sign me up link laid over it are HTML text in the snapshot, not part of the image. \"subscribe\" is a section label, not anything the photo conveys, so the claim is true of the capture. The photo is a decorative backdrop, and F38 fails a decorative img whose alt is not null: screen readers announce a stray \"subscribe\" image; if it were read as informative, \"subscribe\" would still not describe it. Either way it fails 1.1.1, and the claim, read in good faith, points at that defect: the alt is a label that does not correspond to the image. The live page (WebFetch) shows the same alt, so the capture does not differ."
+    },
+    {
+      "fingerprint": "1efc674246e5",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the CAREERS accordion toggle, a div.qna-item__button with an h3 and a chevron img that opens a hidden panel. The snapshot's CDP tree shows role generic, focusable, and click and keydown listeners, with no role attribute and no aria-expanded, so the claim is true. That is F59, a failure of 4.1.2: the control's role and collapsed state are not exposed. The styled screenshot and the live page (WebFetch) show the same accordion, so the capture does not differ in a way that matters. The claim names the failure."
+    },
+    {
+      "fingerprint": "sa4f6a9b19b8",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the chevron SVG inside the BOX OFFICE accordion toggle, alt \"angle down white\". The crop and the screenshot show a white down-pointing chevron, exactly what the alternative says, so the claim that it describes something the image does not show is false. The image fails 1.1.1 for a reason the claim does not name: it is a decorative expand indicator next to the visible heading, so by F38 its alt should be null (or, if read as informative, it should give the expand/collapse meaning rather than the look). The claim points at a mismatch that is not there; false positive from the model's misreading of the crop. The live page (WebFetch) has the same alt. The parent toggle fails 4.1.2."
+    },
+    {
+      "fingerprint": "7f916680aad8",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the BOX OFFICE accordion toggle, a div.qna-item__button containing an h3 and a chevron img that expands the hidden box office details. The snapshot's CDP data give role generic, focusable, and click and keydown listeners; there is no role or aria-expanded, so the claim is true of the capture. A div scripted to act as a disclosure button with no role or state fails 4.1.2 (F59). The styled screenshot and the live page (WebFetch; curl gets an nginx 403) show the same collapsed accordion, so the capture does not differ in a way that matters. The claim names the failure."
+    }
+  ]
+}

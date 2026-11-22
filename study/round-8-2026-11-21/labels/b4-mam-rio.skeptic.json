@@ -1,0 +1,76 @@
+{
+  "page": "https://mam.rio/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p2926784b6df",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The image is the photo on the Biblioteca card: visitors standing round a table of books in the library. It sits in a card link that also holds the h4 'Biblioteca MAM Rio aberta para consultas públicas' and a description paragraph. Its alt, 'Biblioteca MAM Rio aberta para consultas públicas', names what the photo shows: the library, open to the public. The alt repeats the link's heading. H2 would prefer a null or supplementing alt there, but repetition is a redundancy, not a 1.1.1 failure, and nothing the photo conveys in this card is lost. The live HTML is identical to the snapshot. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "ce37b5b8cf2e",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The logo is all that the footer link to https://prefeitura.rio/ holds; that page is the city hall portal, 'Prefeitura da Cidade do Rio de Janeiro'. The original image reads 'ISSO É CULTURA' with a line underneath, 'LEI MUNICIPAL DE INCENTIVO À CULTURA'. The alt keeps only the slogan 'Isso é cultura'. It names neither the Prefeitura the link leads to nor the municipal incentive law the logo stands for, and it drops the very line that identifies the logo. H30 requires the alt of an image that is a link's only content to describe the link's function, and a user who hears 'link, Isso é cultura' cannot tell where it goes. I checked the obvious objection, that copying a logo's wordmark into the alt is common practice. It does not hold here: the wordmark is a slogan, and the text that identifies the logo is left out. The live footer has the same href and alt."
+    },
+    {
+      "fingerprint": "d7de58d90193",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter email field in the footer. The site stylesheet wpfc-minified/efap2zpx sets 'input::placeholder { color: #c7c7c7!important }'. That rule beats the inline '#mc_embed_signup input.email::placeholder { color: #666 }', which is not !important, and '*::-webkit-input-placeholder { color: #000 !important }', which has lower specificity. So users receive #c7c7c7. The screenshot agrees: the glyph pixels are (199,199,199) on (251,251,251). That is 1.63:1 for 16px normal-weight text, far below 4.5:1. The placeholder is the only visible text that says what the field expects. It is not incidental text and not part of an inactive control, so 1.4.3 applies. The live CSS and HTML are unchanged."
+    },
+    {
+      "fingerprint": "pe625e9b10f8",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The image is the '+ cinemateca' graphic on a card link to /cinemateca/mais-cinemateca (titled '+ Cinemateca'). The link also holds the h4 'A curadoria da Cinemateca do MAM em mais espaços' and a description. The alt, 'A curadoria da Cinemateca do MAM em mais espaços', conveys what the graphic means, the Cinemateca in more spaces ('+'), though it does not transcribe '+ cinemateca' word for word. The image adds nothing beyond the link's own text, so no information is lost. The live HTML is identical. No 1.1.1 failure."
+    },
+    {
+      "fingerprint": "7732a4215f15",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The field asks for the user's own email address to subscribe to the museum's programme newsletter. Email is one of WCAG's input purposes. Neither the input nor its form has an autocomplete attribute, in the snapshot or in the live HTML. type='email' gives the data type, not the input purpose, so the purpose cannot be programmatically determined as 1.3.5 requires (H98). The claim's second sentence also holds: the snapshot's formIssues for this field records Chromium's FormInputAssignedAutocompleteValueToIdOrNameAttributeError, raised because name='EMAIL' looks like an autocomplete token. I found no technique that makes the field pass."
+    },
+    {
+      "fingerprint": "s7e79f5b76ee",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The logo 'PREFEITURA RIO | Cultura' is all the link holds, and the link goes to https://prefeitura.rio; I opened it and its title is 'Prefeitura da Cidade do Rio de Janeiro'. The alt 'Prefeitura do Rio' names exactly where the link leads, so it describes the link's function as H30 asks, and the claim that it does not say where the link leads is false. Leaving out 'Cultura' does not change the destination. Rampa had the alt, the href and the crop, and judged wrongly. The live footer is the same."
+    },
+    {
+      "fingerprint": "s313d5fa53ce",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Visite' is the first item of the museum site's main navigation list. On a museum's site, 'Visite' in the main menu names the visiting section. The link redirects to /visite/ingressos/, whose heading is 'VISITE O MAM RIO' and whose sections are Ingressos, Horários de funcionamento and Como chegar: what the link text leads users to expect. The text alone gives the purpose, and no other link on the page has the same name. The live menu is the same."
+    },
+    {
+      "fingerprint": "p5bcaee14d3f",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is an animated GIF, 8 frames of 1 s each, looping. It cycles sponsor logos with their tiers: Petrobras, Prefeitura Rio/CCPar, Itaú, Bermudes Advogados, Vivo, Vale, IRB(Re) and Motiva. Its alt, 'Confira as empresas que patrocinam e apoiam o museu', sums up the subject and repeats the h4 of the card link it sits in, which leads to the sponsors page. I lean towards a pass: the image is a card thumbnail, the link's text gives the same purpose, H2 would even allow a null alt, and the full list is on the destination. But six of those sponsor names appear nowhere else on the home page as text. An auditor who treats the logos as informative content would fail the alt for leaving them out, so competent auditors would reasonably disagree. Separately, the endless animation may raise a 2.2.2 question, which is not judged here. The live HTML is the same."
+    },
+    {
+      "fingerprint": "p5bf96497703",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the Biblioteca card link to https://mam.rio/biblioteca (titled 'Biblioteca'). Its accessible name holds the heading 'Biblioteca MAM Rio aberta para consultas públicas' and the description 'A Biblioteca MAM Rio é especializada em arte moderna e contemporânea. Conheça seu novo espaço.', which together state its purpose plainly. No other link shares its name, so R1 does not apply. The name repeats the heading through the image alt, which makes it verbose but does not fail 2.4.4. The live HTML is identical."
+    },
+    {
+      "fingerprint": "pa08d5211c97",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The 'Lei Rouanet' logo is all the footer link holds, and the link goes to the Lei Rouanet page on gov.br (gov.br/cultura/.../lei-rouanet). The alt 'Lei Rouanet' matches the logo's text and names the destination, which meets H30. The live footer is the same. Rampa was right to report nothing."
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "page": "https://www.tribunapr.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p1608c77fddb",
+      "answers": { "elementFails": "no", "captureDiffers": "yes" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser photo in the 'Paraná' section card (linemen in bucket trucks repairing a power pole) with alt equal to the card's h2 headline 'Um dia depois de temporal, 80,5 mil casas seguem sem luz no Paraná'. The image is not inside the link: the card's link is a separate empty overlay <a> with its own aria-label, so R2/H30 do not apply. The alt identifies the story the photo illustrates (the power outage) and the photo adds little beyond it; repeating the adjacent headline is redundancy, which no WCAG failure covers (F30 is for filenames or placeholders, F39 for spacer-like alts on images that should be ignored), so my lean is that it does not fail. But auditors split on teaser photos: some want the photo described, some want alt=\"\" because the headline sits next to it, some accept the headline, so the label is uncertain. captureDiffers: the snapshot gives the lazy image height 0 although the screenshot and crop show it rendered, and the live page has since dropped this card (the story is now a text 'related' link under the tornado card); the capture is otherwise consistent with the CMS template still served, so elementFails is judged on the capture."
+    },
+    {
+      "fingerprint": "pf3482661902",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Empty card-overlay link whose aria-label is 'Temporal no Paraná bagunça show de famosos e mulher fica pendurada em tirolesa' (ARIA8). The destination's title and heading are that same headline, so the name alone gives the link's purpose. No other link on the page has this name (checked all 136 links in the snapshot), so R1 does not arise. The live page still serves the identical markup (same aria-label and href). The link meets 2.4.4 and Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "p1b7b87ad6c5",
+      "answers": { "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Thumbnail in the Metrocard sponsored section: an image of text (opened at 570x325). Besides the headline 'O embarque ficou mais simples: sistema da Metrocard supera 1 milhão de pagamentos por aproximação', it carries a sentence on the milestone and passenger adoption, 'Mais praticidade. Mais agilidade. Mais mobilidade.', three items (credit and debit cards, phone and digital wallets / Google wallet, fast and safe boarding), '1 milhão de utilizações' and a tagline. The alt paraphrases only the headline, so read strictly by G94 ('presents the same information') the image of text is not fully conveyed, and I lean toward a failure. A concrete counter-reason holds up, though: the image is a teaser thumbnail shown at 273 px wide, where most of the small print is barely legible; its job in the card is to identify the story, which the alt does; and the details are the linked article's content. Competent auditors would reasonably disagree, so the label is uncertain. The live page still serves this card with the same src and alt, and the screenshot matches the capture."
+    },
+    {
+      "fingerprint": "62c123271f4f",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "yes" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser photo (facade of the Tribunal do Júri building, the words visible on the wall) with alt equal to the adjacent h2 'Homem é condenado a 37 anos de prisão por crime bárbaro que chocou o país'. claimTrue: the picture shows a courthouse, not a man being sentenced, so the alt states something the image does not depict. elementFails: the image is outside the card's overlay link (an empty <a> with its own aria-label), so H30/R2 do not apply. It is a generic file photo illustrating a story the alt identifies; using the headline as alt is redundancy, which no WCAG 2.1 failure documents (F30 is filenames and placeholders, F39 is spacer-style alts on images to be ignored). So my lean is that it passes, but auditors genuinely split on teaser photos (describe it, null it, or accept the headline), so the label is uncertain. If it does fail, the claim read in good faith would name the reason (the alt leaves out what the photo shows). captureDiffers: the live page has changed since capture: the card is now served with 'cardhome--no-image' and no img at all. The screenshot confirms the image was there when Rampa read the page, so the judgment rests on the capture."
+    },
+    {
+      "fingerprint": "p293b0112ab6",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Empty card-overlay link in the 'Tribuna Carros' section, aria-label 'Volkswagen Tempest estreia em janeiro de 2027 com quatro modelos e 174 cv' (ARIA8), leading to the article whose title is that headline (its first heading is the section name 'Tribuna Carros', but the title and description confirm the topic). The name alone gives the purpose, and the preceding h2 repeats it. No other link shares the name, so R1 does not arise. In the capture the card's lazy image has height 0, but that does not touch the link's name, and the live page serves identical link markup. It passes 2.4.4."
+    },
+    {
+      "fingerprint": "p6e931b1a0e6",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Teaser photo of a woman in a helmet hanging from a zipline under a stormy sky, with alt 'Temporal no Paraná bagunça show de famosos e mulher fica pendurada em tirolesa'. Unlike a bare headline, this alt names what the photo shows (a woman left hanging on a zipline in the storm), so it serves the equivalent purpose under 1.1.1. Its redundancy with the adjacent h2 is not a failure. The image is outside the overlay link, so R2 does not apply. The live page serves the same src and alt (it adds only loading=\"lazy\"), and the screenshot matches. It passes, and Rampa was right not to report it."
+    }
+  ]
+}

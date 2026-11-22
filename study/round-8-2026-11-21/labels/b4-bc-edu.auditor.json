@@ -1,0 +1,70 @@
+{
+  "page": "https://www.bc.edu/content/bc-web/academics/undergraduate-programs.html",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s512a29c4917",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The header logo (BC seal and wordmark) is the only content of a link to /content/bc-web.html, the Boston College home page (title 'Home - Boston College'); its alt is 'Boston College logo'. The first half of the claim holds (the image is all the link holds), but the alternative does name the destination: on bc.edu, a banner link named 'Boston College' leads to Boston College's home page. Replacing the image with its alternative (G82) still tells users where the link goes, which is the case in H30's own example ('Smallville Times' for a linked masthead). The extra word 'logo' is redundant, not a failure. Rubric R2: an alternative that names the page passes both criteria. Live raw HTML has the same link and alt, and the screenshot shows the same logo, so the capture matches. Rampa required the alternative to state 'home' explicitly, which is stricter than 1.1.1 asks."
+    },
+    {
+      "fingerprint": "c0860ca7cfe2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the hero banner photo under the header (three students with laptops on a bench). Its alt is 'undergraduate-1920x500-021325CC075v1', which is the image's file name without the extension. It is exposed as an img with that name, not hidden or presentational. That is documented failure F30 (text alternatives that are not alternatives, such as file names). Whether the photo is informative or decorative, a screen reader reads out a meaningless string, so it fails 1.1.1. The claim says exactly this. The live raw HTML has the same img and alt, and the screenshot matches the crop."
+    },
+    {
+      "fingerprint": "p2f74a2a7699",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the 'Find Your Program' button link (a compass icon font plus that text) to /content/bc-web/academics/find-your-program.html, titled 'Find Your Program - Academics - Boston College'. The link text alone states its purpose. The other visible link with that name (in the left sub-navigation) goes to the same page, and so does the hidden main-nav one, so no ambiguity arises under R1. It passes 2.4.4. The live HTML has the same three links, all to the same URL."
+    },
+    {
+      "fingerprint": "p21f16870843",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is a link in the Undergraduate Majors tab panel, in the list under the heading MORRISSEY COLLEGE OF ARTS AND SCIENCES. Its list item reads 'Islamic Civilization and Societies: B.A.' and the link goes to the ICS major page (.../ics/academics/major.html). The link text, its list item and the preceding heading make its purpose (the Islamic Civilization and Societies major) clear. The other links with similar names (the minor page and the department page) are in tab panels that are hidden, so they are not in the accessibility tree. Even if they were, their list items, headings and (for the department link) title would tell them apart. It passes 2.4.4. The live HTML matches."
+    },
+    {
+      "fingerprint": "537a5d19e280",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the full-width photo above 'Academic Tools' (src classroom-1920x800-120622CC101v1.webp). Its alt is 'students working with seedlings'. The crop and the screenshot show smiling students in a classroom, one holding coloured cards, and no seedlings or plants anywhere. The alt describes a different picture (likely copied from another asset). A screen-reader user gets false information instead of an equivalent. If the image were decorative it should have a null alt, so the wrong alt fails 1.1.1 either way. The claim names this defect. The live raw HTML has the same src and alt."
+    },
+    {
+      "fingerprint": "5a5695deddb2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the Bootstrap tablist ul.nav-tabs with three role=tab links (Undergraduate Majors, Undergraduate Minors, Academic Departments & Programs). The first tab is shown as current both visually (gold text and top bar in the screenshot) and in the markup (li class='active'), and its panel is the only one displayed. But no tab carries aria-selected or any other state attribute: the snapshot's accessibility tree reports selected=false for all three, and the live raw HTML has no aria-selected anywhere. The selected state of the current tab is therefore not programmatically determinable, which fails 4.1.2 (name, role, value: states must be programmatically determinable). The claim names this exactly. My fetch was an automated one, but it matches the snapshot's markup."
+    }
+  ]
+}

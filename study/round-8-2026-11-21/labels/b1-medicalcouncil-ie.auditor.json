@@ -1,0 +1,20 @@
+{
+  "page": "https://www.medicalcouncil.ie/public-information/check-the-register/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "e38b515abe20",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the Forename text input of the public register search form, under the h1 'Search for a Registered Doctor'. The intro text says 'You can search by last name, first name, or registration number' of a doctor, and the submit button reads 'Search Registered Doctors'. The input has no autocomplete attribute, but the field asks for the forename of the doctor being looked up, not the user's own first name, so the claim's statement that it asks for the user's first name is false (claimTrue no). SC 1.3.5 applies only to input fields collecting information about the user, and Understanding 1.3.5 says it does not apply to fields about third parties, so the field meets the criterion (elementFails no). The live page, fetched 2026-11-21, has the same input markup with no autocomplete and the same heading and context; the cookie banner over the screenshot does not affect this claim (captureDiffers no). Rampa had the heading and form context in its packet and still judged the field as personal data, so the cause is model_error."
+    },
+    {
+      "fingerprint": "5ae6985ff5ef",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the Surname text input of the same register search form under 'Search for a Registered Doctor', with the button 'Search Registered Doctors'. It has no autocomplete attribute, but it asks for the surname of the doctor being searched for, not the user's own last name, so the claim is false as worded (claimTrue no). SC 1.3.5 covers only input fields that collect information about the user; a field that takes a third party's name for a search is out of its scope, so the field passes (elementFails no). The live page, fetched 2026-11-21, serves the same input markup and context (captureDiffers no). The context showing the search target was available to Rampa, so the cause is model_error."
+    }
+  ]
+}

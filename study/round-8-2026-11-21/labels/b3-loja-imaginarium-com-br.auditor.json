@@ -1,0 +1,39 @@
+{
+  "page": "https://loja.imaginarium.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "7f82b6541ab9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter 'Nome' text field (#newsletterName) in the black strip under the hero banner. It has a visually hidden label but no visible one, so its placeholder 'nome' (lowercased by CSS) is the only visible cue. The snapshot and the live HTML both apply a global ::-webkit-input-placeholder{color:#979899} and an inline background:#f4f4f4; sampling the screenshot gives #979899 glyph pixels on #f4f4f4, which is 2.63:1 at 14px weight 400, below 4.5:1. Understanding 1.4.3 says the criterion 'applies to text in the page, including placeholder text', so the field fails 1.4.3 for the reason the claim gives. I fetched the live page and found the same input markup and the same placeholder rule. The capture has an app-download ReactModal open, which sets aria-hidden on the page content, but that does not change what is painted, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "dbc93cc564f3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the fixed floating support button (img alt 'Abrir Central de Suporte'). Its only content is an SVG that I downloaded from the live site: the WhatsApp logo, a white phone-in-speech-bubble (fill #fff) on the site's background-color:#25d366 circle. The screenshot shows that brand mark at the bottom right. The sentence is true of the capture: white on #25d366 is 1.98:1, and the icon is all the button shows. But this is WhatsApp's logo in its own brand colours, white glyph on WhatsApp green. Understanding 1.4.11 says under the essential exception that 'The brand logo of an organization or product ... is generally presented in the brand's specific colors; it is therefore exempt', and that for a logo that is the only visible content of a control 'normatively the exemption \"carries over\" to the user interface component'. Using a higher-contrast variant is encouraged there, not required. So the button does not fail 1.4.11. The rule measured the right pixels but applied G207's 3:1 to an exempt logo. I compared the live HTML (same button, CSS and SVG) and found no difference that matters."
+    },
+    {
+      "fingerprint": "396f4c463dc1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter 'E-mail' text field (#newsletterEmail), next to 'Nome'. It has only a visually hidden label, so its placeholder 'e-mail' is the only visible cue to what goes there. The global ::-webkit-input-placeholder{color:#979899} rule and the inline background:#f4f4f4 are the same in the snapshot and in the live HTML, and the screenshot pixels confirm #979899 on #f4f4f4: 2.63:1 at 14px weight 400, where 4.5:1 is needed. Understanding 1.4.3 explicitly covers placeholder text, so the field fails 1.4.3 as the claim says. The live page matches the capture (same markup and CSS); the open app-download modal in the capture does not affect what is painted in the field."
+    }
+  ]
+}

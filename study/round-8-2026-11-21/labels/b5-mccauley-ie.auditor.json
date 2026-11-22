@@ -1,0 +1,62 @@
+{
+  "page": "https://www.mccauley.ie/vitamins",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "f74d2dcfcd22",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header site search input (#search) shows the placeholder \"How can we help today?\" at 14px, weight 400. The snapshot measured #cccccc on #ffffff (1.61:1); pixels sampled from the screenshot inside the field give the same light grey (darkest about #cccccc, 1.5-1.6:1 against white). The live style sheets (styles-m and styles-l) set the placeholder colour to #ccc for text inputs and for .block-search input, on the white pill, so users get the same contrast. The search label is visually hidden, so this placeholder is the only visible text in the field. It is visible text that is not inactive, decorative or a logo, so 1.4.3's 4.5:1 applies and 1.61:1 fails. The claim names this failure."
+    },
+    {
+      "fingerprint": "s940d19c9575",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The same site search combobox. Its label is a <label for=\"search\"><span>Search</span></label> (exposed as \"Search\", and as \" SEARCH\" after text-transform), next to a magnifier submit button and the placeholder \"How can we help today?\". For a site search field, \"Search\" describes the field's purpose: type a search query. That is what 2.4.6 asks of a label, so the claim that it does not say what to enter is wrong. The live HTML has the same label and input. The element meets 2.4.6. The model had the label and its context and judged it wrongly."
+    },
+    {
+      "fingerprint": "9cd411503213",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer newsletter field (#newsletter, type=email, name=email, label \"Sign up to our newsletter to get our special offers delivered to your mailbox!\", placeholder \"Email address\") collects the subscriber's own email address, which is the 'email' input purpose in WCAG's list. It has no autocomplete attribute, and type=email does not say that the address is the user's own, so the purpose cannot be programmatically determined (H98 not met). The snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError for this field, so the Chromium part of the claim also holds. The live HTML is the same, still without autocomplete. The element fails 1.3.5 for the reason the claim gives."
+    },
+    {
+      "fingerprint": "pe824af76425",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The product photo in the 8th product card, inside an image link (tabindex=-1) to the product page /revive-active-original-30-sachets-omega-15-day-free. A text link with the same name and address sits just below it. The alt \"Revive Active Original 30 Sachets & Omega 15 Day Free\" names the product shown (the Revive Active box with the free omega pack) and the destination page, whose title and heading are the same string, so it serves the image's function as a link (H30/G82). I downloaded the photo itself: it has no 'Buy 1 get 1 Half Price' text. That badge, seen in the crop, is a separate Amasty label image layered over the photo with its own alt, a matter for that element, not this one. The live HTML has the same alt (lazy-loaded the same way). The element meets 1.1.1."
+    },
+    {
+      "fingerprint": "ab11d7c73adc",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer image is the only content of a link to the PSI's list of approved online sellers, which now redirects to psi.ie/search-registers. The image is the EU common online-pharmacy logo and contains the text \"Click to verify if this website is operating legally\". Its alt is \"psi compliance logo\". That describes the picture as a logo. It does not say the link lets users check the pharmacy on the PSI register, and it leaves out the verification text shown in the image. Per H30 and R2, the alternative of an image that is a link's only content must describe the link's purpose, so the element fails 1.1.1. The link has no title, and a neighbouring link would not cure 1.1.1 anyway. The live HTML has the same alt. The claim names the failure."
+    },
+    {
+      "fingerprint": "300cc1b5c1c1",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer newsletter email field shows the placeholder \"Email address\" (14px, weight 400) on a white field. The snapshot measured #cccccc on #ffffff (1.61:1). Pixels sampled from the screenshot inside the field are #cccccc (1.61:1 against white). The live styles-m.css sets input[type=email] placeholders to #ccc, so users get the same contrast. The placeholder is the only visible text saying an email address goes in the field. It is visible, informative text, not inactive or decorative, so 1.4.3's 4.5:1 applies and it fails. The claim names this failure."
+    },
+    {
+      "fingerprint": "pbd061d568b2",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The product name link in the first product card, with the text \"AYA Liposomal Collagen Strawberry Flavour 30 Sachets\", leads to that product's page, whose title and heading are the same string. Its text alone describes its purpose. The only other link with this product's name is the card's image link, which goes to the same address, so no link shares its name while leading elsewhere. The live HTML has the same link. The element meets 2.4.4."
+    },
+    {
+      "fingerprint": "775edd31146c",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The layered-navigation filter (#narrow-by-list) is a Magento accordion initialised with \"active\": false and \"collapsible\": true. Its script gives it role=tablist with two role=tab headers, Category and Brand. In the capture both tabs have aria-selected=false and aria-expanded=false, both tabpanels are aria-hidden=true, and the screenshot shows both collapsed (chevrons pointing right). It is true that no tab is exposed as selected. But no panel is open, so there is no open panel left unannounced: each header is exposed as collapsed, which matches what sighted users see. The state is programmatically determinable and correct, so the element meets 4.1.2. The live page initialises the same way. The rule requires one selected tab even when every panel is closed, a pattern convention stricter than 4.1.2."
+    }
+  ]
+}

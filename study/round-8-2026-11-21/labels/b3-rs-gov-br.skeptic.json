@@ -1,0 +1,102 @@
+{
+  "page": "https://www.rs.gov.br/inicial",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "23d6e81b69fa",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The footer site-map link 'Saiba mais...' (href /saiba-mais) is the title link of a footer column; its list item also holds the nested list Portal do Estado do RS, Agência de Notícias, Agenda do Governador, Secretarias e Órgãos do Estado. That list item is programmatically determined context under the rubric (same list item), and it tells users what the link heads: the group of state-government links. The destination, opened live, is the page 'Saiba mais... - RS.GOV.BR' whose only content is a list of exactly those four child pages (_service/conteudo/pagedlistfilho?id=942 returns them), so the link text with its list item determines its purpose. The claim that nothing around it tells where it goes is false of the capture. The nearest preceding heading ('Descomplica RS') is unrelated but not needed. The live footer has the same markup, so the capture does not differ."
+    },
+    {
+      "fingerprint": "18088591057d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The document title of https://www.rs.gov.br/inicial is 'RS.GOV.BR - Portal de Serviços Digitais'. This page is the portal's home page, and the title names the site and says what it is (the state's digital services portal); a site name is an apt title for a home page under 2.4.2 / G88, and the h1 matches it. The claim that it says nothing about this page is false. The live page has the same title, so the capture does not differ. (Other pages of the site reuse the same title, which may fail 2.4.2 there, but not here.)"
+    },
+    {
+      "fingerprint": "e941a61f2d2a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The '[Go Back]' link sits inside div.login-cidadao, whose content is loaded by login-cidadao.js from /_service/componentes/logincidadao. In Rampa's capture that request was answered by the F5 WAF block page ('The requested URL was rejected. Please consult with your administrator. Your support ID is ...' plus '[Go Back]'), drawn over the hero; the measured teal-on-yellow ratio is plausible for the capture, so the claim is true of it. Fetched now, the same endpoint returns the normal fragment, an 'Entrar' login button (login-cidadao__btn-login), so ordinary visitors never receive this link. The element does not exist on the page users receive; the finding comes only from a capture blocked as an automated client."
+    },
+    {
+      "fingerprint": "p14d49de52b6",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Skip link 'Busca [3]' (accesskey 3, title 'Ir para a busca', href #buscageralTextBox) in the list 'Conteúdo [1] / Menu [2] / Busca [3]'. Its text plus its title make its purpose clear: go to the search field. It meets 2.4.4. (The id buscageralTextBox is duplicated and the first copy is in a form hidden on desktop, so the jump may not land on the visible field; that is a functional/4.1.1-type defect, not a link-purpose failure.) The live markup is identical."
+    },
+    {
+      "fingerprint": "b69f6bc63775",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Search submit button (aria-label 'Buscar') whose only visible content is a white glyphicon magnifier on the yellow hero photo; master.css gives it a transparent background and white colour with no shadow, and the crop confirms white on yellow, about 1.6-1.8:1, so the claim is true and the default presentation is below 3:1 for an icon that identifies the control. The hero background image (upload 202506) and CSS are the same live, so the capture does not differ. The page offers a working high-contrast switch: the 'Contraste' link in the top bar (white on dark teal, about 6:1) runs stylesheet.selector.js, which enables the alternate style sheet contraste.css and keeps it in a cookie; that sheet lays rgba(0,0,0,0.825) over the hero (.wrapperDigitalRSBusca__filtro) and makes links and buttons white, so in that presentation this white content would sit on a near-black background. G174 (a control that switches to a presentation with sufficient contrast) is listed as sufficient for 1.4.3 and for 1.4.11 when used for identifying user interface components, but it also requires the switched page to conform to every success criterion at the level. I could not render the high-contrast presentation to confirm the element there, nor establish the alternate version's full conformance, and auditors split on whether such a toggle cures a default-presentation contrast failure."
+    },
+    {
+      "fingerprint": "e044312026ab",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Voice-search button (aria-label and title 'Pesquisar por voz') showing only a white Font Awesome microphone on the yellow hero; same transparent white button styling, no shadow, about 1.6-1.8:1 in the crop, so the claim is true and the default presentation is below 3:1. Live markup, CSS and background match the capture (the button is shown in browsers with webkitSpeechRecognition, such as Chrome). The page offers a working high-contrast switch: the 'Contraste' link in the top bar (white on dark teal, about 6:1) runs stylesheet.selector.js, which enables the alternate style sheet contraste.css and keeps it in a cookie; that sheet lays rgba(0,0,0,0.825) over the hero (.wrapperDigitalRSBusca__filtro) and makes links and buttons white, so in that presentation this white content would sit on a near-black background. G174 (a control that switches to a presentation with sufficient contrast) is listed as sufficient for 1.4.3 and for 1.4.11 when used for identifying user interface components, but it also requires the switched page to conform to every success criterion at the level. I could not render the high-contrast presentation to confirm the element there, nor establish the alternate version's full conformance, and auditors split on whether such a toggle cures a default-presentation contrast failure."
+    },
+    {
+      "fingerprint": "pc560c40a031",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Link 'Previdência' in the 'Serviços por categoria' panel; the h2 'Serviços por categoria' is the heading just before it, so text plus heading say it leads to the services in the Previdência category, which is what /busca?categoria=21&categorianome=Previdência is. No other link shares its name. It meets 2.4.4; the live markup is the same."
+    },
+    {
+      "fingerprint": "p7335610f471",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Link 'Educação' in the 'Serviços por categoria' panel; with the preceding h2 'Serviços por categoria' it reads as the services in the Educação category, matching its destination /busca?categoria=3&categorianome=Educação. No other link shares its name. It meets 2.4.4; the live markup is the same."
+    },
+    {
+      "fingerprint": "5ae5f8eb2ed4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Hero link 'Tudo Fácil' (title 'Central de Atendimento do RS'), 18px weight 500 uppercase, so not large text; master.css sets .destaque_topo_links to color #fff with no text-shadow, and the crop shows white on the yellow photo, about 1.8-2.0:1, so the claim is true and the default presentation is far below 4.5:1 (F83). The live markup, CSS and background image match the capture. The page offers a working high-contrast switch: the 'Contraste' link in the top bar (white on dark teal, about 6:1) runs stylesheet.selector.js, which enables the alternate style sheet contraste.css and keeps it in a cookie; that sheet lays rgba(0,0,0,0.825) over the hero (.wrapperDigitalRSBusca__filtro) and makes links and buttons white, so in that presentation this white content would sit on a near-black background. G174 (a control that switches to a presentation with sufficient contrast) is listed as sufficient for 1.4.3 and for 1.4.11 when used for identifying user interface components, but it also requires the switched page to conform to every success criterion at the level. I could not render the high-contrast presentation to confirm the element there, nor establish the alternate version's full conformance, and auditors split on whether such a toggle cures a default-presentation contrast failure."
+    }
+  ]
+}

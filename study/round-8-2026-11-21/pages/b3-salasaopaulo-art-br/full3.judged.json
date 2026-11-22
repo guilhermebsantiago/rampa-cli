@@ -1,0 +1,422 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://salasaopaulo.art.br/salasp/pt/fale-conosco",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "3632db9dd1b8",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#name",
+   "message": "The field \"Nome\" asks for the user's full name but does not identify that purpose: autocomplete=\"name\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "Nome",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#name",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "name",
+    "before": "<input type=\"text\" class=\"\" id=\"name\" placeholder=\"ex.: João da Silva Gomes\" required=\"\" minlength=\"5\" aria-label=\"Nome\" name=\"name\" pattern=\"[a-zA-ZÀ-ú]+( [a-zA-ZÀ-ú]+)*\" data-msg-valuemissing=\"Informe seu nome completo\" data-msg-patternmismatch=\"Informe seu nome completo\">",
+    "after": "<input type=\"text\" class=\"\" id=\"name\" placeholder=\"ex.: João da Silva Gomes\" required=\"\" minlength=\"5\" aria-label=\"Nome\" name=\"name\" pattern=\"[a-zA-ZÀ-ú]+( [a-zA-ZÀ-ú]+)*\" data-msg-valuemissing=\"Informe seu nome completo\" data-msg-patternmismatch=\"Informe seu nome completo\" autocomplete=\"name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "c00946fa036b",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#email",
+   "message": "The field \"E-mail\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "E-mail",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#email",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input type=\"email\" class=\"\" id=\"email\" placeholder=\"ex.: nome@email.com\" required=\"\" aria-label=\"E-mail\" name=\"email\" data-msg-valuemissing=\"Informe seu e-mail\" data-msg-patternmismatch=\"Verifique o e-mail informado\">",
+    "after": "<input type=\"email\" class=\"\" id=\"email\" placeholder=\"ex.: nome@email.com\" required=\"\" aria-label=\"E-mail\" name=\"email\" data-msg-valuemissing=\"Informe seu e-mail\" data-msg-patternmismatch=\"Verifique o e-mail informado\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "d6ec756229d9",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#name",
+   "target": "#name",
+   "message": "The placeholder \"ex.: João da Silva Gomes\" has a contrast of 3.66:1 with the field (#f1f1f1 on #fafafa…#ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#f1f1f1 on #fefefe; #fafafa…#ffffff · 3.66:1 at best, 1.08:1 at worst · 14px, 400",
+   "subject": "ex.: João da Silva Gomes",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input type=\"text\" class=\"\" id=\"name\" placeholder=\"ex.: João da Silva Gomes\" required=\"\" minlength=\"5\" aria-label=\"Nome\" name=\"name\" pattern=\"[a-zA-ZÀ-ú]+( [a-zA-ZÀ-ú]+)*\" data-msg-valuemissing=\"Informe seu nome completo\" data-msg-patternmismatch=\"Informe seu nome completo\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "f19e9cee742a",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > header > div > div:nth-of-type(5) > a:nth-of-type(2)",
+   "target": "html > body > header > div > div:nth-of-type(5) > a:nth-of-type(2)",
+   "message": "\"English\" is in English, but it inherits the page's language (pt-BR): a screen reader mispronounces the language's name. Add lang=\"en\" to the link.",
+   "evidence": "English",
+   "subject": "English",
+   "patch": {
+    "ref": "html > body > header > div > div:nth-of-type(5) > a:nth-of-type(2)",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "en",
+    "before": "<a href=\"/salasp/en\" data-astro-cid-3ef6ksr2=\"\">",
+    "after": "<a href=\"/salasp/en\" data-astro-cid-3ef6ksr2=\"\" lang=\"en\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/salasp/en\" data-astro-cid-3ef6ksr2=\"\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "3d94aa4a9080",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > header > div > div:nth-of-type(5) > a:nth-of-type(3)",
+   "target": "html > body > header > div > div:nth-of-type(5) > a:nth-of-type(3)",
+   "message": "\"Español\" is in Spanish, but it inherits the page's language (pt-BR): a screen reader mispronounces the language's name. Add lang=\"es\" to the link.",
+   "evidence": "Español",
+   "subject": "Español",
+   "patch": {
+    "ref": "html > body > header > div > div:nth-of-type(5) > a:nth-of-type(3)",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "es",
+    "before": "<a href=\"/salasp/es\" data-astro-cid-3ef6ksr2=\"\">",
+    "after": "<a href=\"/salasp/es\" data-astro-cid-3ef6ksr2=\"\" lang=\"es\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/salasp/es\" data-astro-cid-3ef6ksr2=\"\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 4
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > footer > div:nth-of-type(2) > img",
+   "message": "The text alternative \"Fundação Osesp - Organização Social de Cultura\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Logotipos da Fundação Osesp e do Governo do Estado de São Paulo - Secretaria da Cultura, Economia e Indústria Criativas\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: no (0.00), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(2) > nav > a:nth-of-type(7)",
+   "message": "The link text \"Ouvidoria\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "The model suggests: \"Ouvidoria do Governo de SP\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > footer > section > div > div:nth-of-type(1) > a",
+   "message": "The link text \"Ouvidoria\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "The model suggests: \"Ouvidoria do Estado de São Paulo\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > footer > section > div > div:nth-of-type(3) > a",
+   "message": "The link text \"SIC\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Acesse o portal SIC da Sala São Paulo\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#govMenuToggle",
+   "message": "The label \"Abrir/Fechar\" does not say what to enter.",
+   "evidence": "The model suggests: \"Abrir ou fechar o menu\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#email",
+   "message": "The label \"ex.: nome@email.com\" does not say what to enter.",
+   "evidence": "The model suggests: \"E-mail\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#phone",
+   "message": "The label \"(00)00000-0000\" does not say what to enter.",
+   "evidence": "The model suggests: \"Telefone\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 2,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 18,
+   "judged": 18,
+   "failed": 0,
+   "passed": 15,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 3
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 10,
+   "judged": 10,
+   "failed": 0,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 3
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: html > body > div:nth-of-type(4) > div > div:nth-of-type(1) > iframe (https://www.google.com/recaptcha/api2/anchor?ar=1&k=6Lcx2p0pAAAAAIKuxNncOXYS8C-ZWtuIXs-nH3Up&co=aHR0cHM6Ly9zYWxhc2FvcGF1bG8uYXJ0LmJyOjQ0Mw..&hl=en&v=4i3aN5wAweL7i3ADI7BSX4B-&size=invisible&anchor-ms=20000&execute-ms=30000&ovv=CADq00gF&cb=3pdw2t2q84e4).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 39,
+  "cachedCalls": 0,
+  "inputTokens": 31941,
+  "outputTokens": 3304,
+  "latencyMs": 101455
+ },
+ "timings": {
+  "totalMs": 55855,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 17
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 4648,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 5,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 3725,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 3,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1239,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 30473,
+    "prepareMs": 0,
+    "candidates": 18,
+    "judged": 18,
+    "calls": 18,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 12094,
+    "prepareMs": 0,
+    "candidates": 10,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 214,
+    "prepareMs": 212,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 6,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 3419,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 20
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 3,
+   "notCaptured": 0,
+   "reasons": {}
+  }
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > div:nth-of-type(4) > div > div:nth-of-type(1) > iframe",
+     "url": "https://www.google.com/recaptcha/api2/anchor?ar=1&k=6Lcx2p0pAAAAAIKuxNncOXYS8C-ZWtuIXs-nH3Up&co=aHR0cHM6Ly9zYWxhc2FvcGF1bG8uYXJ0LmJyOjQ0Mw..&hl=en&v=4i3aN5wAweL7i3ADI7BSX4B-&size=invisible&anchor-ms=20000&execute-ms=30000&ovv=CADq00gF&cb=3pdw2t2q84e4",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  }
+ }
+}

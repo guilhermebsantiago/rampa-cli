@@ -1,0 +1,69 @@
+{
+  "page": "https://www.virginia.edu/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p2e5899935ac",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Event link in the Events column whose text is the event's title, 'String & Piano Chamber Music Concert', leading to that event's page on the UVA calendar (eventid=209844663); the heading just before it is 'Events'. The text alone says where it goes, and no other link on the page shares the name, so 2.4.4 is met. The event list is built by script from /core/cached-events.json; I fetched that feed and the live page's first event is the same title and the same permalink as in the snapshot and the screenshot, so the capture does not differ."
+    },
+    {
+      "fingerprint": "p27d29ed6df5",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer link 'Accessibility' with title 'UVA Accessibility' leading to https://accessibility.virginia.edu, the university's accessibility site. Its text plus its title describe its purpose, it is the only link with that name, so it meets 2.4.4. My fetch of the destination got a bot challenge page, but the host name and title settle the purpose. The live HTML has the same anchor, href and title as the snapshot."
+    },
+    {
+      "fingerprint": "p82f5b1a453b",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Inline SVG with role=img and aria-label 'UVA Facebook', the only content of a footer link to facebook.com/UniversityofVirginia; the crop shows the Facebook 'f' logo. The alternative names the destination, which is what H30 asks for an image that is a link's only content, so 1.1.1 is met. The packet lists the parent link's name as null, but the snapshot's accessibility tree gives the link the name 'UVA Facebook', as browsers compute it from the img child; that null is a packet artefact and does not make the element fail. The live markup is identical."
+    },
+    {
+      "fingerprint": "caa060360da7",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "img HP-DECOR-Curved-Lines.svg with alt=\"\" in the 'Committed to Achievement' stats section. I fetched the SVG: it holds only two thin orange curved paths, no text. The heading 'Committed to Achievement' and the '#1 Best Public College in Virginia', '#1 Top Hospital in Virginia' stats are real HTML text (h3 and p elements) in the same section, drawn over the image. So the claim is false on both counts: the image does not convey those words, and the surrounding text does say them. A decorative image with a null alt meets 1.1.1 (F38 does not apply, H67 is satisfied). The crop the model saw is a screen region of the image's box, which includes the overlaid HTML text, so it showed text the image does not hold; that misleading crop is why I give collector_error, although the model also had the section text. The live page matches the capture."
+    },
+    {
+      "fingerprint": "se6a2de3e8bd",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Main-menu link 'Athletics' to https://virginiasports.com/. I fetched it: status 200, title 'Home Page - Virginia Cavaliers Official Athletic Site', which is UVA's official athletics site. The link text matches its destination, so the claim is false and the link meets 2.4.4. The other 'Athletics' link (mobile menu) goes to the same address. Rampa did not read the destination, but the href itself ('virginiasports') already showed the match, so this is a judgment error rather than missing context. The live HTML has the same link."
+    },
+    {
+      "fingerprint": "p5c72e586c5a",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Photo with alt 'Portrait of Dr. Jayakrishna Ambati' inside the Discovery and Innovation link, which also holds the h3 headline and summary about his multiple sclerosis research. The crop shows a man in a suit posed in a lab, which matches the alt. The image is not the link's only content, so the headline gives the link's purpose and the alt is a short accurate supplement; that is redundancy at most (H2 would prefer a null alt), not a 1.1.1 failure. Live markup is identical."
+    },
+    {
+      "fingerprint": "p9316f6b84b4",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Main-menu top link 'About UVA' to /about-uva/, whose page is titled 'About UVA'. The text alone gives the purpose. The other links named 'About UVA' on the page (mobile menu, the 'Uncommon Community' button) all go to /about-uva/ as well, so shared names resolve to the same resource and 2.4.4 is met. The live HTML matches."
+    },
+    {
+      "fingerprint": "p67b408fbd3c",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "UVA Today news photo with alt 'The sun shining over the roof of the UVA School of Architecture building.' In the live HTML it is not inside a link (the headline link is a sibling), so it is informative content, not a control. The crop shows a brick, glass and concrete building with a sunburst over its roofline, which the alt describes accurately, and it fits the story about the School of Architecture's new dean. 1.1.1 is met. The live markup and the screenshot match the snapshot."
+    },
+    {
+      "fingerprint": "p2ea97566438",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "UVA Today news photo, not inside a link, with alt 'Collage of photos of Natalie Worthan at a miltary training center and at several events where she has raised money for the Veterans Collaborative'. The crop shows a collage: a woman with soldiers at a training tower, a $5,000 check to the Veterans Collaborative, and event photos. The alt gives the image's content and purpose; the typo 'miltary' does not stop it from serving an equivalent purpose. 1.1.1 is met. Live markup matches."
+    }
+  ]
+}

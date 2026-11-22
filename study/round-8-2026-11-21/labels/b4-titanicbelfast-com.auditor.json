@@ -1,0 +1,102 @@
+{
+  "page": "https://www.titanicbelfast.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "61ea0d369f01",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image beside the 'Getting here' text is a map of Titanic Quarter (River Lagan, Titanic Belfast, SS Nomadic, roads, parking, rail station) and is not inside a link. Its alt 'Untitled Design' is a leftover file/design name: it says nothing the map shows, so the claim, read in good faith, is true of the capture. The map conveys where the venue sits relative to landmarks and transport; the adjacent paragraph and the Google Maps link give only part of that. Placeholder text as an alternative is failure F30, and even if the map were judged decorative the non-empty placeholder alt would still be announced, so the element fails 1.1.1. The live HTML has the same img with alt 'Untitled Design' and the screenshot shows the same map, so the capture does not differ."
+    },
+    {
+      "fingerprint": "900f9c8750db",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the first real slide of the experiences carousel (#slick-slide00, slick-current, aria-hidden false at capture), a photo of two older visitors looking at an illuminated exhibit case, with the caption 'The Titanic Experience'. It is not in a link. Its alt 'Boomtown 2 nov24' is an asset/campaign label, not a description of what the photo shows or why it is there, so the claim is true of the capture. A label like this is a text alternative that is not an alternative (F30); even a decorative reading would need a null alt. The element fails 1.1.1 for the reason the claim gives. The live HTML carries the same alt; the screenshot shows another slide only because the carousel rotates, which does not touch the claim."
+    },
+    {
+      "fingerprint": "pedab8eec862",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A 40px icon (an ear with sound waves) in the visitor-information grid, alt 'Multimedia Guide', directly above the visible label 'Multimedia Guide' in the same non-link div. The alt correctly identifies what the icon stands for. It duplicates the adjacent text, which is redundant for screen reader users (alt='' would be better practice) but is not a 1.1.1 failure: the non-text content has a text alternative serving the equivalent purpose. Live HTML matches the capture. Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "b50a56e8db72",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the 140px 'BE THERE' storytelling text behind the 'Offers and Events' heading. The live CSS sets .c-section-grey .c-media-text-storytelling-text to #fff on a #f7f6f5 section background (about 1.08:1), shows it only at viewports of 1200px and wider, and hides it under the site's high-contrast class. The screenshot shows white ghost letters on light grey, so the claim (at most 1.14:1, 3:1 needed for large text) is true of the capture, and the capture matches the live CSS at the 1280px viewport. Whether it fails 1.4.3 depends on whether this watermark word is 'pure decoration', which 1.4.3 exempts. My reading is that it is decorative: an ambient slogan carrying no information, deliberately set near-invisible behind the real heading and dropped in high contrast. But it is real text with words, and competent auditors would reasonably disagree, so the label is uncertain."
+    },
+    {
+      "fingerprint": "p23de3bcd6fb",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A 40px bed icon in the visitor-information grid, alt 'Accommodation', above the visible label 'Accommodation' in the same non-link div. The alt names what the icon represents; it is redundant with the adjacent text (alt='' would be cleaner) but that is not a 1.1.1 failure. Live HTML matches the capture. Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "5a9f1d2dd220",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of the link to /visitor-information/offers-events/white-star-premium-pass (the red arrow is a CSS span with no text). It shows the Titanica statue against the sky, and its alt 'Titanica BQ' names the statue plus a code; it does not identify the destination, the White Star Premium Pass offer page (whose title, h1 and description never mention Titanica). The h3 'White Star Premium Pass' above the card is a heading, not part of the link and not the image's alternative; per the rubric (R2, H30) a nearby heading or title does not cure 1.1.1 for an image that is all a link holds. The link has no title. The claim is true of the capture and names the failure. The live HTML is identical."
+    },
+    {
+      "fingerprint": "p7cfb36aaecf",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A 40px fork-and-knife icon in the visitor-information grid, alt 'Eat & Shop', above the visible label 'Eat & Shop' in the same non-link div. The alt conveys what the icon stands for in this grid; the duplication with the adjacent label is redundant but not a 1.1.1 failure. Live HTML matches the capture. Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "s52b981973ab",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link is the first top-level item of the main navigation, text 'Explore' (shown uppercase by CSS), href /explore, which opens the page titled 'Explore - Titanic Belfast' with h1 'Explore'. The link text is the name of the section page it leads to, in a site menu next to 'Experiences', 'Visitor Information' and so on; Understanding 2.4.4 accepts link text that names the destination. So the claim that the text does not tell where the link goes is false, and the link meets 2.4.4. Rampa had the destination's title and heading and still judged it vague, so the cause is model_error. The live HTML has the same link."
+    },
+    {
+      "fingerprint": "sa1b69b286b3",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The header logo image is the only content of the link to '/', the Titanic Belfast home page (page title 'Titanic Belfast'). Its alt 'Titanic Belfast logo' names the site whose home page the link opens. Read as the link's text (G82/H30 test), it lets users tell where the link goes: to Titanic Belfast's home. The extra word 'logo' is verbose, and 'Titanic Belfast home' would be better, but by the rubric (R2, an alternative that names the page) the image describes the link's purpose and passes 1.1.1. The claim that it does not say where the link leads is therefore not true. Rampa did not read the destination, but the alt and href were enough, so the cause is model_error. Live HTML matches the capture."
+    }
+  ]
+}

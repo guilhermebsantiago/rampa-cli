@@ -1,0 +1,69 @@
+{
+  "page": "https://prefeitura.belem.pa.gov.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s456f25d6b32",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link is the last tile of the 'COMO PODEMOS AJUDAR?' grid. Its accessible name, 'Veja os serviços', comes from an h2 inside it, and it goes to /secretarias/ ('Secretarias e Órgãos: Acesse os serviços a partir da seleção de um órgão ou secretaria'). A second 'Veja os serviços' link goes to /modalidade-do-servico/online/, so the first half of the claim holds. But the heading just before this link is the h2 'COMO PODEMOS AJUDAR?' (the five profile links between them contain no heading). The heading just before the other link is 'Processo Eletrônico'. Their contexts are neither the same nor identical, so by R1 the two links do not form a set, and 'nothing around this one tells it apart' is false by this rubric's context list. On its own, 'see the services' under 'How can we help?' fairly describes a page for reaching services through each department. Sighted users get no more information than that, so 2.4.4 is met. I checked the live HTML (curl) and found the same links, hrefs, headings and order as the snapshot, so no capture difference. Rampa had the nearby headings, so this is a misjudgment."
+    },
+    {
+      "fingerprint": "4199c7a37be8",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the footer logo (logo_prefeitura_negativa_vertical.png). It is not a link and has alt=\"\". The crop and the screenshot show 'BELÉM PREFEITURA' and the tagline 'CAPITAL DA AMAZÔNIA'. Nothing in the footer text names the organization: only headings, contacts and '© Todos os direitos reservados'. The tagline appears nowhere on the page as text, so the claim holds. Whether this fails 1.1.1 is a judgment call. The page identifies the organization elsewhere (title, the 'Prefeitura Municipal de Belém' link in the top bar), and many auditors accept a repeated footer logo as decorative. Others hold that a logo is informative non-text content whose identity and tagline need an alternative. I lean towards fail, but competent auditors would reasonably disagree, hence uncertain. The live HTML still has alt=\"\", so the capture matches."
+    },
+    {
+      "fingerprint": "sf21f6aedf51",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This tile in the 'SERVIÇOS ONLINE / Serviços mais buscados' grid is a link named 'TLPL' (an h2 inside it). It goes to '2ª via da Taxa de Licença para Localização e Funcionamento (TLPL)'. The text names the exact municipal tax the page is about, the way the neighbouring 'IPTU', 'ITBI' and 'ISS' tiles name theirs, and the destination's own title uses the acronym. So the link text does tell users where it goes, and the claim is false. Understanding 2.4.4 does not require the destination's full name. A user who does not know the acronym faces an unexpanded abbreviation, which is 3.1.4 (AAA), not link purpose, and sighted users get no more information either. The live page has the same link, with no title. Requiring the acronym to be expanded is a stricter rule than 2.4.4."
+    },
+    {
+      "fingerprint": "2c2645a694f2",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h2 'COMO PODEMOS AJUDAR?' is styled by the live page CSS as Bebas Neue 53px, weight 400, color #4FAF47 (rule for .elementor-element-460e3bc). It sits on the white area of its container; the wave graphic is only along the top. Pixels sampled from the screenshot give text rgb(79,175,71) on #ffffff, which is 2.78:1. That is large text, so the requirement is 3:1, and it fails 1.4.3. It still fails at the 40px tablet size. The live CSS matches the capture."
+    },
+    {
+      "fingerprint": "6370e488851d",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The swiper 'Next slide' button (role=button, aria-label) shows only a chevron icon. It sits at x=1170, outside the banner image, on the white page background. Live CSS sets .swiper-button-next/.swiper-button-prev to color var(--e-global-color-3d083f4) = #4FAF47, and screenshot pixels confirm rgb(79,175,71) on white: 2.78:1. The chevron is the visual information needed to identify the control, so 1.4.11's 3:1 applies, and it fails. The live page matches the capture."
+    },
+    {
+      "fingerprint": "2c3139fbc809",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Previous slide' button, the mirror of the Next button. It shows only a chevron, at x=70 on white outside the banner. Live CSS makes it #4FAF47, and screenshot pixels show rgb(79,175,71) on white: 2.78:1, under the 3:1 that 1.4.11 asks of the graphic identifying a control. The live page matches the capture."
+    },
+    {
+      "fingerprint": "388d0d4d21cb",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This footer image (Frame-355unesco.png) is not a link and has alt=\"\". The crop shows the UNESCO emblem and the words 'unesco Member of Creative Cities Network'. That states a fact about the city, its membership in the UNESCO Creative Cities Network, which no text on the page gives (the footer text is contacts and phone numbers). It is informative non-text content, not decoration, so a null alternative fails 1.1.1, as the claim says. The live HTML still has alt=\"\"."
+    },
+    {
+      "fingerprint": "a5357cc29865",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header search field's visible placeholder is 'Buscando em Prefeitura de Belém' at 15px, weight 400. The field's label is screen-reader-only. Live CSS gives the field color var(--e-global-color-text) = #474747 (.elementor-widget-form .elementor-field-group .elementor-field), and Elementor's frontend.min.css sets ::placeholder to color:inherit with opacity:.6. The screenshot shows the text as rgb(145,145,145) on #ffffff, which is 3.15:1. Placeholder text is visible text, and no 1.4.3 exception applies (not inactive, not decorative, not a logotype). So it needs 4.5:1 and fails. The live CSS matches the capture."
+    },
+    {
+      "fingerprint": "s6f339dc3461",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'see all' tile at the end of the 'SERVIÇOS ONLINE' grid. Its name, 'Veja os serviços', comes from an h2 inside it, and it goes to /modalidade-do-servico/online/ (title 'Online', a listing of online services). The other 'Veja os serviços' link goes to /secretarias/, a different resource. However, the heading just before this link is 'Processo Eletrônico', and the other link's is 'COMO PODEMOS AJUDAR?'. Their contexts differ, so by R1 they are not one set, and 'nothing around this one tells it apart' does not hold by the rubric's context list. On its own, 'see the services' fairly describes a services listing, and the destination is one. Only the 'online' qualifier comes from the section heading 'SERVIÇOS ONLINE', which is not the nearest heading, so I judge 2.4.4 met. I checked the live HTML and found the same links, hrefs and heading order as the snapshot. Rampa had the nearby headings, so the claim misjudges the context."
+    }
+  ]
+}

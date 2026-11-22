@@ -1,0 +1,79 @@
+{
+  "page": "https://www.bristol.gov.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p2defd4076aa",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Text link 'Parks and estates' in the list under the h3 'Museums, parks, sports and culture' (the heading just before it, and the parent list item of its nested list). With that context the text says where it goes, and the destination is the page 'Parks and estates', so the text matches it exactly. No other link on the page has this name, so R1 does not apply, and the link has no title or aria-describedby that could conflict. I looked for a reason it would fail and found none. The live HTML fetched on 2026-11-21 has the same link, href and heading, so the capture matches what users get. The element does not fail 2.4.4, so Rampa missed nothing."
+    },
+    {
+      "fingerprint": "6ab0cfdcf574",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A promo-tile link (a.promo-tile__link) whose only content is an img with alt 'Cityscape view of houses and trees across a wide area.'. The link goes to the single person discount review page. The snapshot HTML and the live HTML both show nothing else inside the link: no aria-label, no title, no visually hidden text. The link is focusable and not hidden. The crop is a photo of houses with no text in it. So the claim holds: the alternative is the link's whole name and describes the photo, not the destination. I checked whether anything cures it. The h3 text link 'Single person discount review' to the same address sits in a separate sibling block after the image link. Under R2 a neighbouring link never cures 1.1.1: per H30, an image that is a link's only content needs an alternative that names the link's function, and H2 would merge the two links. Replacing the image with its alternative (G82) leaves the link's purpose unclear. The live page matches the capture. The element fails 1.1.1 for the reason the claim gives."
+    },
+    {
+      "fingerprint": "s61c7a1e12b3",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "An h2.brand-text 'bristol.gov.uk' inside the header's home link, next to the logo. The cookie banner covers it in the screenshot, but its bounds show it is visible on the page. The only content between it and the next heading (the screen-reader-only h1 'Bristol City Council homepage') is the 'Your accounts' link in the same banner. The heading names the site, and the banner it heads holds the site's identity and its account entry. That says something about the content under it, so the claim as worded does not hold. 2.4.6 asks only that a heading describe its topic or purpose. It does not require a heading to summarise every link that follows. The site name describes the topic of a site banner, so the claim applies a stricter rule than WCAG. A concrete objection to the claim therefore stands. Any real defect here, heading markup on brand text and an h2 coming before the h1, belongs to 1.3.1 or best practice, not 2.4.6. The live HTML fetched on 2026-11-21 is the same."
+    },
+    {
+      "fingerprint": "p06bd0d10193",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A tile link 'Pay online' (a span holding the text plus an icon font glyph) in the top-tasks tiles of the council homepage. Its destination is 'Pay council bills, fines and invoices', the hub for paying any council bill, fine or invoice online. The h1 and h3 just above the tiles are empty and display:none, so the heading that counts is the screen-reader-only h1 'Bristol City Council homepage'. On the council's homepage, 'Pay online' tells users the link leads to paying the council online, and the generic hub it opens is exactly that. Understanding 2.4.4 says the link text need not name the page. No other link shares the name, and nothing in the context contradicts it. The live HTML is the same as the capture. I found no failure of 2.4.4, so Rampa missed nothing."
+    },
+    {
+      "fingerprint": "pd0463dc5f24",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A tile link 'Dates for school terms and holidays' among the homepage top-task tiles. It goes to the page titled 'Dates for school terms and holidays', so the text alone describes the destination. No other link on the page has the same name, so R1 does not apply. The live HTML fetched on 2026-11-21 has the same link and href. The element meets 2.4.4."
+    },
+    {
+      "fingerprint": "p39fb6d7fb16",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A text link 'Check your rent balance' in the nested list under the h3 'Housing' (the heading just before it and the parent list item). It goes to 'Council tenants: check your rent balance and other payments'. The text and the Housing heading together describe that purpose. No other link shares the name, and there is no title or aria-describedby. The live HTML is the same as the capture. The element meets 2.4.4."
+    },
+    {
+      "fingerprint": "6319ff77a05f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A promo-tile link whose only content is an img with alt 'Postal letter on a desk with a mug nearby.'. The link goes to /council/voting-and-elections/the-annual-canvass. The snapshot and live HTML show no other content, no aria-label and no title on the link, which is focusable and not hidden. The crop shows a mug on an envelope printed 'Do not ignore this letter'. Neither the alternative nor any text in the picture says 'Annual Canvass' or that the link leads to the electoral register canvass, so the claim holds. I looked for a cure. The h3 text link 'Annual Canvass' to the same address is a separate control in a sibling block after the image. Under R2 this does not satisfy 1.1.1: per H30, an image that is a link's only content needs an alternative giving the link's function, and H2 would combine the links. The live page matches the capture. The element fails 1.1.1 for the reason the claim gives."
+    }
+  ]
+}

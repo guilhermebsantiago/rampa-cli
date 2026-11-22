@@ -1,0 +1,71 @@
+{
+  "page": "https://www.coventrytelegraph.net/news/coventry-news/children-young-12-arrested-knife-34923139",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "731a57aa732f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer image (The Trust Project logo, alt \"trust project logo\") is the only content of a link to /about-us/, which has no aria-label or title, so the alt is the link's name. claimTrue: the snapshot shows exactly that, and the alt names a logo, not a destination. elementFails: I opened /about-us/; it is the \"About CoventryLive\" page (editorial standards, ethics policy and so on) that mentions the Trust Project only in passing. A user hearing \"link, trust project logo\" would expect the Trust Project's site, not the publisher's About Us page, so by H30/G82 the alternative does not describe the link's function and the image fails 1.1.1 as a control. captureDiffers: the live HTML carries the same link, href and alt; the full-page screenshot has the consent dialog over the footer, but that does not change the element. The claim names this failure."
+    },
+    {
+      "fingerprint": "edab46ab7cd7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The byline badge image shows the Coventry Live \"C\" icon and the word \"PREMIUM\" (seen in the crop and the screenshot next to the \"News\" badge and the author). Its alt is \"coventrytelegraph\". claimTrue: the alt is a brand name and leaves out what the badge conveys, that the article is premium content; read in good faith, \"names a label, not what the image conveys\" points at that gap. elementFails: nothing nearby says \"Premium\" in text (the byline reads \"News, Senior reporter Ben Perrin\"), so screen reader users lose the information the image of text carries; the alternative does not serve the equivalent purpose, which fails 1.1.1. captureDiffers: the live HTML has the same img, src and alt in the byline."
+    },
+    {
+      "fingerprint": "s22f099e8fd9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The first \"here\" link in paragraph 19 of the article goes to the newsletter preference centre. Its sentence is \"You can sign up to receive these free to your email inbox here\", after sentences naming the Warwickshire and crime and courts newsletters, all in the same paragraph. claimTrue: \"nothing around it does\" is false of the capture; the paragraph's text in the snapshot and in the packet holds that sentence. elementFails: the purpose (sign up for these newsletters) is clear from the link text together with its sentence and paragraph, its programmatically determined context, so the link meets 2.4.4 (it would fail only 2.4.9, which is Level AAA). captureDiffers: the live HTML has the same paragraph and link. The checker was given the sentence and judged wrongly."
+    },
+    {
+      "fingerprint": "p55e88d093fb",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The header masthead image (the \"CoventryLive\" wordmark, alt \"Coventry Live\", title giving the site tagline) sits inside a link that aria-label names \"Go to Coventry Live homepage\" and that also holds a text span with the site name and tagline. elementFails: the alt matches the wordmark's text, so it serves the equivalent purpose of the logo; the link's name comes from aria-label and describes the destination (the home page, confirmed by the destination), and the image is not the link's only content. It meets 1.1.1, so Rampa was right to report nothing. captureDiffers: the live HTML has the same link, aria-label, img and alt."
+    },
+    {
+      "fingerprint": "sa45a886dc87",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "A footer image, not in a link, showing the IPSO logotype with the word \"Regulated\" (seen in the crop); its alt is \"Ipso logo\". claimTrue: the alt identifies the image as a logo and leaves out what the mark states, that the publication is regulated by IPSO; read in good faith, the claim points at that. elementFails: I lean yes, because the word \"Regulated\" is information carried only by the image, and \"Ipso logo\" names the picture rather than giving the equivalent \"IPSO Regulated\". But competent auditors would reasonably disagree: many accept an alt that identifies the organisation's logo as sufficient for a trust mark, since IPSO's logo in a newspaper footer already implies membership. Hence uncertain. captureDiffers: the live HTML has the same img and alt; the screenshot's consent dialog over the footer does not change the element."
+    },
+    {
+      "fingerprint": "sa502656726c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The second link in paragraph 19, \"here.\", goes to the newsletter preference centre with a What's On mailing list id. Its sentence is \"Keep up to date with events, restaurant openings, family attractions and more with our What's On newsletter here.\" claimTrue: \"nothing around it does\" is false of the capture; the snapshot's paragraph text holds that sentence (the packet's ancestor text is cut just before it, so the checker may have seen less, but the snapshot has it). elementFails: the link text with its sentence and paragraph, its programmatically determined context, tells users it signs them up for the What's On newsletter, so it meets 2.4.4 (only 2.4.9, AAA, would ask more). captureDiffers: the live HTML has the same sentence and link."
+    }
+  ]
+}

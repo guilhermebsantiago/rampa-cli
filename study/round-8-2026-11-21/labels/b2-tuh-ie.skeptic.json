@@ -1,0 +1,146 @@
+{
+  "page": "https://www.tuh.ie/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "8f77bd8efbce",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The img (alt \"home healthcare\") is the photo on the 'Healthcare Professionals /GPs' tile of the sub navigation: a stock photo of a woman in a hijab at a desk facing another person, inside a link whose visible text names the destination. The claim is true of the capture: the alt is a CMS/file label (home-healthcare.jpg), not a description of the photo. The live HTML has the same img and alt, and the screenshot shows the styled tile, so the capture does not differ. The concrete reason against the claim: the photo adds nothing to the link text, so by F39 it should be ignored (alt=\"\"); the defect is a non-null redundant alt, while the claim asks for what the image conveys. Whether a short topical alt that echoes the link's subject fails 1.1.1 or is only redundant, and whether this claim names the null-alt failure, are points competent auditors would split on, so uncertain."
+    },
+    {
+      "fingerprint": "s93103e25bca",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The img (alt \"Innovate Health2\") is the Innovate Health logo on the 'Innovate Health' tile, inside a link whose visible text is 'Innovate Health'. The crop shows the words 'Innovate Health Tallaght University Hospital' and a green half-disc, so the alt gives the logo's own text; the claim that it describes something the image does not show is false. The stray '2' is noise but does not hide the meaning, and the link text says the same thing, so the image does not fail 1.1.1. The live HTML has the same img and alt (the destination being unreadable to Rampa does not matter for 1.1.1). The model misread a correct logo alternative."
+    },
+    {
+      "fingerprint": "p0fee63ec9f1",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The link wraps the series thumbnail (alt = the episode title) and a visible paragraph with the same title, 'The Many Faces of Alzheimer's - 08 Meeting the team - L Sheridan & M Ryan, Speech & Lang Therapists', and points to youtu.be/3i2D5n-4y-k; the page's script opens it as a YouTube embed in a dialog titled with the same text. The name (doubled by the alt, but readable) tells users it plays that episode, and no other link on the page shares the name (episode 07 has a different one). It meets 2.4.4. The live HTML matches the capture."
+    },
+    {
+      "fingerprint": "sa2817a3dff6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The img in the footer copyright paragraph shows the words 'Smoke Free Campus' with a no-smoking symbol (crop and screenshot). Its alt and title are \"smoke free cmapus\": the same words with a typo, so the claim that it describes something the image does not show is false. The text alternative conveys the same message (a smoke-free campus); a transposed letter does not stop it serving the equivalent purpose, so it does not fail 1.1.1, and even an auditor who flagged the typo would be flagging a reason the claim does not name. The live HTML is identical."
+    },
+    {
+      "fingerprint": "cbcef71c0823",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img (alt \"front picture\") is the small photo of a woman at a computer in the 'Video Consultations' box, alone in its own paragraph, not a link. 'front picture' is a placeholder that says nothing about the image. I looked for a way it passes: if the photo is informative, the alt does not convey it; if it is decorative, F39 fails it for a non-null meaningless alt of exactly the 'image' kind. Either way it fails 1.1.1, and 'too generic to describe the image' points at that defect in good faith. The live HTML has the same img and alt, so the capture does not differ."
+    },
+    {
+      "fingerprint": "pc78934b32b3",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The img is the series cover (TUH and Institute of Memory and Cognition logos, 'The Many Faces of Alzheimer's presented by Fionnuala Sweeney') inside the link to episode 07 on YouTube; its alt is the episode title 'The Many Faces of Alzheimer's - 07 Meeting the team - F Tobin & E Nolan, Occupational', which the link's visible paragraph repeats. A thumbnail whose alt names what the link opens is what H30 describes; the repetition of the link text is redundant, not a 1.1.1 failure. The live HTML matches the capture."
+    },
+    {
+      "fingerprint": "66a653f7e385",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The img (alt \"Adult Services 14.09.2023\") is the photo of blood-sample tubes on a hospital form on the 'Adult Services' tile, inside a link whose visible text is 'Adult Services'. The claim is true of the capture: the alt is an upload label with a date, not a description. The live HTML is identical. Against the claim: the photo is redundant to the link text, so the WCAG fix is a null alt (F39), not a description of what the image conveys, and the alt's words 'Adult Services' do echo the tile's subject. The date makes it noise in the link name, so a failure is likely, but whether the claim's 'not what the image conveys' names the null-alt failure, and whether a topical alt in a labelled link fails at all, are points competent auditors would split on, so uncertain."
+    },
+    {
+      "fingerprint": "9fa18a7e6f01",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img (alt \"test logo\") in the header tag line is an image of text: 'Ospidéal Ollscoile Thamhlachta / An Academic Partner of Trinity College Dublin' (crop and screenshot). Only 'Tallaght University Hospital' is real text beside it; the Irish name and the Trinity College partnership appear nowhere else in the page's HTML. The image is informative and not in a link, and 'test logo' is a placeholder that conveys none of it, so it fails 1.1.1. Even read as decorative it would fail F39 for a meaningless non-null alt. The claim names that defect. The live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "p6e48534dfbf",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The img is the only content of a link to the hospital's Patient Connect smartphone-apps page; its alt is a tab plus 'Patient APP' (browsers trim the tab, so the name is 'Patient APP'), and the icon reads 'Hospital APP'. The alt names what the link leads to, the hospital's patient app, as H30 asks, so it meets 1.1.1. The snapshot's null name on the parent link is an artefact of how the packet lists ancestors, not of the page. The live HTML matches."
+    },
+    {
+      "fingerprint": "fbf13cdce014",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img (alt \"blood icon\") in the 'Book a Blood Test' box shows a red calendar with a clock, not blood (crop and screenshot). It is not in a link, and the heading and 'Click on the button below to book your Appointment' carry the message. The reason I tested against the claim is that the icon may be decorative, so the fix would be alt=\"\". That reason does not rescue it: decorative, it fails F39 for a non-null label alt; informative, 'blood icon' misdescribes it. The claim that the alt is a label rather than what the image conveys points at that defect. The live HTML is identical."
+    },
+    {
+      "fingerprint": "s52fce76d18f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link 'link' sits in the paragraph 'For all TUH videos, click on this link' under the heading 'Tallaght University Hospital TV test', and points to the hospital's YouTube channel. Its sentence, which is programmatically determined link context, says what it is for: all TUH videos. So the claim that nothing around it tells where it goes is false, and the link meets 2.4.4 in context. Rampa had the sentence in the ancestors and judged wrongly. The live HTML has the same paragraph and link."
+    },
+    {
+      "fingerprint": "se6b13cee9d3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The link 'Previous' (href=\"#\") is the flexslider's left arrow on the home carousel, in a two-item list 'Previous Next' placed right after the slides. The screenshot shows the arrow on the carousel, and the script on the live page builds the same control, so the capture does not differ. Literally, nothing in its list item or a title says 'slide', so the claim holds of the capture under this round's context list. The heading just before it, though, is a slide heading ('Every time we meet'). A previous/next control that moves through the carousel the user has just passed is usually read as having a clear purpose, and it goes nowhere else. My lean is that it meets 2.4.4 (its href=\"#\" link role is more a 4.1.2 or best-practice matter), but competent auditors split on bare 'Previous' carousel controls, so uncertain."
+    },
+    {
+      "fingerprint": "s24300158a28",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img (alt \"Crest Logo White\") is the only content of the header link to '/' (the home page). Per H30 and this rubric's R2, an image that is all a link holds needs an alternative that gives the link's function or destination. 'Crest Logo White' describes the picture and its colour, and does not even name the hospital whose crest it is, let alone the home page. I looked for a cure: the 'Tallaght University Hospital' text beside it is in a separate element outside the link, which R2 says does not cure 1.1.1, and the logo-goes-home convention does not put a name on the control. It fails 1.1.1 as claimed. The live HTML has the same link and img."
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "page": "https://bloomington.iu.edu/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "pc616a2c8b68",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer link 'Indiana University' to https://www.iu.edu, inside the list item 'Copyright © The Trustees of Indiana University'. The text names the destination, the university's main site (live title 'Bring On Tomorrow', IU's home page), and no other link shares its name. I looked for an ambiguous or shared name and found none, so it meets 2.4.4. The live HTML and the styled screenshot show the same footer markup, so the capture does not differ."
+    },
+    {
+      "fingerprint": "p468b8840aa3",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer link 'Copyright' to https://www.iu.edu/copyright/, in the list item 'Copyright © The Trustees of Indiana University'. The text names the destination (live page title 'Copyright: Indiana University', h1 'Copyright'), and it is the only link with that name. It meets 2.4.4. The live footer HTML is the same as the capture."
+    },
+    {
+      "fingerprint": "saf34c31e54c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Card headline link 'Programs that shape the field' (inside an h2) to /academics/degrees-majors/interests/, in the Academics section. Its list item also holds the card text 'Home to nationally recognized programs across disciplines...'. The destination title is as the claim says, but the link does match it: the page is IU's explorer of degree programs filtered by interest, so 'programs' tells users they will reach academic programs. Understanding 2.4.4 says the link text need not use the destination's name. Requiring the text to match the page title is stricter than the criterion asks, so the claim's 'does not match' is false and the element meets 2.4.4. The live HTML has the same card and link, and the styled screenshot shows it the same way, so the capture does not differ."
+    },
+    {
+      "fingerprint": "pfb00d2c50d2",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer link 'Required Disclosures' to /disclosures. That redirects to /disclosures/, titled 'Required Disclosures and Consumer Information' on both the packet and a live fetch. The text names the destination, and no other link shares the name. It meets 2.4.4. The live footer matches the capture."
+    },
+    {
+      "fingerprint": "p3d2a53368f3",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "News-card thumbnail img with alt '3D illustration of the human immunodeficiency virus'. It sits in a div.rvt-card__image, not in a link, so it is not a control, and the headline link beside it is separate. The crop shows a rendered virus particle, so the alt describes the image accurately. The image could arguably be decorative, but an accurate alt is not a failure. It meets 1.1.1. The live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "p4eb7fc97b54",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Image in the 'Life in Bloomington' feature card. The card is styled clickable, but the img is in div.rvt-card__image, outside the link in the DOM, so it is not a link's only content. Its alt 'Students walk past local shops and restaurants in downtown Bloomington.' matches the crop: three students walking on a downtown street past shop fronts and a 'Von Lee' sign. It meets 1.1.1. The live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "pf1853e6201f",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Link 'About IU Bloomington' to /about/, in the 'Explore IU further' list. The live destination is titled 'About IU Bloomington: Indiana's flagship R1 university', so the text names it exactly. It is the only link with that name. It meets 2.4.4. The live HTML is the same as the capture."
+    },
+    {
+      "fingerprint": "pa74cbca389b",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "First image of the rvt-image-hub figure, not in a link. The alt 'Students walk and discuss public policy outside the U.S. Capitol during an experiential learning visit.' matches the crop: two students in blazers talking as they walk in front of the Capitol. The words 'public policy' cannot be seen, but they add context and do not misdescribe the photo. It meets 1.1.1. The live HTML has the same picture and alt."
+    },
+    {
+      "fingerprint": "p5274017d95b",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Top-navigation link 'Student Support' to /student-support/, whose live title is 'Student Support Resources and Services'. The text names the destination. The only other link with this name is the hidden mobile-menu copy, which goes to the same /student-support/ address, so a shared name leads to the same resource and does not fail 2.4.4. The live header markup matches the capture."
+    },
+    {
+      "fingerprint": "pf86eb689764",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "News-card headline link to news.iu.edu/live/news/53694-... The URL slug is cut short, but a live fetch returns status 200 with the article of the same title ('Indiana University shapes home-grown entrepreneurs to keep established businesses local: IU News'). The link text is the article headline, which gives its purpose. It meets 2.4.4. The live HTML has the same link and href."
+    },
+    {
+      "fingerprint": "p23a508083fc",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "News-card thumbnail img, not in a link, with alt 'IU professor Zachary Schlader attaches a sensor to a construction worker's wrist'. The crop shows a man fitting a device on the wrist of a worker in a hard hat and hi-vis vest, so the alt describes the image. The person's name cannot be checked from the picture, but naming him is not a failure. It meets 1.1.1. The live HTML has the same img and alt."
+    }
+  ]
+}

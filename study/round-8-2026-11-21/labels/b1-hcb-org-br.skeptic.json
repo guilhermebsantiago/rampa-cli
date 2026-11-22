@@ -1,0 +1,27 @@
+{
+  "page": "https://www.hcb.org.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "e28f85730bd5",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the top-bar link \"Usuários HCB\" (a.icIntranet, 16px OpenSans regular, normal-size text, so 4.5:1 applies). I looked for reasons it could pass: the background image is only a small person icon drawn at the left with no-repeat, and the text is pushed clear of it by padding-left: 30px, so nothing but the bar's flat colour sits behind the glyphs. The live general.css sets div.barra ul.ferramentas li a { color: #787a82 } on div.barra { background: #dee2eb }, with no media query, other style sheet, inline style or high-contrast toggle (G174) that changes it. My own pixel read of the screenshot gives the darkest text pixel #787a82 on #dee2eb, 3.30:1, the same as the computed CSS ratio. It is a working navigation link, not incidental text or a logotype. claimTrue: yes, the colours, ratio and the axe-core bgImage reason all match the snapshot. captureDiffers: no, the screenshot is fully styled and the live HTML and CSS match it. The text fails 1.4.3, and the claim names that failure."
+    },
+    {
+      "fingerprint": "p0d2f08b1ffe",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the footer button-styled link \"Acesso Restrito\" to /intranet/, which goes to the intranet login (/login/intranet/). Read alone, \"Restricted access\" is vague, but the heading just before it in document order is the h3 \"Intranet HCB\" in the same column (role heading, level 3, in the snapshot), and this rubric counts that as context (H80). Together they say this is the sign-in to the HCB staff intranet, which is where it leads. No other link on the page has the same name (I checked the snapshot and the live HTML), so R1 does not come into it. The live page has the same h3 and link markup, and the screenshot shows the heading right above the button, so captureDiffers is no. The link meets 2.4.4, so Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "fe46615bab50",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the top-bar link \"Mapa do Site\" (a.icMapa, 16px OpenSans regular, normal-size text, so 4.5:1 applies). I looked for reasons it could pass: its background image is a small sitemap icon drawn at the left with no-repeat, and padding-left: 30px keeps the text off it, so the flat bar colour is the only thing behind the text. The live general.css sets color #787a82 for these links on the div.barra background #dee2eb, and no media query, other style sheet or contrast toggle overrides it. My own pixel read of the screenshot gives #787a82 on #dee2eb, 3.30:1, the same as the CSS. It is a functional link, not incidental. claimTrue: yes, the colours, ratio and axe-core reason match the snapshot. captureDiffers: no, the capture is fully styled and the live HTML and CSS match it. The text fails 1.4.3, and the claim names that failure."
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "page": "https://www.tjes.jus.br/portal-transparencia/ouvidoria/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "2ed9999832ae",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer image (logo_tjes_br.png, not inside a link) is the white TJES monogram, the logo of the Tribunal de Justiça do Espírito Santo. The crop and my own crop of the screenshot both show only the letters T J E S. Its alt is \"Governo do Estado\" (the State Government, the executive branch), which is a different body, so the claim holds of the capture. I looked for a reason it could pass. If the logo were decorative it would need alt=\"\" so assistive technology skips it. Here a non-empty, wrong alternative is announced instead. Read as a logo, its alternative should name the court or its letters, and \"Governo do Estado\" names neither, so it fails 1.1.1. The live HTML fetched on 2026-11-22 has the same img and alt, so the capture matches the page users get. The claim names the real defect: the alternative describes something the image does not show."
+    },
+    {
+      "fingerprint": "s99d96199ba0",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The document title is \"TJES » Ouvidoria\": the site's acronym plus the page's topic. The page is the court's Ouvidoria (ombudsman) page, its side-menu heading is \"Ouvidoria\" and the breadcrumb ends in \"Ouvidoria\", so the title describes the page's topic and purpose. The claim that it says nothing about the page is false. The live HTML has the same first <title> (a second <title> lower down, \"Ouvidoria – TJES\", is just as descriptive), so the capture does not differ. The model had the title and the page content and judged wrongly."
+    },
+    {
+      "fingerprint": "sd5c82ac0eb2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the breadcrumb's first item, <a title=\"Você está aqui:\" href=\"#\">, a link that goes nowhere (the top of the same page) and is really the visible label \"Você está aqui:\" of the trail. The live HTML is the same, and the empty script next to it adds no behaviour. As a sentence the claim holds: neither the text, the identical title, its list item (\"Você está aqui: >\") nor the heading before it says that the link only returns to the top of the page. I found a concrete reason why 2.4.4 may not be the criterion that fails. The text accurately says what the element is, a label for the trail, and the defect is that a label is marked up as a link (1.3.1 / 4.1.2 role), not that a real link hides its purpose. Competent auditors would split between calling this a 2.4.4 failure (activating it does something its text does not describe) and a semantics failure under another criterion. So I cannot say it fails 2.4.4, and the label is uncertain."
+    },
+    {
+      "fingerprint": "6f43a8b8dab5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header search field #busca has placeholder \"Pesquisar\" and no other visible label. The site's own bootstrap.css, fetched live, sets .form-control::-webkit-input-placeholder (and the -moz/-ms variants) to #999999 on the white .form-control background. The theme's style.css overrides it only under .intranet, and this public page's body has no such class. #999999 on #ffffff is 2.85:1, below 4.5:1 for 14px weight-400 text, and my crop of the screenshot shows the light grey placeholder on a white field. I checked whether this rule is stricter than WCAG: Understanding 1.4.3 states that the criterion applies to text in the page, including placeholder text. The field is active, so the inactive-component exception does not apply. The live page and CSS match the capture. The claim names the failure."
+    },
+    {
+      "fingerprint": "5405c8c29fa6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header logo image is all that its link to https://www.tjes.jus.br (the court's home page) holds. The image reads \"TJES / Poder Judiciário / Tribunal de Justiça do Estado do Espírito Santo\", but its alt is \"Governo do Estado do Espírito Santo\", which names the state's executive government, a different body with a different site. Replaced by its alternative (G82), the link seems to lead to the State Government, so the alternative does not identify the destination, which H30 requires. It also does not match the text in the image. The visually hidden h2 \"Tribuinal de Justiça do Estado do Espírito Santo\" before it is 2.4.4 context and, under R2, does not cure 1.1.1. The link has no title in any case. The live HTML has the same link and alt. The claim, read in good faith, names the defect: the alternative does not say where the link leads."
+    },
+    {
+      "fingerprint": "s7a193a215d0",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link \"Clique aqui para acessar o cartaz\" sits alone in a paragraph, in the section whose h3 just before it is \"QR Code – Fale Conosco\". The link text says it opens \"the poster\", and that heading (which this round counts as context) says which one: the QR Code poster for the Fale Conosco form. Together they describe the destination, a PDF of that poster, so the link meets 2.4.4 and the claim that nothing around it tells where it goes is false. The neighbouring paragraph about the institutional poster does not count and is not needed. No other link on the page shares this name. The live HTML matches the capture. The packet's headingsNear held the heading, so the model had the context and judged wrongly."
+    }
+  ]
+}

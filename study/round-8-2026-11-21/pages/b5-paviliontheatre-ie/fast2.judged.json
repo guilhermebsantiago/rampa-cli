@@ -1,0 +1,371 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.paviliontheatre.ie/about/contact",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "92f8b449ec94",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Contact Us\" describes something the image does not show.",
+   "evidence": "Contact Us",
+   "subject": "Contact Us",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#main > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Contact Us",
+    "to": "Panoramic view of a coastal town by the sea",
+    "before": "<img src=\"/content/images/dun_laoghaire.jpg\" class=\"img-responsive\" alt=\"Contact Us\" width=\"1300\" height=\"285\">",
+    "after": "<img src=\"/content/images/dun_laoghaire.jpg\" class=\"img-responsive\" alt=\"Panoramic view of a coastal town by the sea\" width=\"1300\" height=\"285\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.999999425213859
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "7732a4215f15",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#mce-EMAIL",
+   "message": "The field \"Email\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "Email",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#mce-EMAIL",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input type=\"email\" aria-label=\"Email\" name=\"EMAIL\" class=\"required email\" id=\"mce-EMAIL\" value=\"\" required=\"\" placeholder=\"Enter your email\" style=\"color: #3f4247;\" aria-required=\"true\">",
+    "after": "<input type=\"email\" aria-label=\"Email\" name=\"EMAIL\" class=\"required email\" id=\"mce-EMAIL\" value=\"\" required=\"\" placeholder=\"Enter your email\" style=\"color: #3f4247;\" aria-required=\"true\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "b94aec907932",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#mce-FNAME",
+   "message": "The field \"First Name\" asks for the user's first name but does not identify that purpose: autocomplete=\"given-name\" is missing.",
+   "evidence": "First Name",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#mce-FNAME",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "given-name",
+    "before": "<input type=\"text\" aria-label=\"First Name\" name=\"FNAME\" class=\" text\" id=\"mce-FNAME\" value=\"\" placeholder=\"First Name\">",
+    "after": "<input type=\"text\" aria-label=\"First Name\" name=\"FNAME\" class=\" text\" id=\"mce-FNAME\" value=\"\" placeholder=\"First Name\" autocomplete=\"given-name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "9d08fe401231",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#mce-LNAME",
+   "message": "The field \"Last Name\" asks for the user's last name but does not identify that purpose: autocomplete=\"family-name\" is missing.",
+   "evidence": "Last Name",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#mce-LNAME",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "family-name",
+    "before": "<input type=\"text\" aria-label=\"Last Name\" name=\"LNAME\" class=\" text\" id=\"mce-LNAME\" value=\"\" placeholder=\"Last Name\">",
+    "after": "<input type=\"text\" aria-label=\"Last Name\" name=\"LNAME\" class=\" text\" id=\"mce-LNAME\" value=\"\" placeholder=\"Last Name\" autocomplete=\"family-name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 3
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#nav-primary > ul > li:nth-of-type(4) > a",
+   "message": "The link text \"VISIT\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Visit Page\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 5,
+   "failed": 1,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 3,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 30,
+   "judged": 10,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 20,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 11,
+   "judged": 10,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 1,
+   "batched": {
+    "candidates": 10,
+    "calls": 2
+   }
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 20 of 30 for 2.4.4, 1 of 11 for 2.4.6. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (10 in 2 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 24,
+  "cachedCalls": 0,
+  "inputTokens": 20546,
+  "outputTokens": 2403,
+  "latencyMs": 63985
+ },
+ "timings": {
+  "totalMs": 37821,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 16
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 9546,
+    "prepareMs": 0,
+    "candidates": 5,
+    "judged": 5,
+    "calls": 8,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 3692,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 3,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1250,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 13994,
+    "prepareMs": 0,
+    "candidates": 30,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 9119,
+    "prepareMs": 0,
+    "candidates": 11,
+    "judged": 10,
+    "calls": 2,
+    "cachedCalls": 0,
+    "batches": 2
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 182,
+    "prepareMs": 175,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 6,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 15
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 5,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 30,
+    "capped": 20
+   },
+   {
+    "criterion": "2.4.6",
+    "candidates": 11,
+    "capped": 1
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

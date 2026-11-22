@@ -1,0 +1,69 @@
+{
+  "page": "https://jigsaw.ie/jigsaw-welcomes-the-world-to-dublin-for-iaymh-2026/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "1399df6ebee5",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The thumbnail of the first Related news card (lazy src Untitled-design-34.png) is a photo of young people, one in a grey hoodie, as both the crop and the screenshot show. Its alt describes the IAYMH 2026 conference logo on a white background with its dates. That text was copied from another media item (title \"Jigsaw IAYMH Banner 2026 (1)\"). The claim is true of the capture. The image is not inside the card's link. Whether you treat it as informative or decorative, an alternative that describes a different image fails 1.1.1: it is not an equivalent, it misleads screen reader users, and it cannot be ignored the way a decorative image must be. The live HTML has the same alt and src, so the capture does not differ. The claim names this failure."
+    },
+    {
+      "fingerprint": "03dbd1358795",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the third Related news card's overlay link (class full-link, covering the whole card). Its only text is \"Read more\", with no aria-label, title or aria-describedby, and it leads to the European funding story. It is the first child of a plain div, not in a sentence, paragraph, list item or table cell. The card's own h4, \"Jigsaw Secures European Funding for Mental Health Research\", comes after the link, so under the rubric it is not context. The heading just before the link is the previous card's h4 about the First Lady of Ukraine's visit, which names a different story. Nothing in the counted context gives the purpose, and only the visible card title explains the link. The claim is true in its 2.4.4 sense: the card heading is near the link but not associated with it. The live HTML is identical. The three Read more links have different preceding headings, so R1 does not group them, and the claim does not rely on R1."
+    },
+    {
+      "fingerprint": "5b15845957be",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The thumbnail of the second Related news card (WhatsApp-Image-2025-12-02...jpeg) is a photo of a man and Olena Zelenska standing in a Jigsaw office in front of a world map. Its alt describes the IAYMH 2026 logo on a white background, which the image does not show. The claim is true of the capture and screenshot. A text alternative that describes a different image is not an equivalent and misinforms users, so it fails 1.1.1 whether the image is meant as informative or decorative. The live page has the same markup. True positive."
+    },
+    {
+      "fingerprint": "pabd55a7b0e9",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the footer link \"Online Data Privacy Policy\" to /online-data-privacy-policy/, whose page is titled \"Online Data Privacy Policy\". The link text alone gives its purpose and tells it apart from the neighbouring \"Clinical Data Privacy Policy\" link. The only other link with the same name, in the duplicated footer menu, goes to the same URL. It meets 2.4.4, and Rampa correctly reported nothing. The live footer has the same link and href."
+    },
+    {
+      "fingerprint": "s9c12f1a7ffd",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The thumbnail of the third Related news card (equicares.png) is a map of Europe with pins and labelled regions (Seville, Baden-Württemberg, Thessaloniki, Attica and others) listing target groups. Its alt describes the IAYMH 2026 conference logo on a white background, which the image does not show. The claim is true of the capture and screenshot. The alternative is wrong and is no equivalent for the image, which fails 1.1.1. The live HTML carries the same alt."
+    },
+    {
+      "fingerprint": "s8ea2d3af028",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the article's last h2, \"Welcome\". The section under it reads in full: \"We hope you enjoy your time in our city, make valuable new connections, and leave energised by the shared ambition to improve youth mental health for future generations. Welcome to Dublin. We're very glad you're here.\" That is a closing welcome message to the delegates, so the heading describes its content. Understanding 2.4.6 notes that a single word suffices when it gives an appropriate cue. The claim that it says nothing about the content is false. The heading meets 2.4.6. The live page and the screenshot show the same heading and text. The content was in the snapshot, so this is a model error."
+    },
+    {
+      "fingerprint": "sea43d426fa0",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the footer Instagram icon, the only content of a link to instagram.com/jigsaw_ymh, under the h3 \"Social Media\". Its alt (and title) is \"ri_instagram-line\", the icon library's file name. That name does contain \"instagram\", so the claim that it does not say where the link leads is not strictly true. I lean towards a 1.1.1 failure: under F30 a file name is not a text alternative, and the \"ri_\" and \"-line\" noise is read aloud. Competent auditors would still reasonably disagree, both about whether a recognisable \"instagram\" in a file name gives the link's purpose (H30) and about whether this claim names the F30 problem. The live HTML is identical."
+    },
+    {
+      "fingerprint": "2298354a4266",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer LinkedIn icon (\"in\" in a circle), the only content of a link to Jigsaw's LinkedIn company page. Its alt and title are \"Vector\", the graphic's default file name, and the link has no other name or title. \"Vector\" does not identify LinkedIn or any destination, so the link fails 1.1.1: H30 requires that a linked image's alternative describe the link's function, and F30 covers placeholder or file-name alternatives. The claim is true and names the failure. The live HTML is identical."
+    },
+    {
+      "fingerprint": "e45f2c9d66a5",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the first Related news card's overlay link (class full-link, covering the whole card) to the story \"A youth-led vision for social media and mental health\". Its only text is \"Read more\", with no aria-label, title or aria-describedby. It is the first child of a plain div, not in a sentence, paragraph, list item or table cell. The heading just before it is the section h3 \"Related news\", which does not say which story the link opens. The card's own h4 with the story title comes after the link, so under the rubric it is not context. Only that visible card title explains the link, so the link fails 2.4.4. The claim is true in its 2.4.4 sense: the card heading is near the link but not associated with it. The live HTML has the same markup. The three Read more links have different preceding headings, so R1 does not group them."
+    }
+  ]
+}

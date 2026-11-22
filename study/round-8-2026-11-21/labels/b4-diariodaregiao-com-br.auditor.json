@@ -1,0 +1,105 @@
+{
+  "page": "https://www.diariodaregiao.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "cdd74cb25c96",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is the desktop 'Ver mais' button-styled link at the right of the 'Diário Multi' section header, pointing to /diario-multi (a listing page headed 'Matérias de Diário Multi'). Its name is only 'Ver mais'; it has no title, aria-label or aria-describedby. It sits in a generic grid div with a separator and a link 'Diário Multi' to the same address; that section title is a styled link, not a heading, and the div is not a sentence, paragraph, list item or table cell, and the section has no accessible name. The heading just before it in document order is an unrelated article headline from the previous block ('Apresentação do Instituto Amadeus Mozart celebra o Dia do Músico'), so no context the rubric counts gives the purpose: only the visual section title does. claimTrue: yes, the text says nothing about the destination and nothing in its counted context does (the nearby section title is a separate link in a generic container). elementFails: yes under the rubric's fixed context reading (F63 pattern; H2 would be the fix). captureDiffers: no, the live server HTML has the same header structure (title link, separator, 'Ver mais' link visible at lg width) and the screenshot shows the same layout. The claim names this failure, so true_positive."
+    },
+    {
+      "fingerprint": "a86a3c4fe1cd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is the desktop 'Ver mais' button-styled link at the right of the 'Economia' section header, pointing to /economia (a listing page headed 'Matérias de Economia'). Its name is only 'Ver mais'; it has no title, aria-label or aria-describedby. It sits in a generic grid div with a separator and a link 'Economia' to the same address; that section title is a styled link, not a heading, and the div is not a sentence, paragraph, list item or table cell, and the section has no accessible name. The heading just before it in document order is an unrelated article headline from the previous block ('A versatilidade do terracota nos porcelanatos e insertos decorativos'), so no context the rubric counts gives the purpose: only the visual section title does. claimTrue: yes, the text says nothing about the destination and nothing in its counted context does (the nearby section title is a separate link in a generic container). elementFails: yes under the rubric's fixed context reading (F63 pattern; H2 would be the fix). captureDiffers: no, the live server HTML has the same header structure (title link, separator, 'Ver mais' link visible at lg width) and the screenshot shows the same layout. The claim names this failure, so true_positive."
+    },
+    {
+      "fingerprint": "sa1854239ea5",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'Política' badge link in the section bar under the banner, pointing to /politica. The destination's <title> is the site-wide 'Diário da Região', but its h1 is 'Matérias de Política': it is the Política section listing, which the link text names exactly. claimTrue: no, the title part is true but the text does match where the link leads. elementFails: no, 'Política' alone describes the purpose in this news-site category bar; the only other link named 'Política' on the page (the section title) goes to the same address. captureDiffers: no, the live page has the same link and the destination (fetched now) still has the h1 'Matérias de Política'. Rampa had the destination heading and judged on the generic page title, so model_error."
+    },
+    {
+      "fingerprint": "df5e95f81896",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is the desktop 'Ver mais' button-styled link at the right of the 'Cidades' section header, pointing to /cidades (a listing page headed 'Matérias de Cidades'). Its name is only 'Ver mais'; it has no title, aria-label or aria-describedby. It sits in a generic grid div with a separator and a link 'Cidades' to the same address; that section title is a styled link, not a heading, and the div is not a sentence, paragraph, list item or table cell, and the section has no accessible name. The heading just before it in document order is an unrelated article headline from the previous block ('Mais lidas'), so no context the rubric counts gives the purpose: only the visual section title does. claimTrue: yes, the text says nothing about the destination and nothing in its counted context does (the nearby section title is a separate link in a generic container). elementFails: yes under the rubric's fixed context reading (F63 pattern; H2 would be the fix). captureDiffers: no, the live server HTML has the same header structure (title link, separator, 'Ver mais' link visible at lg width) and the screenshot shows the same layout. The claim names this failure, so true_positive."
+    },
+    {
+      "fingerprint": "e55662bb75c8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is the desktop 'Ver mais' button-styled link at the right of the 'Esportes' section header, pointing to /esportes (a listing page headed 'Matérias de Esportes'). Its name is only 'Ver mais'; it has no title, aria-label or aria-describedby. It sits in a generic grid div with a separator and a link 'Esportes' to the same address; that section title is a styled link, not a heading, and the div is not a sentence, paragraph, list item or table cell, and the section has no accessible name. The heading just before it in document order is an unrelated article headline from the previous block ('Álbum une poesia e música'), so no context the rubric counts gives the purpose: only the visual section title does. claimTrue: yes, the text says nothing about the destination and nothing in its counted context does (the nearby section title is a separate link in a generic container). elementFails: yes under the rubric's fixed context reading (F63 pattern; H2 would be the fix). captureDiffers: no, the live server HTML has the same header structure (title link, separator, 'Ver mais' link visible at lg width) and the screenshot shows the same layout. The claim names this failure, so true_positive."
+    },
+    {
+      "fingerprint": "488c4f8bcbae",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is the desktop 'Ver mais' button-styled link at the right of the 'Classificados' section header, pointing to /classificados (a listing page headed 'Matérias de Classificados'). Its name is only 'Ver mais'; it has no title, aria-label or aria-describedby. It sits in a generic grid div with a separator and a link 'Classificados' to the same address; that section title is a styled link, not a heading, and the div is not a sentence, paragraph, list item or table cell, and the section has no accessible name. The heading just before it in document order is an unrelated article headline from the previous block ('Impasses entre países podem atrasar documento final da COP31'), so no context the rubric counts gives the purpose: only the visual section title does. claimTrue: yes, the text says nothing about the destination and nothing in its counted context does (the nearby section title is a separate link in a generic container). elementFails: yes under the rubric's fixed context reading (F63 pattern; H2 would be the fix). captureDiffers: no, the live server HTML has the same header structure (title link, separator, 'Ver mais' link visible at lg width) and the screenshot shows the same layout. The claim names this failure, so true_positive."
+    },
+    {
+      "fingerprint": "288b7643060a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is the desktop 'Ver mais' button-styled link at the right of the 'Opinião' section header, pointing to /opiniao-e-colunas (a listing page headed 'Matérias de Opinião e colunas'). Its name is only 'Ver mais'; it has no title, aria-label or aria-describedby. It sits in a generic grid div with a separator and a link 'Opinião' to the same address; that section title is a styled link, not a heading, and the div is not a sentence, paragraph, list item or table cell, and the section has no accessible name. The heading just before it in document order is an unrelated article headline from the previous block ('Homem é condenado a 27 anos de prisão por assassinato no Solo Sagrado'), so no context the rubric counts gives the purpose: only the visual section title does. claimTrue: yes, the text says nothing about the destination and nothing in its counted context does (the nearby section title is a separate link in a generic container). elementFails: yes under the rubric's fixed context reading (F63 pattern; H2 would be the fix). captureDiffers: no, the live server HTML has the same header structure (title link, separator, 'Ver mais' link visible at lg width) and the screenshot shows the same layout. The claim names this failure, so true_positive."
+    },
+    {
+      "fingerprint": "se546b849270",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h2 'Natureza dentro e fora de casa' on an article card in the Classificados block; the content under it is the byline and date, and the card's photo shows a balcony full of potted plants. The linked article (fetched now) is titled the same and is about decorating indoor and outdoor spaces with plants, so the heading names exactly the topic of its card and article. claimTrue: no, nothing under the heading is a different topic. elementFails: no, the heading describes its content, 2.4.6 is met. captureDiffers: no, the live page shows the same card and h2. Rampa did not read the destination, but the card itself (heading, photo, byline) gave no ground for the claim, so model_error."
+    },
+    {
+      "fingerprint": "sb7f8e56e65c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'Cultura' badge link in the section bar under the banner, pointing to /cultura. The destination's <title> is the site-wide 'Diário da Região', but its h1 is 'Matérias de Cultura': the Cultura section listing, which the link text names. claimTrue: no, the text does match where the link leads. elementFails: no, 'Cultura' describes the purpose in this category bar, and the other 'Cultura' link (the section title) goes to the same address. captureDiffers: no, the live page and destination are unchanged on this point. Rampa had the destination heading and judged on the generic title, so model_error."
+    }
+  ]
+}

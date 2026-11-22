@@ -1,0 +1,148 @@
+{
+  "page": "https://www.campogrande.ms.gov.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "f389da197498",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the text span of an 'Acesso rápido' tile link, <span lang=\"de\" class=\"text\">Serviços</span>, on a page whose html lang is pt-BR. The text 'Serviços' is Portuguese and the span declares it German, so its language is programmatically determined wrongly and a screen reader that honours lang switches to a German voice for it; H58's check that the lang value identifies the content's language fails. I looked for reasons it could be wrong: the raw HTML fetched from the live page on 2026-11-22 carries the same lang=\"de\" on this span (43 such spans, all Portuguese), the snapshot is the rendered DOM so no script corrects it, the span is part of the link's accessible name (not hidden), and the screenshot is fully styled, so the capture does not differ. The 3.1.2 exception for proper names, technical terms or vernacular words relieves authors from marking such words; it does not make a wrong declaration correct, and here the text is in the page's own language. The claim names exactly this failure: true_positive."
+    },
+    {
+      "fingerprint": "s7a88ed9d674",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the footer h3 '+CG', set on one line right after the h3 'BAIXE O APLICATIVO' (visually one banner, 'BAIXE O APLICATIVO +CG'), followed by the two badge links 'Disponível no Google Play' and 'Baixar na App Store' for that app. '+CG' is the name of the municipal app the section offers for download (also a '+ CG' tile in the quick-access grid), so the heading does say what the content under it is about: which app the download links are for. Understanding 2.4.6 notes that a heading can be a single word when it gives an appropriate cue; splitting one phrase into two h3 elements is at most a 1.3.1 structure matter, not a 2.4.6 failure. The claim that it says nothing about the content is not true of the capture. The live HTML has the same two h3 elements and badges, and the screenshot is styled, so the capture does not differ. Rampa had the ancestor text 'BAIXE O APLICATIVO +CG' with the badges and still judged it wrongly."
+    },
+    {
+      "fingerprint": "3c3dc29cd13a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the text span of an 'Acesso rápido' tile link, <span lang=\"de\" class=\"text\">IPTU</span>, on a page whose html lang is pt-BR. The text 'IPTU' is Portuguese and the span declares it German, so its language is programmatically determined wrongly and a screen reader that honours lang switches to a German voice for it; H58's check that the lang value identifies the content's language fails. I looked for reasons it could be wrong: the raw HTML fetched from the live page on 2026-11-22 carries the same lang=\"de\" on this span (43 such spans, all Portuguese), the snapshot is the rendered DOM so no script corrects it, the span is part of the link's accessible name (not hidden), and the screenshot is fully styled, so the capture does not differ. The 3.1.2 exception for proper names, technical terms or vernacular words relieves authors from marking such words; it does not make a wrong declaration correct, and here the text is in the page's own language. IPTU is an acronym, but of a Portuguese term (Imposto Predial e Territorial Urbano) read with Portuguese letter names, so it is not of indeterminate language; a German voice is still the wrong language, though the audible difference is small. The claim names exactly this failure: true_positive."
+    },
+    {
+      "fingerprint": "d9b9b8498dde",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the thumbnail photo (a child holding cotton candy at a street event) of the first news card, with alt=\"\", not inside a link (the card has an empty overlay link and a separate headline link). The text the claim says the image conveys, 'Natal nos Bairros leva programação gratuita a sete regiões', is the card's h5 headline link, in the same card with an excerpt; in the screenshot that headline is HTML text overlaid on the photo, so the crop the model saw shows it, but it is not part of the image and the text around the image says it. So the claim is false of the capture. The photo is a teaser illustrating the adjacent headline and excerpt without adding needed information, which W3C's images tutorial treats as decorative ('illustrative of adjacent text'), so alt=\"\" meets 1.1.1; an auditor who wanted the photo described would fail it for a reason the claim does not name. The live HTML has the same img with alt=\"\" and the same headline, so the capture does not differ. Rampa had the headline in the ancestor text and judged wrongly (misled by the overlay in the crop)."
+    },
+    {
+      "fingerprint": "283bed6232fb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the text span of an 'Acesso rápido' tile link, <span lang=\"de\" class=\"text\">Portal da Transparência</span>, on a page whose html lang is pt-BR. The text 'Portal da Transparência' is Portuguese and the span declares it German, so its language is programmatically determined wrongly and a screen reader that honours lang switches to a German voice for it; H58's check that the lang value identifies the content's language fails. I looked for reasons it could be wrong: the raw HTML fetched from the live page on 2026-11-22 carries the same lang=\"de\" on this span (43 such spans, all Portuguese), the snapshot is the rendered DOM so no script corrects it, the span is part of the link's accessible name (not hidden), and the screenshot is fully styled, so the capture does not differ. The 3.1.2 exception for proper names, technical terms or vernacular words relieves authors from marking such words; it does not make a wrong declaration correct, and here the text is in the page's own language. It is the name of a service, but made of Portuguese words on a Portuguese page; the proper-name exception does not make a German declaration correct. The claim names exactly this failure: true_positive."
+    },
+    {
+      "fingerprint": "a869e8646b70",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the text span of an 'Acesso rápido' tile link, <span lang=\"de\" class=\"text\">Radar da Transparência</span>, on a page whose html lang is pt-BR. The text 'Radar da Transparência' is Portuguese and the span declares it German, so its language is programmatically determined wrongly and a screen reader that honours lang switches to a German voice for it; H58's check that the lang value identifies the content's language fails. I looked for reasons it could be wrong: the raw HTML fetched from the live page on 2026-11-22 carries the same lang=\"de\" on this span (43 such spans, all Portuguese), the snapshot is the rendered DOM so no script corrects it, the span is part of the link's accessible name (not hidden), and the screenshot is fully styled, so the capture does not differ. The 3.1.2 exception for proper names, technical terms or vernacular words relieves authors from marking such words; it does not make a wrong declaration correct, and here the text is in the page's own language. It is the name of a programme, but made of Portuguese words on a Portuguese page; the proper-name exception does not make a German declaration correct. The claim names exactly this failure: true_positive."
+    },
+    {
+      "fingerprint": "55499f0f55b3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the text span of an 'Acesso rápido' tile link, <span lang=\"de\" class=\"text\">Emprego</span>, on a page whose html lang is pt-BR. The text 'Emprego' is Portuguese and the span declares it German, so its language is programmatically determined wrongly and a screen reader that honours lang switches to a German voice for it; H58's check that the lang value identifies the content's language fails. I looked for reasons it could be wrong: the raw HTML fetched from the live page on 2026-11-22 carries the same lang=\"de\" on this span (43 such spans, all Portuguese), the snapshot is the rendered DOM so no script corrects it, the span is part of the link's accessible name (not hidden), and the screenshot is fully styled, so the capture does not differ. The 3.1.2 exception for proper names, technical terms or vernacular words relieves authors from marking such words; it does not make a wrong declaration correct, and here the text is in the page's own language. The claim names exactly this failure: true_positive."
+    },
+    {
+      "fingerprint": "9a39595f2ab9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the text span of an 'Acesso rápido' tile link, <span lang=\"de\" class=\"text\">Legislação Municipal</span>, on a page whose html lang is pt-BR. The text 'Legislação Municipal' is Portuguese and the span declares it German, so its language is programmatically determined wrongly and a screen reader that honours lang switches to a German voice for it; H58's check that the lang value identifies the content's language fails. I looked for reasons it could be wrong: the raw HTML fetched from the live page on 2026-11-22 carries the same lang=\"de\" on this span (43 such spans, all Portuguese), the snapshot is the rendered DOM so no script corrects it, the span is part of the link's accessible name (not hidden), and the screenshot is fully styled, so the capture does not differ. The 3.1.2 exception for proper names, technical terms or vernacular words relieves authors from marking such words; it does not make a wrong declaration correct, and here the text is in the page's own language. The claim names exactly this failure: true_positive."
+    },
+    {
+      "fingerprint": "bacc148d1104",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the text span of an 'Acesso rápido' tile link, <span lang=\"de\" class=\"text\">Matrícula Online</span>, on a page whose html lang is pt-BR. The text 'Matrícula Online' is Portuguese and the span declares it German, so its language is programmatically determined wrongly and a screen reader that honours lang switches to a German voice for it; H58's check that the lang value identifies the content's language fails. I looked for reasons it could be wrong: the raw HTML fetched from the live page on 2026-11-22 carries the same lang=\"de\" on this span (43 such spans, all Portuguese), the snapshot is the rendered DOM so no script corrects it, the span is part of the link's accessible name (not hidden), and the screenshot is fully styled, so the capture does not differ. The 3.1.2 exception for proper names, technical terms or vernacular words relieves authors from marking such words; it does not make a wrong declaration correct, and here the text is in the page's own language. 'Online' is a loanword in the Portuguese vernacular; the phrase as a whole is Portuguese. The claim names exactly this failure: true_positive."
+    },
+    {
+      "fingerprint": "9a6e9255b5dc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the text span of an 'Acesso rápido' tile link, <span lang=\"de\" class=\"text\">Nota Fiscal</span>, on a page whose html lang is pt-BR. The text 'Nota Fiscal' is Portuguese and the span declares it German, so its language is programmatically determined wrongly and a screen reader that honours lang switches to a German voice for it; H58's check that the lang value identifies the content's language fails. I looked for reasons it could be wrong: the raw HTML fetched from the live page on 2026-11-22 carries the same lang=\"de\" on this span (43 such spans, all Portuguese), the snapshot is the rendered DOM so no script corrects it, the span is part of the link's accessible name (not hidden), and the screenshot is fully styled, so the capture does not differ. The 3.1.2 exception for proper names, technical terms or vernacular words relieves authors from marking such words; it does not make a wrong declaration correct, and here the text is in the page's own language. The claim names exactly this failure: true_positive."
+    },
+    {
+      "fingerprint": "pf227680f593",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the header navigation link 'Início' (href='/'), the home link of the site's main menu. 'Início' (Home) states its purpose from the link text alone, and it leads to the home page. The only other link with that name in the snapshot is the hidden mobile-menu copy, also href='/', the same resource, so R1 finds no pair leading to non-equivalent resources. The live HTML has both links with the same text and href, so the capture does not differ. It meets 2.4.4, so Rampa missed nothing."
+    },
+    {
+      "fingerprint": "c946dc3ffda6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the text span of an 'Acesso rápido' tile link, <span lang=\"de\" class=\"text\">Habitação</span>, on a page whose html lang is pt-BR. The text 'Habitação' is Portuguese and the span declares it German, so its language is programmatically determined wrongly and a screen reader that honours lang switches to a German voice for it; H58's check that the lang value identifies the content's language fails. I looked for reasons it could be wrong: the raw HTML fetched from the live page on 2026-11-22 carries the same lang=\"de\" on this span (43 such spans, all Portuguese), the snapshot is the rendered DOM so no script corrects it, the span is part of the link's accessible name (not hidden), and the screenshot is fully styled, so the capture does not differ. The 3.1.2 exception for proper names, technical terms or vernacular words relieves authors from marking such words; it does not make a wrong declaration correct, and here the text is in the page's own language. The claim names exactly this failure: true_positive."
+    },
+    {
+      "fingerprint": "2143643aebfa",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the thumbnail photo (a crowd at a night-time outdoor event under string lights) of the third news card, with alt=\"\", not inside a link. The text the claim says the image conveys, 'Fim de semana em Campo Grande reúne música, teatro, feiras e atrações gratuitas', is the card's own h5 headline link, followed by an excerpt in the same card; in the screenshot the headline is HTML text overlaid on the photo, so the crop shows it, but it is not part of the image and the text around the image says it. The claim is therefore false of the capture. The photo is a teaser illustrating the adjacent headline and excerpt, decorative under W3C's images tutorial ('illustrative of adjacent text'), so alt=\"\" meets 1.1.1; an auditor who wanted the photo described would fail it for a reason the claim does not name. The live HTML has the same img with alt=\"\" and the same headline, so the capture does not differ. Rampa had the headline in the ancestor text and judged wrongly."
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "page": "https://www.unir.br/homepage",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s85b0574bb48",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is all the link holds (no title, no other text): a 60px calendar-with-pin icon in the quick-access tile whose visible h6 reads 'Reservas de Espaços', with alt 'Licitações e Contratos', linking to /pagina/exibir/599. I opened that page: its h3 and breadcrumb read 'Reservas de Espaços' and it lists rooms and auditoriums per campus, so the alternative names a different destination (the Licitações tile beside it goes to licitacoes.unir.br). Reasons that could save it do not hold: the h6 after the link is outside the link and, by R2, a neighbouring label does not give an image link its 1.1.1 name; the alternative misnames the control's purpose rather than merely describing the picture. Live HTML shows the same alt, href and h6. The claim's wording fits: the alternative does not say where the link leads."
+    },
+    {
+      "fingerprint": "2ca5b117eb51",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Active slide of the events carousel: an image link to /evento/exibir/576 with alt 'movimento no campus' (the second, mobile-only image has no alt but is display:none at this width). I opened the destination: its heading is 'Movimento no Campus: Caminhada e Corrida na UNIR – Porto Velho', and the events list beside the carousel links the same title to the same address. By R2's first test, the alternative read as link text names the event the link opens, so it describes the link's purpose and the control meets 1.1.1 (H30); the claim that it does not say where the link leads is false. The destination's generic site title misled the checker, but the alt itself identifies the event. Live HTML matches the snapshot."
+    },
+    {
+      "fingerprint": "s58d816a605d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The grey category link 'Saúde' at the top of a news card points to /cartao/exibir/397, whose title and heading are 'Pesquisa da UNIR vence Prêmio Capes de Tese 2026'. I looked for context that would cure it: no title or aria-describedby; it sits alone in a span inside a generic card-body div, so its sentence/paragraph context is only 'Saúde'; the headline and summary are in sibling p elements (not related to it, F63); the nearest preceding heading is a carousel slide h5 about another story. Only the card layout tells a sighted user that the tag belongs to this story, and a topic word does not describe opening that article (a user would expect a 'Saúde' listing). The ambiguous-to-all exception does not apply since sighted users see the card. The claim names this mismatch. Live HTML is identical."
+    },
+    {
+      "fingerprint": "8f939c1c3989",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Category link 'Pesquisa' in the fifth news card, to /cartao/exibir/392 ('Feira PopMédio começa em Porto Velho'). The first card has another 'Pesquisa' link, to /cartao/exibir/398 ('Somos Diversas pesquisa inclusão em universidades'); a hidden submenu link 'Pesquisa' is aria-hidden and outside the accessibility tree. Both card links have no title or aria-describedby, sit alone in a span inside a generic div (no shared paragraph with their headlines), and have the same preceding heading, so by R1 they form one set. They resolve to two different news articles (not equivalent), and the card photos and headlines visually tell them apart, so the pair fails 2.4.4 and both links get yes. I found no technique that rescues it. The claim (2 links, 2 places, nothing around it tells it apart) names this failure. Live HTML matches."
+    },
+    {
+      "fingerprint": "p33a028fc609",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The quick-access icon (a globe) is all its link holds, with alt 'Portal do Servidor', linking to https://servidor.unir.br/homepage. I fetched the destination: its title and h1 are 'Portal do Servidor'. The alternative names the destination, so the control's name describes its purpose and it meets 1.1.1 (H30). Live HTML shows the same alt and href. Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "62b565df61d0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image of a news card (photo of women exercising) is all its link holds, alt 'UNIR', linking to cartao/exibir/396, which I opened: 'Projeto da UNIR integra mapeamento sobre longevidade' (project Idade Ativa). 'UNIR' neither identifies the article nor describes the photo; every page of the site carries that word, so the link's purpose cannot be told from it. Things that might save it do not apply to 1.1.1: the link has no title, and per R2 the headline link to the same address in the card body is another control, not this image's alternative (H2 would require one combined link). Live HTML is identical. The claim names the defect."
+    },
+    {
+      "fingerprint": "3af396a60152",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Category link 'Pesquisa' in the first news card, to /cartao/exibir/398 ('Somos Diversas pesquisa inclusão em universidades'); the fifth card's 'Pesquisa' goes to /cartao/exibir/392 ('Feira PopMédio começa em Porto Velho'). Neither has title or aria-describedby; each is alone in a span in a generic div, with headlines in separate paragraphs, and the same heading precedes both, so by R1 they share one set. Different articles, not equivalent; card images and headlines tell them apart visually, so the pair fails and this link gets yes. The aria-hidden submenu 'Pesquisa' link is outside the accessibility tree and does not change this. The claim names the shared-name failure. Live HTML matches the snapshot."
+    },
+    {
+      "fingerprint": "s7117c19f54b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Full-width SOU banner whose image is all its link holds; the link opens a WhatsApp chat (api.whatsapp.com/send?phone=556921822016). The alternative 'NEGRA OLHANDO PARA A LOGO DO SOU - SERVIÇO DE ORIENTAÇÃO AO USUÁRIO - WHATSAPP 69 21822016' opens with a picture description, but it also names the service (SOU) and the very WhatsApp number the link opens. By R2's first test, read as link text it lets users tell where the link goes (a WhatsApp contact with SOU at 69 2182-2016), so the control's name describes its purpose; the extra description is noise, not a 1.1.1 failure. The claim that it does not say where the link leads is false. The hidden mobile copy has the same alt. Live HTML matches."
+    },
+    {
+      "fingerprint": "s8be9dc1cede",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Main-menu link 'Acesso à informação' to /pagina/exibir/51. That page's title is the site-wide 'UNIR - Universidade Federal de Rondônia', but I opened it: breadcrumb and h3 'Acesso à informação', listing UNIR's access-to-information items (Institucional, Licitações e Contratos, SIC, Dados Abertos...). The link text matches its destination; the generic title shared by every page of the site does not show a mismatch, so the claim is false. The element does fail 2.4.4 for another reason the claim does not name: by R1 it shares name and identical context (lone list item, no preceding heading, no title) with the gov.br bar's 'Acesso à informação' link to acessoainformacao.gov.br, the federal CGU portal (redirects to a CGU landing page that refused my fetch), a non-equivalent resource, and the gov.br bar visually tells the two apart. Even if auditors split on that pairing, the claim's own ground does not hold. Live HTML matches."
+    },
+    {
+      "fingerprint": "e51aa784c02a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page is UNIR's home page (https://www.unir.br/homepage) and its title is 'UNIR - Universidade Federal de Rondônia'. For a home page, the organisation's name is what describes the page's topic and purpose (Understanding 2.4.2, G88): it tells users they are on the Federal University of Rondônia's site. Other pages reuse this title (I saw it on /pagina/exibir/51 and /599), which is a 2.4.2 problem for those pages, not for the home page. The claim that it says nothing about this page is false. The live title is identical."
+    },
+    {
+      "fingerprint": "sab11da82c62",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Header search field (#portal-buscador, type=search) in a form posting to /busca, with no label element; its accessible name comes from the placeholder 'busca...'. 2.4.6 does not require labels, and where one is given it must describe topic or purpose: 'busca' (search) in a site-header search box states its purpose, and what to enter (search terms) follows from it. The claim that it does not say what to enter applies a stricter, instructions-style reading. Separate issues it does not name: a placeholder-only name (3.3.2/1.3.1 territory) and an icon-only submit button with no accessible name (4.1.2). Live HTML shows the same input."
+    },
+    {
+      "fingerprint": "be7dd7ac4201",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The header logo is all its link holds, alt 'logomarca da UNIR - duas setas na cor azul se cruzando', linking to https://www.unir.br/homepage (this page, titled 'UNIR - Universidade Federal de Rondônia'). Literally, the alternative describes a logo and does not say 'página inicial', so the sentence holds of the capture. But it names UNIR, the site whose home page the link opens, much as H30's example uses the destination's name ('Smallville Times'); by R2's first test that arguably lets users tell where the link goes, and I lean that it passes. Against that, the W3C images tutorial explicitly prefers 'Example.com homepage' over 'Example.com logo' for this exact pattern. Competent auditors split on logo-named home links, so the label is uncertain. Live HTML is identical."
+    }
+  ]
+}

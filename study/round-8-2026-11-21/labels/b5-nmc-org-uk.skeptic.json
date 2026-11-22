@@ -1,0 +1,97 @@
+{
+  "page": "https://www.nmc.org.uk/registration/search-the-register/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s088bb2e21b9",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Footer 'Popular links' link 'Careers' to https://nmc.pinpointhq.com/. Rampa never read the destination; fetched on 2026-11-21 it is titled 'Jobs at The Nursing and Midwifery Council | The Nursing and Midwifery Council Careers', NMC's own careers and vacancies site, so the text matches where the link goes and the claim is false. The purpose is clear from the link text alone (and the list sits under the 'Popular links' heading). The live HTML has the same link and href as the snapshot. The checker likely judged the third-party domain without the destination."
+    },
+    {
+      "fingerprint": "366b6833d881",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Text input 'Last name' in the Search the register form, used to look up a nurse, midwife or nursing associate on the NMC register (the form's notes: 'More than one person may have the same name. If possible, use the Pin when searching. A nurse, midwife or nursing associate should tell you their PIN...'). It does not ask for the user's own last name, so the claim is false. SC 1.3.5 applies only to input fields that collect information about the user; a field for the name of the professional being searched is outside its scope, so the missing autocomplete token is no failure. The live HTML matches the snapshot (no autocomplete). The model had the form context and misread the field's purpose."
+    },
+    {
+      "fingerprint": "p978587bef3e",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "status-caution.png (orange question-mark circle) with alt=\"\", in the key 'We provide details of nurses, midwives and nursing associates who:' right beside the text 'Are on our register but have restrictions on their practice or a caution order.' The icon only repeats, as a visual cue, the category that the adjacent text states, so a null alternative that lets assistive technology ignore it is acceptable under 1.1.1. The register's results give the registration status in text (per the 'How to search the register' page: 'Registration status' with named terms), so nothing is lost to users who cannot see the icon. The live HTML is the same (alt=\"\"). No failure missed."
+    },
+    {
+      "fingerprint": "pc7c6ffe4594",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Link 'Registration appeals' in the 'You are here:' section navigation, to /registration/registration-appeals/, whose page is titled and headed 'Registration appeals'. The link text alone describes its purpose, and every link with that name on the live page goes to the same address. The live HTML matches the snapshot. No 2.4.4 failure missed."
+    },
+    {
+      "fingerprint": "p924cc7503b9",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Link 'Misrepresentation' nested under the 'Search the register' list item in the 'You are here:' navigation, to /registration/search-the-register/misrepresentation/, page titled and headed 'Misrepresentation'. The link text matches the destination, and its parent list item (H81) places it in the register-search section. Both links named 'Misrepresentation' on the live page go to the same address; the live HTML matches the snapshot. No 2.4.4 failure missed."
+    },
+    {
+      "fingerprint": "s56deb85fbfd",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Header button-styled link to /registration/search-the-register/ (the current page) with visible text 'Search the register', an account icon (aria-hidden), and a leftover <span class=\"sr-only\">Basket</span>, so its accessible name is 'Search the register Basket'. The claim holds of the capture in that the full name carries a word ('Basket') that has nothing to do with the destination. But the name begins with 'Search the register', which describes exactly where the link goes, so a skeptic can argue the purpose is still determinable from the link text and the stray word is a naming-accuracy defect better filed elsewhere (4.1.2), not a 2.4.4 failure; other auditors would hold that a misleading word in the name keeps the purpose from being clear. The live HTML still has the same sr-only 'Basket' (desktop and menu copies). Competent auditors would reasonably disagree, so uncertain."
+    },
+    {
+      "fingerprint": "3ea565d0a50f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image #CybotCookiebotDialogPoweredbyImage in the Cookiebot consent banner shown on first visit: the crop shows the NMC logo ('nmc Nursing & Midwifery Council'), and its alt is 'logo'. 'logo' is a generic placeholder (Cookiebot's alt string, configured as logoAltText='logo') that names the kind of image, not the organisation it shows. If the logo is informative, the alternative does not serve the equivalent purpose (F30); if it is treated as decorative, a non-null alt such as this keeps it from being ignored by assistive technology (F39). Either way it fails 1.1.1, and the claim names that defect. I checked for a capture difference: the screenshot crops the top of the fixed banner, but the snapshot gives the image visible bounds, and the live Cookiebot configuration for this site (cbid 4d583bed...) still sets showLogo = true, the same logo data and logoAltText = 'logo'."
+    },
+    {
+      "fingerprint": "pc40cdad7182",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer social icon link with aria-label 'Follow us on Bluesky' to https://bsky.app/profile/newsnmc.bsky.social, under the 'Follow us' heading. The accessible name (ARIA8) states the purpose and destination precisely; the other 'Bluesky' link on the page goes to the same profile. The live HTML matches the snapshot. No 2.4.4 failure missed."
+    },
+    {
+      "fingerprint": "ebb7c00f1b31",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header link 'Cymraeg' (the Welsh name of the Welsh language) to the Welsh page 'Ein rôl', with no lang attribute, so it inherits the page's en-GB. I weighed the exceptions: a skeptic could call it a proper name or a lone word, but the change of language is clearly intended (a Welsh label for Welsh content), an English voice would mispronounce it, and Understanding 3.1.2's own 'Alternative language links' example says the text of such a link is the language's name in that language and its language is indicated with lang. The H58 test (content language same as inherited language) fails. The live HTML is unchanged (no lang=\"cy\", no hreflang). The claim names the failure and the right fix."
+    },
+    {
+      "fingerprint": "7bbadd763098",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header logo image (logo.svg, showing 'nmc Nursing & Midwifery Council') with alt 'Logo', inside the home link whose other content is an sr-only 'Home', giving the link the name 'Home Logo'. A possible defence is that 'Home' already gives the link its purpose, but that does not cure the image: if the logo conveys the organisation's name, 'Logo' is a placeholder that does not serve the equivalent purpose (F30); if it is redundant beside 'Home', it should have a null alt, and a non-null generic alt is F39. Either reading fails 1.1.1, and the claim (placeholder alternative) names it. The live HTML has the same <img alt=\"Logo\">."
+    },
+    {
+      "fingerprint": "9f5b3bc272a7",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Text input 'First name' in the Search the register form, used to search for a registered professional (its validation even says 'Cannot search on just first name'). It asks for the first name of the nurse, midwife or nursing associate being looked up, not the user's own, so the claim is false and SC 1.3.5, which covers only fields collecting information about the user, does not require autocomplete=\"given-name\" here. The live HTML matches the snapshot. The model had the form context and misjudged the field's purpose."
+    },
+    {
+      "fingerprint": "p159b650fd42",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "status-negative.png (orange cross in a circle) with alt=\"\", in the register key directly beside the text 'Have been suspended or removed from our register since 1 January 2008 and are not currently allowed to practise.' The icon repeats the adjacent text's category as a visual cue, so a null alternative is acceptable; results state the registration status in text (per 'How to search the register'), so users who cannot see the icon lose nothing. The live HTML is the same. No 1.1.1 failure missed."
+    },
+    {
+      "fingerprint": "s1bed9690b24",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Header utility link 'My NMC' to /registration/nmc-online/. Rampa could not read the destination (timeout); fetched on 2026-11-21 it redirects to /registration/your-guide-to-mynmc/, titled 'MyNMC' and headed 'Your guide to MyNMC'. 'My NMC' is the name of the NMC's online registration service, so the link text alone tells where it goes, and the same page refers to the service elsewhere ('Check my renewal date on MyNMC' under 'I want to...', a 'MyNMC' link in the section navigation). The claim that the text does not tell where the link goes is false. The live HTML matches the snapshot."
+    }
+  ]
+}

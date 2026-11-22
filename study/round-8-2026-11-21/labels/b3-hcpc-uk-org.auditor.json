@@ -1,0 +1,70 @@
+{
+  "page": "https://www.hcpc-uk.org/check-the-register/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "bc74c3ed91fa",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The visible top-menu link 'Cymraeg' (Welsh for 'Welsh') leads to the Welsh version of the page; the snapshot shows no lang attribute on it or any ancestor except html lang=\"en\", so the claim holds of the capture. The raw HTML of the live page has the same markup (title=\"Cymraeg\", no lang, html lang=\"en\"), so the capture matches what users get. Understanding 3.1.2 covers this case in its 'Alternative language links' example, where each link's text is the language's name in that language and carries lang (e.g. lang=\"fr\" on 'Français'). A language name in a switcher is not treated as an exempt proper name there. The link fails 3.1.2 for the reason the claim gives."
+    },
+    {
+      "fingerprint": "sca619c41051",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page title 'Check the Register and find a registered health and care professional | The HCPC' fits the page: the h1 is 'Check the Register', and the page is a search form for registered professionals. It names the topic and the site. The live page has the same title. The claim that it says nothing about the page is false. The model had the title and the h1 and still judged wrongly."
+    },
+    {
+      "fingerprint": "pf493668dc8f",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The header logo (the 'hcpc health & care professions council' wordmark) is the only content of a link to https://www.hcpc-uk.org/, the HCPC home page. Its alt is 'Health & Care Professions Council'. That gives the text in the image and names the destination site, as in H30's linked-image example, which uses the destination's name. It meets 1.1.1. The live HTML has the same img and alt. Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "3ea565d0a50f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the logo in the Cookiebot consent banner header: a square HCPC 'hcpc' mark (crop checked). The snapshot shows the banner active (display:flex, CybotCookiebotDialogActive), and the image has alt=\"logo\". The live site loads Cookiebot through GTM. Its live Cookiebot config (cc.js for this site's ID) sets CookieConsentDialog.logoAltText = 'logo', so first-time visitors get the same image and alt. The screenshot does not show the banner, but that does not change the markup users receive. 'logo' is generic placeholder text, not an alternative (F30). It does not convey the 'hcpc' text the image shows. If the image is treated as decorative, a non-empty 'logo' still makes assistive technology announce it, so it is not ignored. Either way it fails 1.1.1, and the claim names that failure."
+    },
+    {
+      "fingerprint": "76ea243a28d3",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The select 'Choose a profession' (Arts therapist, Biomedical scientist, ...) sits in the 'Check the Register' search form, next to 'Surname or registration number'. It filters the search by the profession of the registrant being looked up. It does not ask for the user's own job title, so the claim is false. 1.3.5 applies only to fields that collect information about the user, so the missing autocomplete=\"organization-title\" is not a failure. The live HTML has the same select. The form context was in the packet, and the model judged wrongly."
+    },
+    {
+      "fingerprint": "p49665e8f5a7",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The footer link 'News and events' goes to https://www.hcpc-uk.org/news-and-events/, whose title and heading are 'News and events'. The link text alone gives its purpose. The other links named 'News and events' (main nav and its mega-menu) go to the same URL, so R1 raises no shared-name issue. The live HTML has the same link and href. It meets 2.4.4, and Rampa was right not to report it."
+    }
+  ]
+}

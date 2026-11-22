@@ -1,0 +1,180 @@
+{
+  "page": "https://www.santacasajf.org.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "28147494124b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The second \"Saiba mais\" link (<a href=\"\" class=\"cta mt-5\">), at the bottom of the \"Conheça a Santa Casa JF\" column. The claim says nothing around it explains it, but the nearest heading before it in document order is the h2 \"Conheça a Santa Casa JF\" in the same column, which this round counts as context (H80). With it, the link reads as 'learn more about Santa Casa JF', so claimTrue is no. The defect the element really has is a different one: its href is empty, so it just reloads the home page for every user (the live HTML of 2026-11-21 is the same). That is a broken link affecting all users alike, not missing link context, so I answer elementFails no for 2.4.4. Even an auditor who scored the empty href as a 2.4.4 failure would be scoring a reason this claim does not name. It shares its name with the PLASC \"Saiba mais\" link, but the different preceding headings tell them apart, so they are not one R1 set. The screenshot and live page match the capture: captureDiffers no. False positive: the model overlooked the preceding heading."
+    },
+    {
+      "fingerprint": "d782f33199f0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A decorative icon inside a quick-access card link (<a class=\"box\">) whose own heading and paragraph, \"Resultados de exames - É mais fácil acessar os resultados dos seus exames, basta clicar aqui.\", give the link its name and purpose. The image has alt=\"ícone\" (\"icon\"), a generic placeholder word, so claimTrue is yes. The icon adds nothing the card text does not say, so it should be ignored by assistive technology; giving it a non-null placeholder alternative is F39 (alt=\"image\"/\"spacer\" for images that should be ignored), a documented 1.1.1 failure, and it also injects \"ícone\" into the link's accessible name. The claim's 'placeholder' names that defect. The live HTML (fetched 2026-11-21) has the same img and alt, and the screenshot shows the styled card, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "cc07c518443a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "An image in the footer row under the h2 \"Certificações de Qualidade\": the red-cross seal reading \"Hospital de Ensino - Ministérios da Saúde e Educação\" with the side text \"Portaria 1.035 de 6 de agosto de 2013\". It has alt=\"\", so it is hidden from screen readers. The heading only says these are quality certifications; which certification this seal represents is conveyed by the image alone, and no nearby text names it. The claim's quoted content matches the crop and the screenshot (Hospital de Ensino, Portaria 1.035 de 6 de agosto de 2013), so claimTrue is yes. An informative image marked as decorative fails 1.1.1, and the claim names exactly that. The live HTML has the same <img alt=\"\"> in the same footer, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "8f9928e5de8c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A decorative icon inside a quick-access card link (<a class=\"box\">) whose own heading and paragraph, \"Convênios - Consulte os convênios atendidos pela Santa Casa.\", give the link its name and purpose. The image has alt=\"ícone\" (\"icon\"), a generic placeholder word, so claimTrue is yes. The icon adds nothing the card text does not say, so it should be ignored by assistive technology; giving it a non-null placeholder alternative is F39 (alt=\"image\"/\"spacer\" for images that should be ignored), a documented 1.1.1 failure, and it also injects \"ícone\" into the link's accessible name. The claim's 'placeholder' names that defect. The live HTML (fetched 2026-11-21) has the same img and alt, and the screenshot shows the styled card, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "b1c592647dd7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A decorative icon inside a quick-access card link (<a class=\"box\">) whose own heading and paragraph, \"Certificações de qualidade - Sempre buscamos excelência em nossos serviços...\", give the link its name and purpose. The image has alt=\"ícone\" (\"icon\"), a generic placeholder word, so claimTrue is yes. The icon adds nothing the card text does not say, so it should be ignored by assistive technology; giving it a non-null placeholder alternative is F39 (alt=\"image\"/\"spacer\" for images that should be ignored), a documented 1.1.1 failure, and it also injects \"ícone\" into the link's accessible name. The claim's 'placeholder' names that defect. The live HTML (fetched 2026-11-21) has the same img and alt, and the screenshot shows the styled card, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "p436978829fb",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The main-menu link \"Ouvidoria\" (href /ouvidoria/) in the header navigation list. Its text alone names the destination, the hospital's ombudsman page. Rampa's fetch got HTTP 500 there, and so did mine on 2026-11-21, but the response is the normal page, with h1 \"Ouvidoria\" and the ombudsman content, so the purpose matches. The same name appears twice (desktop and mobile copies of the menu), both with the same href, so there is no R1 conflict. It meets 2.4.4. The live nav is the same as the snapshot: captureDiffers no."
+    },
+    {
+      "fingerprint": "5055469e3467",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "An image in the footer row under the h2 \"Certificações de Qualidade\": the gold ONA accreditation seal reading \"Acreditado com Excelência - ONA\". It has alt=\"\", so it is hidden from screen readers. The heading only says these are quality certifications; which certification this seal represents is conveyed by the image alone, and no nearby text names it. The claim's quoted content matches the crop and the screenshot (Acreditado com Excelência, ONA), so claimTrue is yes. An informative image marked as decorative fails 1.1.1, and the claim names exactly that. The live HTML has the same <img alt=\"\"> in the same footer, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "49a8809d1e7e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The news card category label \"Comunicado\" is a <span> styled by .blog .posts .box .texto span in the theme's style.css (live, 2026-11-21): color #FFF on background #0078D7, font-size .9em (14.4 px), weight 500, so normal-size text needing 4.5:1. I computed the ratio from the CSS values: relative luminance of #0078D7 is 0.1834, giving 1.05/0.2334 = 4.499:1. Understanding 1.4.3 says computed values are not rounded and that 4.499:1 does not meet 4.5:1. The label sits above the card's gradient overlay (the .texto flex item has z-index 1), and the screenshot shows white text on the solid blue chip, so the pixel measurement matches the CSS: claimTrue yes, elementFails yes. The live HTML and CSS are the same as the capture, so captureDiffers is no. True positive, if only just."
+    },
+    {
+      "fingerprint": "76cdd3bdf47c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "An image in the footer row under the h2 \"Certificações de Qualidade\": the blue \"Certified Company - ISO 9001:2015\" seal. It has alt=\"\", so it is hidden from screen readers. The heading only says these are quality certifications; which certification this seal represents is conveyed by the image alone, and no nearby text names it. The claim's quoted content matches the crop and the screenshot (ISO 9001:2015, Certified Company), so claimTrue is yes. An informative image marked as decorative fails 1.1.1, and the claim names exactly that. The live HTML has the same <img alt=\"\"> in the same footer, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "sbe0b1aa9420",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The \"Saiba mais\" button-styled link to https://www.plasc.org.br/ in the PLASC banner. The heading just before it is the h2 \"PLASC\" in the same block, followed by the paragraph \"Venha para o plano de saúde do hospital mais completo da região.\" Link text plus the preceding heading (H80, counted in this round) gives 'learn more about PLASC', and the destination is PLASC's site, so the purpose can be determined. The claim's 'nothing around it does' is false: claimTrue no. It shares its name with the empty-href \"Saiba mais\" in the \"Conheça a Santa Casa JF\" section, but their different preceding headings tell them apart, so they are not one R1 set. The live HTML has the same h2/p/link block: captureDiffers no. False positive: the heading and the banner text were available to the checker."
+    },
+    {
+      "fingerprint": "p0ddc7ebc293",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The link \"ver todos as notícias\" (href /noticias, which redirects to /noticias/ with h1 \"Notícias\") under the h3 \"Notícias\" news block. Its text alone says it leads to the full list of news, which is what the destination is (the grammar slip 'todos as' does not obscure it). No other link shares its name. It meets 2.4.4. The live HTML has the same link: captureDiffers no."
+    },
+    {
+      "fingerprint": "2d6d740af5b0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The news card category label \"Dica de Saúde\" is a <span> styled by .blog .posts .box .texto span in the theme's style.css (live, 2026-11-21): color #FFF on background #0078D7, font-size .9em (14.4 px), weight 500, so normal-size text needing 4.5:1. I computed the ratio from the CSS values: relative luminance of #0078D7 is 0.1834, giving 1.05/0.2334 = 4.499:1. Understanding 1.4.3 says computed values are not rounded and that 4.499:1 does not meet 4.5:1. The label sits above the card's gradient overlay (the .texto flex item has z-index 1), and the screenshot shows white text on the solid blue chip, so the pixel measurement matches the CSS: claimTrue yes, elementFails yes. The live HTML and CSS are the same as the capture, so captureDiffers is no. True positive, if only just."
+    },
+    {
+      "fingerprint": "c167093f67e8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "An image in the footer row under the h2 \"Certificações de Qualidade\": the green \"CEMIG SIM REC - 100% Energia Solar\" renewable-energy certificate seal. It has alt=\"\", so it is hidden from screen readers. The heading only says these are quality certifications; which certification this seal represents is conveyed by the image alone, and no nearby text names it. The claim's quoted content matches the crop and the screenshot (CEMIG SIM REC, 100% ENERGIA SOLAR), so claimTrue is yes. An informative image marked as decorative fails 1.1.1, and the claim names exactly that. The live HTML has the same <img alt=\"\"> in the same footer, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "37ba0e49fe88",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A decorative icon inside a quick-access card link (<a class=\"box\">) whose own heading and paragraph, \"Horários de visitas - Quer visitar alguém querido? Confira nossas dicas e normas...\", give the link its name and purpose. The image has alt=\"ícone\" (\"icon\"), a generic placeholder word, so claimTrue is yes. The icon adds nothing the card text does not say, so it should be ignored by assistive technology; giving it a non-null placeholder alternative is F39 (alt=\"image\"/\"spacer\" for images that should be ignored), a documented 1.1.1 failure, and it also injects \"ícone\" into the link's accessible name. The claim's 'placeholder' names that defect. The live HTML (fetched 2026-11-21) has the same img and alt, and the screenshot shows the styled card, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "1948b742a18b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The video thumbnail (capa-youtube.jpg: an aerial photo of the hospital with a play button and the text \"Cuidado que se faz presente em cada detalhe\") is the only content of a link to a YouTube video. Its alt is \"imagem\" (\"image\"), a placeholder, so claimTrue is yes, and the link's accessible name is just \"imagem\". When an image is the only content of a link, its alternative must describe the link's function (H30, Situation C of Understanding 1.1.1). \"imagem\" says neither that this plays the institutional video nor what the video is, so the element fails 1.1.1, and the 'placeholder' claim names that defect. The live HTML has the same <a><img alt=\"imagem\"></a>: captureDiffers no."
+    },
+    {
+      "fingerprint": "10e0313db5f9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The news card category label \"Comunicado\" is a <span> styled by .blog .posts .box .texto span in the theme's style.css (live, 2026-11-21): color #FFF on background #0078D7, font-size .9em (14.4 px), weight 500, so normal-size text needing 4.5:1. I computed the ratio from the CSS values: relative luminance of #0078D7 is 0.1834, giving 1.05/0.2334 = 4.499:1. Understanding 1.4.3 says computed values are not rounded and that 4.499:1 does not meet 4.5:1. The label sits above the card's gradient overlay (the .texto flex item has z-index 1), and the screenshot shows white text on the solid blue chip, so the pixel measurement matches the CSS: claimTrue yes, elementFails yes. The live HTML and CSS are the same as the capture, so captureDiffers is no. True positive, if only just."
+    }
+  ]
+}

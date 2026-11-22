@@ -1,0 +1,105 @@
+{
+  "page": "https://festivaldecuritiba.com.br/contato/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "f4951a0ef7c8",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the inline svg behind the newsletter section: a pattern of black wave paths drawn at opacity 0.19 (checked in the live HTML), with no title, no role and no aria-hidden. claimTrue no: the svg is not hidden (the snapshot exposes it as an unnamed image, not ignored), and it does not convey 'Newsletter do Festival': those words are the real h2 'Newsletter do Festival' laid over it, which the packet's own ancestor text shows. The image crop the model saw contains that heading, dimmed, because it was taken from the rendered region and caught the HTML text above the svg; the svg's own drawing holds only waves. elementFails no: the graphic is pure decoration, has no name, and nothing it shows is missing from the text, so 1.1.1 loses nothing; leaving out aria-hidden on a decorative inline svg is at most a best-practice issue, and in any case a reason the claim does not name. captureDiffers no: the live markup of the svg and the heading matches the snapshot. The finding comes from the wrong crop, so collector_error."
+    },
+    {
+      "fingerprint": "s325781fd2b2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the img (the blue accessibility-figure icon, alt 'toggle icon') that is the only content of the accessibility-plugin button, whose aria-label is 'Toggle Accessibility Toolbar'. claimTrue yes: 'toggle icon' is a generic label and does not say what the icon conveys. elementFails no: for an image inside a control, 1.1.1 asks that the control have a name describing its purpose; the button's name comes from its aria-label, which overrides its content, and button children are presentational, so the alt does not reach users as a separate text and the control's name 'Toggle Accessibility Toolbar' gives its purpose. captureDiffers no: the live HTML has the same button and img (the section starts display:none and is shown by script, as the screenshot shows). The packet gave the button's name among the ancestors, so model_error."
+    },
+    {
+      "fingerprint": "b7a3b20718a5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the required phone field; its placeholder 'Número com DDD' (a format hint not in the label) is 16px regular. claimTrue yes: the theme sets .form__control::placeholder to var(--form-placeholder-color), which the live app.css defines as #b3b3b3, on --form-bg #fff, which is 2.10:1, and the screenshot shows the light grey text on white. elementFails yes: Understanding 1.4.3 states the criterion 'applies to text in the page, including placeholder text'; the text is not incidental or a logo, and 2.10:1 is under 4.5:1 (and under 3:1). captureDiffers no: the live markup and CSS match the capture. I looked for a reason it passes and found none."
+    },
+    {
+      "fingerprint": "0780c83b05f8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the contact form's required 'Nome (obrigatório)' field, placeholder 'Nome completo', collecting the user's own full name. claimTrue yes: the input has no autocomplete attribute, and the snapshot records Chrome's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError for it. elementFails yes: the field serves the listed purpose 'name' about the user, and nothing makes that purpose programmatically determinable (the name attribute is not the autocomplete attribute, and browser heuristics do not count); H98 is the sufficient technique and is not used. captureDiffers no: the live HTML shows the same input without autocomplete (the site's newsletter field does use autocomplete='email', so the omission here is real)."
+    },
+    {
+      "fingerprint": "e64edd0ffc07",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the required 'E-mail (obrigatório)' field of the contact form, collecting the user's email address. claimTrue yes: no autocomplete attribute, and Chrome's form issue is recorded for it in the snapshot. elementFails yes: type='email' identifies a data type, not the input purpose; Understanding 1.3.5 contrasts the two and names the autocomplete attribute (H98) as the way to meet it, and no autocomplete='email' is present. captureDiffers no: the live HTML matches the capture."
+    },
+    {
+      "fingerprint": "65970a843edf",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the required 'Telefone (obrigatório)' field, collecting the user's phone number with area code. claimTrue yes: no autocomplete attribute, and the snapshot records Chrome's form issue for this field too. elementFails yes: the field serves the listed purpose 'tel' about the user; type='tel' is not the purpose token, and nothing else identifies it, so the purpose is not programmatically determinable. captureDiffers no: the live HTML matches the capture."
+    },
+    {
+      "fingerprint": "641fba4cf96a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the email field; its placeholder 'example@email.com' is 16px regular text. claimTrue yes: the live CSS gives the placeholder #b3b3b3 on the field's #fff background, 2.10:1, and the screenshot shows light grey text on white. elementFails yes: Understanding 1.4.3 includes placeholder text explicitly; an example value is not decoration whose words could be swapped without changing meaning, so it is not incidental, and 2.10:1 is under 4.5:1. captureDiffers no: live markup and CSS match."
+    },
+    {
+      "fingerprint": "ad5eea996158",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the name field; its placeholder 'Nome completo' is 16px regular. claimTrue yes: #b3b3b3 on #fff from the live CSS, 2.10:1. The full-page screenshot shows the sticky header over this field, but that is an artefact of the scrolled capture; on load the field is unobstructed and its placeholder uses the same rule as the other fields, which the screenshot shows in light grey. elementFails yes: placeholder text is within 1.4.3 per its Understanding document, it is not incidental, and 2.10:1 is under 4.5:1. captureDiffers no: the header overlap does not change the colours, and live markup and CSS match."
+    },
+    {
+      "fingerprint": "1d907d5f9093",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Mensagem' textarea; its placeholder 'Escreva sua mensagem' is 16px regular. claimTrue yes: #b3b3b3 on #fff from the live CSS, 2.10:1, and the screenshot shows it. elementFails yes: even though the hint repeats the label, it is real text in the page, not pure decoration (its words cannot be rearranged or swapped without changing meaning), and Understanding 1.4.3 names placeholder text as covered; 2.10:1 is under 4.5:1. captureDiffers no: live markup and CSS match."
+    }
+  ]
+}

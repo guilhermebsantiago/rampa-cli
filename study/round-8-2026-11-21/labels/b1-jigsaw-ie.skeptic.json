@@ -1,0 +1,104 @@
+{
+  "page": "https://jigsaw.ie/jigsaw-welcomes-the-world-to-dublin-for-iaymh-2026/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "1399df6ebee5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Thumbnail of the first related-news card (A youth-led vision for social media and mental health), lazy-loaded from Untitled-design-34.png. The crop and the screenshot show a photo of young people in hoodies; the alt describes the IAYMH 2026 logo with its text, which the picture does not contain. The theme reuses the current post's featured-image alt on every related card. I looked for a reason it could pass: the image is not decorative-only with a null alt, and even if it were meant to be ignored a non-null misleading alt fails (F39); an alt that describes another image does not serve the equivalent purpose (1.1.1). The live HTML fetched on 2026-11-21 carries the same markup (same alt, title and data-lazy-src for all three related-news thumbnails), and the screenshot shows the same pictures as the crops, so the capture does not differ. The claim names the defect."
+    },
+    {
+      "fingerprint": "03dbd1358795",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The a.full-link 'Read more' overlay stretched over the third related-news card, to jigsaw-secures-european-funding. Its name is only 'Read more'; it has no title or aria-describedby, and it sits in a div, not a sentence, paragraph, list item or table cell. It is the first child of its card, so the heading just before it in document order is the previous card's h4 ('First Lady of Ukraine...'), which points elsewhere; its own card title (h4) comes after it and is not context under this rubric. The visible 'Read more' with an arrow is a non-link span. Only the card title, seen visually, explains the link, so it fails 2.4.4 by the fixed context rule. Live HTML matches the capture (same markup, no aria). The claim names the failure."
+    },
+    {
+      "fingerprint": "5b15845957be",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Thumbnail of the second related-news card (First Lady of Ukraine Olena Zelenska visits Jigsaw), from WhatsApp-Image-2025-12-02...jpeg. The crop and screenshot show two people standing in an office before a world map; the alt describes the IAYMH 2026 logo on white with conference text, which is not in the picture. No technique makes this pass: the alt is a copy of another image's description, so it is not an equivalent (and would fail F39 if the image were meant to be decorative). The live HTML fetched on 2026-11-21 carries the same markup (same alt, title and data-lazy-src for all three related-news thumbnails), and the screenshot shows the same pictures as the crops, so the capture does not differ. The claim names the failure."
+    },
+    {
+      "fingerprint": "pabd55a7b0e9",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer link 'Online Data Privacy Policy' to /online-data-privacy-policy/, whose page is titled 'Online Data Privacy Policy' with heading 'Privacy Policy'. The link text alone describes its purpose, so 2.4.4 is met. The live HTML has the same li/a markup. No failure was missed."
+    },
+    {
+      "fingerprint": "s9c12f1a7ffd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Thumbnail of the third related-news card (Jigsaw Secures European Funding), from equicares.png. The crop and screenshot show a map of Europe with pinned regions and target groups (Seville, Baden-Wuerttemberg, Attica...), not the IAYMH logo the alt describes. The alt is the current post's banner alt reused by the theme, so it neither conveys this picture nor is null. The live HTML fetched on 2026-11-21 carries the same markup (same alt, title and data-lazy-src for all three related-news thumbnails), and the screenshot shows the same pictures as the crops, so the capture does not differ. The claim names the failure."
+    },
+    {
+      "fingerprint": "s8ea2d3af028",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "h2 'Welcome' near the end of the post. The content under it is two short paragraphs: 'We hope you enjoy your time in our city...' and 'Welcome to Dublin. We're very glad you're here.' That section is a welcome to delegates, so the heading describes its topic; Understanding 2.4.6 says a single word may suffice. The claim that it says nothing about the content is false of the capture, and the live page (same text) matches. The model had the following text and misjudged it."
+    },
+    {
+      "fingerprint": "sea43d426fa0",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Instagram icon, the only content of a footer link to instagram.com/jigsaw_ymh, under the h3 'Social Media'. Its alt (and title) is 'ri_instagram-line', the Remix Icon file name. The claim says it does not say where the link leads, but the string contains 'instagram', which names the destination site in the same way the neighbouring 'Facebook' alt does; read under 'Social Media' users can tell it opens Jigsaw's Instagram. Against that, it is a file name with noise ('ri_', '-line'), which F30 lists as a text alternative that is not an alternative. I lean towards it meeting H30's purpose test, but competent auditors would split on a file name that happens to contain the destination's name. Live HTML matches the capture (no aria-label on the link). The snapshot's link name, an HTML string from the noscript fallback, is a collector artefact that does not affect the image's alt."
+    },
+    {
+      "fingerprint": "2298354a4266",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "LinkedIn icon, the only content of a footer link to Jigsaw's LinkedIn company page. Its alt and title are 'Vector', the design-export file name, which names neither LinkedIn nor any purpose (F30; H30 requires the alt to describe the link's function). The link has no aria-label, no text and no title of its own in the live HTML, which matches the capture; the preceding heading 'Social Media' does not say which network. No technique makes it pass, and the claim names the failure."
+    },
+    {
+      "fingerprint": "e45f2c9d66a5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The a.full-link 'Read more' overlay on the first related-news card, to social-media-youth-led-policy. Name 'Read more' only, no title or aria-describedby, not inside a sentence, paragraph, list item or cell. It precedes its card's h4 in document order, so the heading just before it is h3 'Related news', which does not say which story it opens. The card title that would explain it follows the link and only helps visually. Live HTML matches the capture. Under the rubric's context list the purpose cannot be determined, and the claim names that."
+    }
+  ]
+}

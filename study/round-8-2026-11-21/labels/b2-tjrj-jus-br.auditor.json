@@ -1,0 +1,244 @@
+{
+  "page": "https://www.tjrj.jus.br/institucional/ouvidoria/ouvidoria",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s0c858ffa7c4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link 1 of the tile row (to the ESOU 'Fale com a Ouvidoria' form). The four image links in the first h2 (Fale com a Ouvidoria -> ESOU form at www3, Perguntas mais frequentes -> FAQ page, Estatisticas -> statistics page, Balcao virtual -> Azure video-counter app) all carry aria-label=\"Link sem descricao\", which overrides the descriptive alt of their images: Chromium's tree in the snapshot gives each link the name \"Link sem descricao\" (nameFrom aria-label) and the h2 itself reads \"Link sem descricao\" four times. No title or aria-describedby; they share the same h2 block, so their context is identical. I opened the four destinations on the live page: four different, non-equivalent pages. The icon tiles visibly tell them apart. By R1 the set fails, and the name itself (\"link without description\") does not describe any purpose either; 2.5.3 also fails (visible tile text not in the name). Live HTML still has the same four aria-labels (two hrefs are now absolute portaltj URLs, same pages), so the capture matches. The claim names this failure: true_positive."
+    },
+    {
+      "fingerprint": "a0581ffed0b4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer phone link text \"+55 (21) 3133-2000\", white on the light-blue end of the footer gradient. Darkest background pixel #029bde gives 3.11:1, below 4.5:1. I re-measured the screenshot region: white glyphs on the darkest background pixel give about the same ratio, and it is 16px normal text, so 4.5:1 applies. The live theme CSS still sets the same colours, so the capture matches what users get. Live main.css: footer background linear-gradient(91deg, #0864b0, #00afef 80%), links white."
+    },
+    {
+      "fingerprint": "s2aef11965d0",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Header Facebook icon link to facebook.com/tjrjoficial; the img alt \"Icone do facebook do TJRJ\" is the link's name (Chromium nameFrom contents; the title \"Acessar o Facebook\" is its description). Read as link text, the alternative names the destination, TJRJ's Facebook page, so by R2's first step it describes the link's purpose and 1.1.1 is met ('Icone do' is redundant wording, not a failure). The claim that it does not say where the link leads is false. Live HTML is the same."
+    },
+    {
+      "fingerprint": "073d2c463c46",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header label \"Consulta Processual\" (span), white text over the blue header illustration; background around the text is about #0490d5, best case 3.61:1 against the 4.5:1 needed for 16px weight-500 text. I re-measured the screenshot region: white glyphs on the darkest background pixel give about the same ratio, and it is 16px normal text, so 4.5:1 applies. The live theme CSS still sets the same colours, so the capture matches what users get. Live markup has the same span in the same header."
+    },
+    {
+      "fingerprint": "s97800b58c61",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link 3 of the tile row (to the Estatisticas/Relatorio SIC page). The four image links in the first h2 (Fale com a Ouvidoria -> ESOU form at www3, Perguntas mais frequentes -> FAQ page, Estatisticas -> statistics page, Balcao virtual -> Azure video-counter app) all carry aria-label=\"Link sem descricao\", which overrides the descriptive alt of their images: Chromium's tree in the snapshot gives each link the name \"Link sem descricao\" (nameFrom aria-label) and the h2 itself reads \"Link sem descricao\" four times. No title or aria-describedby; they share the same h2 block, so their context is identical. I opened the four destinations on the live page: four different, non-equivalent pages. The icon tiles visibly tell them apart. By R1 the set fails, and the name itself (\"link without description\") does not describe any purpose either; 2.5.3 also fails (visible tile text not in the name). Live HTML still has the same four aria-labels (two hrefs are now absolute portaltj URLs, same pages), so the capture matches. The claim names this failure: true_positive."
+    },
+    {
+      "fingerprint": "sc964158bc90",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Header logo link to https://www.tjrj.jus.br/web/guest (the portal home); its only content is the img alt \"Logo TJRJ\", which Chromium uses as the link name. The alternative names the organization whose home page the link opens, which, as in H30's linked-thumbnail example (the destination's name), identifies where it goes; the site-logo-to-home convention makes the purpose clear. 1.1.1 is met, and the claim that it does not say where it leads is not right. Live HTML is the same."
+    },
+    {
+      "fingerprint": "b04b02e6339b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link \"Mapa do site\", white on the light-cyan right side of the footer gradient (#00a6e7 to #00aeee), best case 2.76:1, well under 4.5:1. I re-measured the screenshot region: white glyphs on the darkest background pixel give about the same ratio, and it is 16px normal text, so 4.5:1 applies. The live theme CSS still sets the same colours, so the capture matches what users get. Live main.css: footer background linear-gradient(91deg, #0864b0, #00afef 80%), links white."
+    },
+    {
+      "fingerprint": "pdd8975ff8e2",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "mailto link \"ouvidoriageral@tjrj.jus.br\" in the paragraph \"Ouvidoria Geral / SIC: ouvidoriageral@tjrj.jus.br\" under the heading \"Canais de acesso a Ouvidoria / SIC\". The address and its sentence make clear it sends an e-mail to the Ouvidoria Geral/SIC, so 2.4.4 is met; Rampa was right not to report it. Live page has the same paragraph."
+    },
+    {
+      "fingerprint": "s0a7cb0dea32",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link 4 of the tile row (to the Balcao Virtual meeting app). The four image links in the first h2 (Fale com a Ouvidoria -> ESOU form at www3, Perguntas mais frequentes -> FAQ page, Estatisticas -> statistics page, Balcao virtual -> Azure video-counter app) all carry aria-label=\"Link sem descricao\", which overrides the descriptive alt of their images: Chromium's tree in the snapshot gives each link the name \"Link sem descricao\" (nameFrom aria-label) and the h2 itself reads \"Link sem descricao\" four times. No title or aria-describedby; they share the same h2 block, so their context is identical. I opened the four destinations on the live page: four different, non-equivalent pages. The icon tiles visibly tell them apart. By R1 the set fails, and the name itself (\"link without description\") does not describe any purpose either; 2.5.3 also fails (visible tile text not in the name). Live HTML still has the same four aria-labels (two hrefs are now absolute portaltj URLs, same pages), so the capture matches. The claim names this failure: true_positive."
+    },
+    {
+      "fingerprint": "sc16c769ee8c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Left-nav link \"Criacao\" (title repeats it) to /institucional/ouvidoria/criacao. The heading just before the list is \"Carta de Servicos ao Cidadao - Ouvidoria\" (an h2 in the server HTML, an h1 in the capture; the level does not matter here), so link text plus that heading reads as the creation of the Ouvidoria. I opened the page: it is the history of the Ouvidoria's creation (Resolucao 15/2003 etc.). Purpose is determinable, so 2.4.4 is met and the claim that nothing around it tells is false; the packet gave the heading."
+    },
+    {
+      "fingerprint": "s7f360d0a179",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link 2 of the tile row (to the Perguntas mais Frequentes page). The four image links in the first h2 (Fale com a Ouvidoria -> ESOU form at www3, Perguntas mais frequentes -> FAQ page, Estatisticas -> statistics page, Balcao virtual -> Azure video-counter app) all carry aria-label=\"Link sem descricao\", which overrides the descriptive alt of their images: Chromium's tree in the snapshot gives each link the name \"Link sem descricao\" (nameFrom aria-label) and the h2 itself reads \"Link sem descricao\" four times. No title or aria-describedby; they share the same h2 block, so their context is identical. I opened the four destinations on the live page: four different, non-equivalent pages. The icon tiles visibly tell them apart. By R1 the set fails, and the name itself (\"link without description\") does not describe any purpose either; 2.5.3 also fails (visible tile text not in the name). Live HTML still has the same four aria-labels (two hrefs are now absolute portaltj URLs, same pages), so the capture matches. The claim names this failure: true_positive."
+    },
+    {
+      "fingerprint": "e029db409344",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link text \"Fale Conosco\", white on the footer gradient around #029bde-#02a3e5, best case 3.11:1, under 4.5:1. I re-measured the screenshot region: white glyphs on the darkest background pixel give about the same ratio, and it is 16px normal text, so 4.5:1 applies. The live theme CSS still sets the same colours, so the capture matches what users get. Live main.css: footer background linear-gradient(91deg, #0864b0, #00afef 80%), links white."
+    },
+    {
+      "fingerprint": "b8165e39834d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Case-number textbox #parte1ProcCNJ in the header search. Its label <label for> \"Num. unica\" has class d-none (display:none, confirmed in the live HTML); it also has a title and a placeholder. Chromium's own tree in the snapshot gives it name \"\" with a labelledby relation to that hidden label and no description: Blink takes the hidden label as the name source, gets empty text and does not fall back to the title or placeholder. So in Chrome/Edge, what most users run, the field has no accessible name, a 4.1.2 failure (HTML-AAM would fall back to the title, which is why code-only review or axe may pass it). The claim states exactly this; 'announces only textbox' is close (NVDA may still voice the placeholder). Live markup unchanged."
+    },
+    {
+      "fingerprint": "pcd0c0386730",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Logo image inside the h2 \"Carta de Servicos ao Cidadao\"; the crop shows a speech-bubble mark with the PJERJ seal and the words \"Ouvidoria GERAL\". The alt \"Logo da ouvidoria geral\" conveys the image's text and that it is the Ouvidoria Geral logo, an equivalent for this decorative-informative logo, so 1.1.1 is met. Same image and alt on the live page."
+    },
+    {
+      "fingerprint": "sf2007eea03f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Link whose text is the URL https://www3.tjrj.jus.br/ESOU/HomeVisitante/Index, inside the sentence \"...acompanhamento no link do 'Fale com a Ouvidoria' -( URL ), ou demais canais de acesso...\". The sentence it sits in says it is the 'Fale com a Ouvidoria' system (ESOU), which the URL opens, so its purpose is determinable from the link with its programmatically determined context. The claim is literally true (the text is an address), but WCAG does not forbid URL link text when the purpose is determinable; Rampa applied a stricter rule. Live paragraph unchanged."
+    },
+    {
+      "fingerprint": "4c7fd6e369cc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header link \"Busca Avancada\" (to /processos), white on the blue header illustration around #0494d8-#0397db, about 3.3-3.4:1 for 16px weight-500 text, under 4.5:1. I re-measured the screenshot region: white glyphs on the darkest background pixel give about the same ratio, and it is 16px normal text, so 4.5:1 applies. The live theme CSS still sets the same colours, so the capture matches what users get."
+    },
+    {
+      "fingerprint": "eaa024e2651d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link \"Busca no site\" (to #barra), white on the footer gradient around #0299dc-#02a1e3, best case about 3.18:1, under 4.5:1. I re-measured the screenshot region: white glyphs on the darkest background pixel give about the same ratio, and it is 16px normal text, so 4.5:1 applies. The live theme CSS still sets the same colours, so the capture matches what users get. Live main.css: footer background linear-gradient(91deg, #0864b0, #00afef 80%), links white."
+    },
+    {
+      "fingerprint": "p551b0675d22",
+      "answers": {
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The 'Fale com a Ouvidoria' tile image, the only content of a link to the ESOU form. Its own alt (\"Fale com a ouvidoria. Servico de informacao ao cidadao. Clique aqui\") matches the tile text and would describe the purpose, but the link's aria-label \"Link sem descricao\" overrides it: Chromium names the link from aria-label, so the image link, a control, is announced with a name that does not describe its purpose. Read as the rubric frames 1.1.1 for image-only links (the control's name must describe its purpose) it fails; but the image's own text alternative is adequate and many auditors would log this only against the link (2.4.4, 4.1.2, 2.5.3), not 1.1.1. Competent auditors would split, so uncertain. Live HTML identical."
+    },
+    {
+      "fingerprint": "s6755afafc8f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Left-nav link \"2024\" (title repeats it) to .../pesquisa-de-satisfacao/2024. It sits in a list nested under the list item \"Pesquisa de Satisfacao\" (H81 context), whose own link names the satisfaction survey; together they read as the 2024 satisfaction survey, which is what the destination is. The sub-list is collapsed visually (height 0) but its links are in the accessibility tree with that parent. 2.4.4 is met; the claim that nothing around it tells is false, and the packet's ancestors showed the parent item."
+    },
+    {
+      "fingerprint": "27dba61a5c40",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link text \"Encarregado pelo Tratamento de Dados Pessoais\", white on the light end of the footer gradient (#00afef behind much of it), best case 3.11:1, worst about 2.5:1, under 4.5:1. I re-measured the screenshot region: white glyphs on the darkest background pixel give about the same ratio, and it is 16px normal text, so 4.5:1 applies. The live theme CSS still sets the same colours, so the capture matches what users get. Live main.css: footer background linear-gradient(91deg, #0864b0, #00afef 80%), links white."
+    },
+    {
+      "fingerprint": "p7aefcd07557",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Left-nav link \"Acesso Rapido / SIC\" to /carta-de-servicos-ouvidoria/acesso-rapido-sic, under the nav heading \"Carta de Servicos ao Cidadao - Ouvidoria\". The text names the page (its title on the live site is \"Acesso Rapido / SIC\"), a quick-access page for the Ouvidoria's SIC, so its purpose is determinable from the text and heading. 2.4.4 is met; Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "684347375d87",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Second case-number textbox #parte2ProcCNJ (no placeholder). Its <label for> \"Num. unica 2\" is display:none (class d-none, same in the live HTML); it has a title. Chromium's tree in the snapshot gives name \"\" with a labelledby relation to the hidden label and no description, so in Chrome/Edge the field has no accessible name and, lacking a placeholder, is announced as a bare edit field: a 4.1.2 failure in what users receive (HTML-AAM would fall back to the title, which is why code-only review may pass it). The claim states this. Live markup unchanged."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "page": "https://www.medicalcouncil.ie/public-information/check-the-register/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "e38b515abe20",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the Forename text input of the 'Search for a Registered Doctor' form, which looks up a doctor on the Medical Council register. The intro text above it says 'You can search by last name, first name, or registration number' of a doctor. claimTrue is no: the input has no autocomplete attribute, but it does not ask for the user's first name; it asks for the forename of the doctor being looked up. elementFails is no: 1.3.5 covers only 'each input field collecting information about the user', and Understanding 1.3.5 says 'An input field for information that is not about the user does not need to programmatically expose its purpose, even if that purpose is included in the Input Purposes list.' A search field for a third party's name is out of scope, so a missing autocomplete=\"given-name\" is not a failure. captureDiffers is no: the live HTML fetched on 2026-11-21 has the same input with no autocomplete, under the same heading and intro text, and the screenshot shows the same form. Cause model_error: the heading and the register context were available, and the model misread whose name the field collects."
+    },
+    {
+      "fingerprint": "5ae6985ff5ef",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the Surname text input of the same 'Search for a Registered Doctor' form, used to look up a doctor's record on the register. claimTrue is no: the input has no autocomplete attribute, but it asks for the surname of the doctor being searched for, not the user's last name. elementFails is no: 1.3.5 applies only to input fields collecting information about the user, and Understanding 1.3.5 says fields for information not about the user do not need to expose their purpose. A search query for someone else's surname is out of scope, so a missing autocomplete=\"family-name\" is not a failure. captureDiffers is no: the live page's HTML has the same input with no autocomplete, in the same form and context, and the screenshot matches. Cause model_error: the model had the form's heading and context and wrongly treated the doctor-search field as collecting the user's own data."
+    }
+  ]
+}

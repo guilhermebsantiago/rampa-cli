@@ -1,0 +1,98 @@
+{
+  "page": "https://www.virginia.edu/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p2e5899935ac",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Event link in the Events column whose text is the event title, 'String & Piano Chamber Music Concert'; it leads to the University Events calendar opened on that event (trumbaEmbed view=event, eventid). The link text alone states its purpose (the details of that concert), and the preceding h2 'Events' adds context. No other link on the page shares the name. It meets 2.4.4, so Rampa was right to report nothing. The live static HTML has the same #event-feed container, filled by script; the screenshot shows the rendered feed with this item as users see it, so nothing in the capture differs in a way that touches this link."
+    },
+    {
+      "fingerprint": "p27d29ed6df5",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer link 'Accessibility' with title 'UVA Accessibility', to https://accessibility.virginia.edu. On a university homepage footer, the text alone, supplemented by the title (H33), identifies the UVA accessibility site; no other link shares the name. It meets 2.4.4. The live footer markup is identical to the capture (same href and title), and the screenshot shows the styled footer."
+    },
+    {
+      "fingerprint": "p82f5b1a453b",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer social icon: an inline SVG with role='img' and aria-label='UVA Facebook', the only content of a link to facebook.com/UniversityofVirginia. The alternative names the destination (UVA's Facebook page), so the control has a name that describes its purpose (1.1.1, ARIA6/H30 spirit); the crop shows the Facebook glyph. Rampa's snapshot lists the parent link's name as empty, which looks like a gap in its own name computation (a browser takes the link name from the role=img child), but it does not affect this image's 1.1.1 result. Live markup is identical to the capture."
+    },
+    {
+      "fingerprint": "caa060360da7",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the decorative image /assets/images/decour/HP-DECOR-Curved-Lines.svg with alt=''. I fetched the SVG: it contains only two thin orange curved strokes, no text. The words 'Committed to Achievement', '#1 Best Public College', '#1 Top Hospital' are real HTML text (an h3 and paragraphs in the same section) that sits on top of the image, so they appear in the crop taken from the image's bounds; they are not part of the image. The claim is false on both counts: the image conveys nothing, and the surrounding text does say exactly that. Purely decorative imagery with a null alt meets 1.1.1 (H67/C9). The model had the section text in the context and still attributed it to the image, so the cause is a model error (the overlaid text in the crop misled it). The live page has the same markup."
+    },
+    {
+      "fingerprint": "se6a2de3e8bd",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Main menu link 'Athletics' to https://virginiasports.com/. I fetched the destination: its title is 'Home Page - Virginia Cavaliers Official Athletic Site' and it describes itself as 'The Official Athletic Site of the University of Virginia'. The link text matches where the link goes, so the claim is false and the link meets 2.4.4; the mobile menu's 'Athletics' link goes to the same address. Rampa did not read the destination, but the address itself (virginiasports.com) already says sports, so the model had enough to judge correctly. Live header markup is the same as the capture."
+    },
+    {
+      "fingerprint": "p5c72e586c5a",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Image with alt 'Portrait of Dr. Jayakrishna Ambati', inside a link that also holds the story's h3 headline and summary about Ambati's multiple sclerosis discovery. The image is not the only content of the link, so its alternative only needs to serve the image's own purpose; it accurately identifies the man shown (a portrait in a lab, per the crop) and names the story's subject. It meets 1.1.1. Live markup is identical."
+    },
+    {
+      "fingerprint": "p9316f6b84b4",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Main menu link 'About UVA' to /about-uva/, whose page is titled 'About UVA | The University of Virginia'. The text alone states the purpose. The other links named 'About UVA' (mobile menu, 'About UVA' button in the Uncommon Community section) go to the same /about-uva/ address, so there is no shared-name failure. It meets 2.4.4. Live header markup matches the capture."
+    },
+    {
+      "fingerprint": "p67b408fbd3c",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "News card photo with alt 'The sun shining over the roof of the UVA School of Architecture building.'. It is not inside a link (the headline link is a separate element below it) and is an informative photo illustrating the story about the new architecture dean. The crop shows exactly that: the sun over the School of Architecture building. The alternative is an accurate equivalent, so it meets 1.1.1. Live markup is identical (img outside the anchor)."
+    },
+    {
+      "fingerprint": "p2ea97566438",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "News card photo with alt 'Collage of photos of Natalie Worthan at a miltary training center and at several events where she has raised money for the Veterans Collaborative'. Not inside a link. The crop shows a collage: a woman with soldiers at a training tower, a Veterans Collaborative donation cheque, a mascot and event photos, which the alternative describes adequately for the story about the local veterans charity. The typo 'miltary' does not prevent understanding. It meets 1.1.1. Live markup is identical."
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "page": "https://festivaldecuritiba.com.br/contato/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "f4951a0ef7c8",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the inline svg behind the newsletter section: in the live HTML it holds only defs, clipPath, rect and wave paths at opacity 0.19, with no text, title or role; it is a decorative background pattern. claimTrue no: the svg does not convey 'Newsletter do Festival'; that string is the h2 'Newsletter do Festival' (real text, white on #191919) painted over the svg, and the section's own text says it, so 'the text around it does not say' it is false. The image crop of the svg's bounds shows the overlaid heading, which likely misled the model, but the packet gave it the section text and the following heading. elementFails no: a purely decorative graphic with no name and no text gives screen reader users nothing to miss; an aria-hidden would be cleaner, but no 1.1.1 failure is documented for it, and the claim does not name that point anyway. The live page fetched on 2026-11-21 serves the same markup (my fetch is automated too, but the HTML and the theme CSS match the snapshot), so nothing that touches this claim differs."
+    },
+    {
+      "fingerprint": "s325781fd2b2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the icon img (alt 'toggle icon') inside the OneTap plugin's button, which has aria-label 'Toggle Accessibility Toolbar'. claimTrue yes: the alt is a generic label for the image's type, not the accessibility-toolbar meaning the icon carries. elementFails no: the image is the only content of a control, and 1.1.1 asks that the control have a name describing its purpose; the button's aria-label overrides its content in the name computation, so the name users get is 'Toggle Accessibility Toolbar', which describes the purpose, and a button's children are presentational, so the img alt is not what is announced. The weak alt is a best-practice remark, not a failure. The model had the button's name in the packet's ancestors and still flagged the alt. The live page fetched on 2026-11-21 serves the same markup (my fetch is automated too, but the HTML and the theme CSS match the snapshot), so nothing that touches this claim differs."
+    },
+    {
+      "fingerprint": "b7a3b20718a5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a contact-form field whose placeholder reads 'Número com DDD'. claimTrue yes: the snapshot measured the placeholder at #b3b3b3 on #ffffff, 2.10:1, 16px weight 400. elementFails yes: the live theme CSS sets .form__control::placeholder to var(--form-placeholder-color) = #b3b3b3 on --form-bg #fff, which is 2.10:1, below 4.5:1 for normal-size text; the placeholder is visible text giving a hint or example and is not covered by any 1.4.3 exception (it is not decoration, not part of an image, and the field is not inactive). The screenshot shows the light grey placeholders. captureDiffers no: the full-page screenshot draws the fixed header over the Nome field, a capture artefact that does not change the CSS colours, and the live HTML and CSS match the snapshot."
+    },
+    {
+      "fingerprint": "641fba4cf96a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a contact-form field whose placeholder reads 'example@email.com'. claimTrue yes: the snapshot measured the placeholder at #b3b3b3 on #ffffff, 2.10:1, 16px weight 400. elementFails yes: the live theme CSS sets .form__control::placeholder to var(--form-placeholder-color) = #b3b3b3 on --form-bg #fff, which is 2.10:1, below 4.5:1 for normal-size text; the placeholder is visible text giving a hint or example and is not covered by any 1.4.3 exception (it is not decoration, not part of an image, and the field is not inactive). The screenshot shows the light grey placeholders. captureDiffers no: the full-page screenshot draws the fixed header over the Nome field, a capture artefact that does not change the CSS colours, and the live HTML and CSS match the snapshot."
+    },
+    {
+      "fingerprint": "ad5eea996158",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a contact-form field whose placeholder reads 'Nome completo'. claimTrue yes: the snapshot measured the placeholder at #b3b3b3 on #ffffff, 2.10:1, 16px weight 400. elementFails yes: the live theme CSS sets .form__control::placeholder to var(--form-placeholder-color) = #b3b3b3 on --form-bg #fff, which is 2.10:1, below 4.5:1 for normal-size text; the placeholder is visible text giving a hint or example and is not covered by any 1.4.3 exception (it is not decoration, not part of an image, and the field is not inactive). The screenshot shows the light grey placeholders. captureDiffers no: the full-page screenshot draws the fixed header over the Nome field, a capture artefact that does not change the CSS colours, and the live HTML and CSS match the snapshot."
+    },
+    {
+      "fingerprint": "1d907d5f9093",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a contact-form field whose placeholder reads 'Escreva sua mensagem'. claimTrue yes: the snapshot measured the placeholder at #b3b3b3 on #ffffff, 2.10:1, 16px weight 400. elementFails yes: the live theme CSS sets .form__control::placeholder to var(--form-placeholder-color) = #b3b3b3 on --form-bg #fff, which is 2.10:1, below 4.5:1 for normal-size text; the placeholder is visible text giving a hint or example and is not covered by any 1.4.3 exception (it is not decoration, not part of an image, and the field is not inactive). The screenshot shows the light grey placeholders. captureDiffers no: the full-page screenshot draws the fixed header over the Nome field, a capture artefact that does not change the CSS colours, and the live HTML and CSS match the snapshot."
+    },
+    {
+      "fingerprint": "0780c83b05f8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the contact form field 'Nome (obrigatório)', which collects the user's own full name. claimTrue yes: the input has no autocomplete attribute, and the snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError for it. elementFails yes: 1.3.5 applies to fields that collect information about the user and whose purpose is in the Input Purposes list ('name'); with no autocomplete token, nothing identifies that purpose programmatically (H98 not met), so the field fails. The live HTML still has no autocomplete on this field, while the newsletter's email field on the same page does have autocomplete='email'. The live page fetched on 2026-11-21 serves the same markup (my fetch is automated too, but the HTML and the theme CSS match the snapshot), so nothing that touches this claim differs."
+    },
+    {
+      "fingerprint": "e64edd0ffc07",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the contact form field 'E-mail (obrigatório)', which collects the user's own email address. claimTrue yes: the input has no autocomplete attribute, and the snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError for it. elementFails yes: 1.3.5 applies to fields that collect information about the user and whose purpose is in the Input Purposes list ('email'); with no autocomplete token, nothing identifies that purpose programmatically (H98 not met), so the field fails. The live HTML still has no autocomplete on this field, while the newsletter's email field on the same page does have autocomplete='email'. The live page fetched on 2026-11-21 serves the same markup (my fetch is automated too, but the HTML and the theme CSS match the snapshot), so nothing that touches this claim differs."
+    },
+    {
+      "fingerprint": "65970a843edf",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the contact form field 'Telefone (obrigatório)', which collects the user's own telephone number. claimTrue yes: the input has no autocomplete attribute, and the snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError for it. elementFails yes: 1.3.5 applies to fields that collect information about the user and whose purpose is in the Input Purposes list ('tel'); with no autocomplete token, nothing identifies that purpose programmatically (H98 not met), so the field fails. The live HTML still has no autocomplete on this field, while the newsletter's email field on the same page does have autocomplete='email'. The live page fetched on 2026-11-21 serves the same markup (my fetch is automated too, but the HTML and the theme CSS match the snapshot), so nothing that touches this claim differs."
+    }
+  ]
+}

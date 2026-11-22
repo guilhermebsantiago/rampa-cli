@@ -1,0 +1,115 @@
+{
+  "page": "https://www.matalan.co.uk/c/womens/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "b4fbccfdcb03",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the picture of the \"New In\" promo tile (alt=\"\"), not inside a link; the tile's h3 \"New In\" and the link \"Shop Now: New In\" are HTML laid over it. claimTrue: no. The image does carry the words \"BELIEVE\" and \"IT'S MATALAN\" that no nearby text gives, but \"SHOP NOW\" is not in the image: it is the HTML link over it (the crop and screenshot include that overlay), and the surrounding text says it. elementFails: yes on my reading: the campaign slogan and logo are text in the image that the empty alt drops, and the WAI images decision tree asks for such text in the alternative. But a concrete counter-reading holds up: the tile's information and function (New In, Shop Now) are given in real text, the twin Partywear tile uses the same alt=\"\" pattern, and many auditors treat a brand tagline on promotional art as decorative, so competent auditors would reasonably disagree; label uncertain. captureDiffers: no. The live HTML has the same img src, alt=\"\" and overlay text."
+    },
+    {
+      "fingerprint": "s7d437042570",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is a tile of the client-rendered StoryStream #LoveMatalan gallery: an img that is not inside a control (the tile's separate button is named \"Read more about ...'s instagram-user post\"), with the template alt \"Instagram post by shopmatalan\" that every tile by that account shares. claimTrue: no as worded; the alt is accurate about provenance (the tile's author line and Instagram icon agree), so it does not describe something absent, it omits what the picture shows. elementFails: yes. The picture is informative (it is the post's look, the gallery's point), and the alt neither describes it nor gives the scene (a woman in a black blazer outfit by a Christmas tree). The skeptic reasons checked do not hold up: the image is not a control whose alt only needs to name a function; the tile's caption is the post's truncated text, not a description of the picture; the tile is a video post, but this img is a separate still poster, and even the time-based-media exception would need descriptive identification, which an alt shared by every post of the account is not. Read in good faith, the claim names this failure (the rubric's own example of this wording), so true_positive. captureDiffers: cannot_tell. The live server HTML holds only the empty widget mount (#stry-wrapper), so my fetch cannot render the gallery to compare; the capture is a styled real-browser render and nothing suggests users received other alts."
+    },
+    {
+      "fingerprint": "s268e0ecd54b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is a tile of the client-rendered StoryStream #LoveMatalan gallery: an img that is not inside a control (the tile's separate button is named \"Read more about ...'s instagram-user post\"), with the template alt \"Instagram post by shopmatalan\" that every tile by that account shares. claimTrue: no as worded; the alt is accurate about provenance (the tile's author line and Instagram icon agree), so it does not describe something absent, it omits what the picture shows. elementFails: yes. The picture is informative (it is the post's look, the gallery's point), and the alt neither describes it nor gives the text in the image (\"Forecast: 100% chance of knitwear\"), which the caption (\"Permanently dressed for cosy season...\") does not repeat. The skeptic reasons checked do not hold up: the image is not a control whose alt only needs to name a function; the tile's caption is the post's truncated text, not a description of the picture; the tile is a video post, but this img is a separate still poster, and even the time-based-media exception would need descriptive identification, which an alt shared by every post of the account is not. Read in good faith, the claim names this failure (the rubric's own example of this wording), so true_positive. captureDiffers: cannot_tell. The live server HTML holds only the empty widget mount (#stry-wrapper), so my fetch cannot render the gallery to compare; the capture is a styled real-browser render and nothing suggests users received other alts."
+    },
+    {
+      "fingerprint": "sa351442847c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is a tile of the client-rendered StoryStream #LoveMatalan gallery: an img that is not inside a control (the tile's separate button is named \"Read more about ...'s instagram-user post\"), with the template alt \"Instagram post by shopmatalan\" that every tile by that account shares. claimTrue: no as worded; the alt is accurate about provenance (the tile's author line and Instagram icon agree), so it does not describe something absent, it omits what the picture shows. elementFails: yes. The picture is informative (it is the post's look, the gallery's point), and the alt neither describes it nor gives the flat-lay it shows (leopard coat, boots, skirt, red knit); the caption only says \"One leopard print coat. Endless ways to style it. ...\". The skeptic reasons checked do not hold up: the image is not a control whose alt only needs to name a function; the tile's caption is the post's truncated text, not a description of the picture; the tile is a photo post, so the image is the post's content itself. Read in good faith, the claim names this failure (the rubric's own example of this wording), so true_positive. captureDiffers: cannot_tell. The live server HTML holds only the empty widget mount (#stry-wrapper), so my fetch cannot render the gallery to compare; the capture is a styled real-browser render and nothing suggests users received other alts."
+    },
+    {
+      "fingerprint": "pa2e6c915b3a",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the \"Footwear\" card link (h3 \"Footwear\" inside, image alt=\"\") in the Multi Category navigation of the Women's Clothes page, leading to /c/womens/footwear/ (\"Women's Shoes\"). elementFails: no. The link text alone names the category, and on a page headed \"Women's Clothes\" its purpose is clear. No R1 set applies: the other links named \"Footwear\" are either the aria-hidden carousel duplicate to the same address or mega-menu links that are hidden until opened and sit in other list items (men's, kids', brands). Rampa was right to report nothing. captureDiffers: no. The live HTML has the same card (h3 Footwear, href /c/womens/footwear/, alt=\"\")."
+    },
+    {
+      "fingerprint": "s4e976707b5f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is the first full-width banner link, aria-label \"Primary Banner Link\", whose only content is a banner image with alt=\"\"; it leads to /c/offers/womens/offers-2/ (\"25% Off (Almost) All Womenswear\"). claimTrue: yes. Three links carry that name and lead to three places, and nothing programmatic around this one tells it apart. elementFails: yes. Under R1, it and the second banner link (/c/womens/reward-offer/, which I opened live: \"Exclusive 40% Off Selected Lines - Online Only\") share name and context: no title or describedby, no paragraph or list item, the same preceding heading h1 \"Women's Clothes\". They go to non-equivalent offers that the banner images tell apart visually (\"Black Friday is calling 25% off\" against \"Hurry! 40% off selected lines\"). Both names are wrong: a generic label overriding an image whose text is the only purpose cue. The third link (nightwear) follows the heading \"New In\", so it is outside the set; the claim's count is off, which R1 allows. No title, region name or nearby text rescues it. captureDiffers: no. The live HTML has the same three aria-labels and hrefs."
+    },
+    {
+      "fingerprint": "s82e5fbf9aa9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is the second full-width banner link, aria-label \"Primary Banner Link\", whose only content is a banner image with alt=\"\" (\"Hurry! 40% off selected lines\"). It leads to /c/womens/reward-offer/. Rampa's destination read timed out; I opened it live: \"Exclusive 40% Off Selected Lines - Online Only\". claimTrue: yes. Three links share the name and lead to three places, and nothing programmatic distinguishes this one. elementFails: yes. Under R1, it forms a set with the first banner link (same name, no title or describedby, no paragraph or list item, same preceding h1 \"Women's Clothes\"). That link leads to the non-equivalent \"25% Off (Almost) All Womenswear\", and the two banner images tell them apart visually. Both names are wrong, since the generic aria-label hides the only purpose cue. The nightwear banner link follows the heading \"New In\" and is outside the set; the claim's count is off, which R1 allows. captureDiffers: no. The live HTML has the same aria-label and href."
+    },
+    {
+      "fingerprint": "s8d8aaa097c4",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is a tile of the client-rendered StoryStream #LoveMatalan gallery: an img that is not inside a control (the tile's separate button is named \"Read more about ...'s instagram-user post\"), with the template alt \"Instagram post by shopmatalan\" that every tile by that account shares. claimTrue: no as worded; the alt is accurate about provenance (the tile's author line and Instagram icon agree), so it does not describe something absent, it omits what the picture shows. elementFails: yes. The picture is informative (it is the post's look, the gallery's point), and the alt neither describes it nor gives what it shows (a grid of behind-the-scenes shots labelled with times, 11am to 4pm), which the caption \"What goes on behind the lens... Shop the edit in...\" only hints at. The skeptic reasons checked do not hold up: the image is not a control whose alt only needs to name a function; the tile's caption is the post's truncated text, not a description of the picture; the tile is a video post, but this img is a separate still poster, and even the time-based-media exception would need descriptive identification, which an alt shared by every post of the account is not. Read in good faith, the claim names this failure (the rubric's own example of this wording), so true_positive. captureDiffers: cannot_tell. The live server HTML holds only the empty widget mount (#stry-wrapper), so my fetch cannot render the gallery to compare; the capture is a styled real-browser render and nothing suggests users received other alts."
+    },
+    {
+      "fingerprint": "se1f970d587f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is a tile of the client-rendered StoryStream #LoveMatalan gallery: an img that is not inside a control (the tile's separate button is named \"Read more about ...'s instagram-user post\"), with the template alt \"Instagram post by shopmatalan\" that every tile by that account shares. claimTrue: no as worded; the alt is accurate about provenance (the tile's author line and Instagram icon agree), so it does not describe something absent, it omits what the picture shows. elementFails: yes. The picture is informative (it is the post's look, the gallery's point), and the alt neither describes it nor gives the look it shows (pinned photos of an argyle cardigan with a red collar and a black gilet); the caption only says \"We're 100% faithful to argyle... Shop the looks i...\". The skeptic reasons checked do not hold up: the image is not a control whose alt only needs to name a function; the tile's caption is the post's truncated text, not a description of the picture; the tile is a photo post, so the image is the post's content itself. Read in good faith, the claim names this failure (the rubric's own example of this wording), so true_positive. captureDiffers: cannot_tell. The live server HTML holds only the empty widget mount (#stry-wrapper), so my fetch cannot render the gallery to compare; the capture is a styled real-browser render and nothing suggests users received other alts."
+    },
+    {
+      "fingerprint": "s04e5e537149",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is a tile of the client-rendered StoryStream #LoveMatalan gallery: an img that is not inside a control (the tile's separate button is named \"Read more about ...'s instagram-user post\"), with the template alt \"Instagram post by thesilvercrop\" that every tile by that account shares. claimTrue: no as worded; the alt is accurate about provenance (the tile's author line and Instagram icon agree), so it does not describe something absent, it omits what the picture shows. elementFails: yes. The picture is informative (it is the post's look, the gallery's point), and the alt neither describes it nor gives the title text in the image (\"Part 2 of the Faux Fur Try-on\"), which the caption (\"Lots of you lovely ladies have been asking to see ...\") does not give. The skeptic reasons checked do not hold up: the image is not a control whose alt only needs to name a function; the tile's caption is the post's truncated text, not a description of the picture; the tile is a video post, but this img is a separate still poster, and even the time-based-media exception would need descriptive identification, which an alt shared by every post of the account is not. Read in good faith, the claim names this failure (the rubric's own example of this wording), so true_positive. captureDiffers: cannot_tell. The live server HTML holds only the empty widget mount (#stry-wrapper), so my fetch cannot render the gallery to compare; the capture is a styled real-browser render and nothing suggests users received other alts."
+    }
+  ]
+}

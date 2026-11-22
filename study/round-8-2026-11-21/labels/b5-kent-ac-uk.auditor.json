@@ -1,0 +1,20 @@
+{
+  "page": "https://www.kent.ac.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "12d88cd9612b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The page's viewport meta element has content=\"width=device-width, initial-scale=1.0 maximum-scale=1\". The comma between the last two properties is missing, but Blink and WebKit treat whitespace as a separator in viewport content, so maximum-scale=1 still applies. claimTrue: the captured HTML has maximum-scale=1, and the claim limits itself to mobile browsers that honor it. elementFails: the approved ACT rule b4f0c3 (AG WG, mapped to 1.4.4, 'Any failed outcomes: success criterion is not satisfied') fails any maximum-scale value below 2. None of its assumptions holds here: the page has visible content and no other way to resize text. Mobile browsers that honor the property, such as Chrome on Android unless the user turns on Force enable zoom, block pinch zoom past 100%. The rule's accessibility-support note says desktop browsers and many modern mobile browsers ignore the property. That is a known caveat, but it does not change the rule's mapping, which is the mainstream audit reading (axe also tags meta-viewport as wcag144). captureDiffers: I fetched the live page with a desktop and a mobile user agent on 2026-11-21, and both serve the same meta element. The claim names this failure, so the label is true_positive."
+    },
+    {
+      "fingerprint": "s961b9f874ee",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the disabled, always-checked 'Necessary' consent toggle in the Cookiebot dialog. Its <label for> reads 'Necessary', and it sits in the group 'Consent Selection' next to 'Preferences', 'Statistics' and 'Marketing', under 'Responsible use of your data'. claimTrue: the sentence assumes the control takes something to enter. It is a disabled checkbox with nothing to enter, so the claim's premise does not hold for the captured element. elementFails: 2.4.6 asks only that a label describe the control's topic or purpose. In its labelled group and in the cookie dialog, 'Necessary' clearly names the consent category the toggle stands for (necessary cookies). The screenshot shows the visible label next to the switch, and the details view repeats it as 'Necessary (39)' with a description. So the element meets 2.4.6. captureDiffers: the live page has the dialog's Cookiebot styling and loads it through Google Tag Manager, so first-time visitors get the same banner the screenshot shows. The checker had the group name and the neighbouring categories and still judged wrongly, so the cause is model_error."
+    }
+  ]
+}

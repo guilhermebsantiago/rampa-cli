@@ -1,0 +1,139 @@
+{
+  "page": "https://www.dlrcoco.ie/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "be9eb789d591",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Job Vacancies' service card is an <a href=\"/careers\"> that wraps an <article> holding an SVG and a span with the text. In the snapshot's CDP tree, Chrome gives the link the name \"\". Chromium does not compute name from content through an article, so the span text never reaches the link. I looked for a reason it might pass. Rampa's own name and axe-style computation (accname step 2F/2H) both give 'Job Vacancies', so Firefox and screen-reader browse mode may still read the text. Even so, the platform accessibility API in Chrome and Edge, which most screen-reader users run, exposes no name, and voice control and link lists depend on that name. So the name cannot be programmatically determined there. The live HTML has the same markup. The part of the message saying a screen reader 'announces only link' overstates things, but the core claim names the real failure."
+    },
+    {
+      "fingerprint": "pcfeb21696ca",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The footer link 'FAQs' (/faq) sits under the 'About US' heading. Its destination is titled 'Frequently Asked Questions (FAQs)', so the link text alone gives its purpose. No other link on the page has the name 'FAQs', so R1 does not apply. The live footer is the same. The element meets 2.4.4, and Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "4397cd003c8a",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is all its link holds (no title) and leads to the 'Free Repair Cafe at Coolevin-Ballybrack Scouts Den' event. Its alt is a photo caption, 'A participant carries out furniture repairs at a Repair Café workshop in Sandyford.' Applying R2's first test, the caption does name the story's subject (a Repair Café), so a listener can tell the link is about the Repair Café. That is a concrete reason the claim 'does not say where the link leads' may be wrong. But the caption places the workshop in Sandyford, while the event is in Ballybrack, and it is plainly a caption from an earlier event's photo. Competent auditors would reasonably disagree on whether it identifies the destination under H30. The live markup is the same."
+    },
+    {
+      "fingerprint": "1b8378c3c919",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of a link to the 'Santa Parade Dún Laoghaire 2026' news item. Its alt, 'man with drums', describes the photo (a stilt-walking drummer at the parade). It says nothing about a Santa parade or the news story, so it does not identify the destination. Under R2 and H30 that fails 1.1.1, whatever the headline link beside it says. The link has no title, and the live HTML has the same alt. I found no technique that cures it."
+    },
+    {
+      "fingerprint": "7ab4def48879",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of a link to 'Discover Inclusive Sport at SportAbility Day 2026'. Its alt, 'Multipurpose indoor sports hall', describes the venue in the photo. It names neither SportAbility Day nor inclusive sport, so a listener cannot tell which story the link opens. 'Sport' is a hint at best, not the story's subject. Under R2 and H30 this fails 1.1.1. There is no title, and the live HTML matches the capture."
+    },
+    {
+      "fingerprint": "535f39e9d719",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Public Consultation Hub' card is an <a> wrapping an <article> with an SVG (whose <title> is 'Public Consultation') and a span. The CDP tree shows the SVG named 'Public Consultation', but the link's name is \"\": Chromium does not take name from content through the article. The spec computation and Rampa's own name ('Public Consultation Public Consultation Hub') would yield text, and Firefox or browse mode may read it. Still, Chrome and Edge expose a nameless link to their accessibility API, so 4.1.2 fails for those users. The live HTML is identical."
+    },
+    {
+      "fingerprint": "se8ffc04cc26",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The footer link 'Opening Hours' goes to /node/65714, which redirects to /contact-us, titled 'Contact Us'. I opened that page: it lists County Hall's hours (Monday - Thursday 9am - 5pm, Friday 9am - 4:30pm), the Dundrum Area Office's 'Opening Hours' and a link to the library branch opening hours. So the destination does what the link text promises. The page title differs, but Understanding 2.4.4 says other things than the document's name may describe the purpose. The link meets 2.4.4. Rampa saw only the destination's title, not its content."
+    },
+    {
+      "fingerprint": "2504f254f19c",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The 'Find out more' button (shown as 'FIND OUT MORE') leads to the Transforming Dundrum page. The 'Transforming Dundrum:' title above it is a styled span > div, not a heading, and the description paragraphs are separate elements. The link sits alone in its own div, with no title or aria-describedby. The heading just before it is the unrelated news h2 '€335 Million Budget Adopted…', which is also the preceding heading of that news card's own 'Find out more' link. So nothing in the rubric's programmatic context gives the purpose, and only the visual title explains it. That fails 2.4.4 under the fixed reading. The live HTML is the same. The claim's 'nothing around it' holds for the context that counts."
+    },
+    {
+      "fingerprint": "29f7c3c77e6d",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Gaeilge' in the top menu is the Recite Me Irish-translation switcher (li#reciteIrishTranslation, href #gaeilge). Neither the link nor any ancestor has lang=\"ga\", so it inherits the page's lang=\"en\". The live HTML matches. I considered whether it could pass as a proper name, a vernacular word or a single word. Understanding 3.1.2 lists 'Alternative language links' as an example whose language must be marked with lang, and its pronunciation test fails: English speech output does not say 'Gaeilge' as Irish does. So the element fails 3.1.2, as the claim says."
+    },
+    {
+      "fingerprint": "73d6b6445bd5",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Housing' service card is an <a href=\"/housing\"> wrapping an <article> with an SVG and the span 'Housing'. Chrome's CDP tree gives the link the name \"\", because Chromium excludes the article subtree from name from content. Spec-based tools and Firefox would derive 'Housing', but Chrome and Edge expose a nameless link, so the name is not programmatically determinable for their users. The live markup is the same. The destination timeout does not matter for 4.1.2."
+    },
+    {
+      "fingerprint": "53b76dd96ecc",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer link 'info@dlrcoco.ie' is white, 14px bold, so it is not large text and needs 4.5:1. The footer is tw-bg-blue-500 with a decorative 'logo-bkg' overlay. I sampled the screenshot pixels: behind the address they are #566af5 to #5568f2, which gives 4.40-4.52:1 against white. Only the far right end reaches the darker #4259f4 (5.3:1). So most of the text is under 4.5:1, and Understanding 1.4.3 forbids rounding. My only reasons for doubt are that the margin is thin and the overlay's position depends on viewport width. Neither changes what users see at the captured width, and the live footer markup is the same."
+    },
+    {
+      "fingerprint": "d2239b74d503",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Councillors & Democracy' card link (/node/61762) wraps an <article> containing an SVG and the span with the text. Chrome's CDP tree gives the link the name \"\", because the article blocks name from content in Chromium. The spec computation would yield the text, but the browser most users run exposes no name, so 4.1.2 fails there. The live HTML is identical, and the claim names that failure."
+    },
+    {
+      "fingerprint": "8667b1c6a419",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Planning' card link (/planning) has the same structure: the link wraps an <article> with an SVG and the span 'Planning'. Chrome computes the link name as \"\" (CDP tree). Firefox, spec-based computation or browse-mode reading may recover the text, but Chrome and Edge expose no accessible name, so the name is not programmatically determinable for most screen-reader and voice-control users. The live markup is the same."
+    },
+    {
+      "fingerprint": "3ea565d0a50f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the logo image in the Cookiebot consent banner (#CybotCookiebotDialogPoweredbyImage, not inside a link). The crop and the screenshot show the council's 'dlr' logo, and the banner is visible to first-time visitors (the screenshot shows it, and the live page loads Cookiebot). The alt 'logo' is generic placeholder text. If the image is informative, the alt should name the council. If it is decorative, the alt should be empty (F39). Either way it fails 1.1.1, and F30 covers placeholder alternatives. That it is third-party content does not exempt it. The claim names the failure."
+    },
+    {
+      "fingerprint": "dd6bdfec9870",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the only content of a link to the TradFest 2027 event. It is the event's wordmark, showing 'TradFest 2027 20-24 JAN'. Its alt is 'tradfest wording'. Under R2's first test, the alt, read as link text, names the destination's subject (TradFest), so a listener can tell where the link leads. The claim that it 'does not say where the link leads' is therefore wrong. A strict auditor might still object that the alt does not reproduce the year and dates shown in the image, which the card's text gives beside it. That would be a different reason from the one the claim names. The live HTML is the same."
+    },
+    {
+      "fingerprint": "pc4b3afb6162",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The footer link 'Accessibility Statement' goes to /communications-media/accessibility-statement, a page titled 'Accessibility Statement', under the heading 'About the Website'. The link text gives its purpose. No other link shares the name: the top menu's 'Accessibility' link is a different name. The live footer is the same. The element meets 2.4.4, and Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "6ead9963d834",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The illustration is the only content of a link to the 'Christmas Storytime' event at Shankill Library. Its alt describes the picture: a teacher reading a story to children seated in a circle, a Christmas tree and presents. It does not name the event, the library or the date, and that leans toward the R2 and H30 failure. Against it, the scene described is literally a Christmas story time, so a listener could plausibly guess the link's subject. R2 passes an alternative that 'names the story's subject', and whether depicting the subject without naming it counts is a point competent auditors would reasonably disagree on. There is no title, and the live markup is the same."
+    },
+    {
+      "fingerprint": "5236c4ee8a52",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Parks & Outdoors' card link (/parks-outdoors) wraps an <article> containing an SVG and the span 'Parks & Outdoors'. The snapshot's CDP tree shows the link's computed name as \"\", because Chromium excludes article descendants from name from content. Accname-spec tools and Firefox may derive the text, but Chrome and Edge expose no name, so 4.1.2 fails for their users. The live HTML is identical."
+    },
+    {
+      "fingerprint": "aaef0eddf940",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The hero search field #edit-keys has the placeholder 'Search for anything...'. The field has no label, and the placeholder is its only instruction. Sampling the screenshot pixels confirms the placeholder renders as #9ca3af on #ffffff, which is 2.54:1. I checked whether placeholder text could be exempt. Understanding 1.4.3 says the criterion 'applies to text in the page, including placeholder text', and none of the incidental exceptions apply, so it needs 4.5:1. The live input is the same."
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "page": "https://grist.org/energy/what-congress-bill-to-speed-up-energy-projects-would-mean-for-you-permitting-reform-baaja/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "sf984c421244",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Inline link in the article paragraph: 'Critics say it would reduce public scrutiny and make it harder for communities and tribes to identify environmental harms...'. The href is a Sierra Club press release whose address reads 'sierra-club-baaja-remains-fundamentally-flawed-despite-manager-s-amendment' (the page itself returned 403 to my fetch). Read with its sentence, the link is a source for what critics say, and it leads to a critic's statement against the bill, so the text does match where it goes and its purpose can be determined from the link text with its sentence (2.4.4 passes). The live page has the same paragraph and link. The model had the sentence and the href and judged a mismatch wrongly."
+    },
+    {
+      "fingerprint": "s8c680a23ab0",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Inline link 'projections from some organizations' in the sentence 'The advantage would likely tip toward renewable energy, according to projections from some organizations'. It leads to a C2ES press release, 'New Nationwide Analysis: Bipartisan Transmission Reforms Would Boost Clean Energy...', which presents modelling projections of the bill's effect on clean energy and gas (I opened it). The link text with its sentence describes that destination, so the claim is false and 2.4.4 passes. Live page unchanged for this link."
+    },
+    {
+      "fingerprint": "s71d9ab00173",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Inline link 'renewable energy projects' in 'Supporters say that would prevent costly delays, which can be particularly consequential for land-intensive renewable energy projects.' It leads to the Bipartisan Policy Center fact sheet 'The Environmental Case for Permitting Reform', which argues that land-intensive renewables are more likely to trigger long reviews (I opened it). The sentence makes the purpose clear (supporters' case about delays for renewables), and the destination matches it, so the claim is false and 2.4.4 passes. Live page unchanged."
+    },
+    {
+      "fingerprint": "s23b58395cb2",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "h4 'Looking Forward' inside a newsletter sign-up card, under the h4 'The climate news you need, right in your inbox. Always free.'; the card reads 'Fridays / Looking Forward / Climate news without the doom. Learn about climate solutions and how to be part of them. / Sign up' (screenshot checked). The heading is the newsletter's name and identifies what the card is about; in the newsletters section it describes its topic, which is what 2.4.6 asks. The live page has the same headings. The claim that it says nothing about the content under it is wrong."
+    },
+    {
+      "fingerprint": "e02a168ccc27",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Image link (tease art, tabindex=-1) to 'Is it OK to want a normal life during the climate crisis?', holding figure > img alt='Collage of person holding toddler's hands...'. The captured Chromium accessibility tree exposes the link with no name while the img has its alt name, so the claim is true of the capture. I reproduced it: in headless Edge a link wrapping figure > img alt gets an empty name (Chromium does not take name from contents through a figure), and on the live page, with the image loaded, this link still has an empty name, so the capture does not differ. Competent auditors would reasonably disagree on whether this is a 4.1.2 failure of the content: by the accessible name algorithm the figure is traversed and the name is the image's alt, axe-style checkers compute that name, and screen readers in browse mode read the image inside the link; others go by the name the browser exposes, which is empty in Chromium. So the label is uncertain. Separately, the alt describes the photo, not the story it links to (an R2 point for 1.1.1/2.4.4, not this claim)."
+    },
+    {
+      "fingerprint": "s2d704b7bbe5",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "h4 'The Weekly' inside a newsletter sign-up card under the h4 'The climate news you need, right in your inbox. Always free.'; the card reads 'Saturdays / The Weekly / A weekend roundup of Grist stories, handpicked by our editors...' (screenshot checked). The heading names the weekly newsletter the card offers, which describes the card's topic within the newsletters section, so 2.4.6 passes. Live page unchanged. The claim is wrong."
+    },
+    {
+      "fingerprint": "s861020ed5f4",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Inline link 'Rhodium Group' at the start of 'Rhodium Group, an economic research firm, projects natural gas pipelines would continue advancing...'. It leads to rhg.com, Rhodium Group's report 'Estimating the US Energy System Impacts of the Bipartisan American Affordability and Jobs Act' (I opened it). The link names the firm whose research it links, and the sentence says it is that firm's projection, so the text matches the destination and 2.4.4 passes. The href alone showed the match; the model judged wrongly. Live page unchanged."
+    },
+    {
+      "fingerprint": "605d045ba403",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Image link (tease art, tabindex=-1) to 'New net-zero community will become Michigan's first virtual power plant', holding figure > img alt='Houses surround grass and a path'. The captured Chromium accessibility tree gives the link no name, so the claim is true of the capture; headless Edge on the live page (image loaded) also computes an empty name, and a minimal test confirms Chromium does not take a link's name from an img inside a figure. Capture does not differ. Competent auditors would reasonably disagree on whether this is a 4.1.2 failure of the content: by the accessible name algorithm the figure is traversed and the name is the image's alt, axe-style checkers compute that name, and screen readers in browse mode read the image inside the link; others go by the name the browser exposes, which is empty in Chromium. So the label is uncertain. The alt also describes the photo rather than the destination (an R2 point for other criteria)."
+    },
+    {
+      "fingerprint": "7ff063628278",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page title 'What Congress' bill to speed up energy projects would mean for you | Grist' repeats the article's h1 and names the site; it describes the page's topic exactly. The live page has the same title. 2.4.2 passes and the claim that it says nothing about the page is false."
+    },
+    {
+      "fingerprint": "s7742127bcba",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Inline link 'clean' in 'Supporters include labor unions, clean and fossil energy companies, a few tribes...'. It leads to Advanced Energy United's release 'Clean Energy Industry United in Support of BAAJA' (I opened it). The link's sentence tells users it is the source for clean energy companies being among the supporters, so its purpose can be determined from the link text with its programmatically determined context; the claim that nothing around it does is false. 2.4.4 passes. Live page unchanged."
+    },
+    {
+      "fingerprint": "sf1c0a0a1e5b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Inline link 'centrist policy organizations' in the same 'Supporters include...' sentence. It leads to Third Way's memo 'Polling: Americans Want Permitting Reform', which backs the bill; Third Way calls itself a center-left, moderate think tank (I opened it). With its sentence the link is a source showing a centrist policy group supports the bill, which matches the destination, so the claim is false and 2.4.4 passes. Live page unchanged."
+    },
+    {
+      "fingerprint": "pd621d71ed05",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Inline link 'Al Gore' in 'Climate movement veterans Al Gore and Genevieve Guenther have also opposed the current legislation...', leading to an x.com/algore status. The link text with its sentence tells users it leads to Al Gore's statement opposing the bill, so its purpose can be determined in context and 2.4.4 passes. The live page has the same link. Rampa reporting nothing was correct."
+    },
+    {
+      "fingerprint": "sb74717ca6c7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] '$15/mo' is one of three amount links ('$15/mo', '$25/mo', 'Other') in the donation appeal bar, linking to Grist's donation form with $15 monthly preselected. Its programmatic context is only its own list item ('$15/mo'); there is no title or aria-describedby, and the heading just before it in document order is a hidden cookie-dialog heading. The text that explains it, 'All Donations DOUBLED' and the 'Donate' link, sits in neighbouring elements, which the rubric does not count. '$15/mo' alone gives an amount and frequency but not that it is a donation, so the purpose cannot be determined from text plus context and the link fails 2.4.4; the claim names this. The live page has the same bar and markup, and the link is in the accessibility tree there."
+    },
+    {
+      "fingerprint": "4d45975a0308",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "'Next Article' image link (tease art, tabindex=-1) to 'The bipartisan energy bill tearing the climate movement apart', holding figure > img with an alt describing the senators' news conference. The captured Chromium accessibility tree exposes the link with no name (the img keeps its alt name), so the claim is true of the capture; on the live page in headless Edge, image loaded, the link's name is still empty, and a minimal test shows Chromium does not pass an img's alt up through a figure. Capture does not differ. Competent auditors would reasonably disagree on whether this is a 4.1.2 failure of the content: by the accessible name algorithm the figure is traversed and the name is the image's alt, axe-style checkers compute that name, and screen readers in browse mode read the image inside the link; others go by the name the browser exposes, which is empty in Chromium. So the label is uncertain."
+    },
+    {
+      "fingerprint": "s09f725bf2e9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Follow' in the site header navigation (next to 'Donate' and the menu button), href '#nav__item--link-follows-container', which opens a dropdown of 'Follow us on Facebook/Twitter/...' links and a newsletter form; that container is hidden until opened, so it adds no programmatic context. Even so, 'Follow' in a publication's header tells users the purpose: ways to follow Grist, which is what the link reveals. Its purpose can be determined from the link text, so 2.4.4 passes; the claim that the text does not tell where it goes is not accurate. Live page unchanged. (Whether a disclosure should be a button with aria-expanded is a 4.1.2 matter, not this one.)"
+    },
+    {
+      "fingerprint": "s6d4bc2ee412",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Inline link 'concern' in '...some, including House Energy and Commerce Chair Brett Guthrie of Kentucky, have signaled concern over transmission provisions.' It leads to a Politico live update titled in its address 'Guthrie pushing for grid reliability changes to permitting bill' (Politico refused my fetch; the address settles it). The sentence tells users the link is the source for Guthrie's concern, which matches the destination, so 2.4.4 passes and the claim that nothing around it explains it is false. Live page unchanged."
+    }
+  ]
+}

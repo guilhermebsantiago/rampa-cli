@@ -1,0 +1,148 @@
+{
+  "page": "https://www.unp.br/cursos/graduacao/?modalidade=todos",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "0924efe69d8f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the generic dropdown panel (div.dropdown-menu, no role) under the 'Sou Estudante' top-nav button, with aria-labelledby=\"dropdown09\". The capture and the live page (server HTML and a headless Edge 158 render on 2026-11-21) both have eight buttons with id=\"dropdown09\", and the browser resolves the reference to the first one (the 'Cursos' button), so the sentence holds, read with the parentheses as the buttons' visible text; the name string itself is 'Fechar menu', not 'Cursos'. elementFails is no: the panel is a generic container, not a user interface component that needs a name (ARIA 1.2 prohibits naming the generic role, and screen readers do not announce it). The duplicate id also changes nothing users get: every one of the eight buttons has aria-label=\"Fechar menu\", so with unique ids each panel would get the same name 'Fechar menu'. Duplicate ids are a WCAG 2.1 4.1.1 (F77) issue, and the buttons' shared aria-label 'Fechar menu' (a 'close menu' name on collapsed triggers) is a 4.1.2/2.5.3 problem on the buttons, but neither is this panel failing 4.1.2. captureDiffers is no: the live page matches. False positive: the rule treats a duplicate-id reference on a nameless-by-design container as a 4.1.2 naming failure."
+    },
+    {
+      "fingerprint": "6492f26b69bb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the required 'E-mail' input (type=email) of the 'Fale Conosco' lead form ('Preencha o formulário e nós entraremos em contato com você'), so it collects the user's own email address. Neither the snapshot nor the live page (server HTML and the DOM after scripts in headless Edge 158, 2026-11-21) has an autocomplete attribute on the input or the form, so claimTrue is yes. Looking for a pass: the field's type only sets the data format, not that the value is the user's own, and 1.3.5's sufficient technique H98 needs the autocomplete token ('email'); the id, title and label do not identify the purpose programmatically. elementFails is yes, captureDiffers is no. True positive."
+    },
+    {
+      "fingerprint": "a79423768455",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the generic dropdown panel (div.dropdown-menu, no role) under the 'Modalidades' top-nav button, with aria-labelledby=\"dropdown09\". The capture and the live page (server HTML and a headless Edge 158 render on 2026-11-21) both have eight buttons with id=\"dropdown09\", and the browser resolves the reference to the first one (the 'Cursos' button), so the sentence holds, read with the parentheses as the buttons' visible text; the name string itself is 'Fechar menu', not 'Cursos'. elementFails is no: the panel is a generic container, not a user interface component that needs a name (ARIA 1.2 prohibits naming the generic role, and screen readers do not announce it). The duplicate id also changes nothing users get: every one of the eight buttons has aria-label=\"Fechar menu\", so with unique ids each panel would get the same name 'Fechar menu'. Duplicate ids are a WCAG 2.1 4.1.1 (F77) issue, and the buttons' shared aria-label 'Fechar menu' (a 'close menu' name on collapsed triggers) is a 4.1.2/2.5.3 problem on the buttons, but neither is this panel failing 4.1.2. captureDiffers is no: the live page matches. False positive: the rule treats a duplicate-id reference on a nameless-by-design container as a 4.1.2 naming failure."
+    },
+    {
+      "fingerprint": "d1bc03885349",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the generic dropdown panel (div.dropdown-menu, no role) under the 'Bolsas e Financiamentos' top-nav button, with aria-labelledby=\"dropdown09\". The capture and the live page (server HTML and a headless Edge 158 render on 2026-11-21) both have eight buttons with id=\"dropdown09\", and the browser resolves the reference to the first one (the 'Cursos' button), so the sentence holds, read with the parentheses as the buttons' visible text; the name string itself is 'Fechar menu', not 'Cursos'. elementFails is no: the panel is a generic container, not a user interface component that needs a name (ARIA 1.2 prohibits naming the generic role, and screen readers do not announce it). The duplicate id also changes nothing users get: every one of the eight buttons has aria-label=\"Fechar menu\", so with unique ids each panel would get the same name 'Fechar menu'. Duplicate ids are a WCAG 2.1 4.1.1 (F77) issue, and the buttons' shared aria-label 'Fechar menu' (a 'close menu' name on collapsed triggers) is a 4.1.2/2.5.3 problem on the buttons, but neither is this panel failing 4.1.2. captureDiffers is no: the live page matches. False positive: the rule treats a duplicate-id reference on a nameless-by-design container as a 4.1.2 naming failure."
+    },
+    {
+      "fingerprint": "4387162b0b38",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the generic dropdown panel (div.dropdown-menu, no role) under the 'Formas de Entrada' top-nav button, with aria-labelledby=\"dropdown09\". The capture and the live page (server HTML and a headless Edge 158 render on 2026-11-21) both have eight buttons with id=\"dropdown09\", and the browser resolves the reference to the first one (the 'Cursos' button), so the sentence holds, read with the parentheses as the buttons' visible text; the name string itself is 'Fechar menu', not 'Cursos'. elementFails is no: the panel is a generic container, not a user interface component that needs a name (ARIA 1.2 prohibits naming the generic role, and screen readers do not announce it). The duplicate id also changes nothing users get: every one of the eight buttons has aria-label=\"Fechar menu\", so with unique ids each panel would get the same name 'Fechar menu'. Duplicate ids are a WCAG 2.1 4.1.1 (F77) issue, and the buttons' shared aria-label 'Fechar menu' (a 'close menu' name on collapsed triggers) is a 4.1.2/2.5.3 problem on the buttons, but neither is this panel failing 4.1.2. captureDiffers is no: the live page matches. False positive: the rule treats a duplicate-id reference on a nameless-by-design container as a 4.1.2 naming failure."
+    },
+    {
+      "fingerprint": "pb97dfcc69cb",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The element is the 'Vestibular' link in the 'Formas de Entrada' dropdown; its name is 'Vestibular Faça o vestibular e conquiste seu futuro' (title 'Vestibular') and it leads to /formas-de-entrada/vestibular/, whose title is 'Vestibular UnP: veja como entrar na graduação!'. The text names the destination. The only other link with similar text, 'Vestibular' in the mobile menu, has a different name and the same address, and 'Vestibular Simplificado' differs, so R1 does not apply. The live page (headless Edge 158) exposes the same name. elementFails is no, captureDiffers is no; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "330393c04e1d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the required 'Celular' input (type=tel) of the 'Fale Conosco' lead form ('Preencha o formulário e nós entraremos em contato com você'), so it collects the user's own mobile phone number. Neither the snapshot nor the live page (server HTML and the DOM after scripts in headless Edge 158, 2026-11-21) has an autocomplete attribute on the input or the form, so claimTrue is yes. Looking for a pass: the field's type only sets the data format, not that the value is the user's own, and 1.3.5's sufficient technique H98 needs the autocomplete token ('tel'); the id, title and label do not identify the purpose programmatically. elementFails is yes, captureDiffers is no. True positive."
+    },
+    {
+      "fingerprint": "807a8479c3cc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the generic dropdown panel (div.dropdown-menu, no role) under the 'Sou Candidato' top-nav button, with aria-labelledby=\"dropdown09\". The capture and the live page (server HTML and a headless Edge 158 render on 2026-11-21) both have eight buttons with id=\"dropdown09\", and the browser resolves the reference to the first one (the 'Cursos' button), so the sentence holds, read with the parentheses as the buttons' visible text; the name string itself is 'Fechar menu', not 'Cursos'. elementFails is no: the panel is a generic container, not a user interface component that needs a name (ARIA 1.2 prohibits naming the generic role, and screen readers do not announce it). The duplicate id also changes nothing users get: every one of the eight buttons has aria-label=\"Fechar menu\", so with unique ids each panel would get the same name 'Fechar menu'. Duplicate ids are a WCAG 2.1 4.1.1 (F77) issue, and the buttons' shared aria-label 'Fechar menu' (a 'close menu' name on collapsed triggers) is a 4.1.2/2.5.3 problem on the buttons, but neither is this panel failing 4.1.2. captureDiffers is no: the live page matches. False positive: the rule treats a duplicate-id reference on a nameless-by-design container as a 4.1.2 naming failure."
+    },
+    {
+      "fingerprint": "d29c4d56dfd1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the generic dropdown panel (div.dropdown-menu, no role) under the 'A UnP' top-nav button, with aria-labelledby=\"dropdown09\". The capture and the live page (server HTML and a headless Edge 158 render on 2026-11-21) both have eight buttons with id=\"dropdown09\", and the browser resolves the reference to the first one (the 'Cursos' button), so the sentence holds, read with the parentheses as the buttons' visible text; the name string itself is 'Fechar menu', not 'Cursos'. elementFails is no: the panel is a generic container, not a user interface component that needs a name (ARIA 1.2 prohibits naming the generic role, and screen readers do not announce it). The duplicate id also changes nothing users get: every one of the eight buttons has aria-label=\"Fechar menu\", so with unique ids each panel would get the same name 'Fechar menu'. Duplicate ids are a WCAG 2.1 4.1.1 (F77) issue, and the buttons' shared aria-label 'Fechar menu' (a 'close menu' name on collapsed triggers) is a 4.1.2/2.5.3 problem on the buttons, but neither is this panel failing 4.1.2. captureDiffers is no: the live page matches. False positive: the rule treats a duplicate-id reference on a nameless-by-design container as a 4.1.2 naming failure."
+    },
+    {
+      "fingerprint": "d8a1a981cd92",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the required 'Nome Completo' input (type=text) of the 'Fale Conosco' lead form ('Preencha o formulário e nós entraremos em contato com você'), so it collects the user's own full name. Neither the snapshot nor the live page (server HTML and the DOM after scripts in headless Edge 158, 2026-11-21) has an autocomplete attribute on the input or the form, so claimTrue is yes. Looking for a pass: the field's type only sets the data format, not that the value is the user's own, and 1.3.5's sufficient technique H98 needs the autocomplete token ('name'); the id, title and label do not identify the purpose programmatically. elementFails is yes, captureDiffers is no. True positive."
+    },
+    {
+      "fingerprint": "8d07e0679622",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the course search box, whose placeholder 'Pesquise aqui o seu curso de interesse' is the only visible text saying what the field is for. The site's CSS sets ::placeholder to color-mix(currentcolor 50%, transparent) with opacity 1, the input's color is black and its background transparent over the #fffcfa section (headless Edge 158 on the live page: placeholder oklab(0 0 0 / 0.5), 20px, weight 300). The screenshot's placeholder pixels are rgb(128,126,125) on rgb(255,252,250), 3.95:1, matching the claim's 3.97:1. Looking for a pass: 20px at weight 300 is not large text, so 4.5:1 applies; both colors are author-set (no F24 excuse); the text is not incidental or part of an inactive control; the capture matches the live CSS. elementFails is yes, captureDiffers is no. True positive."
+    },
+    {
+      "fingerprint": "s75d16d4c7f0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the 'esp' link (shown as ESP by text-transform) in the header language switcher 'POR ENG ESP', which drives Google Translate; href='#', no aria-label, title, lang or aria-describedby. Its context under this rubric is only its own list item ('esp'); there is no heading before it, and the sibling items POR and ENG do not count. The live page renders the same link client-side (headless Edge 158 exposes the name 'ESP'), so captureDiffers is no. The text alone, an unexpanded abbreviation, does not state that the link switches the page to Spanish, so I lean to elementFails yes. But abbreviated language names in a language switcher are a widespread convention that many auditors accept as identifying the purpose ('esp' for espanhol on a Portuguese page), so competent auditors would reasonably disagree: uncertain."
+    },
+    {
+      "fingerprint": "5c31780a4cf8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the footer e-MEC link: <a title='Acesse aqui o cadastro da UnP no e-MEC'><figure><img alt='QrCode Emec UnP'><figcaption>Acesse aqui o cadastro da UnP no e-MEC</figcaption></figure></a>. The capture's browser name is empty, and I reproduced it on the live page in headless Edge 158 (2026-11-21): the link's computed name is '' with the title source listed but unused, even after scrolling and focusing it. So claimTrue is yes, captureDiffers is no, and in Chromium the link exposes no name (elementFails yes). Looking for a pass: the author provides three name sources (title, which the accname algorithm uses at step 2I; the img alt; the caption text). Chromium does not take name from content through a figure, and in a minimal test page it used the title instead, so the empty name looks like a Chromium quirk with this markup. Tools that compute the name themselves would pass it, and screen readers in browse mode read the alt and caption inside the link, so 'announces only \"link\"' overstates. Competent auditors would reasonably disagree whether this is a content failure of 4.1.2: uncertain."
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "page": "https://www.puc-campinas.edu.br/graduacao/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "0b9d6324ce06",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer column title \"Notícias\" (href /noticias/, the Notícias page): an inline document-ready script on the page sets aria-label \"Para abrir menu tecle shift. Navegue entre os itens com a tecla Tab.\" on every .menu-item-has-children > a, so in an ordinary browser it overrides the visible text. 20 links in the accessibility tree share that name (17 go to \"#\", the others to /institucional/, /noticias/ and /eventos/). claimTrue: the count holds, but its list item holds a visible sub-list (Agência de Notícias, Podcast, Assessoria de Imprensa, Observatório, Inovação…) that differs from every other link's, so by this rubric's context it is not in an R1 set with them, and the clause \"nothing around this one tells it apart\" does not hold. elementFails: yes all the same. Its accessible name is an instruction that says nothing of the destination and suggests that a menu opens. No heading before it relates to it, and the sub-list names other pages, not this link's, so screen reader users cannot tell where it goes. It also fails 2.5.3, since the visible \"Notícias\" is not in the name. Label: read in good faith, the claim points at that defect: a generic name, shared by links that go to different places, that does not identify this one. captureDiffers: no. The live HTML fetched on 2026-11-21 has the same markup."
+    },
+    {
+      "fingerprint": "pe5961a2d2f2",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Header link \"ALUMNI (Ex-Alunos)\" to /alumni/. It has no aria-label, and the live page is titled \"Alumni\". The name describes the destination, and no other link shares it, so it meets 2.4.4. captureDiffers: no. The live HTML fetched on 2026-11-21 has the same markup."
+    },
+    {
+      "fingerprint": "sc1667cf35f4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Index link \"G\" (href #g) in #indice, a list of single-letter links A to T. Each one jumps to the lettered section (h2 \"G\") of the alphabetical course list. claimTrue: its name and text are \"G\", with no aria-label or title. Its list item holds only \"G\". The only heading before it that the tree exposes is the page h1 \"GRADUAÇÃO\": the tab heading \"alfabetica\" and the tab list are hidden. elementFails: this round counts the list item, not the whole list, so nothing programmatic tells users that \"G\" jumps to the courses that start with G. What explains it is visual: the row of letter buttons above the lettered course list, and the \"Ordem alfabética\" filter. Visual context does not count, so the link fails. captureDiffers: no. The live HTML has the same index."
+    },
+    {
+      "fingerprint": "s7b984c97fff",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header top-bar menu toggle \"Estude na PUC\" (href \"#\"), with a chevron. An inline document-ready script on the page sets aria-label \"Para abrir menu tecle shift. Navegue entre os itens com a tecla Tab.\" on every .menu-item-has-children > a, so in an ordinary browser it overrides the visible text. claimTrue: its name is the instruction. Its list item's sub-menu is hidden, so outside the tree, and no heading before it relates to it. Nothing around it says which menu it opens. elementFails: its purpose, opening the \"Estude na PUC\" menu, cannot be determined. Ten header toggles carry the same instruction as their name, and the visible label is lost to screen reader users. It also fails 2.5.3. The claim names that defect. captureDiffers: no. The live HTML fetched on 2026-11-21 has the same markup."
+    },
+    {
+      "fingerprint": "s9be5237b7ab",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Index link \"Q\" (href #q) in #indice, a list of single-letter links A to T. Each one jumps to the lettered section (h2 \"Q\") of the alphabetical course list. claimTrue: its name and text are \"Q\", with no aria-label or title. Its list item holds only \"Q\". The only heading before it that the tree exposes is the page h1 \"GRADUAÇÃO\": the tab heading \"alfabetica\" and the tab list are hidden. elementFails: this round counts the list item, not the whole list, so nothing programmatic tells users that \"Q\" jumps to the courses that start with Q. What explains it is visual: the row of letter buttons above the lettered course list, and the \"Ordem alfabética\" filter. Visual context does not count, so the link fails. captureDiffers: no. The live HTML has the same index."
+    },
+    {
+      "fingerprint": "s2bddfa8b067",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Index link \"P\" (href #p) in #indice, a list of single-letter links A to T. Each one jumps to the lettered section (h2 \"P\") of the alphabetical course list. claimTrue: its name and text are \"P\", with no aria-label or title. Its list item holds only \"P\". The only heading before it that the tree exposes is the page h1 \"GRADUAÇÃO\": the tab heading \"alfabetica\" and the tab list are hidden. elementFails: this round counts the list item, not the whole list, so nothing programmatic tells users that \"P\" jumps to the courses that start with P. What explains it is visual: the row of letter buttons above the lettered course list, and the \"Ordem alfabética\" filter. Visual context does not count, so the link fails. captureDiffers: no. The live HTML has the same index."
+    },
+    {
+      "fingerprint": "s9a227fbd74f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Index link \"D\" (href #d) in #indice, a list of single-letter links A to T. Each one jumps to the lettered section (h2 \"D\") of the alphabetical course list. claimTrue: its name and text are \"D\", with no aria-label or title. Its list item holds only \"D\". The only heading before it that the tree exposes is the page h1 \"GRADUAÇÃO\": the tab heading \"alfabetica\" and the tab list are hidden. elementFails: this round counts the list item, not the whole list, so nothing programmatic tells users that \"D\" jumps to the courses that start with D. What explains it is visual: the row of letter buttons above the lettered course list, and the \"Ordem alfabética\" filter. Visual context does not count, so the link fails. captureDiffers: no. The live HTML has the same index."
+    },
+    {
+      "fingerprint": "s63c915eadff",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Index link \"J\" (href #j) in #indice, a list of single-letter links A to T. Each one jumps to the lettered section (h2 \"J\") of the alphabetical course list. claimTrue: its name and text are \"J\", with no aria-label or title. Its list item holds only \"J\". The only heading before it that the tree exposes is the page h1 \"GRADUAÇÃO\": the tab heading \"alfabetica\" and the tab list are hidden. elementFails: this round counts the list item, not the whole list, so nothing programmatic tells users that \"J\" jumps to the courses that start with J. What explains it is visual: the row of letter buttons above the lettered course list, and the \"Ordem alfabética\" filter. Visual context does not count, so the link fails. captureDiffers: no. The live HTML has the same index."
+    },
+    {
+      "fingerprint": "pe22bb776e42",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Course card heading link \"Administração – Finanças Corporativas e Mercado de Capitais\" (h4 > a, same title) to that course's page, whose title and h1 match. The other links with this name are the card's overlay link and the hidden area-view copies, and they go to the same URL. It meets 2.4.4. captureDiffers: no."
+    },
+    {
+      "fingerprint": "sd7ef7564073",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Cookie banner link \"clique aqui\" to /politica-de-cookies/, inside div.cli-bar-message. The sentence reads \"Para saber mais sobre a nossa Política de Cookies, clique aqui\", so the same sentence gives the link's purpose (programmatically determined link context, G53). claimTrue: the text alone is vague, but \"nothing around it does\" is false. elementFails: no, it meets 2.4.4. The packet's ancestors carried that sentence, so this is a model_error. captureDiffers: no. The live HTML serves the same CookieYes banner text."
+    },
+    {
+      "fingerprint": "p3541046c28d",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Course card heading link \"Biomedicina\" (h4 > a, same title) to /graduacao/biomedicina/, whose title and h1 are \"Biomedicina\". The other links with this name go to the same URL. It meets 2.4.4. captureDiffers: no."
+    },
+    {
+      "fingerprint": "s3709764400a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Index link \"I\" (href #i) in #indice, a list of single-letter links A to T. Each one jumps to the lettered section (h2 \"I\") of the alphabetical course list. claimTrue: its name and text are \"I\", with no aria-label or title. Its list item holds only \"I\". The only heading before it that the tree exposes is the page h1 \"GRADUAÇÃO\": the tab heading \"alfabetica\" and the tab list are hidden. elementFails: this round counts the list item, not the whole list, so nothing programmatic tells users that \"I\" jumps to the courses that start with I. What explains it is visual: the row of letter buttons above the lettered course list, and the \"Ordem alfabética\" filter. Visual context does not count, so the link fails. captureDiffers: no. The live HTML has the same index."
+    },
+    {
+      "fingerprint": "cf16ea1d4530",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer column title \"Institucional\" (href /institucional/, which redirects to Quem Somos): an inline document-ready script on the page sets aria-label \"Para abrir menu tecle shift. Navegue entre os itens com a tecla Tab.\" on every .menu-item-has-children > a, so in an ordinary browser it overrides the visible text. 20 links in the accessibility tree share that name (17 go to \"#\", the others to /institucional/, /noticias/ and /eventos/). claimTrue: the count holds, but its list item holds a visible sub-list (Quem Somos, Reitoria e Pró-Reitorias, Escolas, Campus I…) that differs from every other link's, so by this rubric's context it is not in an R1 set with them, and the clause \"nothing around this one tells it apart\" does not hold. elementFails: yes all the same. Its accessible name is an instruction that says nothing of the destination and suggests that a menu opens. No heading before it relates to it, and the sub-list names other pages, not this link's, so screen reader users cannot tell where it goes. It also fails 2.5.3, since the visible \"Institucional\" is not in the name. Label: read in good faith, the claim points at that defect: a generic name, shared by links that go to different places, that does not identify this one. captureDiffers: no. The live HTML fetched on 2026-11-21 has the same markup."
+    },
+    {
+      "fingerprint": "scfda0f0c9e7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Index link \"L\" (href #l) in #indice, a list of single-letter links A to T. Each one jumps to the lettered section (h2 \"L\") of the alphabetical course list. claimTrue: its name and text are \"L\", with no aria-label or title. Its list item holds only \"L\". The only heading before it that the tree exposes is the page h1 \"GRADUAÇÃO\": the tab heading \"alfabetica\" and the tab list are hidden. elementFails: this round counts the list item, not the whole list, so nothing programmatic tells users that \"L\" jumps to the courses that start with L. What explains it is visual: the row of letter buttons above the lettered course list, and the \"Ordem alfabética\" filter. Visual context does not count, so the link fails. captureDiffers: no. The live HTML has the same index."
+    },
+    {
+      "fingerprint": "5bdd0f3bb6b5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Grade\" view toggle (a#gradebtn.opcao.grade.active, the selected option, not an inactive component). In the theme's live custom.css, .filtro .opcao.active sets background-color #D4A23F and color #fff, and .grade sets font-size 0.9em (14.4px, weight 400) and the grid.png icon as background image. White on #D4A23F is 2.32:1, under 4.5:1 for normal text. The crop shows the button with its icon and the text hidden, the background sample, as the Lista crop does too. The snapshot records 186 white text pixels. In the full screenshot the dismissible cookie banner overlaps the button, which does not change the contrast. claimTrue: yes. elementFails: yes. captureDiffers: no, since the live HTML and CSS match."
+    },
+    {
+      "fingerprint": "p980d2664ca7",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Course card heading link \"Artes Visuais – Licenciatura\" (h4 > a, same title) to /graduacao/artes-visuais-licenciatura/, whose title and h1 match. The other links with this name go to the same URL. It meets 2.4.4. captureDiffers: no."
+    },
+    {
+      "fingerprint": "e5c5b52b68c2",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer column title \"Eventos\" (href /eventos/, the Eventos page): an inline document-ready script on the page sets aria-label \"Para abrir menu tecle shift. Navegue entre os itens com a tecla Tab.\" on every .menu-item-has-children > a, so in an ordinary browser it overrides the visible text. 20 links in the accessibility tree share that name (17 go to \"#\", the others to /institucional/, /noticias/ and /eventos/). claimTrue: the count holds, but its list item holds a visible sub-list (Últimos eventos) that differs from every other link's, so by this rubric's context it is not in an R1 set with them, and the clause \"nothing around this one tells it apart\" does not hold. elementFails: yes all the same. Its accessible name is an instruction that says nothing of the destination and suggests that a menu opens. No heading before it relates to it, and the sub-list names other pages, not this link's, so screen reader users cannot tell where it goes. It also fails 2.5.3, since the visible \"Eventos\" is not in the name. Label: read in good faith, the claim points at that defect: a generic name, shared by links that go to different places, that does not identify this one. captureDiffers: no. The live HTML fetched on 2026-11-21 has the same markup."
+    }
+  ]
+}

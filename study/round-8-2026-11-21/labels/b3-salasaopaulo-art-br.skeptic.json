@@ -1,0 +1,105 @@
+{
+  "page": "https://salasaopaulo.art.br/salasp/pt/fale-conosco",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s04f4bbb9702",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the 'Ouvidoria' link in the government footer strip (ouvidoria.sp.gov.br). Two links on the page are named 'Ouvidoria': one in the site footer nav (href https://fala.sp.gov.br/) and one in the government footer strip next to 'Transparência' and 'SIC' (href https://www.ouvidoria.sp.gov.br/Portal/Default.aspx). Neither has a title or aria-describedby, neither sits in a list item, paragraph or table cell that tells it apart, and the nearest preceding heading for both is the h3 'Sala São Paulo' in main, so by the rubric they form one set (R1), and the claim's sentence is true of the capture (two names alike, two different addresses, nothing programmatic around them). But Rampa never read the destinations. I opened both: fala.sp.gov.br is Fala.SP, the São Paulo State integrated ombudsman and information-access platform; the ouvidoria.sp.gov.br page (200, title 'Ouvidoria') is the legacy front of the same state ombudsman network, which says that since 13/05/2024 its ombudsman offices use Fala.SP, sends 'Registro de Manifestação' on to https://fala.sp.gov.br/, and keeps older complaints available for consultation. Both serve the same advertised key content, the state ombudsman channel for filing and following complaints, so they are equivalent resources under fd3a94 and the pair meets the expectation; nothing visible on the page says they lead to different services either. The live page carries the same two links as the snapshot, so the capture does not differ. Label: false_positive, because the checker lacked the destination context."
+    },
+    {
+      "fingerprint": "s598d2d52e3a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img (regua-logos-eleitoral.png, alt 'Fundação Osesp - Organização Social de Cultura') is a footer logo strip. The crop and the screenshot show two logos: the Fundação Osesp / Organização Social de Cultura mark on the left, and on the right, taking more of the image, the São Paulo State coat of arms with 'Governo do Estado de São Paulo, Secretaria da Cultura, Economia e Indústria Criativas'. Read literally, the claim is false: the alt is exactly the left logo's text, which the image does show. The real defect is that the alternative leaves out the larger half of what the image conveys (the state government and secretariat credit), so it is not equivalent and the image fails 1.1.1. The rubric's good-faith reading treats 'describes something the image does not show' as naming that defect when the alternative leaves out most of the image, which is the case here. The live HTML has the same img and alt (an HTML comment says this strip temporarily replaces the usual logos for the electoral period), so the capture does not differ. I found no technique or context that would make the alternative pass."
+    },
+    {
+      "fingerprint": "sd5410608e93",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the 'Ouvidoria' link at the end of the site footer nav (fala.sp.gov.br). Two links on the page are named 'Ouvidoria': one in the site footer nav (href https://fala.sp.gov.br/) and one in the government footer strip next to 'Transparência' and 'SIC' (href https://www.ouvidoria.sp.gov.br/Portal/Default.aspx). Neither has a title or aria-describedby, neither sits in a list item, paragraph or table cell that tells it apart, and the nearest preceding heading for both is the h3 'Sala São Paulo' in main, so by the rubric they form one set (R1), and the claim's sentence is true of the capture (two names alike, two different addresses, nothing programmatic around them). But Rampa never read the destinations. I opened both: fala.sp.gov.br is Fala.SP, the São Paulo State integrated ombudsman and information-access platform; the ouvidoria.sp.gov.br page (200, title 'Ouvidoria') is the legacy front of the same state ombudsman network, which says that since 13/05/2024 its ombudsman offices use Fala.SP, sends 'Registro de Manifestação' on to https://fala.sp.gov.br/, and keeps older complaints available for consultation. Both serve the same advertised key content, the state ombudsman channel for filing and following complaints, so they are equivalent resources under fd3a94 and the pair meets the expectation; nothing visible on the page says they lead to different services either. The live page carries the same two links as the snapshot, so the capture does not differ. Label: false_positive, because the checker lacked the destination context."
+    },
+    {
+      "fingerprint": "3632db9dd1b8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The input #name (visible label 'Nome', aria-label 'Nome', hint 'Informe seu nome completo') in the Fale Conosco form asks for the user's own full name, an Input Purposes token ('name'). It has no autocomplete attribute. The snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError for it, so both parts of the claim hold. I looked for something that would make it pass: name='name' and id='name' are not a way of identifying input purpose (H98 uses the autocomplete attribute, and Chromium itself flags this pattern as an error), and the field does collect information about the user. So the purpose cannot be programmatically determined and 1.3.5 fails. The live HTML is the same."
+    },
+    {
+      "fingerprint": "f19e9cee742a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The visible header language switcher reads 'Português | English | Español'; the link 'English' (href /salasp/en) has no lang attribute and inherits html lang='pt-BR' (same in the live HTML; the duplicate links in the closed menu also lack lang). Understanding 3.1.2 says a single word can be subject to the criterion and that single words count as the surrounding language 'unless it is clear that a change in language was intended'. In a language switcher, where each name is written in its own language on purpose, the change is clearly intended. A language name used to address readers of that language is not a proper name, a technical term or a Portuguese vernacular word, and a pt-BR voice reads 'English' with Portuguese rules. None of the skeptic's candidate reasons holds, so this is a 3.1.2 failure and the claim names it."
+    },
+    {
+      "fingerprint": "d6ec756229d9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the placeholder 'ex.: João da Silva Gomes' of #name, at 14px weight 400 in italics. Understanding 1.4.3 says the criterion covers placeholder text. The claim's numbers are wrong for the capture: the snapshot's pixel measurement gives foreground #f1f1f1, which is not the text's color. The live CSS sets ::placeholder to currentColor (#222325, the body color) at opacity .6 on a transparent field over white, about #7b7c7c, or 4.2:1. The darkest pixel in the screenshot is #828384 (3.8:1). So the default presentation is below 4.5:1, though not at 3.66:1 with #f1f1f1. But the header has a 'Modo contraste' button (title 'Modo alto contraste') that adds .contrast-mode to html and remembers it in a cookie. In that mode the CSS swaps --clr-neutral-100 to white and the background to hsl(220,4%,8%), which gives the placeholder about 7:1. G174, a control that switches to a presentation with sufficient contrast, is listed as a sufficient technique for 1.4.3. I could not exercise the mode in a browser or check the rest of that presentation, and auditors split on crediting site contrast toggles. So whether the element fails on the page users receive is open, and the label is uncertain. The live CSS and HTML match the capture."
+    },
+    {
+      "fingerprint": "sc96f5a622cb",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The input #phone has a visible <label for='phone'>Telefone</label> and aria-label 'Telefone' (the snapshot's name is 'Telefone'). '(00)00000-0000' is only its placeholder, a format hint. So the claim that the label is '(00)00000-0000' is false of the capture. 'Telefone' clearly says what to enter, so the label meets 2.4.6. The cookie banner covers the label in the screenshot, but the label is in the DOM and visible once the banner is closed, and the live HTML is the same. The checker had the right name and judged the placeholder instead, a model error. Aside: autocomplete='phone' is not a valid token (it should be 'tel'), a 1.3.5 matter that this finding does not raise."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The input #email (label 'E-mail', type=email) asks for the user's own email address ('email' is an Input Purposes token) and has no autocomplete attribute. The snapshot records Chromium's FormInputAssignedAutocompleteValueToIdOrNameAttributeError for it, so the claim holds. The skeptic's candidate for a pass is type='email', but that gives the data format, not that the address is the user's own; H98, the HTML technique for 1.3.5, uses autocomplete, and name/id='email' does not count. So 1.3.5 fails. The live HTML is identical."
+    },
+    {
+      "fingerprint": "3d94aa4a9080",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header switcher link 'Español' (href /salasp/es, whose destination is the Spanish page) has no lang attribute and inherits pt-BR; the live HTML is the same. The skeptic's candidate reason is that 'Español' sounds close to Portuguese 'espanhol', but Understanding 3.1.2 applies that pronunciation test only when it is in doubt whether a change of language was intended. In a language switcher, writing the name in Spanish ('Español' with ñ, not 'Espanhol') is a deliberate change of language, and no exception (proper name, technical term, vernacular) covers it. So 3.1.2 fails, and the claim's reason (missing lang='es' while it inherits pt-BR) names that failure."
+    }
+  ]
+}

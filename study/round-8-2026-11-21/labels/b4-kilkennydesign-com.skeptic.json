@@ -1,0 +1,27 @@
+{
+  "page": "https://kilkennydesign.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s624bac55cdb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the header's heart-icon link; its name 'Wishlist' comes from the icon's alt (the 'Wishlist' span is hidden), and for a signed-out visitor its href is /login.php, whose title is 'Kilkenny Design - Sign in'. The claim's facts hold in the capture, so claimTrue is yes. But the wishlist is a members-only feature: I requested https://kilkennydesign.com/wishlist.php as a guest and got a 302 to login.php?from=wishlist.php, so signing in is the only way a guest can reach a wishlist, and this link is that way in. 'Wishlist' describes the link's purpose (reaching your wishlist, which starts with signing in for a guest). Understanding 2.4.4 says the link text does not have to name the destination document, and a sighted user sees the same heart icon and lands on the same gate, so nothing is withheld from AT users. The model asked the text to match the destination page's title, a stricter test than 2.4.4. No other link shares this name in a way that matters for R1 (the 'Sign In' link also goes to login.php, but its name is different). The live HTML, fetched with an ordinary browser user agent, has the same markup and href as the snapshot. The full-page screenshot shows the sticky header area blank, a stitching artefact that does not bear on this claim. So captureDiffers is no and the element passes."
+    },
+    {
+      "fingerprint": "p0b3507ffb67",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the 24px sprout icon at the start of the top-bar link to /sustainability, alt='Sustainability', followed in the same link by the visible text 'Sustainability' (the link's name is 'Sustainability Sustainability'). The alternative is accurate: it names the icon's meaning and the link's purpose, so it serves the equivalent purpose that 1.1.1 asks for. Its only weakness is that it repeats the adjacent text. H2 recommends a null alt in that case, and axe treats redundant alt text as a best practice rather than a WCAG failure. F38 does not apply: this alt is not a missing or wrong alternative for a purely decorative image, it is a correct but redundant one. So the element meets 1.1.1, and Rampa was right to report nothing. The live HTML is the same as the snapshot, and the top bar in the screenshot shows the icon and text as captured."
+    }
+  ]
+}

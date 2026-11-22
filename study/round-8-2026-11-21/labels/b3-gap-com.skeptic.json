@@ -1,0 +1,49 @@
+{
+  "page": "https://www.gap.com/browse/women?cid=5643",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s06dccf7ff8d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the empty overlay link (aria-label and title \"Coats & Jackets\") of carousel card 9. The only other link in the accessibility tree with the same name is the card's visible text link \"Coats & Jackets\"; the hidden mega-menu links are named \"Categories Coats & Jackets\" and are hidden anyway. Both card links point to /browse/women/outerwear-and-jackets?cid=5736 and differ only in the mlink tracking parameter (..._IMAGE vs ..._CTA); the snapshot's destinations give both the same title, heading and description. Under R1 that is the same resource, so the pair meets the ACT fd3a94 expectation and the link passes 2.4.4. Its name also describes its purpose. The claim that the two links lead to two different places is false. The live server HTML, fetched today, has the same two links with the same hrefs, so the capture does not differ. Rampa had the destinations and still treated a tracking-only URL difference as two places: model_error."
+    },
+    {
+      "fingerprint": "43f5c453f9e5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the product image in carousel card 5 (\"Sleep\"). It sits beside the card's overlay link and text link, not inside either, so it is not a link's only content. The crop and the screenshot both show a black button-up pajama shirt and black pants, with white piping only. The alt says the set has \"white pants and a white shirt\", so it describes garments the image does not show, and the claim holds. Looking for a reason it passes: if the image is informative, an alternative that gets both garments' colours backwards is not an equivalent; if it is decorative because the \"Sleep\" link already says the category, a non-null alt still keeps assistive technology from ignoring it (F38). Either way it fails 1.1.1, so the 'only a minor detail is wrong' argument does not hold. The live server HTML, fetched today, has the same alt on the same image file, so this is Gap's own alt, not a collector artefact; the capture does not differ."
+    },
+    {
+      "fingerprint": "s59d6850c82a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the visible text link \"Dresses\" under carousel card 8. The only other link in the accessibility tree with the same name is the same card's empty overlay link (aria-label and title \"Dresses\"). The hidden mega-menu links are named \"Categories Dresses\", and the body-copy link is named \"dress\", which does not match. Both card links go to /browse/women/dresses?cid=13658 and differ only in the mlink tracking parameter (..._CTA vs ..._IMAGE); the snapshot's destinations give both the same title and description. Under R1 they are the same resource, so the link passes 2.4.4, and the claim that they lead to two different places is false. The live server HTML has the same links and hrefs, so the capture does not differ. Rampa had the destination data and misjudged it: model_error."
+    },
+    {
+      "fingerprint": "pfb65b04a729",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the full-banner overlay link of the sweaters spotlight. Its aria-labelledby points to the banner headline, which gives it the name \"Sweaters in season.\", and its title is the same text. It leads to the women's sweaters listing (destination title \"Sweaters For Women | Gap\", heading \"Sweaters\"). On the women's department page, a link named \"Sweaters in season.\" tells users it leads to sweaters, and Understanding 2.4.4 accepts a name other than the page's own. No other link shares the name. Looking for a failure: the banner photos show men while the link leads to women's sweaters, but that is a visual mismatch, not a link name that hides the purpose. So the element meets 2.4.4 and Rampa was right to report nothing. The live server HTML has the same link, aria-labelledby, title and href, so the capture does not differ."
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "page": "https://www.paviliontheatre.ie/about/contact",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p4d5a1d450f1",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the Arts Council logo in the footer, the only content of a link to http://www.artscouncil.ie/. Its alt is \"The Arts Council funding the Arts\". The crop and the screenshot show the logo reading \"the arts council / an chomhairle ealaion / funding the arts\". The alt gives the logo's text and names where the link goes (the Arts Council), so it meets H30 and G82. Leaving out the Irish name does not change the purpose. The live HTML, fetched on 2026-11-21, has the same img, alt and href, and the screenshot matches it. The element meets 1.1.1 and Rampa was right to report nothing, so this no-claim row is a false positive."
+    },
+    {
+      "fingerprint": "b94aec907932",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"First Name\" text input in the footer newsletter sign-up form (Mailchimp, name=FNAME). It collects the user's own first name, an input purpose listed in WCAG 2.1 section 7 (given-name). The captured HTML has no autocomplete attribute and nothing else that identifies the purpose programmatically, so the claim holds. The live HTML has the same input without autocomplete, and the page's Mailchimp scripts do not add one. Without H98's autocomplete token, the field fails 1.3.5, and the claim names exactly that failure."
+    },
+    {
+      "fingerprint": "9d08fe401231",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Last Name\" text input in the footer newsletter form (name=LNAME). It collects the user's own family name, an input purpose listed in WCAG 2.1 section 7 (family-name). The captured HTML has no autocomplete attribute, so the claim holds. The live page serves the same markup, and no script adds the attribute. With no programmatically determined purpose, the field fails 1.3.5, and the claim names that failure and the right token."
+    },
+    {
+      "fingerprint": "7732a4215f15",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the required \"Email\" input of the footer newsletter form (type=email, name=EMAIL). It collects the user's own email address, which is the email input purpose. The captured HTML has no autocomplete attribute. The snapshot's formIssues entry, FormInputAssignedAutocompleteValueToIdOrNameAttributeError, backs the claim's second sentence, so the claim is true of the capture. type=email gives the data format, not the purpose that 1.3.5 and H98 call for. The live HTML is the same, and the field fails 1.3.5 for the reason the claim gives."
+    },
+    {
+      "fingerprint": "92f8b449ec94",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the page's top banner (dun_laoghaire.jpg), a photo of the Dún Laoghaire seafront: rocks, the bay, the town and its church spires. It has no text in it, and its alt is \"Contact Us\". The crop and the screenshot confirm that the image shows nothing like \"Contact Us\", so the claim holds. The alt does not match the visible h1, which reads \"Do you want to find out what's on or book tickets?\". Read as a decorative banner, the image must be ignorable by assistive technology (null alt). Read as informative, its alternative should convey the scene. \"Contact Us\" does neither, so screen readers announce an image named \"Contact Us\" that is not an equivalent of the picture, and the image fails 1.1.1. The claim, read in good faith, points at that mismatch. The live HTML has the same img and alt, and the screenshot matches the live layout."
+    }
+  ]
+}

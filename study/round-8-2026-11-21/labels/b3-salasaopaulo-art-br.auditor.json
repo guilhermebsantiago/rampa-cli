@@ -1,0 +1,105 @@
+{
+  "page": "https://salasaopaulo.art.br/salasp/pt/fale-conosco",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s04f4bbb9702",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the \"Ouvidoria\" link in the bottom government bar (footer > section, the pill next to Transparência and SIC). Both links named \"Ouvidoria\" have the same programmatic context: no title or aria-describedby, not in a list item, paragraph or table cell, and the heading just before each is the same h3 \"Sala São Paulo\" in main (the footer has no headings), so they form one R1 set; claimTrue is yes, since the hrefs differ (https://fala.sp.gov.br/ and https://www.ouvidoria.sp.gov.br/Portal/Default.aspx) and nothing in the context tells them apart. I opened both: the second is the old \"Sistema Informatizado da Rede de Ouvidorias do Estado de São Paulo\" (Controladoria Geral do Estado), which says that since 13/05/2024 the state ombudsman offices moved to Fala.SP; the first is Fala.SP itself. Both are the São Paulo state ombudsman channel, so they are arguably equivalent resources. In any case nothing visible tells them apart: one sits in the unlabelled footer nav, the other in the unlabelled bottom pill bar (Ouvidoria / Transparência / SIC), both just say \"Ouvidoria\", and a sighted user would take them as the same service. By the R1 expectation (equivalent resources, or no visual information showing they differ) the pair passes, so elementFails is no. The live page has the same two links as the snapshot (captureDiffers no). False positive: Rampa never read either destination, so it could not see that they are the old and new entry points to the same state ombudsman service."
+    },
+    {
+      "fingerprint": "s598d2d52e3a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer image /img/regua-logos-eleitoral.png is one picture holding two logos: \"FUNDAÇÃO OSESP Organização Social de Cultura\" and the São Paulo state seal with \"GOVERNO DO ESTADO DE SÃO PAULO, Secretaria da Cultura, Economia e Indústria Criativas\" (crop, screenshot and the live file match). Its alt, \"Fundação Osesp - Organização Social de Cultura\", names only the first logo. claimTrue is no: the alt does not describe something missing from the image, because the Fundação Osesp logo is there. elementFails is yes: the alt drops the state government and Secretaria logo, which is the larger part of the image's text and area, and that information appears nowhere else on the page as text. The text alternative therefore does not serve the equivalent purpose (1.1.1). The live HTML has the same img and alt (captureDiffers no). Read in good faith, as the rubric reads it, an alt said to \"describe something the image does not show\" when it leaves out most of what the image conveys names this mismatch, so the label is true positive."
+    },
+    {
+      "fingerprint": "sd5410608e93",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the \"Ouvidoria\" link at the end of the footer nav (after Transparência Cultura). Both links named \"Ouvidoria\" have the same programmatic context: no title or aria-describedby, not in a list item, paragraph or table cell, and the heading just before each is the same h3 \"Sala São Paulo\" in main (the footer has no headings), so they form one R1 set; claimTrue is yes, since the hrefs differ (https://fala.sp.gov.br/ and https://www.ouvidoria.sp.gov.br/Portal/Default.aspx) and nothing in the context tells them apart. I opened both: the second is the old \"Sistema Informatizado da Rede de Ouvidorias do Estado de São Paulo\" (Controladoria Geral do Estado), which says that since 13/05/2024 the state ombudsman offices moved to Fala.SP; the first is Fala.SP itself. Both are the São Paulo state ombudsman channel, so they are arguably equivalent resources. In any case nothing visible tells them apart: one sits in the unlabelled footer nav, the other in the unlabelled bottom pill bar (Ouvidoria / Transparência / SIC), both just say \"Ouvidoria\", and a sighted user would take them as the same service. By the R1 expectation (equivalent resources, or no visual information showing they differ) the pair passes, so elementFails is no. The live page has the same two links as the snapshot (captureDiffers no). False positive: Rampa never read either destination, so it could not see that they are the old and new entry points to the same state ombudsman service."
+    },
+    {
+      "fingerprint": "3632db9dd1b8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "#name is the contact form's \"Nome\" field (placeholder \"ex.: João da Silva Gomes\", error message \"Informe seu nome completo\"), so it collects the user's own full name, which is in the Input Purposes list (name). The rendered snapshot and the live HTML both lack an autocomplete attribute, and no other technique identifies the purpose, so the field fails 1.3.5 (H98 not met). The snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError for this field, so the whole sentence holds (claimTrue yes). The live page has the same markup (captureDiffers no). The claim names the failure."
+    },
+    {
+      "fingerprint": "f19e9cee742a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header language switcher link \"English\" (href /salasp/en) has no lang attribute, and neither do its ancestors, so it inherits html lang=\"pt-BR\". \"English\" is an English word, not a proper name or a Portuguese vernacular word (Portuguese says \"Inglês\"), and Understanding 3.1.2's alternative-language-links example (H58) says to mark each language name with its language. The element fails 3.1.2, and the claim says why (claimTrue yes). The live HTML is the same: <a href=\"/salasp/en\">English</a> with no lang (captureDiffers no)."
+    },
+    {
+      "fingerprint": "d6ec756229d9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The placeholder \"ex.: João da Silva Gomes\" in the Nome field is visible text on a white field. The live CSS sets ::placeholder to the inherited text color (body hsl(220,4%,14%), about #222325) at opacity .6 and italic, which comes out near #7a7b7c on white, about 4.3:1. My pixel check of the screenshot found the darkest placeholder pixels around #838384, about 3.7-3.8:1. Both are below the 4.5:1 that 1.4.3 requires for 14px regular text, and placeholder text has no exception, so elementFails is yes. claimTrue is no: the ratio is about right, but the stated foreground #f1f1f1 is wrong (the text is mid-grey, and #f1f1f1 on white would be about 1.1:1). The cookie dialog in the capture does not cover this placeholder, and the live CSS matches (captureDiffers no). The claim names the real failure (placeholder contrast below 4.5:1), so it is a true positive."
+    },
+    {
+      "fingerprint": "sc96f5a622cb",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "#phone has a <label for=\"phone\">Telefone</label> and aria-label \"Telefone\", and its accessible name in the snapshot is \"Telefone\". \"(00)00000-0000\" is only the placeholder, which shows the format. So the claim that the label is \"(00)00000-0000\" is false of the capture (claimTrue no). The label \"Telefone\" says what to enter, so the field meets 2.4.6 (elementFails no). In the screenshot the cookie dialog covers the label, so the snapshot marks it as not visible, but the label is in the DOM and is visible on the live page, which has the same markup (captureDiffers no). The model had the name \"Telefone\" and judged the placeholder instead. Separately, autocomplete=\"phone\" is not a valid token (it should be \"tel\"), which is a 1.3.5 issue, not a 2.4.6 one."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "#email is the contact form's \"E-mail\" field for the user's own email address, which is in the Input Purposes list (email). It has type=\"email\" but no autocomplete attribute in either the snapshot or the live HTML. type=email gives the data format, not that the value is the user's own email, so the purpose is not programmatically identified (H98 not met) and the field fails 1.3.5. The snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError for this field, so the sentence holds (claimTrue yes). The live page has the same markup (captureDiffers no). The claim names the failure."
+    },
+    {
+      "fingerprint": "3d94aa4a9080",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header language switcher link \"Español\" (href /salasp/es, which opens the Spanish site) has no lang attribute, and neither do its ancestors, so it inherits html lang=\"pt-BR\". \"Español\" is a Spanish word (Portuguese says \"Espanhol\"), not a proper name or a vernacular word, and Understanding 3.1.2's alternative-language-links example (H58) says to mark each language name with its language, so the link fails 3.1.2. The claim says why (claimTrue yes). The live HTML is the same, with no lang (captureDiffers no)."
+    }
+  ]
+}

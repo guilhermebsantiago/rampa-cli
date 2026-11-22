@@ -1,0 +1,148 @@
+{
+  "page": "https://www.unp.br/cursos/graduacao/?modalidade=todos",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "0924efe69d8f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the Sou Estudante dropdown panel, a div with no role (generic) and aria-labelledby=\"dropdown09\". The snapshot and the live HTML both have eight header buttons with id=\"dropdown09\", and Chrome resolves the reference to the first one (the Cursos button), so the sentence is true of the capture. It is not a 4.1.2 failure of this element, though. The panel is a container, not a user interface component, and ARIA 1.2 prohibits names on the generic role, so screen readers do not normally announce its name. Also, every one of the eight buttons has aria-label=\"Fechar menu\", so the panel's name is \"Fechar menu\" (the captured browser name) whichever button the reference reaches. Unique ids would give exactly the same name, and the duplicate changes nothing users receive. Understanding 4.1.1 (WCAG 2.1) treats parsing as always satisfied for HTML, and says incorrect names caused by a duplicate id fall under other criteria. No incorrect name comes from the duplicate here. The real defect is elsewhere: the buttons' aria-label \"Fechar menu\" replaces their visible text, which fails 2.5.3 and makes their names misleading. The live HTML matches the capture."
+    },
+    {
+      "fingerprint": "6492f26b69bb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the required \"E-mail\" input in the \"Tem mais alguma dúvida?\" lead form, which asks for the visitor's own contact details. In both the snapshot (post-script DOM) and the live HTML, it has a label, a title and a type, but no autocomplete attribute. The field collects information about the user with a purpose listed in WCAG's Input Purposes (email), and HTML supports autocomplete, so 1.3.5 requires the purpose to be programmatically determinable, which H98 provides. The input type, label and title do not identify the purpose as the user's own data. The claim names exactly this failure, and the live page is unchanged."
+    },
+    {
+      "fingerprint": "a79423768455",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the Modalidades dropdown panel, a div with no role (generic) and aria-labelledby=\"dropdown09\". The snapshot and the live HTML both have eight header buttons with id=\"dropdown09\", and Chrome resolves the reference to the first one (the Cursos button), so the sentence is true of the capture. It is not a 4.1.2 failure of this element, though. The panel is a container, not a user interface component, and ARIA 1.2 prohibits names on the generic role, so screen readers do not normally announce its name. Also, every one of the eight buttons has aria-label=\"Fechar menu\", so the panel's name is \"Fechar menu\" (the captured browser name) whichever button the reference reaches. Unique ids would give exactly the same name, and the duplicate changes nothing users receive. Understanding 4.1.1 (WCAG 2.1) treats parsing as always satisfied for HTML, and says incorrect names caused by a duplicate id fall under other criteria. No incorrect name comes from the duplicate here. The real defect is elsewhere: the buttons' aria-label \"Fechar menu\" replaces their visible text, which fails 2.5.3 and makes their names misleading. The live HTML matches the capture."
+    },
+    {
+      "fingerprint": "d1bc03885349",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the Bolsas e Financiamentos dropdown panel, a div with no role (generic) and aria-labelledby=\"dropdown09\". The snapshot and the live HTML both have eight header buttons with id=\"dropdown09\", and Chrome resolves the reference to the first one (the Cursos button), so the sentence is true of the capture. It is not a 4.1.2 failure of this element, though. The panel is a container, not a user interface component, and ARIA 1.2 prohibits names on the generic role, so screen readers do not normally announce its name. Also, every one of the eight buttons has aria-label=\"Fechar menu\", so the panel's name is \"Fechar menu\" (the captured browser name) whichever button the reference reaches. Unique ids would give exactly the same name, and the duplicate changes nothing users receive. Understanding 4.1.1 (WCAG 2.1) treats parsing as always satisfied for HTML, and says incorrect names caused by a duplicate id fall under other criteria. No incorrect name comes from the duplicate here. The real defect is elsewhere: the buttons' aria-label \"Fechar menu\" replaces their visible text, which fails 2.5.3 and makes their names misleading. The live HTML matches the capture."
+    },
+    {
+      "fingerprint": "4387162b0b38",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the Formas de Entrada dropdown panel, a div with no role (generic) and aria-labelledby=\"dropdown09\". The snapshot and the live HTML both have eight header buttons with id=\"dropdown09\", and Chrome resolves the reference to the first one (the Cursos button), so the sentence is true of the capture. It is not a 4.1.2 failure of this element, though. The panel is a container, not a user interface component, and ARIA 1.2 prohibits names on the generic role, so screen readers do not normally announce its name. Also, every one of the eight buttons has aria-label=\"Fechar menu\", so the panel's name is \"Fechar menu\" (the captured browser name) whichever button the reference reaches. Unique ids would give exactly the same name, and the duplicate changes nothing users receive. Understanding 4.1.1 (WCAG 2.1) treats parsing as always satisfied for HTML, and says incorrect names caused by a duplicate id fall under other criteria. No incorrect name comes from the duplicate here. The real defect is elsewhere: the buttons' aria-label \"Fechar menu\" replaces their visible text, which fails 2.5.3 and makes their names misleading. The live HTML matches the capture."
+    },
+    {
+      "fingerprint": "pb97dfcc69cb",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Vestibular\" link in the Formas de Entrada mega-menu. Its text is \"Vestibular Faça o vestibular e conquiste seu futuro\", it has title=\"Vestibular\", and it goes to /formas-de-entrada/vestibular/, whose page is titled \"Vestibular UnP: veja como entrar na graduação!\". The link text alone gives its purpose. No other link shares that name with a different destination, so R1 does not apply. The live HTML has the same link. It meets 2.4.4, and Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "330393c04e1d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the required \"Celular\" input in the \"Tem mais alguma dúvida?\" lead form, which asks for the visitor's own contact details. In both the snapshot (post-script DOM) and the live HTML, it has a label, a title and a type, but no autocomplete attribute. The field collects information about the user with a purpose listed in WCAG's Input Purposes (tel), and HTML supports autocomplete, so 1.3.5 requires the purpose to be programmatically determinable, which H98 provides. The input type, label and title do not identify the purpose as the user's own data. The claim names exactly this failure, and the live page is unchanged."
+    },
+    {
+      "fingerprint": "807a8479c3cc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the Sou Candidato dropdown panel, a div with no role (generic) and aria-labelledby=\"dropdown09\". The snapshot and the live HTML both have eight header buttons with id=\"dropdown09\", and Chrome resolves the reference to the first one (the Cursos button), so the sentence is true of the capture. It is not a 4.1.2 failure of this element, though. The panel is a container, not a user interface component, and ARIA 1.2 prohibits names on the generic role, so screen readers do not normally announce its name. Also, every one of the eight buttons has aria-label=\"Fechar menu\", so the panel's name is \"Fechar menu\" (the captured browser name) whichever button the reference reaches. Unique ids would give exactly the same name, and the duplicate changes nothing users receive. Understanding 4.1.1 (WCAG 2.1) treats parsing as always satisfied for HTML, and says incorrect names caused by a duplicate id fall under other criteria. No incorrect name comes from the duplicate here. The real defect is elsewhere: the buttons' aria-label \"Fechar menu\" replaces their visible text, which fails 2.5.3 and makes their names misleading. The live HTML matches the capture."
+    },
+    {
+      "fingerprint": "d29c4d56dfd1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the A UnP dropdown panel, a div with no role (generic) and aria-labelledby=\"dropdown09\". The snapshot and the live HTML both have eight header buttons with id=\"dropdown09\", and Chrome resolves the reference to the first one (the Cursos button), so the sentence is true of the capture. It is not a 4.1.2 failure of this element, though. The panel is a container, not a user interface component, and ARIA 1.2 prohibits names on the generic role, so screen readers do not normally announce its name. Also, every one of the eight buttons has aria-label=\"Fechar menu\", so the panel's name is \"Fechar menu\" (the captured browser name) whichever button the reference reaches. Unique ids would give exactly the same name, and the duplicate changes nothing users receive. Understanding 4.1.1 (WCAG 2.1) treats parsing as always satisfied for HTML, and says incorrect names caused by a duplicate id fall under other criteria. No incorrect name comes from the duplicate here. The real defect is elsewhere: the buttons' aria-label \"Fechar menu\" replaces their visible text, which fails 2.5.3 and makes their names misleading. The live HTML matches the capture."
+    },
+    {
+      "fingerprint": "d8a1a981cd92",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the required \"Nome Completo\" input in the \"Tem mais alguma dúvida?\" lead form, which asks for the visitor's own contact details. In both the snapshot (post-script DOM) and the live HTML, it has a label, a title and a type, but no autocomplete attribute. The field collects information about the user with a purpose listed in WCAG's Input Purposes (name), and HTML supports autocomplete, so 1.3.5 requires the purpose to be programmatically determinable, which H98 provides. The input type, label and title do not identify the purpose as the user's own data. The claim names exactly this failure, and the live page is unchanged."
+    },
+    {
+      "fingerprint": "8d07e0679622",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the course search field. It has no label, so its placeholder \"Pesquise aqui o seu curso de interesse\" is its only visible text and gives its accessible name. The live CSS uses the Tailwind preflight rule ::placeholder{color:color-mix(in oklab,currentcolor 50%,transparent)} on a transparent input over the #fffcfa section. The screenshot pixels of the glyphs are rgb(128,126,125) on rgb(255,252,250), about 3.95:1, which matches Rampa's 3.97:1. The text is 20px at weight 300, which is not large text, so 4.5:1 is required. Placeholder text is text under 1.4.3, and it is not incidental here. The claim names this failure, and the live stylesheet gives the same color."
+    },
+    {
+      "fingerprint": "s75d16d4c7f0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the third link of the header language switcher, shown as \"POR ENG ESP\" next to the Menu button. Its text is \"esp\" (CSS shows \"ESP\"), with href=\"#\" and no title or ARIA name; a script uses it to translate the page into Spanish. Under this round's context rule, its list item holds only \"esp\", no heading comes before it, and it has no description, so the claim holds of the capture: nothing in its programmatic context says what it does. Only the sibling links POR and ENG and its place in the header suggest a language choice, and they are not counted context. On a Brazilian university site, \"ESP\" alone could also be read as an abbreviation for something else (especialização, say), so I lean towards a failure. Competent auditors reasonably disagree about whether a language abbreviation like ESP is a recognisable enough link text for a language switch, though, so the label is uncertain. The list is rendered by script (it is not in the server HTML), and the full-page screenshot left the header blank. The snapshot holds the same link with layout bounds, so nothing I found differs in a way that matters."
+    },
+    {
+      "fingerprint": "5c31780a4cf8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the footer e-MEC link. It wraps a figure that holds an img with alt=\"QrCode Emec UnP\" and a visible figcaption \"Acesse aqui o cadastro da UnP no e-MEC\", and the link also has a title with that same text. The live HTML is identical. The captured Chrome accessibility tree gives the link an empty name with no name source, while it named the other links normally. So the claim is true of the capture, apparently because Chromium does not take a figure's content into a link's name. By the accessible name computation, the name comes from the author-supplied content (the alt and the figcaption, through recursive name from content) and, failing that, from the title. An auditor reading the markup, or using an accname-based tool such as axe, would find a name and pass 4.1.2. An auditor testing Chrome's tree or a screen reader on Chrome may hear only \"link\" and fail it as not accessibility-supported. I could not run a browser to confirm what Chrome or Edge users get today, so elementFails is cannot_tell and the label is uncertain."
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "page": "https://grist.org/energy/what-congress-bill-to-speed-up-energy-projects-would-mean-for-you-permitting-reform-baaja/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "sf984c421244",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "In-prose link in the 'What would this bill do?' section: 'Critics say it would reduce public scrutiny and make it [harder for communities and tribes] to identify environmental harms...'. The href is a Sierra Club press release whose address reads 'sierra-club-baaja-remains-fundamentally-flawed-despite-manager-s-amendment' (the site refused my automated fetch; the address settles it). Read with its sentence, the link is a citation to a critic's statement, and that is where it leads, so the claimed mismatch does not hold. Rampa did not read the destination but had the href and the sentence. The live paragraph is identical to the snapshot."
+    },
+    {
+      "fingerprint": "s8c680a23ab0",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Link in 'The advantage would likely tip toward renewable energy, according to [projections from some organizations], though predicting future energy markets is tricky.' It leads to a C2ES press release, 'New Nationwide Analysis: Bipartisan Transmission Reforms Would Boost Clean Energy, Cut Power Sector Emissions...', which is an organization's projection, as the text and its sentence say. The link text matches its destination; 2.4.4 is met. The live page has the same paragraph and href."
+    },
+    {
+      "fingerprint": "s71d9ab00173",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Link in 'Supporters say that would prevent costly delays, which can be particularly consequential for land-intensive [renewable energy projects].' It leads to the Bipartisan Policy Center fact sheet 'The Environmental Case for Permitting Reform', which argues that permitting delays hold back clean generation, the supporters' claim the sentence makes. In its sentence, a programmatically determined context, the link reads as the source for that claim, so its purpose can be determined and it matches. The live paragraph and href are the same as in the snapshot."
+    },
+    {
+      "fingerprint": "s23b58395cb2",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An h4 'Looking Forward' in a newsletter card under the h4 'The climate news you need, right in your inbox. Always free.', with the eyebrow 'Fridays' and the text 'Climate news without the doom. Learn about climate solutions and how to be part of them. Sign up'. The heading is the newsletter's name, and the card under it is about that newsletter, so it describes its topic as 2.4.6 asks (Understanding 2.4.6 lets headings be short). The claim that it says nothing about the content is false. The screenshot and live HTML show the same cards."
+    },
+    {
+      "fingerprint": "e02a168ccc27",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Image link (tabindex=-1) in the 'Latest' rail wrapping figure > img alt='Collage of person holding toddler's hands on the left and smoky imagery on the right', beside a headline link to the same article. The CDP tree in the snapshot gives the link no name while the img inside has its alt as its name. I reproduced this in Edge 158 headless (Chromium): an img with alt inside a figure inside a link gives the link an empty name, while the same img without the figure, or inside a div, gives the alt. So the empty name is Chromium's real computation, not a collector artefact. Against it: under the accname algorithm (recursion into descendants, steps 2F/2H) and in spec-based checkers such as axe, the figure's img alt contributes, so the link would be named by the alt; screen readers in browse mode also read the inner graphic, so 'announces only link' overstates it. Whether spec-conformant markup that the dominant engine fails to name counts as a 4.1.2 failure is a point competent auditors would dispute, so I cannot say the element fails, and the label is uncertain. Even if the alt were taken as the name, it describes the photo rather than the destination, which is a 1.1.1/2.4.4 matter (R2), not this claim. The live HTML has the same markup (tabindex=-1, figure-wrapped img, no aria-label or title); images were lazy-loaded (state broken in the snapshot, loaded in the screenshot), which does not change the name, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "s2d704b7bbe5",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An h4 'The Weekly' in a newsletter card under the h4 'The climate news you need, right in your inbox. Always free.', with the eyebrow 'Saturdays' and the text 'A weekend roundup of Grist stories, handpicked by our editors. Catch up on the climate news that matters. Sign up'. The heading names the newsletter the card is about, which describes its topic under 2.4.6; the claim that it says nothing about the content is false. Live HTML and screenshot match."
+    },
+    {
+      "fingerprint": "s861020ed5f4",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Link in '[Rhodium Group], an economic research firm, projects natural gas pipelines would continue advancing...'. It leads to Rhodium Group's 'Estimating the US Energy System Impacts of the Bipartisan American Affordability and Jobs Act', the projection the sentence reports. The link text names the source and the sentence says what of theirs it is, so the purpose can be determined and matches the destination. Live paragraph and href unchanged."
+    },
+    {
+      "fingerprint": "605d045ba403",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Image link (tabindex=-1) in the 'Energy' rail wrapping figure > img alt='Houses surround grass and a path', beside a headline link to the same article. The CDP tree in the snapshot gives the link no name while the img inside has its alt as its name. I reproduced this in Edge 158 headless (Chromium): an img with alt inside a figure inside a link gives the link an empty name, while the same img without the figure, or inside a div, gives the alt. So the empty name is Chromium's real computation, not a collector artefact. Against it: under the accname algorithm (recursion into descendants, steps 2F/2H) and in spec-based checkers such as axe, the figure's img alt contributes, so the link would be named by the alt; screen readers in browse mode also read the inner graphic, so 'announces only link' overstates it. Whether spec-conformant markup that the dominant engine fails to name counts as a 4.1.2 failure is a point competent auditors would dispute, so I cannot say the element fails, and the label is uncertain. Even if the alt were taken as the name, it describes the photo rather than the destination, which is a 1.1.1/2.4.4 matter (R2), not this claim. The live HTML has the same markup (tabindex=-1, figure-wrapped img, no aria-label or title); images were lazy-loaded (state broken in the snapshot, loaded in the screenshot), which does not change the name, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "7ff063628278",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The title 'What Congress’ bill to speed up energy projects would mean for you | Grist' repeats the article's h1 word for word and names the site, so it describes the page's topic as 2.4.2 asks. The claim is false. The live page has the same title."
+    },
+    {
+      "fingerprint": "s7742127bcba",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Link 'clean' in 'Supporters include labor unions, [clean] and fossil energy companies, a few tribes...'. It leads to Advanced Energy United's 'Clean Energy Industry United in Support of BAAJA'. The one-word text is weak alone, but its sentence, a programmatically determined context, makes it read as the source showing that clean energy companies support the bill, which is what the destination is. So 'nothing around it does' is false and 2.4.4 is met (only 2.4.9, not judged here, would ask for more). Live paragraph identical."
+    },
+    {
+      "fingerprint": "sf1c0a0a1e5b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Link in 'Supporters include ... [centrist policy organizations], and some climate advocacy groups.' It leads to Third Way's memo 'Polling: Americans Want Permitting Reform'. Third Way calls itself a think tank that champions moderate policy, so the link leads to a centrist policy organization's pro-reform piece, as the sentence says. The link text matches; 2.4.4 is met. Live paragraph identical."
+    },
+    {
+      "fingerprint": "pd621d71ed05",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Link 'Al Gore' in 'Climate movement veterans [Al Gore] and Genevieve Guenther have also opposed the current legislation...', leading to a post on Al Gore's X account (x.com/algore/status/...; I did not open X, which needs a login, but the address settles it). The link text and its sentence show that it leads to his statement, so its purpose can be determined. Rampa was right to report nothing. Same markup on the live page."
+    },
+    {
+      "fingerprint": "sb74717ca6c7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Link '$15/mo' in a list item of its own in the sticky donation bar (ul: '$15/mo', '$25/mo', 'Other'). It leads to Grist's donation form with $15 a month preselected. It has no aria-label, title or aria-describedby. Its list item holds only that text, and the only headings before it are hidden cookie-dialog headings. The words that make it a donation are the span 'All Donations DOUBLED' beside the list and the separate 'Donate' link, and neither is in this rubric's context. The text alone gives an amount and a frequency, not that this is a donation to Grist, and sighted users see 'All Donations DOUBLED', so the link is not ambiguous to users in general. The bar was off-screen when captured (it slides in on scroll), but it is focusable and in the accessibility tree, and the live markup is identical. The claim names this failure."
+    },
+    {
+      "fingerprint": "4d45975a0308",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The 'Next Article' image link (tabindex=-1) wrapping figure > img alt='Senators Mike Lee, Shelley Moore Capito, Sheldon Whitehouse, and Martin Heinrich hold a news conference on the Bipartisan American Affordability and Jobs Act.', above a headline link to the same article. The CDP tree in the snapshot gives the link no name while the img inside has its alt as its name. I reproduced this in Edge 158 headless (Chromium): an img with alt inside a figure inside a link gives the link an empty name, while the same img without the figure, or inside a div, gives the alt. So the empty name is Chromium's real computation, not a collector artefact. Against it: under the accname algorithm (recursion into descendants, steps 2F/2H) and in spec-based checkers such as axe, the figure's img alt contributes, so the link would be named by the alt; screen readers in browse mode also read the inner graphic, so 'announces only link' overstates it. Whether spec-conformant markup that the dominant engine fails to name counts as a 4.1.2 failure is a point competent auditors would dispute, so I cannot say the element fails, and the label is uncertain. Even if the alt were taken as the name, it describes the photo rather than the destination, which is a 1.1.1/2.4.4 matter (R2), not this claim. The live HTML has the same markup (tabindex=-1, figure-wrapped img, no aria-label or title); images were lazy-loaded (state broken in the snapshot, loaded in the screenshot), which does not change the name, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "s09f725bf2e9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Header nav link 'Follow' (href '#nav__item--link-follows-container'). It opens a dropdown of social follow links ('Follow us on Facebook'...) and a newsletter form, which was hidden at capture and so is not context. In the site header next to 'Donate', 'Follow' states its purpose: follow Grist. The screenshot shows only the plain word 'Follow', so sighted users get no more than screen reader users, and any vagueness left would fall under the exception for links ambiguous to users in general. 2.4.4 is met either way. Live markup is the same; a missing aria-expanded on a disclosure would be a 4.1.2 matter, not this one."
+    },
+    {
+      "fingerprint": "s6d4bc2ee412",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Link 'concern' in '...some — including House Energy and Commerce Chair Brett Guthrie of Kentucky — have signaled [concern] over transmission provisions.' It leads to a Politico live update whose address reads 'guthrie-pushing-for-grid-reliability-changes-to-permitting-bill' (Politico refused my automated fetch; the address settles it). The sentence, a programmatically determined context, makes the link the source for Guthrie's concern, so 'nothing around it does' is false and the purpose matches the destination. Live paragraph identical."
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "page": "https://www.titanicbelfast.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "61ea0d369f01",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the map under 'Getting here': Titanic Belfast, the Slipways, SS Nomadic, the SSE Arena, Queen's Road, Sydenham Road, parking, and the Titanic Quarter rail station. Its alt 'Untitled Design' is a default file name (the image file is untitled-design.jpg), and it names nothing the map shows, so the claim holds of the capture. I looked for reasons it could pass. The text beside it gives only a general location ('heart of Titanic Quarter, short walk from the city centre'), not the map's landmarks and roads. The Google Maps link is another control, not a text alternative. Even if the map were taken as decorative, a non-null placeholder alt is still announced, so it cannot be ignored. This is F30 (placeholder or file name used as the alternative). The live HTML has the same img and alt. Read in good faith, the claim names the placeholder failure."
+    },
+    {
+      "fingerprint": "900f9c8750db",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the first slide (slick-slide00, the current slide at capture) of the Experiences carousel: two visitors at an illuminated display case in the Titanic Experience, with the caption 'The Titanic Experience'. Its alt 'Boomtown 2 nov24' is a media-library label: a gallery name, an index and a date. I checked whether 'Boomtown' could carry the meaning, since Boomtown Belfast is a real gallery of the Experience and the posters in the photo fit it. But '2 nov24' is file noise, and the string as a whole does not convey what the photo shows. If the image is informative, this is F30. If it only supplements the caption, it should have a null alt, and this announced label cannot be ignored (Situation F). Either way it fails 1.1.1. The live HTML has the same alt. The screenshot shows a later slide only because the carousel auto-advances, which does not affect this claim. The claim names the failure."
+    },
+    {
+      "fingerprint": "pedab8eec862",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the ear icon in the Visitor Information grid tile, with alt 'Multimedia Guide'. The tile's visible label 'Multimedia Guide' follows it. The alt identifies what the icon stands for. It repeats the adjacent text, which is redundant, and a null alt would be better practice, but no documented 1.1.1 failure covers a correct alternative that repeats nearby text. The tiles behave as tabs but are plain divs, which raises a possible 4.1.2/2.1.1 issue, not a 1.1.1 one. The live HTML matches the capture. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "b50a56e8db72",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "'Be there' is the huge storytelling watermark behind the 'Offers and Events' heading. The live CSS sets .c-section-grey .c-media-text-storytelling-text{color:#fff} over the #f7f6f5 section background, and the screenshot shows the faint white letters, so the measured roughly 1.1:1 against a 3:1 large-text requirement is accurate and the capture matches the live page. The concrete reason to doubt a failure is 1.4.3's exception for text that is pure decoration. The CSS makes the word a near-invisible background ornament on purpose (the same pattern as 'Her story' on dark sections). The site's own .u-highcontrast rule hides it entirely, which shows it is meant as decoration. Against that, the text is not aria-hidden, and it reads as a slogan rather than words that could be swapped freely. Competent auditors would reasonably disagree on whether the exception applies, so the label is uncertain."
+    },
+    {
+      "fingerprint": "p23de3bcd6fb",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the bed icon in the Visitor Information grid, with alt 'Accommodation', followed by the visible label 'Accommodation'. The alt correctly identifies what the icon stands for. Repeating the adjacent text is redundant but not a 1.1.1 failure. The tab-like divs are a 4.1.2/2.1.1 matter, not 1.1.1. The live HTML matches the capture. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "5a9f1d2dd220",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of the link to /visitor-information/offers-events/white-star-premium-pass. Its alt 'Titanica BQ' names the Titanica sculpture in the photo, plus a code. In the live HTML the link also holds an empty span.c-arrow, which adds no text, and the link has no aria-label or title, so the link's name is 'Titanica BQ'. The destination page is 'White Star Premium Pass', and the alt does not identify it. Under H30 and the rubric's R2, the h3 'White Star Premium Pass' before the card may help 2.4.4, but it does not cure 1.1.1 for an image that is a link's only content. I found no technique that makes this pass. The live page matches the capture. The claim names the failure."
+    },
+    {
+      "fingerprint": "p7cfb36aaecf",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the fork-and-knife icon in the Visitor Information grid, with alt 'Eat & Shop', followed by the visible label 'Eat & Shop'. The alt correctly states what the icon stands for. Repeating the adjacent text is redundant but not a 1.1.1 failure. The live HTML matches the capture. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "s52b981973ab",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the top-level main navigation link 'Explore' (shown uppercase by CSS) to /explore. The destination's title is 'Explore - Titanic Belfast' and its h1 is 'Explore', so the link text is the name of the section page it opens. Understanding 2.4.4 accepts the destination's name as link text. The link also sits in the site's primary navigation, next to its submenu of Explore pages (SS Nomadic, Slipways & Plaza, Dining, The Titanic Store, Titanic Quarter). The claim that the text does not tell where the link goes is therefore false: the link passes 2.4.4. Rampa had read the destination and still judged it wrong. The live markup matches the capture."
+    },
+    {
+      "fingerprint": "sa1b69b286b3",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the header logo image, the only content of a link to '/', with alt 'Titanic Belfast logo'. The destination is the home page, titled 'Titanic Belfast'. The alt names the site the link opens, which is how H30's own example works: the linked image's alternative gives the destination's name ('Smallville Times'). By R2's first test, an alternative that names the page lets users tell where the link goes, and it then passes 1.1.1. 'Titanic Belfast home', as in the WAI tutorial's 'W3C home' example, would be better, and the word 'logo' is surplus. But demanding that wording is stricter than the criterion. The live HTML matches the capture."
+    }
+  ]
+}

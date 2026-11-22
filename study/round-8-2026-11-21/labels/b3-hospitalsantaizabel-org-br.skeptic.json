@@ -1,0 +1,113 @@
+{
+  "page": "https://www.hospitalsantaizabel.org.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "pd2d49a164e7",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the 'Pesquisa' link in the 'Ensino e Pesquisa' submenu of the main navigation, href /ensino-e-pesquisa/pesquisa/ (live title 'Pesquisa | Hospital Santa Izabel Salvador'). The text names the destination by itself, and its parent list item 'Ensino e Pesquisa' (H81) adds the section. The only other link named 'Pesquisa' (the mobile copy of the menu) goes to the same address, so R1 does not apply. The live HTML has the same link in the same list. It meets 2.4.4, so Rampa missed nothing."
+    },
+    {
+      "fingerprint": "s054e49b7272",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the top-level menu item 'Ensino e Pesquisa' (href='#'), the parent of a dropdown sub-menu that the live theme CSS shows on hover, with a down-arrow indicator. Read literally, the claim holds of the capture: '#' leads to no Ensino e Pesquisa page. But the link's purpose is to head and reveal the 'Ensino e Pesquisa' section of the menu, and its text plus its list item (which holds the nested sub-menu) describe that purpose. A link-styled disclosure trigger with href='#' may raise 4.1.2 (role/state) or 2.1.1 concerns, but it is not a 2.4.4 failure. The live HTML is identical. The model had the nested list in the ancestors and still read the '#' placeholder as a mismatched destination."
+    },
+    {
+      "fingerprint": "c94a8f744737",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the home-page search input. Its placeholder 'Pesquise aqui...' is its only visible label (there is no label element) and its accessible name. The live stylesheet sets `.busca-home .pesquisar form{background:#92c665}` and `input::placeholder{color:#fff}`, and in the screenshot the placeholder pixels are #ffffff on #92c665, which is 2.00:1 at 16px/400, below 4.5:1. I looked for reasons it could pass and found none. It is not inactive or decorative text, there is no logotype, and the capture shows full styling that matches the live CSS. As the field's only visible label, the placeholder is text that 1.4.3 covers."
+    },
+    {
+      "fingerprint": "p0292b54e398",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the thumbnail photo (an award ceremony on stage) in a news card. The card's link also holds the date and the headline as text (an h3). The alt (and title) repeat the headline, 'Hospital Santa Izabel é premiado com o Selo de Excelência Anahp durante Conahp 2026'. Because the image is not the link's only content, the link's purpose comes from the text. The alt names the story the photo illustrates, which serves the image's purpose in the card. It duplicates the headline, which is redundant (H2 would advise a null alt), but that is not a 1.1.1 failure. The live HTML has the same img and alt. Rampa missed nothing."
+    },
+    {
+      "fingerprint": "f3756b533fe4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer Facebook link: a 20px white SVG (a white disc with the 'f' cut out) in a 44px #92c665 circle (live CSS `.redes a{background:#92c665}`, and the SVG fill is #fff), on a #f8f8f7 page. Its name comes only from title='Facebook' and the img has alt=''. Measured from the screenshot, white on #92c665 is 2.00:1 and the circle on the page is 1.88:1, so nothing in the icon reaches 3:1. The icon is the only visible thing that identifies which network the link goes to, since the title shows only on hover. The logo exemption in Understanding 1.4.11 does not apply: white on light green is the site's own colour choice, not a brand-mandated one, and Understanding says such an author-chosen low-contrast presentation is not exempt. The hover colour (#009148) does not cure the default state. The live page matches the capture."
+    },
+    {
+      "fingerprint": "e729ce45278f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer WhatsApp link: a white SVG glyph (icon-what.svg, alt='') in a #92c665 circle (live CSS `.redes a{background:#92c665}`), named only by title='Whatsapp'. White on #92c665 is 2.00:1, and the circle against the #f8f8f7 page is 1.88:1. The glyph is the only visible cue for which channel the link opens, so it is required for understanding. The logo exemption does not hold, because Understanding 1.4.11 excludes author-chosen low-contrast presentations, and white on the site's light green is not WhatsApp's brand rendering. Only the hover state changes colour. The live HTML and CSS match the capture."
+    },
+    {
+      "fingerprint": "fdb98f93422c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "yes"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the description paragraph of the DPOnet cookie banner (shadow DOM in #dpoeasy-banner). In the capture its text is English and nothing in the shadow tree carries lang, so it inherits html lang='pt-br'. The claim is true of the capture. However, the live banner.js picks its strings from navigator.language when no locale is configured: an exact or base-language match among pt-br, en-us and es-es, falling back to pt-br. It ships 'Usamos cookies para personalizar sua experiência...' for pt-BR. Rampa's browser had an English locale, so it got the English strings. A visitor with a Portuguese browser, the site's audience, receives Portuguese text that matches the page language and passes. A visitor with an en-* browser gets unmarked English and would fail. Which variant counts as 'the page users receive' is a call auditors would reasonably split on, so the label is uncertain."
+    },
+    {
+      "fingerprint": "838a77b7387b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer YouTube link: a white SVG glyph (icon-yout.svg, alt='') in a 44px #92c665 circle, named only by title='Youtube'. The pixels show white on #92c665 at 2.00:1, and the circle against the #f8f8f7 background is 1.88:1. No part of the icon reaches 3:1. The glyph is the only visible identification of the link's target, so it is required for understanding. The logo exemption is ruled out because this white-on-light-green rendering is the author's choice, not YouTube's brand colours (Understanding 1.4.11). The live CSS (`.redes a{background:#92c665}`, hover #009148) matches the capture."
+    },
+    {
+      "fingerprint": "pea7795dba0b",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the line-art icon of an adult holding a child on the 'Pediatria' specialty card. The link also contains the h3 'Pediatria' and a description, so the image is not its only content. alt='Pediatria' names what the illustration stands for, which is an adequate equivalent for this illustrative icon. Repeating the heading is redundant but not a 1.1.1 failure. The live HTML has the same alt. Rampa missed nothing."
+    },
+    {
+      "fingerprint": "sbc396fd5124",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the home-page search input, whose only label is the placeholder 'Pesquise aqui...' ('Search here'), next to the button 'Pesquisar Agora'. 2.4.6 asks that a label describe the control's purpose. 'Pesquise aqui' plainly says the field is the site search and that users type their search terms, so the claim that it does not say what to enter is false. Asking a search box's label to spell out what kind of term to type is a stricter rule than 2.4.6. The lack of a persistent programmatic label belongs to other criteria (1.3.1, 3.3.2), not 2.4.6. The live HTML is the same."
+    }
+  ]
+}

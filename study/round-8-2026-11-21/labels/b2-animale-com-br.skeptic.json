@@ -1,0 +1,211 @@
+{
+  "page": "https://www.animale.com.br/new-collection/acessorios",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "fb09988e2009",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The newsletter E-mail field in the footer, whose placeholder \"E-mail\" is its visible label, so the placeholder is text under 1.4.3 (11px, weight 300, needs 4.5:1). The footer stylesheet the page loads (css chunk 0d5b24039af96206, footer chunk 2245) sets .Newsletter_emailInput__XLU6p::placeholder{color:#707070} on a transparent input over the #f7f7f7 footer. The screenshot agrees: zoomed, the placeholder glyphs are drawn with subpixel (coloured-fringe) antialiasing, every channel bottoms out at exactly 0x70 and the fully covered pixels are #707070, while #707097 is one of the fringe colours (#977070, #7083b1, #707097). #707070 on #f7f7f7 is 4.62:1, above 4.5:1. claimTrue: no, the stated colour and 4.40:1 are an antialiasing artefact of the pixel sample, not the text colour. elementFails: no. captureDiffers: no, the live CSS and the capture agree. Cause: the rule had a correct screenshot and took a fringe pixel for the text colour."
+    },
+    {
+      "fingerprint": "e3e8ac8929ea",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the first slide of the product photo carousel that fills the image link to /sandalia-de-couro-snake-salto-pino-preto-.../p (Sandalia De Couro Snake Salto Pino); its alt is \"1\" and the enclosing link's aria-label is also \"1\", so nothing gives the image a name that describes the link's function or the picture. claimTrue: the crop shows a model wearing or carrying the product, nothing that \"1\" refers to. elementFails: an image that is the only content of a link needs an alternative naming its purpose (H30, Situation C); \"1\" is a placeholder (F30), and the separate product-name link below is another control, so it does not cure 1.1.1 (R2). Looking for a way out: the image cannot be treated as decorative because the link has no other usable name (its aria-label is the same \"1\"). The live page loads (HTTP 200) and is client-rendered; its shelf code (chunk 1172) sets the img alt and the link aria-label from the catalogue image alternateName, and the page data still gives \"1\" as the first image's alternateName for this product, so the capture matches what users receive. Read in good faith, the claim (an alternative that does not correspond to the image) points at this defect, as the rubric's example says."
+    },
+    {
+      "fingerprint": "p73154206976",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The image is the only content of a footer link to https://www.offpremium.com.br, after the text \"Outras colecoes em:\"; the crop shows the wordmark OFFPREMIUM and the alt is \"Logo Off Premium\". The alternative carries the logo's text and names the destination site (H30: the destination's name), so 1.1.1 is met; the word \"Logo\" is redundant but not a failure. The live page data still has offPremium.alt \"Logo Off Premium\", so the capture matches. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "s394e5520eb9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A 36px line icon at the start of the footer link \"Personal Shopper - Atendimento personalizado...\" (WhatsApp). The crop shows the outline of a woman's head and hair, and the alt \"Uma mulher\" describes exactly that, so it is not a label; claimTrue: no. The link's own text gives its purpose, so the image needs no functional alternative; an accurate short description of a supporting icon meets 1.1.1. The strongest case against the element is that the icon is redundant and could be alt=\"\" (the browser name of the link begins \"Uma mulher Personal Shopper...\"), which most auditors treat as best practice, and in any case the claim does not name that: it asks for the alternative to convey more, which would only repeat the link text. elementFails: no. The live page data still has personalShopper.alt \"Uma mulher\"; captureDiffers: no."
+    },
+    {
+      "fingerprint": "0da475557e3d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the first slide of the product photo carousel that fills the image link to /brinco-dourado-retangulo-ouro-.../p (Brinco Dourado Retangulo); its alt is \"1\" and the enclosing link's aria-label is also \"1\", so nothing gives the image a name that describes the link's function or the picture. claimTrue: the crop shows a model wearing or carrying the product, nothing that \"1\" refers to. elementFails: an image that is the only content of a link needs an alternative naming its purpose (H30, Situation C); \"1\" is a placeholder (F30), and the separate product-name link below is another control, so it does not cure 1.1.1 (R2). Looking for a way out: the image cannot be treated as decorative because the link has no other usable name (its aria-label is the same \"1\"). The live page loads (HTTP 200) and is client-rendered; its shelf code (chunk 1172) sets the img alt and the link aria-label from the catalogue image alternateName, and the page data still gives \"1\" as the first image's alternateName for this product, so the capture matches what users receive. Read in good faith, the claim (an alternative that does not correspond to the image) points at this defect, as the rubric's example says."
+    },
+    {
+      "fingerprint": "ccc1193e14f1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the first slide of the product photo carousel that fills the image link to /bolsa-de-lona-ilhos-vichy-.../p (Bolsa De Lona Ilhos); its alt is \"1\" and the enclosing link's aria-label is also \"1\", so nothing gives the image a name that describes the link's function or the picture. claimTrue: the crop shows a model wearing or carrying the product, nothing that \"1\" refers to. elementFails: an image that is the only content of a link needs an alternative naming its purpose (H30, Situation C); \"1\" is a placeholder (F30), and the separate product-name link below is another control, so it does not cure 1.1.1 (R2). Looking for a way out: the image cannot be treated as decorative because the link has no other usable name (its aria-label is the same \"1\"). The live page loads (HTTP 200) and is client-rendered; its shelf code (chunk 1172) sets the img alt and the link aria-label from the catalogue image alternateName, and the page data still gives \"1\" as the first image's alternateName for this product, so the capture matches what users receive. Read in good faith, the claim (an alternative that does not correspond to the image) points at this defect, as the rubric's example says."
+    },
+    {
+      "fingerprint": "2ed13bbf2005",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the first slide of the product photo carousel that fills the image link to /cinto-de-couro-minibold-branco-nata-.../p (Cinto De Couro Minibold); its alt is \"1\" and the enclosing link's aria-label is also \"1\", so nothing gives the image a name that describes the link's function or the picture. claimTrue: the crop shows a model wearing or carrying the product, nothing that \"1\" refers to. elementFails: an image that is the only content of a link needs an alternative naming its purpose (H30, Situation C); \"1\" is a placeholder (F30), and the separate product-name link below is another control, so it does not cure 1.1.1 (R2). Looking for a way out: the image cannot be treated as decorative because the link has no other usable name (its aria-label is the same \"1\"). The live page loads (HTTP 200) and is client-rendered; its shelf code (chunk 1172) sets the img alt and the link aria-label from the catalogue image alternateName, and the page data still gives \"1\" as the first image's alternateName for this product, so the capture matches what users receive. Read in good faith, the claim (an alternative that does not correspond to the image) points at this defect, as the rubric's example says."
+    },
+    {
+      "fingerprint": "cd08175b19af",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the first slide of the product photo carousel that fills the image link to /cinto-de-couro-mini-tresset-bordeaux-.../p (Cinto De Couro Mini Tresset); its alt is \"1\" and the enclosing link's aria-label is also \"1\", so nothing gives the image a name that describes the link's function or the picture. claimTrue: the crop shows a model wearing or carrying the product, nothing that \"1\" refers to. elementFails: an image that is the only content of a link needs an alternative naming its purpose (H30, Situation C); \"1\" is a placeholder (F30), and the separate product-name link below is another control, so it does not cure 1.1.1 (R2). Looking for a way out: the image cannot be treated as decorative because the link has no other usable name (its aria-label is the same \"1\"). The live page loads (HTTP 200) and is client-rendered; its shelf code (chunk 1172) sets the img alt and the link aria-label from the catalogue image alternateName, and the page data still gives \"1\" as the first image's alternateName for this product, so the capture matches what users receive. Read in good faith, the claim (an alternative that does not correspond to the image) points at this defect, as the rubric's example says."
+    },
+    {
+      "fingerprint": "fbaf0d6a9e41",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the first slide of the product photo carousel that fills the image link to /mule-de-couro-tresset-nude-.../p (Mule De Couro Tresset, nude); its alt is \"1\" and the enclosing link's aria-label is also \"1\", so nothing gives the image a name that describes the link's function or the picture. claimTrue: the crop shows a model wearing or carrying the product, nothing that \"1\" refers to. elementFails: an image that is the only content of a link needs an alternative naming its purpose (H30, Situation C); \"1\" is a placeholder (F30), and the separate product-name link below is another control, so it does not cure 1.1.1 (R2). Looking for a way out: the image cannot be treated as decorative because the link has no other usable name (its aria-label is the same \"1\"). The live page loads (HTTP 200) and is client-rendered; its shelf code (chunk 1172) sets the img alt and the link aria-label from the catalogue image alternateName, and the page data still gives \"1\" as the first image's alternateName for this product, so the capture matches what users receive. Read in good faith, the claim (an alternative that does not correspond to the image) points at this defect, as the rubric's example says."
+    },
+    {
+      "fingerprint": "93530a9517f0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the first slide of the product photo carousel that fills the image link to /cinto-de-couro-fino-bold-preto-.../p (Cinto De Couro Fino Bold); its alt is \"1\" and the enclosing link's aria-label is also \"1\", so nothing gives the image a name that describes the link's function or the picture. claimTrue: the crop shows a model wearing or carrying the product, nothing that \"1\" refers to. elementFails: an image that is the only content of a link needs an alternative naming its purpose (H30, Situation C); \"1\" is a placeholder (F30), and the separate product-name link below is another control, so it does not cure 1.1.1 (R2). Looking for a way out: the image cannot be treated as decorative because the link has no other usable name (its aria-label is the same \"1\"). The live page loads (HTTP 200) and is client-rendered; its shelf code (chunk 1172) sets the img alt and the link aria-label from the catalogue image alternateName, and the page data still gives \"1\" as the first image's alternateName for this product, so the capture matches what users receive. Read in good faith, the claim (an alternative that does not correspond to the image) points at this defect, as the rubric's example says."
+    },
+    {
+      "fingerprint": "p105da48d05e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. A 24px icon that is the only content of a footer social link to open.spotify.com (a user profile); the crop shows the Spotify logo and the alt is \"Spotify\", which names the destination service, the function of the link (H30). 1.1.1 is met. The live page data still lists this icon with alt \"Spotify\" and the same address, so the capture matches. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "4cad4491515b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the first slide of the product photo carousel that fills the image link to /cinto-de-couro-tresset-geometric-preto-.../p (Cinto De Couro Tresset Geometric); its alt is \"1\" and the enclosing link's aria-label is also \"1\", so nothing gives the image a name that describes the link's function or the picture. claimTrue: the crop shows a model wearing or carrying the product, nothing that \"1\" refers to. elementFails: an image that is the only content of a link needs an alternative naming its purpose (H30, Situation C); \"1\" is a placeholder (F30), and the separate product-name link below is another control, so it does not cure 1.1.1 (R2). Looking for a way out: the image cannot be treated as decorative because the link has no other usable name (its aria-label is the same \"1\"). The live page loads (HTTP 200) and is client-rendered; its shelf code (chunk 1172) sets the img alt and the link aria-label from the catalogue image alternateName, and the page data still gives \"1\" as the first image's alternateName for this product, so the capture matches what users receive. Read in good faith, the claim (an alternative that does not correspond to the image) points at this defect, as the rubric's example says."
+    },
+    {
+      "fingerprint": "0c1b12759afb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the first slide of the product photo carousel that fills the image link to /cinto-de-couro-trancado-caramelo-.../p (Cinto De Couro Trancado); its alt is \"1\" and the enclosing link's aria-label is also \"1\", so nothing gives the image a name that describes the link's function or the picture. claimTrue: the crop shows a model wearing or carrying the product, nothing that \"1\" refers to. elementFails: an image that is the only content of a link needs an alternative naming its purpose (H30, Situation C); \"1\" is a placeholder (F30), and the separate product-name link below is another control, so it does not cure 1.1.1 (R2). Looking for a way out: the image cannot be treated as decorative because the link has no other usable name (its aria-label is the same \"1\"). The live page loads (HTTP 200) and is client-rendered; its shelf code (chunk 1172) sets the img alt and the link aria-label from the catalogue image alternateName, and the page data still gives \"1\" as the first image's alternateName for this product, so the capture matches what users receive. Read in good faith, the claim (an alternative that does not correspond to the image) points at this defect, as the rubric's example says."
+    },
+    {
+      "fingerprint": "3e4eeec7bd1e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the first slide of the product photo carousel that fills the image link to /mule-de-couro-tresset-branco-.../p (Mule De Couro Tresset, branco); its alt is \"1\" and the enclosing link's aria-label is also \"1\", so nothing gives the image a name that describes the link's function or the picture. claimTrue: the crop shows a model wearing or carrying the product, nothing that \"1\" refers to. elementFails: an image that is the only content of a link needs an alternative naming its purpose (H30, Situation C); \"1\" is a placeholder (F30), and the separate product-name link below is another control, so it does not cure 1.1.1 (R2). Looking for a way out: the image cannot be treated as decorative because the link has no other usable name (its aria-label is the same \"1\"). The live page loads (HTTP 200) and is client-rendered; its shelf code (chunk 1172) sets the img alt and the link aria-label from the catalogue image alternateName, and the page data still gives \"1\" as the first image's alternateName for this product, so the capture matches what users receive. Read in good faith, the claim (an alternative that does not correspond to the image) points at this defect, as the rubric's example says."
+    },
+    {
+      "fingerprint": "p69a6c5b6ab3",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. A 24px icon that is the only content of a footer social link to facebook.com/animalebrasil; the crop shows the Facebook \"f\" logo and the alt is \"Facebook\", which names the destination service, the function of the link (H30). 1.1.1 is met. The live page data still lists this icon with alt \"Facebook\" and the same address, so the capture matches. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "f97d24a0cc17",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the first slide of the product photo carousel that fills the image link to /brinco-dourado-longo-pedra-snake-ouro-.../p (Brinco Dourado Longo Pedra Snake); its alt is \"1\" and the enclosing link's aria-label is also \"1\", so nothing gives the image a name that describes the link's function or the picture. claimTrue: the crop shows a model wearing or carrying the product, nothing that \"1\" refers to. elementFails: an image that is the only content of a link needs an alternative naming its purpose (H30, Situation C); \"1\" is a placeholder (F30), and the separate product-name link below is another control, so it does not cure 1.1.1 (R2). Looking for a way out: the image cannot be treated as decorative because the link has no other usable name (its aria-label is the same \"1\"). The live page loads (HTTP 200) and is client-rendered; its shelf code (chunk 1172) sets the img alt and the link aria-label from the catalogue image alternateName, and the page data still gives \"1\" as the first image's alternateName for this product, so the capture matches what users receive. Read in good faith, the claim (an alternative that does not correspond to the image) points at this defect, as the rubric's example says."
+    },
+    {
+      "fingerprint": "p3d055408e36",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. A 24px icon that is the only content of a footer social link to twitter.com/animalebrasil; the crop shows the Twitter bird logo and the alt is \"Twitter\", which names the destination service, the function of the link (H30). 1.1.1 is met. The live page data still lists this icon with alt \"Twitter\" and the same address, so the capture matches. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "se197540e754",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The product image link of the Cinto De Couro Minibold card: aria-label=\"1\" (the browser computes the name \"1\" from aria-label), no title or aria-describedby, and it leads to the page titled \"Cinto De Couro Minibold\"; claimTrue: yes. Context per the rubric: it sits in div/article containers, not in a sentence, paragraph, list item or table cell; the heading just before it in document order is the previous card's h3 \"Brinco Dourado Longo Pedra Snake\", which names another product. The product name that explains it is the h3 inside a separate link after the image, which is not in its context (F63; H2 would be the fix), so only that visible headline and the photo tell a sighted user where it goes. The purpose is not ambiguous to users in general. elementFails: yes. The live shelf code still sets the link's aria-label from the first image's alternateName, which is still \"1\" for this product; captureDiffers: no. The claim names this failure."
+    },
+    {
+      "fingerprint": "52e41de5a13b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the first slide of the product photo carousel that fills the image link to /bolsa-de-couro-ourico-marrom-.../p (Bolsa De Couro Ourico); its alt is \"1\" and the enclosing link's aria-label is also \"1\", so nothing gives the image a name that describes the link's function or the picture. claimTrue: the crop shows a model wearing or carrying the product, nothing that \"1\" refers to. elementFails: an image that is the only content of a link needs an alternative naming its purpose (H30, Situation C); \"1\" is a placeholder (F30), and the separate product-name link below is another control, so it does not cure 1.1.1 (R2). Looking for a way out: the image cannot be treated as decorative because the link has no other usable name (its aria-label is the same \"1\"). The live page loads (HTTP 200) and is client-rendered; its shelf code (chunk 1172) sets the img alt and the link aria-label from the catalogue image alternateName, and the page data still gives \"1\" as the first image's alternateName for this product, so the capture matches what users receive. Read in good faith, the claim (an alternative that does not correspond to the image) points at this defect, as the rubric's example says."
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "page": "https://www.imperial.nhs.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p78e331405d0",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the icon in the 'Maternity services' tile link; the link has aria-label='Maternity services' and visible text, and the img has alt='Maternity Care'. The crop shows two hands holding a heart with a baby inside, so 'Maternity Care' conveys what the icon means; redundancy with the link text is at most a best-practice point, not a 1.1.1 failure, and the link's purpose is named by its aria-label. The live HTML carries the same markup, so the capture does not differ. It meets 1.1.1, so Rampa's silence is correct."
+    },
+    {
+      "fingerprint": "s1829f58a215",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the small category icon in the 'Blog' tag of the first blog card (alt='Blog', followed by the visible word 'Blog'). The crop shows a feed-style symbol that the site uses as its blog category icon, so 'Blog' gives the icon's meaning; it does not describe something absent, and the claim is false. Repeating the adjacent text is redundant (an alt='' would be cleaner), but redundancy is not a 1.1.1 failure and the claim does not point at it anyway. The live HTML has the same alt on all three blog tags. The model had the crop and context and read the icon too literally."
+    },
+    {
+      "fingerprint": "f68b13ebf5e6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the blog card's thumbnail with alt='OIP (6)', a CMS media name taken from a downloaded file (oip-6.jpg). The crop shows the West London Haemoglobinopathy Coordinating Centre logo. I looked for a way it could pass: it is not inside the card's cover link (a sibling empty anchor with its own aria-label), and it has no role=presentation; if it is informative, 'OIP (6)' conveys nothing of it (F30), and if it is decorative, a non-null meaningless alt still fails (F39). The live HTML has the same alt, so the capture does not differ. The claim, that the alt names a label rather than what the image conveys, points at that real defect in good faith."
+    },
+    {
+      "fingerprint": "pd6b980c1966",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the news card image with alt='Fleming Initiative Event'. The crop shows the Fleming Initiative logo and the words 'FLEMING INITIATIVE' on a dotted blue background; the alt carries the image's text and identifies what it is, which is an adequate text alternative for 1.1.1. The image is not inside the card's cover link, which has its own aria-label. The live HTML has the same alt. It meets 1.1.1, so Rampa's silence is correct."
+    },
+    {
+      "fingerprint": "f1a5542ad584",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header logo, the only content of the home link <a class='b-nav-brand' href='/'>, with alt='imperiallogo.svg'. The snapshot computes the link's name from contents as 'imperiallogo.svg'; the link has no aria-label, title or hidden text that could name it instead (checked in the snapshot and the live HTML, which is unchanged). A file name is not a text alternative (F30), and for an image that is a link's only content H30 asks for the link's function (the Trust's name / home). Although the screenshot leaves the header area blank, the crop and the live HTML show the same logo and alt, so the capture does not differ for this claim. No reason to doubt the finding holds up."
+    },
+    {
+      "fingerprint": "sfd811424381",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the icon in the 'Cancer services' tile link (aria-label='Cancer services'), with alt='Cancer Treatment'. The crop shows a first-aid kit with a cross and an awareness ribbon over a hand, which is a pictogram for cancer treatment, so the alt does describe what the icon conveys and the claim is false. The link's name comes from its aria-label, so there is no link-purpose issue either. The live HTML is the same. The model had the crop and misread the pictogram."
+    },
+    {
+      "fingerprint": "de8ec7c4fce9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "yes"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the cell 'Ver esta página em: Português (Brasil)' in the Google Translate banner iframe. The claim is true of the capture: the text is Portuguese, carries no lang, and the only language in its ancestry is the host page's en. The banner is Google Translate's offer bar, which the site's TranslateElement (pageLanguage 'en', no autoDisplay:false, confirmed in the live HTML) shows only when the browser's language is not English, written in that language. The collector's browser was evidently pt-BR (the nav's widget also reads 'Selecione o idioma') although the snapshot declares locale 'en'; a visitor with an English browser gets no banner at all, so the capture differs for most of this UK page's users (captureDiffers yes). For a visitor whose browser is Portuguese, the bar appears exactly as captured: its iframe document's html has no lang and nothing inside it carries one (checked in the snapshot), the host page is lang='en', and Chrome inherits that language across the same-origin frame, so the passage fails 3.1.2 for those users (elementFails yes). Competent auditors would reasonably disagree whether a locale-dependent third-party offer bar that English-browser visitors never receive counts against the page, and whether this capture is an artefact of the collector's leaked locale, so the label is uncertain."
+    },
+    {
+      "fingerprint": "ace6a51a2f54",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "yes"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the 'Português (Brasil)' link (aria-haspopup, opens the target-language menu) in the Google Translate banner iframe. The rule's statement holds in the capture: the language name is in Portuguese and has no lang of its own or on any ancestor, so it inherits en (H58 marks such language names). The banner is Google Translate's offer bar, which the site's TranslateElement (pageLanguage 'en', no autoDisplay:false, confirmed in the live HTML) shows only when the browser's language is not English, written in that language. The collector's browser was evidently pt-BR (the nav's widget also reads 'Selecione o idioma') although the snapshot declares locale 'en'; a visitor with an English browser gets no banner at all, so the capture differs for most of this UK page's users (captureDiffers yes). For a visitor whose browser is Portuguese, the bar appears exactly as captured: its iframe document's html has no lang and nothing inside it carries one (checked in the snapshot), the host page is lang='en', and Chrome inherits that language across the same-origin frame, so the passage fails 3.1.2 for those users (elementFails yes). Competent auditors would reasonably disagree whether a locale-dependent third-party offer bar that English-browser visitors never receive counts against the page, and whether this capture is an artefact of the collector's leaked locale, so the label is uncertain."
+    },
+    {
+      "fingerprint": "8cf86e58f34f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "yes"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the banner cell holding the small info icon (a cleardot gif with a sprite background) whose alt and title are 'O conteúdo desta página segura será enviado ao Google para tradução usando uma conexão segura.' The claim is true of the capture: that text alternative is Portuguese and nothing marks its language. The banner is Google Translate's offer bar, which the site's TranslateElement (pageLanguage 'en', no autoDisplay:false, confirmed in the live HTML) shows only when the browser's language is not English, written in that language. The collector's browser was evidently pt-BR (the nav's widget also reads 'Selecione o idioma') although the snapshot declares locale 'en'; a visitor with an English browser gets no banner at all, so the capture differs for most of this UK page's users (captureDiffers yes). For a visitor whose browser is Portuguese, the bar appears exactly as captured: its iframe document's html has no lang and nothing inside it carries one (checked in the snapshot), the host page is lang='en', and Chrome inherits that language across the same-origin frame, so the passage fails 3.1.2 for those users (elementFails yes). Competent auditors would reasonably disagree whether a locale-dependent third-party offer bar that English-browser visitors never receive counts against the page, and whether this capture is an artefact of the collector's leaked locale, so the label is uncertain."
+    }
+  ]
+}

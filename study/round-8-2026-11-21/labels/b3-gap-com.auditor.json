@@ -1,0 +1,49 @@
+{
+  "page": "https://www.gap.com/browse/women?cid=5643",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s06dccf7ff8d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the empty overlay link (aria-label and title \"Coats & Jackets\") on slide 9 of the Women's Clothes category carousel. The snapshot holds exactly two links named \"Coats & Jackets\" (the mega-nav ones are named \"Categories Coats & Jackets\" etc. and are hidden): this overlay, href /browse/women/outerwear-and-jackets?cid=5736&mlink=...Outerwear_IMAGE, and the text link under the same card, href /browse/women/outerwear-and-jackets?cid=5736&mlink=...Outerwear_CTA. The two addresses differ only in the mlink tracking parameter, so under R1 they resolve to the same resource; the claim that they lead to 2 different places is false. With the only other link of the set going to the same page, the link meets 2.4.4 (and its name plainly says where it goes, matching the destination's heading \"Coats & Jackets\"). The live page, fetched by curl, has the same two links and hrefs, so the capture does not differ. Rampa had both hrefs and judged a tracking-parameter difference as a different destination."
+    },
+    {
+      "fingerprint": "43f5c453f9e5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the product image on slide 5 (Sleep) of the category carousel. It is not inside the overlay link (that link is an empty sibling named \"Sleep\" by aria-label), so screen readers meet it as an image with alt \"a black pajama set with white pants and a white shirt\". The crop and the screenshot show a dark/black pajama shirt and black drawstring pants, with only thin white piping: there are no white pants and no white shirt. The alternative therefore states things the image does not show, as the claim says, and gives users the wrong garment colours, so it does not serve the equivalent purpose of the product image (1.1.1). The live page serves the same img with the same alt (also in its CMS JSON), so the capture does not differ."
+    },
+    {
+      "fingerprint": "s59d6850c82a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the visible text link \"Dresses\" under card 8 of the category carousel. The only other link named \"Dresses\" (the mega-nav ones are named \"Categories Dresses\" and similar and are hidden) is the card's overlay link, aria-label/title \"Dresses\". Their hrefs are /browse/women/dresses?cid=13658&mlink=...Dresses_CTA and ...Dresses_IMAGE: the same page, differing only in the mlink tracking parameter, so under R1 they resolve to the same resource and the claim of 2 different places is false. The link text alone gives its purpose (destination \"Women's Dresses | Gap\"), so it meets 2.4.4. The live page has the same pair of links and hrefs, so the capture does not differ. Rampa had both hrefs and treated the tracking parameter as a different destination."
+    },
+    {
+      "fingerprint": "pfb65b04a729",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the overlay link over the full-width spotlight banner, named \"Sweaters in season.\" through aria-labelledby pointing at the banner's visible headline, with the same title. It leads to /browse/women/sweaters (\"Sweaters For Women | Gap\", heading \"Sweaters\"), so its name tells users it goes to sweaters, and no other link on the page shares the name. It meets 2.4.4; Rampa was right to report nothing. The live page has the same link, headline id and href, so the capture does not differ."
+    }
+  ]
+}
