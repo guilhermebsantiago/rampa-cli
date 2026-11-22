@@ -106,7 +106,7 @@ Exit codes: `0` no confirmed failure, `1` a confirmed failure, `2` the run could
 
 ## Use it where you work
 
-- **GitHub Actions:** `uses: guilhermebsantiago/rampa-cli@v0.1.2` (a release tag; `@main` moves with every merge): SARIF to code scanning and one sticky pull request comment ([guide](docs/github-action.md)).
+- **GitHub Actions:** `uses: guilhermebsantiago/rampa-cli@v0.1.3` (a release tag; `@main` moves with every merge): SARIF to code scanning and one sticky pull request comment ([guide](docs/github-action.md)).
 - **Reports:** SARIF, Markdown, single-file HTML and JSON, with `file:line` for local pages ([formats](docs/output-formats.md)).
 - **Pre-commit:** pre-commit, Husky, lint-staged or Lefthook, on staged `.html` files ([guide](docs/pre-commit.md)).
 - **Playwright:** `await expect(page).toPassRampa()` from `rampa-cli/playwright`, on a page or one component ([guide](docs/playwright.md)).
@@ -146,10 +146,10 @@ Caveats: Rampa's prompts were tuned on these test cases, and all of its gain is 
 
 `rampa eval` scores axe-core alone and with the judgment layer on the W3C ACT test cases and corrupted pairs ([docs/evaluation.md](docs/evaluation.md)). The prompts were tuned on those small pages, so real pages are the measure that counts:
 
-- **Held out.** In the [fifth real-page study](docs/studies/real-pages-2026-10-round5.md), on 24 pages the code had not seen, with Gemma 4 12B at the default threshold, 0.83 of the judged findings on the test half were real failures (20 of 24 decided, Wilson 95% 0.64–0.93), and 0.81 over all 24 pages (51 of 63). Against the fourth study's test half (0.54), the rule fixed in advance reads that as no measurable change.
-- **Beyond axe-core.** None of the 146 true judged findings on studies 2 to 5 is a failure axe-core reports ([notes](docs/studies/notes-added-over-axe.md)); on the fifth study's pages they came with about one false finding for every four true ones.
-- **In-sample only.** The fixes since then (card headings for generic links, menu toggles, identical alternatives confirmed together, social-network icons, links that name their destination) were measured only on the pages they were chosen from: 0.90 there, against 0.88 before them ([P1, P2](docs/studies/notes-precision-p1p2.md), [P3, P4](docs/studies/notes-precision-p3p4.md)). A sixth round on fresh pages has to say how much of that holds.
-- **Labels** come from two Claude agents, pending review by a person. Each study is one run and measures precision, not what Rampa missed.
+- **Held out.** In the eighth pre-registered real-page study, on 60 public pages the code had not seen, with Gemma 4 12B at the default threshold, 0.92 of the judged findings were real failures (120 of 131 decided; Wilson 95% 0.86–0.95, page bootstrap 0.84–0.97), measured on the code before 0.1.3's 1.3.5 fix. The labels are AI judgments by two Claude agents, with no person. The round before read 0.74, a difference the rule fixed in advance does not count as measurable ([rounds 6 to 8](docs/evaluation.md#rounds-6-to-8)).
+- **Beyond axe-core.** None of those 120 true findings is a failure axe-core reports on the same element and criterion, nor any of the 146 of studies 2 to 5 ([notes](docs/studies/notes-added-over-axe.md)).
+- **In-sample only.** The 1.3.5 fix in 0.1.3 was chosen on that study's six false 1.3.5 findings; replayed on its recordings it removes them and no true one. No round has measured 0.1.3 as released.
+- **Labels** come from two Claude agents of one model family. Each study is one run and measures precision, not what Rampa missed.
 
 ## Principles
 
