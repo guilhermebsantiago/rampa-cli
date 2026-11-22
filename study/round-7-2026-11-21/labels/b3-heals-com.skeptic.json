@@ -1,0 +1,82 @@
+{
+  "page": "https://www.heals.com/pages/lighting",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "pa63ed40ddaa",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A category badge link 'Care Guides' (href /tagged/care-guides) on a blog card. The destination, opened live, redirects to https://www.heals.com/blogs/tips-advice/tagged/care-guides, the 'Tips & Advice - tagged Care Guides' listing, so the link text alone says where it goes. Under R1 every other 'Care Guides' link on the page (four more badges, the footer and the menu link) resolves to that same listing, so no shared-name pair leads to different resources. The live HTML has the same badge links as the snapshot. The element meets 2.4.4, so a missed failure is not what this row shows."
+    },
+    {
+      "fingerprint": "4c1f48481528",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The footer newsletter field's placeholder 'Email'. The snapshot measured #72716d on #000000 (4.30:1) from pixels, so the sentence holds for the capture. The live CSS, though, sets .newsletter .newsletter__form__input::placeholder to var(--color-form-text), which is #e5e3db in the footer's secondary_scheme, on a #000000 form background. Tailwind's preflight sets placeholder opacity to 1. That pair gives about 16:1. The measured #72716d is exactly #e5e3db at half brightness, which is what a 50% black modal backdrop produces. At capture a modal was open: the CDP tree marks header fields as ignored for 'activeModalDialog', the cookie dialog 'It's your choice' is in the snapshot, the ttt-overlay newsletter modal uses rgba(0,0,0,0.5), and the packet screenshot's footer is dimmed (text #373736 instead of #f6f5f1). The header search measurement shows the same halving (#767573, half of the #ecebe7 background). Once the modal is dismissed and the field can be used, the placeholder passes 1.4.3, so the low ratio is an artefact of the dimmed capture."
+    },
+    {
+      "fingerprint": "ec6694af3b5f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A visually hidden skip link (class skip-to-content, shown on focus) with the text 'See more'. Its href #featured-collection-end points to an empty sr-only div at the end of the 'New Lighting' product carousel, so the link's purpose is to skip past the carousel. 'See more' does not say that. It suggests opening more products, which is the opposite of skipping them. I looked for context that could explain it. There is no title, aria-label or aria-describedby. Its parent is a plain container div, not a sentence, paragraph, list item or cell. The nearest preceding heading is the h2 'Up to 20% off table lamps' from the previous section, which would mislead further. 'New Lighting' after it is a link styled like a heading, not a heading, and it follows the link anyway. The 'ambiguous to users in general' exception does not cover a mislabeled control. The live HTML has the same markup. The claim names the real failure."
+    },
+    {
+      "fingerprint": "s40c01dc5cf0",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The footer newsletter email input. Its sr-only label is 'Newsletter Email', its visible placeholder is 'Email', its type is email, and it sits under the heading 'Subscribe for the latest news, special offers and first look at our new products.' next to a 'Subscribe' button. The label plainly says what to enter (an email address, for the newsletter), so the claim is false and the label meets 2.4.6. The live HTML has the same label and input. The model had this text and judged it wrongly."
+    },
+    {
+      "fingerprint": "a5f766c10a38",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The sr-only label for=\"search\" in the desktop header search form. The page does have three inputs with id=\"search\", in both the snapshot and the live HTML. The first is the mobile nav search (lg:hidden), so all three labels name it and the visible desktop field beside this label gets no name from it. The claim is true of the capture. However, for 4.1.2 the desktop field still has a programmatically determined name: its placeholder 'Search' is used for the accessible name by HTML-AAM and browsers. ACT rule e086e5, which maps to 4.1.2, lists a placeholder-named input as passing. That name says the same as the label would. The label is not a UI component itself. The duplicate id is F77, a WCAG 2.1 4.1.1 Parsing failure, not a 4.1.2 one, so the checker applied the wrong criterion."
+    },
+    {
+      "fingerprint": "seca729ce293",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page title 'Lighting – Heal's' (the live page has the same title) names the topic, a lighting category page whose h1 is 'Lighting', and the site, Heal's. That describes the page's topic and purpose, so the claim that it says nothing about the page is false and the page meets 2.4.2. The model had the title and h1 and judged wrongly."
+    },
+    {
+      "fingerprint": "sbf8f7c6ec5f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "A visually hidden skip link 'Skip to end of footer' at the start of the footer, href #back-to-top. In the snapshot and the live HTML, id=\"back-to-top\" is the visually hidden 'Back to top' link placed as the last element of the footer (y 5624 on a 5722 px page), after the newsletter, menus and image. Activating the link therefore moves to the end of the footer, exactly as its text says. The target being named 'Back to top' does not make the text mismatch, so the claim is false and the link meets 2.4.4. Rampa did not read the in-page destination and inferred the purpose from the fragment's name."
+    }
+  ]
+}

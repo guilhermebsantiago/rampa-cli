@@ -1,0 +1,91 @@
+{
+  "page": "https://www.wexfordopera.com/our-story/contact-us",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "sfe6e1098ae6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the Investors in Diversity Bronze accreditation logo, the only content of a footer link to irishcentrefordiversity.ie. The first part of the claim holds (the image is all the link holds), but its alternative names the Investors in Diversity mark, and the link opens the site of the body that runs it. The Irish Centre for Diversity homepage presents 'our nationally recognised Investors in Diversity accreditation' and lists Investors in Diversity Bronze in its navigation. Read as the link's text (G82/H30), 'Investors in Diversity Bronze' tells users they will reach the Investors in Diversity programme, so it describes the link's purpose; R2's first test passes, and the link meets 1.1.1. The live HTML has the same link, href and alt as the snapshot, and the screenshot is fully styled, so the capture does not differ. Rampa had the alt and href and judged wrongly."
+    },
+    {
+      "fingerprint": "p5699216a23c",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the header logo image (Wexford Festival Opera wordmark with the '75' anniversary mark) inside the link to the homepage. The link also holds a mobile copy of the logo that is hidden at desktop width, and the browser computes the link's name as 'Wexford Festival Opera'. An alternative that names the organisation, for a logo linking to its home page, describes the link's function (the H30 pattern), and the decorative '75' mark does not need to be in it. The element meets 1.1.1. The live HTML has the same two images with the same alt, so the capture does not differ."
+    },
+    {
+      "fingerprint": "s6925af82a30",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the top-level 'Our story' item of the main navigation: an a with href='#' and data-bs-toggle='dropdown', with a chevron, that opens the Our story submenu (Explore the festival, Our history, About and so on). In the capture the submenu is hidden, so its list item reads only 'Our story' and no visible heading comes before it. That part of the claim holds. But the text names the section the control opens, which is its purpose: users can tell that it leads to the Our story part of the site. So the claim that the text does not tell where it goes is wrong, and the element meets 2.4.4. It shares its name with the breadcrumb 'Our story' link, but the breadcrumb's own context ('Home > Our story > Contact us') and the toggle's list item tell them apart, and the toggle opens a menu rather than leading to another resource; R1 does not make it fail. The real defect is a 4.1.2 one: a link role with no aria-expanded on a control that works as a menu button. The live HTML matches the snapshot, so the capture does not differ."
+    },
+    {
+      "fingerprint": "s5e03dbf5fcc",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the Arts Council 'funding opera' logo, the only content of a footer funder link to https://www.artscouncil.ie/home/. Its alternative, 'The Arts Council Funding Opera Logo', names The Arts Council, which is the destination. Under R2's first test and H30 (whose example uses the destination's name) it says where the link leads, so the claim is false of the capture and the link meets 1.1.1. The word 'Logo' is redundant but not a failure. The live HTML matches the snapshot (same href and alt), so the capture does not differ."
+    },
+    {
+      "fingerprint": "pf51f4447a1e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the footer link 'Terms and Conditions' to /booking-terms-and-conditions, a page whose heading is 'Terms and Conditions'. The link text alone describes the purpose. No other link in the accessibility tree has this name, so R1 does not apply. The element meets 2.4.4. The live HTML has the same link, so the capture does not differ."
+    },
+    {
+      "fingerprint": "8604e12eaff3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the 'We support Safe to Create' badge (an Irish arts-sector initiative), the only content of a link that opens the festival's Dignity-At-Work-Policy.pdf. Its alternative, 'Safe to create', names the initiative. It does not identify the destination, the festival's Dignity at Work policy as a PDF: a user would expect information about Safe to Create. Under H30 and R2, an image that is all a link holds needs an alternative that describes the link's function. Replacing the image with 'Safe to create' (G82) does not tell users that they will open the policy document. So the link fails 1.1.1 for the reason the claim gives. The link has no title, and the live HTML has the same href and alt, so the capture does not differ."
+    },
+    {
+      "fingerprint": "p9da5584deed",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the breadcrumb link 'Our story' in 'Home > Our story > Contact us'. It leads to /our-story, which redirects to the Our history page titled 'Our Story | Wexford Festival Opera'. The text and the breadcrumb trail describe the purpose. The top navigation has an 'Our story' menu toggle with the same name, but that is a different control in a different context: a list item in the nav that opens a submenu, not a link to another resource, and the breadcrumb's own trail tells it apart. A third 'Our story' link in the snapshot is hidden (outside the accessibility tree). So R1 does not make it fail, and the element meets 2.4.4. The live HTML matches the snapshot, so the capture does not differ."
+    },
+    {
+      "fingerprint": "sbc9a26e984d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the footer link 'IT' to the Italian welcome page (benvenuti-al-festival-dellopera-di-wexford). It has no title, aria-label, aria-describedby, lang or hreflang, and it sits with 'FR' and 'DE' in a flex div that is not a paragraph, list item or table cell. The nearest heading before it is 'Get our newsletter', which says nothing about it. So under this round's context list, its purpose must come from 'IT' alone, and on an English page 'IT' is ambiguous: it could mean Italian or Information Technology. Only the visual grouping with the FR and DE links shows sighted users that these are language links, so the link is not ambiguous to users in general and the exception does not apply. The element fails 2.4.4 by the rubric's fixed context rule, and the claim names that ambiguity. The live HTML matches the snapshot, so the capture does not differ."
+    }
+  ]
+}

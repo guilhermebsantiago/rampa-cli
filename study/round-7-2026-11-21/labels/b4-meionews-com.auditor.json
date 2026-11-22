@@ -1,0 +1,55 @@
+{
+  "page": "https://www.meionews.com/piaui/detento-e-encontrado-morto-na-penitenciaria-irmao-guido-em-teresina-581716",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p17e0d91740d",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Item 9 of the 'As mais lidas' list. The link wraps the rank number, a photo, an h3 with the headline and the date, so its name is 'Suspeito de assaltar motorista em posto e atirar contra segurança é preso em Teresina'. It also has a title with the same headline, and the destination page has that exact title and heading, so the purpose is clear from the link text alone. No other link on the page has the same name. The similar headline 'Suspeito assalta motorista em posto e atira contra segurança durante fuga em Teresina' is a different name for a different story, so R1 does not apply. The live amp-list template (title, alt and h3 all bound to {{title}}) and the live /most-accessed feed still give this item the same markup and position, so the capture matches. The element passes 2.4.4."
+    },
+    {
+      "fingerprint": "5d74de3099f9",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The 'Continue lendo' label, which expands the article. The live CSS (.read-more: color #007ae8, white background, font-size 1.2rem = 19.2px, font-weight 600) and the screenshot confirm the measurement: #007ae8 on #ffffff is 4.24:1, so the sentence holds for the capture. Whether 4.5:1 or 3:1 applies depends on whether 19.2px (14.4pt) at weight 600 is 'bold' for WCAG's large-scale threshold of 14pt bold. Open Sans is not loaded (no @font-face), so the text falls back to the system sans-serif (Arial, Helvetica, Roboto), and none of these has a 600 face. Browsers then render the Bold face, and in the screenshot the text is visibly bold. Read that way, the text is large scale and 4.24:1 passes the 3:1 requirement, which is my lean. But WCAG gives no numeric weight for bold, and axe and many auditors only count computed weight 700 or more as bold, which would fail it at 4.5:1. Competent auditors would split on this, so the label is uncertain."
+    },
+    {
+      "fingerprint": "p12f96ba1134",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The Spanish flag image is the only content of a header button that opens the Google Translate Spanish version of the page (AMP.navigateTo to translate.goog with tl=es). Its alternative, 'Idiona em Espanhol' ('language in Spanish'), says what the control does: switch the page to Spanish. 'Idiona' is a misspelling of 'idioma', but the purpose stays clear, and the alternative is not missing or misleading. The live HTML has the same button and alt. The full-page screenshot leaves out the fixed header, but the image crop and snapshot show the flag, so that does not affect this element. It passes 1.1.1."
+    },
+    {
+      "fingerprint": "935a59967665",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'ACESSE NOSSO CANAL NO ZAP' text in the fixed floating WhatsApp-channel link at the bottom right. The live CSS (.whatsapp-text: background #007bff, color #fff, 12px, weight 800) confirms the colours, and white on #007bff is 3.98:1. Even bold, 12px (9pt) is far below the large-scale threshold, so 4.5:1 applies, and the text fails 1.4.3. It is ordinary link text, not a logotype or incidental text. The full-page screenshot does not show fixed elements, but the CSS shows the element is displayed at desktop width with these colours, so the capture matches what users get. The claim names the failure."
+    },
+    {
+      "fingerprint": "p658c831a575",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The 'Google News' wordmark image is the only content of a link to MeioNews's Google News publication page, after the text 'Siga-nos no'. Its alternative, 'Seguir MeioNews no Google News', gives the link's function and destination, as H30 asks for an image that is all a link holds. The live HTML has the same markup and alt. It passes 1.1.1."
+    },
+    {
+      "fingerprint": "a1df7cb657d8",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The WhatsApp share link under 'Compartilhe:'. The live CSS gives it a #24c34b circle, and the screenshot pixels show only #ffffff and #24c34b: a white WhatsApp glyph on green. That is 2.34:1, and the green circle against the white page is also 2.34:1, so the claim is true of the capture and the page. The icon is the WhatsApp brand mark in roughly its brand colours (WhatsApp's own white on #25D366 is even lower). Understanding 1.4.11 says logos are exempt from the contrast requirements. For logos that act as controls it gives only best-practice advice, and it removes the exemption only when a logo that normally has enough contrast is shown low-contrast by author choice, which is not the case here. My lean is that it passes on that reading. But the normative user-interface-component bullet has no essential or logo exception, and many auditors fail brand-coloured icon-only share buttons under G207. Competent auditors would reasonably disagree, so the label is uncertain. Separately, the link has no accessible name, which fails 4.1.2 and 2.4.4, not this criterion."
+    },
+    {
+      "fingerprint": "p83c2843c46e",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The photo of Gabriel Félix and Isabelle Abreu in item 4 of 'As mais lidas'. The image is not the link's only content: the link also holds the h3 headline and the date. Its alternative is the story headline, 'Quem era Gabriel Félix, influenciador e marido de Bel, que morreu aos 29 anos'. That names the story's subject, who is shown in the photo, and matches the destination, so it serves the image's purpose in the link. The alt repeats the headline, which is redundant (H2 is advisory) but not a 1.1.1 failure. The live template binds alt to {{title}}, and the live feed still lists this story at position 4, so the capture matches. It passes 1.1.1."
+    }
+  ]
+}

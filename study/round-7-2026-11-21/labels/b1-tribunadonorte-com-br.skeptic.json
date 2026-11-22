@@ -1,0 +1,113 @@
+{
+  "page": "https://tribunadonorte.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p224028b515c",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Side-menu link 'Saúde' in the list of nav 'Menu lateral', href /categoria/saude/. In a news site's section menu, the text alone names the destination, the Saúde section. The only other link in the snapshot named 'Saúde' (the footer #menu-editorias) goes to the same URL, so R1 does not apply. The live HTML has the same menu item and href. Rampa reported nothing, and the element meets 2.4.4."
+    },
+    {
+      "fingerprint": "b2b4b19f6ff2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter field #newsletter. Its placeholder 'E-mail...' is its only visible label (no <label>, no aria-label). The live theme CSS has no rule of its own for this field, so Tailwind's preflight applies: ::placeholder is color-mix(currentcolor 50%, transparent), and currentcolor is #6F6F6F. On the white field that gives about #B7B7B7. I measured 2.03:1 in the screenshot, and Rampa reports 2.01:1. The text is 18px at weight 500, so it is not large text and needs 4.5:1. Placeholder text is not one of 1.4.3's exceptions (inactive, decorative, invisible, part of a picture), and the WAI forms tutorial treats placeholder colour as subject to the minimum contrast. The live markup and CSS are the same as the capture. I found no technique or exception that rescues it."
+    },
+    {
+      "fingerprint": "84041d8030df",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header search field #search, whose placeholder 'Pesquisar por...' is its only text label. The live CSS has .placeholder:text-[#303236]/56, which is #303236 at 56% alpha. The field's box is #f5f7f8, confirmed by pixel sampling of the screenshot. Composited, that measures about 3.3:1 (screenshot) and 3.27:1 (Rampa). That is under the 4.5:1 required for 16px text at weight 400. The live markup and CSS match the capture. No 1.4.3 exception applies to placeholder text that tells users what the field is for."
+    },
+    {
+      "fingerprint": "9cd411503213",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter sign-up field: type=text, name=newsletter, autocomplete=off, placeholder 'E-mail...', next to 'Assinar gratuitamente'. It collects the user's own email address, a purpose listed in the Input Purposes section ('email'). Nothing identifies that purpose programmatically: autocomplete is 'off' and the type is not email, so the field fails H98's test. A possible defence is that the ACT rule 73f2c2 leaves 'off' out of its applicability. That rule only checks token validity, though, and does not show the purpose is determinable. The live HTML still has autocomplete=\"off\" and type=\"text\". The claim names exactly this failure."
+    },
+    {
+      "fingerprint": "sad28cb3183b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h4 'Dácio Galvão' is slide 8/10 of the 'Colunistas / Articulistas' carousel. Under it come the columnist's latest column link ('Representação') and a 'Ver perfil' link to his profile. The heading names the columnist whose column and profile the card holds. That describes the topic of the content under it, so the claim that it 'says nothing about the content under it' is false. Every card in the live carousel has the same name-heading pattern. The live carousel now lists other columnists and Dácio Galvão is not in it, but that is rotation after capture, and the structure judged is unchanged. Rampa's model had the card's text and judged wrongly."
+    },
+    {
+      "fingerprint": "p55cf0a1d4e0",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "News card link in 'Últimas notícias'. Its name contains the category, the date and the full headline 'Renan Bragança recebe proposta do Náutico e está de saída do América', and the destination page has that same title. The purpose is clear from the link text alone. The only other link with this name, in a lower section, goes to the same URL. The story has since rotated off the live homepage, but live cards use the same markup (image, category, date and h3 headline inside one link). The capture shows what users received at read time. Rampa reported nothing, and the element meets 2.4.4."
+    },
+    {
+      "fingerprint": "s87045020578",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News thumbnail inside a card link that also holds the headline 'Relatório da PF tem diálogos de Vorcaro sobre Mendonça...'. It is not an image-only link, so R2 does not apply. The crop shows a minister in robes at a court bench. The alt is only a photo credit, 'Foto: Leobark Rodrigues/Secom/TSE', which identifies nothing shown in the image. Read as informative, the image needs at least a descriptive identification; read as redundant with the headline, it needs a null alt (H2/F39). The credit is neither, so it is not a text alternative (F30's sense), and the image fails 1.1.1 either way. The claim that the alternative describes something the image does not show points at that mismatch in good faith. The live HTML still gives this image the same alt."
+    },
+    {
+      "fingerprint": "sb36b7dd11ed",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News thumbnail inside the card link for 'Tati Machado anuncia nascimento do filho Rafael...'. That link also holds text, so R2 does not apply. The crop shows a sleeping newborn in a maternity cap; it shows no Instagram interface or handle. The alt is only a credit, 'Foto: Reprodução/Instagram @tati', which neither describes the image nor is null. If the image is informative, it lacks an equivalent. If it is redundant with the headline, it should be ignored by AT (F39). It fails 1.1.1 in both cases. The claim points at the alt not matching the image. The live HTML gives the same alt in both places the image appears."
+    },
+    {
+      "fingerprint": "ff5d15fc865e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Aperte aqui para ver' pill sits over the TN PLAY featured video thumbnail. It is white 14px text at weight 500 on a bg-white/12 pill with backdrop-blur-sm, and it has no text-shadow. The card's dark gradient rises from the bottom, so at the top-right the photo shows through almost unchanged. Sampling the screenshot behind the text gives a median of about #948579. White on that is about 3.5:1, matching Rampa's 3.16-3.76:1 and short of 4.5:1. The live HTML has the same video (DROPS-NEWS-Thumb-19-11-26), the same pill classes and the same position. This is visible call-to-action text, not incidental text, so I found no exception."
+    },
+    {
+      "fingerprint": "p1ee5a1e61e2",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The 'Assine Agora' button-link at the foot of the off-canvas side menu goes to loja.tribunadonorte.com.br, the newspaper's subscription store. The text 'Subscribe now' states its purpose. No other link on the page shares the name. The header's 'Assine' has a different name and goes to the same URL anyway. The live HTML has the same link. Rampa reported nothing, and the element meets 2.4.4."
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "page": "https://www.pucminas.br/AdministracaoSuperior/Pro-reitorias/Paginas/Graduacao.aspx",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "5058016ade28",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the site search field in the header; its initial value \"Pesquisar...\" is shown inside the field as prompt text (class ms-helperText), 12.6px, regular italic, so not large text. claimTrue: the snapshot computes #777777 on #ffffff; I read the screenshot pixels and the solid glyph pixels are exactly rgb(119,119,119) on white, which is 4.478:1. elementFails: 4.478:1 is below 4.5:1, and Understanding 1.4.3 says ratios are not rounded (4.499:1 fails) and that the criterion applies to placeholder text too. This text is the field's only visible label text, in an active control, so no exception applies. captureDiffers: the live HTML (fetched with a browser user agent) serves the same input with the same value and classes, and the screenshot shows the fully styled page. The html element carries class ms-isBot in both, so the capture is not a bot-only version. The claim names the real failure."
+    },
+    {
+      "fingerprint": "52078399e693",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a screenshot of the restricted Portal PROGRAD home page (banners for evaluation period, field-work schedule, Enade 2025, side menu), shown below the paragraph that introduces the portal. It is not a link. claimTrue: its alt is \"Print-tela-portal-prograd.jpg\", a file name (and not even the image's actual file, portal_prograd.png). elementFails: a file name used as the text alternative is failure F30. If the image is informative, the alternative does not convey what it shows. If it is decorative next to the describing paragraph, it would need a null alt; a non-empty file name fails either way. captureDiffers: the live HTML has the same img with the same alt, in the same place. The claim names the failure."
+    },
+    {
+      "fingerprint": "sf4636787877",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the header search field. claimTrue: the sentence says nothing on screen tells what to enter and the name appears only as a title tooltip. But the screenshot shows \"Pesquisar...\" inside the field: it is the field's value attribute, rendered as prompt text, and is also in the snapshot html. A magnifying-glass search control (alt and title \"Pesquisar\") sits right next to it, so the claim is false of the capture. elementFails: G167 (an adjacent button labels the field's purpose) is sufficient for 3.3.2. Its Example 1 is exactly a search field with a loupe-icon button whose alternative is \"search\". Here the icon control comes right after the field in reading order and in layout and has an accessible name, and it stays visible after the prompt text clears on focus, so the field has a persistent visual label. captureDiffers: the live HTML matches. False positive: the model's structured data (text null, contentText empty, attributes without value) did not show the visible prompt text, and it judged as if only the title existed."
+    },
+    {
+      "fingerprint": "s622cd93eb83",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the Facebook share icon in the page's share bar. Its text and accessible name are \"Share\", and it has title=\"Facebook\". It runs fbShare(), which opens the Facebook sharer for the current page. claimTrue: the sentence says nothing around the link tells where it goes, but the link's own title \"Facebook\" is in the snapshot and in the packet's link object, so that part is false. elementFails: under this round's context list a title counts as the link's description (H33). \"Share\" together with \"Facebook\" tells the purpose: share this page on Facebook. The visible Facebook logo agrees. So the link meets 2.4.4. (The English name on a pt-br page could concern 3.1.2, but that is not this criterion.) captureDiffers: the live HTML has the identical anchor. Rampa had the title and still judged it wrong."
+    },
+    {
+      "fingerprint": "s2c9fd29d720",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the page's title, \"Graduação\". The page is the PUC Minas Pró-Reitoria de Graduação (PROGRAD) page: its breadcrumb ends \"Pró-Reitorias > Graduação\", and its main heading is \"Pró-reitoria de graduação - PROGRAD\". claimTrue: the sentence says the title says nothing about the page, but the title names the page's subject (undergraduate studies) and is the page's own name in the breadcrumb. elementFails: G88's test asks that the title be relevant to the content and identify the page. It treats the site name and uniqueness as optional, and \"Graduação\" passes, though it is terse. captureDiffers: the live page's title is the same \"Graduação\" (the snapshot's mojibake was only console encoding). False positive."
+    },
+    {
+      "fingerprint": "s8491e47acef",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the header search field, labelled by its visible prompt text and its title, both \"Pesquisar...\" (Search...), next to a magnifying-glass search control. claimTrue: the sentence says the label does not say what to enter, but \"Pesquisar\" tells the user the field takes a search query, which for a site search box is what to enter. elementFails: 2.4.6 asks that labels describe topic or purpose. \"Pesquisar\" plainly describes the field's purpose, and with the magnifier it is the standard label for a site search. captureDiffers: the live HTML has the same field, value and title. False positive: the model had the label and misjudged it."
+    }
+  ]
+}

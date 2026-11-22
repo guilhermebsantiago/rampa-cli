@@ -1,0 +1,81 @@
+{
+  "page": "https://avoca.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p91c7d76a786",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Text link 'Stars Align Hamper in Multicolour Stripes' in a product card of the hampers carousel, to the product page titled 'Stars Align Hamper in Multicolour Stripes – Avoca'. elementFails: no. The link text alone names the product page it opens; the only other link with this name is the card's image link to the same href, so R1 finds no failing pair. captureDiffers: no. The live HTML has the same link and href. Rampa reporting nothing was right."
+    },
+    {
+      "fingerprint": "pfcc43376e9b",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Image link in the same product card (tabindex=-1, still in the accessibility tree), with aria-label 'Stars Align Hamper in Multicolour Stripes' and the same href as the card's text link. elementFails: no. The aria-label (ARIA8) names the product whose page it opens; the only link sharing the name goes to the same resource. captureDiffers: no. The live HTML has the same aria-label and href. Rampa reporting nothing was right."
+    },
+    {
+      "fingerprint": "36f92257103d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a 'Shop now' link to /collections/christmas-gifts-for-her, inside list item 1 of a three-card list whose list item also holds the title link 'Gifts for Her' to the same address. claimTrue: no. The count holds (five 'Shop now' links in the accessibility tree lead to five places: the visible hampers slide, the three cards, and the sleepwear 'Shop Now'; the other slides are aria-hidden), but 'nothing around this one tells it apart' does not: its list item, which this rubric counts as programmatically determined link context, contains 'Gifts for Her'. elementFails: no. Link text plus list-item context gives the purpose (shop gifts for her), so under R1 the three card links are not one set and no other link shares both name and context. captureDiffers: no. The live HTML fetched on 2026-11-21 has the same list items, title links and hrefs. False positive: the checker had the list item text in the snapshot and judged the context as empty."
+    },
+    {
+      "fingerprint": "3ba17ab89510",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a 'Shop now' link to /collections/christmas-kris-kindle, inside list item 2 of a three-card list whose list item also holds the title link 'Kris Kindle Gifts' to the same address. claimTrue: no. The count holds (five 'Shop now' links in the accessibility tree lead to five places: the visible hampers slide, the three cards, and the sleepwear 'Shop Now'; the other slides are aria-hidden), but 'nothing around this one tells it apart' does not: its list item, which this rubric counts as programmatically determined link context, contains 'Kris Kindle Gifts'. elementFails: no. Link text plus list-item context gives the purpose (shop Kris Kindle gifts), so under R1 the three card links are not one set and no other link shares both name and context. captureDiffers: no. The live HTML fetched on 2026-11-21 has the same list items, title links and hrefs. False positive: the checker had the list item text in the snapshot and judged the context as empty."
+    },
+    {
+      "fingerprint": "26132e985087",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a 'Shop now' link to /collections/christmas-gifts-for-him, inside list item 3 of a three-card list whose list item also holds the title link 'Gifts for Him' to the same address. claimTrue: no. The count holds (five 'Shop now' links in the accessibility tree lead to five places: the visible hampers slide, the three cards, and the sleepwear 'Shop Now'; the other slides are aria-hidden), but 'nothing around this one tells it apart' does not: its list item, which this rubric counts as programmatically determined link context, contains 'Gifts for Him'. elementFails: no. Link text plus list-item context gives the purpose (shop gifts for him), so under R1 the three card links are not one set and no other link shares both name and context. captureDiffers: no. The live HTML fetched on 2026-11-21 has the same list items, title links and hrefs. False positive: the checker had the list item text in the snapshot and judged the context as empty."
+    },
+    {
+      "fingerprint": "s54adbfa5740",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "h2 'Let the Christmas Magic Begin!' over a carousel of products from /collections/christmas-gifts (handmade chocolates box, iced Christmas cake, Christmas pudding, advent calendar, glass tree ornaments, a Christmas stocking, a gingerbread cup). claimTrue: no. The heading does say something about the content: it is Christmas-themed, and so is every item under it. elementFails: leaning no. 2.4.6 asks headings to describe the topic, not to be precise; under G130 this heading names the section's theme, though not the fact that these are gifts to buy. captureDiffers: no. The live HTML has the same heading and section. Competent auditors would reasonably disagree on whether a slogan heading that names only the season is descriptive enough, so the label is uncertain."
+    },
+    {
+      "fingerprint": "fea43814ea37",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header search field (input type=search, role combobox, name 'Search') whose placeholder a script cycles through 'Search for throws...', 'Search for hampers...' and 'Search for scarves...' (the data-placeholder attributes; the capture caught it mid-typing as 'Search for scarve'). claimTrue: yes. The quoted string is one of the cycled placeholders, and the colours hold: the live main.css sets .search__input::placeholder to the text colour at 50% alpha, and the screenshot's placeholder pixels are #979697 on #ececec, 2.49:1, at 16px normal weight. elementFails: yes. The placeholder is the only visible text saying what the field is for (the 'Search' label is not shown), so it is not incidental, and 2.49:1 is below 1.4.3's 4.5:1. I found no technique or exception that would make it pass. captureDiffers: no. The live HTML and CSS give the same placeholder strings and the same placeholder colour rule."
+    }
+  ]
+}

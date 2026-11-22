@@ -1,0 +1,82 @@
+{
+  "page": "https://www.ufsm.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s20c2f617ebc",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the header link 'VLibras' (sign-language icon hidden with aria-hidden) in the accessibility bar beside 'Alto Contraste', with href http://www.vlibras.gov.br/, which now redirects to the VLibras page on gov.br (gov.br/governodigital/.../vlibras). VLibras is the proper name of the federal Libras translation service, so the link text names the destination; Understanding 2.4.4 accepts link text that names what the link leads to, and a link role tells users it navigates. The claim that the text does not tell where the link goes is therefore false of the capture. The only possible ambiguity (whether it turns on the page's own VLibras widget instead) is not one an auditor would score as a 2.4.4 failure. The live HTML holds the same link (its target=_blank is added by script, which does not touch this claim). Label: false positive. The model had the text and the matching href and still judged wrongly."
+    },
+    {
+      "fingerprint": "c0cffa1fe837",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the active slide link in the second 'Galerias de fotos' carousel: an Elementor lightbox link to IC3A3677-1.jpg wrapping <figure><img alt='Descubra UFSM (Foto: Adrieny Rosa)'><figcaption>same text</figcaption></figure>. In the snapshot the CDP tree gives the link the name '' while the img (alt) and the figcaption text sit inside it, so the claim's core statement, that the browser computes no name, holds for the capture. Chromium does not pull name-from-content through a figure (a role named from author), but the author did supply text inside the link: under HTML-AAM the figure takes its name from the figcaption, other engines and checkers such as axe compute 'Descubra UFSM (Foto: Adrieny Rosa)', and screen readers in browse mode read the link's content, so 'announces only link' is doubtful. Whether 4.1.2 fails therefore depends on whether this Chromium behaviour counts against the author. I could not test assistive technology or other browsers, and competent auditors would disagree. The live HTML has the same markup. Label: uncertain."
+    },
+    {
+      "fingerprint": "sf7dc084c9d0",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the h5 'JAI' that heads a news widget. Under it, in the snapshot and on the live page, are three JAI stories ('Segundo dia da 41ª JAI reúne trabalhos...', '...palestra marca abertura da JAI na UFSM/FW', and a SAE item from the same week of events) and a '+ JAI' link to posts tagged jai. JAI is UFSM's Jornada Acadêmica Integrada, and the heading names the topic the section is about. 2.4.6 asks that headings describe the topic and notes that they need not be long. Expanding an abbreviation is 3.1.4 (AAA), not 2.4.6. So the claim that the heading says nothing about its content is false, and the element passes. The live page has the same widget. The container text the packet shows starts with a long photo description and is cut off before the headlines that name the 41ª JAI, which is likely why the model judged without them. Label: false positive."
+    },
+    {
+      "fingerprint": "p20d771ec9ad",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the link 'Ministério da Mulher, da Família e dos Direitos Humanos' (href http://www.mdh.gov.br/) in the gov.br bar's 'Órgãos do Governo' list. The bar collapses that list to a 1px-high box, but the link stays in the accessibility tree and keyboard focus can reach it. Its text names the ministry whose site it opens, so its purpose can be determined from the link text alone. The ministry's name is out of date, which is a content-currency issue, not 2.4.4. No other link shares its name. The live bar script (app/themes/ufsm/barra/barra.js) still injects the same link. The destination did not answer my fetch, but the link text settles the purpose. The element does not fail 2.4.4, and Rampa was right not to report it. Label: false positive."
+    },
+    {
+      "fingerprint": "6b3f44e4bddd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the active slide link in the first 'Galerias de fotos' carousel: a lightbox link to 182A1080-2.jpg wrapping <figure><img alt='Descubra UFSM (Foto: Jessica Mocellin)'><figcaption>same text</figcaption></figure>. The snapshot's CDP tree gives the link the name '', so the claim's core statement is true of the capture. But author text is inside the link (img alt and figcaption). The empty name comes from Chromium not computing name-from-content through a figure, while HTML-AAM gives the figure the figcaption's name, other implementations such as axe compute 'Descubra UFSM (Foto: Jessica Mocellin)', and screen readers in browse mode read the link's content. Whether that is a 4.1.2 failure of the content or a user-agent behaviour is something competent auditors would disagree on, and I could not test assistive technology or other browsers. The screenshot shows a different slide only because the carousel autoplays, and the live HTML has the same markup. Label: uncertain."
+    },
+    {
+      "fingerprint": "s5575bd01c44",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the photo in a 'Galerias de fotos' carousel slide (182A1080-2), with the alt 'Descubra UFSM (Foto: Jessica Mocellin)'. I downloaded the image to check, and the crop is that photo: visitors at an exhibition stand with a globe, leaflets and balloons. As worded the claim is not quite true: the alt names the event and a photo credit, and nothing in it contradicts the picture. Its defect is that it leaves out everything the photo conveys. The alt is a caption and credit, repeated as the visible figcaption and as the lightbox title, and it is the same for every photo in the gallery apart from the photographer's name. So it neither presents the photo's information (G94) nor adds anything to the visible caption. No long description, aria-describedby or nearby text describes the photo. The live page is unchanged. Following the rubric's good-faith rule (an alternative said to describe something the image does not show when it leaves out most of what the image conveys), the claim names the failure. Label: true positive."
+    },
+    {
+      "fingerprint": "d2d447fe3487",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the coat-of-arms SVG in the header logo link (<a title='Logotipo UFSM' href='/'>). The image is all the link holds. Its alt, 'Imagem do brasão composta por quatro elementos: escudo, flor de lis, archotes e lema.', describes the picture and names neither UFSM nor the home page; it even leaves out the 'UFSM' lettering shown in the image. The browser's computed link name (CDP) is that alt, and 'Logotipo UFSM' is only the title, the link's description; the packet's link name 'Logotipo UFSM' is Rampa's own miscomputation. Under rubric R2 and H30, neither the title nor the neighbouring 'UFSM' heading link cures 1.1.1, because the alternative must identify the link's destination. The claim is true of the capture and names the failure. The live HTML is identical. Label: true positive."
+    }
+  ]
+}

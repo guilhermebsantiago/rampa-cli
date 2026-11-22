@@ -1,0 +1,27 @@
+{
+  "page": "https://www.ageuk.org.uk/discover/2026/september/a-tribute-to-dame-esther-rantzen/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p01fd12b46ac",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the footer link 'Charity shops' (href /services/charity-shops/, no title) in a list under the h2 'Services'. Its text alone, with the preceding heading, says where it goes, and the destination is the 'Age UK charity shops' page, so its purpose is clear and it meets 2.4.4. No other link in the snapshot or the live HTML has the name 'Charity shops' (the two 'Find charity shops near you' menu links lead to the same address anyway), so R1 does not apply. The live HTML (fetched 2026-11-21) has the same link with the same text and href, and the screenshot shows it styled under the 'Services' column heading, so the capture does not differ for this point. Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter sign-up input in the 'Sign up today' fieldset (label 'Email address', type=text, name=email, no autocomplete attribute). The snapshot, taken after scripts ran, has no autocomplete on it, and its formIssues record Chromium's FormInputAssignedAutocompleteValueToIdOrNameAttributeError for this field, so both parts of the claim hold in the capture. I looked for reasons it could pass: the field collects the visitor's own email address to subscribe them, which is the 'email' input purpose in WCAG 2.1 section 7, and HTML supports autocomplete, so 1.3.5 applies and is not met without autocomplete=\"email\" (failure F107 territory); no script adds the attribute, and type=text gives no programmatic purpose. The live server HTML fetched on 2026-11-21 has the same tag with no autocomplete, and the screenshot shows the styled field, so the capture does not differ. The claim names the real failure."
+    }
+  ]
+}

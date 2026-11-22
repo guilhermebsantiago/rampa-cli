@@ -1,0 +1,55 @@
+{
+  "page": "https://www.heals.com/pages/lighting",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "pa63ed40ddaa",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Care Guides' tag badge on the third article card of the blog block, linking to /tagged/care-guides, which redirects to the Tips & Advice list tagged 'Care Guides'. The text alone says where it goes: a list of care guides. Seven links on the page share the name (five article badges, the footer link, the mobile menu link); all resolve to the same resource, /blogs/tips-advice/tagged/care-guides, so there is no R1 pair with non-equivalent destinations, and the badges' preceding headings differ anyway. The live HTML has the same badge and href, so the capture does not differ. The element meets 2.4.4."
+    },
+    {
+      "fingerprint": "4c1f48481528",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "yes" },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the footer newsletter email field with placeholder 'Email'. The snapshot's pixel measurement records #72716d on #000000 (4.30:1), so the sentence holds for the capture. But the capture was taken with the newsletter pop-up open: the screenshot shows the pop-up and a cookie dialog over a dimmed page, and the accessibility tree marks the page as ignored behind an active modal dialog. The footer uses the theme's secondary_scheme, where the placeholder rule .newsletter .newsletter__form__input::placeholder sets color: var(--color-form-text) = #e5e3db on --color-form-background #000000, about 16:1. #72716d is exactly #e5e3db at 50% under a black backdrop (the header search box measures the same way, #767573 for #eceae6), so the measured colour is the modal backdrop, not the text. A user sees the footer at full contrast once the pop-up closes, and content behind an open modal is not what 1.4.3 judges. The element meets 1.4.3; the false positive comes only from the capture."
+    },
+    {
+      "fingerprint": "ec6694af3b5f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a skip link (class skip-to-content, visually hidden until focused) at the start of the 'New Lighting' featured collection, with the text 'See more' and href #featured-collection-end. In the live HTML that target is an empty sr-only div placed after the product carousel, so the link's purpose is to skip past the collection. 'See more' suggests showing more products instead. It has no title, aria-label or aria-describedby, is not in a sentence, paragraph, list item or table cell, and the heading just before it is the previous section's 'Up to 20% off table lamps', which says nothing about skipping. Nothing in its context gives the purpose, so it fails 2.4.4, and the claim names that failure. The live page has the same markup."
+    },
+    {
+      "fingerprint": "s40c01dc5cf0",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the footer newsletter input (type email). Its label is the sr-only label 'Newsletter Email', and its visible placeholder is 'Email', under the heading 'Subscribe for the latest news, special offers and first look at our new products.' The label says what to enter, an email address, and what for, the newsletter, so the claim is false and the label describes the field's purpose as 2.4.6 asks. The live HTML has the same label and input."
+    },
+    {
+      "fingerprint": "a5f766c10a38",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the sr-only label '\"Search\"' (for=\"search\") in the desktop header search form. The snapshot and the live HTML both have three inputs with id=\"search\" (a hidden one in the header, the visible desktop one, the search overlay's), and the first one gets all three labels, so the claim holds for the capture: this label names the hidden first input, not the field beside it. On 4.1.2, though, the visible field still has a programmatically determined name. HTML-AAM's name computation for input type=search falls back to the placeholder, here 'Search', the same word as the label, so screen readers announce it as Search and the ACT form-field-name rule passes. The duplicate id is a markup defect (4.1.1 Parsing in WCAG 2.1, which W3C now treats as always satisfied for HTML), but it leaves the field with no missing name or role, so 4.1.2 is met. The rule treats the broken for/id reference as a 4.1.2 failure without checking the name the field ends up with."
+    },
+    {
+      "fingerprint": "seca729ce293",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page is Heal's lighting landing page: its h1 is 'Lighting', and its content is lighting collections, featured lighting brands and a lighting buying guide. The title 'Lighting – Heal's' names the topic and the site, so it describes the page, and the claim that it says nothing about the page is false. The live page has the same title. The page meets 2.4.2."
+    },
+    {
+      "fingerprint": "sbf8f7c6ec5f",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the visually hidden skip link 'Skip to end of footer' at the start of the footer, with href #back-to-top. In both the snapshot and the live HTML, #back-to-top is a visually hidden 'Back to top' link that is the last element inside the footer (snapshot y 5624, against the link's y 4960 on a 5722 px page), just before the colophon. So the link does take the user to the end of the footer, as its text says. The target's id and name ('Back to top') describe what that target link does, not where this link lands. The claim of a mismatch is false, and the link meets 2.4.4. Rampa never read where the fragment target sits and took the target's name for the destination's purpose."
+    }
+  ]
+}

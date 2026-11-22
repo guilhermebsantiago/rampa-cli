@@ -1,0 +1,60 @@
+{
+  "page": "https://www.mpmg.mp.br/portal/menu/conheca-o-mpmg/ouvidoria/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "sbcff1f6c6ad",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link \"clique aqui.\" is the second item of the list under the h2 \"Atendimento da Ouvidoria do MPMG\"; its list item reads \"Consulta ao andamento da manifestação: clique aqui.\" (the snapshot gives the listitem that name, and the packet's ancestors show it). The link text alone is vague, but its enclosing list item, which is programmatically determined link context (technique H77), says it opens the lookup of a complaint's progress, and the href (aplicacao.mpmg.mp.br/ouvidoria/service/cidadao/consulta) is that service; the preceding heading adds the Ouvidoria. So the claim that nothing around it tells where it goes is false of the capture, and the link meets 2.4.4. No other link shares its name and context (the first item's \"clique aqui\" sits in a different list item). The live page, fetched today, has the same markup and the screenshot shows the styled page, so the capture does not differ. The model had the list item text in its context and judged wrongly."
+    },
+    {
+      "fingerprint": "s3df40f47caf",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page is the Ouvidoria (ombudsman) page of the MPMG portal: its h1 is \"Ouvidoria\", the breadcrumb is Home > Conheça o MPMG > Ouvidoria, and the content describes the ombudsman's channels. The title \"Ouvidoria | Portal\" names exactly that topic, which is what 2.4.2 and G88 ask (a title that describes the topic or purpose). The generic \"Portal\" suffix not naming the MPMG is at most an advisory point (G127), not a failure. So the claim that the title says nothing about the page is false, and the page meets 2.4.2. The live page returns the same <title> today, so the capture does not differ."
+    },
+    {
+      "fingerprint": "s8c844ca0e65",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The footer h2 \"Visite-nos nas redes\" (Visit us on social networks) is followed directly by a list of links to the MPMG's social media profiles (Instagram, Twitter, Youtube, Spotify, Flickr, Facebook, LinkedIn, Tiktok, Whatsapp), each with a screen-reader name and visible icon, as the packet's ancestor text, the screenshot and the live HTML (ul#redesSociaisRodape right after the h2) all show. The heading describes that content, so it meets 2.4.6 and the claim that it names a different topic is false. The live page matches the capture."
+    },
+    {
+      "fingerprint": "s118f400ea0d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link \"acesse aqui\" is in the list item \"Formulário eletrônico: acesse aqui.\" under the h2 \"Atendimento da Ouvidoria das Mulheres\". Its enclosing list item (H77) says it opens the electronic form, and the heading just before it (H80, counted as context in this round) says it is the women's ombudsman service; the href (aplicacao.mpmg.mp.br/ouvidoria/service/cidadao/mulher?tipo=mulher) is that form. So its purpose can be determined from the link with its context, the claim that nothing around it does is false, and the link meets 2.4.4. The neighbouring \"acesse aqui.\" is in another list item, so they are not one set. The live page has the same markup and the screenshot shows the styled page."
+    },
+    {
+      "fingerprint": "p9d9b27de433",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The image is the wide banner at the top of the content (Ouvidoria do MP.png): the crop and screenshot show a blurred stock photo of a woman at a desk with a headset and a grey geometric pattern, with no text and no information beyond decoration; the page's h1 \"Ouvidoria\" and the paragraphs carry the content. It is marked aria-hidden=\"true\" with alt=\" \", so assistive technology ignores it, which is how 1.1.1 treats pure decoration. It meets 1.1.1, so Rampa reporting nothing is right. The live page serves the same img markup."
+    }
+  ]
+}

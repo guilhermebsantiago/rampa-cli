@@ -1,0 +1,79 @@
+{
+  "page": "https://www.meionews.com/piaui/detento-e-encontrado-morto-na-penitenciaria-irmao-guido-em-teresina-581716",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p17e0d91740d",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is item 9 of the 'As mais lidas' list: a link holding the rank number, a photo whose alt is the headline, the h3 headline 'Suspeito de assaltar motorista em posto e atirar contra segurança é preso em Teresina' and the date, with a title attribute repeating the headline. The link text alone names the story, and the destination Rampa read has exactly that title and heading, so the purpose is determinable. No other link in the snapshot shares its name (the closest, item 13 'Suspeito assalta motorista ... durante fuga', has a different name and URL), so the R1 shared-name ground does not arise. The live page's amp-mustache template binds the link title, image alt and h3 to the same {{title}} field, matching the capture; the list is loaded from /most-accessed and its items may have rotated since, which does not change the structure. The element meets 2.4.4."
+    },
+    {
+      "fingerprint": "5d74de3099f9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the 'Continue lendo' label that expands the article. The live CSS matches the capture: .article-html .read-more has color #007ae8 on the white page, font-size 1.2rem (19.2px, 14.4pt) and font-weight 600; #007ae8 on #ffffff is 4.24:1, so the sentence's numbers are true of the capture. The skeptic's reason: 19.2px is above 14pt, and the page asks for 'Open Sans, sans-serif' without loading any web font, so on a typical machine the fallback (Arial/Helvetica, which have only regular and bold faces) renders weight 600 with the bold face, as the screenshot shows clearly bold text. Bold text of at least 14pt is large-scale text under WCAG, whose threshold is 3:1, which 4.24:1 meets. WCAG gives no numeric definition of bold, and tools split on 600 (Chrome DevTools counts 600 as bold, axe-core requires 700), so competent auditors would reasonably disagree; my own lean is that the element passes, hence uncertain rather than a true positive. No capture difference: same colours, size and weight on the live page, and the button is shown by default (checkbox unchecked)."
+    },
+    {
+      "fingerprint": "p12f96ba1134",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is a 25px Spanish flag image, the only content of a header button that navigates to a Google Translate version of the page in Spanish (_x_tr_tl=es). Its alt is 'Idiona em Espanhol', a misspelling of 'Idioma em Espanhol' (language in Spanish). Read in place of the image, the alternative still tells users the control switches the page to Spanish, which is its function, so it satisfies 1.1.1 for a control (H37/G82); the typo is a quality issue, not a missing or misleading alternative. The header is position:fixed, which is why the full-page screenshot shows a blank band at the top, but the live HTML has the same button and alt as the snapshot, so nothing that matters differs."
+    },
+    {
+      "fingerprint": "935a59967665",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the text 'ACESSE NOSSO CANAL NO ZAP' in the fixed floating WhatsApp-channel link at the bottom right of the viewport. The live CSS confirms it: .whatsapp-text has background #007bff, color #fff, font-size 12px (10px under 400px width) and weight 800, on its own solid pill, so the pixel measurement is not disturbed by what is behind it. White on #007bff is 3.98:1. At 12px the text is not large-scale even though it is bold (it is under 14pt), so 4.5:1 applies and it fails 1.4.3. It is not a logo, incidental or disabled. I looked for reasons it could be wrong: the full-page screenshot omits fixed elements, but the snapshot gives the element visible bounds in the 1280x800 viewport and no rule hides .whatsapp-float on desktop; the colours in the snapshot match the live style sheet. The claim names this failure."
+    },
+    {
+      "fingerprint": "p658c831a575",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the 'Google News' logo image, the only content of a link to MeioNews's publication page on news.google.com, after the text 'Siga-nos no'. Its alt 'Seguir MeioNews no Google News' states the link's function and destination (H30), so the image control has a name that describes its purpose and meets 1.1.1. The live HTML carries the same image and alt; no capture difference touches this."
+    },
+    {
+      "fingerprint": "a1df7cb657d8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the WhatsApp share link under 'Compartilhe:': a 35px circle with background #24c34b holding a white (fill #fff) WhatsApp glyph, no text. The live CSS matches (.article-share_buttons2 .icon.icon-whatsapp {background-color:#24c34b}, svg fill #fff). White on #24c34b is 2.34:1, and the green circle against the white page is also 2.34:1, so the glyph that tells users which network the control shares to has under 3:1 against every adjacent colour; under the normative text of 1.4.11 that is a failure, and the sentence is true of the capture. The skeptic's reason: the glyph-on-green circle is the WhatsApp brand mark, and Understanding 1.4.11 says 'Logos are exempted from contrast requirements' because brand guidelines fix their colours (WhatsApp's own white-on-green mark is lower contrast still, so this is not a low-contrast author choice), while it also says logos acting as controls 'can be problematic' without calling that a failure. Whether a brand logo used as a share button is exempt is a point competent auditors split on, so the label is uncertain. Separately the link has no accessible name, a 4.1.2/2.4.4 issue not judged here."
+    },
+    {
+      "fingerprint": "p83c2843c46e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the thumbnail of item 4 in 'As mais lidas', showing Gabriel Félix alone and with Bel Abreu; its alt is the story headline 'Quem era Gabriel Félix, influenciador e marido de Bel, que morreu aos 29 anos'. The image is not the only content of its link (the link also holds the same headline as an h3 and the date), so the alt is redundant with the adjacent text, but it is an accurate text alternative that identifies the people shown and the story, and no 1.1.1 failure covers a redundant alternative (avoiding the duplication is advisory, H2). The live template binds the alt to the same {{title}} field as the headline, matching the capture. The element meets 1.1.1."
+    }
+  ]
+}

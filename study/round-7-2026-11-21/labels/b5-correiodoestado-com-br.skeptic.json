@@ -1,0 +1,252 @@
+{
+  "page": "https://correiodoestado.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "e722b1464104",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The orange \"ASSINE\" button in the header is a link whose content is <p class=\"titulo-rodape\">A S S I N E</p>: the snapshot and the live HTML (fetched 2026-11-21) both hold the letters separated by literal spaces, and the screenshot shows the button visible at the top right. That is F32, white space used to space the letters of a word, a documented failure of 1.3.2; the link's title=\"Assine\" is only a description and does not change the content or the name a screen reader reads. I looked for a technique that would make it pass and found none, so true positive."
+    },
+    {
+      "fingerprint": "sb16492d00d8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h4 is the headline of a teaser card (kicker, share icons, photo, then the headline as a link to the same story); in DOM order the next content is the following teaser about the airports, which is what the claim compares against, so its sentence is literally true of the capture. But 2.4.6 asks whether the heading describes its topic: this heading is the title of the story the card announces and links to, and its destination's heading and title are identical. A list of teaser headlines is descriptive; the next card is not content the heading introduces. The live page has the same card structure. The model read the following teaser as the heading's section, so false positive."
+    },
+    {
+      "fingerprint": "d7c0853bc950",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The text \"/ 2 horas\" (.info-noticia-2) is drawn in #939393 on the white card background. The CSS gives .info-noticia-2 that colour at 14px bold on a 1280px viewport, which is below large-scale text (14pt bold is about 18.66px), so 4.5:1 applies; #939393 on #ffffff computes to 3.07:1. The screenshot shows the label in that grey/colour on white with nothing over it, and it is real content (a section or time label), not incidental text. The live style sheet (build/assets/home-DmyJh9gP.css, fetched 2026-11-21) sets the same rules the capture shows, and the live markup keeps the same classes, so the capture does not differ on this point (only the relative times have moved on). No reason to doubt the failure holds up, so true positive."
+    },
+    {
+      "fingerprint": "61815ddf353e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The text \"/ 2 dias\" (.info-noticia-3) is drawn in #b1b1b1 on the white card background. The CSS gives .info-noticia-3 that colour at 12px bold on a 1280px viewport, which is below large-scale text (14pt bold is about 18.66px), so 4.5:1 applies; #b1b1b1 on #ffffff computes to 2.14:1. The screenshot shows the label in that grey/colour on white with nothing over it, and it is real content (a section or time label), not incidental text. The live style sheet (build/assets/home-DmyJh9gP.css, fetched 2026-11-21) sets the same rules the capture shows, and the live markup keeps the same classes, so the capture does not differ on this point (only the relative times have moved on). No reason to doubt the failure holds up, so true positive."
+    },
+    {
+      "fingerprint": "cc0e195bc4cb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The text \"Ensino superior\" (.item-categoria.categoria-destaque) is drawn in #939393 on the white card background. The CSS gives .item-categoria.categoria-destaque that colour at 18px bold on a 1280px viewport, which is below large-scale text (14pt bold is about 18.66px), so 4.5:1 applies; #939393 on #ffffff computes to 3.07:1. The screenshot shows the label in that grey/colour on white with nothing over it, and it is real content (a section or time label), not incidental text. Its class token is \"economia/empregos-e-carreira\", which the .economia colour rule does not match, so it keeps the grey; at 18px bold it misses large-scale text by a little, and 3.07:1 would only pass a 3:1 threshold it does not qualify for. The live style sheet (build/assets/home-DmyJh9gP.css, fetched 2026-11-21) sets the same rules the capture shows, and the live markup keeps the same classes, so the capture does not differ on this point (only the relative times have moved on). No reason to doubt the failure holds up, so true positive."
+    },
+    {
+      "fingerprint": "e49f4dbe994a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The text \"REFORMA ADMINISTRATIVA\" (.item-categoria.categoria-destaque.politica) is drawn in #77a339 (--politica) on the white card background. The CSS gives .item-categoria.categoria-destaque.politica that colour at 18px bold on a 1280px viewport, which is below large-scale text (14pt bold is about 18.66px), so 4.5:1 applies; #77a339 (--politica) on #ffffff computes to 2.97:1. The screenshot shows the label in that grey/colour on white with nothing over it, and it is real content (a section or time label), not incidental text. It would fail even the 3:1 large-text threshold. The live style sheet (build/assets/home-DmyJh9gP.css, fetched 2026-11-21) sets the same rules the capture shows, and the live markup keeps the same classes, so the capture does not differ on this point (only the relative times have moved on). No reason to doubt the failure holds up, so true positive."
+    },
+    {
+      "fingerprint": "pf290c0e32cf",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The image is the content of a link to the story, with alt=\"Família de Fabíola cobra júri e diz que médico nunca perguntou onde ela foi enterrada\", which is the destination's headline; the crop shows a portrait of the woman, with the kicker and headline drawn over it as HTML text. By G82/H30 (and this rubric's R2), an alternative that names the story lets users tell where the link goes, so the control has a name that describes its purpose and 1.1.1 is met. The live HTML keeps the same alt, so the capture does not differ. No failure, so false positive (Rampa reported none)."
+    },
+    {
+      "fingerprint": "pa6d5f630b44",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The image is the content of a link to the story, with alt=\"Seis aeroportos de MS ficam de fora de “pacotão” de concessão do governo federal\", which is the destination's headline; the crop shows road machinery on an airstrip works site. By G82/H30 (and this rubric's R2), an alternative that names the story lets users tell where the link goes, so the control has a name that describes its purpose and 1.1.1 is met. The live HTML keeps the same alt, so the capture does not differ. No failure, so false positive (Rampa reported none)."
+    },
+    {
+      "fingerprint": "36bc838abc26",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The text \"/ 3 horas\" (.info-noticia-2) is drawn in #939393 on the white card background. The CSS gives .info-noticia-2 that colour at 14px bold on a 1280px viewport, which is below large-scale text (14pt bold is about 18.66px), so 4.5:1 applies; #939393 on #ffffff computes to 3.07:1. The screenshot shows the label in that grey/colour on white with nothing over it, and it is real content (a section or time label), not incidental text. The live style sheet (build/assets/home-DmyJh9gP.css, fetched 2026-11-21) sets the same rules the capture shows, and the live markup keeps the same classes, so the capture does not differ on this point (only the relative times have moved on). No reason to doubt the failure holds up, so true positive."
+    },
+    {
+      "fingerprint": "adb6515b5891",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The text \"infraestrutura\" (.item-categoria.categoria-destaque.cidades) is drawn in #008c7e (--cidades) on the white card background. The CSS gives .item-categoria.categoria-destaque.cidades that colour at 18px bold on a 1280px viewport, which is below large-scale text (14pt bold is about 18.66px), so 4.5:1 applies; #008c7e (--cidades) on #ffffff computes to 4.16:1. The screenshot shows the label in that grey/colour on white with nothing over it, and it is real content (a section or time label), not incidental text. The only way it could pass is as large-scale text, and 18px bold (13.5pt) is under the 14pt bold bound. The live style sheet (build/assets/home-DmyJh9gP.css, fetched 2026-11-21) sets the same rules the capture shows, and the live markup keeps the same classes, so the capture does not differ on this point (only the relative times have moved on). No reason to doubt the failure holds up, so true positive."
+    },
+    {
+      "fingerprint": "s3e10cad00c2",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link is a teaser's kicker \"Viagem Polêmica / 1 dia\" (CSS uppercase), but it carries title=\"Gestor da Santa Casa de Campo Grande viaja ao Japão durante greve e tem troca pedida\", the destination's exact headline, in the snapshot and in the live HTML. By this rubric's context list, the title is the link's accessible description and H33 is sufficient for 2.4.4: the kicker with the title describes the purpose. The claim is also wrong as worded: the kicker names the story's topic (a controversial trip, which is what the story is about) rather than not matching it. The model had the title in the element's HTML and judged without it, so false positive."
+    },
+    {
+      "fingerprint": "p535933a1d90",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The image is the content of a link to the story, with alt=\"4 cidades de MS estão entre as 10 mais inteligentes do Centro-Oeste\", which is the destination's headline; the crop shows an aerial night view of a city lake with the rank number 2 drawn over it as HTML text. By G82/H30 (and this rubric's R2), an alternative that names the story lets users tell where the link goes, so the control has a name that describes its purpose and 1.1.1 is met. The link also holds the visible rank \"2\"; the browser's own name for it is \"2 4 cidades de MS...\" (Rampa's computed name \"2\" leaves the alt out, a collector quirk that does not touch the image). The live HTML keeps the same alt, so the capture does not differ. No failure, so false positive (Rampa reported none)."
+    },
+    {
+      "fingerprint": "scb91dd6c177",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link is a teaser's kicker \"REFORMA ADMINISTRATIVA / 3 horas\" (CSS uppercase), but it carries title=\"Coronel David e Mochi podem ficar com secretarias\", the destination's exact headline, in the snapshot and in the live HTML. By this rubric's context list, the title is the link's accessible description and H33 is sufficient for 2.4.4: the kicker with the title describes the purpose. The claim is also wrong as worded: the kicker names the story's topic (the state administrative reform in which the two may take secretariats) rather than not matching it. The model had the title in the element's HTML and judged without it, so false positive."
+    },
+    {
+      "fingerprint": "ffa1dd8aaa78",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The text \"Assinantes\" (.item-categoria) is drawn in #939393 on the white card background. The CSS gives .item-categoria that colour at 12px bold on a 1280px viewport, which is below large-scale text (14pt bold is about 18.66px), so 4.5:1 applies; #939393 on #ffffff computes to 3.07:1. The screenshot shows the label in that grey/colour on white with nothing over it, and it is real content (a section or time label), not incidental text. The live style sheet (build/assets/home-DmyJh9gP.css, fetched 2026-11-21) sets the same rules the capture shows, and the live markup keeps the same classes, so the capture does not differ on this point (only the relative times have moved on). No reason to doubt the failure holds up, so true positive."
+    },
+    {
+      "fingerprint": "p8cb912a2fdf",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The image is the content of a link to the story, with alt=\"Seguro que o produtor rural não pediu, parcela que ele paga com juros\", which is the destination's headline; the crop shows a columnist banner (photo, \"Leandro Provenzano, Direito em Geral\", newspaper logo). By G82/H30 (and this rubric's R2), an alternative that names the story lets users tell where the link goes, so the control has a name that describes its purpose and 1.1.1 is met. The banner's text is not repeated in the alt, but as a link the image's function is to reach the column, which the alt identifies. The live HTML keeps the same alt, so the capture does not differ. No failure, so false positive (Rampa reported none)."
+    },
+    {
+      "fingerprint": "s901215acab7",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link is a teaser's kicker \"Culinária e saúde / 2 horas\" (CSS uppercase), but it carries title=\"Aprenda a fazer receitas deliciosas utilizando cenoura como ingrediente principal\", the destination's exact headline, in the snapshot and in the live HTML. By this rubric's context list, the title is the link's accessible description and H33 is sufficient for 2.4.4: the kicker with the title describes the purpose. The claim is also wrong as worded: the kicker names the story's topic (cooking and health, and the story is a carrot recipe with its health benefits) rather than not matching it. The model had the title in the element's HTML and judged without it, so false positive."
+    },
+    {
+      "fingerprint": "4dd14fd43136",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The text \"assinantes\" (.item-categoria) is drawn in #939393 on the white card background. The CSS gives .item-categoria that colour at 12px bold on a 1280px viewport, which is below large-scale text (14pt bold is about 18.66px), so 4.5:1 applies; #939393 on #ffffff computes to 3.07:1. The screenshot shows the label in that grey/colour on white with nothing over it, and it is real content (a section or time label), not incidental text. The live style sheet (build/assets/home-DmyJh9gP.css, fetched 2026-11-21) sets the same rules the capture shows, and the live markup keeps the same classes, so the capture does not differ on this point (only the relative times have moved on). No reason to doubt the failure holds up, so true positive."
+    },
+    {
+      "fingerprint": "7f715ee22a86",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The text \"/ 11 horas\" (.info-noticia-2) is drawn in #939393 on the white card background. The CSS gives .info-noticia-2 that colour at 14px bold on a 1280px viewport, which is below large-scale text (14pt bold is about 18.66px), so 4.5:1 applies; #939393 on #ffffff computes to 3.07:1. The screenshot shows the label in that grey/colour on white with nothing over it, and it is real content (a section or time label), not incidental text. This Felpuda teaser is no longer on the live page, but the class and its colour are unchanged there, so I judged it from the capture. The live style sheet (build/assets/home-DmyJh9gP.css, fetched 2026-11-21) sets the same rules the capture shows, and the live markup keeps the same classes, so the capture does not differ on this point (only the relative times have moved on). No reason to doubt the failure holds up, so true positive."
+    },
+    {
+      "fingerprint": "ce1d48b8d54b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer's orange \"ASSINE\" button holds <p class=\"titulo-rodape\">A S S I N E</p>, letters separated by literal spaces in both the snapshot and the live HTML, and it is visible in the screenshot near the bottom left. F32 names exactly this as a failure of 1.3.2; title=\"Assine\" on the link does not change the spaced content. No reason holds up against it, so true positive."
+    },
+    {
+      "fingerprint": "pb3ea44205ad",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The image is the content of a link to the story, with alt=\"Novembro azul: o câncer de próstata e o direito à proteção previdenciária\", which is the destination's headline; the crop shows a columnist banner (photo, \"Juliane Penteado, Direito Previdenciário\", logo), whose name the card's kicker also gives as text. By G82/H30 (and this rubric's R2), an alternative that names the story lets users tell where the link goes, so the control has a name that describes its purpose and 1.1.1 is met. The live HTML keeps the same alt, so the capture does not differ. No failure, so false positive (Rampa reported none)."
+    },
+    {
+      "fingerprint": "paa60b408138",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The image is the content of a link to the story, with alt=\"Coronel David e Mochi podem ficar com secretarias\", which is the destination's headline; the crop shows two men talking at desks in a legislative chamber. By G82/H30 (and this rubric's R2), an alternative that names the story lets users tell where the link goes, so the control has a name that describes its purpose and 1.1.1 is met. The live HTML keeps the same alt, so the capture does not differ. No failure, so false positive (Rampa reported none)."
+    },
+    {
+      "fingerprint": "pcb1e548114f",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The image is the content of a link to the story, with alt=\"Presidente do Supremo mantém prisão de Vorcaro\", which is the destination's headline; the crop shows a small photo of a justice in a robe. By G82/H30 (and this rubric's R2), an alternative that names the story lets users tell where the link goes, so the control has a name that describes its purpose and 1.1.1 is met. The live HTML keeps the same alt, so the capture does not differ. No failure, so false positive (Rampa reported none)."
+    },
+    {
+      "fingerprint": "551846de2831",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The text \"/ 1 hora\" (.info-noticia-2) is drawn in #939393 on the white card background. The CSS gives .info-noticia-2 that colour at 14px bold on a 1280px viewport, which is below large-scale text (14pt bold is about 18.66px), so 4.5:1 applies; #939393 on #ffffff computes to 3.07:1. The screenshot shows the label in that grey/colour on white with nothing over it, and it is real content (a section or time label), not incidental text. The live style sheet (build/assets/home-DmyJh9gP.css, fetched 2026-11-21) sets the same rules the capture shows, and the live markup keeps the same classes, so the capture does not differ on this point (only the relative times have moved on). No reason to doubt the failure holds up, so true positive."
+    }
+  ]
+}

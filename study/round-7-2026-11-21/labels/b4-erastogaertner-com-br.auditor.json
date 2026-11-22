@@ -1,0 +1,48 @@
+{
+  "page": "https://erastogaertner.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "d7f0c89f6b4b",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "yes" },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the header's search button: a white magnifier icon (search.css forces color and stroke #fff) on a transparent background over the hero slider. claimTrue: the snapshot's pixel record for this icon says #ffffff on #999999, 2.849:1, so the sentence matches what the capture recorded. But #999999 is the hero widget's CSS background colour (post-15.css, .elementor-element-de1bb59 {background-color:#999999}), which the hero photo (RRM_9905-2-scaled.jpg, same file live and in the snapshot) covers completely. At the icon's position users get the photo's dark blue sky. I rebuilt the cover-fitted photo at 1265x711 and sampled about #2d435a under the icon, roughly 10:1 against white. The snapshot itself measured #29435a from pixels behind the 'Ensino e Pesquisa' menu text in the same header row, and the blur and 90% brightness filter only darken it. When the header gets its #0079DA background, white is about 4.6:1. Either way it is above 3:1, so elementFails is no. captureDiffers: the saved screenshot shows a dimmed 'ATENÇÃO!' notice over the icon, not #999999. The pixel record the rule used therefore comes from a render state users never see. So it is a capture/collector error, not a real low-contrast icon."
+    },
+    {
+      "fingerprint": "p0c29fcf41a9",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A 'Ler Mais' button-styled link in the third news card, pointing to the article 'Solidariedade à mesa: Ópera de Bambu realiza caranguejada Solidária...'. Under this round's context rule, the heading just before the link counts. In document order that heading is the card's own h3, whose text is exactly the article's title (and is itself a link to the same URL). With that heading, the link's purpose can be determined. The other 'Ler Mais' links on the page each sit under their own article h3, so their contexts tell them apart and they do not form an R1 set. It meets 2.4.4, and Rampa was right not to report it. The live page has the same card markup (h3 link, excerpt, 'Ler Mais' to the same URL), and the screenshot shows it, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "140da7292172",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The newsletter field under 'Fique por dentro das novidades' ('Inscreva-se em nossa newsletter...'). It is an input type=email with the hidden label 'Email *' and the placeholder 'Deixe aqui o seu melhor e-mail', so it asks for the user's own e-mail address, which is one of the listed input purposes. Neither the snapshot DOM nor the live raw HTML has any autocomplete attribute on it (the live page has no autocomplete attribute at all). type=email gives the data type, not the purpose. No H98 autocomplete token means the purpose cannot be programmatically determined, which fails 1.3.5. The claim names exactly that. The live markup is identical to the capture, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "se19c28a7396",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "A footer 'Links Úteis' link named 'Qualidade' that leads to /visita-benchmarking/. The destination's title and h1 are 'Visita Benchmarking', as the packet says. But I opened the page, and its first content section is a video banner whose heading (h2) is 'Qualidade'. The banner is followed by 'VISITAS INSTITUCIONAIS', guidance for benchmarking visits, a 'Processos de qualidade' (JCI) document and a visit-request form. So it is the hospital Quality area's page, and it presents itself as 'Qualidade'. There is no other quality page on the site (/qualidade/ returns 404). The link text matches the heading the destination displays, which describes its purpose. Understanding 2.4.4 does not require the document's title. So the 'does not match' part of the claim does not hold, and the link meets 2.4.4. Rampa read only the destination's title, h1 and description, so it missed the banner heading. The live footer link and the destination match the capture's records (same href, title and h1)."
+    },
+    {
+      "fingerprint": "2771e221d11d",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Próximo slide' arrow of the 'Nossas Unidades' image carousel: an Elementor swiper button that shows only a chevron in Elementor's default hsla(0,0%,93%,.9) (#ededede6), with no background or border, drawn over whichever photo is rightmost in the autoplaying carousel. The snapshot's pixel record behind it (#e4e4e6, #edeff2 to #acaeb2) matches the light area of the CEPEP photo, white coats and a grey table. I sampled that spot of the CEPEP photo in the screenshot (#c7c9cd, #a7a9ad, #e8e7ea, #f1f3f4): 1.04 to 2.0:1 against the chevron. On light slides like this one and the white hospital facades, the only visual indicator of the control falls below 3:1 and nearly disappears, which fails 1.4.11. In the saved screenshot the chevron sits on a brick wall, where most of it passes, but the carousel rotates through the failing states for every user. The live page has the same carousel, images and default arrow styling, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "p52848ff4c58",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The top-level 'Ensino e Pesquisa' item of the main menu: a link with href='#' inside a role=button container. The accessibility tree exposes it as collapsed with a popup menu. Its submenu holds 'Ensino e Pesquisa' (/ensino-e-pesquisa-2/), 'CEPEP' and 'Estudos em Recrutamento'. Its purpose is to open the Ensino e Pesquisa submenu, which its name plus the expanded and has-popup state convey, so 2.4.4 is met. The submenu link with the same name sits in its own nested list item, under a parent list item that is the top-level item (H81), and only the top-level item has the toggle state. Their contexts tell them apart, so they do not form an R1 set. The accessible name also carries a Font Awesome private-use glyph (U+F107), which is noise but does not hide the purpose. Possible role issues (a link used as a toggle, a control nested in a role=button) fall under 4.1.2, not 2.4.4. The live markup is identical to the capture."
+    }
+  ]
+}

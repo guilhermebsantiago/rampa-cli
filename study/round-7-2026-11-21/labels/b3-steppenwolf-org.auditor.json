@@ -1,0 +1,27 @@
+{
+  "page": "https://www.steppenwolf.org/about-us/contact-us",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "e5f0ef52d8d2",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the page header's background image, brush-stroke.webp, with alt=\"\", sitting behind the header content. The words 'CONTACT US' and 'GENERAL COMMENTS & QUESTIONS' are not in the image. They are real HTML text drawn over it: the h1 #page-header__title 'Contact Us' and the h2 'General Comments & Questions' (#wysiwyg-1 h2), both in the snapshot with their own bounds. The screenshot shows plain brush-stroke texture behind that text. So the claim is false: the image adds nothing the text does not already say. A decorative texture with a null alt meets 1.1.1 (technique H67 / F39 does not apply). The live HTML I fetched has the same img with alt=\"\" and the same h1 and h2, so the capture matches the page users get. Cause: the crop the model saw is the screenshot region inside the image's bounds, which includes the overlaid DOM text, so it showed text that is not part of the image. The model also had that text in its surrounding context and still made the claim."
+    },
+    {
+      "fingerprint": "s46258b542b6",
+      "answers": { "claimTrue": "cannot_tell", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the footer link 'Calendar' (shown as CALENDAR), the first item in the 'Quicklinks' list under the h3 'Quicklinks', with href https://cart.steppenwolf.org/. The snapshot does not hold the destination (Rampa did not read it), so the capture cannot settle whether the text matches where the link goes. I opened the destination: its title is 'Events | Steppenwolf Theatre', with the heading 'Upcoming Events', filters by venue and series, and Calendar/List and Day/Week/Month views. That is the theatre's events calendar, so the link text 'Calendar' describes the link's purpose, and the link meets 2.4.4. No other link shares its name. The live HTML has the same link, text and href, so the capture does not differ. Cause: Rampa never read the destination and seems to have guessed from the 'cart' host name."
+    },
+    {
+      "fingerprint": "scae661d2569",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h2 'You are here:' that heads the breadcrumb navigation. It is visually hidden (1px wide) and is also the nav's and the list's aria-labelledby name. The content under it is the breadcrumb trail Home > About Us > Contact Us, and 'You are here:' describes exactly that: the user's current location in the site. This is the usual, widely recognised label for a breadcrumb. Understanding 2.4.6 asks only that headings describe the topic or purpose and says they need not be long. So the claim that the heading says nothing about its content is false, and the heading meets 2.4.6. The live HTML has the same h2 heading and the same ol breadcrumb list, so the capture does not differ. Cause: the model had the heading and its breadcrumb context and judged wrongly."
+    }
+  ]
+}

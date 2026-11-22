@@ -1,0 +1,115 @@
+{
+  "page": "https://oantagonista.com.br/analise/relatorio-da-pf-sobre-mendonca-saiu-pela-culatra/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "pb9e87ed0d05",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer logo image (o-antagonista.svg) with alt=\"o antagonista\". The crop and the screenshot show the wordmark \"o antagonista\" (the i drawn as an exclamation mark), so the alternative gives the same text as the logo and serves its purpose. The image is not inside a link: the home link next to it is a separate empty anchor named by its title \"O Antagonista\". The raw HTML of the live page has the same img and alt, so the capture does not differ. The element meets 1.1.1, and Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "sdda11b52ef9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h3 is the title of the previous article in the \"< Notícia Anterior\" pagination block at the end of the post. Under it are only that article's date and reading time (21.11.2026 00:00, 4 minutos de leitura) and a link to the article with the same text. The heading accurately names what its block is about, the previous story, so it does not name a different topic than its content. The claim is false, and the heading meets 2.4.6. The live HTML has the same block and heading text."
+    },
+    {
+      "fingerprint": "bc69579333a3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Footer newsletter email input (RD Station form). Its only visible cue is the placeholder \"Email *\". It has a <label for> \"Email*\", but the form's own CSS sets .bricks-form__label to display:none, and the snapshot's CDP tree shows Chromium's computed name as \"\" (label notRendered). Chromium stops at the empty hidden label and does not fall back to the placeholder. So the claim that the browser computes no name is true of the capture, and in Chrome or Edge the field has no programmatic name, which would fail 4.1.2. I fetched the RD Station form markup from forms.rdstation.com.br: it has the same hidden label and the same input, so the capture matches the live page. Labelled uncertain because competent auditors would reasonably disagree. The HTML-AAM computation (and Firefox and axe's label rule) falls back to the placeholder and yields \"Email *\", and common screen readers announce the placeholder that Chrome exposes separately, so the \"announces only textbox\" part may overstate the impact."
+    },
+    {
+      "fingerprint": "13bb4a8827e3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "In-article newsletter form (WhatsApp card): an input type=email, name=email, placeholder \"Email *\", that asks for the user's own email address. It has no autocomplete attribute, so its purpose (the autocomplete token email, in the WCAG 2.1 input-purpose list) is not programmatically identified as H98 requires. type=email gives the data format, not that the address is the user's own. The snapshot lists a Chromium form issue on the field (FormInputAssignedAutocompleteValueToIdOrNameAttributeError), so the claim's last sentence also holds. The RD Station form markup fetched live has the same input without autocomplete, and the RD script adds none, so the capture does not differ. The element fails 1.3.5 for the reason the claim gives."
+    },
+    {
+      "fingerprint": "36e1000123e7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Lead photo of the article. The crop shows André Mendonça in his STF robe, with other ministers blurred behind him (the page's schema caption reads \"André Mendonça e Alexandre de Moraes\"). The visible caption gives only the photo credit. Its alt repeats the headline, \"Relatório da PF sobre Mendonça saiu pela culatra\", word for word, just below the identical h1. It describes a PF report that backfired, which the photo does not show, and says nothing about who or what is pictured. The image is informative (it shows who the story is about), and the alternative does not serve the same purpose, so it fails 1.1.1. Read in good faith, the claim names that defect. The live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "9b833db3184a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "In-article newsletter email input (RD Station form, WhatsApp card). Its only visible cue is the placeholder \"Email *\" (screenshot). The associated <label for> \"Email*\" is display:none by the form's CSS, and the snapshot's CDP tree gives Chromium's computed name as \"\". Chromium does not fall back to the placeholder when an associated label is empty. So the claim holds for the captured browser, and in Chrome or Edge the field has no programmatic name, which would fail 4.1.2. The live RD Station form markup has the same hidden label and the same input, so the capture does not differ. Labelled uncertain because competent auditors would reasonably disagree. A spec-based computation (HTML-AAM, Firefox, axe) yields \"Email *\" from the placeholder, and screen readers commonly announce the placeholder Chrome exposes, so whether this is an author failure of 4.1.2 is contested."
+    },
+    {
+      "fingerprint": "s4ec6b03d617",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Icon inside the green \"Inscreva-se\" button, which opens O Antagonista's WhatsApp channel. The crop shows the WhatsApp logo (white phone in a speech bubble on green), so the alternative \"Logo WhatsApp\" describes exactly what the image shows. The claim is false. The button's computed name is \"Logo WhatsApp Inscreva-se\", which conveys that the subscription is via WhatsApp, so the icon serves its purpose. \"Logo\" is slightly verbose but no failure. The live HTML has the same img and alt. The element meets 1.1.1."
+    },
+    {
+      "fingerprint": "se51983ae539",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "28 px author photo in the byline (Rodolfo-Borges.webp), next to the link \"Rodolfo Borges\". Its alt is the generic word \"avatar\", which names a kind of image, not what it shows. If the photo is treated as informative, the alternative should identify the person. If it is treated as redundant with the adjacent name, it should have a null alt. A generic non-null alt like this is the pattern of F30/F39, so either way the element fails 1.1.1. The claim (\"names a label, not what the image conveys\") points at that defect. The live HTML has the same img with alt=\"avatar\"."
+    },
+    {
+      "fingerprint": "a4f4749fc480",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer newsletter form (\"Quer receber notícias do Antagonista em seu e-mail?\"): an input type=email, name=email, placeholder \"Email *\", that collects the user's own email address. It has no autocomplete attribute, so the purpose (the email token from the WCAG 2.1 input-purpose list) is not programmatically determined, and type=email alone does not meet H98. The snapshot records a Chromium form issue on the field, as the claim says. The RD Station form markup fetched live has the same input without autocomplete, so the capture does not differ. The element fails 1.3.5, and the claim names why."
+    },
+    {
+      "fingerprint": "s091f9a0562a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "78 px author photo in the author box at the end of the article, beside the h4 \"Rodolfo Borges\" and his bio. Its alt is the generic word \"avatar\": it does not identify the person pictured, and it is not null either, as a photo redundant with the adjacent name would need. That generic alternative (F30/F39 pattern) fails 1.1.1, and the claim points at it. The live HTML has the same img with alt=\"avatar\", so the capture does not differ."
+    }
+  ]
+}

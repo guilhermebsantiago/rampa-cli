@@ -1,0 +1,97 @@
+{
+  "page": "https://www.ufpb.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p73d894d3c74",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A banner card link whose only text is the visible title \"Conexão Extensão\" (the picture is a CSS background). It leads to /painel-de-destaques/conexao-extensao/, whose title and heading are both \"Conexão Extensão\", so the link text alone gives its purpose. The two other links with that name on the page (desktop and mobile menu items) go to the same address, so no shared-name issue (R1). The live HTML has the same card, text and href, and the screenshot shows it styled as captured. The element meets 2.4.4; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "99a0185874eb",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The photo above the \"Ensino\" section (students working in a computer lab on the Rio Tinto campus) has alt=\"Imagem da página\" (\"page image\"). Taken literally, the claim is not quite right: the alternative names nothing the photo lacks, it just names nothing at all. But it is placeholder text that cannot stand in for the image. That is failure F30, and if the photo were treated as decorative it would still fail, because a non-null alt keeps it from being ignored. Read in good faith, the claim points at this defect: the alternative does not match what the image shows. The live HTML has the same img and alt, and the screenshot shows the photo."
+    },
+    {
+      "fingerprint": "e05103e232fa",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The photo above the \"Internacionalização\" section (three smiling foreign students outdoors) has alt=\"Imagem da página\". The alternative is a generic placeholder: it describes nothing, rather than something absent, so the sentence is not literally true. But it is not an alternative to the image (F30), and it would fail as a decorative image too because it is not null. In good faith the claim names that defect: the alt does not convey what the image shows. The live HTML and the screenshot match the capture."
+    },
+    {
+      "fingerprint": "cb08cb53c23e",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The photo above the \"Pesquisa e Inovação\" section (a woman in a green cap holding a young goat in a stable) has alt=\"Imagem da página\". That placeholder describes nothing, so the literal wording \"describes something the image does not show\" does not hold. But the alt is not a text alternative (F30), nor a null alt if the photo were decorative, so the element fails 1.1.1. The claim points at that mismatch in imperfect words. The live HTML and the screenshot match the capture."
+    },
+    {
+      "fingerprint": "pffebcc0b25e",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A link inside the section heading h2, with the text \"79ª Reunião da SBPC na UFPB\". It leads to the category archive /category/79-sbpc-2027/, headed \"Postagens / 79ª Reunião da SBPC na UFPB\", which lists that event's posts. The text alone gives the purpose, and no other link shares its name. It is the same on the live page. It meets 2.4.4; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "sc810b6d7b55",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The desktop top-menu item \"Ações Afirmativas\" (href=\"#\"). It does not lead anywhere: the theme's controller.js opens its submenu on mouseover, toggles it on click (preventDefault, and sets aria-expanded on the link), and the submenu sits in the same list item (Acessibilidade, Comunidades Tradicionais, LGBTQIAPN+, Mulheres, Negros). The claim is wrong on both counts. The link has no destination to tell, and its text names the menu section it opens, a section whose links are in its own list item. So the purpose (open the \"Ações Afirmativas\" menu) can be determined, and the link meets 2.4.4. Using a link with href=\"#\" as a disclosure control, with no aria-expanded until it is used, is a 4.1.2 issue, not a 2.4.4 one. The live HTML, CSS and script match the capture. The model had the list item text and misjudged it."
+    },
+    {
+      "fingerprint": "pff6d17d9802",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A news card link whose name is the headline \"UFPB recebe representantes da SBPC para definir infraestrutura da 79ª Reunião\" plus its date. The image inside has alt=\"\". It leads to the article with exactly that title and heading, so the link text alone gives the purpose, and no other link shares the name. The live HTML has the same card. It meets 2.4.4; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "pbeb2b3096ff",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A news card link named by its headline \"UFPB abre submissão de propostas científicas para a 79ª Reunião Anual da SBPC\" and the date. The image has alt=\"\". It leads to the article with that same title and heading, so the text gives the purpose, and no other link shares the name. The live HTML matches the capture. It meets 2.4.4; Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "5778dfbcecf5",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The photo above the \"Extensão e Cultura\" section (a musician playing a marimba in front of an orchestra) has alt=\"Imagem da página\". The placeholder does not describe something absent, it describes nothing, so the sentence is not literally true. But it is not an alternative (F30), and it is not null as a decorative image would need, so the element fails 1.1.1. The claim's point, that the alt does not match the image, names that defect in good faith. The live HTML and the screenshot match."
+    },
+    {
+      "fingerprint": "s6c4e964b091",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The header search field (input#s inside form role=search, next to a magnifying-glass submit button). Its only label is the placeholder \"Busca\", which is also its accessible name. 2.4.6 asks that a label describe the field's topic or purpose, and \"Busca\" (\"Search\"), with the search icon, does: users know to type a search query. So the claim that it does not say what to enter is wrong, and it asks for more than 2.4.6 requires. Relying on the placeholder alone as a visible label is an issue for 3.3.2, not 2.4.6. The live HTML is identical, and the screenshot shows \"Busca\" in the field."
+    },
+    {
+      "fingerprint": "b5d14733ea73",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The placeholder \"Busca\" in the header search field. The theme's style.css sets input[type=text] color to --cor-texto-medio (#949494), and ::placeholder inherits it (#949494 on focus as well). The field has no background of its own and sits on the white header (--cor-background: white), and its font is 14–16px at weight 400. #949494 on #ffffff is 3.03:1, below the 4.5:1 that 1.4.3 asks for normal text. The placeholder is the field's only visible label, so it is not incidental. The screenshot crop shows light-grey \"Busca\" on white, and the live CSS matches."
+    },
+    {
+      "fingerprint": "18e6e57e0da7",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The large photo beside the \"Estude na UFPB\" section (two students, one holding a notebook, on campus) has alt=\"Imagem da página\". The placeholder describes nothing rather than something absent, so the sentence is not literally true. But the alt is not an alternative to the image (F30), and it is not null as it would have to be if the photo were decorative, so the element fails 1.1.1. The claim points at that defect in good faith. The live HTML and the screenshot match the capture."
+    },
+    {
+      "fingerprint": "sc79d34ab52e",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The \"Vida Acadêmica\" item of the off-canvas mobile menu (in the accessibility tree at desktop width, positioned off-screen; its click toggles the submenu without preventDefault, so it navigates). It leads to /vida-academica/, the archive of the \"Vida Acadêmica Sem Dúvidas\" series of posts on student and academic life. The page's <title> is just the newest post's title, which is the text the claim quotes. The destination title is quoted correctly, but the link text does match where it goes: academic-life content, under a series whose name begins with \"Vida Acadêmica\". Understanding 2.4.4 does not require the destination's exact name. The desktop link with the same name has the same href, so no shared-name issue (R1). The live destination matches what Rampa read. The model took a WordPress archive title as the page's purpose."
+    }
+  ]
+}

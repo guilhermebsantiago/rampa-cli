@@ -1,0 +1,412 @@
+{
+  "page": "https://portal.uel.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "4a276aaff70f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Scroll-down arrow at the bottom of the hero: <a onclick=\"scrollInto('sectionSocialMedia')\"> with no href, holding a display:table div and an fa-angle-down icon. It is visible in the screenshot (circle with a chevron) with a pointer cursor, so users perceive it as a control. The claim says the browser-computed name is the U+F107 glyph, but the snapshot's CDP node shows role link, name \"\" (nameFrom contents) and Rampa's own browserName is empty, so the sentence is not true of the capture (claimTrue no). The element still fails 4.1.2: a scripted control that Chrome exposes as a link with no name (its role is also only generic by HTML-AAM, and it is not keyboard focusable, a 2.1.1 issue). Skeptic reasons checked: it is not hidden, not decorative, and the live page has the same markup (captureDiffers no); being a redundant convenience does not exempt it. The claim's point and fix (it has no usable text name; give it one) name the real failure in imperfect words: true_positive."
+    },
+    {
+      "fingerprint": "b45089550a61",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News-card link whose content (h3 headline and summary, plus a photo in the image cards) sits inside an <article> element inside the <a>. The CDP tree in the snapshot shows Chrome exposing it as role link with name \"\" and no nameFrom: Chrome does not take name from content through the article role. The live page has the same markup, so captureDiffers is no, and claimTrue is yes for the captured browser name. Skeptic reasons that hold up: the link has visible text content (H91/G91 in markup), the accname recursion step and axe-core compute the full headline as its name, and screen readers in browse mode read the link's descendants, so 'announces only link' is not established. On the other hand the platform name Chrome exposes is empty, which matters for link lists, voice control and focus announcements. Whether that fails 4.1.2 depends on how assistive technologies handle the empty name, which the evidence does not show, and competent auditors would split, so elementFails is cannot_tell and the label is uncertain. Link: HU/UEL é aprovado em todos os critérios..."
+    },
+    {
+      "fingerprint": "994b63c2caa7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Decorative white line icon (a book) at the top of the green 'Vida na UEL' card link 'Estude na UEL', with alt=\"Card image cap\", the Bootstrap placeholder text. The live page still serves the same alt, so captureDiffers is no. The crop shows only the icon; nothing in it is a 'card image cap', so the claim is true of the capture. Skeptic check: the icon is redundant with the link text, so the right alternative is null (H2/H67), but the placeholder is not ignorable by assistive technology and is read into the link name ('Card image cap Estude na UEL' in Chrome's tree). That is F30 (placeholder text as an alternative) and F39 (non-null alt on an image that should be ignored), so the element fails 1.1.1 whether the icon is read as decorative or informative. The claim that the alternative does not describe the image points at that defect in good faith: true_positive."
+    },
+    {
+      "fingerprint": "8df82407da92",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News-card link whose content (h3 headline and summary, plus a photo in the image cards) sits inside an <article> element inside the <a>. The CDP tree in the snapshot shows Chrome exposing it as role link with name \"\" and no nameFrom: Chrome does not take name from content through the article role. The live page has the same markup, so captureDiffers is no, and claimTrue is yes for the captured browser name. Skeptic reasons that hold up: the link has visible text content (H91/G91 in markup), the accname recursion step and axe-core compute the full headline as its name, and screen readers in browse mode read the link's descendants, so 'announces only link' is not established. On the other hand the platform name Chrome exposes is empty, which matters for link lists, voice control and focus announcements. Whether that fails 4.1.2 depends on how assistive technologies handle the empty name, which the evidence does not show, and competent auditors would split, so elementFails is cannot_tell and the label is uncertain. Link: Nota Oficial (Artium Festival)."
+    },
+    {
+      "fingerprint": "a94d0a084edc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News-card link whose content (h3 headline and summary, plus a photo in the image cards) sits inside an <article> element inside the <a>. The CDP tree in the snapshot shows Chrome exposing it as role link with name \"\" and no nameFrom: Chrome does not take name from content through the article role. The live page has the same markup, so captureDiffers is no, and claimTrue is yes for the captured browser name. Skeptic reasons that hold up: the link has visible text content (H91/G91 in markup), the accname recursion step and axe-core compute the full headline as its name, and screen readers in browse mode read the link's descendants, so 'announces only link' is not established. On the other hand the platform name Chrome exposes is empty, which matters for link lists, voice control and focus announcements. Whether that fails 4.1.2 depends on how assistive technologies handle the empty name, which the evidence does not show, and competent auditors would split, so elementFails is cannot_tell and the label is uncertain. Link: UEL terá estação de monitoramento por satélite... (its photo also has no alt, a separate 1.1.1 issue)."
+    },
+    {
+      "fingerprint": "p4efe02f3999",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Top-bar link 'Ouvidoria' to https://sites.uel.br/ouvidoria/. The text names the university's ombudsman office, which is the destination, so its purpose is clear from the link text alone. R1: the other 'Ouvidoria' links on the page (the hidden duplicate top menu, the Universidade submenu item, the mobile menu item) all point to the same URL, so no pair resolves to different resources. The live page has the same link. It meets 2.4.4 and Rampa was right to report nothing: false_positive for this no-claim row."
+    },
+    {
+      "fingerprint": "46e8b280379a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News-card link whose content (h3 headline and summary, plus a photo in the image cards) sits inside an <article> element inside the <a>. The CDP tree in the snapshot shows Chrome exposing it as role link with name \"\" and no nameFrom: Chrome does not take name from content through the article role. The live page has the same markup, so captureDiffers is no, and claimTrue is yes for the captured browser name. Skeptic reasons that hold up: the link has visible text content (H91/G91 in markup), the accname recursion step and axe-core compute the full headline as its name, and screen readers in browse mode read the link's descendants, so 'announces only link' is not established. On the other hand the platform name Chrome exposes is empty, which matters for link lists, voice control and focus announcements. Whether that fails 4.1.2 depends on how assistive technologies handle the empty name, which the evidence does not show, and competent auditors would split, so elementFails is cannot_tell and the label is uncertain. Link: Universidade interrompe aulas e atividades administrativas..."
+    },
+    {
+      "fingerprint": "b20a2d06653e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News-card link whose content (h3 headline and summary, plus a photo in the image cards) sits inside an <article> element inside the <a>. The CDP tree in the snapshot shows Chrome exposing it as role link with name \"\" and no nameFrom: Chrome does not take name from content through the article role. The live page has the same markup, so captureDiffers is no, and claimTrue is yes for the captured browser name. Skeptic reasons that hold up: the link has visible text content (H91/G91 in markup), the accname recursion step and axe-core compute the full headline as its name, and screen readers in browse mode read the link's descendants, so 'announces only link' is not established. On the other hand the platform name Chrome exposes is empty, which matters for link lists, voice control and focus announcements. Whether that fails 4.1.2 depends on how assistive technologies handle the empty name, which the evidence does not show, and competent auditors would split, so elementFails is cannot_tell and the label is uncertain. Link: Comitê do CNPq avalia edição 2026..."
+    },
+    {
+      "fingerprint": "d709a570791b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card title 'Ligas Acadêmicas' (h5, 20px, weight 400, white) on the green card. The theme's style.css sets .card-vida-uel-content{background-color:#04bf68} and the link colour #fff, and the screenshot's pixels under the text are #04bf68 with #ffffff glyphs: 2.43:1. 20px at normal weight is not large text (24px, or 18.66px bold), so 4.5:1 applies. Skeptic checks: the text is not a logotype or incidental, the icon image does not sit behind the glyphs (its own background is the same green), and the live page serves the same CSS and markup, so captureDiffers is no. Nothing makes it pass: true_positive."
+    },
+    {
+      "fingerprint": "a49408c2c663",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News-card link whose content (h3 headline and summary, plus a photo in the image cards) sits inside an <article> element inside the <a>. The CDP tree in the snapshot shows Chrome exposing it as role link with name \"\" and no nameFrom: Chrome does not take name from content through the article role. The live page has the same markup, so captureDiffers is no, and claimTrue is yes for the captured browser name. Skeptic reasons that hold up: the link has visible text content (H91/G91 in markup), the accname recursion step and axe-core compute the full headline as its name, and screen readers in browse mode read the link's descendants, so 'announces only link' is not established. On the other hand the platform name Chrome exposes is empty, which matters for link lists, voice control and focus announcements. Whether that fails 4.1.2 depends on how assistive technologies handle the empty name, which the evidence does not show, and competent auditors would split, so elementFails is cannot_tell and the label is uncertain. Link: Projeto avança debate sobre ética em pesquisa em Humanidades (its photo also has no alt, a separate 1.1.1 issue)."
+    },
+    {
+      "fingerprint": "5df26ad1de5e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Decorative white line icon (a globe) at the top of the green 'Vida na UEL' card link 'Conheça a UEL', with alt=\"Card image cap\", the Bootstrap placeholder text. The live page still serves the same alt, so captureDiffers is no. The crop shows only the icon; nothing in it is a 'card image cap', so the claim is true of the capture. Skeptic check: the icon is redundant with the link text, so the right alternative is null (H2/H67), but the placeholder is not ignorable by assistive technology and is read into the link name ('Card image cap Estude na UEL' in Chrome's tree). That is F30 (placeholder text as an alternative) and F39 (non-null alt on an image that should be ignored), so the element fails 1.1.1 whether the icon is read as decorative or informative. The claim that the alternative does not describe the image points at that defect in good faith: true_positive."
+    },
+    {
+      "fingerprint": "284764ba66df",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card title 'Estágio' (h5, 20px, weight 400, white) on the green card. The theme's style.css sets .card-vida-uel-content{background-color:#04bf68} and the link colour #fff, and the screenshot's pixels under the text are #04bf68 with #ffffff glyphs: 2.43:1. 20px at normal weight is not large text (24px, or 18.66px bold), so 4.5:1 applies. Skeptic checks: the text is not a logotype or incidental, the icon image does not sit behind the glyphs (its own background is the same green), and the live page serves the same CSS and markup, so captureDiffers is no. Nothing makes it pass: true_positive."
+    },
+    {
+      "fingerprint": "48a7cdae7ada",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News-card link whose content (h3 headline and summary, plus a photo in the image cards) sits inside an <article> element inside the <a>. The CDP tree in the snapshot shows Chrome exposing it as role link with name \"\" and no nameFrom: Chrome does not take name from content through the article role. The live page has the same markup, so captureDiffers is no, and claimTrue is yes for the captured browser name. Skeptic reasons that hold up: the link has visible text content (H91/G91 in markup), the accname recursion step and axe-core compute the full headline as its name, and screen readers in browse mode read the link's descendants, so 'announces only link' is not established. On the other hand the platform name Chrome exposes is empty, which matters for link lists, voice control and focus announcements. Whether that fails 4.1.2 depends on how assistive technologies handle the empty name, which the evidence does not show, and competent auditors would split, so elementFails is cannot_tell and the label is uncertain. Link: Professor divulga segundo episódio de podcast... (its photo also has no alt, a separate 1.1.1 issue)."
+    },
+    {
+      "fingerprint": "5f17510bc7d2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Decorative white line icon (an ID badge) at the top of the green 'Vida na UEL' card link 'Estágio', with alt=\"Card image cap\", the Bootstrap placeholder text. The live page still serves the same alt, so captureDiffers is no. The crop shows only the icon; nothing in it is a 'card image cap', so the claim is true of the capture. Skeptic check: the icon is redundant with the link text, so the right alternative is null (H2/H67), but the placeholder is not ignorable by assistive technology and is read into the link name ('Card image cap Estude na UEL' in Chrome's tree). That is F30 (placeholder text as an alternative) and F39 (non-null alt on an image that should be ignored), so the element fails 1.1.1 whether the icon is read as decorative or informative. The claim that the alternative does not describe the image points at that defect in good faith: true_positive."
+    },
+    {
+      "fingerprint": "590987706c78",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card title 'Atléticas' (h5, 20px, weight 400, white) on the green card. The theme's style.css sets .card-vida-uel-content{background-color:#04bf68} and the link colour #fff, and the screenshot's pixels under the text are #04bf68 with #ffffff glyphs: 2.43:1. 20px at normal weight is not large text (24px, or 18.66px bold), so 4.5:1 applies. Skeptic checks: the text is not a logotype or incidental, the icon image does not sit behind the glyphs (its own background is the same green), and the live page serves the same CSS and markup, so captureDiffers is no. Nothing makes it pass: true_positive."
+    },
+    {
+      "fingerprint": "6b7d39c42f63",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Decorative white line icon (a volleyball) at the top of the green 'Vida na UEL' card link 'Atléticas', with alt=\"Card image cap\", the Bootstrap placeholder text. The live page still serves the same alt, so captureDiffers is no. The crop shows only the icon; nothing in it is a 'card image cap', so the claim is true of the capture. Skeptic check: the icon is redundant with the link text, so the right alternative is null (H2/H67), but the placeholder is not ignorable by assistive technology and is read into the link name ('Card image cap Estude na UEL' in Chrome's tree). That is F30 (placeholder text as an alternative) and F39 (non-null alt on an image that should be ignored), so the element fails 1.1.1 whether the icon is read as decorative or informative. The claim that the alternative does not describe the image points at that defect in good faith: true_positive."
+    },
+    {
+      "fingerprint": "s324c33dd12e",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Main-menu item 'Universidade' (shown as UNIVERSIDADE through CSS): <a href=\"#\" aria-haspopup=\"true\" aria-expanded=\"false\">, which Chrome exposes as a link with hasPopup menu. It goes nowhere on purpose: it opens the Universidade submenu (55 anos, Conheça a UEL, Gabinete da Reitoria...). Its text names the section whose menu it opens, and the popup state says it opens a menu, so its purpose is determinable. It is also the list item under which the submenu's list is nested (H81 context for those links). The claim that nothing tells where it goes judges a menu trigger as if it were a navigation link. Any role concern (a button would fit better) belongs to 4.1.2, not 2.4.4. The live page is the same. Rampa had the aria-haspopup markup and judged wrongly: false_positive, model_error."
+    },
+    {
+      "fingerprint": "ad536e1f4acb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Decorative white line icon (a chart in a frame) at the top of the green 'Vida na UEL' card link 'Empresas Juniores', with alt=\"Card image cap\", the Bootstrap placeholder text. The live page still serves the same alt, so captureDiffers is no. The crop shows only the icon; nothing in it is a 'card image cap', so the claim is true of the capture. Skeptic check: the icon is redundant with the link text, so the right alternative is null (H2/H67), but the placeholder is not ignorable by assistive technology and is read into the link name ('Card image cap Estude na UEL' in Chrome's tree). That is F30 (placeholder text as an alternative) and F39 (non-null alt on an image that should be ignored), so the element fails 1.1.1 whether the icon is read as decorative or informative. The claim that the alternative does not describe the image points at that defect in good faith: true_positive."
+    },
+    {
+      "fingerprint": "f1d6c429cb4d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "TV UEL logo (the words 'TV UEL' with a striped reflection) with alt=\"\", in the TV block beside a YouTube embed whose title attribute is the generic 'YouTube video player' and a 'VEJA MAIS' link to youtube.com/user/tvuel. The live page has the same markup. No text outside the logo names TV UEL: no heading, no visible label, the iframe title is generic and the link text is 'see more'. So the logo is what identifies the block and its link, and hiding it loses that information, which fails 1.1.1 (it should carry alt 'TV UEL'). Skeptic reasons checked: the embedded video (author 'TV UEL' per YouTube oEmbed) might expose the channel inside the third-party frame, but that is not text around the image, and the visible embed shows the video title, not the channel name. The logo being hidden below the lg breakpoint does not cure the desktop page. The claim is accurate: true_positive."
+    },
+    {
+      "fingerprint": "b1a5ffb01c1f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Decorative white line icon (a backpack) at the top of the green 'Vida na UEL' card link 'Bolsa Permanência', with alt=\"Card image cap\", the Bootstrap placeholder text. The live page still serves the same alt, so captureDiffers is no. The crop shows only the icon; nothing in it is a 'card image cap', so the claim is true of the capture. Skeptic check: the icon is redundant with the link text, so the right alternative is null (H2/H67), but the placeholder is not ignorable by assistive technology and is read into the link name ('Card image cap Estude na UEL' in Chrome's tree). That is F30 (placeholder text as an alternative) and F39 (non-null alt on an image that should be ignored), so the element fails 1.1.1 whether the icon is read as decorative or informative. The claim that the alternative does not describe the image points at that defect in good faith: true_positive."
+    },
+    {
+      "fingerprint": "cbf991ae5987",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Decorative white line icon (a building) at the top of the green 'Vida na UEL' card link 'Centros Acadêmicos', with alt=\"Card image cap\", the Bootstrap placeholder text. The live page still serves the same alt, so captureDiffers is no. The crop shows only the icon; nothing in it is a 'card image cap', so the claim is true of the capture. Skeptic check: the icon is redundant with the link text, so the right alternative is null (H2/H67), but the placeholder is not ignorable by assistive technology and is read into the link name ('Card image cap Estude na UEL' in Chrome's tree). That is F30 (placeholder text as an alternative) and F39 (non-null alt on an image that should be ignored), so the element fails 1.1.1 whether the icon is read as decorative or informative. The claim that the alternative does not describe the image points at that defect in good faith: true_positive."
+    },
+    {
+      "fingerprint": "b450721b3f33",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card title 'Moradia' (h5, 20px, weight 400, white) on the green card. The theme's style.css sets .card-vida-uel-content{background-color:#04bf68} and the link colour #fff, and the screenshot's pixels under the text are #04bf68 with #ffffff glyphs: 2.43:1. 20px at normal weight is not large text (24px, or 18.66px bold), so 4.5:1 applies. Skeptic checks: the text is not a logotype or incidental, the icon image does not sit behind the glyphs (its own background is the same green), and the live page serves the same CSS and markup, so captureDiffers is no. Nothing makes it pass: true_positive."
+    },
+    {
+      "fingerprint": "40883526066d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card title 'Bolsa Permanência' (h5, 20px, weight 400, white) on the green card. The theme's style.css sets .card-vida-uel-content{background-color:#04bf68} and the link colour #fff, and the screenshot's pixels under the text are #04bf68 with #ffffff glyphs: 2.43:1. 20px at normal weight is not large text (24px, or 18.66px bold), so 4.5:1 applies. Skeptic checks: the text is not a logotype or incidental, the icon image does not sit behind the glyphs (its own background is the same green), and the live page serves the same CSS and markup, so captureDiffers is no. Nothing makes it pass: true_positive."
+    },
+    {
+      "fingerprint": "e4e3a51f3a84",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News-card link whose content (h3 headline and summary, plus a photo in the image cards) sits inside an <article> element inside the <a>. The CDP tree in the snapshot shows Chrome exposing it as role link with name \"\" and no nameFrom: Chrome does not take name from content through the article role. The live page has the same markup, so captureDiffers is no, and claimTrue is yes for the captured browser name. Skeptic reasons that hold up: the link has visible text content (H91/G91 in markup), the accname recursion step and axe-core compute the full headline as its name, and screen readers in browse mode read the link's descendants, so 'announces only link' is not established. On the other hand the platform name Chrome exposes is empty, which matters for link lists, voice control and focus announcements. Whether that fails 4.1.2 depends on how assistive technologies handle the empty name, which the evidence does not show, and competent auditors would split, so elementFails is cannot_tell and the label is uncertain. Link: Pesquisa inédita é publicada em revista internacional (its photo also has no alt, a separate 1.1.1 issue)."
+    },
+    {
+      "fingerprint": "e7f5be9797c1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card title 'Centros Acadêmicos' (h5, 20px, weight 400, white) on the green card. The theme's style.css sets .card-vida-uel-content{background-color:#04bf68} and the link colour #fff, and the screenshot's pixels under the text are #04bf68 with #ffffff glyphs: 2.43:1. 20px at normal weight is not large text (24px, or 18.66px bold), so 4.5:1 applies. Skeptic checks: the text is not a logotype or incidental, the icon image does not sit behind the glyphs (its own background is the same green), and the live page serves the same CSS and markup, so captureDiffers is no. Nothing makes it pass: true_positive."
+    },
+    {
+      "fingerprint": "eb980713e7d7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Decorative white line icon (a house) at the top of the green 'Vida na UEL' card link 'Moradia', with alt=\"Card image cap\", the Bootstrap placeholder text. The live page still serves the same alt, so captureDiffers is no. The crop shows only the icon; nothing in it is a 'card image cap', so the claim is true of the capture. Skeptic check: the icon is redundant with the link text, so the right alternative is null (H2/H67), but the placeholder is not ignorable by assistive technology and is read into the link name ('Card image cap Estude na UEL' in Chrome's tree). That is F30 (placeholder text as an alternative) and F39 (non-null alt on an image that should be ignored), so the element fails 1.1.1 whether the icon is read as decorative or informative. The claim that the alternative does not describe the image points at that defect in good faith: true_positive."
+    },
+    {
+      "fingerprint": "aed0e8a81c91",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Decorative white line icon (a drawing compass) at the top of the green 'Vida na UEL' card link 'Ligas Acadêmicas', with alt=\"Card image cap\", the Bootstrap placeholder text. The live page still serves the same alt, so captureDiffers is no. The crop shows only the icon; nothing in it is a 'card image cap', so the claim is true of the capture. Skeptic check: the icon is redundant with the link text, so the right alternative is null (H2/H67), but the placeholder is not ignorable by assistive technology and is read into the link name ('Card image cap Estude na UEL' in Chrome's tree). That is F30 (placeholder text as an alternative) and F39 (non-null alt on an image that should be ignored), so the element fails 1.1.1 whether the icon is read as decorative or informative. The claim that the alternative does not describe the image points at that defect in good faith: true_positive."
+    },
+    {
+      "fingerprint": "33b011a903fe",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card title 'Estude na UEL' (h5, 20px, weight 400, white) on the green card. The theme's style.css sets .card-vida-uel-content{background-color:#04bf68} and the link colour #fff, and the screenshot's pixels under the text are #04bf68 with #ffffff glyphs: 2.43:1. 20px at normal weight is not large text (24px, or 18.66px bold), so 4.5:1 applies. Skeptic checks: the text is not a logotype or incidental, the icon image does not sit behind the glyphs (its own background is the same green), and the live page serves the same CSS and markup, so captureDiffers is no. Nothing makes it pass: true_positive."
+    },
+    {
+      "fingerprint": "ccaa6bfdc413",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card title 'Conheça a UEL' (h5, 20px, weight 400, white) on the green card. The theme's style.css sets .card-vida-uel-content{background-color:#04bf68} and the link colour #fff, and the screenshot's pixels under the text are #04bf68 with #ffffff glyphs: 2.43:1. 20px at normal weight is not large text (24px, or 18.66px bold), so 4.5:1 applies. Skeptic checks: the text is not a logotype or incidental, the icon image does not sit behind the glyphs (its own background is the same green), and the live page serves the same CSS and markup, so captureDiffers is no. Nothing makes it pass: true_positive."
+    },
+    {
+      "fingerprint": "9f44187db05c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Decorative white line icon (a fork and knife) at the top of the green 'Vida na UEL' card link 'Restaurante', with alt=\"Card image cap\", the Bootstrap placeholder text. The live page still serves the same alt, so captureDiffers is no. The crop shows only the icon; nothing in it is a 'card image cap', so the claim is true of the capture. Skeptic check: the icon is redundant with the link text, so the right alternative is null (H2/H67), but the placeholder is not ignorable by assistive technology and is read into the link name ('Card image cap Estude na UEL' in Chrome's tree). That is F30 (placeholder text as an alternative) and F39 (non-null alt on an image that should be ignored), so the element fails 1.1.1 whether the icon is read as decorative or informative. The claim that the alternative does not describe the image points at that defect in good faith: true_positive."
+    },
+    {
+      "fingerprint": "6459e91592f7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card title 'Restaurante' (h5, 20px, weight 400, white) on the green card. The theme's style.css sets .card-vida-uel-content{background-color:#04bf68} and the link colour #fff, and the screenshot's pixels under the text are #04bf68 with #ffffff glyphs: 2.43:1. 20px at normal weight is not large text (24px, or 18.66px bold), so 4.5:1 applies. Skeptic checks: the text is not a logotype or incidental, the icon image does not sit behind the glyphs (its own background is the same green), and the live page serves the same CSS and markup, so captureDiffers is no. Nothing makes it pass: true_positive."
+    },
+    {
+      "fingerprint": "3fc649e9bb34",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card title 'Empresas Juniores' (h5, 20px, weight 400, white) on the green card. The theme's style.css sets .card-vida-uel-content{background-color:#04bf68} and the link colour #fff, and the screenshot's pixels under the text are #04bf68 with #ffffff glyphs: 2.43:1. 20px at normal weight is not large text (24px, or 18.66px bold), so 4.5:1 applies. Skeptic checks: the text is not a logotype or incidental, the icon image does not sit behind the glyphs (its own background is the same green), and the live page serves the same CSS and markup, so captureDiffers is no. Nothing makes it pass: true_positive."
+    },
+    {
+      "fingerprint": "c21f180b9673",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'SAIBA MAIS' link to https://portal.uel.br/servicos-a-comunidade (page 'Serviços à Comunidade'). By the rubric's context list, the heading just before it is the h3 'A UEL disponibiliza diversos serviços para a comunidade interna e externa.' in the same column, under the h2 'SERVIÇOS À COMUNIDADE'. 'Learn more' plus that heading tells users the link is about the services UEL offers the community, which is what the destination is. R1: the other 'SAIBA MAIS' links (sustentabilidade, HU, COU, HV, cultura) each come after a different heading, so their contexts differ and none forms a set with this one. The live page has the same markup. The claim that nothing around it says where it goes is false: false_positive, model_error (the headings were in its context)."
+    },
+    {
+      "fingerprint": "b7cf039d7884",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News-card link whose content (h3 headline and summary, plus a photo in the image cards) sits inside an <article> element inside the <a>. The CDP tree in the snapshot shows Chrome exposing it as role link with name \"\" and no nameFrom: Chrome does not take name from content through the article role. The live page has the same markup, so captureDiffers is no, and claimTrue is yes for the captured browser name. Skeptic reasons that hold up: the link has visible text content (H91/G91 in markup), the accname recursion step and axe-core compute the full headline as its name, and screen readers in browse mode read the link's descendants, so 'announces only link' is not established. On the other hand the platform name Chrome exposes is empty, which matters for link lists, voice control and focus announcements. Whether that fails 4.1.2 depends on how assistive technologies handle the empty name, which the evidence does not show, and competent auditors would split, so elementFails is cannot_tell and the label is uncertain. Link: EAIC 2026 tem mais de 800 alunos... (its photo also has no alt, a separate 1.1.1 issue)."
+    },
+    {
+      "fingerprint": "af121fff29e1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Source note 'Fonte: PROPLAN - UEL em Dados 2024' under the 'UEL EM DADOS' heading. style.css sets .section-uel-em-dados .fonte{font-size:.9rem;color:#888}. The section background is near-white, with a 5%-opacity tree sketch in a ::before (why axe-core could not decide), and the screenshot's pixels behind the text are #f8f8f8 with #888888 glyphs: 3.34:1 at 14.4px normal weight, below 4.5:1. Skeptic checks: the text is real information (the data source), not incidental. Where the faint sketch shows through, the background is darker and the contrast lower still, so 3.34:1 is the best case, and the glyph stems reach the CSS colour #888. The live page serves the same CSS. true_positive."
+    },
+    {
+      "fingerprint": "8e3f8c0ffa82",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "UEL FM 107,9 logo with alt=\"\" in the radio block. Right above it is the radio player iframe, whose title is 'UEL FM radio player' (in the snapshot), and the player page itself (radio.uel.br/player, fetched now) shows the text 'Você está ouvindo Rádio UEL FM 107,9' and its own logo with alt 'Logo da UEL FM'. So the station name and frequency are in the text around the logo, the logo is redundant, and a null alt is the correct treatment (H67). The claim that the surrounding text does not say it is false: the frame's title says UEL FM (claimTrue no). The snapshot did not collect the cross-origin frame's content, which differs from what users receive and touches this claim (captureDiffers yes). Rampa lacked the frame's text: false_positive, context_missing."
+    },
+    {
+      "fingerprint": "sd3e6e83f3b6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'MAIS NOTÍCIAS' button-styled link below the secondary news cards, to https://operobal.uel.br/ (the university news portal, new tab). 'More news', placed after the news section (h2 'NOTÍCIAS', news h3 headlines before it), tells users the purpose: go to more news. Understanding 2.4.4 does not require naming the destination site. It is the only link with this name, so R1 does not apply. The live page is the same. The claim that the text does not tell where it goes is wrong: false_positive, model_error."
+    }
+  ]
+}

@@ -1,0 +1,276 @@
+{
+  "page": "https://amaro.com/moda1/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "df5cdbbb9bb3",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-card link a.product-item-link for \"Calça Barrel Jeans - Azul Médio\" (aria-label and title set to the product name), which wraps the name and the whole price block. claimTrue: the snapshot confirms the installment line sits visually below the Pix price (with the PIX5%OFF badge between) and comes in the DOM right after the final price, but it is not read 'as part of another section': the DOM order is name, final price (with the compare price and discount when on sale), installments, Pix price, PIX5%OFF badge, all inside the same card and the same link; the evidence's on-screen order is also off (the final price is the top price line on screen, as the screenshot shows). elementFails: 1.3.2 asks for a correct reading sequence only where the sequence affects meaning, and F1 needs a CSS layout that changes the meaning. Here the DOM sequence is itself meaningful: the installments follow the price they divide (their total equals the final price) and the Pix price stays next to its PIX badge, so the CSS reordering changes no meaning and the element meets 1.3.2. captureDiffers: the live HTML (curl) has the same price-block markup in the same order and the screenshot shows the same visual layout on every card; the full-page screenshot is taller than the snapshot (more products loaded), which does not touch this claim. False positive: the rule treats a visual/DOM order mismatch as a failure without the change of meaning the criterion requires."
+    },
+    {
+      "fingerprint": "9d89e1178a13",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-card link a.product-item-link for \"Saia Midi New Statement Sarja - Verde Escuro\" (aria-label and title set to the product name), which wraps the name and the whole price block. claimTrue: the snapshot confirms the installment line sits visually below the Pix price (with the PIX5%OFF badge between) and comes in the DOM right after the final price, but it is not read 'as part of another section': the DOM order is name, final price (with the compare price and discount when on sale), installments, Pix price, PIX5%OFF badge, all inside the same card and the same link; the evidence's on-screen order is also off (the final price is the top price line on screen, as the screenshot shows). elementFails: 1.3.2 asks for a correct reading sequence only where the sequence affects meaning, and F1 needs a CSS layout that changes the meaning. Here the DOM sequence is itself meaningful: the installments follow the price they divide (their total equals the final price) and the Pix price stays next to its PIX badge, so the CSS reordering changes no meaning and the element meets 1.3.2. captureDiffers: the live HTML (curl) has the same price-block markup in the same order and the screenshot shows the same visual layout on every card; the full-page screenshot is taller than the snapshot (more products loaded), which does not touch this claim. False positive: the rule treats a visual/DOM order mismatch as a failure without the change of meaning the criterion requires."
+    },
+    {
+      "fingerprint": "p0e8f689f431",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is a product-card carousel image inside the image link to the product page (link name from aria-label, the product name), alt=\"Saia Midi New Statement - Caramelo - AMARO\". The crop shows the caramel midi skirt from the back, so the alternative identifies the product and colour the image shows (a '- AMARO' brand suffix is harmless); that serves the equivalent purpose of a product photo, and the image meets 1.1.1. The live HTML has the same image and alt, so the capture does not differ. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "p7c1438cd828",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is a product-card carousel image inside the image link to the product page (link name from aria-label, the product name), alt=\"Saia Midi New Statement - Caramelo\". The crop shows a model wearing the caramel midi skirt (featured image), so the alternative identifies the product and colour the image shows (a '- AMARO' brand suffix is harmless); that serves the equivalent purpose of a product photo, and the image meets 1.1.1. The live HTML has the same image and alt, so the capture does not differ. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "352eefbb8b24",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-card link a.product-item-link for \"Saia Midi New Statement Sarja - Bege\" (aria-label and title set to the product name), which wraps the name and the whole price block. claimTrue: the snapshot confirms the installment line sits visually below the Pix price (with the PIX5%OFF badge between) and comes in the DOM right after the final price, but it is not read 'as part of another section': the DOM order is name, final price (with the compare price and discount when on sale), installments, Pix price, PIX5%OFF badge, all inside the same card and the same link; the evidence's on-screen order is also off (the final price is the top price line on screen, as the screenshot shows). elementFails: 1.3.2 asks for a correct reading sequence only where the sequence affects meaning, and F1 needs a CSS layout that changes the meaning. Here the DOM sequence is itself meaningful: the installments follow the price they divide (their total equals the final price) and the Pix price stays next to its PIX badge, so the CSS reordering changes no meaning and the element meets 1.3.2. captureDiffers: the live HTML (curl) has the same price-block markup in the same order and the screenshot shows the same visual layout on every card; the full-page screenshot is taller than the snapshot (more products loaded), which does not touch this claim. False positive: the rule treats a visual/DOM order mismatch as a failure without the change of meaning the criterion requires."
+    },
+    {
+      "fingerprint": "7c58c1a2cfdd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the category hero banner image (a picture with a desktop source at 1280 px) with alt=\"MODA\". The crop and the screenshot show an image of text: 'Crazy Black 70% OFF AMARO + desconto progressivo extra', '2 pecas 20% OFF EXTRA Cupom EXTRA20', '3 pecas 30% OFF EXTRA Cupom EXTRA30', '4+ pecas 40% OFF EXTRA Cupom EXTRA40'. claimTrue: the alternative 'MODA' only repeats the category label (the h1 'MODA' follows it) and conveys none of that. elementFails: the image is informative (a promotion with coupon codes), and the codes EXTRA20/30/40 and the progressive-discount text appear nowhere else as text on the page (checked in the snapshot and the live HTML), so the alternative does not serve the equivalent purpose and 1.1.1 fails. captureDiffers: the live page has the same picture (same desktop and mobile image files) with alt=\"MODA\". The claim names that failure: true positive."
+    },
+    {
+      "fingerprint": "bf0a639540ed",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-card link a.product-item-link for \"Saia Midi New Statement - Verde Escuro\" (aria-label and title set to the product name), which wraps the name and the whole price block. claimTrue: the snapshot confirms the installment line sits visually below the Pix price (with the PIX5%OFF badge between) and comes in the DOM right after the final price, but it is not read 'as part of another section': the DOM order is name, final price (with the compare price and discount when on sale), installments, Pix price, PIX5%OFF badge, all inside the same card and the same link; the evidence's on-screen order is also off (the final price is the top price line on screen, as the screenshot shows). elementFails: 1.3.2 asks for a correct reading sequence only where the sequence affects meaning, and F1 needs a CSS layout that changes the meaning. Here the DOM sequence is itself meaningful: the installments follow the price they divide (their total equals the final price) and the Pix price stays next to its PIX badge, so the CSS reordering changes no meaning and the element meets 1.3.2. captureDiffers: the live HTML (curl) has the same price-block markup in the same order and the screenshot shows the same visual layout on every card; the full-page screenshot is taller than the snapshot (more products loaded), which does not touch this claim. False positive: the rule treats a visual/DOM order mismatch as a failure without the change of meaning the criterion requires."
+    },
+    {
+      "fingerprint": "bb0266e22e90",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-card link a.product-item-link for \"Suéter Cashmere Deluxe Gola Alta - Areia\" (aria-label and title set to the product name), which wraps the name and the whole price block. claimTrue: the snapshot confirms the installment line sits visually below the Pix price (with the PIX5%OFF badge between) and comes in the DOM right after the final price, but it is not read 'as part of another section': the DOM order is name, final price (with the compare price and discount when on sale), installments, Pix price, PIX5%OFF badge, all inside the same card and the same link; the evidence's on-screen order is also off (the final price is the top price line on screen, as the screenshot shows). elementFails: 1.3.2 asks for a correct reading sequence only where the sequence affects meaning, and F1 needs a CSS layout that changes the meaning. Here the DOM sequence is itself meaningful: the installments follow the price they divide (their total equals the final price) and the Pix price stays next to its PIX badge, so the CSS reordering changes no meaning and the element meets 1.3.2. captureDiffers: the live HTML (curl) has the same price-block markup in the same order and the screenshot shows the same visual layout on every card; the full-page screenshot is taller than the snapshot (more products loaded), which does not touch this claim. False positive: the rule treats a visual/DOM order mismatch as a failure without the change of meaning the criterion requires."
+    },
+    {
+      "fingerprint": "p85c617468e4",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is a product-card carousel image inside the image link to the product page (link name from aria-label, the product name), alt=\"Saia Midi New Statement Jeans Tinturado - Azul Escuro - AMARO\". The crop shows a model in a black jacket and the dark denim midi skirt, so the alternative identifies the product and colour the image shows (a '- AMARO' brand suffix is harmless); that serves the equivalent purpose of a product photo, and the image meets 1.1.1. The live HTML has the same image and alt, so the capture does not differ. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "s77d305df942",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is one slide image of a product-card carousel inside the image link to the product page (the link's name comes from its aria-label, the product name), alt=\"Saia Midi New Statement - Verde Escuro na internet\". claimTrue: the crop shows the olive/dark green midi skirt on a model, exactly the product and colour the alternative names; the only extra is the SEO suffix 'na internet', which describes nothing at all, so the alternative does not describe something the image does not show. elementFails: for a product photo in a product card, an alternative that identifies the product serves the equivalent purpose; the redundant SEO suffix is verbose but does not make it non-equivalent, so 1.1.1 is met. captureDiffers: the live HTML carries the same image with the same alt. False positive."
+    },
+    {
+      "fingerprint": "65001d1c0f9d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-card link a.product-item-link for \"Saia Midi New Statement - Caramelo\" (aria-label and title set to the product name), which wraps the name and the whole price block. claimTrue: the snapshot confirms the installment line sits visually below the Pix price (with the PIX5%OFF badge between) and comes in the DOM right after the final price, but it is not read 'as part of another section': the DOM order is name, final price (with the compare price and discount when on sale), installments, Pix price, PIX5%OFF badge, all inside the same card and the same link; the evidence's on-screen order is also off (the final price is the top price line on screen, as the screenshot shows). elementFails: 1.3.2 asks for a correct reading sequence only where the sequence affects meaning, and F1 needs a CSS layout that changes the meaning. Here the DOM sequence is itself meaningful: the installments follow the price they divide (their total equals the final price) and the Pix price stays next to its PIX badge, so the CSS reordering changes no meaning and the element meets 1.3.2. captureDiffers: the live HTML (curl) has the same price-block markup in the same order and the screenshot shows the same visual layout on every card; the full-page screenshot is taller than the snapshot (more products loaded), which does not touch this claim. False positive: the rule treats a visual/DOM order mismatch as a failure without the change of meaning the criterion requires."
+    },
+    {
+      "fingerprint": "6526d9ff0af5",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-card link a.product-item-link for \"Saia Midi New Statement Jeans Tinturado - Azul Escuro\" (aria-label and title set to the product name), which wraps the name and the whole price block. claimTrue: the snapshot confirms the installment line sits visually below the Pix price (with the PIX5%OFF badge between) and comes in the DOM right after the final price, but it is not read 'as part of another section': the DOM order is name, final price (with the compare price and discount when on sale), installments, Pix price, PIX5%OFF badge, all inside the same card and the same link; the evidence's on-screen order is also off (the final price is the top price line on screen, as the screenshot shows). elementFails: 1.3.2 asks for a correct reading sequence only where the sequence affects meaning, and F1 needs a CSS layout that changes the meaning. Here the DOM sequence is itself meaningful: the installments follow the price they divide (their total equals the final price) and the Pix price stays next to its PIX badge, so the CSS reordering changes no meaning and the element meets 1.3.2. captureDiffers: the live HTML (curl) has the same price-block markup in the same order and the screenshot shows the same visual layout on every card; the full-page screenshot is taller than the snapshot (more products loaded), which does not touch this claim. False positive: the rule treats a visual/DOM order mismatch as a failure without the change of meaning the criterion requires."
+    },
+    {
+      "fingerprint": "55403999da11",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-card link a.product-item-link for \"Calça Wideleg Jeans - Azul Claro\" (aria-label and title set to the product name), which wraps the name and the whole price block. claimTrue: the snapshot confirms the installment line sits visually below the Pix price (with the PIX5%OFF badge between) and comes in the DOM right after the final price, but it is not read 'as part of another section': the DOM order is name, final price (with the compare price and discount when on sale), installments, Pix price, PIX5%OFF badge, all inside the same card and the same link; the evidence's on-screen order is also off (the final price is the top price line on screen, as the screenshot shows). elementFails: 1.3.2 asks for a correct reading sequence only where the sequence affects meaning, and F1 needs a CSS layout that changes the meaning. Here the DOM sequence is itself meaningful: the installments follow the price they divide (their total equals the final price) and the Pix price stays next to its PIX badge, so the CSS reordering changes no meaning and the element meets 1.3.2. captureDiffers: the live HTML (curl) has the same price-block markup in the same order and the screenshot shows the same visual layout on every card; the full-page screenshot is taller than the snapshot (more products loaded), which does not touch this claim. False positive: the rule treats a visual/DOM order mismatch as a failure without the change of meaning the criterion requires."
+    },
+    {
+      "fingerprint": "p6fb2253a2f0",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is a product-card carousel image inside the image link to the product page (link name from aria-label, the product name), alt=\"Saia Midi New Statement Jeans - Azul Escuro\". The crop shows a model wearing the dark denim midi skirt (featured image), so the alternative identifies the product and colour the image shows (a '- AMARO' brand suffix is harmless); that serves the equivalent purpose of a product photo, and the image meets 1.1.1. The live HTML has the same image and alt, so the capture does not differ. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "512e3f0a2d32",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-card link a.product-item-link for \"Blazer Oversized Acinturado - Marrom\" (aria-label and title set to the product name), which wraps the name and the whole price block. claimTrue: the snapshot confirms the installment line sits visually below the Pix price (with the PIX5%OFF badge between) and comes in the DOM right after the final price, but it is not read 'as part of another section': the DOM order is name, final price (with the compare price and discount when on sale), installments, Pix price, PIX5%OFF badge, all inside the same card and the same link; the evidence's on-screen order is also off (the final price is the top price line on screen, as the screenshot shows). elementFails: 1.3.2 asks for a correct reading sequence only where the sequence affects meaning, and F1 needs a CSS layout that changes the meaning. Here the DOM sequence is itself meaningful: the installments follow the price they divide (their total equals the final price) and the Pix price stays next to its PIX badge, so the CSS reordering changes no meaning and the element meets 1.3.2. captureDiffers: the live HTML (curl) has the same price-block markup in the same order and the screenshot shows the same visual layout on every card; the full-page screenshot is taller than the snapshot (more products loaded), which does not touch this claim. False positive: the rule treats a visual/DOM order mismatch as a failure without the change of meaning the criterion requires."
+    },
+    {
+      "fingerprint": "5c7958b5b121",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-card link a.product-item-link for \"Calça Wideleg de Sarja - Caramelo\" (aria-label and title set to the product name), which wraps the name and the whole price block. claimTrue: the snapshot confirms the installment line sits visually below the Pix price (with the PIX5%OFF badge between) and comes in the DOM right after the final price, but it is not read 'as part of another section': the DOM order is name, final price (with the compare price and discount when on sale), installments, Pix price, PIX5%OFF badge, all inside the same card and the same link; the evidence's on-screen order is also off (the final price is the top price line on screen, as the screenshot shows). elementFails: 1.3.2 asks for a correct reading sequence only where the sequence affects meaning, and F1 needs a CSS layout that changes the meaning. Here the DOM sequence is itself meaningful: the installments follow the price they divide (their total equals the final price) and the Pix price stays next to its PIX badge, so the CSS reordering changes no meaning and the element meets 1.3.2. captureDiffers: the live HTML (curl) has the same price-block markup in the same order and the screenshot shows the same visual layout on every card; the full-page screenshot is taller than the snapshot (more products loaded), which does not touch this claim. False positive: the rule treats a visual/DOM order mismatch as a failure without the change of meaning the criterion requires."
+    },
+    {
+      "fingerprint": "dab531b094c4",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-card link a.product-item-link for \"Calça Aladim de Chiffon - Marrom\" (aria-label and title set to the product name), which wraps the name and the whole price block. claimTrue: the snapshot confirms the installment line sits visually below the Pix price (with the PIX5%OFF badge between) and comes in the DOM right after the final price, but it is not read 'as part of another section': the DOM order is name, final price (with the compare price and discount when on sale), installments, Pix price, PIX5%OFF badge, all inside the same card and the same link; the evidence's on-screen order is also off (the final price is the top price line on screen, as the screenshot shows). elementFails: 1.3.2 asks for a correct reading sequence only where the sequence affects meaning, and F1 needs a CSS layout that changes the meaning. Here the DOM sequence is itself meaningful: the installments follow the price they divide (their total equals the final price) and the Pix price stays next to its PIX badge, so the CSS reordering changes no meaning and the element meets 1.3.2. captureDiffers: the live HTML (curl) has the same price-block markup in the same order and the screenshot shows the same visual layout on every card; the full-page screenshot is taller than the snapshot (more products loaded), which does not touch this claim. False positive: the rule treats a visual/DOM order mismatch as a failure without the change of meaning the criterion requires."
+    },
+    {
+      "fingerprint": "se4ea918ae07",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is one slide image of a product-card carousel inside the image link to the product page (the link's name comes from its aria-label, the product name), alt=\"Saia Midi New Statement - Caramelo na internet\". claimTrue: the crop shows the caramel midi skirt on a model, exactly the product and colour the alternative names; the only extra is the SEO suffix 'na internet', which describes nothing at all, so the alternative does not describe something the image does not show. elementFails: for a product photo in a product card, an alternative that identifies the product serves the equivalent purpose; the redundant SEO suffix is verbose but does not make it non-equivalent, so 1.1.1 is met. captureDiffers: the live HTML carries the same image with the same alt. False positive."
+    },
+    {
+      "fingerprint": "39fa10058a15",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-card link a.product-item-link for \"Saia Midi New Statement Jeans - Azul Escuro\" (aria-label and title set to the product name), which wraps the name and the whole price block. claimTrue: the snapshot confirms the installment line sits visually below the Pix price (with the PIX5%OFF badge between) and comes in the DOM right after the final price, but it is not read 'as part of another section': the DOM order is name, final price (with the compare price and discount when on sale), installments, Pix price, PIX5%OFF badge, all inside the same card and the same link; the evidence's on-screen order is also off (the final price is the top price line on screen, as the screenshot shows). elementFails: 1.3.2 asks for a correct reading sequence only where the sequence affects meaning, and F1 needs a CSS layout that changes the meaning. Here the DOM sequence is itself meaningful: the installments follow the price they divide (their total equals the final price) and the Pix price stays next to its PIX badge, so the CSS reordering changes no meaning and the element meets 1.3.2. captureDiffers: the live HTML (curl) has the same price-block markup in the same order and the screenshot shows the same visual layout on every card; the full-page screenshot is taller than the snapshot (more products loaded), which does not touch this claim. False positive: the rule treats a visual/DOM order mismatch as a failure without the change of meaning the criterion requires."
+    },
+    {
+      "fingerprint": "924a7cc1c375",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-card link a.product-item-link for \"Suéter Cashmere Deluxe Gola Alta - Cinza Mescla Escuro\" (aria-label and title set to the product name), which wraps the name and the whole price block. claimTrue: the snapshot confirms the installment line sits visually below the Pix price (with the PIX5%OFF badge between) and comes in the DOM right after the final price, but it is not read 'as part of another section': the DOM order is name, final price (with the compare price and discount when on sale), installments, Pix price, PIX5%OFF badge, all inside the same card and the same link; the evidence's on-screen order is also off (the final price is the top price line on screen, as the screenshot shows). elementFails: 1.3.2 asks for a correct reading sequence only where the sequence affects meaning, and F1 needs a CSS layout that changes the meaning. Here the DOM sequence is itself meaningful: the installments follow the price they divide (their total equals the final price) and the Pix price stays next to its PIX badge, so the CSS reordering changes no meaning and the element meets 1.3.2. captureDiffers: the live HTML (curl) has the same price-block markup in the same order and the screenshot shows the same visual layout on every card; the full-page screenshot is taller than the snapshot (more products loaded), which does not touch this claim. False positive: the rule treats a visual/DOM order mismatch as a failure without the change of meaning the criterion requires."
+    },
+    {
+      "fingerprint": "c54b5bc6a920",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-card link a.product-item-link for \"Saia Midi New Statement - Bege\" (aria-label and title set to the product name), which wraps the name and the whole price block. claimTrue: the snapshot confirms the installment line sits visually below the Pix price (with the PIX5%OFF badge between) and comes in the DOM right after the final price, but it is not read 'as part of another section': the DOM order is name, final price (with the compare price and discount when on sale), installments, Pix price, PIX5%OFF badge, all inside the same card and the same link; the evidence's on-screen order is also off (the final price is the top price line on screen, as the screenshot shows). elementFails: 1.3.2 asks for a correct reading sequence only where the sequence affects meaning, and F1 needs a CSS layout that changes the meaning. Here the DOM sequence is itself meaningful: the installments follow the price they divide (their total equals the final price) and the Pix price stays next to its PIX badge, so the CSS reordering changes no meaning and the element meets 1.3.2. captureDiffers: the live HTML (curl) has the same price-block markup in the same order and the screenshot shows the same visual layout on every card; the full-page screenshot is taller than the snapshot (more products loaded), which does not touch this claim. False positive: the rule treats a visual/DOM order mismatch as a failure without the change of meaning the criterion requires."
+    },
+    {
+      "fingerprint": "0c4312ec12bf",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-card link a.product-item-link for \"Blazer Oversized de Viscose - Marrom\" (aria-label and title set to the product name), which wraps the name and the whole price block. claimTrue: the snapshot confirms the installment line sits visually below the Pix price (with the PIX5%OFF badge between) and comes in the DOM right after the final price, but it is not read 'as part of another section': the DOM order is name, final price (with the compare price and discount when on sale), installments, Pix price, PIX5%OFF badge, all inside the same card and the same link; the evidence's on-screen order is also off (the final price is the top price line on screen, as the screenshot shows). elementFails: 1.3.2 asks for a correct reading sequence only where the sequence affects meaning, and F1 needs a CSS layout that changes the meaning. Here the DOM sequence is itself meaningful: the installments follow the price they divide (their total equals the final price) and the Pix price stays next to its PIX badge, so the CSS reordering changes no meaning and the element meets 1.3.2. captureDiffers: the live HTML (curl) has the same price-block markup in the same order and the screenshot shows the same visual layout on every card; the full-page screenshot is taller than the snapshot (more products loaded), which does not touch this claim. False positive: the rule treats a visual/DOM order mismatch as a failure without the change of meaning the criterion requires."
+    },
+    {
+      "fingerprint": "s3cc9b9b2536",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is one slide image of a product-card carousel inside the image link to the product page (the link's name comes from its aria-label, the product name), alt=\"Saia Midi New Statement Jeans Tinturado - Azul Escuro na internet\". claimTrue: the crop shows the dark denim midi skirt on a model with a black jacket, exactly the product and colour the alternative names; the only extra is the SEO suffix 'na internet', which describes nothing at all, so the alternative does not describe something the image does not show. elementFails: for a product photo in a product card, an alternative that identifies the product serves the equivalent purpose; the redundant SEO suffix is verbose but does not make it non-equivalent, so 1.1.1 is met. captureDiffers: the live HTML carries the same image with the same alt. False positive."
+    },
+    {
+      "fingerprint": "pff0642b9467",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the image link of the first product card (a carousel of product photos), with aria-label and title 'Saia Midi New Statement Jeans Tinturado - Azul Escuro', leading to that product's page (destination heading has the same name). Its accessible name alone gives its purpose. The only other link with that name is the card's text link to the same product URL (same resource, so R1 is met); no link of that name leads elsewhere. The link meets 2.4.4. The live HTML has the same link with the same aria-label and title. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "9f7031019085",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the product-card link a.product-item-link for \"Calça Jeans Baggy com Pregas - Jeans\" (aria-label and title set to the product name), which wraps the name and the whole price block. claimTrue: the snapshot confirms the installment line sits visually below the Pix price (with the PIX5%OFF badge between) and comes in the DOM right after the final price, but it is not read 'as part of another section': the DOM order is name, final price (with the compare price and discount when on sale), installments, Pix price, PIX5%OFF badge, all inside the same card and the same link; the evidence's on-screen order is also off (the final price is the top price line on screen, as the screenshot shows). elementFails: 1.3.2 asks for a correct reading sequence only where the sequence affects meaning, and F1 needs a CSS layout that changes the meaning. Here the DOM sequence is itself meaningful: the installments follow the price they divide (their total equals the final price) and the Pix price stays next to its PIX badge, so the CSS reordering changes no meaning and the element meets 1.3.2. captureDiffers: the live HTML (curl) has the same price-block markup in the same order and the screenshot shows the same visual layout on every card; the full-page screenshot is taller than the snapshot (more products loaded), which does not touch this claim. False positive: the rule treats a visual/DOM order mismatch as a failure without the change of meaning the criterion requires."
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "page": "https://institutocpfl.org.br/contato/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "0cb1734a3394",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the sponsor strip image (REGUA-DE-LOGOS-2026.png) between the main content and the footer, with alt=\"\". The crop and screenshot show logos of Lei Rouanet, Lei de Incentivo ao Esporte, ProAC ICMS, CPFL Energia (patrocínio), instituto cpfl and State Grid (apoio), and Governo do Estado de São Paulo, Ministério do Esporte and Ministério da Cultura (realização), with those captions drawn in the image. The snapshot has no text anywhere on the page that names these sponsors or roles, so the claim holds of the capture. The image conveys information (who sponsors, supports and runs the programme), so marking it decorative with a null alt leaves screen reader users without that content: a 1.1.1 failure (situation A, no text alternative that serves the equivalent purpose). The claim names that failure. The live HTML still serves the same img with alt=\"\" and no surrounding text, the same as the capture."
+    },
+    {
+      "fingerprint": "7f71c0538756",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the desktop search field in the grey sub-menu bar; its label \"Pesquise no site\" is visually hidden, so the placeholder \"pesquise no site\" is the only visible text identifying the field. Sampling the screenshot over the field gives #777777 text on #eeeeee, 3.86:1, and the live stylesheet sets the placeholder colour to #777 inside .header-container--eixos .sub-menu-wrapper on a transparent field over the #eee bar, at 12px bold Montserrat. That is not large text (bold needs 14pt, about 18.7px), so 1.4.3 needs 4.5:1 and the text falls short. Placeholder text is text, not incidental or a logotype, and here it serves as the visible label. The claim states the colours, ratio and requirement correctly. The live HTML and CSS match the capture."
+    },
+    {
+      "fingerprint": "sc61363fdb18",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a static map image that is the only content of a link to https://goo.gl/maps/drUk1KYbCVS2, with alt \"Mapa do instituto CPFL\". The short link redirects (checked today) to the Google Maps place page for Instituto CPFL at Rua Jorge de Figueiredo Corrêa, 1632, Campinas. The image is all the link holds, which is true, but the alternative does say where the link goes: a map of Instituto CPFL, which is exactly what the destination is. Read as the link text in its context (the contact page, beside the address), it names the destination, so by the G82/H30 test (and the rubric's R2 first step) the link's purpose is clear and the image passes 1.1.1 on this point. Saying it opens Google Maps would be nicer but is not required. The live HTML matches the capture (same href and alt, and a 'ver no mapa' button to the same address below). Rampa had the alt and the maps href, so this is a judgment error."
+    },
+    {
+      "fingerprint": "p8c2ae0469e5",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the footer link \"Contato\" in the list under the heading \"institucional\", pointing to https://institutocpfl.org.br/contato/ (the current page, aria-current=\"page\"). The text alone says it leads to the contact page, which it does. No other link on the page shares the name \"Contato\" (the h1 \"Contato\" is not a link), so there is no shared-name problem. It meets 2.4.4, and Rampa was right to report nothing. The live HTML has the same link."
+    }
+  ]
+}

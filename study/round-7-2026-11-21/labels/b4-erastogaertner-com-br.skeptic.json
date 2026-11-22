@@ -1,0 +1,48 @@
+{
+  "page": "https://erastogaertner.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "d7f0c89f6b4b",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "yes" },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The search button is transparent and shows only a 23px magnifier. The plugin CSS (heg-pesquisa search.css) forces the stroke to #fff and the background to transparent. It sits in the header, which is absolutely positioned and transparent, on top of the hero slider. #999999 is exactly the background-color the slider widget sets in CSS (post-15.css, .elementor-element-de1bb59), so it shows only where the hero photo is not painted. The capture's full-page screenshot does show the photo painted, but the button's area is covered there by the 'ATENÇÃO' popup (navy #061a30 and grey text), so no #999999 sits next to the icon in the capture: claimTrue no. The live page has one hero slide (RRM_9905-2-scaled.jpg, a photo that is already darkened). Mapped onto the 1280x720 hero, it puts dark blue sky behind the icon. White against those pixels gives at least 9.4:1 (about 10:1 median), well above 3:1, so the icon passes 1.4.11. The header is not sticky, so the icon never sits over other content. The rule measured a render without the photo, a loading state that is not the page users receive, so this is a collector error."
+    },
+    {
+      "fingerprint": "p0c29fcf41a9",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the 'Ler Mais' button-link in the third news card, an article element. Just before it in the same article is the h3 'Solidariedade à mesa: Ópera de Bambu realiza caranguejada Solidária para apoiar o Hospice Erasto Gaertner'. Under this rubric the preceding heading counts as context (H80), and with it the link's purpose, reading that story, is clear and matches the destination. The other two 'Ler Mais' links on the page each come after a different h3 and lead to their own stories, so their contexts tell them apart and they do not form an R1 set. The live page has the same three cards with the same addresses. The link meets 2.4.4, so Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "140da7292172",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the newsletter sign-up field under 'Fique por dentro das novidades': label 'Email *', placeholder 'Deixe aqui o seu melhor e-mail'. It collects the user's own e-mail address, one of the input purposes WCAG 2.1 section 7 lists. The input has type=\"email\" but no autocomplete attribute, both in the snapshot and in the live HTML (the live page has no autocomplete attribute anywhere). type=\"email\" gives the data format, not the purpose, and is not a sufficient technique for 1.3.5; H98 (autocomplete=\"email\") is. I found no technique on the page that makes the field pass, and the capture matches the live markup. The claim names exactly this failure."
+    },
+    {
+      "fingerprint": "se19c28a7396",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is a link in the footer's 'Links Úteis' list: text 'Qualidade', leading to /visita-benchmarking/. I opened the destination live. Its title and its h1 'Visita Benchmarking' (in the theme's page header) match what Rampa recorded, so the page seems unchanged. Its visible banner heading, an h2 over a background video, reads 'Qualidade'. The page describes institutional benchmarking visits run as part of the hospital's quality work, links to 'Processos de qualidade' (the JCI booklet) and lists 'Escritório da Qualidade' among its services. The link text is the destination's own visible heading and topic, and Understanding 2.4.4 does not require the page's title to be used. The purpose can be determined from the text, so the link passes. The claim's title is accurate, but 'does not match' is not. Rampa read only the title and h1 and missed the 'Qualidade' banner heading, so the cause is missing context. The live footer link is unchanged."
+    },
+    {
+      "fingerprint": "2771e221d11d",
+      "answers": { "claimTrue": "cannot_tell", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'next slide' arrow of the 'Nossas Unidades' Elementor carousel: a div with role=button that shows only a 26px chevron. The colour is Elementor's default hsla(0,0%,93%,.9), i.e. #ededede6; post-15.css changes only its font-size. Nothing contrasting sits behind the chevron, so it is drawn straight on the photos. The carousel autoplays every 5 s (live data-settings), so the photo behind the arrow changes. The snapshot's pagination has slide 1 active, while the screenshot shows a later position with the Rede Feminina photo at the right. The capture therefore holds two different moments, and the rule's sample (#edeff2…#acaeb2, at most 1.80:1) cannot be checked against the screenshot: claimTrue cannot_tell. In the screenshot, the upper half of the chevron sits on a dark red wall (5 to 10:1). The lower half sits on a light sidewalk and grass: half of the pixels under and around the arrow are below 3:1, down to 1.04:1, so the chevron's shape does not reach 3:1. Light parts of other slides make it worse. No technique, such as a contrasting backing shape or outline, makes it pass. The live page has the same arrow, colour and nine photos. It fails 1.4.11, and the claim names that failure: low contrast between the icon and what is behind it."
+    },
+    {
+      "fingerprint": "p52848ff4c58",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the top-level menu link 'Ensino e Pesquisa' (href=\"#\", aria-haspopup, collapsed). It opens the 'Ensino e Pesquisa' submenu, which holds Ensino e Pesquisa, CEPEP and Estudos em Recrutamento. Its text and its popup and collapsed states make the purpose clear: it opens that section's menu. One submenu link has the same name and goes to /ensino-e-pesquisa-2/. Its context differs, though: it has its own list item, nested under the parent list item (H81), whereas the trigger is the parent item itself. So the two do not form an R1 set, and the trigger does not navigate anywhere. The live markup is the same. The link meets 2.4.4, so Rampa was right to report nothing."
+    }
+  ]
+}

@@ -1,0 +1,177 @@
+{
+  "page": "https://www.boston.gov/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "pa19aad89863",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A councilor photo (alt 'Ruthzee Louijeune headshot') inside a card that also holds the text 'Ruthzee Louijeune City Councilor, At-Large'. The crop shows a headshot of a woman, so the alt correctly identifies informative content; the image is not the only content of the card, so H30's destination rule does not apply, and a redundant alt is not a 1.1.1 failure. Live HTML has the same img and alt. 1.1.1 is met. Aside (other criterion): the card's <a> carries role=\"group\", which removes its link role (a 4.1.2 issue, not this one)."
+    },
+    {
+      "fingerprint": "eff14b481403",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The newsletter 'Zip Code' text input (visible label 'ZIP CODE') collects the subscriber's own postal code, a purpose in the WCAG Input Purposes list (postal-code). Snapshot and live HTML both show no autocomplete attribute; name='subscriber[zipcode]' is not a standard token and nothing else exposes the purpose, so H98 is not met and no technique makes it pass. I looked for a reason it is not the user's own data (a zip of interest, say) and found none in the form's wording. The claim names exactly this failure."
+    },
+    {
+      "fingerprint": "a6966beb47b1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Zip Code' field's placeholder. The live patterns stylesheet sets .txt-f::placeholder{font-style:italic;color:#828282} and the field background is white (the screenshot shows grey italic text in a white box); #828282 on #ffffff is 3.84:1 at 16-18px normal weight, below 4.5:1. Understanding 1.4.3 states that the criterion applies to placeholder text; the visible label does not exempt it (not incidental, not an inactive component). Capture matches the live CSS and HTML."
+    },
+    {
+      "fingerprint": "7d11931f272c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The newsletter email input (visible label 'ENTER YOUR EMAIL ADDRESS') collects the subscriber's own email address. It has type=\"email\" but no autocomplete attribute, in the snapshot and in the live HTML. The candidate reason that type=email exposes the purpose does not hold: it states the data format, not that the field asks for the user's own email, and H98 (autocomplete=\"email\") is the documented way to meet 1.3.5. The claim names that failure."
+    },
+    {
+      "fingerprint": "sec87ecb7ef1",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A status-card link whose text is 'Tow lot' plus 'The tow lot is only open ... Automated kiosks are available 24 hours a day ... for vehicle releases.' It leads (via a redirect, confirmed live) to 'How to Get Your Towed Vehicle Back'. The link text names the tow lot and releasing towed vehicles, which describes that destination; Understanding 2.4.4 does not require the page's title. The claim that the text does not match is false, and the link meets 2.4.4. Rampa had the destination title, so this is a judgment error."
+    },
+    {
+      "fingerprint": "a49241638517",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header search icon is a <label for=\"s-tr\" tabindex=\"0\" title=\"Search\"> with click and keydown listeners; Chrome exposes it as LabelText with no widget role. I looked for an accessible native control behind it: the associated checkbox #s-tr is aria-hidden=\"true\" and hidden (snapshot and live HTML), so the label is the only operable element, with neither a button role nor an expanded state. This is the F59 pattern (a script-made control without a role), so 4.1.2 fails as the claim says."
+    },
+    {
+      "fingerprint": "cd27437c8a5f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The 'An official website of the City of Boston. Here's how you know' banner label (<label for=\"dr-banner\">, tabindex=0 added by script, click/keydown listeners) is exposed as LabelText with no role and an empty Chrome name, as claimed. But unlike the menu and search toggles, its checkbox #dr-banner is only visually hidden (class a11y--h): it is focusable and in the accessibility tree with role checkbox, a name from the label and a checked state, so the disclosure's name, role and state are exposed natively. The focusable label is then a redundant tab stop; auditors could treat it as a role-less scripted control (F59's test fails on it) or as the native label of a conforming checkbox. I lean fail, but competent auditors would reasonably disagree, hence uncertain."
+    },
+    {
+      "fingerprint": "1c607fbae239",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Guide:' in the first featured-guide tile: CSS .cdfg-d colour #091f2f over the tile's opaque :before overlay #1871bd, 3.31:1, matching the screenshot. Its font-size is calc(16px + 9*((100vw - 480px)/960)), 23.5px at the 1280px viewport, normal weight, so not large text (18pt is about 24px) and 4.5:1 applies. Skeptic check: the size is fluid and reaches 24px only at viewports of about 1334px and wider, where 3:1 would suffice; at 1280px and narrower (smaller still) users receive the failing presentation, so the element fails 1.4.3. Live CSS matches the capture."
+    },
+    {
+      "fingerprint": "pe3c2ba4c90c",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A mailto link 'digital@boston.gov' in the sentence 'Questions? Contact us at digital@boston.gov.' inside the search panel. The link text (an email address, mailto href) and its sentence make the purpose, emailing that address, clear. 2.4.4 is met; the live HTML is the same."
+    },
+    {
+      "fingerprint": "p13d62865417",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Main-menu link 'Public Notices' to /public-notices. Rampa could not read the destination; I opened it live and it is 'Public notices | Boston.gov'. The link text describes the destination; 2.4.4 is met."
+    },
+    {
+      "fingerprint": "p54488d8a766",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Header logo image (alt 'Boston.gov'), the only content of a link to '/', the 'Homepage | Boston.gov' page; Chrome names the link 'Boston.gov'. The crop shows the 'CITY of BOSTON' wordmark. The alt names the site and organisation the logo stands for and identifies where the link goes (H30), so 1.1.1 is met. That the name differs from the wordmark's visible words is at most a 2.5.3 question, not 1.1.1. Live HTML matches."
+    },
+    {
+      "fingerprint": "p5d412f23c1e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The white/red 'CITY of BOSTON' logo in the official-website banner, alt 'Boston.gov', inside the banner label next to 'An official website of the City of Boston'. The alt identifies the organisation and site the logo represents, an equivalent purpose for a logo, and the image is not the sole content of a control. 1.1.1 is met; live HTML matches."
+    },
+    {
+      "fingerprint": "6aab2400e88a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The email field's placeholder 'Email address': live CSS .txt-f::placeholder{color:#828282; italic} on the white field background, 3.84:1 at normal size, below 4.5:1; the screenshot shows the grey italic placeholder. Understanding 1.4.3 explicitly includes placeholder text, and no exception applies despite the visible label. Capture matches live."
+    },
+    {
+      "fingerprint": "sa044361162d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Featured-resource link 'Get a Moving Truck Permit' to 'Reserve A Parking Spot For Your Moving Truck'. I opened the destination live: it explains and links to applying for a one-day moving truck permit ('Moving truck permits are just for moving trucks...', 'Apply for a one-day permit'). The link text describes that page's purpose, so the mismatch claim is false and 2.4.4 is met. Rampa had the title and description, so this is a judgment error. (target=_blank without a warning is not a 2.4.4 failure.)"
+    },
+    {
+      "fingerprint": "780408dc95d9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The hamburger 'Toggle Menu' control is <label for=\"brg-tr\" tabindex=\"0\"> with a keydown listener, exposed as LabelText with no role (empty Chrome name). Its checkbox #brg-tr is aria-hidden=\"true\" and hidden (snapshot and live HTML), so no native control carries the role or state; the label is the only operable element and has no button role or expanded state. 4.1.2 fails as claimed (F59 pattern)."
+    },
+    {
+      "fingerprint": "s90b7d3e09ea",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The homepage h1 'City of Boston' (visually preceded by 'Welcome to the'). The page is the City of Boston's homepage and everything under it (today's city service status, featured resources, guides, news, the mayor, the council) is about the City of Boston, so the heading describes the page's topic. 2.4.6 is met and the claim is false; the live h1 is the same."
+    }
+  ]
+}

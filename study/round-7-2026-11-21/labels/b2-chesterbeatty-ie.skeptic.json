@@ -1,0 +1,39 @@
+{
+  "page": "https://chesterbeatty.ie/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "sa495d643bdf",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the footer navigation link \"Accessibility\" (href /visit/accessibility/, no title or aria-describedby; nearest preceding heading is the h3 \"Opening Times\"). claimTrue: the snapshot's destination record for /visit/accessibility/ is titled \"Visit - Chester Beatty\" with heading \"Visit\", as the claim says. captureDiffers: on 2026-11-21 the live URL still returns 200 with the Visit page (canonical /visit/, h1 \"Visit\"), and the live homepage footer has the same link and href, so nothing differs. elementFails: the live footer link takes users to the top of the general Visit page; the theme JS has no path-based scrolling, while the main navigation's \"Accessibility\" link goes to the real page /accessibility-info/ (title \"Accessibility - Chester Beatty\"). So the text does not describe where this link leads, and I lean yes. The skeptic's counter-reason only partly holds up: the Visit page does have an h2 \"Accessibility\" card (\"Plan your accessible visit here. Find out more\") that links on to /accessibility-info/, so the text names a section of the destination, and some auditors would log a misrouted href as a broken link rather than a 2.4.4 link-purpose failure. Because competent auditors would reasonably disagree, the label is uncertain."
+    },
+    {
+      "fingerprint": "s8ba210850df",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 300x300 footer image inside a link (#footer_image > a, href #footerimagetext) that also holds sr-only text \"See information about Image of figure detail for website, mask\". The link opens a text box captioned \"Netsuke in shape of Noh mask, 18th or 19th century, Japan, CBL J 0193\". The crop and the screenshot show a carved, grinning mask, which the alternative names (\"mask\"), so the claim that it describes something the image does not show is false (claimTrue no). elementFails: \"Image of ... for website\" is CMS wording, but the alternative still identifies the subject. The link's own text gives its purpose, so the image is not the link's only content and H30's control case does not apply. The full identification is one activation away for screen-reader users, just as it is for sighted users, who also see only the picture until they click. The alternative is poor, but it gives what the picture shows, and that meets 1.1.1. captureDiffers: the live footer image rotates on each load (I also got an elephant deity and a man with a spear), but the mask version with this exact alt and caption is still served, so the capture matches a page users receive. The model had the crop and the alternative and judged wrongly."
+    },
+    {
+      "fingerprint": "d29963ab5924",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the second paragraph of the homepage alert box (#home_boxes .mainalert): \"Tá an Fhoireann Oideachais chun Clár Chester Beatty ... féach an Clár Imeachtaí.\" That is a full Irish sentence. The snapshot shows no lang attribute on the paragraph or any ancestor except html lang=\"en\", so it is read as English (claimTrue yes). The live homepage markup on 2026-11-21 is identical: a plain <p> with no lang. The theme script sets data-lang only on accordions marked has_gaeilge, never a lang attribute on this alert, so captureDiffers is no. I looked for reasons this could pass and none holds up. Whole Irish sentences are not proper names, technical terms or vernacular words, so 3.1.2's exceptions do not apply. The English version that follows does not excuse the unmarked Irish passage, which screen readers will speak with English pronunciation. The element fails 3.1.2 for exactly the reason the claim gives."
+    }
+  ]
+}

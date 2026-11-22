@@ -1,0 +1,28 @@
+{
+  "page": "https://www.cottontraders.com/women/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "14d4926778ae",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the header badge image (shows 'Excellent', 4.5 green stars and the Trustpilot mark), the only content of a link to /customer-service/about-us/customer-reviews.html; the link has no title or aria attributes, so its name is the alt 'Trustpilot logo'. claimTrue: as captured, the alt names the picture (a logo) and does not mention reviews or the destination page. elementFails: the image fails 1.1.1 at least because its text 'Excellent' and the star rating are not in the alternative, and 'logo' describes the image rather than the link's function (H30). But the claim's own reason is contestable: the destination is 'Cotton Traders Reviews', a page built around a Trustpilot review widget, and the site's footer link to the same URL reads 'Trustpilot Reviews', so 'Trustpilot' arguably names what the link leads to and, under R2's first test, many auditors would accept it as identifying the destination. Competent auditors would reasonably disagree about whether the failure the claim names holds, so the label is uncertain. captureDiffers: the live HTML (fetched 2026-11-21) has the same link, href, image and alt, and the screenshot is fully styled; no difference."
+    },
+    {
+      "fingerprint": "a24afb77d926",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the visible header search field (placeholder 'Search here...', 16px, weight 400) on a white field. claimTrue: the darkest pixel of the placeholder text in the screenshot is #8c8c8c on #ffffff, 3.36:1, matching the message. elementFails: the live stylesheet sets '.b-header-slim .b-header-slim-mid-bar-search input[type=text]::placeholder{color:#8c8c8c;font-size:16px}', so users get the same colour (Firefox's default placeholder opacity would only make it lighter). The text is not large, the field is active, and Understanding 1.4.3 states the criterion applies to text in the page 'including placeholder text'; no exception (inactive component, decoration, logotype) applies, so 3.36:1 fails the 4.5:1 minimum. I found no technique or context that makes it pass. captureDiffers: the live HTML and CSS match the capture and the screenshot is styled; no difference."
+    }
+  ]
+}

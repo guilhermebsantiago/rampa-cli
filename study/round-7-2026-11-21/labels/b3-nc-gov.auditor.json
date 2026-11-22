@@ -1,0 +1,38 @@
+{
+  "page": "https://www.nc.gov/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "4bd064ea6feb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the stock photo (GettyImages) at the top of the 'Join Team North Carolina' card in 'In the Spotlight', alt=\"\", not inside a link. claimTrue: the capture shows alt=\"\", the crop shows a sign reading 'Welcome To North Carolina', and the card's text does not say that, so the sentence holds of the capture. elementFails: the card's purpose (state government jobs) is given by its h3 link and paragraph; the photo only sets the scene, and the greeting on the sign carries no information about the card or the page that a user would miss. It is decorative/illustrative in the sense of Understanding 1.1.1 and the W3C images tutorial, so a null alternative meets 1.1.1. The CMS even marks this media as decorative. captureDiffers: the live HTML fetched on 2026-11-21 has the same image, the same alt=\"\" and the same card text. Text inside a photo is not by that alone information that needs an alternative, so the model misjudged the context it had."
+    },
+    {
+      "fingerprint": "pe96072c48c5",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the photo of the NC State Capitol with flags and bunting next to the featured press release ('November Column: Living Out Our Thanks...') under 'Press Releases', alt=\"\", not a link and with no function. The press release's date, h3 title, summary and 'Read more details' link are all text beside it. The photo is a generic illustration that adds no information the text needs, so it is decorative and a null alternative meets 1.1.1. captureDiffers: the live HTML has the same image with alt=\"\" (the CMS marks it decorative) and the same text, so nothing differs. No failure was missed."
+    },
+    {
+      "fingerprint": "e087f5d3b5f4",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the full-width hero background image (NC-Grandfather-Mountain-fall-hero_0.jpg), alt=\"\": a fall landscape of a mountain and a misty lake. claimTrue: the search box and the 'Find a job in NC' / 'Get unemployment help' buttons are not part of the image. In the snapshot they are HTML (a searchbox 'Search NC.gov', a 'Search' button and the 'Popular Topics' navigation list of links) placed over the image, and that same text appears in the image's own region, so both 'the image conveys' it and 'the text around it does not say' it are false. The image crop the model saw was cut from the screenshot at the image's bounds and so included the overlaid HTML panel. elementFails: the landscape is atmospheric background with no information or function, so alt=\"\" meets 1.1.1. captureDiffers: the live HTML has the same hero image, alt=\"\", and the same HTML search and popular-topics overlay. The false claim comes from the crop showing the overlay, so the collector gave the model wrong data."
+    }
+  ]
+}

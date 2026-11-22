@@ -1,0 +1,41 @@
+{
+  "page": "https://www.hospitalinfantilsabara.org.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "d849d3e4bf85",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header search field (aria-label \"Buscar no site\") shows the placeholder \"Buscar serviços, médicos ou informações...\" at 14px, weight 400, and it is the only visible text in the field. In the screenshot the placeholder's solid pixels are exactly #65758b and the field's fill is #f9f9fa (the header behind it is #ffffff), which gives 4.46:1. The live stylesheet agrees: placeholder:text-muted-foreground resolves to hsl(215 16% 47%) = #65758b, and bg-muted/50 is hsl(220 14% 96%) at 50% over white, about #f9f9fa to #f9fafb. Either way the ratio is 4.46 to 4.50, under 4.5:1, and Understanding 1.4.3 says the threshold is not rounded. Reasons I checked and rejected: placeholder text is not exempt (it is not inactive, decorative, invisible or a logotype, and the W3C WAI forms tutorial treats placeholder colour as subject to WCAG's contrast requirement); the aria-label does not change what sighted users have to read; the aria-hidden state and Rampa's hidden overlay come from a dismissible Radix notice dialog (\"Atenção, famílias!\") that was open at load. Once the dialog is closed, the header looks exactly as captured, and the live bundle has the same classes and theme variables. The margin is small, but it is a failure."
+    },
+    {
+      "fingerprint": "a7ea98b336f4",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 7px uppercase \"min\" unit label on the \"Não urgentes\" tab of the fixed left-edge wait-time ribbon (aside \"Prioridades de atendimento em tempo real\", shown at widths of 1026px and up). It is styled text-white/70 on the button's from-orange-400 via-orange-500 to-orange-600 gradient. The snapshot records the CSS foreground #ffffffb3 and the pixel backgrounds #f78b37 to #ef6c19, which gives 1.86 to 2.21:1; even fully opaque white on orange-500 is under 3:1, so the text fails 4.5:1 whichever way it is measured. Reasons I checked and rejected: the label is part of an active button and conveys the unit of the wait time, so it is not incidental; aria-hidden and the sr-only text do not exempt visible text from 1.4.3; the label sits in the tab's always-visible collapsed column, not in the opacity-0 detail panel. The full-page screenshot does not show this fixed ribbon (a screenshot artefact), but the live JS bundle renders the same span with identical classes and gradients, and \"min\" appears whenever the hours value is 0, as it was at capture."
+    },
+    {
+      "fingerprint": "faf2e2b472d2",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 7px uppercase \"min\" label on the \"Urgente (não-emergência)\" tab of the fixed left-edge wait-time ribbon: text-white/70 on a from-yellow-300 via-yellow-400 to-amber-500 gradient. The snapshot records #ffffffb3 on #f8d93e to #f2bb17, which gives 1.26 to 1.49:1, and white on yellow cannot come anywhere near 4.5:1. The text is visible in the tab's collapsed column, conveys the unit, belongs to an active button and is not decorative or a logotype, so no 1.4.3 exception applies; aria-hidden or sr-only alternatives do not change visible contrast. The live JS bundle has the same span, classes and gradient. Only the full-page screenshot leaves out the fixed ribbon, and that does not change what users see."
+    },
+    {
+      "fingerprint": "c91abe9dfd1a",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 7px uppercase \"min\" label on the \"Emergência\" tab of the fixed left-edge wait-time ribbon: text-white/70 on a from-rose-500 via-rose-500/90 to-red-600 gradient. The snapshot records #ffffffb3 on #ef4b66 to #e64354, which gives 2.44 to 2.65:1; my own calculation of 70% white over rose-500 (#f43f5e) gives about 2.45:1, far under 4.5:1. The label is visible in the collapsed tab, conveys the unit and belongs to an active control, so it is not incidental text; aria-hidden does not exempt it. The live bundle renders the same element with the same classes and colours, so the capture matches what users receive (apart from the full-page screenshot leaving out the fixed ribbon)."
+    },
+    {
+      "fingerprint": "6534c8ca0da2",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 7px uppercase \"min\" label on the \"Sem urgência\" tab of the fixed left-edge wait-time ribbon: text-white/70 on a from-sky-500 via-blue-500/90 to-blue-600 gradient. The snapshot records #ffffffb3 on #249fe9 to #437dec, which gives 2.14 to 2.72:1, well under 4.5:1 for 7px text. The label is visible in the tab's collapsed column, belongs to an active button and conveys the wait-time unit, so no exception for incidental text or logotypes applies, and aria-hidden or sr-only text does not change visible contrast. The live JS bundle has the identical span, classes and gradient, so the capture does not differ in any way that matters."
+    }
+  ]
+}

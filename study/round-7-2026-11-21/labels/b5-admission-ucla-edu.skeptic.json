@@ -1,0 +1,81 @@
+{
+  "page": "https://admission.ucla.edu/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s16c35893875",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the svg (role img, aria-label and title \"Down Arrow\") that is the only content of a button the site's script injects after the Admitted Students menu link; the button's name, from the svg, is \"Down Arrow\". claimTrue: yes, the snapshot shows the alternative is all the button holds and it names the icon's shape, not an action. elementFails: yes. I looked for reasons it could pass: the live script makes the button inert on desktop (click(false), tabindex -1) and uses it to toggle the submenu on narrow screens, but in both cases it stays in the accessibility tree as a button, and \"Down Arrow\" says neither that it opens the Admitted Students submenu nor anything else about its purpose; an image that is a control's only content must name its purpose (1.1.1 Situation C, H30/G82), and a decorative reading would not make a non-null appearance label pass either. The missing aria-expanded is a separate 4.1.2 issue. captureDiffers: no, the live page's script injects the same markup with the same label. The claim names this failure, so true_positive."
+    },
+    {
+      "fingerprint": "p819b6ff32f4",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer link \"Campus Tours\" to /visit/campus-tours, whose destination (title and heading \"Campus Tours\") matches its text, so the text alone gives its purpose. The two other links with the same name on the page (the Visit submenu item and the Campus Tours tile) lead to the same address, so no shared-name failure arises under R1. The live page has the same link and destination. Rampa rightly reported nothing."
+    },
+    {
+      "fingerprint": "46d23e2576dc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the hero slideshow container, a div given tabindex 0, role region and aria-label \"Hero image carousel\" by the page script, which also binds ArrowLeft/ArrowRight to previous/next slide. claimTrue: yes, it is focusable, has a keydown listener and is exposed as a named region with no widget role. elementFails: no. Its role and name are programmatically determined, and region is the role the ARIA carousel pattern gives a carousel container; the carousel's actual controls are native buttons (Play and Pause, and the Slide 1 to 6 dot buttons), so nothing is operable only through this div. Arrow keys on a focused named region are a convenience comparable to scrolling a focusable scroll region, not a div posing as a button or link, which is what F59 describes; the suggested fix (make it a button or link) would misrepresent it. captureDiffers: no, the live HTML and inline script set the same attributes and handler. The rule applied a stricter reading than 4.1.2 requires."
+    },
+    {
+      "fingerprint": "s16dbbc0a82e",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the Belonging blade image (belonging.jpg) with alt \"Image Collage.\". claimTrue: no, the crop and screenshot show the image is in fact a collage (students, a UCLA logo, a bear mascot, and pasted text \"Los Angeles\" and \"We are sooo back\"), so the alternative does not describe something absent. elementFails: yes on either reading, since \"Image Collage.\" is placeholder-like: if the image is informative it leaves out what the picture conveys, including its text (F30-type), and if it is decorative beside a heading and paragraph that carry the message, it should have a null alt (F39, alt=\"image\"). Whether the claim names the failure depends on that reading: in good faith it names an alternative that omits most of the content, but not a decorative image that should be hidden, and competent auditors would split on decorative versus informative here. captureDiffers: no, the live HTML has the same image and alt. Hence uncertain."
+    },
+    {
+      "fingerprint": "65fb0ad85193",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the language-switcher link to /es whose name (aria-label) and visible text are \"Español\", inside a page with lang=\"en\"; neither the link nor its span carries a lang attribute in the snapshot or in the live HTML. claimTrue: yes. elementFails: yes. I looked for an exception: Understanding 3.1.2 treats exactly this case in its example \"Alternative language links\" (link text is the language's name in that language, and its language is indicated with a lang attribute), so neither the proper-name nor the single-word exception applies, and the hreflang alternates in the head do not set the link's language. captureDiffers: no, the live page is unchanged on this point. True positive."
+    },
+    {
+      "fingerprint": "s551db554d4a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the svg (role img, aria-label and title \"Down Arrow\") that is the only content of a button the site's script injects after the Tuition & Aid menu link; the button's name, from the svg, is \"Down Arrow\". claimTrue: yes, the snapshot shows the alternative is all the button holds and it names the icon's shape, not an action. elementFails: yes. I looked for reasons it could pass: the live script makes the button inert on desktop (click(false), tabindex -1) and uses it to toggle the submenu on narrow screens, but in both cases it stays in the accessibility tree as a button, and \"Down Arrow\" says neither that it opens the Tuition & Aid submenu nor anything else about its purpose; an image that is a control's only content must name its purpose (1.1.1 Situation C, H30/G82), and a decorative reading would not make a non-null appearance label pass either. The missing aria-expanded is a separate 4.1.2 issue. captureDiffers: no, the live page's script injects the same markup with the same label. The claim names this failure, so true_positive."
+    },
+    {
+      "fingerprint": "pf807d833fbf",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer link \"Privacy & Terms of Use\" to https://ucla.edu/terms-of-use/. Rampa did not read the destination; I opened it and it is UCLA's \"Privacy Policy and Terms of Use\" page, which the link text names exactly. No other link on the page shares its name. The live footer has the same link. The purpose is clear from the text alone, and Rampa rightly reported nothing."
+    }
+  ]
+}
