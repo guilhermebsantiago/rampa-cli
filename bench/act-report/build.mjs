@@ -45,16 +45,16 @@ const ROWS = {
 }
 
 /**
- * The records and the version of each row's report. The no-model row is one run of the released rampa-cli 0.1.1,
- * installed from npm (`tools/rampa.mjs --cli`), on every test case the 2026-10-11 benchmark ran and on the ones it left
- * out among the rules the row reports on (`--missing rampa`): records/rampa-0.1.1.jsonl. The earlier records of that
- * row (the benchmark's at 927cf63, records/rampa-0.1.0.jsonl and records/rampa-b09ef9d.jsonl) stay in git, out of the
- * build. The Gemma row is still the benchmark's run at 927cf63: no model is called here. The results folder still
- * gives the benchmark's cases, which mark the rules Rampa may have been tuned on.
+ * The records and the version of each row's report. The no-model row is one run of the released rampa-cli 0.1.4,
+ * installed from npm (`tools/rampa.mjs --cli`), on the test cases of the 0.1.1 run (`--missing rampa` lists none
+ * more): records/rampa-0.1.4.jsonl. The earlier records of that row (the benchmark's at 927cf63,
+ * records/rampa-0.1.0.jsonl, records/rampa-b09ef9d.jsonl and records/rampa-0.1.1.jsonl) stay in git, out of the build.
+ * The Gemma row is still the benchmark's run at 927cf63: no model is called here. The results folder still gives the
+ * benchmark's cases, which mark the rules Rampa may have been tuned on.
  */
 const DEFAULT_RESULTS = join('results', '2026-10-11')
 const DEFAULTS = {
-  rampa: { raw: [join('act-report', 'records', 'rampa-0.1.1.jsonl')], revision: '0.1.1' },
+  rampa: { raw: [join('act-report', 'records', 'rampa-0.1.4.jsonl')], revision: '0.1.4' },
   'rampa-gemma': { raw: [join(DEFAULT_RESULTS, 'raw', 'rampa-gemma.jsonl')], revision: 'commit 927cf63, before the 0.1.0 release' },
 }
 

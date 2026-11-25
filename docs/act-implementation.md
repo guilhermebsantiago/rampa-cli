@@ -1,11 +1,11 @@
 # ACT implementation report
 
-Rampa's results on the W3C ACT test cases, in the format the [W3C ACT implementation pages](https://www.w3.org/WAI/standards-guidelines/act/implementations/) read, with the consistency those pages would compute from it. **Status: submitted on 2026-10-16 as [w3c/wcag-act-rules#457](https://github.com/w3c/wcag-act-rules/issues/457)**, waiting for W3C staff. How it was submitted is in [Submission](#submission). The entry for the W3C Evaluation Tools List is in [w3c-evaluation-tools-list.md](w3c-evaluation-tools-list.md).
+Rampa's results on the W3C ACT test cases, in the format the [W3C ACT implementation pages](https://www.w3.org/WAI/standards-guidelines/act/implementations/) read, with the consistency those pages would compute from it. **Status: submitted on 2026-10-16 as [w3c/wcag-act-rules#457](https://github.com/w3c/wcag-act-rules/issues/457)** for 0.1.1, waiting for W3C staff; the report is rebuilt with each release, at the same address. How it was submitted is in [Submission](#submission). The entry for the W3C Evaluation Tools List is in [w3c-evaluation-tools-list.md](w3c-evaluation-tools-list.md).
 
 In short:
 
-- **Reported:** Rampa 0.1.1, the released `rampa-cli` package installed from npm, with no language model (`rampa check --no-llm`), at its default confidence threshold, on all 977 test cases the report reads, in one run from 2026-10-15 23:59 to 2026-10-16 01:38 UTC: [`bench/act-report/rampa.earl.json`](../bench/act-report/rampa.earl.json). Every outcome comes from that version.
-- **Its consistency**, as act-tools (the code W3C runs) computes it: of the approved ACT rules, 27 consistent, 0 partial, 2 inconsistent and 8 not implemented; of the proposed rules, 4, 8, 2 and 36. Rampa 0.1.0 had 19, 8, 2 and 8; 4, 3, 7 and 36. axe-core 4.14.0's own report, scored the same way on the same day: 30, 0, 2 and 5; 5, 9, 4 and 32.
+- **Reported:** Rampa 0.1.4, the released `rampa-cli` package installed from npm, with no language model (`rampa check --no-llm`), at its default confidence threshold, on all 977 test cases the report reads, in one run on 2026-11-25 from 22:19 to 22:29 UTC: [`bench/act-report/rampa.earl.json`](../bench/act-report/rampa.earl.json). Every outcome comes from that version. The install resolved axe-core 4.14.1, one patch after the 4.14.0 of Rampa's lockfile.
+- **Its consistency**, as act-tools (the code W3C runs) computes it: of the approved ACT rules, 27 consistent, 0 partial, 2 inconsistent and 8 not implemented; of the proposed rules, 4, 8, 2 and 36. 0.1.1 had the same, rule by rule; two outcomes changed, both through axe-core 4.14.1 ([0.1.4 against 0.1.1](#014-against-011)). Rampa 0.1.0 had 19, 8, 2 and 8; 4, 3, 7 and 36. axe-core's own report, now 4.14.1, scored the same way on the same day: 30, 0, 2 and 5; 5, 9, 4 and 32, as 4.14.0's was.
 - **All of it is axe-core.** Every rule that report gets consistent or partial comes from an axe-core rule that Rampa runs. Rampa's own rules are all experimental: at the default threshold they report only items to review. With Gemma 4 12B, Rampa's judgments make 2 more rules consistent and 4 partial, all on rules whose test cases Rampa's prompts were written against. That report is still the benchmark's run from before 0.1.0, and was not regenerated (below).
 - **Where Rampa is behind axe-core's own report,** it is because Rampa runs fewer axe-core rules: no best-practice, deprecated or Level AAA rule, and only two experimental ones, for review. Of the approved rules axe-core's report makes consistent, that leaves 4 not implemented here: 2 Level AAA rules and 2 whose axe-core rule Rampa does not run. One approved rule goes the other way (8fc3b6), and one is inconsistent here where axe-core's report has no procedure for it (2t702h).
 
@@ -51,8 +51,8 @@ So the CG has not asked embedding tools to report separately, nor forbidden it. 
 **Rampa with no model (`rampa check --no-llm`) is the implementation to submit.**
 
 - Anyone can reproduce it without a GPU, a model or a key.
-- It is deterministic. A rerun at the 0.1.0 release gave the same record as the benchmark run on 855 of 856 pages. The one other page redirects at once to the live w3.org home page, whose content had changed, and no procedure mapped to that page's rule saw a difference. The 0.1.1 run gave the same outcome as the earlier records on every test case ([below](#which-test-cases)).
-- It is a release anyone can install: `rampa-cli@0.1.1` on npm, published by the release workflow with provenance, not a build of a working copy.
+- It is deterministic. A rerun at the 0.1.0 release gave the same record as the benchmark run on 855 of 856 pages. The one other page redirects at once to the live w3.org home page, whose content had changed, and no procedure mapped to that page's rule saw a difference. The 0.1.1 run gave the same outcome as the earlier records on every test case ([below](#which-test-cases)). The 0.1.4 run gave the same record as 0.1.1's on 973 of 977 test cases ([below](#014-against-011)).
+- It is a release anyone can install: `rampa-cli@0.1.4` on npm, published by the release workflow with provenance, not a build of a working copy.
 - It is what a CI job runs with `--no-llm`.
 - W3C downloads a report again and recomputes it, and implementers are expected to keep it current with their releases. A report anyone can rebuild from a release suits that.
 
@@ -63,13 +63,13 @@ Plain `rampa check`, with no model configured, looks for Ollama or a provider an
 - Its prompts were written while reading these test cases. Every rule its judgments decide is one of those, and the CG recommended against using the test cases that way (#107).
 - Reproducing it needs a local 12B model.
 - It is the benchmark run at commit `927cf63`, from before the 0.1.0 release. The judgment code changed after it (verification of quotes in passes), and it was not run again: no model is called for this report. It also lacks the supplementary test cases below: 126 examples of rules it reports on have no outcome.
-- It was not regenerated for 0.1.1 either. Its files are rebuilt from the same records and come out the same: afw4f7 is still partial there, and its SVG and XML examples are "not run".
+- It was not regenerated for 0.1.1 or 0.1.4 either. Its files are rebuilt from the same records and come out the same: afw4f7 is still partial there, its SVG and XML examples are "not run", and its axe-core is 4.14.0.
 
 The format allows a second entry, as Alfa (automated and assisted) and UsableNet (auto and semi-auto) have. A full run of the model configuration at a release could become one later.
 
 ### What is axe-core and what is Rampa
 
-Rampa runs axe-core 4.14.0 on the WCAG 2.0, 2.1 and 2.2 A/AA tags: 64 rules. It also runs two experimental rules, `td-has-header` and `table-fake-caption`, whose results are only items to review ([src/engine/axe.ts](../src/engine/axe.ts)). Axe-core has its own report on the W3C pages, by Deque, with every rule run, experimental ones included.
+Rampa runs axe-core on the WCAG 2.0, 2.1 and 2.2 A/AA tags: 64 rules. Its `package.json` asks for `^4.14.0`, so an install takes the latest axe-core 4 of the day: the 0.1.4 run used 4.14.1, whose rules, tags and `actIds` are 4.14.0's (`build.mjs` checks). It also runs two experimental rules, `td-has-header` and `table-fake-caption`, whose results are only items to review ([src/engine/axe.ts](../src/engine/axe.ts)). Axe-core has its own report on the W3C pages, by Deque, with every rule run, experimental ones included.
 
 In the reported configuration:
 
@@ -87,14 +87,14 @@ Rampa also changes a few axe-core results:
 
 | Set | Test cases | Rampa | Where |
 | --- | ---: | --- | --- |
-| The benchmark's: every HTML test case of the ACT rules that map to a WCAG 2.2 A/AA criterion for conformance, without the device motion rules ([docs/benchmark.md](benchmark.md)). Two of them, 2ee8b8's Inapplicable Examples 5 and 6, are no longer in the published file | 856, 854 of them still published | 0.1.1 | [`bench/act-report/records/rampa-0.1.1.jsonl`](../bench/act-report/records/rampa-0.1.1.jsonl) |
-| The ones the benchmark left out among the rules a no-model Rampa procedure maps to (`build.mjs --missing rampa`): the ARIA rules with no WCAG criterion for conformance (674b10, 6a7281, 5f99a7, 4e8ab6, 5c01ea), the rules that axe-core's `bypass` maps to, and the SVG and XML examples of the benchmark's rules | 123: 110 HTML, 11 SVG, 2 XML | 0.1.1 | the same file |
+| The benchmark's: every HTML test case of the ACT rules that map to a WCAG 2.2 A/AA criterion for conformance, without the device motion rules ([docs/benchmark.md](benchmark.md)). Two of them, 2ee8b8's Inapplicable Examples 5 and 6, are no longer in the published file | 856, 854 of them still published | 0.1.4 | [`bench/act-report/records/rampa-0.1.4.jsonl`](../bench/act-report/records/rampa-0.1.4.jsonl) |
+| The ones the benchmark left out among the rules a no-model Rampa procedure maps to (`build.mjs --missing rampa`): the ARIA rules with no WCAG criterion for conformance (674b10, 6a7281, 5f99a7, 4e8ab6, 5c01ea), the rules that axe-core's `bypass` maps to, and the SVG and XML examples of the benchmark's rules | 123: 110 HTML, 11 SVG, 2 XML | 0.1.4 | the same file |
 
-After the run, `build.mjs --missing rampa` lists no test case: every test case of every rule a procedure maps to has a record, and none is an error.
+The 0.1.4 run read the 977 test cases of the 0.1.1 run; the published file was the same (SHA-256 `49051da603af`) and still had all of them. After the run, `build.mjs --missing rampa` lists no test case: every test case of every rule a procedure maps to has a record, and none is an error.
 
-**Earlier runs**, kept in git and out of the build: the benchmark's records at commit `927cf63` ([`bench/results/2026-10-11/raw/rampa.jsonl`](../bench/results/2026-10-11/raw/rampa.jsonl)), the 123 at 0.1.0 ([`records/rampa-0.1.0.jsonl`](../bench/act-report/records/rampa-0.1.0.jsonl)), and the 47 that the fixes below change, run again at commit `b09ef9d` before the release ([`records/rampa-b09ef9d.jsonl`](../bench/act-report/records/rampa-b09ef9d.jsonl)). The report built from those three had the same consistency as this one.
+**Earlier runs**, kept in git and out of the build: the benchmark's records at commit `927cf63` ([`bench/results/2026-10-11/raw/rampa.jsonl`](../bench/results/2026-10-11/raw/rampa.jsonl)), the 123 at 0.1.0 ([`records/rampa-0.1.0.jsonl`](../bench/act-report/records/rampa-0.1.0.jsonl)), the 47 that the fixes of 0.1.1 change, run again at commit `b09ef9d` before that release ([`records/rampa-b09ef9d.jsonl`](../bench/act-report/records/rampa-b09ef9d.jsonl)), and the 977 at 0.1.1 ([`records/rampa-0.1.1.jsonl`](../bench/act-report/records/rampa-0.1.1.jsonl)). The report built from the first three had the same consistency as 0.1.1's, and 0.1.1's the same as this one.
 
-**Against those earlier records,** the 0.1.1 run gives the same outcome for every procedure on every test case. 7 of the 977 records differ, each only by an axe-core `color-contrast` item to review that 0.1.1 keeps where `rampa/pixel-contrast` measured the text and passed it below the threshold (the second fix below): 7d6734 Failed Example 4, 0ssw9k Inapplicable Example 1, 0va7u6 Inapplicable Example 2, 5effbb Failed Example 3, fd3a94 Failed Examples 3 and 7, and 59br37 Inapplicable Example 2. `color-contrast` maps to none of those rules, so no outcome changes. The `b09ef9d` run covered afw4f7, the one rule it does map to. 0.1.1's other changes (the dev-split fixes in the [CHANGELOG](../CHANGELOG.md)) change nothing here: `rampa/link-color-only`, `rampa/focus-visible` and `rampa/focus-indicator-contrast` are probe rules, which this configuration does not run, `rampa/placeholder-text` names no ACT rule, the 1.1.1 changes are to model judgments, and the note on a page cut at the collector's limit is a note.
+**Against the records before it,** the 0.1.1 run gave the same outcome for every procedure on every test case. 7 of the 977 records differ, each only by an axe-core `color-contrast` item to review that 0.1.1 keeps where `rampa/pixel-contrast` measured the text and passed it below the threshold (the second fix below): 7d6734 Failed Example 4, 0ssw9k Inapplicable Example 1, 0va7u6 Inapplicable Example 2, 5effbb Failed Example 3, fd3a94 Failed Examples 3 and 7, and 59br37 Inapplicable Example 2. `color-contrast` maps to none of those rules, so no outcome changes. The `b09ef9d` run covered afw4f7, the one rule it does map to. 0.1.1's other changes (the dev-split fixes in the [CHANGELOG](../CHANGELOG.md)) change nothing here: `rampa/link-color-only`, `rampa/focus-visible` and `rampa/focus-indicator-contrast` are probe rules, which this configuration does not run, `rampa/placeholder-text` names no ACT rule, the 1.1.1 changes are to model judgments, and the note on a page cut at the collector's limit is a note.
 
 Not reported:
 
@@ -102,6 +102,15 @@ Not reported:
 - Rules that no Rampa procedure maps to.
 
 Both count as untested on the W3C pages.
+
+### 0.1.4 against 0.1.1
+
+The same 977 test cases, the same published file and the same act-tools: every rule has the same consistency. 973 records are identical. 4 differ, and 2 outcomes change:
+
+- **b4f0c3 Failed Examples 3 and 7** (`user-scalable=invalid`, `maximum-scale=invalid`): `meta-viewport (axe-core)` goes from `passed` to `failed`, the expected outcome. The cause is axe-core, not Rampa: 4.14.1 rewrote the check behind `meta-viewport`, and a `user-scalable` or `maximum-scale` value that is neither a number nor a keyword it allows now fails. Run again on the two pages, 0.1.4 with axe-core 4.14.0 passes them, and 0.1.1 with 4.14.1 fails them. In 0.1.1 only `rampa/meta-viewport` failed them, below the threshold (b4f0c3's note "below-threshold findings on 2 failed examples" in the table); now axe-core fails the element, so the rule leaves it to axe-core ([src/rules/index.ts](../src/rules/index.ts)) and the note is gone. Both are test cases of the rule's proposed version, which the published file does not mark approved, and act-tools counts only approved test cases for a rule that has any: b4f0c3 was consistent and still is.
+- **bc659a Passed Examples 1 and 2** redirect at once to the live github.com and w3.org home pages. Their records gained items to review and a `target-size` finding below the threshold, from what those pages show now: 0.1.1, installed on the same day and run on the two pages, records them too. On github.com, the `rampa/pixel-contrast` items depend on what its animation shows when the pixels are captured: of two runs of 0.1.1 that day, one had them. Neither procedure mapped to bc659a (`meta-refresh (axe-core)`, `rampa/refresh-header`) changed, so no outcome did.
+
+The rest of 0.1.2 to 0.1.4 ([CHANGELOG](../CHANGELOG.md)) changes no record. Most of it is model judgments, which `--no-llm` does not run; that includes 1.1.1's new `rampa/unnamed-image-control`, which decides without a model but runs with the judgment. The cognitive profile and the probes do not run in this configuration. The capture guards read every test case as styled, and the 3 where a layer over the viewport was hidden for the pixels (a modal `dialog` opened on load, in two akn7bn examples and one 0ssw9k example) kept their records. No bot check, HTTP error, load timeout or axe-core error occurred. The capture record, the groups and the "How the page was read" section are report output, not results.
 
 ### Two fixes in 0.1.1
 
@@ -138,12 +147,12 @@ For each test case, and for each procedure that implements the test case's rule:
 ```sh
 # dist/ built at the release's tag: the script reads the mapping of procedures to ACT rules from it
 # (dist/ is not in git, so it stays when you come back to the branch with this script, where tools/rampa.mjs takes --cli)
-git checkout v0.1.1 && pnpm install && pnpm build && git checkout -
+git checkout v0.1.4 && pnpm install && pnpm build && git checkout -
 
 # the release, from npm, in a folder of its own outside the repository
-mkdir ../rampa-0.1.1 && cd ../rampa-0.1.1
+mkdir ../rampa-0.1.4 && cd ../rampa-0.1.4
 echo '{ "private": true }' > package.json
-pnpm add rampa-cli@0.1.1
+pnpm add rampa-cli@0.1.4
 cd ../rampa-cli
 
 # act-tools at the commit W3C pins, outside the repository; it is not on npm, and it is never a dependency of Rampa
@@ -152,12 +161,17 @@ git -C ../act-tools checkout 9ee7046e2413391270a4260aa40bd8304a20b5fe
 (cd ../act-tools && pnpm import && pnpm install --frozen-lockfile --ignore-scripts && pnpm exec tsc)
 
 cd bench
-node tools/rampa.mjs rampa --cli ../../rampa-0.1.1/node_modules/rampa-cli/dist/cli.mjs --pages <pages.json> \
-  --out act-report/records/rampa-0.1.1.jsonl --meta act-report/records/rampa-0.1.1.meta.json --work .cache/act-0.1.1
-node act-report/build.mjs --act-tools ../../act-tools --docs
+node tools/rampa.mjs rampa --cli ../../rampa-0.1.4/node_modules/rampa-cli/dist/cli.mjs --pages <pages.json> \
+  --out act-report/records/rampa-0.1.4.jsonl --meta act-report/records/rampa-0.1.4.meta.json --work .cache/act-0.1.4
+node act-report/build.mjs --missing rampa <missing.json> --raw rampa=act-report/records/rampa-0.1.4.jsonl
+node act-report/build.mjs --act-tools ../../act-tools --cli rampa=../../rampa-0.1.4/node_modules/rampa-cli/dist/cli.mjs --docs
 ```
 
-`<pages.json>` lists the test cases to run, as `{ "id": "act:<rule>:<test case>", "url": "<its address>", "kind": "act" }`: the ids of `results/2026-10-11/cases.json` and of `act-report/records/rampa-0.1.0.jsonl`, with their addresses from the published test cases file, less any that file no longer has. `--cli` runs the installed release instead of the repository's `dist/cli.mjs`, and its meta file records the package and version. `pnpm add` refuses to run the build script of one dependency, `tesseract.js` (OCR, used only by a judged criterion); nothing here needs it, and it was not approved. The installed package's `dist/` was byte-identical to the tag's build. The run took about 100 minutes with two workers; pages that did not load in time were tried again one at a time, and none ended in an error.
+`<pages.json>` lists the test cases to run, as `{ "id": "act:<rule>:<test case>", "url": "<its address>", "kind": "act" }`: the ids of `act-report/records/rampa-0.1.1.jsonl`, with their addresses from the published test cases file, less any that file no longer has (none on 2026-11-25). For 0.1.1 they were the ids of `results/2026-10-11/cases.json` and of `act-report/records/rampa-0.1.0.jsonl`. `--cli` runs the installed release instead of the repository's `dist/cli.mjs`, and its meta file records the package and version. `pnpm add` refuses to run the build script of one dependency, `tesseract.js` (OCR, used only by a judged criterion); nothing here needs it, and it was not approved. The installed package's `dist/` was byte-identical to the tag's build.
+
+`pnpm add` resolves the release's dependencies within their ranges on the day, not from its lockfile: 0.1.4 got axe-core 4.14.1 and playwright-core 1.65.1, where the tag's lockfile has 4.14.0 and 1.63.0. `build.mjs --cli rampa=<its dist/cli.mjs>` names that axe-core's version in the row's report, and stops if its rules, tags or `actIds` differ from the repository's, which the mapping reads. The meta file records the versions and the Edge that ran.
+
+The 0.1.4 run took 10 minutes with two workers, and no page was tried again. The 0.1.1 run took about 100 minutes: two groups of 20 pages, in which a page had not loaded in time, were run again one page at a time. Neither run ended in an error on any page.
 
 `pnpm import` turns act-tools' `yarn.lock` into a pnpm lockfile with the same versions, `--ignore-scripts` keeps its install scripts from running, and `tsc` builds it. The script needs no package of `bench/`. It writes the following files to `bench/act-report/`:
 
@@ -167,20 +181,20 @@ node act-report/build.mjs --act-tools ../../act-tools --docs
 
 With `--docs`, it also writes the results below. It first checks that act-tools reads back every assertion it wrote. Without `--act-tools`, it writes the EARL reports only.
 
-The test cases are the file W3C publishes, read at run time (`--testcases <file>` reads a saved copy). The comparison column is axe-core's own report, read from the address W3C reads (`--axe-earl none` leaves it out). Run on axe-core's report, the same act-tools reproduced the published axe-core numbers exactly: approved 30, 0, 2, 5 and proposed 5, 9, 4, 32.
+The test cases are the file W3C publishes, read at run time (`--testcases <file>` reads a saved copy). The comparison column is axe-core's own report, read from the address W3C reads (`--axe-earl none` leaves it out). Run on axe-core's report, the same act-tools reproduced the published axe-core numbers exactly: approved 30, 0, 2, 5 and proposed 5, 9, 4, 32, for 4.14.0 on 2026-10-16 and for 4.14.1 on 2026-11-25.
 
 After a new release:
 
 1. Install it as above, and run `tools/rampa.mjs` with `--cli` on the same list, plus whatever `node act-report/build.mjs --missing rampa <file>` lists for the new records.
 2. Point `DEFAULTS` in `build.mjs` at the new records file and version, and keep the old file in git.
-3. Build again, and compare the outcomes with the report before it.
+3. Build again with `--cli rampa=<its dist/cli.mjs>`, and compare the outcomes with the report before it. A changed record has its cause in Rampa or in a dependency the install resolved: the new release run again with the old dependency (an `overrides` entry in its folder's `pnpm-workspace.yaml`), and the old release with the new one, tell which.
 
 ## Results
 
 <!-- act:report:start -->
-<!-- Generated by bench/act-report/build.mjs --docs from rampa: act-report/records/rampa-0.1.1.jsonl; rampa-gemma: results/2026-10-11/raw/rampa-gemma.jsonl (results folder results/2026-10-11); do not edit by hand. -->
+<!-- Generated by bench/act-report/build.mjs --docs from rampa: act-report/records/rampa-0.1.4.jsonl; rampa-gemma: results/2026-10-11/raw/rampa-gemma.jsonl (results folder results/2026-10-11); do not edit by hand. -->
 
-Test cases: the published ACT file, 1211 test cases of 87 rules (SHA-256 `49051da603af`, read 2026-10-16). Consistency computed by act-tools at `9ee7046`, the commit W3C's update job pins. axe-core 4.14.0 inside Rampa. axe-core's own report read the same day from https://raw.githubusercontent.com/dequelabs/act-reports-axe/act-reports-axe/reports/axe-core.json.
+Test cases: the published ACT file, 1211 test cases of 87 rules (SHA-256 `49051da603af`, read 2026-11-25). Consistency computed by act-tools at `9ee7046`, the commit W3C's update job pins. axe-core inside Rampa: 4.14.1 (No model), 4.14.0 (Gemma 4 12B). axe-core's own report read the same day from https://raw.githubusercontent.com/dequelabs/act-reports-axe/act-reports-axe/reports/axe-core.json.
 
 ### Rules by consistency
 
@@ -188,7 +202,7 @@ Test cases: the published ACT file, 1211 test cases of 87 rules (SHA-256 `49051d
 | --- | :---: | :---: |
 | Rampa, no model (`rampa check --no-llm`) | 27 / 0 / 2 / 8 | 4 / 8 / 2 / 36 |
 | Rampa with Gemma 4 12B (`rampa check --model ollama:gemma4:12b`); 126 examples of the rules it reports on were not run | 17 / 7 / 3 / 10 | 4 / 7 / 5 / 34 |
-| axe-core 4.14.0, its own report (all its rules, experimental ones included; every rule run) | 30 / 0 / 2 / 5 | 5 / 9 / 4 / 32 |
+| axe-core 4.14.1, its own report (all its rules, experimental ones included; every rule run) | 30 / 0 / 2 / 5 | 5 / 9 / 4 / 32 |
 
 ### Which procedures make a rule consistent
 
@@ -201,7 +215,7 @@ Test cases: the published ACT file, 1211 test cases of 87 rules (SHA-256 `49051d
 
 Every rule the benchmark ran or a Rampa procedure maps to (65). "Not implemented" is W3C's "untested": no procedure of that configuration maps to the rule. "Not run": procedures map to it, but that configuration was not run on its examples (W3C counts it as untested too). ★ marks the rules Rampa may have been tuned on, the benchmark's conservative reading: their ids appear in Rampa's code or tests, so its prompts, rules or thresholds may have been adjusted while reading their test cases. The notes say what the consistency leaves out.
 
-| ACT rule | Criteria | Status | No model | Gemma 4 12B | axe-core 4.14.0, own report | Procedures | Notes |
+| ACT rule | Criteria | Status | No model | Gemma 4 12B | axe-core 4.14.1, own report | Procedures | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | [qt1vmo](https://www.w3.org/WAI/standards-guidelines/act/rules/qt1vmo/) Image accessible name is descriptive ★ | 1.1.1 | approved | not implemented | consistent | not implemented | `rampa/judgment/1.1.1` |  |
 | [59796f](https://www.w3.org/WAI/standards-guidelines/act/rules/59796f/) Image button has non-empty accessible name ★ | 1.1.1, 4.1.2 | approved | consistent | consistent | consistent | `input-image-alt (axe-core)` |  |
@@ -223,7 +237,7 @@ Every rule the benchmark ran or a Rampa procedure maps to (65). "Not implemented
 | [73f2c2](https://www.w3.org/WAI/standards-guidelines/act/rules/73f2c2/) `autocomplete` attribute has valid value ★ | 1.3.5 | approved | consistent | consistent | consistent | `autocomplete-valid (axe-core)` |  |
 | [80f0bf](https://www.w3.org/WAI/standards-guidelines/act/rules/80f0bf/) Audio or video element avoids automatically playing audio ★ | 1.4.2 | proposed | inconsistent | inconsistent | inconsistent | `no-autoplay-audio (axe-core)` |  |
 | [afw4f7](https://www.w3.org/WAI/standards-guidelines/act/rules/afw4f7/) Text has minimum contrast ★ | 1.4.3 | approved | consistent | partial | consistent | `color-contrast (axe-core)` | No model: below-threshold findings on 3 failed examples, not reported; Gemma 4 12B: below-threshold findings on 3 failed examples, not reported |
-| [b4f0c3](https://www.w3.org/WAI/standards-guidelines/act/rules/b4f0c3/) Meta viewport allows for zoom ★ | 1.4.4 | approved | consistent | consistent | consistent | `meta-viewport (axe-core)` | No model: below-threshold findings on 2 failed examples, not reported; Gemma 4 12B: below-threshold findings on 2 failed examples, not reported |
+| [b4f0c3](https://www.w3.org/WAI/standards-guidelines/act/rules/b4f0c3/) Meta viewport allows for zoom ★ | 1.4.4 | approved | consistent | consistent | consistent | `meta-viewport (axe-core)` | Gemma 4 12B: below-threshold findings on 2 failed examples, not reported |
 | [59br37](https://www.w3.org/WAI/standards-guidelines/act/rules/59br37/) Zoomed text node is not clipped with CSS overflow ★ | 1.4.4 | proposed | not implemented | not implemented | not implemented | — |  |
 | [0va7u6](https://www.w3.org/WAI/standards-guidelines/act/rules/0va7u6/) HTML images contain no text ★ | 1.4.5 | approved | not implemented | not implemented | not implemented | — |  |
 | [24afc2](https://www.w3.org/WAI/standards-guidelines/act/rules/24afc2/) Important letter spacing in style attributes is wide enough | 1.4.12 | approved | consistent | partial | consistent | `avoid-inline-spacing (axe-core)` | Gemma 4 12B: 1 examples not run |
@@ -271,7 +285,7 @@ Every rule the benchmark ran or a Rampa procedure maps to (65). "Not implemented
 
 ### Where Rampa and axe-core's own report differ
 
-| ACT rule | Status | No model | axe-core 4.14.0, own report |
+| ACT rule | Status | No model | axe-core 4.14.1, own report |
 | --- | --- | --- | --- |
 | [09o5cg](https://www.w3.org/WAI/standards-guidelines/act/rules/09o5cg/) Text has enhanced contrast (Level AAA only) | approved | not implemented | consistent |
 | [2eb176](https://www.w3.org/WAI/standards-guidelines/act/rules/2eb176/) Audio element content has transcript | proposed | not implemented | inconsistent |
@@ -305,7 +319,7 @@ Rampa has no outcome for these; the W3C pages count them as untested.
 
 ## Submission
 
-**Status: submitted.** The issue [w3c/wcag-act-rules#457](https://github.com/w3c/wcag-act-rules/issues/457) was opened on 2026-10-16 with the title and body below, for rampa-cli 0.1.1. W3C staff answer in that issue and add the entry in a pull request with a preview. To submit a later version, or to submit again:
+**Status: submitted.** The issue [w3c/wcag-act-rules#457](https://github.com/w3c/wcag-act-rules/issues/457) was opened on 2026-10-16 with the title and body below, for rampa-cli 0.1.1. W3C staff answer in that issue and add the entry in a pull request with a preview. A comment in the issue on 2026-10-20 says the report is regenerated with each release, at the same address: it was rebuilt for 0.1.4 on 2026-11-25 ([0.1.4 against 0.1.1](#014-against-011)). To submit a later version, or to submit again:
 
 1. Merge `docs/act-0.1.1` into `main` and push. The report then has its permanent address, `https://raw.githubusercontent.com/guilhermebsantiago/rampa-cli/main/bench/act-report/rampa.earl.json`, which W3C downloads again, so rebuild it after each release. The tag `v0.1.1` has no copy of this report (it was built after the release), so the issue also gives the address of the commit that added it, `26e0c24`; that address works once the commit is on GitHub.
 2. Optionally, join the [ACT Rules Community Group](https://www.w3.org/community/act-r/), which the CG's own page asks for. It needs a W3C account and the CG's Contributor License Agreement. W3C's page does not mention it, and recent submissions did not either.
@@ -354,4 +368,4 @@ A proposed entry for act-implementations.yml:
         source tree are not checked, and are passed as pages where nothing applies.
 ```
 
-The entry leaves out `version`: act-tools then takes it from the report's assertor (0.1.1), as W3C now prefers for axe-core ([#452](https://github.com/w3c/wcag-act-rules/issues/452)).
+The entry leaves out `version`: act-tools then takes it from the report's assertor (0.1.1 when submitted, 0.1.4 now), as W3C now prefers for axe-core ([#452](https://github.com/w3c/wcag-act-rules/issues/452)).
