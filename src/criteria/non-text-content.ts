@@ -2,10 +2,12 @@ import { z } from 'zod'
 import type { Candidate, Criterion, EngineResults, PromptImage, Verification } from '../core/types.ts'
 import { dataBlock, normalizeForMatch, truncate } from '../core/util.ts'
 import { type Locale, languageName } from '../i18n.ts'
+import { exposedName } from '../snapshot/ax.ts'
+import { FRAME_SEPARATOR } from '../snapshot/refs.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
-import { hiddenImageSignals, textAround } from '../snapshot/hidden-images.ts'
+import { type HiddenBy, hiddenBy, hiddenImageSignals, textAround } from '../snapshot/hidden-images.ts'
 import { type TreeIndex, indexTree, inheritedLang, walkTree } from '../snapshot/tree.ts'
-import { type HiddenImageFacts, HiddenImageJudgment, hiddenFacts, hiddenMessage, hiddenPatch, hiddenPrompt, verifyHidden } from './hidden-images.ts'
+import { type HiddenImageFacts, HiddenImageJudgment, hiddenFacts, hiddenHow, hiddenMessage, hiddenPatch, hiddenPrompt, verifyHidden } from './hidden-images.ts'
 import { attributesOf, isHidden, isNativeSurface, nameProperty, propertyLine, propertyPatch, startTagOf } from './shared.ts'
 
 /**
@@ -63,6 +65,28 @@ export interface NonTextContentContext {
   namedControl?: { control: 'link' | 'button'; name: string } | undefined
   /** Set when the page hides the image from assistive technology: the question is then whether it carries information. */
   hidden?: HiddenImageFacts | undefined
+  /**
+   * The name of a link next to the image, in the box around it, that does not hold the image and is named exactly like
+   * its alternative, word for word (`linkBesideOf`): a news card's headline link. Set only for an image that is not all a
+   * link or button holds. Not in the prompt.
+   */
+  linkBeside?: string | undefined
+  /**
+   * Set when the page hides the image from assistive technology and the image is all a link or button holds, which has
+   * no name (`unnamedImageControls`): decided without a model (`decide`).
+   */
+  unnamedControl?: UnnamedControl | undefined
+}
+
+/** An image hidden from assistive technology that is all a link or button holds, a control with no name. */
+export interface UnnamedControl {
+  control: 'link' | 'button'
+  /** How the page hides the image. */
+  by: HiddenBy
+  /** For aria-hidden: on the image itself, not on an element around it. */
+  own: boolean
+  /** The image's role attribute, for role="presentation" or "none". */
+  role: string | undefined
 }
 
 /** What says what a link or button does, for an image that is all it holds. */
@@ -556,6 +580,25 @@ export function namesService(alt: string, f: Pick<FunctionalImage, 'control' | '
   return others.size >= 2
 }
 
+/** E-mail in the supported languages, as `tokens` reads it with its words joined: "mail", "e-mail", "Email", "correio eletrônico". */
+const MAIL_KEYS = new Set(['mail', 'email', 'correio', 'correioeletronico', 'correo', 'correoelectronico'])
+/** Words around "e-mail" in a link that sends one: "Send by e-mail", "Enviar por e-mail", "link sends email". */
+const MAIL_FILLER = new Set([...SERVICE_FILLER, 'send', 'sends', 'enviar', 'envie', 'envia', 'by', 'por', 'via'])
+
+/**
+ * The alternative of a link's only image names e-mail, and the link is a mailto: address, which opens an e-mail: "mail
+ * icone" in neofeed.com.br's share row (the ninth real-page study, where one judge read it as the link's purpose and the
+ * other could not decide) and "email" on sbim.org.br's mailto link (the seventh, where both judges passed it). It names
+ * what the link does, as an envelope does for people who see it. Any other address is left out, whatever the alternative.
+ */
+export function namesMail(alt: string, f: Pick<FunctionalImage, 'control' | 'href'>): boolean {
+  if (f.control !== 'link' || !/^mailto:/i.test(f.href?.trim() ?? '')) return false
+  const key = tokens(alt)
+    .filter((word) => !KIND_WORDS.has(word) && !MAIL_FILLER.has(word))
+    .join('')
+  return MAIL_KEYS.has(key)
+}
+
 /** The shortest word, and the shortest label of a host, read for a misspelt network's name ("istagram"). */
 const NETWORK_WORD_MIN = 4
 /** The most edits (a letter added, dropped or changed) between such a word and the host's label. */
@@ -605,7 +648,7 @@ export function namesNetworkOfLink(alt: string, f: Pick<FunctionalImage, 'contro
 }
 
 /** The kinds of claim that compare the alternative with what the model reads in the picture; the others rest on the alternative's own text. */
-const READS_PICTURE: ReadonlySet<AltClaim> = new Set(['functional_link', 'functional_button', 'missing_information', 'short_alternative', 'wrong_content', 'decorative'])
+const READS_PICTURE: ReadonlySet<AltClaim> = new Set(['functional_link', 'functional_button', 'missing_information', 'short_alternative', 'wrong_content', 'decorative', 'repeats_link'])
 
 /**
  * Whether a verified fail rests on more than the model's reading of a picture, by the kind of claim `altClaim` makes
@@ -617,21 +660,29 @@ const READS_PICTURE: ReadonlySet<AltClaim> = new Set(['functional_link', 'functi
  *   announced by that name, so the alternative serves as nobody's text alternative there (technique ARIA6), whatever
  *   the picture shows. liverpoolecho.co.uk's header logo with alt "liverpoolecho" in a link labelled "Subscribe to
  *   premium membership" was a false finding in the sixth real-page study.
+ * - false for the claim that the alternative repeats the link next to it (`repeats_link`, `linkBesideOf`): the news
+ *   card's photo whose alternative is its headline, word for word, next to the headline's link. Whether such an
+ *   alternative fails 1.1.1 is a reading auditors split on: it names the story, but not what the picture shows, and if
+ *   the picture only illustrates the headline it should be hidden (alt="") instead. Of such claims at the default
+ *   threshold in the sixth to ninth real-page studies, the two judges called 6 false, none true and 36 uncertain
+ *   (in-sample).
  * Such a claim is the model's suggestion, asked of no second pass. A file name, a placeholder or a generic word names
  * nothing, so its claim stays.
  */
 export function groundedImage(output: NonTextContentOutput, c: NonTextContentContext, snapshot: A11ySnapshot): boolean {
-  if (c.hidden) return true
+  if (c.hidden || c.unnamedControl) return true
   const answer = output as NonTextContentJudgment
   if (answer.verdict !== 'fail') return true
   const kind = altClaim(answer, c, MESSAGE_WORDINGS)
   if ((kind === 'functional_link' || kind === 'functional_button') && c.functional) return !namesNetworkOfLink(c.alt, c.functional, snapshot)
+  if (kind === 'repeats_link') return false
   return !(c.namedControl && READS_PICTURE.has(kind))
 }
 
 /**
  * The alternative of a link's only image names its destination: a part of the destination's title or heading that is
- * not the site's own name ("Nova Saúde" of "Nova Saúde - Portal Unicamp"), a part of the link's address, or a service.
+ * not the site's own name ("Nova Saúde" of "Nova Saúde - Portal Unicamp"), a part of the link's address, a service, or
+ * e-mail on a mailto: link.
  */
 export function namesDestination(alt: string, f: FunctionalImage): boolean {
   const said = new Set(tokens(alt))
@@ -640,7 +691,7 @@ export function namesDestination(alt: string, f: FunctionalImage): boolean {
     return words.some((word) => /\p{L}/u.test(word)) && words.every((word) => said.has(word))
   })
   const site = new Set(f.siteWords ?? [])
-  return byName || (f.addressNames ?? []).some((address) => namesAddress(alt, address, site)) || namesService(alt, f)
+  return byName || (f.addressNames ?? []).some((address) => namesAddress(alt, address, site)) || namesService(alt, f) || namesMail(alt, f)
 }
 
 /** The longest text next to a functional image that is still read as its caption when matching its purpose. */
@@ -710,6 +761,113 @@ function functionalImage(control: A11yNode, image: A11yNode, index: TreeIndex, s
     ...(names.length ? { names } : {}),
     ...(addresses.length ? { addressNames: addresses, siteWords: [...site().words].sort() } : {}),
   }
+}
+
+/** How many boxes up from an image its card can be: the box around the image, the card, and one more. */
+const CARD_DEPTH = 3
+/** The most text a box holds besides the image and is still read as the image's card, not a list or a section. */
+const CARD_TEXT_MAX = 500
+
+/**
+ * The name of a link next to the image that does not hold it and is named exactly like the alternative, word for word as
+ * `altWords` reads both: the headline link of the news card whose photo has the headline as its alternative (essexlive.news,
+ * kentlive.news and getsurrey.co.uk in the ninth real-page study, manchestereveningnews.co.uk and irishmirror.ie in the
+ * sixth). The link is looked for in the boxes around the image, three at most, while a box holds no more than 500
+ * characters of text besides the image; a heading alone is not enough (oantagonista.com.br's lead photo under its h1 was
+ * a true finding in the seventh).
+ */
+export function linkBesideOf(image: A11yNode, alt: string, index: TreeIndex): string | undefined {
+  const said = altWords(alt).join(' ')
+  if (said === '') return undefined
+  const around = new Set<string>()
+  for (let ref = index.get(image.ref)?.parentRef; ref; ref = index.get(ref)?.parentRef) around.add(ref)
+  let ref = index.get(image.ref)?.parentRef
+  for (let depth = 0; ref && depth < CARD_DEPTH; depth++) {
+    const box = index.get(ref)?.node
+    if (!box || textWithout(box, image).length > CARD_TEXT_MAX) break
+    for (const node of walkTree(box)) {
+      // A link around the image holds it: its name is the image's control's, not a link next to it.
+      if (node.role !== 'link' || around.has(node.ref) || isHidden(node)) continue
+      if (altWords(node.name ?? '').join(' ') === said) return node.name?.trim()
+    }
+    ref = index.get(ref)?.parentRef
+  }
+  return undefined
+}
+
+/** The engine rules that fail a link or button with no name. */
+const CONTROL_NAME_RULES: ReadonlySet<string> = new Set(['link-name', 'button-name', 'aria-command-name'])
+/** Thinner than this on a side, a picture in a link is a tracking pixel or a spacer, not what the link shows. */
+const CONTROL_IMAGE_MIN = 8
+/** How many boxes up from an image its link or button can be, as for an image with an alternative. */
+const CONTROL_DEPTH = 4
+
+/**
+ * Images the page hides from assistive technology (alt="", role="presentation" or "none", aria-hidden, an svg with no
+ * name: `hiddenBy` in snapshot/hidden-images.ts) that are all a link or button holds, a control with no name of its own:
+ * no aria-label, aria-labelledby or title on it or between it and the image, no text, no other named image. Understanding
+ * 1.1.1 asks such non-text content for "a name that describes its purpose", which technique H30 gives a link's only image
+ * through its alternative; the study rubric's R2 reads the image that way. The control must also be failed by axe-core
+ * for its missing name (link-name, button-name or aria-command-name), and the browser must give it no name either
+ * (`exposedName`), so the image is reported only where both agree that the control has none; the control is not hidden,
+ * and the image is on screen, 8 px or more on each side, and not inside a frame (the 62 such images on the studies'
+ * recorded pages were all in ad frames). One image per control. An aria-label on a box around the control (a carousel's
+ * "Slide 1 of 3") names the box, not the control, so it does not leave the image out as it does for ACT e88epe.
+ */
+export function unnamedImageControls(snapshot: A11ySnapshot, engine: EngineResults, index: TreeIndex): Array<{ image: A11yNode; control: A11yNode; unnamed: UnnamedControl }> {
+  if (snapshot.surface !== 'web') return []
+  const failed = new Set(
+    engine.rules.filter((rule) => rule.outcome === 'violation' && CONTROL_NAME_RULES.has(rule.ruleId)).flatMap((rule) => rule.nodes.flatMap((node) => (node.ref ? [node.ref] : []))),
+  )
+  if (failed.size === 0) return []
+  const found: Array<{ image: A11yNode; control: A11yNode; unnamed: UnnamedControl }> = []
+  const done = new Set<string>()
+  const named = (node: A11yNode): boolean => {
+    const attributes = attributesOf(node)
+    return Boolean(attributes['aria-label']?.trim() || attributes['aria-labelledby']?.trim() || attributes.title?.trim())
+  }
+  for (const image of walkTree(snapshot.root)) {
+    const by = hiddenBy(image)
+    if (!by || image.states.includes('hidden') || image.states.includes('offscreen') || image.states.includes('broken')) continue
+    // Inside a frame: on the real-page studies' pages, all of them ad frames, whose picture changes on every load.
+    if (image.ref.includes(FRAME_SEPARATOR)) continue
+    const { width = 0, height = 0 } = image.bounds ?? {}
+    if (width < CONTROL_IMAGE_MIN || height < CONTROL_IMAGE_MIN) continue
+    // The nearest link or button around the image, with no author name on the way to it, and no svg (part of a picture).
+    let control: A11yNode | undefined
+    let blocked = false
+    let parentRef = index.get(image.ref)?.parentRef
+    for (let depth = 0; parentRef && depth < CONTROL_DEPTH && !control && !blocked; depth++) {
+      const parent = index.get(parentRef)?.node
+      if (!parent) break
+      if (parent.role === 'link' || parent.role === 'button') control = parent
+      else if (parent.native.tag === 'svg' || named(parent)) blocked = true
+      parentRef = index.get(parentRef)?.parentRef
+    }
+    if (!control || blocked || done.has(control.ref) || !failed.has(control.ref) || isHidden(control) || named(control)) continue
+    // The name the browser gives the control, where it recorded one: a collector's name from a style sheet's text inside
+    // an svg (".cls-1{fill:#000}") or from text the page hides at this width is not one; a browser's name is.
+    if (exposedName(control)?.trim() || !onlyContent(control, image)) continue
+    done.add(control.ref)
+    const own = by !== 'aria-hidden' || attributesOf(image)['aria-hidden']?.trim().toLowerCase() === 'true'
+    found.push({ image, control, unnamed: { control: control.role === 'button' ? 'button' : 'link', by, own, role: attributesOf(image).role?.trim() || undefined } })
+  }
+  return found
+}
+
+/** The answer `decide` gives for an image hidden in a control with no name: a fail no model is asked about. */
+const UNNAMED_FAIL: NonTextContentJudgment = { verdict: 'fail', evidence: '', problem: 'missing_information', imageShows: '', suggestedAlt: '', confidence: 'high' }
+
+function unnamedMessage(u: UnnamedControl, locale: Locale): string {
+  const how = hiddenHow(u, locale)
+  if (locale === 'pt-BR') {
+    return u.control === 'link'
+      ? `Esta imagem é tudo o que o link contém e está escondida dos leitores de tela (${how}), então o link fica sem nome: o texto alternativo dela deve dizer aonde o link leva.`
+      : `Esta imagem é tudo o que o botão contém e está escondida dos leitores de tela (${how}), então o botão fica sem nome: o texto alternativo dela deve dizer o que o botão faz.`
+  }
+  return u.control === 'link'
+    ? `This image is all its link holds and is hidden from screen readers (${how}), so the link has no name: its text alternative should say where the link leads.`
+    : `This image is all its button holds and is hidden from screen readers (${how}), so the button has no name: its text alternative should say what the button does.`
 }
 
 /** Problems about the alternative's own text, which hold whatever the image shows. */
@@ -837,14 +995,17 @@ const SHORT_REASON = { en: 'names a label, not what the image conveys here', 'pt
  * words (`isShortAlternative`: "payment", "Rodapé 2") and may not be a name (`mayBeName`: "Lula" may) reads as "names a
  * label, not what the image conveys here": on the
  * real-page studies' dev pages, most true findings worded "does not show" had an alternative that is a label or a
- * marker, not a description of something else. The order: a placeholder or a generic word, then a functional image's
- * wording, then "leaves out", then "names a label", then the model's problem. The second pass asks about the claim
- * without `extension` or `short`, as before, so its questions and their cached answers are the same.
+ * marker, not a description of something else. With `repeats`, a "does not show" or "leaves out" answer on an image
+ * whose alternative is the link next to it, word for word (`linkBesideOf`), says that, and what either reading of the
+ * image asks for (a suggestion, `groundedImage`). The order: a placeholder or a generic word, then a functional image's
+ * wording, then "repeats the link", then "leaves out", then "names a label", then the model's problem. The second pass
+ * asks about the claim without `extension`, `short` or `repeats`, as before, so its questions and their cached answers
+ * are the same.
  *
  * The decisions are `altClaim`'s: it returns the kind of claim and this function only picks the kind's sentence, so the
  * message and the kind a finding cites (`claimKind`) cannot disagree.
  */
-function claimText(output: NonTextContentJudgment, c: NonTextContentContext, locale: Locale, options: { extension: boolean; short: boolean }): string {
+function claimText(output: NonTextContentJudgment, c: NonTextContentContext, locale: Locale, options: { extension: boolean; short: boolean; repeats?: boolean }): string {
   const reason = CLAIM_REASONS[altClaim(output, c, options)][locale]
   return locale === 'pt-BR' ? `O texto alternativo "${c.alt}" ${reason}.` : `The text alternative "${c.alt}" ${reason}.`
 }
@@ -852,10 +1013,10 @@ function claimText(output: NonTextContentJudgment, c: NonTextContentContext, loc
 /**
  * The kind of claim a verified answer about an image with an alternative makes, as the "<criterion> <kind>" keys of
  * src/core/techniques.ts name it, with `none` for an answer whose problem is none. Every decision `claimText` words is
- * made here, in its order: a placeholder or a generic word, a functional image, "leaves out", "names a label", the
- * model's problem.
+ * made here, in its order: a placeholder or a generic word, a functional image, "repeats the link", "leaves out", "names
+ * a label", the model's problem.
  */
-export function altClaim(output: NonTextContentJudgment, c: NonTextContentContext, options: { extension: boolean; short: boolean }): AltClaim {
+export function altClaim(output: NonTextContentJudgment, c: NonTextContentContext, options: { extension: boolean; short: boolean; repeats?: boolean }): AltClaim {
   const alt = c.alt
   // The deterministic pattern wins over the model's label for the obvious cases.
   if (looksLikePlaceholder(alt, c.src)) return 'placeholder'
@@ -864,6 +1025,8 @@ export function altClaim(output: NonTextContentJudgment, c: NonTextContentContex
   // A functional image's alternative is judged by its control's purpose, and the message says so.
   const control = c.functional?.control
   if (control && (problem === 'wrong_content' || problem === 'missing_information')) return control === 'link' ? 'functional_link' : 'functional_button'
+  // An alternative that is the link next to it, word for word: the message says that, which is what Rampa checked.
+  if (options.repeats && c.linkBeside && (problem === 'wrong_content' || problem === 'missing_information')) return 'repeats_link'
   if (problem === 'wrong_content') {
     if (options.extension && extendsAlternative(output.suggestedAlt, alt) && !keepsAlternative([output.imageShows, output.suggestedAlt], alt)) return 'missing_information'
     if (options.short && isShortAlternative(alt) && !mayBeName(alt)) return 'short_alternative'
@@ -872,11 +1035,11 @@ export function altClaim(output: NonTextContentJudgment, c: NonTextContentContex
 }
 
 /** Every kind `altClaim` returns. */
-export const ALT_CLAIMS = ['placeholder', 'generic', 'functional_link', 'functional_button', 'missing_information', 'short_alternative', 'wrong_content', 'decorative', 'none'] as const
+export const ALT_CLAIMS = ['placeholder', 'generic', 'functional_link', 'functional_button', 'repeats_link', 'missing_information', 'short_alternative', 'wrong_content', 'decorative', 'none'] as const
 export type AltClaim = (typeof ALT_CLAIMS)[number]
 
 /** The wordings a finding's message uses, and so the kind it cites; the second pass asks without them. */
-const MESSAGE_WORDINGS = { extension: true, short: true } as const
+const MESSAGE_WORDINGS = { extension: true, short: true, repeats: true } as const
 
 /** The sentence of each kind of claim about an image with an alternative. */
 const CLAIM_REASONS: Record<AltClaim, { en: string; 'pt-BR': string }> = {
@@ -884,6 +1047,10 @@ const CLAIM_REASONS: Record<AltClaim, { en: string; 'pt-BR': string }> = {
   generic: REASONS.generic,
   functional_link: { en: 'is all its link holds, and does not say where the link leads', 'pt-BR': 'é tudo o que o link contém, e não diz aonde ele leva' },
   functional_button: { en: 'is all its button holds, and does not say what the button does', 'pt-BR': 'é tudo o que o botão contém, e não diz o que ele faz' },
+  repeats_link: {
+    en: 'repeats the link next to it word for word and says nothing of the picture: if the image only illustrates that link, alt="" hides it from screen readers; if it shows more, the alternative should say what',
+    'pt-BR': 'repete palavra por palavra o link ao lado e não diz nada da imagem: se ela só ilustra esse link, alt="" a esconde dos leitores de tela; se mostra mais, o texto alternativo deve dizer o quê',
+  },
   missing_information: REASONS.missing_information,
   short_alternative: SHORT_REASON,
   wrong_content: REASONS.wrong_content,
@@ -902,11 +1069,26 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
   engineRules: ENGINE_RULES,
   schema: NonTextContentJudgment,
   schemaFor: (candidate) => (candidate.context.hidden ? HiddenImageJudgment : NonTextContentJudgment),
-  actFor: (candidate) => (candidate.context.hidden ? ['e88epe'] : ['23a2a8', 'qt1vmo']),
+  // An image hidden in a control with no name is not decorative: e88epe's question, decided without a model.
+  actFor: (candidate) => (candidate.context.hidden || candidate.context.unnamedControl ? ['e88epe'] : ['23a2a8', 'qt1vmo']),
   // A hidden image has no alternative: its file name, or what draws it, keys a claim about it.
-  subject: (candidate) => (candidate.context.hidden ? `hidden ${candidate.context.src ?? candidate.context.hidden.drawnAs}` : candidate.context.alt),
-  // New: a fail about a hidden image stays below the default threshold until it passes the evaluation gate.
-  confidenceCap: (candidate) => (candidate.context.hidden ? 'low' : undefined),
+  subject: (candidate) => {
+    const c = candidate.context
+    if (c.hidden) return `hidden ${c.src ?? c.hidden.drawnAs}`
+    if (c.unnamedControl) return `unnamed ${c.unnamedControl.control} ${c.src ?? c.role}`
+    return c.alt
+  },
+  // New: a fail about a hidden image, or an image hidden in a control with no name, stays below the default threshold
+  // until it passes the evaluation gate.
+  confidenceCap: (candidate) => (candidate.context.hidden || candidate.context.unnamedControl ? 'low' : undefined),
+  // An image hidden from assistive technology that is all a link or button with no name holds fails whatever it shows:
+  // the control has no name, and axe-core agrees (`unnamedImageControls`). No model is asked. Experimental: it files
+  // axe-core's own link-name and button-name verdicts again under 1.1.1, which WCAG's F89 maps to 2.4.4 and 4.1.2, and
+  // its findings on the real-page studies' pages are unlabelled, so it never counts as a failure axe-core misses.
+  decidedBy: 'rampa/unnamed-image-control',
+  decidedMaturity: 'experimental',
+  experimental: (candidate) => candidate.context.unnamedControl !== undefined,
+  decide: (candidate) => (candidate.context.unnamedControl ? { ...UNNAMED_FAIL } : undefined),
   // A reading claim on a social network's icon whose alternative names the network is the model's suggestion, asked of
   // no second pass (`groundedImage`); every other verified fail goes on as before.
   grounded: (output, candidate, snapshot) => groundedImage(output, candidate.context, snapshot),
@@ -919,7 +1101,7 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
   confirmVersion: '1',
   confirm(answer, candidate, snapshot) {
     const c = candidate.context
-    if (c.hidden) return undefined
+    if (c.hidden || c.unnamedControl) return undefined
     const output = answer as NonTextContentJudgment
     if (output.verdict !== 'fail' || looksLikePlaceholder(c.alt, c.src) || isGenericAlt(c.alt)) return undefined
     const reading = output.problem === 'wrong_content' || (c.functional !== undefined && output.problem === 'missing_information')
@@ -977,6 +1159,8 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
       // What the control says in words besides this image, for an image that is not all it holds.
       const controlText = control && !functional && !imageButton ? truncate(textWithout(control, node), 500) || undefined : undefined
       const namedControl = control && !functional && !imageButton ? namedControlOf(control, node, alt) : undefined
+      // The link next to the image that its alternative repeats word for word, for an image that is not all a control holds.
+      const linkBeside = !functional && !imageButton ? linkBesideOf(node, alt, index) : undefined
       const attributes = (node.native.attributes ?? {}) as Record<string, string>
       // Native nodes have no markup; their source is the node as the platform's tools show it.
       const markup = typeof node.native.html === 'string' ? node.native.html.replace(/src="data:[^"]{40,}"/, 'src="data:…"') : typeof node.native.source === 'string' ? node.native.source : ''
@@ -994,6 +1178,7 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
           ...(functional ? { functional } : {}),
           ...(controlText ? { controlText } : {}),
           ...(namedControl ? { namedControl } : {}),
+          ...(linkBeside ? { linkBeside } : {}),
         },
       })
     }
@@ -1018,6 +1203,25 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
           },
         })
       }
+    }
+    // Images hidden from assistive technology that are all a link or button with no name holds: decided, not judged.
+    for (const { image, unnamed } of unnamedImageControls(snapshot, engine, index)) {
+      if (failedByEngine.has(image.ref)) continue
+      const markup = typeof image.native.html === 'string' ? image.native.html.replace(/src="data:[^"]{40,}"/, 'src="data:…"') : startTagOf(image)
+      candidates.push({
+        ref: image.ref,
+        context: {
+          alt: '',
+          role: image.role,
+          html: truncate(markup, 500),
+          src: fileName(attributesOf(image).src),
+          language: inheritedLang(index, image.ref, snapshot.locale) ?? image.lang ?? 'en',
+          actionText: undefined,
+          nearbyText: undefined,
+          image: image.image ?? '',
+          unnamedControl: unnamed,
+        },
+      })
     }
     return candidates
   },
@@ -1051,6 +1255,8 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
 
   verify(answer, candidate, snapshot): Verification {
     if (candidate.context.hidden) return verifyHidden(answer as HiddenImageJudgment, candidate.context.hidden)
+    // Decided from the tree and the engine's verdict on the control, not from a model's words: nothing to check them against.
+    if (candidate.context.unnamedControl) return { ok: true }
     const output = answer as NonTextContentJudgment
     if (normalizeForMatch(output.evidence) !== normalizeForMatch(candidate.context.alt)) {
       return { ok: false, reason: 'evidence is not the current text alternative' }
@@ -1106,11 +1312,13 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
 
   message(answer, candidate, locale) {
     if (candidate.context.hidden) return hiddenMessage(answer as HiddenImageJudgment, candidate.context.hidden, locale)
+    if (candidate.context.unnamedControl) return unnamedMessage(candidate.context.unnamedControl, locale)
     return claimText(answer as NonTextContentJudgment, candidate.context, locale, MESSAGE_WORDINGS)
   },
 
   claimKind(answer, candidate) {
     if (candidate.context.hidden) return 'hidden_image'
+    if (candidate.context.unnamedControl) return `unnamed_${candidate.context.unnamedControl.control}`
     const kind = altClaim(answer as NonTextContentJudgment, candidate.context, MESSAGE_WORDINGS)
     return kind === 'none' ? undefined : kind
   },
@@ -1119,6 +1327,8 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
     if (candidate.context.hidden) {
       return hiddenPatch(answer as HiddenImageJudgment, candidate.context.hidden, candidate.ref, /^<[^>]*>/.exec(candidate.context.html)?.[0])
     }
+    // No model said what the control does, so there is no alternative to suggest: a person writes it.
+    if (candidate.context.unnamedControl) return undefined
     const output = answer as NonTextContentJudgment
     if (isNativeSurface(snapshot.surface)) {
       const node = indexTree(snapshot.root).get(candidate.ref)?.node

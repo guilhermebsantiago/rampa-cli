@@ -37,6 +37,10 @@ function kinds(): Array<[string, string]> {
   const out: Array<[string, string | undefined]> = [
     ...ALT_CLAIMS.filter((kind) => kind !== 'none').map((kind): [string, string] => ['1.1.1', kind]),
     ['1.1.1', nonTextContent.claimKind?.(answer({}), candidate({ hidden: { by: 'empty-alt' } }))],
+    ...(['link', 'button'] as const).map((control): [string, string | undefined] => [
+      '1.1.1',
+      nonTextContent.claimKind?.(answer({}), candidate({ unnamedControl: { control, by: 'empty-alt', own: true } })),
+    ]),
     ...LINK_PROBLEMS.map((problem): [string, string | undefined] => ['2.4.4', linkPurpose.claimKind?.(answer({ problem }), any)]),
     ...(['heading', 'label'] as const).flatMap((kind) =>
       HEADING_PROBLEMS.map((problem): [string, string | undefined] => ['2.4.6', headingsAndLabels.claimKind?.(answer({ problem }), candidate({ kind }))]),

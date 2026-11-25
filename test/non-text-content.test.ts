@@ -11,8 +11,11 @@ import {
   isShortAlternative,
   mayBeName,
   keepsAlternative,
+  linkBesideOf,
   looksLikePlaceholder,
   namesAddress,
+  namesDestination,
+  namesMail,
   namesNetworkOfLink,
   namesPurpose,
   namesService,
@@ -22,12 +25,14 @@ import {
   sameWordInNumber,
   siteNames,
   splitGlued,
+  unnamedImageControls,
 } from '../src/criteria/non-text-content.ts'
 import { memoryCache } from '../src/core/cache.ts'
 import { checkSnapshot } from '../src/core/check.ts'
 import type { EngineResults } from '../src/core/types.ts'
 import type { JudgeRequest, ModelProvider, WordRequest } from '../src/providers/types.ts'
 import type { A11ySnapshot } from '../src/snapshot/schema.ts'
+import { indexTree } from '../src/snapshot/tree.ts'
 import { node } from './helpers.ts'
 
 const PNG = 'data:image/png;base64,iVBORw0KGgo='
@@ -1084,5 +1089,294 @@ describe('1.1.1 an image that is all of a link or button with its own aria-label
     expect(report.findings.filter((f) => f.criterion === '1.1.1').map((f) => f.ref)).toEqual(['#plain-img'])
     expect(report.needsReview?.filter((entry) => entry.criterion === '1.1.1').map((entry) => entry.ref)).toEqual(['#subscribe-img'])
     expect(wordCalls).toBe(3)
+  })
+})
+
+// The ninth real-page study: essexlive.news, kentlive.news and getsurrey.co.uk news cards, whose photo has the headline
+// as its alternative next to the headline's own link; 17 of its 22 uncertain 1.1.1 findings at the default threshold.
+describe('1.1.1 an alternative that repeats the link next to it', () => {
+  const headline = 'Elderly woman in hospital after being bitten by dog'
+  const photo = (ref: string, alt: string) =>
+    node({ ref, role: 'img', name: alt, image: PNG, bounds: { x: 0, y: 0, width: 220, height: 146 }, native: { tag: 'img', attributes: { src: 'siren.jpg', alt }, html: `<img src="siren.jpg" alt="${alt}">` } })
+  const link = (ref: string, name: string, children: ReturnType<typeof node>[] = []) =>
+    node({ ref, role: 'link', name, states: ['focusable'], native: { tag: 'a', attributes: { href: '/news/elderly-woman', 'aria-label': name } }, children })
+  const card = (ref: string, alt: string, linkName: string) =>
+    node({
+      ref,
+      role: 'article',
+      children: [
+        node({ ref: `${ref} > div.cover`, children: [photo(`${ref} > div.cover > img`, alt)] }),
+        node({ ref: `${ref} > div.text`, children: [link(`${ref} > div.text > a`, linkName, [node({ ref: `${ref} > div.text > a > h3`, role: 'heading', name: linkName, text: linkName })])] }),
+        node({ ref: `${ref} > footer`, children: [link(`${ref} > footer > a`, 'Essex Police')] }),
+      ],
+    })
+  const lead = 'Relatório da PF sobre Mendonça saiu pela culatra'
+  const page: A11ySnapshot = {
+    ...gallery(),
+    target: 'https://www.essexlive.example/',
+    locale: 'en',
+    root: node({
+      ref: 'html',
+      role: 'document',
+      lang: 'en',
+      children: [
+        card('#teaser', headline, headline),
+        card('#other', 'Police car with its blue light on', headline),
+        // A lead photo whose alternative is the h1 below it, with no link: oantagonista.com.br's, a true finding.
+        node({ ref: '#lead', children: [photo('#lead > img', lead), node({ ref: '#lead > h1', role: 'heading', name: lead, text: lead })] }),
+        // An image inside the link it repeats is that link's image, not one next to it.
+        link('#inside', headline, [photo('#inside > img', headline), node({ ref: '#inside > span', text: headline })]),
+        // A section that holds much more text than a card is no card.
+        node({
+          ref: '#section',
+          children: [
+            node({ ref: '#section > div', children: [node({ ref: '#section > div > div', children: [photo('#section-img', 'Lisbon')] })] }),
+            node({ ref: '#section > p', text: 'x '.repeat(400) }),
+            link('#section > a', 'Lisbon'),
+          ],
+        }),
+      ],
+    }),
+  }
+  const candidateOf = (ref: string) => {
+    const candidate = nonTextContent.candidates(page, { engine: engine.engine, rules: [] }).find((c) => c.ref === ref)
+    if (!candidate) throw new Error(`no candidate ${ref}`)
+    return candidate
+  }
+  type Problem = 'wrong_content' | 'missing_information' | 'generic' | 'decorative' | 'filename_or_placeholder'
+  const answer = (alt: string, problem: Problem) => ({
+    verdict: 'fail' as const,
+    evidence: alt,
+    problem,
+    imageShows: 'A police car with its blue light on',
+    suggestedAlt: 'Police car with flashing blue lights',
+    confidence: 'high' as const,
+  })
+
+  it('finds the link next to the image that its alternative repeats word for word, in the card around it', () => {
+    expect(candidateOf('#teaser > div.cover > img').context.linkBeside).toBe(headline)
+    const index = indexTree(page.root)
+    const image = index.get('#teaser > div.cover > img')?.node
+    if (!image) throw new Error('no image')
+    expect(linkBesideOf(image, ` ${headline.toUpperCase()}!`, index)).toBe(headline)
+    // Another alternative, a heading with no link, the link that holds the image, a box with a page's worth of text.
+    for (const ref of ['#other > div.cover > img', '#lead > img', '#inside > img', '#section-img']) expect(candidateOf(ref).context.linkBeside, ref).toBeUndefined()
+  })
+
+  it("says so for a claim that reads the picture, as the model's suggestion, and leaves the other claims alone", () => {
+    const c = candidateOf('#teaser > div.cover > img')
+    for (const problem of ['wrong_content', 'missing_information'] as const) {
+      expect(altClaim(answer(headline, problem), c.context, { extension: true, short: true, repeats: true }), problem).toBe('repeats_link')
+      expect(groundedImage(answer(headline, problem), c.context, page), problem).toBe(false)
+      expect(nonTextContent.claimKind?.(answer(headline, problem), c)).toBe('repeats_link')
+    }
+    expect(nonTextContent.message(answer(headline, 'wrong_content'), c, 'en')).toBe(
+      `The text alternative "${headline}" repeats the link next to it word for word and says nothing of the picture: if the image only illustrates that link, alt="" hides it from screen readers; if it shows more, the alternative should say what.`,
+    )
+    expect(nonTextContent.message(answer(headline, 'wrong_content'), c, 'pt-BR')).toContain('repete palavra por palavra o link ao lado')
+    // "Decorative" and a claim on the alternative's own text keep their wording and stay findings.
+    expect(altClaim(answer(headline, 'decorative'), c.context, { extension: true, short: true, repeats: true })).toBe('decorative')
+    expect(groundedImage(answer(headline, 'generic'), c.context, page)).toBe(true)
+    // The second pass is asked in the old words, so its cached answers still hold.
+    expect(altClaim(answer(headline, 'wrong_content'), c.context, { extension: false, short: false })).toBe('wrong_content')
+    // The lead photo under its h1 keeps its claim.
+    const leadPhoto = candidateOf('#lead > img')
+    expect(groundedImage(answer(leadPhoto.context.alt, 'wrong_content'), leadPhoto.context, page)).toBe(true)
+  })
+
+  it('reports the card photo under review with no second pass, and the lead photo as a finding', async () => {
+    let wordCalls = 0
+    const provider: ModelProvider = {
+      id: 'test:teaser',
+      async judge<T>(request: JudgeRequest<T>) {
+        const alt = /Current text alternative: "([^"]*)"/.exec(request.user)?.[1] ?? ''
+        const output = { verdict: 'fail', evidence: alt, problem: 'wrong_content', imageShows: 'A police car with its blue light on', suggestedAlt: 'Police car with flashing blue lights', confidence: 'high' }
+        return { output: request.schema.parse(output), inputTokens: 10, outputTokens: 5, latencyMs: 1, modelId: 'teaser' }
+      },
+      async word(request: WordRequest) {
+        wordCalls++
+        const word = request.system.includes('pass or fail') ? 'fail' : request.system.includes('reviewer made the claim') ? 'yes' : 'no'
+        return { word, probabilities: { [word]: 0.999 }, inputTokens: 10, outputTokens: 1, latencyMs: 1, modelId: 'teaser' }
+      },
+    }
+    const [teaser, , leadBox] = page.root.children
+    if (!teaser || !leadBox) throw new Error('no card')
+    const pair: A11ySnapshot = { ...page, root: node({ ref: 'html', role: 'document', lang: 'en', children: [teaser, leadBox] }) }
+    const report = await checkSnapshot(pair, { engine: engine.engine, rules: [] }, { criteria: [nonTextContent], llm: true, provider, runs: 1, cache: memoryCache(), offline: false, locale: 'en', minConfidence: 'low', concurrency: 1 })
+    expect(report.findings.filter((f) => f.criterion === '1.1.1').map((f) => f.ref)).toEqual(['#lead > img'])
+    const review = report.needsReview?.filter((entry) => entry.criterion === '1.1.1') ?? []
+    expect(review.map((entry) => entry.ref)).toEqual(['#teaser > div.cover > img'])
+    expect(review[0]?.message).toContain('repeats the link next to it word for word')
+    expect(wordCalls).toBe(3)
+  })
+})
+
+// neofeed.com.br's share row in the ninth real-page study: "mail icone" on a mailto: link, which one judge could not decide.
+describe('1.1.1 a linked image named for e-mail on a mailto: link', () => {
+  it('reads e-mail, with words around it, as what a mailto: link does', () => {
+    for (const alt of ['mail icone', 'Ícone Email', 'email', 'E-mail', 'Enviar por e-mail', 'Send by email', 'correio eletrônico']) {
+      expect(namesMail(alt, { control: 'link', href: 'mailto:?subject=Fatura&body=https://neofeed.example/x' }), alt).toBe(true)
+    }
+    expect(namesMail('email', { control: 'link', href: 'MAILTO:sbim@sbim.example' })).toBe(true)
+  })
+
+  it('reads nothing else: another word, another address, a button', () => {
+    expect(namesMail('Contato', { control: 'link', href: 'mailto:contato@example.org' })).toBe(false)
+    expect(namesMail('mail logo Gmail', { control: 'link', href: 'mailto:x@example.org' })).toBe(false)
+    expect(namesMail('mail icone', { control: 'link', href: 'https://mail.example.org/' })).toBe(false)
+    expect(namesMail('mail icone', { control: 'link', href: undefined })).toBe(false)
+    expect(namesMail('email', { control: 'button', href: 'mailto:x@example.org' })).toBe(false)
+  })
+
+  it('drops "does not say where the link leads" for such an image', () => {
+    const icon = node({
+      ref: '#mail-img',
+      role: 'img',
+      name: 'mail icone',
+      image: PNG,
+      bounds: { x: 0, y: 0, width: 24, height: 24 },
+      native: { tag: 'img', attributes: { src: 'mail.svg', alt: 'mail icone' }, html: '<img src="mail.svg" alt="mail icone">' },
+    })
+    const share: A11ySnapshot = {
+      ...gallery(),
+      target: 'https://neofeed.example/',
+      locale: 'pt-BR',
+      root: node({ ref: 'html', role: 'document', lang: 'pt-BR', children: [node({ ref: '#mail', role: 'link', native: { tag: 'a', attributes: { href: 'mailto:?subject=Fatura' } }, children: [icon] })] }),
+    }
+    const candidate = nonTextContent.candidates(share, { engine: engine.engine, rules: [] }).find((c) => c.ref === '#mail-img')
+    if (!candidate?.context.functional) throw new Error('no functional candidate')
+    expect(candidate.context.functional).toMatchObject({ control: 'link', href: 'mailto:?subject=Fatura' })
+    expect(namesDestination('mail icone', candidate.context.functional)).toBe(true)
+    const output = { verdict: 'fail' as const, evidence: 'mail icone', problem: 'missing_information' as const, imageShows: 'Um envelope', suggestedAlt: 'Enviar por e-mail', confidence: 'high' as const }
+    expect(nonTextContent.verify(output, candidate, share)).toEqual({ ok: false, reason: 'the alternative names the purpose of the link it is the only content of' })
+  })
+})
+
+// agencialupa.org's partner logos, artwalk.com.br's social links and portal.rr.gov.br's header logo in the ninth real-page
+// study's recall audit: images hidden with alt="" or an svg with no name, each all a link holds that has no name.
+describe('1.1.1 an image hidden from assistive technology that is all a control with no name holds', () => {
+  const hiddenImg = (ref: string, bounds = { x: 0, y: 0, width: 120, height: 80 }) =>
+    node({ ref, role: 'presentation', name: '', image: PNG, bounds, native: { tag: 'img', attributes: { src: 'ifcn.svg', alt: '' }, html: '<img src="ifcn.svg" alt="">' } })
+  const svg = (ref: string) => node({ ref, role: 'graphics-document', bounds: { x: 0, y: 0, width: 24, height: 24 }, native: { tag: 'svg', html: '<svg viewBox="0 0 24 24">' } })
+  const anchor = (ref: string, children: ReturnType<typeof node>[], attributes: Record<string, string> = {}, states = ['focusable']) =>
+    node({ ref, role: 'link', states, native: { tag: 'a', attributes: { href: 'https://partner.example/', ...attributes } }, children })
+  const page: A11ySnapshot = {
+    ...gallery(),
+    target: 'https://www.lupa.example/',
+    locale: 'pt-BR',
+    root: node({
+      ref: 'html',
+      role: 'document',
+      lang: 'pt-BR',
+      children: [
+        anchor('#ifcn', [hiddenImg('#ifcn > img')]),
+        node({ ref: '#cart', role: 'button', states: ['focusable'], native: { tag: 'button', attributes: {} }, children: [svg('#cart > svg')] }),
+        // A carousel slide's aria-label names the slide, not the link inside it.
+        node({ ref: '#slide', role: 'group', native: { tag: 'div', attributes: { 'aria-label': 'Slide 1 of 3' } }, children: [anchor('#banner', [hiddenImg('#banner > img')])] }),
+        // Not these: axe-core passed the link; a link named by aria-label, by title or by its text; an image inside a
+        // frame (an ad); a tracking pixel; a link hidden from assistive technology; an image with an alternative.
+        anchor('#passed', [hiddenImg('#passed > img')]),
+        anchor('#labelled', [hiddenImg('#labelled > img')], { 'aria-label': 'IFCN' }),
+        anchor('#titled', [hiddenImg('#titled > img')], { title: 'IFCN' }),
+        anchor('#texted', [hiddenImg('#texted > img'), node({ ref: '#texted > span', text: 'IFCN' })]),
+        anchor('#frame |> #ad', [hiddenImg('#frame |> #ad > img')]),
+        anchor('#pixel', [hiddenImg('#pixel > img', { x: 0, y: 0, width: 1, height: 1 })]),
+        anchor('#gone', [hiddenImg('#gone > img')], {}, ['focusable', 'aria-hidden']),
+        anchor('#named', [
+          node({
+            ref: '#named > img',
+            role: 'img',
+            name: 'IFCN',
+            image: PNG,
+            bounds: { x: 0, y: 0, width: 120, height: 80 },
+            native: { tag: 'img', attributes: { src: 'ifcn.svg', alt: 'IFCN' } },
+          }),
+        ]),
+      ],
+    }),
+  }
+  const failed = ['#ifcn', '#banner', '#labelled', '#titled', '#texted', '#frame |> #ad', '#pixel', '#gone', '#named']
+  const axe: EngineResults = {
+    engine: { name: 'axe-core', version: 'test' },
+    rules: [
+      { ruleId: 'link-name', outcome: 'violation', criteria: ['2.4.4', '4.1.2'], help: 'Links must have discernible text', nodes: failed.map((ref) => ({ ref, target: `["${ref}"]`, html: '' })) },
+      { ruleId: 'button-name', outcome: 'violation', criteria: ['4.1.2'], help: 'Buttons must have discernible text', nodes: [{ ref: '#cart', target: '["#cart"]', html: '' }] },
+      { ruleId: 'link-name', outcome: 'pass', criteria: ['2.4.4', '4.1.2'], help: 'Links must have discernible text', nodes: [{ ref: '#passed', target: '["#passed"]', html: '' }] },
+    ],
+  }
+
+  it('finds the image of each control axe-core fails for its missing name, and only those', () => {
+    const found = unnamedImageControls(page, axe, indexTree(page.root))
+    expect(found.map((f) => [f.image.ref, f.unnamed])).toEqual([
+      ['#ifcn > img', { control: 'link', by: 'empty-alt', own: true, role: undefined }],
+      ['#cart > svg', { control: 'button', by: 'unnamed-svg', own: true, role: undefined }],
+      ['#banner > img', { control: 'link', by: 'empty-alt', own: true, role: undefined }],
+    ])
+    // With no engine verdict on the control, nothing: the engine must agree that it has no name.
+    expect(unnamedImageControls(page, { engine: axe.engine, rules: [] }, indexTree(page.root))).toEqual([])
+    expect(unnamedImageControls({ ...page, surface: 'android' }, axe, indexTree(page.root))).toEqual([])
+  })
+
+  it('decides a fail without a model, says why in both languages, and cites H30 or H36', () => {
+    const candidates = nonTextContent.candidates(page, axe).filter((c) => c.context.unnamedControl)
+    expect(candidates.map((c) => c.ref)).toEqual(['#ifcn > img', '#cart > svg', '#banner > img'])
+    const [link, button] = candidates
+    if (!link || !button) throw new Error('no candidates')
+    const decided = nonTextContent.decide?.(link, page)
+    if (!decided) throw new Error('not decided')
+    expect(decided).toMatchObject({ verdict: 'fail' })
+    expect(nonTextContent.verify(decided, link, page)).toEqual({ ok: true })
+    expect(nonTextContent.message(decided, link, 'en')).toBe(
+      'This image is all its link holds and is hidden from screen readers (alt=""), so the link has no name: its text alternative should say where the link leads.',
+    )
+    expect(nonTextContent.message(decided, button, 'en')).toBe(
+      'This image is all its button holds and is hidden from screen readers (an svg with no name), so the button has no name: its text alternative should say what the button does.',
+    )
+    expect(nonTextContent.message(decided, link, 'pt-BR')).toBe(
+      'Esta imagem é tudo o que o link contém e está escondida dos leitores de tela (alt=""), então o link fica sem nome: o texto alternativo dela deve dizer aonde o link leva.',
+    )
+    expect(nonTextContent.claimKind?.(decided, link)).toBe('unnamed_link')
+    expect(nonTextContent.claimKind?.(decided, button)).toBe('unnamed_button')
+    expect(nonTextContent.subject?.(link)).toBe('unnamed link ifcn.svg')
+    expect(nonTextContent.actFor?.(link)).toEqual(['e88epe'])
+    expect(nonTextContent.patch?.(decided, link, page)).toBeUndefined()
+    expect(nonTextContent.confirm?.(decided, link, page)).toBeUndefined()
+    // Experimental, below the default threshold: it files axe-core's own verdict on the control again under 1.1.1.
+    expect(nonTextContent.confidenceCap?.(link)).toBe('low')
+    expect(nonTextContent.experimental?.(link)).toBe(true)
+    expect(nonTextContent.decidedMaturity).toBe('experimental')
+    const withAlt = nonTextContent.candidates(page, axe).find((c) => c.ref === '#named > img')
+    if (!withAlt) throw new Error('no candidate with an alternative')
+    expect(nonTextContent.experimental?.(withAlt)).toBe(false)
+    expect(nonTextContent.confidenceCap?.(withAlt)).toBeUndefined()
+    // The image in a control with no name is not asked the hidden-image question too.
+    expect(nonTextContent.candidates(page, axe).filter((c) => c.context.hidden).map((c) => c.ref)).not.toContain('#ifcn > img')
+  })
+
+  it('reports them below the default threshold, as experimental, with no model, and not with --no-llm', async () => {
+    const run = (llm: boolean, minConfidence: 'low' | 'medium') =>
+      checkSnapshot(page, axe, { criteria: [nonTextContent], llm, provider: undefined, runs: 1, cache: memoryCache(), offline: false, locale: 'en', minConfidence, concurrency: 1 })
+    const ofCheck = (list: Array<{ criterion: string; source: string; ref?: string | undefined }>) => list.filter((f) => f.criterion === '1.1.1' && f.source === 'judgment')
+    // At the default threshold they are listed below it, never as findings.
+    const report = await run(true, 'medium')
+    expect(ofCheck(report.findings)).toEqual([])
+    const below = report.belowThreshold.filter((f) => f.criterion === '1.1.1' && f.source === 'judgment')
+    expect(below.map((f) => [f.ref, f.confidence, f.experimental])).toEqual([
+      ['#ifcn > img', 'low', true],
+      ['#cart > svg', 'low', true],
+      ['#banner > img', 'low', true],
+    ])
+    expect(below[0]?.techniques).toEqual(['H30'])
+    expect(below[1]?.techniques).toEqual(['H36'])
+    expect(report.criteria.find((c) => c.criterion === '1.1.1')).toMatchObject({ decided: 3, decidedFailed: 3 })
+    // The coverage names the method and its maturity.
+    const method = report.coverage.criteria?.find((c) => c.id === '1.1.1')?.methods.find((m) => m.id === 'rampa/unnamed-image-control')
+    expect(method).toMatchObject({ kind: 'rule', failures: 3, maturity: 'experimental' })
+    // --min-confidence low reports them as findings, still marked experimental.
+    const low = await run(true, 'low')
+    expect(ofCheck(low.findings).map((f) => f.ref)).toEqual(['#ifcn > img', '#cart > svg', '#banner > img'])
+    expect(low.findings.filter((f) => f.criterion === '1.1.1').every((f) => f.experimental === true)).toBe(true)
+    const offReport = await run(false, 'low')
+    expect(ofCheck(offReport.findings)).toEqual([])
   })
 })

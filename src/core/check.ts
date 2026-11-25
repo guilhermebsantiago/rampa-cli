@@ -478,8 +478,9 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
                 }
               : {}),
             model: decided ? undefined : (options.provider?.id ?? judgment.samples.find((s) => s.modelId)?.modelId),
-            // An experimental module, or a judgment over a probe's facts, which is as experimental as the probe.
-            ...(judgmentMaturity(criterion) === 'experimental' ? { experimental: true } : {}),
+            // An experimental module, or a judgment over a probe's facts, which is as experimental as the probe; or an
+            // experimental check inside a stable module (`Criterion.experimental`).
+            ...(judgmentMaturity(criterion) === 'experimental' || criterion.experimental?.(judgment.candidate) ? { experimental: true } : {}),
           })
           if (criterion.settles && criterion.settledKey && judgment.status === 'failed') {
             settling.push({ rule: criterion.settles, criterion: criterion.id, key: criterion.settledKey(judgment.candidate), passed: false })
