@@ -23,7 +23,9 @@ import { attributesOf, isHidden, propertyPatch, readingTextOf, startTagOf, subtr
  *   identifier is not confident, stays below the confidence threshold.
  * - region: a container outside those blocks of running text, such as a cookie banner built of divs, short headings,
  *   links and buttons, whose whole text the identifier reads confidently as another language. Judged like an unmarked
- *   passage, as one passage: the fix is one lang on the container. Below the threshold unless the reading is clear.
+ *   passage, as one passage: the fix is one lang on the container. Always below the threshold until a held-out
+ *   real-page round has labelled such findings: a consent banner, the most common region, often follows the language
+ *   of the browser that loads the page.
  * - phrase: a text of two to eight words, too short for the identifier, such as a control's aria-label ("Next slide")
  *   or a button's text ("Accept all"), whose words are in another language's word list and none in the inherited
  *   language's (Portuguese, English and Spanish, the lists Rampa has). ACT counts names set in attributes as text that
@@ -238,12 +240,10 @@ export const languageOfParts: Criterion<LanguageOfPartsContext, LanguageOfPartsJ
   },
 
   // A short passage nominated by the identifier is a phrase or a quote: below the threshold until a person looks. So is
-  // a region the identifier reads with confidence but not clearly (a few product names read as another language), and
-  // every phrase, which the word lists nominate.
+  // every region and every phrase, the two newer kinds, until a held-out real-page round has labelled their findings.
   confidenceCap(candidate) {
     const { kind, reading } = candidate.context
-    if (kind === 'phrase') return 'low'
-    if (kind === 'region') return reading?.clear ? undefined : 'low'
+    if (kind === 'phrase' || kind === 'region') return 'low'
     return kind === 'unmarked' && !reading?.confident ? 'low' : undefined
   },
 

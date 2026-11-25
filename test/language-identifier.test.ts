@@ -311,8 +311,9 @@ describe('3.1.2 regions and phrases', () => {
     if (!region) throw new Error('no candidate')
     expect(region.context.text).toContain('Your privacy choices')
     expect(region.context.text).toContain('Allow')
-    // Read clearly: at the model's confidence, and judged like an unmarked passage.
-    expect(languageOfParts.confidenceCap?.(region)).toBeUndefined()
+    // Judged like an unmarked passage, and below the threshold even when the identifier reads it clearly.
+    expect(region.context.reading?.clear).toBe(true)
+    expect(languageOfParts.confidenceCap?.(region)).toBe('low')
     expect(languageOfParts.prompt(region, snapshot).user).toContain('The passage:')
     const fail = { verdict: 'fail', detectedLanguage: 'en', evidence: 'stores small files on your device', exception: 'none', confidence: 'high' } as const
     expect(languageOfParts.verify(fail, region, snapshot)).toEqual({ ok: true })
@@ -324,7 +325,7 @@ describe('3.1.2 regions and phrases', () => {
     })
   })
 
-  it('keeps a region below the threshold when the identifier reads it with confidence but not clearly', () => {
+  it('nominates a region the identifier reads with confidence but not clearly, below the threshold too', () => {
     const cards = node({
       ref: 'div.cards',
       native: { tag: 'div' },
@@ -403,6 +404,17 @@ describe('3.1.2 regions and phrases', () => {
     expect(inside.filter((c) => c.context.kind === 'phrase')).toEqual([])
     const dutch = page('nl', [node({ ref: '#next', role: 'button', name: 'Next slide', native: { tag: 'button', attributes: { 'aria-label': 'Next slide' } } })])
     expect(languageOfParts.candidates(dutch, NO_ENGINE)).toEqual([])
+  })
+
+  it('judges a region with the model and reports it below the threshold', async () => {
+    const snapshot = page('pt-BR', [paragraph('p', PORTUGUESE), banner()])
+    const model = answering({ verdict: 'fail', detectedLanguage: 'en', evidence: 'stores small files on your device', exception: 'none', confidence: 'high' })
+    const report = await checkSnapshot(snapshot, NO_ENGINE, { ...options(model), criteria: [languageOfParts] })
+    expect(model.calls).toBe(1)
+    expect(report.findings.map((f) => [f.ref, f.confidence])).toEqual([['#banner', 'low']])
+    const shown = await checkSnapshot(snapshot, NO_ENGINE, { ...options(model), criteria: [languageOfParts], minConfidence: 'medium' as const })
+    expect(shown.findings).toEqual([])
+    expect(shown.belowThreshold.map((f) => f.ref)).toEqual(['#banner'])
   })
 
   it('judges a phrase with the model and reports it below the threshold', async () => {
