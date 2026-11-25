@@ -1,0 +1,17 @@
+{
+  "page": "https://www.auditorioibirapuera.com.br/contato/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "f890d207ecfa",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search box (input type=search, placeholder \"Buscar...\"), whose placeholder is its only visible label and also its accessible name. Claim: the snapshot records the placeholder at #bbbbbb (from CSS) on the white field, 14px/400, measured 1.92:1; the screenshot crop shows faint grey \"Buscar...\" text on white, and the live style.css confirms input[type=\"search\"]::placeholder { color: #bbb } with form { background:#fff }, which computes to 1.92:1, so the sentence holds. Element: the placeholder is visible text that conveys the field's purpose, is not part of an inactive control, logo or decoration, and at 14px normal weight needs 4.5:1; W3C's WAI forms tutorial notes that default placeholder colours fail the WCAG minimum and recommends #767676 on white, so this placeholder fails 1.4.3 for the reason the claim gives. Capture: the live HTML and CSS fetched now carry the same markup and colours; at the captured 1280px width #sfield is shown (it is hidden only at 1200px and below, where a sidenav search with the same placeholder style takes over), so nothing that differs touches the claim."
+    }
+  ]
+}

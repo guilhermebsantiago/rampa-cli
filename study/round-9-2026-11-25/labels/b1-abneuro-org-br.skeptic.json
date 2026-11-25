@@ -1,0 +1,138 @@
+{
+  "page": "https://abneuro.org.br/2026/10/22/nota-de-esclarecimento-abn-sem-vinculacao-politico-partidaria/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "28858608f1c1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the breadcrumb link text (span in the \"Você está aqui\" list) \"Início\". On the live site the The7 breadcrumb widget (79367abf, post-31589.css) colours its links with the accent --e-global-color-accent #3399E7 at 13px/600 uppercase, over the title band's blue gradient (#184672 to #2D7EBC). I sampled the screenshot under the element's bounds: text #3399e7 on #25689f, about 1.9:1, below the 4.5:1 that 13px text needs (it is not large text). Even if the band rendered lighter or not at all, #3399e7 on white is only about 3:1, so no rendering state makes it pass. The live HTML and CSS give the same colours as the capture, so the claim's measurement holds and it names the real failure."
+    },
+    {
+      "fingerprint": "aa8753eba502",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the top-level main menu link \"Notícias\". On the live site the main menu widget (a6ecce9, post-31325.css) sets font, size and the underline pointer but no text colour, and no inline, custom or theme rule sets one either, so the items inherit The7's link colour #2c70ab (--the7-links-color in css-vars.css; --e-global-color-the7_content_links_color in the kit). The header sits over the dark blue title band (gradient from #184672 to #2D7EBC in post-31589.css), so the menu is mid blue on dark blue. I sampled the screenshot under the element's bounds: text #2c70ab on about #1d5484, roughly 1.5:1, far below 4.5:1 for 14px/500 text; even on the darkest band colour #184672 it would be about 1.9:1. I looked for reasons it could pass (a white menu colour lost in capture, a colour-scheme plugin, a sticky-header state, large text) and none holds: the screenshot is fully styled and the live CSS gives the same colours. The claim's colours and ratio match, so it names the real failure."
+    },
+    {
+      "fingerprint": "1f0c3a71718d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the top-level main menu link \"Publicações Científicas\". On the live site the main menu widget (a6ecce9, post-31325.css) sets font, size and the underline pointer but no text colour, and no inline, custom or theme rule sets one either, so the items inherit The7's link colour #2c70ab (--the7-links-color in css-vars.css; --e-global-color-the7_content_links_color in the kit). The header sits over the dark blue title band (gradient from #184672 to #2D7EBC in post-31589.css), so the menu is mid blue on dark blue. I sampled the screenshot under the element's bounds: text #2c70ab on about #1d5484, roughly 1.5:1, far below 4.5:1 for 14px/500 text; even on the darkest band colour #184672 it would be about 1.9:1. I looked for reasons it could pass (a white menu colour lost in capture, a colour-scheme plugin, a sticky-header state, large text) and none holds: the screenshot is fully styled and the live CSS gives the same colours. The claim's colours and ratio match, so it names the real failure."
+    },
+    {
+      "fingerprint": "9e1ca29695b0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer newsletter sign-up field (input type=\"email\", label \"Email\" hidden visually, placeholder \"Seu email..\") in the \"Cadastro\" form, which asks for the visitor's own email address. The captured HTML has no autocomplete attribute, and the live HTML is the same (no autocomplete anywhere on the page), so the claim is true and the capture does not differ. 1.3.5 applies: the field collects information about the user and \"email\" is in the Input Purposes list. I looked for a technique that would make it pass: type=\"email\" only says the value is an email address, not that it is the user's own, and it is not the sufficient technique (H98, autocomplete); nothing else on the field identifies its purpose. So the element fails for the reason the claim gives."
+    },
+    {
+      "fingerprint": "bc010869553f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the ABN emblem in the footer (ABN_Emblema_Positivo.svg, alt=\"\", not a link), a seal with an owl, the words \"Academia Brasileira de Neurologia\" around it and \"MCMLXII\" (1962). The live HTML has the same alt=\"\". The claim is true of the capture: the image is hidden and its own footer column holds only social links, and the founding year appears nowhere in text. But there is a concrete reason it may pass: the organisation's name, the emblem's only substantive content, is given in text in the same footer (\"© Academia Brasileira de Neurologia\"), in the page title and in the article, so the emblem can be read as a repeated branding element whose information is already on the page, which alt=\"\" allows; the roman-numeral year reads as part of the seal's design rather than content the page conveys. Other auditors would treat an organisation's logo as informative and require its name as the alternative. Competent auditors would reasonably disagree, so the label is uncertain."
+    },
+    {
+      "fingerprint": "ce1468747b4b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the top-level main menu link \"Educação\". On the live site the main menu widget (a6ecce9, post-31325.css) sets font, size and the underline pointer but no text colour, and no inline, custom or theme rule sets one either, so the items inherit The7's link colour #2c70ab (--the7-links-color in css-vars.css; --e-global-color-the7_content_links_color in the kit). The header sits over the dark blue title band (gradient from #184672 to #2D7EBC in post-31589.css), so the menu is mid blue on dark blue. I sampled the screenshot under the element's bounds: text #2c70ab on about #1d5484, roughly 1.5:1, far below 4.5:1 for 14px/500 text; even on the darkest band colour #184672 it would be about 1.9:1. I looked for reasons it could pass (a white menu colour lost in capture, a colour-scheme plugin, a sticky-header state, large text) and none holds: the screenshot is fully styled and the live CSS gives the same colours. The claim's colours and ratio match, so it names the real failure."
+    },
+    {
+      "fingerprint": "31fc94df9cf0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the top-level main menu link \"Editais\". On the live site the main menu widget (a6ecce9, post-31325.css) sets font, size and the underline pointer but no text colour, and no inline, custom or theme rule sets one either, so the items inherit The7's link colour #2c70ab (--the7-links-color in css-vars.css; --e-global-color-the7_content_links_color in the kit). The header sits over the dark blue title band (gradient from #184672 to #2D7EBC in post-31589.css), so the menu is mid blue on dark blue. I sampled the screenshot under the element's bounds: text #2c70ab on about #1d5484, roughly 1.5:1, far below 4.5:1 for 14px/500 text; even on the darkest band colour #184672 it would be about 1.9:1. I looked for reasons it could pass (a white menu colour lost in capture, a colour-scheme plugin, a sticky-header state, large text) and none holds: the screenshot is fully styled and the live CSS gives the same colours. The claim's colours and ratio match, so it names the real failure."
+    },
+    {
+      "fingerprint": "42329a5a5c5c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the top-level main menu link \"Início\". On the live site the main menu widget (a6ecce9, post-31325.css) sets font, size and the underline pointer but no text colour, and no inline, custom or theme rule sets one either, so the items inherit The7's link colour #2c70ab (--the7-links-color in css-vars.css; --e-global-color-the7_content_links_color in the kit). The header sits over the dark blue title band (gradient from #184672 to #2D7EBC in post-31589.css), so the menu is mid blue on dark blue. I sampled the screenshot under the element's bounds: text #2c70ab on about #1d5484, roughly 1.5:1, far below 4.5:1 for 14px/500 text; even on the darkest band colour #184672 it would be about 1.9:1. I looked for reasons it could pass (a white menu colour lost in capture, a colour-scheme plugin, a sticky-header state, large text) and none holds: the screenshot is fully styled and the live CSS gives the same colours. The claim's colours and ratio match, so it names the real failure."
+    },
+    {
+      "fingerprint": "40192d8fed97",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the breadcrumb link text (span in the \"Você está aqui\" list) \"Notícias\". On the live site the The7 breadcrumb widget (79367abf, post-31589.css) colours its links with the accent --e-global-color-accent #3399E7 at 13px/600 uppercase, over the title band's blue gradient (#184672 to #2D7EBC). I sampled the screenshot under the element's bounds: text #3399e7 on #25689f, about 1.9:1, below the 4.5:1 that 13px text needs (it is not large text). Even if the band rendered lighter or not at all, #3399e7 on white is only about 3:1, so no rendering state makes it pass. The live HTML and CSS give the same colours as the capture, so the claim's measurement holds and it names the real failure."
+    },
+    {
+      "fingerprint": "c001413f9552",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the top-level main menu link \"Institucional\". On the live site the main menu widget (a6ecce9, post-31325.css) sets font, size and the underline pointer but no text colour, and no inline, custom or theme rule sets one either, so the items inherit The7's link colour #2c70ab (--the7-links-color in css-vars.css; --e-global-color-the7_content_links_color in the kit). The header sits over the dark blue title band (gradient from #184672 to #2D7EBC in post-31589.css), so the menu is mid blue on dark blue. I sampled the screenshot under the element's bounds: text #2c70ab on about #1d5484, roughly 1.5:1, far below 4.5:1 for 14px/500 text; even on the darkest band colour #184672 it would be about 1.9:1. I looked for reasons it could pass (a white menu colour lost in capture, a colour-scheme plugin, a sticky-header state, large text) and none holds: the screenshot is fully styled and the live CSS gives the same colours. The claim's colours and ratio match, so it names the real failure."
+    },
+    {
+      "fingerprint": "11a49e5e6b92",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the top-level main menu link \"Eventos\". On the live site the main menu widget (a6ecce9, post-31325.css) sets font, size and the underline pointer but no text colour, and no inline, custom or theme rule sets one either, so the items inherit The7's link colour #2c70ab (--the7-links-color in css-vars.css; --e-global-color-the7_content_links_color in the kit). The header sits over the dark blue title band (gradient from #184672 to #2D7EBC in post-31589.css), so the menu is mid blue on dark blue. I sampled the screenshot under the element's bounds: text #2c70ab on about #1d5484, roughly 1.5:1, far below 4.5:1 for 14px/500 text; even on the darkest band colour #184672 it would be about 1.9:1. I looked for reasons it could pass (a white menu colour lost in capture, a colour-scheme plugin, a sticky-header state, large text) and none holds: the screenshot is fully styled and the live CSS gives the same colours. The claim's colours and ratio match, so it names the real failure."
+    },
+    {
+      "fingerprint": "ebef042b2902",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the top-level main menu link \"Associe-se\". On the live site the main menu widget (a6ecce9, post-31325.css) sets font, size and the underline pointer but no text colour, and no inline, custom or theme rule sets one either, so the items inherit The7's link colour #2c70ab (--the7-links-color in css-vars.css; --e-global-color-the7_content_links_color in the kit). The header sits over the dark blue title band (gradient from #184672 to #2D7EBC in post-31589.css), so the menu is mid blue on dark blue. I sampled the screenshot under the element's bounds: text #2c70ab on about #1d5484, roughly 1.5:1, far below 4.5:1 for 14px/500 text; even on the darkest band colour #184672 it would be about 1.9:1. I looked for reasons it could pass (a white menu colour lost in capture, a colour-scheme plugin, a sticky-header state, large text) and none holds: the screenshot is fully styled and the live CSS gives the same colours. The claim's colours and ratio match, so it names the real failure."
+    }
+  ]
+}

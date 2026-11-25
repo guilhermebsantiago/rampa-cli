@@ -1,0 +1,17 @@
+{
+  "page": "https://ufcspa.edu.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "a5d80775f976",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the language-switcher link <a href=\"/english\">English</a> in the top navigation menu of a page whose only language declaration is <html lang=\"pt-br\">. claimTrue: in the snapshot the link has no lang attribute and neither do its ancestors (only the html element carries lang=\"pt-br\"), and its text is the English word 'English', so the sentence holds of the capture. elementFails: I looked for reasons to excuse it. The proper-name exception does not fit, because Understanding 3.1.2 describes proper names as names used across languages without translation, and a language's name is translated (Portuguese says 'Inglês'). The vernacular/single-word reading does not fit either: Understanding 3.1.2 says single words count as the surrounding language 'unless it is clear that a change in language was intended', and here the change is clearly intended, since the link names the English version of the site in English. Understanding 3.1.2 also has an example on exactly this pattern, 'Alternative language links': each link's text is the language's name in that language, and the link is marked with lang. Its note on flattened accessible names covers what assistive technology does with correct markup, not missing markup. So the link fails 3.1.2 for the reason the claim gives. captureDiffers: the live server HTML fetched on 2026-11-25 has the same <li><a href=\"/english\">English</a></li> with no lang, and no lang on header, nav or body. The screenshot shows the styled menu with 'English' as plain visible text, not a flag image. I found nothing that makes the capture differ, though my fetch was automated too."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "page": "https://www.53degreesnorth.ie/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "a3a9a64cfaa2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field (input type=search, role=combobox, id=header-search). It has an explicit <label for=header-search>Search</label> with the class visually-hidden, but a page style sheet sets .visually-hidden{display:none}, so the label is not rendered. In the snapshot the browser's AX node is a combobox with name \"\", it lists the label as its labelledby relation, and the label's AX node is ignored as notRendered, so the claim that the browser computes no name is true of the capture. I loaded the live page in headless Edge (Chromium) through CDP at 1280x800. The label's computed display is none and the computed name is empty: the labelfor source gives \"\", and Chromium marks the placeholder (an animated typing prompt such as \"Search for sun hats...\") as superseded, so it does not supply the name. That is the same state as the capture, so captureDiffers is no. My fetch was also automated, but the rule comes from the page's own style sheet and scripts, which an ordinary browser runs too. A form field whose accessible name is empty fails 4.1.2, as the ACT rule e086e5 (form field has non-empty accessible name, which applies to combobox) expects. Some screen readers may still read the placeholder as a hint, but no name is exposed. The claim names exactly this failure, so the label is true_positive. The missing name also bears on 1.3.1 and 3.3.2."
+    },
+    {
+      "fingerprint": "94c62011317d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the same header search field, and the finding is about its placeholder text. The capture records the placeholder colour as #00568080 (the text colour at 50% opacity) on the field background #e6eef2, at 16px and weight 400. Blending gives about #73a2b9 on #e6eef2, which works out to 2.35:1, so the claim's figures are right. On the live page the computed ::placeholder colour is rgba(0,86,127,0.5) on rgb(230,238,242), also at 16px/400. That is the same ratio, and my crop of the live header shows the pale grey-blue prompt (\"Search for sun hats...\") on a pale field. So captureDiffers is no. The full-page screenshot leaves the sticky header blank, but the measurement came from the rendered field and matches the live page. The text is normal size, so it needs 4.5:1. Understanding 1.4.3 says the criterion applies to \"text in the page, including placeholder text\". This placeholder is also the only visible text that tells users what the field is for, because the label is display:none. At 2.35:1 it fails 1.4.3, which is the failure the claim names, so the label is true_positive."
+    }
+  ]
+}

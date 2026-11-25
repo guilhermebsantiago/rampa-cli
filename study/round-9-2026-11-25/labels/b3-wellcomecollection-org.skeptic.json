@@ -1,0 +1,17 @@
+{
+  "page": "https://wellcomecollection.org/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "1886f15cb63e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter sign-up field (input#newsletter-input, type=email, name=email, labelled 'Your email address') under 'Stay in the know'; it collects the visitor's own email so they can receive the newsletter, which is information about the user and the WCAG input purpose 'email'. claimTrue: the captured HTML has no autocomplete attribute, and the snapshot's formIssues for this input list Chromium's FormInputAssignedAutocompleteValueToIdOrNameAttributeError, so both parts of the sentence hold. elementFails: I looked for a way it could pass. type=email does not count, because Understanding 1.3.5 says input types 'are only very broad categories ... not necessarily its purpose' and do not make clear whether the field is for the user's email or someone else's. HTML supports autocomplete, so the technology condition is met, and the only sufficient technique (H98) is not used. The field is not for a third party's data, so the scope exception does not apply. captureDiffers: my automated fetch of the live page got an AWS WAF JavaScript challenge (HTTP 202), so I could not load it directly. The screenshot shows the full styled page with the form in place, and the site's public source on GitHub (NewsletterPromo passing type/name/label to TextInput, last changed 2026-11-23) renders this input with no autocomplete prop, so the page users receive has the same markup as the capture. No reason for a pass holds up."
+    }
+  ]
+}

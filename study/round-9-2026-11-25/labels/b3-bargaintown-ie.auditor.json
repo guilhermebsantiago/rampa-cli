@@ -1,0 +1,50 @@
+{
+  "page": "https://bargaintown.ie/collections/mattresses",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "eda9a2f23337",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the desktop hero banner image (home-page-banner-bedtime-img-v3.png) with alt=\"\". The crop shows text baked into the picture: \"BEDTIME JUST GOT A WHOLE LOT BETTER\" and \"Discover our Dream - Worthy Mattress Collection\". In the snapshot the sibling title div is empty, and that text appears nowhere else on the page, so the claim is true of the capture (it drops \"Discover our\", which does not matter). An image of text that carries a promotional message is not pure decoration, so its text alternative has to give that text. With alt=\"\" screen reader users miss it, which fails 1.1.1. The live HTML has the same markup (alt=\"\", empty title-styling div, no text copy), so the capture does not differ. The discount pop-up covers the banner in the screenshot, but that has no bearing on this claim."
+    },
+    {
+      "fingerprint": "21058cc1fb38",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field input#search_main (type=search, placeholder \"What are you looking for?\"). Its only label is <label for=\"search_main\">Search</label>, which the live screen.css hides with \"#search label{display:none}\". Chromium's accessibility tree in the capture gives the searchbox an empty name, with the hidden label as its labelledby source and no fallback to the placeholder, so the claim is true. In Chrome and Edge, which are ordinary browsers, assistive technology therefore gets a searchbox with no name: the legend \"Search\" only names the group, and the submit button is labelled \"Zoeken\". That fails 4.1.2. Firefox and the HTML-AAM order would fall back to the placeholder, which is a browser difference the fix should still cover (for example by visually hiding the label instead of using display:none). The live HTML and CSS match the capture."
+    },
+    {
+      "fingerprint": "127d9ac25eaf",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the maximum price field input#max in the Price filter, labelled by <label for=\"max\">to</label>. The claim says the label's text does not show. The screenshot clearly shows \"to\" rendered between the \"€ 0\" and \"€ 1349\" fields, under the visible \"Price\" heading and range slider. The live CSS (.input-range>span label{display:block;position:absolute;right:100%;...;text-align:center}) places the label text there, and only the first label (\"From\") is moved off screen. So the claim is false of the capture. With \"Price\", the euro prefix and \"to\", the field's purpose is visible and clear, so it meets 3.3.2. The claim rests on the snapshot's textVisible=false flag for this label, which is wrong, so this is a collector error. The live page matches the capture."
+    },
+    {
+      "fingerprint": "45ca7d6b3976",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the first image in the \"Mattresses by Size\" list, alt=\"Single Bed Mattress\", and it is not inside a link. The crop and the screenshot show a line icon of a single bed or mattress with a pillow, marked 3'. That is exactly what the alternative says, so the claim that it describes something the image does not show is false. The alternative is accurate and equivalent (the 3ft size is also in the heading link below), so 1.1.1 is met. The live HTML has the same image and alt. The model had the crop and the alt, and it judged wrongly."
+    }
+  ]
+}

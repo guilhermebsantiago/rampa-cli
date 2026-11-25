@@ -1,0 +1,118 @@
+{
+  "page": "https://www.museuparanaense.pr.gov.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "b346cfe591b6",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The large 570x390 photo in the current slide of the main 'destaque' slider (people examining documents and photos at a table in a records room), beside the research-service text and 'Saiba mais'. Its alt 'arq-cul-indigenas' is the file name slug (src arq_cult-indigenas_03-edit.jpg): nothing indigenous is visible in the crop, and the slug conveys neither what the photo shows nor its role. I looked for a way it could pass: the photo is a sizeable content image, not pure decoration, and even if one read it as decorative the alt would still have to be null (F39). A filename used as the alternative is F30, so the element fails 1.1.1, and the claim, read in good faith, points at that defective alternative. The live HTML has the same img and alt; the screenshot shows the same photo."
+    },
+    {
+      "fingerprint": "0aa09eaa9611",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The first thumbnail slide ('Atendimento à pesquisa') of the slick thumbnail navigator. The live data-slick sets asNavFor the main slider and focusOnSelect: true, so slick binds a click handler on each slide that changes the main slider (whose own arrows are off), so the thumbnail works as a tab. The bundled slick is 1.8.0, whose initADA sets tabindex=0 on the visible slides; the snapshot shows the div focusable with a click listener and no role (the main slider's slide has no listener, which fits). I found no native control inside it (only an img and an h3) and no role or selected state, so the control's role is not exposed: F59, 4.1.2 fails, as the claim says. The live markup and options match the capture."
+    },
+    {
+      "fingerprint": "fdd178895a5b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The fourth news headline link in the Notícias list. The live CSS sets '.noticias_horizontal.titulo_abaixo ul li h3 a{color:#e8b609}' and the section has those classes; the screenshot shows yellow text on white. #e8b609 on #fff is 1.89:1, and at 18.9px weight 400 the text is not large, so 4.5:1 applies. I checked for a way out: the page has a 'Mudar o contraste' switch (body.contrast styles), but G174 needs the alternate presentation to conform to every criterion at the level, and the page's other failures (the thumbnail controls with no role, for one) are not changed by that switch, so G174 does not hold. The element fails 1.4.3 as claimed; the live page matches."
+    },
+    {
+      "fingerprint": "a4b61dddb7b3",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Mais notícias ››' button link (a.btn.btn-primary). The live theme CSS overrides .btn-primary to background-color #e8b609 with color #ffffff, and the screenshot shows white text on the yellow button. That is 1.89:1 for 14px normal text, below 4.5:1. The high-contrast switch does not meet G174 here, because the switched page would still fail other criteria. The element fails 1.4.3 as the claim says; the live page has the same button and styles."
+    },
+    {
+      "fingerprint": "b1fe581aa340",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The photo in the fourth thumbnail slide (skull and small figurines in a red-lit showcase), with the visible h3 'Conteúdo Virtual' over it. Its alt 'MUPA Minuto' names the museum's content series, not the picture, so the claim's sentence holds of the capture. Read as an informative illustration, the alt does not convey what the photo shows, so it fails. Against that: the slide promotes the museum's virtual content, of which 'MUPA Minuto' is the series this photo is associated with, and a competent auditor could accept the alternative as conveying the image's purpose in this tab. On the other side, an auditor who treats the thumbnail as decorative would want a null alt instead (F39), a reason the claim states only loosely. Because of that reasonable disagreement the label is uncertain. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "1f2214be431f",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The search input #edit-termo. 'Buscar' is only its title attribute (its accessible name): no text 'Buscar' is rendered, and the field is empty, so the sentence is not true as worded. The snapshot's 'text' measurement (883 pixels, #999999 on #ffffff, 2.85:1, 14px) is the same set of pixels as the placeholder 'Do que você precisa hoje?', whose CSS is .form-control::placeholder{color:#999} on a white field. Typed text would be #555 (7.46:1), so the only failing text is the placeholder, which Understanding 1.4.3 explicitly includes. The claim's measurement and colours point at that real defect in imperfect words (wrong quoted string, a duplicate of the placeholder finding), so in good faith it names the failure. The live page has the same input and CSS."
+    },
+    {
+      "fingerprint": "d999a8ad2c32",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The second thumbnail slide ('Visitas em grupos') of the same slick navigator. focusOnSelect: true gives it a click handler that switches the main slider; slick 1.8.0's initADA gives the visible slides tabindex=0; the snapshot shows it focusable with a click listener, a generic role and no state. It acts as a tab with no exposed role (F59), so it fails 4.1.2 as the claim says. The live markup and slick options match the capture."
+    },
+    {
+      "fingerprint": "e4fb066fab39",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The third news headline link ('Museu Paranaense lança Rádio MUPA...'). Live CSS colours these links #e8b609 on the white news section; the screenshot confirms it. That is 1.89:1 for 18.9px normal-weight text, which needs 4.5:1. The 'Mudar o contraste' switch does not meet G174, because the switched page would still fail other criteria. The element fails 1.4.3 as claimed; the live page matches."
+    },
+    {
+      "fingerprint": "95949e9f8eed",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The photo in the first thumbnail slide, the same research-room picture, under the visible h3 'Atendimento à pesquisa'. Its alt 'arq-cul-indigenas' is the file name slug and describes neither the photo nor the tab; nothing indigenous is visible. I considered whether the thumbnail could pass as decoration, but then the alt would have to be null (F39), and a filename alternative is F30 in either reading. So the element fails 1.1.1, and the claim, read in good faith, points at that non-alternative. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "24b6d99ca012",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The placeholder 'Do que você precisa hoje?' of the header search field. The live CSS sets .form-control::-webkit-input-placeholder{color:#999} on the white field (.form-control background #fff) with no site override, and the screenshot shows light grey text on white: 2.85:1 at 14px, below 4.5:1. Understanding 1.4.3 states that the criterion applies to placeholder text. The contrast switch does not meet G174, because the alternate presentation must conform fully. The element fails 1.4.3 as claimed; the live input is identical."
+    },
+    {
+      "fingerprint": "9c1c5f612fad",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h2 'Serviços para você!' with tabindex=0. The tabindex alone is a site pattern (every h2 has it), but the live JS binds a click on this h2 that toggles 'show-mobile' on its header. The live CSS at max-width 575px hides the category buttons, gives the h2 cursor:pointer and a caret, and shows them on show-mobile, so on phones the heading is a disclosure toggle. At the captured 1280px width the click has no visible effect, which was my main doubt, but the same element in the same page works as a control for phone users and exposes only a heading role, with no button role and no expanded state. That fails 4.1.2 for the reason the claim names. The live page matches."
+    },
+    {
+      "fingerprint": "dcee2479e4b9",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The fourth thumbnail slide ('Conteúdo Virtual'). As with the other thumbnails, slick's focusOnSelect click handler makes it select the main slide, slick 1.8.0 gives it tabindex=0, and the snapshot shows it focusable with a click listener and a generic role. A tab-like control with no role is F59, a 4.1.2 failure, as claimed. The live markup matches."
+    },
+    {
+      "fingerprint": "26984618655b",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The photo in the second thumbnail slide (visita_mediada.jpg), under the h3 'Visitas em grupos'. Its alt 'Esposição' is a misspelling of 'Exposição' (exhibition), and the crop shows an exhibition gallery with framed works on the walls. So the alternative does describe what the image shows, and the claim that it describes something absent is false. As a short description of an illustrative thumbnail it is adequate, so the element meets 1.1.1. If someone read the thumbnail as decorative and wanted a null alt, that would be a different reason the claim does not name. The model had the crop and judged wrongly, probably put off by the misspelling. The live alt is the same."
+    },
+    {
+      "fingerprint": "86dbc15885e1",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The first news headline link ('Museu Paranaense lança catálogo digital...'). It is coloured #e8b609 by the live rule for .noticias_horizontal.titulo_abaixo h3 a, on white, as the screenshot shows: 1.89:1 for 18.9px normal text, below 4.5:1. The high-contrast switch does not satisfy G174, because the switched page still fails other criteria. The element fails 1.4.3 as claimed; the live page matches."
+    },
+    {
+      "fingerprint": "338f3260495b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The second news headline link ('Museu Paranaense apresenta retrospectiva...'). The same live CSS colours it #e8b609 on white, as the screenshot shows: 1.89:1 at 18.9px weight 400, where 4.5:1 is required. The contrast switch does not satisfy G174. The element fails 1.4.3 as claimed; the live page matches."
+    },
+    {
+      "fingerprint": "5d9862004949",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The third thumbnail slide ('Pesquisa no Acervo online'). slick's focusOnSelect click handler makes it switch the main slider, and slick 1.8.0's initADA gives it tabindex=0. The snapshot shows it focusable with a click listener and a generic role, with no native control inside. A control with no exposed role is F59, a 4.1.2 failure, as claimed. The live markup matches."
+    }
+  ]
+}

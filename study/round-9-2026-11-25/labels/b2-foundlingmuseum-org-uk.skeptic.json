@@ -1,0 +1,28 @@
+{
+  "page": "https://foundlingmuseum.org.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "0c0281fc9e2e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the email field of the footer newsletter sign-up form (Gravity Forms, 'Stay connected / Subscribe to our newsletter'): <input type=email id=input_3_1 placeholder='Email address*'> whose associated label reads 'Email(Required)'. The claim is true of the capture: the field asks for the subscriber's own email address and has no autocomplete attribute. I looked for reasons it could pass. type=email does not cure it: Understanding 1.3.5 says type=\"email\" indicates that the field is for an email address but does not clarify if the purpose is for entering the user's email address or some other person's email, and the only sufficient technique is H98 (autocomplete). The field is in scope: a newsletter sign-up collects the user's own address, and 'email' is in the Input Purposes list. No script adds the attribute: the snapshot is the post-script DOM and lacks it. The live HTML fetched today has the same input with no autocomplete (the only autocomplete values on the page are 'off' and 'new-password' elsewhere), so the capture does not differ. No reason against the finding holds up; the claim names the real failure."
+    },
+    {
+      "fingerprint": "7f21e535bcb4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Same email field. Its <label for=input_3_1> ('Email(Required)') is hidden by the theme (main.css: .mailing-block .gfield_label{display:none !important}). The snapshot records Chrome's own computation over CDP: role textbox, name \"\", labelledby the hidden label, which is ignored as notRendered. In Chromium a label that yields an empty string stops the name computation, so the placeholder 'Email address*' is not used as the name either. The first half of the claim, that the browser computes no name, is true of the capture. The live HTML and CSS fetched today match it, so the capture does not differ. Chrome's tree gives an empty name, which is F68's test ('using the browser's accessibility tree ... an accessible name that is neither empty nor composed solely of whitespace'), so I answer that the element fails there. The skeptic's reasons against it still hold up, though. AccName 1.2 step 2A keeps hidden content when it is part of a native label traversal whose root was hidden, so the hidden label names the control by the spec (Rampa's own computed name is 'Email(Required)'). Firefox and axe-style checks would get a name from the label or fall back to the placeholder. Screen readers commonly announce the placeholder, so 'announces only textbox' is probably overstated. Whether a spec-conformant hidden label plus a placeholder fails 4.1.2 because Chromium drops them is a point competent auditors would split on. Many would instead fail it under 3.3.2 or 2.5.3 for a label that only appears as a placeholder. Hence uncertain."
+    }
+  ]
+}

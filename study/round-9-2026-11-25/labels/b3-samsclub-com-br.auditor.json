@@ -1,0 +1,28 @@
+{
+  "page": "https://www.samsclub.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "b4aca77928e3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "yes"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the message paragraph of the Securiti cookie-consent banner (div role=dialog, aria-label cookieconsent). In the snapshot the html element has lang=\"pt-BR\", and neither the body, the dialog nor the paragraph carries a lang attribute, while the paragraph reads \"We use our own and third-party cookies...\", which is English: the claim is true of the capture. On the live site the banner text is chosen by the Securiti SDK from the browser's Accept-Language (it echoes it through app.securiti.ai/core/v1/utils/geo/location, then loads pt-br.json or en.json from cdn-prod.securiti.ai; tenant_default_language is pt-br). A browser that prefers pt-BR receives the Portuguese text \"Utilizamos cookies próprios e de terceiros...\", which matches the page language and passes 3.1.2; a browser that prefers English receives exactly the captured English text, and the SDK never sets a lang attribute (the en.json message HTML has none), so for those real visitors the passage fails 3.1.2 for the reason the claim gives. The capture holds the English variant because the capturing browser asked for English, which differs from what the site's pt-BR audience receives and matters for this claim. Since whether the element fails depends on the visitor's browser language, and competent auditors would reasonably disagree on whether the English variant of a pt-BR site counts as the page users receive, the label is uncertain."
+    },
+    {
+      "fingerprint": "a50c1b9f27e7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the text span of the cookie-consent banner message, inside strong, so 14px bold (the Securiti stylesheet fixes .cc-window at font-size 14px). The snapshot measured foreground #797979 on #ffffff; I confirmed #797979 pixels on the white banner in the screenshot crop, and the ratio computes to 4.35:1. Bold 14px is below the large-text threshold (14pt bold, about 18.7px), so 4.5:1 applies and the text fails 1.4.3. On the live site the banner colours come from the Securiti config (customTheme.popup.text #797979, popup.background #ffffff), identical in the pt-br and en configurations, so pt-BR visitors see the Portuguese message in the same failing colour and size. The capture missed the site's globals stylesheet (the header is unstyled in the screenshot), but that stylesheet has no rule for the cc-* banner classes and today is served with cross-origin-resource-policy: cross-origin; the language difference changes only the words. Neither touches this contrast, so the capture difference does not matter here. The claim names the real failure: true positive."
+    }
+  ]
+}

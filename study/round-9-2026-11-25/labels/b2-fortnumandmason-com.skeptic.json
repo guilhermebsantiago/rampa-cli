@@ -1,0 +1,55 @@
+{
+  "page": "https://www.fortnumandmason.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "7b4fc87ea7c8",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The EU delivery banner is an image that is the only content of a link to https://eu.fortnumandmason.com/ (the snapshot's <a> holds only the picture, and title is empty), and its alt is \"Content image\". The image is text ('Shopping For EU Delivery? ... Right This Way'), and none of that reaches users. A screen reader user hears only 'Content image', which neither gives the destination nor the text in the image, so the link fails H30/G82. I looked for reasons the finding could be wrong and found none: there is no other text in the link and no aria-label. On the live site the CMS (the Magento GraphQL cmsPage 'home', read today) holds alt=\"\" for this image, and the live front-end bundle (RichContent) swaps an empty alt for \"Content image\". So every browser gets the same alt as the capture."
+    },
+    {
+      "fingerprint": "c7d2a6cf8dd4",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A 318x465 photo of a hamper, tins and biscuits inside the 'Select Country' international-delivery dialog, with alt \"Content image\". Skeptic's point: the photo is probably decorative, so a description is not needed. Even so, the element still fails, because a decorative image needs a null alt and this placeholder is announced (F39 names alt=\"image\"-style placeholders). If the photo is taken as informative instead, \"Content image\" describes nothing. Either way, the defect is the generic placeholder that the claim names. The live front-end code turns empty alts into \"Content image\" for every visitor. The dialog is the real international-delivery popup that the live bundle shows to non-UK visitors (it is not a bot version), so the capture does not differ."
+    },
+    {
+      "fingerprint": "d735fcfa1635",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This image is the only content of a link to /stories/luke-flunder-at-fortnums (title empty). The live route query returns that post's title as 'Five Questions & Four Wines with Luke Flunder'. The alt \"EARLY CHRISTMAS GIFT IDEAS\" names neither Luke Flunder nor wine, and it does not describe the photo of him in front of wine shelves either: it looks stale. Skeptic's point: the post mentions festive wine picks, so 'gift ideas' is loosely related. But it does not identify the story, so under R2/H30 it does not give the link's purpose. Under R2, the visible h4 'LUKE FLUNDER ON WINE' beside it does not cure 1.1.1. The live CMS still holds this alt, so the capture does not differ."
+    },
+    {
+      "fingerprint": "5f2156125553",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A 24x24 'F' monogram icon (the Friends of Fortnum's membership mark) in the footer, next to the text 'Enjoy a little more Fortnum's ... with a Friends of Fortnum's Membership Learn more'. It is not inside a link, and its alt is \"Content image\". Skeptic's point: the icon repeats the adjacent text and is decorative, so no description is needed. But then it needs alt=\"\", and the non-null placeholder 'Content image' that screen readers announce is the documented failure F39. As an informative logo it would also fail, because the alt does not name it. The claim points at that generic placeholder alt. The alt comes from the live front-end's fallback for empty alts, so it is the same in any browser."
+    },
+    {
+      "fingerprint": "9a8ef7b57e25",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is a 309x132 graphic of the text 'Stories from the Journal' that heads the stories section. It is not a link, and its alt is \"Content image\". The snapshot has no other text or heading carrying 'Stories from the Journal' (the section has no h2; its only headings are the h4s on the tiles), so the section's title is available only as an image of text. The alternative should carry that text, and \"Content image\" does not. That fails 1.1.1, and the claim names it. The live CMS has alt=\"\" for this image, and the live bundle renders empty alts as \"Content image\", so the capture matches what users get."
+    },
+    {
+      "fingerprint": "c04538c1d6f7",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "#country-selector-input is the focusable, readonly input of the PrimeReact country dropdown in the international-delivery dialog. A visible <label for=\"country-selector-input\"> reads 'Choose your delivery country', but aria-label=\"Select Country\" overrides it, and that name does not contain the label's words. Skeptic's checks: the label is programmatically tied to this input, so it is the component's label and not a stray instruction. The input is visually hidden (p-hidden-accessible), but it is what takes focus for the visible dropdown under that label. No other visible label competes. A speech user saying the visible label gets no match, so this fails 2.5.3, as the claim says. The cookie banner covered part of the dialog in the screenshot, but after dismissal the label is visible. The live bundle sets aria-label 'Select Country' on this popup, which non-UK visitors get, so the capture does not differ."
+    },
+    {
+      "fingerprint": "a27896b46501",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This image is the only content of a link to /stories/christmas-advent-calendars (title empty). The live route query returns that post's title as 'Advent Calendar Gift Guide', and the photo shows advent calendars. The alt \"Biscuitorium Dunkipedia\" names something else (apparently a stale alt from another tile), so it neither identifies the destination nor describes the picture. Under R2/H30 that fails 1.1.1, and the visible h4 'ADVENT CALENDAR GIFT GUIDE' beside it does not cure it. I found no title, aria-label or other text inside the link. The live CMS still carries this alt, so the capture does not differ."
+    }
+  ]
+}

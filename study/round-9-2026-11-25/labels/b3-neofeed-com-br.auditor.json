@@ -1,0 +1,50 @@
+{
+  "page": "https://neofeed.com.br/economia/fatura-da-revolucao-das-baterias-pode-chegar-pela-conta-de-luz/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "0aa4e6880cb3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a static (non-link) img, logo_ai_laranja.svg, in the 'Converse com ...' block under the featured image; the crop and screenshot show it is an image of the orange text 'NEOFEED AI', completing the visible phrase 'Converse com NEOFEED AI' beside the 'Pergunte para NeoFeed AI' search field. Its alt is 'icon search', evidently copied from the search button's icon next to it. claimTrue: the snapshot alt is 'icon search', a generic label-like string that does not convey what the image shows. elementFails: the image carries text ('NeoFeed AI') and its alternative must serve the equivalent purpose; a screen reader user hears 'Converse com icon search', which is wrong and misleading, so 1.1.1 fails (G94; the text in the image is not in the alternative). The claim, read in good faith, names this: the alternative does not convey what the image conveys. captureDiffers: the live HTML fetched now has the same img and alt 'icon search', and the screenshot is the fully styled page."
+    },
+    {
+      "fingerprint": "55a00dea3044",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter sign-up field of the Mailchimp for WP form 'Receba o NeoFeed no seu e-mail': input type=email name=EMAIL placeholder 'Seu melhor e-mail' (your best e-mail), required, with no autocomplete attribute. claimTrue: the snapshot shows no autocomplete, and its formIssues record Chromium's FormInputAssignedAutocompleteValueToIdOrNameAttributeError for this field, so both sentences hold. elementFails: the field collects the user's own e-mail address, which is the 'email' purpose in WCAG's Input Purposes list, and HTML supports autocomplete; type=email only gives the data format and does not identify it as the user's e-mail, and the sufficient technique H98 is not used, so 1.3.5 fails. The claim names exactly that. (The field also has no label other than its placeholder, a separate 3.3.2/4.1.2 matter, not judged here.) captureDiffers: the live HTML has the same input with no autocomplete, and the snapshot is the rendered DOM, so no script adds it."
+    },
+    {
+      "fingerprint": "79d9d2725e41",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the envelope icon (alt 'mail icone') that is the only content of the fifth link in the share row under the byline (whatsapp icone, linkedin icone, Facebook icone, X icone, mail icone); the link is mailto:?subject=<article title>&body=<article URL>, i.e. 'share this article by e-mail'. The link has no title, and no visible or programmatic 'Compartilhar' label; the list item holds only the image. claimTrue: the alt is all the link holds and it names the icon ('mail icone'), not the share action. elementFails: by H30 the alternative of an image that is a link's only content should describe the link's function; 'mail icone' describes the picture and does not say it shares this article, so my reading is a 1.1.1 failure. But 'mail' does tell users the link opens an e-mail, and with the article's h1 before it some competent auditors would accept it as identifying a mailto link's purpose (R2's first test), so auditors would reasonably disagree; hence uncertain. captureDiffers: the live HTML has the same img and alt; there the href is Cloudflare's email-protection obfuscation, which its script decodes into the same mailto the snapshot holds, so users receive the same link. In the screenshot this desktop row is partly covered by a floating video ad, which does not touch the claim."
+    },
+    {
+      "fingerprint": "54df919a23a2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Second instance of the same 'Converse com NEOFEED AI' block, after the article tags: a static img logo_ai_laranja.svg showing the orange text 'NEOFEED AI', with alt 'icon search' copied from the adjacent search button icon. claimTrue: the alt is a generic label-like string and does not convey what the image shows. elementFails: the image of text 'NeoFeed AI' completes the phrase 'Converse com ...'; its alternative must carry that text, and 'icon search' gives a wrong, misleading equivalent ('Converse com icon search'), so 1.1.1 fails. The claim, in good faith, names this defect. captureDiffers: the live HTML has the same img with alt 'icon search', and the screenshot (crop around y=4767) shows the same styled block."
+    }
+  ]
+}

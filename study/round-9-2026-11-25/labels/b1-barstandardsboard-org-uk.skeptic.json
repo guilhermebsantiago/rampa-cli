@@ -1,0 +1,48 @@
+{
+  "page": "https://www.barstandardsboard.org.uk/for-the-public/search-a-barristers-record/the-barristers-register.html",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "93532442aaa9",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the main register search field (input.form-control inside .form-search) with placeholder \"Search here...\". It has no visible label, so the placeholder is the only visible text that says what the field is for. The live stylesheet core.min.css sets the WebKit placeholder colour for .form-control and input to #9f9999. The .form-search .form-control rule gives a #fff background, and no more specific .form-search placeholder rule overrides either one; the #553c5c override only applies to .widget-search.mod-full-width. #9f9999 on #ffffff works out to about 2.80:1. The text is 20px at weight 400, which is not large text, so 4.5:1 is required. The screenshot crop shows light grey placeholder text on a white pill with the page fully styled. I looked for reasons to reject the finding. Understanding 1.4.3 says outright that the criterion \"applies to text in the page, including placeholder text\". The placeholder is neither inactive nor decorative, so the incidental exception does not apply. The live HTML and CSS match the capture, and no script changes the placeholder. No reason holds up, so this is a true positive."
+    },
+    {
+      "fingerprint": "24aadc8f4296",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the YouTube icon image in the footer social list. It is the only content of a link to youtube.com/@TheBarStandardsBoard, and that link has no aria-label and no title. Its alt is \"yt.svg\", which is the image's file name. In the snapshot's accessibility tree the link's name comes from its contents, so it is \"yt.svg\". This is failure F30: a file name used as a text alternative. Under H30, an image that is a link's only content must describe the link's function, and \"yt.svg\" does not name YouTube or the destination. I looked for anything that could cure it, such as an aria-label, title or visible text on the link, or a script that changes the alt, and found none. The live HTML has the same markup, so the capture matches. This is a true positive."
+    },
+    {
+      "fingerprint": "7a97f8e87a81",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the X icon image in the footer social list. It is the only content of a link to x.com/barstandards, with no aria-label and no title. Its alt is \"x.svg\", and the link's computed name is \"x.svg\" from its contents. I checked whether \"x\" could count as the platform's name. As written it is a file name with its extension, the case F30 names. A screen reader reads it as \"x dot svg\", which does not say the link goes to the Bar Standards Board's X account, and a bare \"x\" is often read as \"close\". The live HTML is the same as the capture, and nothing on the link gives it a better name. This is a true positive."
+    },
+    {
+      "fingerprint": "9c8c80144344",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the Facebook icon image, the only content of a link to Facebook, and its alt is \"fb.svg\", a file name (F30). The link has title=\"Facebook\". That is the one reason the finding could fail, but in the snapshot's accessibility tree the link's name is still \"fb.svg\" (from its contents), and \"Facebook\" is only its description. Under the rubric (R2, which follows H30), a title on the link is neither the image's text alternative nor the link's name, and no 1.1.1 technique uses it. The image's alternative therefore still does not describe the control's purpose. The live HTML is identical. This is a true positive. The title gives some help for 2.4.4, but that criterion is not the one judged here."
+    },
+    {
+      "fingerprint": "55135a5291fb",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the Bluesky icon image, the only content of a link to bsky.app/profile/barstandardsboard.bsky.social, with no aria-label and no title. Its alt is \"bs.svg\", a file name (F30), and the link's computed name is \"bs.svg\", which does not say where the link goes. In the screenshot the cookie dialog covers this icon. That does not change the alt or the markup users receive, and the live HTML matches the snapshot. I found no technique that makes it pass. This is a true positive."
+    },
+    {
+      "fingerprint": "f4e35902afa6",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the LinkedIn icon image, the only content of a link to linkedin.com/company/the-bar-standards-board, with no aria-label and no title. Its alt is \"li.svg\", a file name (F30), and the link's computed name is \"li.svg\", which does not identify LinkedIn or the destination. The live HTML is the same as the capture, and no script or attribute changes it. This is a true positive."
+    }
+  ]
+}

@@ -1,0 +1,2002 @@
+{
+  "missingLabels": 0,
+  "labelsAre": "AI-judged (two Claude judges; final label by agreement)",
+  "seedForBootstraps": 20261029,
+  "pages": {
+    "test": 36,
+    "dev": 36,
+    "all": 72
+  },
+  "primary": {
+    "test": {
+      "n": 46,
+      "tp": 33,
+      "fp": 2,
+      "uncertain": 11,
+      "decided": 35,
+      "precision": 0.943,
+      "wilson95": [
+        0.814,
+        0.984
+      ],
+      "pages": 17,
+      "pageBootstrap": {
+        "ci95": [
+          0.857,
+          1.0
+        ],
+        "resamples": 10000,
+        "emptyResamples": 0
+      },
+      "reading": "favourable",
+      "atLeast70Decided": false,
+      "rule": "the sixth study's section 4 (dae1522): favourable: precision >= 0.90 and Wilson lower bound >= 0.80; inconclusive: lower bound < 0.80; under the target: precision < 0.90 and lower bound >= 0.80"
+    },
+    "dev": {
+      "n": 68,
+      "tp": 43,
+      "fp": 9,
+      "uncertain": 16,
+      "decided": 52,
+      "precision": 0.827,
+      "wilson95": [
+        0.703,
+        0.906
+      ],
+      "pages": 20,
+      "pageBootstrap": {
+        "ci95": [
+          0.634,
+          0.963
+        ],
+        "resamples": 10000,
+        "emptyResamples": 0
+      },
+      "reading": "inconclusive"
+    },
+    "all": {
+      "n": 114,
+      "tp": 76,
+      "fp": 11,
+      "uncertain": 27,
+      "decided": 87,
+      "precision": 0.874,
+      "wilson95": [
+        0.788,
+        0.928
+      ],
+      "pages": 37,
+      "pageBootstrap": {
+        "ci95": [
+          0.756,
+          0.963
+        ],
+        "resamples": 10000,
+        "emptyResamples": 0
+      },
+      "reading": "inconclusive"
+    }
+  },
+  "fastMode": {
+    "test": {
+      "n": 38,
+      "tp": 31,
+      "fp": 2,
+      "uncertain": 5,
+      "decided": 33,
+      "precision": 0.939,
+      "wilson95": [
+        0.804,
+        0.983
+      ],
+      "pages": 15,
+      "pageBootstrap": {
+        "ci95": [
+          0.842,
+          1.0
+        ],
+        "resamples": 10000,
+        "emptyResamples": 0
+      },
+      "readingByTheSection4Rule": "favourable",
+      "note": "secondary: the section-4 rule's reading does not decide for fast mode",
+      "reusedLabels": 36,
+      "ownRows": 2,
+      "unresolvedLabels": 0,
+      "atLeast70Decided": false,
+      "byCriterion": {
+        "1.1.1": {
+          "n": 21,
+          "tp": 17,
+          "fp": 1,
+          "uncertain": 3,
+          "decided": 18,
+          "precision": 0.944,
+          "wilson95": [
+            0.742,
+            0.99
+          ],
+          "pages": 9
+        },
+        "1.3.5": {
+          "n": 15,
+          "tp": 14,
+          "fp": 0,
+          "uncertain": 1,
+          "decided": 14,
+          "precision": 1.0,
+          "wilson95": [
+            0.785,
+            1.0
+          ],
+          "pages": 7
+        },
+        "2.4.2": {
+          "n": 0,
+          "tp": 0,
+          "fp": 0,
+          "uncertain": 0,
+          "decided": 0,
+          "precision": null,
+          "wilson95": null,
+          "pages": 0
+        },
+        "2.4.4": {
+          "n": 1,
+          "tp": 0,
+          "fp": 1,
+          "uncertain": 0,
+          "decided": 1,
+          "precision": 0.0,
+          "wilson95": [
+            0.0,
+            0.793
+          ],
+          "pages": 1
+        },
+        "2.4.6": {
+          "n": 0,
+          "tp": 0,
+          "fp": 0,
+          "uncertain": 0,
+          "decided": 0,
+          "precision": null,
+          "wilson95": null,
+          "pages": 0
+        },
+        "3.1.1": {
+          "n": 0,
+          "tp": 0,
+          "fp": 0,
+          "uncertain": 0,
+          "decided": 0,
+          "precision": null,
+          "wilson95": null,
+          "pages": 0
+        },
+        "3.1.2": {
+          "n": 1,
+          "tp": 0,
+          "fp": 0,
+          "uncertain": 1,
+          "decided": 0,
+          "precision": null,
+          "wilson95": null,
+          "pages": 1
+        },
+        "3.3.2": {
+          "n": 0,
+          "tp": 0,
+          "fp": 0,
+          "uncertain": 0,
+          "decided": 0,
+          "precision": null,
+          "wilson95": null,
+          "pages": 0
+        }
+      }
+    },
+    "devFindingsCounted": 44,
+    "pagesWithFastReport": 72,
+    "pagesWithFastFindings": 33,
+    "mainMinusFastTest": {
+      "newcombe": {
+        "difference": 0.003,
+        "ci95": [
+          -0.133,
+          0.145
+        ]
+      },
+      "pairedPageBootstrap": {
+        "ci95": [
+          0.0,
+          0.02
+        ],
+        "resamples": 10000,
+        "emptyResamples": 0
+      },
+      "reading": "no measurable change",
+      "note": "exploratory"
+    }
+  },
+  "recallAudit": {
+    "pages": [
+      "b2-agencialupa-org",
+      "b2-artwalk-com-br",
+      "b2-donmarwarehouse-com",
+      "b2-bcu-ac-uk",
+      "b3-portal-rr-gov-br",
+      "b3-nuh-nhs-uk"
+    ],
+    "matchDepth": 3,
+    "auditedPages": 6,
+    "failures": 110,
+    "refsNotInSnapshot": 0,
+    "recall": {
+      "primary": {
+        "reported": 37,
+        "audited": 110,
+        "recall": 0.336,
+        "wilson95": [
+          0.255,
+          0.429
+        ],
+        "pageBootstrap": {
+          "ci95": [
+            0.227,
+            0.566
+          ],
+          "resamples": 10000,
+          "emptyResamples": 0
+        }
+      },
+      "findingsOnly": {
+        "reported": 33,
+        "audited": 110,
+        "recall": 0.3,
+        "wilson95": [
+          0.222,
+          0.391
+        ],
+        "pageBootstrap": {
+          "ci95": [
+            0.219,
+            0.414
+          ],
+          "resamples": 10000,
+          "emptyResamples": 0
+        }
+      },
+      "anyItem": {
+        "reported": 42,
+        "audited": 110,
+        "recall": 0.382,
+        "wilson95": [
+          0.296,
+          0.475
+        ],
+        "pageBootstrap": {
+          "ci95": [
+            0.276,
+            0.619
+          ],
+          "resamples": 10000,
+          "emptyResamples": 0
+        }
+      },
+      "judgmentLayer": {
+        "reported": 11,
+        "audited": 110,
+        "recall": 0.1,
+        "wilson95": [
+          0.057,
+          0.17
+        ],
+        "pageBootstrap": {
+          "ci95": [
+            0.01,
+            0.382
+          ],
+          "resamples": 10000,
+          "emptyResamples": 0
+        }
+      }
+    },
+    "clearOnly": {
+      "primary": {
+        "reported": 35,
+        "audited": 77,
+        "recall": 0.455,
+        "wilson95": [
+          0.348,
+          0.565
+        ],
+        "pageBootstrap": {
+          "ci95": [
+            0.284,
+            0.765
+          ],
+          "resamples": 10000,
+          "emptyResamples": 0
+        }
+      },
+      "findingsOnly": {
+        "reported": 32,
+        "audited": 77,
+        "recall": 0.416,
+        "wilson95": [
+          0.312,
+          0.527
+        ],
+        "pageBootstrap": {
+          "ci95": [
+            0.284,
+            0.611
+          ],
+          "resamples": 10000,
+          "emptyResamples": 0
+        }
+      },
+      "anyItem": {
+        "reported": 38,
+        "audited": 77,
+        "recall": 0.494,
+        "wilson95": [
+          0.385,
+          0.603
+        ],
+        "pageBootstrap": {
+          "ci95": [
+            0.321,
+            0.812
+          ],
+          "resamples": 10000,
+          "emptyResamples": 0
+        }
+      },
+      "judgmentLayer": {
+        "reported": 10,
+        "audited": 77,
+        "recall": 0.13,
+        "wilson95": [
+          0.072,
+          0.223
+        ],
+        "pageBootstrap": {
+          "ci95": [
+            0.0,
+            0.512
+          ],
+          "resamples": 10000,
+          "emptyResamples": 0
+        }
+      }
+    },
+    "byCriterion": {
+      "1.1.1": {
+        "audited": 50,
+        "reported": 10
+      },
+      "1.3.5": {
+        "audited": 0,
+        "reported": 0
+      },
+      "2.4.2": {
+        "audited": 0,
+        "reported": 0
+      },
+      "2.4.4": {
+        "audited": 31,
+        "reported": 26
+      },
+      "2.4.6": {
+        "audited": 5,
+        "reported": 1
+      },
+      "3.1.1": {
+        "audited": 0,
+        "reported": 0
+      },
+      "3.1.2": {
+        "audited": 21,
+        "reported": 0
+      },
+      "3.3.2": {
+        "audited": 3,
+        "reported": 0
+      }
+    },
+    "byPage": {
+      "b2-agencialupa-org": {
+        "audited": 14,
+        "reported": 3
+      },
+      "b2-artwalk-com-br": {
+        "audited": 47,
+        "reported": 10
+      },
+      "b2-donmarwarehouse-com": {
+        "audited": 0,
+        "reported": 0
+      },
+      "b2-bcu-ac-uk": {
+        "audited": 6,
+        "reported": 3
+      },
+      "b3-portal-rr-gov-br": {
+        "audited": 34,
+        "reported": 14
+      },
+      "b3-nuh-nhs-uk": {
+        "audited": 9,
+        "reported": 7
+      }
+    },
+    "note": "AI-audited: six test pages, one Claude auditor per page, failures not checked by the judges; never 'Rampa's recall' without this"
+  },
+  "coRegistered": {
+    "test": {
+      "sameNameSets": {
+        "n": 46,
+        "tp": 33,
+        "fp": 2,
+        "uncertain": 11,
+        "decided": 35,
+        "precision": 0.943,
+        "wilson95": [
+          0.814,
+          0.984
+        ],
+        "pages": 17,
+        "sets": 1,
+        "findingsInSets": 1,
+        "setsOnly": {
+          "n": 1,
+          "tp": 1,
+          "fp": 0,
+          "uncertain": 0,
+          "decided": 1,
+          "precision": 1.0,
+          "wilson95": [
+            0.207,
+            1.0
+          ],
+          "pages": 1
+        },
+        "groups": [
+          {
+            "slug": "b1-mylondon-news",
+            "criterion": "2.4.4",
+            "text": "\"comments\"",
+            "size": 1,
+            "final": "true_positive",
+            "tp": 1,
+            "fp": 0,
+            "uncertain": 0
+          }
+        ]
+      },
+      "uncertainShare": {
+        "uncertain": 11,
+        "of": 46,
+        "share": 0.239,
+        "target": 0.15,
+        "meetsTarget": false
+      },
+      "byCriterion": {
+        "1.1.1": {
+          "n": 28,
+          "tp": 18,
+          "fp": 1,
+          "uncertain": 9,
+          "decided": 19,
+          "precision": 0.947,
+          "wilson95": [
+            0.754,
+            0.991
+          ],
+          "pages": 10
+        },
+        "1.3.5": {
+          "n": 15,
+          "tp": 14,
+          "fp": 0,
+          "uncertain": 1,
+          "decided": 14,
+          "precision": 1.0,
+          "wilson95": [
+            0.785,
+            1.0
+          ],
+          "pages": 7
+        },
+        "2.4.2": {
+          "n": 0,
+          "tp": 0,
+          "fp": 0,
+          "uncertain": 0,
+          "decided": 0,
+          "precision": null,
+          "wilson95": null,
+          "pages": 0
+        },
+        "2.4.4": {
+          "n": 2,
+          "tp": 1,
+          "fp": 1,
+          "uncertain": 0,
+          "decided": 2,
+          "precision": 0.5,
+          "wilson95": [
+            0.095,
+            0.905
+          ],
+          "pages": 2
+        },
+        "2.4.6": {
+          "n": 0,
+          "tp": 0,
+          "fp": 0,
+          "uncertain": 0,
+          "decided": 0,
+          "precision": null,
+          "wilson95": null,
+          "pages": 0
+        },
+        "3.1.1": {
+          "n": 0,
+          "tp": 0,
+          "fp": 0,
+          "uncertain": 0,
+          "decided": 0,
+          "precision": null,
+          "wilson95": null,
+          "pages": 0
+        },
+        "3.1.2": {
+          "n": 1,
+          "tp": 0,
+          "fp": 0,
+          "uncertain": 1,
+          "decided": 0,
+          "precision": null,
+          "wilson95": null,
+          "pages": 1
+        },
+        "3.3.2": {
+          "n": 0,
+          "tp": 0,
+          "fp": 0,
+          "uncertain": 0,
+          "decided": 0,
+          "precision": null,
+          "wilson95": null,
+          "pages": 0
+        }
+      }
+    },
+    "dev": {
+      "sameNameSets": {
+        "n": 63,
+        "tp": 41,
+        "fp": 7,
+        "uncertain": 15,
+        "decided": 48,
+        "precision": 0.854,
+        "wilson95": [
+          0.728,
+          0.928
+        ],
+        "pages": 20,
+        "sets": 4,
+        "findingsInSets": 9,
+        "setsOnly": {
+          "n": 4,
+          "tp": 1,
+          "fp": 1,
+          "uncertain": 2,
+          "decided": 2,
+          "precision": 0.5,
+          "wilson95": [
+            0.095,
+            0.905
+          ],
+          "pages": 3
+        },
+        "groups": [
+          {
+            "slug": "b2-lojaspompeia-com",
+            "criterion": "2.4.4",
+            "text": "moda fitness",
+            "size": 1,
+            "final": "uncertain",
+            "tp": 0,
+            "fp": 0,
+            "uncertain": 1
+          },
+          {
+            "slug": "b2-lojaspompeia-com",
+            "criterion": "2.4.4",
+            "text": "ver tudo",
+            "size": 2,
+            "final": "uncertain",
+            "tp": 0,
+            "fp": 0,
+            "uncertain": 2
+          },
+          {
+            "slug": "b2-tjto-jus-br",
+            "criterion": "2.4.4",
+            "text": "leia mais...",
+            "size": 3,
+            "final": "true_positive",
+            "tp": 3,
+            "fp": 0,
+            "uncertain": 0
+          },
+          {
+            "slug": "b3-portal-arkansas-gov",
+            "criterion": "2.4.4",
+            "text": "skip to content",
+            "size": 3,
+            "final": "false_positive",
+            "tp": 0,
+            "fp": 3,
+            "uncertain": 0
+          }
+        ]
+      },
+      "uncertainShare": {
+        "uncertain": 16,
+        "of": 68,
+        "share": 0.235,
+        "target": 0.15,
+        "meetsTarget": false
+      },
+      "byCriterion": {
+        "1.1.1": {
+          "n": 34,
+          "tp": 17,
+          "fp": 4,
+          "uncertain": 13,
+          "decided": 21,
+          "precision": 0.81,
+          "wilson95": [
+            0.6,
+            0.923
+          ],
+          "pages": 14
+        },
+        "1.3.5": {
+          "n": 22,
+          "tp": 22,
+          "fp": 0,
+          "uncertain": 0,
+          "decided": 22,
+          "precision": 1.0,
+          "wilson95": [
+            0.851,
+            1.0
+          ],
+          "pages": 9
+        },
+        "2.4.2": {
+          "n": 0,
+          "tp": 0,
+          "fp": 0,
+          "uncertain": 0,
+          "decided": 0,
+          "precision": null,
+          "wilson95": null,
+          "pages": 0
+        },
+        "2.4.4": {
+          "n": 11,
+          "tp": 4,
+          "fp": 4,
+          "uncertain": 3,
+          "decided": 8,
+          "precision": 0.5,
+          "wilson95": [
+            0.215,
+            0.785
+          ],
+          "pages": 3
+        },
+        "2.4.6": {
+          "n": 0,
+          "tp": 0,
+          "fp": 0,
+          "uncertain": 0,
+          "decided": 0,
+          "precision": null,
+          "wilson95": null,
+          "pages": 0
+        },
+        "3.1.1": {
+          "n": 0,
+          "tp": 0,
+          "fp": 0,
+          "uncertain": 0,
+          "decided": 0,
+          "precision": null,
+          "wilson95": null,
+          "pages": 0
+        },
+        "3.1.2": {
+          "n": 0,
+          "tp": 0,
+          "fp": 0,
+          "uncertain": 0,
+          "decided": 0,
+          "precision": null,
+          "wilson95": null,
+          "pages": 0
+        },
+        "3.3.2": {
+          "n": 1,
+          "tp": 0,
+          "fp": 1,
+          "uncertain": 0,
+          "decided": 1,
+          "precision": 0.0,
+          "wilson95": [
+            0.0,
+            0.793
+          ],
+          "pages": 1
+        }
+      }
+    },
+    "all": {
+      "sameNameSets": {
+        "n": 109,
+        "tp": 74,
+        "fp": 9,
+        "uncertain": 26,
+        "decided": 83,
+        "precision": 0.892,
+        "wilson95": [
+          0.807,
+          0.942
+        ],
+        "pages": 37,
+        "sets": 5,
+        "findingsInSets": 10,
+        "setsOnly": {
+          "n": 5,
+          "tp": 2,
+          "fp": 1,
+          "uncertain": 2,
+          "decided": 3,
+          "precision": 0.667,
+          "wilson95": [
+            0.208,
+            0.939
+          ],
+          "pages": 4
+        },
+        "groups": [
+          {
+            "slug": "b1-mylondon-news",
+            "criterion": "2.4.4",
+            "text": "\"comments\"",
+            "size": 1,
+            "final": "true_positive",
+            "tp": 1,
+            "fp": 0,
+            "uncertain": 0
+          },
+          {
+            "slug": "b2-lojaspompeia-com",
+            "criterion": "2.4.4",
+            "text": "moda fitness",
+            "size": 1,
+            "final": "uncertain",
+            "tp": 0,
+            "fp": 0,
+            "uncertain": 1
+          },
+          {
+            "slug": "b2-lojaspompeia-com",
+            "criterion": "2.4.4",
+            "text": "ver tudo",
+            "size": 2,
+            "final": "uncertain",
+            "tp": 0,
+            "fp": 0,
+            "uncertain": 2
+          },
+          {
+            "slug": "b2-tjto-jus-br",
+            "criterion": "2.4.4",
+            "text": "leia mais...",
+            "size": 3,
+            "final": "true_positive",
+            "tp": 3,
+            "fp": 0,
+            "uncertain": 0
+          },
+          {
+            "slug": "b3-portal-arkansas-gov",
+            "criterion": "2.4.4",
+            "text": "skip to content",
+            "size": 3,
+            "final": "false_positive",
+            "tp": 0,
+            "fp": 3,
+            "uncertain": 0
+          }
+        ]
+      },
+      "uncertainShare": {
+        "uncertain": 27,
+        "of": 114,
+        "share": 0.237,
+        "target": 0.15,
+        "meetsTarget": false
+      },
+      "byCriterion": {
+        "1.1.1": {
+          "n": 62,
+          "tp": 35,
+          "fp": 5,
+          "uncertain": 22,
+          "decided": 40,
+          "precision": 0.875,
+          "wilson95": [
+            0.739,
+            0.945
+          ],
+          "pages": 24
+        },
+        "1.3.5": {
+          "n": 37,
+          "tp": 36,
+          "fp": 0,
+          "uncertain": 1,
+          "decided": 36,
+          "precision": 1.0,
+          "wilson95": [
+            0.904,
+            1.0
+          ],
+          "pages": 16
+        },
+        "2.4.2": {
+          "n": 0,
+          "tp": 0,
+          "fp": 0,
+          "uncertain": 0,
+          "decided": 0,
+          "precision": null,
+          "wilson95": null,
+          "pages": 0
+        },
+        "2.4.4": {
+          "n": 13,
+          "tp": 5,
+          "fp": 5,
+          "uncertain": 3,
+          "decided": 10,
+          "precision": 0.5,
+          "wilson95": [
+            0.237,
+            0.763
+          ],
+          "pages": 5
+        },
+        "2.4.6": {
+          "n": 0,
+          "tp": 0,
+          "fp": 0,
+          "uncertain": 0,
+          "decided": 0,
+          "precision": null,
+          "wilson95": null,
+          "pages": 0
+        },
+        "3.1.1": {
+          "n": 0,
+          "tp": 0,
+          "fp": 0,
+          "uncertain": 0,
+          "decided": 0,
+          "precision": null,
+          "wilson95": null,
+          "pages": 0
+        },
+        "3.1.2": {
+          "n": 1,
+          "tp": 0,
+          "fp": 0,
+          "uncertain": 1,
+          "decided": 0,
+          "precision": null,
+          "wilson95": null,
+          "pages": 1
+        },
+        "3.3.2": {
+          "n": 1,
+          "tp": 0,
+          "fp": 1,
+          "uncertain": 0,
+          "decided": 1,
+          "precision": 0.0,
+          "wilson95": [
+            0.0,
+            0.793
+          ],
+          "pages": 1
+        }
+      }
+    },
+    "t4": {
+      "full": {
+        "pagesComplete": 0,
+        "decisionLevel": {
+          "candidates": 0,
+          "sameInAll": 0,
+          "share": null,
+          "wilson95": null,
+          "target": 0.95,
+          "meetsTarget": null,
+          "withADecisionInSomeRun": 0,
+          "withADecisionSameInAll": 0,
+          "withADecisionShare": null,
+          "withADecisionWilson95": null,
+          "byCriterionAmongThoseWithADecision": {}
+        },
+        "promptLevel": {
+          "prompts": 0,
+          "sameInAll": 0,
+          "share": null,
+          "wilson95": null,
+          "byKind": {}
+        },
+        "findings": 0,
+        "findingsInAll": 0,
+        "findingsShare": null
+      },
+      "fast": {
+        "pagesComplete": 0,
+        "decisionLevel": {
+          "candidates": 0,
+          "sameInAll": 0,
+          "share": null,
+          "wilson95": null,
+          "target": 0.95,
+          "meetsTarget": null,
+          "withADecisionInSomeRun": 0,
+          "withADecisionSameInAll": 0,
+          "withADecisionShare": null,
+          "withADecisionWilson95": null,
+          "byCriterionAmongThoseWithADecision": {}
+        },
+        "promptLevel": {
+          "prompts": 0,
+          "sameInAll": 0,
+          "share": null,
+          "wilson95": null,
+          "byKind": {}
+        },
+        "findings": 0,
+        "findingsInAll": 0,
+        "findingsShare": null
+      }
+    }
+  },
+  "notReportedByAxe": {
+    "test": {
+      "trueFindings": 33,
+      "checked": 33,
+      "sameCriterion": 33,
+      "sameCriterionWilson95": [
+        0.896,
+        1.0
+      ],
+      "anyCriterion": 33,
+      "anyCriterionWilson95": [
+        0.896,
+        1.0
+      ],
+      "criteriaWithATrueFinding": [
+        "1.1.1",
+        "1.3.5",
+        "2.4.4"
+      ]
+    },
+    "dev": {
+      "trueFindings": 43,
+      "checked": 43,
+      "sameCriterion": 43,
+      "sameCriterionWilson95": [
+        0.918,
+        1.0
+      ],
+      "anyCriterion": 43,
+      "anyCriterionWilson95": [
+        0.918,
+        1.0
+      ],
+      "criteriaWithATrueFinding": [
+        "1.1.1",
+        "1.3.5",
+        "2.4.4"
+      ]
+    },
+    "all": {
+      "trueFindings": 76,
+      "checked": 76,
+      "sameCriterion": 76,
+      "sameCriterionWilson95": [
+        0.952,
+        1.0
+      ],
+      "anyCriterion": 76,
+      "anyCriterionWilson95": [
+        0.952,
+        1.0
+      ],
+      "criteriaWithATrueFinding": [
+        "1.1.1",
+        "1.3.5",
+        "2.4.4"
+      ]
+    }
+  },
+  "everyFinding": {
+    "test": {
+      "n": 48,
+      "tp": 33,
+      "fp": 4,
+      "uncertain": 11,
+      "decided": 37,
+      "precision": 0.892,
+      "wilson95": [
+        0.753,
+        0.957
+      ],
+      "pages": 19
+    },
+    "dev": {
+      "n": 71,
+      "tp": 45,
+      "fp": 10,
+      "uncertain": 16,
+      "decided": 55,
+      "precision": 0.818,
+      "wilson95": [
+        0.697,
+        0.898
+      ],
+      "pages": 21
+    },
+    "all": {
+      "n": 119,
+      "tp": 78,
+      "fp": 14,
+      "uncertain": 27,
+      "decided": 92,
+      "precision": 0.848,
+      "wilson95": [
+        0.761,
+        0.907
+      ],
+      "pages": 40
+    }
+  },
+  "perGroup": {
+    "test": {
+      "n": 40,
+      "tp": 33,
+      "fp": 2,
+      "uncertain": 5,
+      "decided": 35,
+      "precision": 0.943,
+      "wilson95": [
+        0.814,
+        0.984
+      ],
+      "pages": 17,
+      "groups": [
+        {
+          "slug": "b2-essexlive-news",
+          "criterion": "1.1.1",
+          "claim": "wrong_content",
+          "size": 7,
+          "final": "uncertain",
+          "tp": 0,
+          "fp": 0,
+          "uncertain": 7
+        }
+      ]
+    },
+    "dev": {
+      "n": 68,
+      "tp": 43,
+      "fp": 9,
+      "uncertain": 16,
+      "decided": 52,
+      "precision": 0.827,
+      "wilson95": [
+        0.703,
+        0.906
+      ],
+      "pages": 20,
+      "groups": []
+    },
+    "all": {
+      "n": 108,
+      "tp": 76,
+      "fp": 11,
+      "uncertain": 21,
+      "decided": 87,
+      "precision": 0.874,
+      "wilson95": [
+        0.788,
+        0.928
+      ],
+      "pages": 37,
+      "groups": [
+        {
+          "slug": "b2-essexlive-news",
+          "criterion": "1.1.1",
+          "claim": "wrong_content",
+          "size": 7,
+          "final": "uncertain",
+          "tp": 0,
+          "fp": 0,
+          "uncertain": 7
+        }
+      ]
+    }
+  },
+  "perBlock": {
+    "test block 1": {
+      "n": 22,
+      "tp": 20,
+      "fp": 1,
+      "uncertain": 1,
+      "decided": 21,
+      "precision": 0.952,
+      "wilson95": [
+        0.773,
+        0.992
+      ],
+      "pages": 8
+    },
+    "test block 2": {
+      "n": 13,
+      "tp": 4,
+      "fp": 0,
+      "uncertain": 9,
+      "decided": 4,
+      "precision": 1.0,
+      "wilson95": [
+        0.51,
+        1.0
+      ],
+      "pages": 4
+    },
+    "test block 3": {
+      "n": 11,
+      "tp": 9,
+      "fp": 1,
+      "uncertain": 1,
+      "decided": 10,
+      "precision": 0.9,
+      "wilson95": [
+        0.596,
+        0.982
+      ],
+      "pages": 5
+    },
+    "dev block 1": {
+      "n": 16,
+      "tp": 8,
+      "fp": 2,
+      "uncertain": 6,
+      "decided": 10,
+      "precision": 0.8,
+      "wilson95": [
+        0.49,
+        0.943
+      ],
+      "pages": 6
+    },
+    "dev block 2": {
+      "n": 32,
+      "tp": 27,
+      "fp": 1,
+      "uncertain": 4,
+      "decided": 28,
+      "precision": 0.964,
+      "wilson95": [
+        0.823,
+        0.994
+      ],
+      "pages": 8
+    },
+    "dev block 3": {
+      "n": 20,
+      "tp": 8,
+      "fp": 6,
+      "uncertain": 6,
+      "decided": 14,
+      "precision": 0.571,
+      "wilson95": [
+        0.326,
+        0.786
+      ],
+      "pages": 6
+    }
+  },
+  "perPage": {
+    "test": {
+      "pagesWithDecided": 14,
+      "allTrue": 12,
+      "meanPrecision": 0.952
+    },
+    "dev": {
+      "pagesWithDecided": 17,
+      "allTrue": 12,
+      "meanPrecision": 0.767
+    },
+    "all": {
+      "pagesWithDecided": 31,
+      "allTrue": 24,
+      "meanPrecision": 0.851
+    }
+  },
+  "sensitivity": {
+    "test": {
+      "topPage": "b2-essexlive-news",
+      "topPageFindings": 7,
+      "withoutTopPage": {
+        "n": 39,
+        "tp": 33,
+        "fp": 2,
+        "uncertain": 4,
+        "decided": 35,
+        "precision": 0.943,
+        "wilson95": [
+          0.814,
+          0.984
+        ],
+        "pages": 16
+      },
+      "uncertainAsTrue": 0.957,
+      "uncertainAsFalse": 0.717
+    },
+    "dev": {
+      "topPage": "b2-lojaspompeia-com",
+      "topPageFindings": 8,
+      "withoutTopPage": {
+        "n": 60,
+        "tp": 38,
+        "fp": 9,
+        "uncertain": 13,
+        "decided": 47,
+        "precision": 0.809,
+        "wilson95": [
+          0.675,
+          0.896
+        ],
+        "pages": 19
+      },
+      "uncertainAsTrue": 0.868,
+      "uncertainAsFalse": 0.632
+    }
+  },
+  "failsAnyReason": {
+    "test": {
+      "n": 46,
+      "tp": 35,
+      "fp": 2,
+      "uncertain": 9,
+      "decided": 37,
+      "precision": 0.946,
+      "wilson95": [
+        0.823,
+        0.985
+      ],
+      "pages": 17
+    },
+    "dev": {
+      "n": 68,
+      "tp": 45,
+      "fp": 10,
+      "uncertain": 13,
+      "decided": 55,
+      "precision": 0.818,
+      "wilson95": [
+        0.697,
+        0.898
+      ],
+      "pages": 20
+    },
+    "all": {
+      "n": 114,
+      "tp": 80,
+      "fp": 12,
+      "uncertain": 22,
+      "decided": 92,
+      "precision": 0.87,
+      "wilson95": [
+        0.786,
+        0.924
+      ],
+      "pages": 37
+    }
+  },
+  "visualContext": {
+    "test": {
+      "items": {
+        "n": 1,
+        "tp": 1,
+        "fp": 0,
+        "uncertain": 0,
+        "decided": 1,
+        "precision": 1.0,
+        "wilson95": [
+          0.207,
+          1.0
+        ],
+        "pages": 1
+      },
+      "withoutThem": {
+        "n": 45,
+        "tp": 32,
+        "fp": 2,
+        "uncertain": 11,
+        "decided": 34,
+        "precision": 0.941,
+        "wilson95": [
+          0.809,
+          0.984
+        ],
+        "pages": 16
+      }
+    },
+    "dev": {
+      "items": {
+        "n": 7,
+        "tp": 4,
+        "fp": 0,
+        "uncertain": 3,
+        "decided": 4,
+        "precision": 1.0,
+        "wilson95": [
+          0.51,
+          1.0
+        ],
+        "pages": 3
+      },
+      "withoutThem": {
+        "n": 61,
+        "tp": 39,
+        "fp": 9,
+        "uncertain": 13,
+        "decided": 48,
+        "precision": 0.812,
+        "wilson95": [
+          0.681,
+          0.898
+        ],
+        "pages": 20
+      }
+    },
+    "all": {
+      "items": {
+        "n": 8,
+        "tp": 5,
+        "fp": 0,
+        "uncertain": 3,
+        "decided": 5,
+        "precision": 1.0,
+        "wilson95": [
+          0.566,
+          1.0
+        ],
+        "pages": 4
+      },
+      "withoutThem": {
+        "n": 106,
+        "tp": 71,
+        "fp": 11,
+        "uncertain": 24,
+        "decided": 82,
+        "precision": 0.866,
+        "wilson95": [
+          0.776,
+          0.923
+        ],
+        "pages": 36
+      }
+    }
+  },
+  "experimental": {
+    "test": {
+      "rampa/pixel-contrast: true_positive": 43,
+      "rampa/placeholder-contrast: true_positive": 19,
+      "rampa/custom-control: true_positive": 7,
+      "judgment 1.1.1: true_positive": 7,
+      "rampa/duplicate-id-reference: false_positive": 1,
+      "rampa/pixel-contrast: false_positive": 3,
+      "judgment 1.1.1: uncertain": 2,
+      "rampa/placeholder-alt: true_positive": 2,
+      "rampa/icon-contrast: true_positive": 6,
+      "judgment 1.1.1: false_positive": 6,
+      "rampa/language-switcher-lang: true_positive": 3,
+      "rampa/widget-name: uncertain": 3,
+      "rampa/icon-contrast: uncertain": 3,
+      "rampa/widget-name: false_positive": 3,
+      "rampa/custom-control: false_positive": 1
+    },
+    "dev": {
+      "judgment 1.1.1: true_positive": 9,
+      "rampa/placeholder-contrast: true_positive": 10,
+      "rampa/language-switcher-lang: true_positive": 2,
+      "judgment 1.1.1: false_positive": 14,
+      "judgment 1.1.1: uncertain": 2,
+      "rampa/pixel-contrast: uncertain": 5,
+      "rampa/pixel-contrast: false_positive": 3,
+      "rampa/icon-contrast: true_positive": 12,
+      "rampa/pixel-contrast: true_positive": 28,
+      "rampa/icon-contrast: uncertain": 1,
+      "rampa/widget-name: uncertain": 9,
+      "rampa/widget-name: true_positive": 2,
+      "rampa/custom-control: true_positive": 10,
+      "rampa/field-label-in-name: true_positive": 1,
+      "rampa/orphan-label: false_positive": 1,
+      "rampa/tab-state: false_positive": 1
+    }
+  },
+  "falsePositiveCauses": {
+    "test": {
+      "judgment 1.1.1 | model_error": 2,
+      "rampa/duplicate-id-reference | criterion_misapplied": 1,
+      "rampa/pixel-contrast | criterion_misapplied": 2,
+      "rampa/pixel-contrast | disputed": 1,
+      "judgment 2.4.2 | model_error": 2,
+      "rampa/widget-name | criterion_misapplied": 3,
+      "judgment 2.4.4 | model_error": 1,
+      "judgment 1.1.1 | disputed": 5,
+      "rampa/custom-control | criterion_misapplied": 1
+    },
+    "dev": {
+      "judgment 1.1.1 | context_missing": 11,
+      "judgment 1.1.1 | criterion_misapplied": 1,
+      "rampa/pixel-contrast | disputed": 3,
+      "judgment 1.1.1 | model_error": 3,
+      "judgment 1.1.1 | disputed": 2,
+      "judgment 1.1.1 | collector_error": 1,
+      "judgment 2.4.2 | model_error": 1,
+      "rampa/orphan-label | disputed": 1,
+      "judgment 2.4.4 | criterion_misapplied": 3,
+      "judgment 2.4.4 | model_error": 1,
+      "rampa/tab-state | criterion_misapplied": 1,
+      "judgment 3.3.2 | collector_error": 1
+    }
+  },
+  "comparisonWithRound8": {
+    "round8": {
+      "n": 156,
+      "tp": 120,
+      "fp": 11,
+      "uncertain": 25,
+      "decided": 131,
+      "precision": 0.916,
+      "wilson95": [
+        0.856,
+        0.952
+      ],
+      "pages": 41
+    },
+    "newcombe": {
+      "difference": 0.027,
+      "ci95": [
+        -0.107,
+        0.1
+      ]
+    },
+    "pageBootstrap": {
+      "ci95": [
+        -0.075,
+        0.127
+      ],
+      "resamples": 10000,
+      "emptyResamples": 0
+    },
+    "reading": "no measurable change",
+    "note": "exploratory: other pages and code 2f5f88f (0.1.3 adds a 1.3.5 fix)"
+  },
+  "agreement": {
+    "all": {
+      "n": 340,
+      "observed": 0.926,
+      "kappa": 0.828
+    },
+    "judged": {
+      "n": 121,
+      "observed": 0.909,
+      "kappa": 0.807
+    },
+    "other": {
+      "n": 219,
+      "observed": 0.936,
+      "kappa": 0.84
+    },
+    "fastRows": {
+      "n": 2,
+      "observed": 1.0,
+      "kappa": null
+    },
+    "byCriterion": {
+      "1.1.1": {
+        "n": 62,
+        "observed": 0.903,
+        "kappa": 0.821
+      },
+      "1.3.5": {
+        "n": 39,
+        "observed": 0.974,
+        "kappa": 0.0
+      },
+      "2.4.2": {
+        "n": 5,
+        "observed": 1.0,
+        "kappa": 1.0
+      },
+      "2.4.4": {
+        "n": 13,
+        "observed": 0.769,
+        "kappa": 0.625
+      },
+      "2.4.6": null,
+      "3.1.1": null,
+      "3.1.2": {
+        "n": 1,
+        "observed": 0.0,
+        "kappa": 0.0
+      },
+      "3.3.2": {
+        "n": 1,
+        "observed": 1.0,
+        "kappa": null
+      }
+    },
+    "causes": {
+      "n": 47,
+      "observed": 0.745,
+      "kappa": 0.646
+    }
+  },
+  "timeAndCost": {
+    "main": {
+      "time": {
+        "collectionPlusJudgment": {
+          "pages": 72,
+          "median": 143.0,
+          "p90": 198,
+          "mean": 145.9
+        },
+        "withoutScreenshotStage": {
+          "pages": 72,
+          "median": 142.7,
+          "p90": 197.7,
+          "mean": 145.5
+        },
+        "collection": {
+          "pages": 72,
+          "median": 23.5,
+          "p90": 36,
+          "mean": 26.0
+        },
+        "judgment": {
+          "pages": 72,
+          "median": 118.0,
+          "p90": 166,
+          "mean": 119.9
+        },
+        "screenshotStage": {
+          "pages": 72,
+          "median": 0.3,
+          "p90": 0.7,
+          "mean": 0.4
+        }
+      },
+      "modelUse": {
+        "pages": 72,
+        "calls": {
+          "pages": 72,
+          "median": 76.0,
+          "p90": 109,
+          "mean": 78.9
+        },
+        "inputTokens": {
+          "pages": 72,
+          "median": 73069.5,
+          "p90": 96845,
+          "mean": 72318.9
+        },
+        "outputTokens": {
+          "pages": 72,
+          "median": 7351.0,
+          "p90": 10053,
+          "mean": 7204.1
+        },
+        "totals": {
+          "calls": 5683,
+          "inputTokens": 5206959,
+          "outputTokens": 518695
+        }
+      },
+      "costLocal": "R$ 0 (local model, no API; hardware and power not counted)",
+      "hostedEstimate": {
+        "note": "ESTIMATE: Gemma's token counts x docs/models.md's prices (USD per million tokens, checked 2026-10-07); each hosted model's own tokenizer and image accounting differ; USD, not converted",
+        "primary": {
+          "openai:gpt-6-luna": {
+            "usdPerMillionIn": 0.1,
+            "usdPerMillionOut": 0.5,
+            "totalUsd": 0.78,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.01071,
+              "p90": 0.01445,
+              "mean": 0.01083
+            }
+          }
+        },
+        "everyPricedRow": {
+          "anthropic:claude-haiku-5-5": {
+            "usdPerMillionIn": 0.1,
+            "usdPerMillionOut": 0.5,
+            "totalUsd": 0.78,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.01071,
+              "p90": 0.01445,
+              "mean": 0.01083
+            }
+          },
+          "bedrock:global.anthropic.claude-haiku-5-5": {
+            "usdPerMillionIn": 0.1,
+            "usdPerMillionOut": 0.5,
+            "totalUsd": 0.78,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.01071,
+              "p90": 0.01445,
+              "mean": 0.01083
+            }
+          },
+          "cerebras:qwen-3.8-27b": {
+            "usdPerMillionIn": 0.99,
+            "usdPerMillionOut": 1.49,
+            "totalUsd": 5.9277,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.08285,
+              "p90": 0.10939,
+              "mean": 0.08233
+            }
+          },
+          "deepseek:deepseek-flash": {
+            "usdPerMillionIn": 0.3,
+            "usdPerMillionOut": 1.2,
+            "totalUsd": 2.1845,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.02996,
+              "p90": 0.04041,
+              "mean": 0.03034
+            }
+          },
+          "fireworks:accounts/fireworks/models/glm-5p3-flash": {
+            "usdPerMillionIn": 0.15,
+            "usdPerMillionOut": 0.5,
+            "totalUsd": 1.0404,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.01433,
+              "p90": 0.01923,
+              "mean": 0.01445
+            }
+          },
+          "google:gemini-3.5-flash-lite": {
+            "usdPerMillionIn": 0.3,
+            "usdPerMillionOut": 2.5,
+            "totalUsd": 2.8588,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.0395,
+              "p90": 0.05308,
+              "mean": 0.03971
+            }
+          },
+          "groq:qwen/qwen3.8-27b": {
+            "usdPerMillionIn": 0.8,
+            "usdPerMillionOut": 4.0,
+            "totalUsd": 6.2403,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.08572,
+              "p90": 0.11556,
+              "mean": 0.08667
+            }
+          },
+          "mistral:mistral-small-latest": {
+            "usdPerMillionIn": 0.15,
+            "usdPerMillionOut": 0.6,
+            "totalUsd": 1.0923,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.01498,
+              "p90": 0.02021,
+              "mean": 0.01517
+            }
+          },
+          "openai:gpt-6-luna": {
+            "usdPerMillionIn": 0.1,
+            "usdPerMillionOut": 0.5,
+            "totalUsd": 0.78,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.01071,
+              "p90": 0.01445,
+              "mean": 0.01083
+            }
+          },
+          "togetherai:Qwen/Qwen3.5-9B": {
+            "usdPerMillionIn": 0.17,
+            "usdPerMillionOut": 0.25,
+            "totalUsd": 1.0149,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.01419,
+              "p90": 0.01873,
+              "mean": 0.01409
+            }
+          },
+          "vertex:gemini-3.5-flash-lite": {
+            "usdPerMillionIn": 0.3,
+            "usdPerMillionOut": 2.5,
+            "totalUsd": 2.8588,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.0395,
+              "p90": 0.05308,
+              "mean": 0.03971
+            }
+          },
+          "xai:grok-4.20-0309-non-reasoning": {
+            "usdPerMillionIn": 1.25,
+            "usdPerMillionOut": 2.5,
+            "totalUsd": 7.8054,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.1086,
+              "p90": 0.14403,
+              "mean": 0.10841
+            }
+          }
+        }
+      }
+    },
+    "fast": {
+      "time": {
+        "collectionPlusJudgment": {
+          "pages": 72,
+          "median": 51.5,
+          "p90": 64,
+          "mean": 50.8,
+          "meetsTargetMedianAtMost120s": true
+        },
+        "withoutScreenshotStage": {
+          "pages": 72,
+          "median": 51.0,
+          "p90": 63.0,
+          "mean": 50.4,
+          "meetsTargetMedianAtMost120s": true
+        },
+        "collection": {
+          "pages": 72,
+          "median": 8.0,
+          "p90": 14,
+          "mean": 10.5
+        },
+        "judgment": {
+          "pages": 72,
+          "median": 40.0,
+          "p90": 52,
+          "mean": 40.3
+        },
+        "screenshotStage": {
+          "pages": 72,
+          "median": 0.3,
+          "p90": 0.6,
+          "mean": 0.4
+        }
+      },
+      "modelUse": {
+        "pages": 72,
+        "calls": {
+          "pages": 72,
+          "median": 23.0,
+          "p90": 30,
+          "mean": 22.5
+        },
+        "inputTokens": {
+          "pages": 72,
+          "median": 21003.5,
+          "p90": 27588,
+          "mean": 20721.6
+        },
+        "outputTokens": {
+          "pages": 72,
+          "median": 2592.0,
+          "p90": 3204,
+          "mean": 2563.2
+        },
+        "totals": {
+          "calls": 1617,
+          "inputTokens": 1491956,
+          "outputTokens": 184547
+        }
+      },
+      "costLocal": "R$ 0 (local model, no API; hardware and power not counted)",
+      "hostedEstimate": {
+        "note": "ESTIMATE: Gemma's token counts x docs/models.md's prices (USD per million tokens, checked 2026-10-07); each hosted model's own tokenizer and image accounting differ; USD, not converted",
+        "primary": {
+          "openai:gpt-6-luna": {
+            "usdPerMillionIn": 0.1,
+            "usdPerMillionOut": 0.5,
+            "totalUsd": 0.2415,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.0034,
+              "p90": 0.00436,
+              "mean": 0.00335
+            }
+          }
+        },
+        "everyPricedRow": {
+          "anthropic:claude-haiku-5-5": {
+            "usdPerMillionIn": 0.1,
+            "usdPerMillionOut": 0.5,
+            "totalUsd": 0.2415,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.0034,
+              "p90": 0.00436,
+              "mean": 0.00335
+            }
+          },
+          "bedrock:global.anthropic.claude-haiku-5-5": {
+            "usdPerMillionIn": 0.1,
+            "usdPerMillionOut": 0.5,
+            "totalUsd": 0.2415,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.0034,
+              "p90": 0.00436,
+              "mean": 0.00335
+            }
+          },
+          "cerebras:qwen-3.8-27b": {
+            "usdPerMillionIn": 0.99,
+            "usdPerMillionOut": 1.49,
+            "totalUsd": 1.752,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.02452,
+              "p90": 0.03211,
+              "mean": 0.02433
+            }
+          },
+          "deepseek:deepseek-flash": {
+            "usdPerMillionIn": 0.3,
+            "usdPerMillionOut": 1.2,
+            "totalUsd": 0.669,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.0094,
+              "p90": 0.01208,
+              "mean": 0.00929
+            }
+          },
+          "fireworks:accounts/fireworks/models/glm-5p3-flash": {
+            "usdPerMillionIn": 0.15,
+            "usdPerMillionOut": 0.5,
+            "totalUsd": 0.3161,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.00443,
+              "p90": 0.00572,
+              "mean": 0.00439
+            }
+          },
+          "google:gemini-3.5-flash-lite": {
+            "usdPerMillionIn": 0.3,
+            "usdPerMillionOut": 2.5,
+            "totalUsd": 0.909,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.01272,
+              "p90": 0.0162,
+              "mean": 0.01262
+            }
+          },
+          "groq:qwen/qwen3.8-27b": {
+            "usdPerMillionIn": 0.8,
+            "usdPerMillionOut": 4.0,
+            "totalUsd": 1.9318,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.0272,
+              "p90": 0.03487,
+              "mean": 0.02683
+            }
+          },
+          "mistral:mistral-small-latest": {
+            "usdPerMillionIn": 0.15,
+            "usdPerMillionOut": 0.6,
+            "totalUsd": 0.3345,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.00469,
+              "p90": 0.00604,
+              "mean": 0.00465
+            }
+          },
+          "openai:gpt-6-luna": {
+            "usdPerMillionIn": 0.1,
+            "usdPerMillionOut": 0.5,
+            "totalUsd": 0.2415,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.0034,
+              "p90": 0.00436,
+              "mean": 0.00335
+            }
+          },
+          "togetherai:Qwen/Qwen3.5-9B": {
+            "usdPerMillionIn": 0.17,
+            "usdPerMillionOut": 0.25,
+            "totalUsd": 0.2998,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.00419,
+              "p90": 0.00549,
+              "mean": 0.00416
+            }
+          },
+          "vertex:gemini-3.5-flash-lite": {
+            "usdPerMillionIn": 0.3,
+            "usdPerMillionOut": 2.5,
+            "totalUsd": 0.909,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.01272,
+              "p90": 0.0162,
+              "mean": 0.01262
+            }
+          },
+          "xai:grok-4.20-0309-non-reasoning": {
+            "usdPerMillionIn": 1.25,
+            "usdPerMillionOut": 2.5,
+            "totalUsd": 2.3263,
+            "perPageUsd": {
+              "pages": 72,
+              "median": 0.03249,
+              "p90": 0.04254,
+              "mean": 0.03231
+            }
+          }
+        }
+      }
+    }
+  }
+}

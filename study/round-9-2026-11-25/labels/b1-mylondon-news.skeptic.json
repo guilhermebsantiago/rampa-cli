@@ -1,0 +1,17 @@
+{
+  "page": "https://www.mylondon.news/news/west-london-news/sociable-outgoing-putney-man-25-34958054",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "de8bb48ce48b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is the comment-count link (aria-label '\"Comments\"', visible '1 Comments') under the 'Mercedes exploded near Heathrow' card of the Mantis 'Similar articles to this' carousel, pointing to that article's #comments-wrapper. In the snapshot nine card links carry the same aria-label, but seven sit in cards whose comment link is display-hidden (no comment count) and one is in the aria-hidden cloned slide; the only other one in the accessibility tree is the 'Wheezing asthmatic mum' card's link (5 comments), which leads to a different article's comments, so the claim's count of 2 links and 2 places holds. I looked for context that would tell them apart: no title or aria-describedby; the link sits in a div.more-info next to a small image link, not in a sentence, paragraph, list item or table cell; the card headline is a styled p.h3, not a heading, and 'Similar articles to this' is also a p; the heading just before both links is the same article h2. So the two links share name and context under the rubric, resolve to non-equivalent resources (two different stories' comment threads), and each card's visible headline, image and count tell them apart, so the pair fails 2.4.4 by R1 and the claim names that failure. The card's offscreen carousel position does not remove the link from the tree, and the auto-rotating carousel shows each card in turn. Capture: the screenshot is fully styled, shows the same carousel in a later rotation position, with the Grenfell card's comment link hidden as in the snapshot; a fresh fetch returns the same article with the same client-side mantis-ui-widget placeholder (the cards are rendered by script for every visitor, so my unrendered fetch could not list today's recommendations, which may have rotated since). Nothing suggests Rampa got a different page."
+    }
+  ]
+}

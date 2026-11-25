@@ -1,0 +1,34 @@
+{
+  "page": "https://www.agencialupa.org/reportagem/2026/11/24/desinformacao-sobre-mpox-alimenta-ataques-contra-comunidade-lgbtqia-nas-redes/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "687831448b66",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the SVG image of the text 'ÚLTIMAS |' that labels the breaking-news ticker in the header (dark bar under the menu, visible in the screenshot), with alt=\"\" and no aria-label, heading or hidden text on its container. claimTrue: the crop shows the word ÚLTIMAS, the image is hidden (role presentation), and nothing around it in the banner says 'Últimas' (the ticker list holds only category + headline links; the word appears elsewhere only in the off-canvas and footer menus). elementFails: this is an image of text that labels the list as the latest stories; it serves no purely aesthetic purpose, so null alt drops that label for screen-reader users, failing 1.1.1 (text alternative should be 'Últimas'). captureDiffers: the live HTML has the same img with alt=\"\" in the same breaking-news block, and the screenshot is fully styled; no difference touches the claim. The claim names this failure."
+    },
+    {
+      "fingerprint": "d6dcd4810aed",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the screenshot of an X post in the fact-check section under h3 '“Mpox é doença gay”', alt=\"\" inside a figure whose figcaption only says 'Mensagem que circula no X. Foto: Reprodução'. The post reads 'Deve ser por isso que a OMS orientou os viados a pararem com a promiscuidade, mas nada falou sobre os héteros. Cara. Fato. HIV é doença gay. Fato. Mpox é doença gay. Fato: as duas se espalham pelo mundo devido ao comportamento gay. Lide com isso.' with date and views. claimTrue: no, strictly, because the part it quotes is in the surrounding text: the heading right above says '“Mpox é doença gay”' and a paragraph of the same section mentions 'o post que afirma que o HIV é uma “doença gay”'. elementFails: yes; the image is the evidence the article checks, the caption points to it, and the full message is not given as text anywhere (only fragments in headings and paragraphs that a screen-reader user cannot tie to this image, and the rest, e.g. 'mas nada falou sobre os héteros', 'as duas se espalham ... Lide com isso', the date, is missing), so null alt fails 1.1.1. captureDiffers: the live HTML has the same img with alt=\"\" and the same article text; no difference. The claim, though its chosen quote is echoed nearby, points at the real defect (an informative screenshot of text hidden from screen readers), so true_positive."
+    },
+    {
+      "fingerprint": "d5785322129e",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the IFCN signatory seal in the footer (green badge reading 'IFCN @Poynter, SIGNATORY, Lupa, International Fact-Checking Network'), not linked, alt=\"\". claimTrue: the crop matches the description and no text on the page mentions IFCN, a signatory status or a seal (the neighbouring IFCN logo, AJOR and Women Owned logos are links with alt=\"\" too, a separate defect not judged here). elementFails: a certification badge conveys real information (that Lupa is a verified IFCN signatory); it is not pure decoration and no text equivalent exists, so alt=\"\" fails 1.1.1. captureDiffers: the live HTML has the same img with alt=\"\" and the footer is styled the same in the screenshot; no difference. The claim names the failure."
+    },
+    {
+      "fingerprint": "6f50ed2c98a1",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a screenshot of X posts (one complaining of 'hiperpromecuidade' in the gay community, quoting a post 'SOBRE MPOX' with three photos of mpox lesions, and another calling gays 'inconsequentes e depravados'), alt=\"\" in a figure with figcaption 'Mensagem que circula no X. Foto: Reprodução'. claimTrue: the crop shows tweets with text and photos of mpox lesions, and the preceding paragraphs only paraphrase the discourse in general ('promiscuidade', 'irresponsáveis') and quote a different post; they do not give these posts or the photos. elementFails: in a fact-check report the screenshot is evidence and the caption points to it; its content is not available as text, so null alt fails 1.1.1. captureDiffers: the live HTML has the same img with alt=\"\" and the same text around it; no difference. The claim's description is brief but it names the real defect, an informative image hidden from screen readers."
+    }
+  ]
+}

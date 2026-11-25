@@ -1,0 +1,105 @@
+{
+  "page": "https://www.uhb.nhs.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "4efc1a1d2047",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the 'NHS Foundation Trust' descriptor (15px bold, white) inside the header logo link href='/' whose content is the NHS lozenge SVG, 'University Hospitals Birmingham' and this descriptor (markup commented 'NHS Logo', classes uhb-c-header__logo-organisation-descriptor): the NHS organisational logo lockup set in HTML text. claimTrue: in the capture it is #ffffff on a flat #5795d0 behind a ::before, 3.18:1, so the sentence holds of the capture. elementFails: 1.4.3's Logotypes exception says 'Text that is part of a logo or brand name has no contrast requirement'; this line is part of the trust's logo and of its brand name 'University Hospitals Birmingham NHS Foundation Trust', so no ratio is required. Without the exception it would be normal-size text needing 4.5:1, and on the real page the first letters sit on light parts of the photo at about 3.2-3.6:1 at 1280x800 and 1366x768 (but pass at 1536x864 and 1920x1080), so the exemption is what decides it. captureDiffers: the header is transparent with a ::before of rgba(0,94,184,0.66), and the page has a fixed, full-viewport background photo (.uhb-c-bg-image, page-background-home-2.jpg, z-index -1) that the site's CSS says 'shows through the header'. Rampa's full-page capture painted that fixed photo at the bottom of the page (it is visible behind the CQC box at y~3580-3925), so behind the header it had white and measured a flat #5795d0 (66% NHS blue over white). A headless Edge render of the live page at 1280x800 shows the blue-tinted photo behind the header; recomputing from the photo, the background under the nav text ranges from about 3.2:1 to 10:1 against white, never below 3.18:1 (3.18:1 is the case where the photo is pure white). Label false_positive: the rule applied a contrast requirement to logotype text that 1.4.3 exempts."
+    },
+    {
+      "fingerprint": "7f8a47105578",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the header navigation link 'Get involved' (20px, font-weight 600, white). claimTrue: in the capture the text is #ffffff on a flat #5795d0 behind a ::before pseudo-element, 3.18:1, so the sentence holds of the capture. elementFails: the site defines its bold as weight 600 (.uhb-u-font-weight-bold, strong {font-weight:600}), and the 600 @font-face is FrutigerLTW01-65Bold, the Bold face (fonts load from assets.nhs.uk with CORS *; an Arial fallback would also render bold). 20px bold is 15pt bold, large-scale text (14pt bold), so 1.4.3 asks for 3:1, not the 4.5:1 the message states; even Rampa's worst case of 3.18:1 meets it, and on the real page the photo behind only raises the ratio. captureDiffers: the header is transparent with a ::before of rgba(0,94,184,0.66), and the page has a fixed, full-viewport background photo (.uhb-c-bg-image, page-background-home-2.jpg, z-index -1) that the site's CSS says 'shows through the header'. Rampa's full-page capture painted that fixed photo at the bottom of the page (it is visible behind the CQC box at y~3580-3925), so behind the header it had white and measured a flat #5795d0 (66% NHS blue over white). A headless Edge render of the live page at 1280x800 shows the blue-tinted photo behind the header; recomputing from the photo, the background under the nav text ranges from about 3.2:1 to 10:1 against white, never below 3.18:1 (3.18:1 is the case where the photo is pure white). Label false_positive: the rule applied the normal-text threshold to large bold text (it treats only weight 700 as bold)."
+    },
+    {
+      "fingerprint": "805bdfb20b13",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the header navigation link 'Patients' (20px, font-weight 600, white). claimTrue: in the capture the text is #ffffff on a flat #5795d0 behind a ::before pseudo-element, 3.18:1, so the sentence holds of the capture. elementFails: the site defines its bold as weight 600 (.uhb-u-font-weight-bold, strong {font-weight:600}), and the 600 @font-face is FrutigerLTW01-65Bold, the Bold face (fonts load from assets.nhs.uk with CORS *; an Arial fallback would also render bold). 20px bold is 15pt bold, large-scale text (14pt bold), so 1.4.3 asks for 3:1, not the 4.5:1 the message states; even Rampa's worst case of 3.18:1 meets it, and on the real page the photo behind only raises the ratio. captureDiffers: the header is transparent with a ::before of rgba(0,94,184,0.66), and the page has a fixed, full-viewport background photo (.uhb-c-bg-image, page-background-home-2.jpg, z-index -1) that the site's CSS says 'shows through the header'. Rampa's full-page capture painted that fixed photo at the bottom of the page (it is visible behind the CQC box at y~3580-3925), so behind the header it had white and measured a flat #5795d0 (66% NHS blue over white). A headless Edge render of the live page at 1280x800 shows the blue-tinted photo behind the header; recomputing from the photo, the background under the nav text ranges from about 3.2:1 to 10:1 against white, never below 3.18:1 (3.18:1 is the case where the photo is pure white). Label false_positive: the rule applied the normal-text threshold to large bold text (it treats only weight 700 as bold)."
+    },
+    {
+      "fingerprint": "61fda9ed8371",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the header navigation link 'Visiting' (20px, font-weight 600, white). claimTrue: in the capture the text is #ffffff on a flat #5795d0 behind a ::before pseudo-element, 3.18:1, so the sentence holds of the capture. elementFails: the site defines its bold as weight 600 (.uhb-u-font-weight-bold, strong {font-weight:600}), and the 600 @font-face is FrutigerLTW01-65Bold, the Bold face (fonts load from assets.nhs.uk with CORS *; an Arial fallback would also render bold). 20px bold is 15pt bold, large-scale text (14pt bold), so 1.4.3 asks for 3:1, not the 4.5:1 the message states; even Rampa's worst case of 3.18:1 meets it, and on the real page the photo behind only raises the ratio. captureDiffers: the header is transparent with a ::before of rgba(0,94,184,0.66), and the page has a fixed, full-viewport background photo (.uhb-c-bg-image, page-background-home-2.jpg, z-index -1) that the site's CSS says 'shows through the header'. Rampa's full-page capture painted that fixed photo at the bottom of the page (it is visible behind the CQC box at y~3580-3925), so behind the header it had white and measured a flat #5795d0 (66% NHS blue over white). A headless Edge render of the live page at 1280x800 shows the blue-tinted photo behind the header; recomputing from the photo, the background under the nav text ranges from about 3.2:1 to 10:1 against white, never below 3.18:1 (3.18:1 is the case where the photo is pure white). Label false_positive: the rule applied the normal-text threshold to large bold text (it treats only weight 700 as bold)."
+    },
+    {
+      "fingerprint": "e15a46b13dab",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the header navigation link 'Home' (20px, font-weight 600, white). claimTrue: in the capture the text is #ffffff on a flat #5795d0 behind a ::before pseudo-element, 3.18:1, so the sentence holds of the capture. elementFails: the site defines its bold as weight 600 (.uhb-u-font-weight-bold, strong {font-weight:600}), and the 600 @font-face is FrutigerLTW01-65Bold, the Bold face (fonts load from assets.nhs.uk with CORS *; an Arial fallback would also render bold). 20px bold is 15pt bold, large-scale text (14pt bold), so 1.4.3 asks for 3:1, not the 4.5:1 the message states; even Rampa's worst case of 3.18:1 meets it, and on the real page the photo behind only raises the ratio. captureDiffers: the header is transparent with a ::before of rgba(0,94,184,0.66), and the page has a fixed, full-viewport background photo (.uhb-c-bg-image, page-background-home-2.jpg, z-index -1) that the site's CSS says 'shows through the header'. Rampa's full-page capture painted that fixed photo at the bottom of the page (it is visible behind the CQC box at y~3580-3925), so behind the header it had white and measured a flat #5795d0 (66% NHS blue over white). A headless Edge render of the live page at 1280x800 shows the blue-tinted photo behind the header; recomputing from the photo, the background under the nav text ranges from about 3.2:1 to 10:1 against white, never below 3.18:1 (3.18:1 is the case where the photo is pure white). Label false_positive: the rule applied the normal-text threshold to large bold text (it treats only weight 700 as bold)."
+    },
+    {
+      "fingerprint": "af19ac34653a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the image of a news card, a generic stock photo of network cables plugged into a switch, with alt 'Microsoft outage'; it is not inside a link (the card's link is on its h3 'Microsoft outage', followed by the story summary). claimTrue: the alt repeats the card heading and does not describe the photo, so the sentence holds of the capture. elementFails: the photo carries no information of its own beyond illustrating the IT-outage story; an alt naming the story's topic serves that purpose (at worst it is redundant with the heading, where alt='' would be better practice), and it is not a filename or placeholder (F30). Nothing in 1.1.1 requires describing the cables. captureDiffers: the live page has the same img and alt. Label false_positive: the claim demands a visual description that 1.1.1 does not require for an illustrative image."
+    },
+    {
+      "fingerprint": "7de16afcf04a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer SVG uhb-c-footer__vision: a logo mark and the slogan 'Building healthier lives' drawn as paths, with aria-hidden='true', no title or text, and no visible or hidden text anywhere on the page with those words (the snapshot and the live HTML have no 'healthier'). claimTrue: yes, it is hidden and the surrounding footer text (social links, Privacy, Terms, copyright) does not say it. Skeptic checks: it is not pure decoration, since WCAG's definition notes that text is purely decorative only if its words could be substituted without changing their purpose, which a slogan's cannot; it is an image of text and the trust's vision logo, which needs its words as a text alternative. elementFails: yes, the information is lost to assistive technology users. captureDiffers: the live page has the same aria-hidden SVG and no text. Label true_positive."
+    },
+    {
+      "fingerprint": "5b5a1a9f5a98",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the header navigation link 'Services' (20px, font-weight 600, white). claimTrue: in the capture the text is #ffffff on a flat #5795d0 behind a ::before pseudo-element, 3.18:1, so the sentence holds of the capture. elementFails: the site defines its bold as weight 600 (.uhb-u-font-weight-bold, strong {font-weight:600}), and the 600 @font-face is FrutigerLTW01-65Bold, the Bold face (fonts load from assets.nhs.uk with CORS *; an Arial fallback would also render bold). 20px bold is 15pt bold, large-scale text (14pt bold), so 1.4.3 asks for 3:1, not the 4.5:1 the message states; even Rampa's worst case of 3.18:1 meets it, and on the real page the photo behind only raises the ratio. captureDiffers: the header is transparent with a ::before of rgba(0,94,184,0.66), and the page has a fixed, full-viewport background photo (.uhb-c-bg-image, page-background-home-2.jpg, z-index -1) that the site's CSS says 'shows through the header'. Rampa's full-page capture painted that fixed photo at the bottom of the page (it is visible behind the CQC box at y~3580-3925), so behind the header it had white and measured a flat #5795d0 (66% NHS blue over white). A headless Edge render of the live page at 1280x800 shows the blue-tinted photo behind the header; recomputing from the photo, the background under the nav text ranges from about 3.2:1 to 10:1 against white, never below 3.18:1 (3.18:1 is the case where the photo is pure white). Label false_positive: the rule applied the normal-text threshold to large bold text (it treats only weight 700 as bold)."
+    },
+    {
+      "fingerprint": "f1b9e18cb9af",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the header navigation link 'About us' (20px, font-weight 600, white). claimTrue: in the capture the text is #ffffff on a flat #5795d0 behind a ::before pseudo-element, 3.18:1, so the sentence holds of the capture. elementFails: the site defines its bold as weight 600 (.uhb-u-font-weight-bold, strong {font-weight:600}), and the 600 @font-face is FrutigerLTW01-65Bold, the Bold face (fonts load from assets.nhs.uk with CORS *; an Arial fallback would also render bold). 20px bold is 15pt bold, large-scale text (14pt bold), so 1.4.3 asks for 3:1, not the 4.5:1 the message states; even Rampa's worst case of 3.18:1 meets it, and on the real page the photo behind only raises the ratio. captureDiffers: the header is transparent with a ::before of rgba(0,94,184,0.66), and the page has a fixed, full-viewport background photo (.uhb-c-bg-image, page-background-home-2.jpg, z-index -1) that the site's CSS says 'shows through the header'. Rampa's full-page capture painted that fixed photo at the bottom of the page (it is visible behind the CQC box at y~3580-3925), so behind the header it had white and measured a flat #5795d0 (66% NHS blue over white). A headless Edge render of the live page at 1280x800 shows the blue-tinted photo behind the header; recomputing from the photo, the background under the nav text ranges from about 3.2:1 to 10:1 against white, never below 3.18:1 (3.18:1 is the case where the photo is pure white). Label false_positive: the rule applied the normal-text threshold to large bold text (it treats only weight 700 as bold)."
+    }
+  ]
+}

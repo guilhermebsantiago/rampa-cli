@@ -1,0 +1,116 @@
+{
+  "page": "https://www.ljmu.ac.uk/study/undergraduate-students",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "69f75a9bc732",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the desktop mega-menu top-level item \"Study\": <li class=\"js-navigation-megamenu-level-1\" data-index=\"0\" tabindex=\"0\" aria-expanded=\"false\" aria-live=\"assertive\"> holding an h2 with the text and a decorative chevron. claimTrue: the snapshot gives it role listitem (browser name empty), states focusable and collapsed, and click and keydown listeners, as the message says. elementFails: the site's mando.js binds $('.js-navigation-megamenu-level-1').click(...) to toggle the drop panel named by data-droppanelid, and a keydown handler that opens it on Enter and moves between items with the arrow keys, so it is a disclosure button; it has no button or link role, only listitem with a collapsed state, which does not tell a screen reader user it is operable. I looked for a reason it could pass (an inner button or link, a role added by script, a role on the h2) and found none: the h2 is a plain heading and no script sets a role. This is the F59 pattern on an li, so 4.1.2 fails for the reason the claim gives. captureDiffers: the live HTML fetched on 2026-11-25 has the same li markup (tabindex 0, aria-expanded false, no role) and the screenshot shows the styled nav bar with this item visible, so the capture matches what users receive. Label true_positive."
+    },
+    {
+      "fingerprint": "7b80f7d47c0a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the desktop mega-menu top-level item \"About us\": <li class=\"js-navigation-megamenu-level-1\" data-index=\"5\" tabindex=\"0\" aria-expanded=\"false\" aria-live=\"assertive\"> holding an h2 with the text and a decorative chevron. claimTrue: the snapshot gives it role listitem (browser name empty), states focusable and collapsed, and click and keydown listeners, as the message says. elementFails: the site's mando.js binds $('.js-navigation-megamenu-level-1').click(...) to toggle the drop panel named by data-droppanelid, and a keydown handler that opens it on Enter and moves between items with the arrow keys, so it is a disclosure button; it has no button or link role, only listitem with a collapsed state, which does not tell a screen reader user it is operable. I looked for a reason it could pass (an inner button or link, a role added by script, a role on the h2) and found none: the h2 is a plain heading and no script sets a role. This is the F59 pattern on an li, so 4.1.2 fails for the reason the claim gives. captureDiffers: the live HTML fetched on 2026-11-25 has the same li markup (tabindex 0, aria-expanded false, no role) and the screenshot shows the styled nav bar with this item visible, so the capture matches what users receive. Label true_positive."
+    },
+    {
+      "fingerprint": "d0ec7f589f80",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search filter \"Courses\": <span class=\"filter js-simulate-click-event\" data-filter=\"courses\" tabindex=\"0\"> inside #searchDiv, the \"Refine your search:\" panel under the search field. claimTrue: the snapshot gives it role generic, no name, state focusable, and click and keypress listeners, as the message says. elementFails: mando.js binds $('.filter').on('click') to set the search form's action and placeholder for this filter, and $('.js-simulate-click-event').keypress turns Enter into a click, so the span is an operable control (a filter choice), yet it has no role and no selected or pressed state. I checked the reasons it might not count: the panel carries the class visually-hidden at load (bounds 1x1 in the snapshot), but that only clips it; the spans stay in the accessibility tree and in the tab order, and script removes the class or shows the panel when the search field gets focus, so users meet these controls. No script adds a role. This is F59 (a span made a control by script without a role), so 4.1.2 fails for the claim's reason. captureDiffers: the live HTML has the same span markup and the same visually-hidden panel at load, and the screenshot is fully styled, so nothing in the capture differs for this claim. Label true_positive."
+    },
+    {
+      "fingerprint": "e8ff30b7a905",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the desktop mega-menu top-level item \"International\": <li class=\"js-navigation-megamenu-level-1\" data-index=\"3\" tabindex=\"0\" aria-expanded=\"false\" aria-live=\"assertive\"> holding an h2 with the text and a decorative chevron. claimTrue: the snapshot gives it role listitem (browser name empty), states focusable and collapsed, and click and keydown listeners, as the message says. elementFails: the site's mando.js binds $('.js-navigation-megamenu-level-1').click(...) to toggle the drop panel named by data-droppanelid, and a keydown handler that opens it on Enter and moves between items with the arrow keys, so it is a disclosure button; it has no button or link role, only listitem with a collapsed state, which does not tell a screen reader user it is operable. I looked for a reason it could pass (an inner button or link, a role added by script, a role on the h2) and found none: the h2 is a plain heading and no script sets a role. This is the F59 pattern on an li, so 4.1.2 fails for the reason the claim gives. captureDiffers: the live HTML fetched on 2026-11-25 has the same li markup (tabindex 0, aria-expanded false, no role) and the screenshot shows the styled nav bar with this item visible, so the capture matches what users receive. Label true_positive."
+    },
+    {
+      "fingerprint": "222108c27086",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search filter \"All pages\": <span class=\"filter js-simulate-click-event\" data-filter=\"all\" tabindex=\"0\"> inside #searchDiv, the \"Refine your search:\" panel under the search field. claimTrue: the snapshot gives it role generic, no name, state focusable, and click and keypress listeners, as the message says. elementFails: mando.js binds $('.filter').on('click') to set the search form's action and placeholder for this filter, and $('.js-simulate-click-event').keypress turns Enter into a click, so the span is an operable control (a filter choice), yet it has no role and no selected or pressed state. I checked the reasons it might not count: the panel carries the class visually-hidden at load (bounds 1x1 in the snapshot), but that only clips it; the spans stay in the accessibility tree and in the tab order, and script removes the class or shows the panel when the search field gets focus, so users meet these controls. No script adds a role. This is F59 (a span made a control by script without a role), so 4.1.2 fails for the claim's reason. captureDiffers: the live HTML has the same span markup and the same visually-hidden panel at load, and the screenshot is fully styled, so nothing in the capture differs for this claim. Label true_positive."
+    },
+    {
+      "fingerprint": "5a8dd2b95ea1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search filter \"Student pages\": <span class=\"filter js-simulate-click-event\" data-filter=\"student\" tabindex=\"0\"> inside #searchDiv, the \"Refine your search:\" panel under the search field. claimTrue: the snapshot gives it role generic, no name, state focusable, and click and keypress listeners, as the message says. elementFails: mando.js binds $('.filter').on('click') to set the search form's action and placeholder for this filter, and $('.js-simulate-click-event').keypress turns Enter into a click, so the span is an operable control (a filter choice), yet it has no role and no selected or pressed state. I checked the reasons it might not count: the panel carries the class visually-hidden at load (bounds 1x1 in the snapshot), but that only clips it; the spans stay in the accessibility tree and in the tab order, and script removes the class or shows the panel when the search field gets focus, so users meet these controls. No script adds a role. This is F59 (a span made a control by script without a role), so 4.1.2 fails for the claim's reason. captureDiffers: the live HTML has the same span markup and the same visually-hidden panel at load, and the screenshot is fully styled, so nothing in the capture differs for this claim. Label true_positive."
+    },
+    {
+      "fingerprint": "2549776fc1ea",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the desktop mega-menu top-level item \"Business\": <li class=\"js-navigation-megamenu-level-1\" data-index=\"4\" tabindex=\"0\" aria-expanded=\"false\" aria-live=\"assertive\"> holding an h2 with the text and a decorative chevron. claimTrue: the snapshot gives it role listitem (browser name empty), states focusable and collapsed, and click and keydown listeners, as the message says. elementFails: the site's mando.js binds $('.js-navigation-megamenu-level-1').click(...) to toggle the drop panel named by data-droppanelid, and a keydown handler that opens it on Enter and moves between items with the arrow keys, so it is a disclosure button; it has no button or link role, only listitem with a collapsed state, which does not tell a screen reader user it is operable. I looked for a reason it could pass (an inner button or link, a role added by script, a role on the h2) and found none: the h2 is a plain heading and no script sets a role. This is the F59 pattern on an li, so 4.1.2 fails for the reason the claim gives. captureDiffers: the live HTML fetched on 2026-11-25 has the same li markup (tabindex 0, aria-expanded false, no role) and the screenshot shows the styled nav bar with this item visible, so the capture matches what users receive. Label true_positive."
+    },
+    {
+      "fingerprint": "d3733ee6cb80",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search filter \"Staff pages\": <span class=\"filter js-simulate-click-event\" data-filter=\"staff\" tabindex=\"0\"> inside #searchDiv, the \"Refine your search:\" panel under the search field. claimTrue: the snapshot gives it role generic, no name, state focusable, and click and keypress listeners, as the message says. elementFails: mando.js binds $('.filter').on('click') to set the search form's action and placeholder for this filter, and $('.js-simulate-click-event').keypress turns Enter into a click, so the span is an operable control (a filter choice), yet it has no role and no selected or pressed state. I checked the reasons it might not count: the panel carries the class visually-hidden at load (bounds 1x1 in the snapshot), but that only clips it; the spans stay in the accessibility tree and in the tab order, and script removes the class or shows the panel when the search field gets focus, so users meet these controls. No script adds a role. This is F59 (a span made a control by script without a role), so 4.1.2 fails for the claim's reason. captureDiffers: the live HTML has the same span markup and the same visually-hidden panel at load, and the screenshot is fully styled, so nothing in the capture differs for this claim. Label true_positive."
+    },
+    {
+      "fingerprint": "aec6d290834b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the desktop mega-menu top-level item \"Research\": <li class=\"js-navigation-megamenu-level-1\" data-index=\"2\" tabindex=\"0\" aria-expanded=\"false\" aria-live=\"assertive\"> holding an h2 with the text and a decorative chevron. claimTrue: the snapshot gives it role listitem (browser name empty), states focusable and collapsed, and click and keydown listeners, as the message says. elementFails: the site's mando.js binds $('.js-navigation-megamenu-level-1').click(...) to toggle the drop panel named by data-droppanelid, and a keydown handler that opens it on Enter and moves between items with the arrow keys, so it is a disclosure button; it has no button or link role, only listitem with a collapsed state, which does not tell a screen reader user it is operable. I looked for a reason it could pass (an inner button or link, a role added by script, a role on the h2) and found none: the h2 is a plain heading and no script sets a role. This is the F59 pattern on an li, so 4.1.2 fails for the reason the claim gives. captureDiffers: the live HTML fetched on 2026-11-25 has the same li markup (tabindex 0, aria-expanded false, no role) and the screenshot shows the styled nav bar with this item visible, so the capture matches what users receive. Label true_positive."
+    },
+    {
+      "fingerprint": "69208e468e54",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the desktop mega-menu top-level item \"Discover\": <li class=\"js-navigation-megamenu-level-1\" data-index=\"1\" tabindex=\"0\" aria-expanded=\"false\" aria-live=\"assertive\"> holding an h2 with the text and a decorative chevron. claimTrue: the snapshot gives it role listitem (browser name empty), states focusable and collapsed, and click and keydown listeners, as the message says. elementFails: the site's mando.js binds $('.js-navigation-megamenu-level-1').click(...) to toggle the drop panel named by data-droppanelid, and a keydown handler that opens it on Enter and moves between items with the arrow keys, so it is a disclosure button; it has no button or link role, only listitem with a collapsed state, which does not tell a screen reader user it is operable. I looked for a reason it could pass (an inner button or link, a role added by script, a role on the h2) and found none: the h2 is a plain heading and no script sets a role. This is the F59 pattern on an li, so 4.1.2 fails for the reason the claim gives. captureDiffers: the live HTML fetched on 2026-11-25 has the same li markup (tabindex 0, aria-expanded false, no role) and the screenshot shows the styled nav bar with this item visible, so the capture matches what users receive. Label true_positive."
+    }
+  ]
+}

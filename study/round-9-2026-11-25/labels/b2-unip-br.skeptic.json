@@ -1,0 +1,61 @@
+{
+  "page": "https://www.unip.br/cursos/graduacao/index.aspx",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "c5eb51286086",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is Select2 4.0.6-rc.0's rendered-selection span for the Modalidade filter: role=textbox, read-only, not focusable on its own, with title=\"Modalidade\" and text \"Modalidade\", nested in the Select2 span with role=combobox (aria-labelledby pointing at this span; the underlying select is disabled). claimTrue: yes, the captured CDP tree from Edge 158 gives this textbox the name \"\" with no name source and no description, so the sentence holds of the capture. elementFails: cannot_tell. Reasons against a failure hold up: the author supplied a title, which accname step 2I makes the accessible name and which axe-core's aria-input-field-name accepts (non-empty-title), so the name is author-supplied data that user agents can extract, and Chromium not exposing it looks like a browser quirk rather than missing content. Also, by WCAG's definition a user interface component is what users perceive as one control: this span is the display inside the combobox, which has a role and a name. Against that, the Chromium tree users of Chrome or Edge get does expose a nameless textbox, and ARIA requires a name for that role. The real defects here are elsewhere: the span's textbox role misrepresents a non-editable display, and the combobox's name is the placeholder or selected value while the native select's sr-only label is hidden with it. captureDiffers: no, the live HTML loads the same Select2 4.0.6-rc.0 on the same selects, and the screenshot shows the same filter. Competent auditors would disagree on whether this span fails 4.1.2 for a missing name, so the label is uncertain."
+    },
+    {
+      "fingerprint": "dd4038d07fda",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the small \"Última atualização: novembro/2026\" line (12.8px, weight 400, Bootstrap text-white-50, so rgba(255,255,255,0.5)) in the hero jumbotron, whose background is the image bg-inscricoes.png. claimTrue: yes. I measured the screenshot: the text's solid pixels are #80A3C4, exactly 50% white over #004689, the background behind most of the line, which gives 3.52:1; over the darker #003574 parts it would be about 4.12:1. Both are below 4.5:1. elementFails: yes. I looked for a reason it could pass: the text is informational, not incidental or a logotype, and at 12.8px normal weight it is not large text, so 4.5:1 applies. No overlay or other colour gets it to 4.5:1 anywhere behind it. captureDiffers: no. The live HTML has the same <small class=\"text-white-50\" style=\"font-size:0.8em\"> in the same hero, and the screenshot is fully styled. The claim names the failure, so the label is true_positive."
+    },
+    {
+      "fingerprint": "8cd8e5af720f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is Select2 4.0.6-rc.0's rendered-selection span for the city (Cidade) filter: role=textbox, read-only, not focusable on its own, with title=\"Escolha a cidade\" and text \"Escolha a cidade\", nested in the Select2 span with role=combobox (aria-labelledby pointing at this span; the underlying select is disabled). claimTrue: yes, the captured CDP tree from Edge 158 gives this textbox the name \"\" with no name source and no description, so the sentence holds of the capture. elementFails: cannot_tell. Reasons against a failure hold up: the author supplied a title, which accname step 2I makes the accessible name and which axe-core's aria-input-field-name accepts (non-empty-title), so the name is author-supplied data that user agents can extract, and Chromium not exposing it looks like a browser quirk rather than missing content. Also, by WCAG's definition a user interface component is what users perceive as one control: this span is the display inside the combobox, which has a role and a name. Against that, the Chromium tree users of Chrome or Edge get does expose a nameless textbox, and ARIA requires a name for that role. The real defects here are elsewhere: the span's textbox role misrepresents a non-editable display, and the combobox's name is the placeholder or selected value while the native select's sr-only label is hidden with it. captureDiffers: no, the live HTML loads the same Select2 4.0.6-rc.0 on the same selects, and the screenshot shows the same filter. Competent auditors would disagree on whether this span fails 4.1.2 for a missing name, so the label is uncertain."
+    },
+    {
+      "fingerprint": "72f43d5ca4c6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is Select2 4.0.6-rc.0's rendered-selection span for the state (Localidade) filter: role=textbox, read-only, not focusable on its own, with title=\"Escolha o estado\" and text \"Escolha o estado\", nested in the Select2 span with role=combobox (aria-labelledby pointing at this span). claimTrue: yes, the captured CDP tree from Edge 158 gives this textbox the name \"\" with no name source and no description, so the sentence holds of the capture. elementFails: cannot_tell. Reasons against a failure hold up: the author supplied a title, which accname step 2I makes the accessible name and which axe-core's aria-input-field-name accepts (non-empty-title), so the name is author-supplied data that user agents can extract, and Chromium not exposing it looks like a browser quirk rather than missing content. Also, by WCAG's definition a user interface component is what users perceive as one control: this span is the display inside the combobox, which has a role and a name. Against that, the Chromium tree users of Chrome or Edge get does expose a nameless textbox, and ARIA requires a name for that role. The real defects here are elsewhere: the span's textbox role misrepresents a non-editable display, and the combobox's name is the placeholder or selected value while the native select's sr-only label is hidden with it. captureDiffers: no, the live HTML loads the same Select2 4.0.6-rc.0 on the same selects, and the screenshot shows the same filter. Competent auditors would disagree on whether this span fails 4.1.2 for a missing name, so the label is uncertain."
+    },
+    {
+      "fingerprint": "a8a798a63a02",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is Select2 4.0.6-rc.0's rendered-selection span for the Campus/Polo filter: role=textbox, read-only, not focusable on its own, with title=\"Campus/Polo\" and text \"Campus/Polo\", nested in the Select2 span with role=combobox (aria-labelledby pointing at this span; the underlying select is disabled). claimTrue: yes, the captured CDP tree from Edge 158 gives this textbox the name \"\" with no name source and no description, so the sentence holds of the capture. elementFails: cannot_tell. Reasons against a failure hold up: the author supplied a title, which accname step 2I makes the accessible name and which axe-core's aria-input-field-name accepts (non-empty-title), so the name is author-supplied data that user agents can extract, and Chromium not exposing it looks like a browser quirk rather than missing content. Also, by WCAG's definition a user interface component is what users perceive as one control: this span is the display inside the combobox, which has a role and a name. Against that, the Chromium tree users of Chrome or Edge get does expose a nameless textbox, and ARIA requires a name for that role. The real defects here are elsewhere: the span's textbox role misrepresents a non-editable display, and the combobox's name is the placeholder or selected value while the native select's sr-only label is hidden with it. captureDiffers: no, the live HTML loads the same Select2 4.0.6-rc.0 on the same selects, and the screenshot shows the same filter. Competent auditors would disagree on whether this span fails 4.1.2 for a missing name, so the label is uncertain."
+    }
+  ]
+}

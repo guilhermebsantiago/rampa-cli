@@ -1,0 +1,34 @@
+{
+  "page": "https://www.atacadao.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "1fe47be38713",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the first of two icons (a white happy face, seen in the screenshot) inside the fixed orange feedback button at the right edge of the page. The button has no aria-label or text, so its accessible name comes from the images: \"img1 img2\". claimTrue: the capture shows alt=\"img1\", a placeholder that says nothing about the image or the control. elementFails: the image is part of the only content of a control, so 1.1.1 needs a name that describes its purpose (H30, Situation C); \"img1\" is placeholder text, which is failure F30. captureDiffers: the live GTM container (GTM-TX36W2W7) builds the same button with the same alt=\"img1\" and no aria-label, so the capture matches what users receive. The claim names this failure. Its advice to use alt=\"\" if the image is decorative would not fit here, because the button would then have no name, but that does not change the diagnosis. The missing button name also fails 4.1.2."
+    },
+    {
+      "fingerprint": "43b01dfe491a",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the second icon (a white sad face) in the same unnamed feedback button. Together with img1, its alt makes up the button's whole name: \"img1 img2\". claimTrue: the capture shows alt=\"img2\", a placeholder. elementFails: the button has no other name, so this image is not decorative. Its alternative neither conveys the image nor describes the control's purpose (open the page feedback form), which is failure F30 under 1.1.1. captureDiffers: the live GTM tag injects identical markup with alt=\"img2\" and adds no aria-label, so the capture matches the live page. The claim names the real defect, so the label is true_positive."
+    },
+    {
+      "fingerprint": "1fae3bd94958",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the fixed feedback button: a 44x56 orange tab at the right edge whose only visible content is two white outline face icons (happy and sad). claimTrue: in the screenshot (drawn near the bottom of the stitched full-page image), the pixels are #ffffff strokes on #ff6633. I computed 2.92:1, and \"it is all the control shows\" holds because the button has no text. elementFails: the icons are the only visual cue to what the control does, so they are graphical objects needed to understand it. 1.4.11 asks for at least 3:1 against adjacent colours (G207), and 2.917:1 is below that; WCAG says computed ratios are not rounded. captureDiffers: the live GTM tag styles .emotion-feedback-trigger with background-color #f63 and color #fff, and uses the same icon images, so the live page matches the capture."
+    },
+    {
+      "fingerprint": "dd1ba8620f15",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field (aria-label \"search\") with the visible placeholder \"O que você procura?\". claimTrue: the class placeholder-[#8E8E8E] placeholder:text-sm sets the placeholder to #8e8e8e at 14px weight 400, and the screenshot shows grey text on the field's white background. I computed 3.28:1. elementFails: Understanding 1.4.3 says the criterion applies to text on the page, including placeholder text. At 14px regular this is not large text, so it needs 4.5:1, and 3.28:1 fails. captureDiffers: the live HTML from curl has the same input, with the same class and placeholder. The fixed header is drawn lower in the stitched screenshot, but the field's colours are unaffected. The claim names the failure exactly."
+    }
+  ]
+}

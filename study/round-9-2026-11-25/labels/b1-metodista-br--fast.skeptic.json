@@ -1,0 +1,20 @@
+{
+  "page": "https://metodista.br/cursos-presencial/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "7fdf9f2bf085",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer newsletter field under the heading 'RECEBA NOSSAS INFORMAÇÕES' (input type=email, placeholder 'Digite seu e-mail', no autocomplete); it asks for the visitor's own e-mail address to subscribe, so it collects information about the user and its purpose is on the Input Purposes list (email). claimTrue: the captured HTML has no autocomplete attribute. Reasons I tried against the finding: type=email only declares the data format, not that the value is the user's own address, and is not a technique for 1.3.5 (the sufficient technique is H98, the autocomplete attribute); no script adds autocomplete (the rendered snapshot has none either); the field is not about a third party. None holds up, so elementFails is yes. captureDiffers: the live HTML fetched now has the same input with no autocomplete attribute anywhere on the page, and the screenshot shows the field rendered in the footer as captured."
+    },
+    {
+      "fingerprint": "fce98499149c",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the e-mail field of the contact form 'Dê o primeiro passo na conquista do seu sonho / Fale conosco' (Nome, E-mail, Telefone), input type=email with placeholder 'E-mail' and no autocomplete. Its accessible name 'E-mail E-mail' is what a browser computes: both forms' labels use for=form-field-email and the duplicated id resolves to this first input, so the name is not a collector artefact and the claim's sentence holds of the capture. The field asks for the visitor's own address so the university can reply, a purpose on the Input Purposes list (email). Skeptical checks: type=email gives the format, not the user-data purpose, and is not a 1.3.5 technique (H98 is); no autocomplete in the rendered snapshot or the live HTML; no scripted alternative. None holds up, so elementFails is yes. captureDiffers: the live HTML has the identical input with no autocomplete, and the screenshot shows the form rendered as captured."
+    }
+  ]
+}

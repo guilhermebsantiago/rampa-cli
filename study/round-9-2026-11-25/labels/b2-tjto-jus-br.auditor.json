@@ -1,0 +1,83 @@
+{
+  "page": "https://www.tjto.jus.br/ouvidoria",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "17c32774d87a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the only content of a news-card link to the story 'Ouvidor nacional de Justiça reforça atuação proativa e acessível das ouvidorias judiciais'. Its alt names the CNJ counsellor and national ombudsman Marcello Terto e Silva speaking in a lecture at the IV Encontro de Ouvidores e Ouvidoras Judiciais da Região Norte; I opened the destination and the story is the report of exactly that keynote lecture by him at that event. Read as the link text under the 'NOTÍCIAS' heading, the alternative names the story's subject, so by R2's first step it describes the link's purpose and the link passes 1.1.1 on this point (the extra stage detail does not hide the purpose). The claim that it does not say where the link leads is therefore not true of the capture. The live page serves the same alt and link, so the capture does not differ. Rampa had the destination title and judged wrongly: model_error."
+    },
+    {
+      "fingerprint": "6144211052c9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the 'Leia mais' link of the second visible news card ('Saber ouvir tornou-se uma competência indispensável', destaca presidente do TJTO...). The three 'Leia mais' links in the accessibility tree (slides 4-6; the other twelve slick slides and clones are aria-hidden with their links taken out of the tab order) all have the accessible name 'Leia mais...' from aria-label, no title and no aria-describedby. Each sits alone in div.readmore; the card headline is a separate link in span.newsflash-title, not in the same sentence, paragraph, list item or table cell, and not a heading. The slide wrapper is role=option inside a role=listbox, which is not a list item. The heading just before all three is the same h3 'NOTÍCIAS', so their contexts are identical and they form one set. They lead to three different news stories (non-equivalent resources), and each card's visible headline and photo tell them apart, so by R1 every link of the set fails 2.4.4. The claim (three links, three places, nothing around it tells it apart) is true of the capture and names that failure; no link carries another's name, the generic aria-label shared by every card is the defect. The live HTML has the same aria-label and structure, so the capture does not differ."
+    },
+    {
+      "fingerprint": "bb393ebe55ab",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the 'Leia mais' link of the third visible news card ('TJTO prorroga inscrições para o Conselho de Usuários até 30 de setembro'). The three 'Leia mais' links in the accessibility tree (slides 4-6; the other twelve slick slides and clones are aria-hidden with their links taken out of the tab order) all have the accessible name 'Leia mais...' from aria-label, no title and no aria-describedby. Each sits alone in div.readmore; the card headline is a separate link in span.newsflash-title, not in the same sentence, paragraph, list item or table cell, and not a heading. The slide wrapper is role=option inside a role=listbox, which is not a list item. The heading just before all three is the same h3 'NOTÍCIAS', so their contexts are identical and they form one set. They lead to three different news stories (non-equivalent resources), and each card's visible headline and photo tell them apart, so by R1 every link of the set fails 2.4.4. The claim is true of the capture and names that failure; the generic aria-label 'Leia mais...' shared by all cards is the defect. The live HTML has the same aria-label and structure, so the capture does not differ."
+    },
+    {
+      "fingerprint": "88c36fef67af",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The page is the landing page of the TJTO Ouvidoria Judiciária and its title is only 'Apresentação' (the live page sends the same title). The word matches the h1 and says the page is an introduction, so 'says nothing about this page' overstates it; but it does not name the subject (the Ouvidoria or the court), does not make sense out of context, and fails G88's check that the page can be identified from its title: I fetched /apoio-as-vitimas, /cogersa, /ouvidoria-mulher, /coges and /ouvidoria/ouvidoria-da-mulher on the same site and all are titled 'Apresentação' as well. Tabs, history or search results for these pages cannot be told apart, which is what 2.4.2 is meant to prevent (close to F25). Read in good faith, the claim points at this non-descriptive title, so the label is true_positive. No capture difference."
+    },
+    {
+      "fingerprint": "45583fe61f2d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of the link to the story 'Saber ouvir tornou-se uma competência indispensável', destaca presidente do TJTO na abertura de encontro de ouvidorias da Região Norte. Its alt is the Joomla file path 'images/2026/08/27/G47A4306.jpg#joomlaImage://...', which neither describes the group photo nor names the destination, so the link's name does not describe its purpose (H30/G82; a file name as alt is also F30). The link has no title, and the headline link beside it is a separate control, which does not cure 1.1.1 under R2. The claim is true and names the failure. The live HTML still has the same file-path alt, so the capture does not differ."
+    },
+    {
+      "fingerprint": "36c24a74c351",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the 'Leia mais' link of the first visible news card ('Ouvidor nacional de Justiça reforça atuação proativa e acessível das ouvidorias judiciais'). The three 'Leia mais' links in the accessibility tree (slides 4-6; the other twelve slick slides and clones are aria-hidden with their links taken out of the tab order) all have the accessible name 'Leia mais...' from aria-label, no title and no aria-describedby. Each sits alone in div.readmore; the card headline is a separate link in span.newsflash-title, not in the same sentence, paragraph, list item or table cell, and not a heading. The slide wrapper is role=option inside a role=listbox, which is not a list item. The heading just before all three is the same h3 'NOTÍCIAS', so their contexts are identical and they form one set. They lead to three different news stories (non-equivalent resources), and each card's visible headline and photo tell them apart, so by R1 every link of the set fails 2.4.4. The claim is true of the capture and names that failure. The live HTML has the same aria-label and structure, so the capture does not differ."
+    },
+    {
+      "fingerprint": "1b28355db87c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of the link to the story 'TJTO prorroga inscrições para o Conselho de Usuários até 30 de setembro'. Its alt describes a generic stock photo of the court building's facade (accurate to the crop, which shows the brick columns lettered 'Tribunal de Justiça') and says nothing about the story, the Conselho de Usuários or the registration deadline, so read as the link text it does not tell users where the link goes. Under R2 the link fails 1.1.1 whatever the headline link beside it says (that is another control, and this link has no title). The claim is true and names the failure. The live HTML has the same alt, so the capture does not differ."
+    }
+  ]
+}

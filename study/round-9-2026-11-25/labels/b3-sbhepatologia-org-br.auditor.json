@@ -1,0 +1,62 @@
+{
+  "page": "https://sbhepatologia.org.br/noticias/anuidade-2026-com-desconto-ate-dia-31-de-marco/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "e2adcf98404a",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"associados\" tag link in the post's tag list (.btTags), shown as uppercase 11.4px normal-weight text. Sampling the screenshot gives #ffffff glyph pixels on a #0cb8b6 fill, 2.46:1, so the claim holds of the capture. The live page has the same markup, and its inline theme CSS sets `.btTags ul a { background: #0cb8b6 }`. This small text is not large-scale, not a logo and not incidental, so it is below 4.5:1 and fails 1.4.3 for exactly the reason the claim gives. The live page shows the same tag list and colours, so the capture does not differ."
+    },
+    {
+      "fingerprint": "bde1567aa749",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"SBH\" tag link in the post's tag list, 11.4px normal-weight text. The screenshot pixels are #ffffff on #0cb8b6 (2.46:1), and the live theme CSS gives `.btTags ul a` the background #0cb8b6, with white text as in the capture. Normal-size text at 2.46:1 fails the 4.5:1 minimum of 1.4.3, as the claim says. The live page has the same element and styles, so the capture does not differ."
+    },
+    {
+      "fingerprint": "5fc6d5136b40",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"Hepatologia\" tag link, 11.4px normal-weight uppercase text on the teal tag fill. Sampled pixels are #ffffff on #0cb8b6, 2.46:1, which matches the claim. The live CSS confirms the #0cb8b6 background for `.btTags ul a`. This is ordinary small text below 4.5:1, so it fails 1.4.3 as claimed. The live markup and styles are the same as the capture."
+    },
+    {
+      "fingerprint": "406dbc5ce0ca",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header search input's placeholder \"Looking for...\", 11px weight 300, visible in the header in the screenshot. The live theme style.css sets `.btLightSkin input[type=\"text\"]::-webkit-input-placeholder { color: rgba(0,0,0,.5) }`, which renders as #7f7f7f on the white field; the screenshot's darkest glyph pixels are #7f7f7f on #ffffff, 4.00:1. Understanding 1.4.3 says the criterion \"applies to text in the page, including placeholder text\". At 4.00:1, below 4.5:1, it fails, as the claim says. The live page has the same input and CSS. Another finding (pixel-contrast) reports the same failure on the same input."
+    },
+    {
+      "fingerprint": "f6c8e908d125",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the same header search input as the placeholder-contrast finding. The message quotes the element's CSS selector where its text would go, because the input holds no text of its own. Read in good faith, it states that this input's visible text (the ::placeholder pseudo-element \"Looking for...\") is #7f7f7f on #ffffff at 4.00:1, which matches the screenshot pixels and the live CSS (rgba(0,0,0,.5) on white). Understanding 1.4.3 includes placeholder text, so 11px weight-300 text at 4.00:1 fails the 4.5:1 minimum. This is a true failure, reported twice. The live page has the same input and styles."
+    },
+    {
+      "fingerprint": "52db63a2be55",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"anuidade 2026\" tag link, 11.4px normal-weight uppercase text. Screenshot pixels show #ffffff text on a #0cb8b6 fill, 2.46:1, as claimed, and the live theme CSS sets that background for `.btTags ul a`. This small text is well below 4.5:1, so it fails 1.4.3 for the reason stated. The live page is unchanged for this element."
+    },
+    {
+      "fingerprint": "6dbfee5e4ef1",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"sbh hepatologia\" tag link, 11.4px normal-weight uppercase text on the teal tag fill. Sampled pixels are #ffffff on #0cb8b6 (2.46:1), matching the claim and the live CSS (`.btTags ul a { background: #0cb8b6 }`). Normal-size text below 4.5:1 fails 1.4.3, as claimed. The live page has the same tag list and colours."
+    },
+    {
+      "fingerprint": "0ea2d1b44919",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "A link in the header to WhatsApp (api.whatsapp.com) whose only content is the WhatsApp logo image (icone_whatsapp_sem_fundo, alt=\"\"). The \"Fale com a SBH:\" figcaption sits outside the link. The screenshot pixels give the green glyph #00e676/#00e777 on white at 1.68:1, so the claim is true of the capture, and the live page has the same markup and image. Whether this fails 1.4.11 turns on the logo exemption. Understanding 1.4.11 says \"Logos are exempted from contrast requirements\" and, for a logo used as a link, only that authors \"as a best practice\" should consider a variant with enough contrast. It also says a low-contrast presentation chosen by the author, not mandated by brand guidelines, is not essential and so not exempt. WhatsApp's green mark is low-contrast on white even in its official colour, but monochrome variants exist. So one auditor would exempt it as a brand logo and another would fail it under G207. My lean is that it passes under the logo exemption, but competent auditors would reasonably disagree, so the label is uncertain. Separately, the link has no accessible name (empty alt, no aria-label or title), which fails 1.1.1, 2.4.4 and 4.1.2; this finding does not claim that."
+    }
+  ]
+}

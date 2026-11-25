@@ -1,0 +1,64 @@
+{
+  "page": "https://www.bcu.ac.uk/",
+  "labeler": "recall-auditor",
+  "checked": {
+    "1.1.1": "42 image entries in the packet: 31 perceivable (12 img elements, 10 inline SVG icons, 9 CSS background images or image controls incl. the logo link, the YouTube play button and the field icons); 11 hidden ones (tracking pixels, collapsed panorama/dialog icons) skipped",
+    "1.3.5": "2 perceivable form fields (course keyword textbox, academic-year select); the hidden site-search field skipped; none collects information about the user",
+    "2.4.2": "1 page title",
+    "2.4.4": "65 perceivable links (the mega-menu links are hidden while their panels are collapsed; the top-level menu items are buttons)",
+    "2.4.6": "29 perceivable headings (2 hidden h5 skipped) and 2 form labels",
+    "3.1.1": "1 html element (lang en-GB)",
+    "3.1.2": "all perceivable text of the page (about 6,300 characters), all English",
+    "3.3.2": "2 perceivable form fields"
+  },
+  "failures": [
+    {
+      "id": "a1",
+      "criterion": "1.1.1",
+      "ref": "html > body > main > section > section:nth-of-type(4) > div > div > div > div:nth-of-type(1) > div > img",
+      "description": "Photo in the 'Help writing your personal statement' panel has no alt attribute at all, so it has neither a text alternative nor an empty alt marking it decorative (F65).",
+      "evidence": "<img class=\"cutout-image\" src=\"https://img.bcu.ac.uk/_bcuimages/fast-track-offer-134166790088718352.jpg?...\"> (no alt); accessible name null; crop shows a student smiling at a laptop",
+      "certainty": "clear"
+    },
+    {
+      "id": "a2",
+      "criterion": "1.1.1",
+      "ref": "html > body > main > section > section:nth-of-type(7) > div > div > div > div:nth-of-type(3) > img",
+      "description": "Photo in the 'Student support' card of 'Life at BCU' has no alt attribute, unlike its two sibling card images, so it has no text alternative and is not marked decorative (F65).",
+      "evidence": "<img src=\"https://img.bcu.ac.uk/_bcuimages/rbphd-researchers-reaching-beyond34587-134026627615607023.png?...\"> (no alt); accessible name null; crop shows two men looking at a laptop",
+      "certainty": "clear"
+    },
+    {
+      "id": "a3",
+      "criterion": "2.4.4",
+      "ref": "#heroCta1",
+      "description": "[visual context] Hero call-to-action 'Book your place' does not say what is booked; its only programmatic context is the preceding h1 'Go beyond the classroom'. The 'Open event: 7 January' line that explains it is a separate paragraph in a sibling div, which is not the link's context (F63).",
+      "evidence": "link text 'Book your place', href /student-info/open-days#upcoming-dates (Open Days); preceding heading 'Go beyond the classroom'; neighbouring paragraph 'Open event: 7 January'",
+      "certainty": "clear"
+    },
+    {
+      "id": "a4",
+      "criterion": "2.4.4",
+      "ref": "html > body > main > section > div:nth-of-type(6) > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > a",
+      "description": "Link 'Reaching beyond' is the university's slogan rather than a description of where it goes; only the preceding heading 'Beyonders' hints that it leads to the Beyonder campaign page.",
+      "evidence": "link text 'Reaching beyond', href /beyonder (page title 'Beyonder'); preceding heading 'Beyonders'; nearby text 'Birmingham, A city forged by industry. Restless. Revolutionary.'",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a5",
+      "criterion": "2.4.6",
+      "ref": "#footer > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(1) > h1",
+      "description": "Footer h1 is the marketing slogan 'Reaching Beyond.', while the content it heads is the university's address, phone number and contact/map links; the heading does not describe its section.",
+      "evidence": "<h1 class=\"footer-column__h1\">Reaching<br>Beyond.</h1> followed by 'Birmingham City University, Curzon Building, 4 Cardigan Street ...', '+44 (0)121 331 5000', 'All contact details', 'Maps and directions'",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a6",
+      "criterion": "3.3.2",
+      "ref": "#course-search-entry-year",
+      "description": "The academic-year select in the course search has only an off-screen label; sighted users see just the selected value '2027/28' and a chevron, with no visible label or instruction saying what the choice is.",
+      "evidence": "<label class=\"off-screen\" for=\"course-search-entry-year\">Select academic year of study</label>; visible: '2027/28' select between the keyword field and the 'Search' button",
+      "certainty": "borderline"
+    }
+  ]
+}

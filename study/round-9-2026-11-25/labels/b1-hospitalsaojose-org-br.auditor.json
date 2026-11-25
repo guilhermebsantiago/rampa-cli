@@ -1,0 +1,50 @@
+{
+  "page": "https://hospitalsaojose.org.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "97b509e48957",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the white SSVP logo in the footer (img alt=\"\", role presentation), a round seal reading 'Sociedade de São Vicente de Paulo', 'SSVP', 'serviens in spe', 'Brasil'. claimTrue: the snapshot has alt=\"\" and the footer text around it is only the nav links (Quem Somos, Notícias, Ouvidoria, Portal da Transparência...), the 'Responsável Técnico' line and the copyright line; none names the SSVP. elementFails: a logo is not decoration (it identifies the organization the hospital belongs to, and is an image of text); its content is not conveyed by adjacent text (the affiliation appears in text only far away, in a news excerpt and the form's consent label), so the empty alt leaves AT users without the information the image gives sighted users, failing 1.1.1. The header copy of this logo is also alt=\"\" inside a link, so the page never names it. captureDiffers: the live HTML fetched on 2026-11-25 has the same img with alt=\"\", and the screenshot shows it in the footer as captured. The claim names that failure."
+    },
+    {
+      "fingerprint": "afeafe5ef366",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Netuai Web Marketing' logo at the end of the footer credit line, the only content of a link to https://www.netuai.com.br, with alt=\"netuaibranca.png\" and the same title. claimTrue: the alternative is literally the image's file name. elementFails: a file name as text alternative is documented failure F30 of 1.1.1, and as the link's only content the image is a control whose name should give its purpose (H30), e.g. 'Netuai Web Marketing'; 'netuaibranca.png' adds the '.png' extension and 'branca' (white) and is not an equivalent. captureDiffers: the live HTML has the same img with alt and title 'netuaibranca.png'; the snapshot lacks bounds for it but the screenshot shows the logo, which does not touch the claim. The claim names the failure."
+    },
+    {
+      "fingerprint": "fbbacdd8bc14",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the white HSJ logo in the footer (img alt=\"\", role presentation), reading 'HSJ HOSPITAL SÃO JOSÉ da Sociedade de São Vicente de Paulo'. claimTrue: the alt is empty and the text in its footer section (nav links) does not state the logo's text. elementFails: as an auditor I read the logo as informative (an organization's logotype is not decoration, and the WAI image guidance gives it the organization's name), and the header copy is also alt=\"\" inside a link, so I lean yes. But the hospital's name is the site's own identity, given in the page title and in text in the same footer ('© 2025 Hospital São José / Ituiutaba-MG'), and only the 'da Sociedade de São Vicente de Paulo' part is not near it; competent auditors would reasonably treat a repeated own-brand footer logo with the name in nearby footer text as redundant, so the label is uncertain. captureDiffers: the live HTML has the same img with alt=\"\"; no difference touches the claim."
+    },
+    {
+      "fingerprint": "beee68938b5f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the full-width donation banner (banner-doacao.png, alt=\"\") in the main content. The crop shows 'Doações em dinheiro feitas via depósito', the HSJ and SSVP logos, the bank details 'Banco do Brasil Agência: 0204-6 Conta: 51146-3' and 'Caixa Econômica Federal Agência: 0125 Conta: 2159-2', a note on donations through the SAE water bill, and 'Uma pequena caridade feita de coração, tem grande valor. Ajude como puder!'. claimTrue: alt is empty and none of that text is in the snapshot's text (no 'Banco do Brasil', 'Agência', '51146' anywhere). elementFails: the image carries essential information (how to donate, account numbers) in an image of text with a null alternative, so AT users get nothing, a clear 1.1.1 failure; the claim quotes only part of the content but points at the real defect. captureDiffers: the live HTML has the same img with alt=\"\" and no text equivalent elsewhere on the page."
+    }
+  ]
+}

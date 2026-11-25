@@ -1,0 +1,28 @@
+{
+  "page": "https://www.aber.ac.uk/en/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "3ea565d0a50f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the img in the header of the Cookiebot consent dialog (region 'This website uses cookies'); the image (crop checked) is the Aberystwyth University logo with the crest, 'Prifysgol Aberystwyth University' and '1872'. It is not in a link and is exposed with alt=\"logo\". claimTrue: 'logo' is a generic placeholder word (Cookiebot's default logo alt), not a description, so the sentence holds (placeholder, not a file name). elementFails: the image is announced as 'logo', which names neither the organisation nor the text in the image; that is F30 (text alternatives that are not alternatives, such as placeholder text). Even if an auditor treated the banner logo as decorative, it is not implemented so assistive technology can ignore it, so 1.1.1 fails either way. captureDiffers: the live Cookiebot configuration for this site (cc.js for its cbid) still sets logoAltText = 'logo' and the same logo data URI, and the dialog is shown to visitors without consent; the full-page screenshot does not show the dialog, but that does not touch this claim."
+    },
+    {
+      "fingerprint": "7d7ba2e7b50e",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the span 'Pause' (class slick-pause-text slick-sr-only) inside the carousel's pause/play button, a screen-reader-only label. The site's CSS (app-v7.css) makes .slick-autoplay-toggle-button a 36x36 px box with overflow:hidden and text-indent:101%, and the pause icon span fills it, so the text falls below and to the right of the button's box and is clipped. The screenshot confirms it: in the span's bounds (x 54-103, y 3045-3071) there are only the navy band (#242753) above y 3053 and white below, and no #3b3b3b glyph pixels at all. claimTrue: no, the text is not painted on the captured page, so it has no 1.26:1 contrast with what is behind it, and half of its box lies over white, not #242753. elementFails: text not visible to anyone has no contrast requirement (the 'Incidental' exception of 1.4.3); the visible control is the white pause icon on navy, which is a 1.4.11 matter and not this text. captureDiffers: the live page's CSS has the same overflow:hidden rule and the button is built by the same script, so no difference that touches the claim. The rule measured a box that is not painted (it took the foreground from CSS) and did not account for the clipping, so the cause is model_error."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "page": "https://ufcspa.edu.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "a5d80775f976",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the language switcher link in the header utility nav (Carta de Serviços, Concursos, English, Meu perfil), <a href=\"/english\">English</a>. In the snapshot, html has lang=\"pt-br\" and neither the link nor any ancestor carries a lang attribute, so the English word inherits pt-br, as the claim says (claimTrue yes). Under 3.1.2 the word does not fit an exception. It is the language's English name, not a proper name of a person, place or brand. It is not a technical term, its language is not indeterminate, and it is not vernacular Portuguese (Portuguese says 'Inglês'). A pt-BR voice reads it with Portuguese rules. The change of language is clearly intended: the text is the language's name in that language. Understanding 3.1.2 gives this exact case, 'Alternative language links', as an example: each link carries a lang attribute matching its language. The H58 test (the element's content must match its inherited language) fails here, so elementFails is yes, and the claim names that failure. The live HTML fetched on 2026-11-25 is the same: html lang=\"pt-br\" and <li><a href=\"/english\">English</a></li>, with no script setting lang. The screenshot shows the fully styled header with the link visible, so captureDiffers is no."
+    }
+  ]
+}

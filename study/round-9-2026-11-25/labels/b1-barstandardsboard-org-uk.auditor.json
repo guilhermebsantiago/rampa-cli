@@ -1,0 +1,72 @@
+{
+  "page": "https://www.barstandardsboard.org.uk/for-the-public/search-a-barristers-record/the-barristers-register.html",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "93532442aaa9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the Barristers' Register search field, whose only visible label is the placeholder \"Search here...\" (20px, weight 400, so not large text). claimTrue: the snapshot measured the placeholder colour #9f9999 from CSS on a #ffffff field; that pair computes to 2.80:1. elementFails: the live style sheet (core.min.css) sets .form-control::-webkit-input-placeholder and input::-webkit-input-placeholder to #9f9999 with no later override for .form-search, and the screenshot shows light grey placeholder text on a white pill field. Placeholder text is visible text that conveys information (here it is the field's only visible label), it is not an inactive component or decoration, so 1.4.3 asks for 4.5:1 and 2.80:1 fails. captureDiffers: the live HTML and CSS fetched on 2026-11-25 match the capture (same input markup, same placeholder colour), and the screenshot is fully styled. The claim names the failure: true_positive."
+    },
+    {
+      "fingerprint": "24aadc8f4296",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the YouTube icon image (alt=\"yt.svg\"), the only content of the footer link to youtube.com/@TheBarStandardsBoard. claimTrue: the snapshot's img has alt=\"yt.svg\", which is the image's file name, so the sentence holds. elementFails: an image that is the only content of a link is a control, and 1.1.1 requires a name that describes its purpose (H30); a file name is the documented failure F30. The browser's computed link name in the snapshot's CDP data is \"yt.svg\" (nameFrom contents), so a screen reader user hears a file name rather than \"YouTube\". captureDiffers: the live HTML fetched on 2026-11-25 has the same link and the same alt, and the screenshot shows the styled footer icon, so no difference touches the claim. The claim names the real failure: true_positive. The link has no title or aria-label."
+    },
+    {
+      "fingerprint": "7a97f8e87a81",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the X (Twitter) icon image (alt=\"x.svg\"), the only content of the footer link to x.com/barstandards. claimTrue: the snapshot's img has alt=\"x.svg\", which is the image's file name, so the sentence holds. elementFails: an image that is the only content of a link is a control, and 1.1.1 requires a name that describes its purpose (H30); a file name is the documented failure F30. The browser's computed link name in the snapshot's CDP data is \"x.svg\" (nameFrom contents), so a screen reader user hears a file name rather than \"X (Twitter)\". captureDiffers: the live HTML fetched on 2026-11-25 has the same link and the same alt, and the screenshot shows the styled footer icon, so no difference touches the claim. The claim names the real failure: true_positive. The link has no title or aria-label."
+    },
+    {
+      "fingerprint": "9c8c80144344",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the Facebook icon image (alt=\"fb.svg\"), the only content of the footer link to en-gb.facebook.com/barstandardsboard. claimTrue: the snapshot's img has alt=\"fb.svg\", which is the image's file name, so the sentence holds. elementFails: an image that is the only content of a link is a control, and 1.1.1 requires a name that describes its purpose (H30); a file name is the documented failure F30. The browser's computed link name in the snapshot's CDP data is \"fb.svg\" (nameFrom contents), so a screen reader user hears a file name rather than \"Facebook\". captureDiffers: the live HTML fetched on 2026-11-25 has the same link and the same alt, and the screenshot shows the styled footer icon, so no difference touches the claim. The claim names the real failure: true_positive. The link carries title=\"Facebook\", which the browser exposes as the link's description, not its name (CDP: name \"fb.svg\", description \"Facebook\"; Rampa's own collector name \"Facebook\" is not what the browser computes). By the rubric's R2 reading a title is neither the image's alternative nor the link's name and no 1.1.1 technique uses it, so it does not cure the file-name alternative."
+    },
+    {
+      "fingerprint": "55135a5291fb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the Bluesky icon image (alt=\"bs.svg\"), the only content of the footer link to bsky.app/profile/barstandardsboard.bsky.social. claimTrue: the snapshot's img has alt=\"bs.svg\", which is the image's file name, so the sentence holds. elementFails: an image that is the only content of a link is a control, and 1.1.1 requires a name that describes its purpose (H30); a file name is the documented failure F30. The browser's computed link name in the snapshot's CDP data is \"bs.svg\" (nameFrom contents), so a screen reader user hears a file name rather than \"Bluesky\". captureDiffers: the live HTML fetched on 2026-11-25 has the same link and the same alt, and the screenshot shows the styled footer icon, so no difference touches the claim. The claim names the real failure: true_positive. The link has no title or aria-label."
+    },
+    {
+      "fingerprint": "f4e35902afa6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the LinkedIn icon image (alt=\"li.svg\"), the only content of the footer link to linkedin.com/company/the-bar-standards-board. claimTrue: the snapshot's img has alt=\"li.svg\", which is the image's file name, so the sentence holds. elementFails: an image that is the only content of a link is a control, and 1.1.1 requires a name that describes its purpose (H30); a file name is the documented failure F30. The browser's computed link name in the snapshot's CDP data is \"li.svg\" (nameFrom contents), so a screen reader user hears a file name rather than \"LinkedIn\". captureDiffers: the live HTML fetched on 2026-11-25 has the same link and the same alt, and the screenshot shows the styled footer icon, so no difference touches the claim. The claim names the real failure: true_positive. The link has no title or aria-label."
+    }
+  ]
+}

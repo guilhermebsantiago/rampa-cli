@@ -1,0 +1,17 @@
+{
+  "page": "https://jornalpequeno.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "b7eb0e87fe70",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Início' link in the desktop main menu. It is the current menu item on the home page (li.current-menu-item). claimTrue: I sampled the screenshot where the full-page capture drew the sticky navbar (about y=1838). The Início box is #ff0137 behind white glyphs (#ffffff), which gives 3.95:1. The neighbouring items sit on the bar's #c81b23 (5.77:1). elementFails: the live inline CSS and the theme's style.css both set '.site-navigation .primary-menu>li>a{font-size:18px;font-weight:700}' and '.primary-menu>li.current-menu-item>a{background:#ff0137}', with white text inherited from .header-navbar{color:#fff}. That background is the item's permanent current-page state, not only a hover or focus state. 18px bold is 13.5pt, under the 14pt bold that counts as large text, so the 4.5:1 minimum applies. I found no text-shadow, and the item is not incidental or a logotype. I looked for a reason it could pass and found none, so 3.95:1 fails 1.4.3. The stylesheet's display:none on .site-navigation applies only at max-width 991px, so the menu is visible at the 1280px viewport Rampa used. Below that width this menu is hidden and the off-canvas one takes its place. captureDiffers: the full-page capture shows the sticky navbar mid-page instead of under the logo (an affix artefact), but the colours, font size and active state in the capture match the live CSS fetched today. Nothing that bears on this claim differs. The claim names the real failure, so the label is true_positive."
+    }
+  ]
+}

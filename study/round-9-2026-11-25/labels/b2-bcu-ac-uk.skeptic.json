@@ -1,0 +1,34 @@
+{
+  "page": "https://www.bcu.ac.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "bfba6098dcd0",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is <a id=\"aMainContent\"></a>, the empty target of the 'Skip to main content' skip link: no href, no content, no tabindex, no box (bounds null). claimTrue: the snapshot's own role for it is generic, but its Chromium accessibility node has role link and no name, so the sentence holds of the capture (the screen-reader announcement is the rule's inference). The reason for the link role is a browser heuristic: I loaded the live page in headless Edge over CDP and found the same node exposed as link, name empty, with a single click listener registered by the TikTok analytics pixel (analytics.tiktok.com/i18n/pixel/.../main.*.js); Chromium turns an href-less anchor into a link when it has a mouse listener. In HTML semantics (HTML-AAM) an a without href has the generic role, and W3C's ACT rule c487ae (link has non-empty accessible name, mapped to 4.1.2) lists exactly this case, an a element without href, as inapplicable because it 'does not have the role of link'. The element is not a user interface component under WCAG's definition: it is not perceived as a control, cannot be focused or clicked (zero size), and the only 'function' is a third-party tracking listener. So it does not fail 4.1.2. captureDiffers: the live page has the same markup and the same exposure, so no difference touches the claim. False positive: the rule treats a browser heuristic role on a fragment target as a nameless control, a stricter reading than 4.1.2."
+    },
+    {
+      "fingerprint": "4c6d56de51e2",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the course search text field in 'Find your course'. Its placeholder 'Search courses by name/keyword' is the only visible text telling sighted users what the field is for: its label 'Search keyword or course' has class off-screen. claimTrue: the crop and screenshot show mid-grey placeholder text on the white field. I checked the live page in headless Edge: getComputedStyle(input, '::placeholder') gives color rgb(144,144,144), opacity 1, 19.2px, weight 400, on background rgb(255,255,255), which computes to 3.19:1, as stated. elementFails: 19.2px (14.4pt) at weight 400 is not large text, so 4.5:1 applies; none of 1.4.3's exceptions fits (the field is active, the text is not decorative, hidden, part of a picture or a logotype). I looked for a reason placeholder text could be exempt: the ACT contrast rule only scopes DOM text nodes, but WCAG does not exempt placeholders, and W3C's own forms tutorial (Instructions) treats placeholder colour as subject to 'the minimum contrast requirement of WCAG'. No reason holds up. captureDiffers: the live markup and computed colours match the capture. True positive."
+    },
+    {
+      "fingerprint": "c2d87632ae62",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is <a id=\"aMainNav\"></a>, the empty target of the 'Skip to main menu' skip link, placed after the header: no href, no content, no tabindex, no box. claimTrue: the snapshot's role field is generic, but the Chromium accessibility node is role link with no name, so the sentence holds of the capture. On the live page (headless Edge over CDP) the node is likewise a nameless link, and the cause is a click listener attached to it by the TikTok analytics pixel, which makes Chromium expose an href-less anchor as a link. In HTML semantics an a without href is generic, and W3C's ACT rule c487ae (mapped to 4.1.2) marks an a element without href inapplicable because it does not have the link role. It is not a user interface component under WCAG's definition: not perceived as a control, not focusable, zero size, and its only listener is third-party tracking. So it does not fail 4.1.2. captureDiffers: the live page matches the capture. False positive: the rule treats a heuristic role on a fragment target as a control."
+    },
+    {
+      "fingerprint": "7e6b4ba37b89",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is <a id=\"aTop\"></a>, an empty named anchor at the top of the header (no link on the page currently points to #aTop): no href, no content, no tabindex, no box. claimTrue: the snapshot's role field is generic, but the Chromium accessibility node is role link with no name, so the sentence holds of the capture. Checking the live page in headless Edge over CDP, the node is again a nameless link with one click listener from the TikTok analytics pixel; that listener is why Chromium exposes it as a link. By HTML semantics an a without href is generic, and W3C's ACT rule c487ae (mapped to 4.1.2) marks an a element without href inapplicable since it does not have the link role. It is not a user interface component: nothing a user perceives as a control, not focusable, zero size, no function beyond tracking. So it does not fail 4.1.2. captureDiffers: the live page matches the capture. False positive: a stricter reading than 4.1.2, flagging a browser heuristic role on an empty anchor."
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "page": "https://hospitalbomsamaritano.org.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "373071eb8c99",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image layer of the first Revolution Slider slide (rs-22, 1-CORRIDA SITE.png) with alt=\"\". The crop and screenshot show an event banner: 'Corrida Bom Samaritano na luta contra o câncer 2026', the slogan 'um laço que nos une', '15 NOV 2026, Governador Valadares', organisers. The slide has no link and none of this text appears anywhere else on the page (searched the snapshot), so the null alternative hides information: 1.1.1 fails, and the claim names exactly that. The live HTML serves the same slide with the same alt=\"\" (lazy-loaded through data-lazyload), so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "c1c99bdf3c77",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the close button of the Elementor donation popup (aria-label 'Close', an eicon-close glyph). The live popup CSS sets '.dialog-close-button i{color:#DB8700}' on 'background-color:#FFFFFF'; pixels in the screenshot confirm #db8700 on #ffffff (2.81:1) and the image behind is #efefed (about 2.44:1). The X glyph is the only visual information that identifies the control, so it needs 3:1 under 1.4.11 and fails. The popup opens on page load with no delay (data-elementor-settings page_load, delay 0), so users receive it as captured."
+    },
+    {
+      "fingerprint": "9e1ca29695b0",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'E-mail' field of the monthly-donor sign-up form in the page-load popup ('Seja um doador mensal...'), which collects the user's own e-mail. It has type=\"email\" but no autocomplete attribute in the snapshot or the live HTML (no autocomplete anywhere on the page). type=\"email\" gives the data format, not the input purpose from the Input Purposes list; without autocomplete=\"email\" (H98) the purpose is not programmatically determined, so 1.3.5 fails as the claim says."
+    },
+    {
+      "fingerprint": "337d1f4a13eb",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a large banner image (548.1_HBS_BANNER...jpg) with alt=\"\", not inside a link. It carries real information: 'Seja um bom samaritano! Doar faz bem e vai salvar vidas.', the ways to donate (credit card, Cemig, PIX key doe@bsbs.org.br) and the phone 0800 117 4226. None of that text exists elsewhere on the page (searched the snapshot for the PIX key, phone and slogan). Marking it decorative hides it from screen-reader users, a 1.1.1 failure; the claim quotes the headline and points at that defect. The live HTML has the same image with alt=\"\"."
+    },
+    {
+      "fingerprint": "bb6b7a8ded47",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the canvas inside rs-sbg, the slide background that Revolution Slider draws for slide rs-22. The live HTML shows that background is the plugin's transparent.png (rev-slidebg, data-lazyload transparent.png), so the canvas paints nothing; the race banner the crop shows comes from the separate image layer #slider-1-slide-22-layer-1 stacked above it at the same bounds (judged in its own finding). The claim that the canvas conveys 'um laço que nos une, 15 NOV 2026, GOVERNADOR VALADARES' is therefore not true of the canvas, and a blank background canvas needs no text alternative: it does not fail 1.1.1. The crop was taken from the screen region and attributed the overlying layer's pixels to the canvas, a wrong crop. The live page matches the capture."
+    },
+    {
+      "fingerprint": "c331c8eae740",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Nome' text field of the same donor sign-up form in the popup; it asks for the donor's (the user's) own name. It has no autocomplete attribute in the snapshot or the live HTML, so its purpose (name) is not programmatically determined; 1.3.5 fails, as the claim says."
+    },
+    {
+      "fingerprint": "d06a581f3044",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the top image of the page-load donation popup (28-1_HBS_BANNER...png) with alt=\"\". It is an image of text: 'Doar mensalmente é um ato de amor ao próximo', a button-like 'Toda doação faz a diferença', and the caption 'Nadir Barbosa, Paciente do hospital'. The popup's heading ('Seja um doador mensal e contribua para o hospital.') shares the theme but not this text, and none of it is elsewhere on the page. The image is not decorative in WCAG's sense (it provides information), so alt=\"\" fails 1.1.1; the claim names that. Live HTML and CSS match the capture."
+    },
+    {
+      "fingerprint": "f471e95eff72",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a donation poster (BEN-0009-23...png) with alt=\"\", beside the heading 'O hospital do câncer de Governador Valadares e região acredita na sua solidariedade.' and a 'Saiba mais' link. The poster is an image of text: 'NOSSOS PACIENTES CONTAM COM O SEU APOIO. Faça sua doação para o Hospital Bom Samaritano.' The neighbouring heading is a related appeal but does not say this, and the text is not elsewhere on the page. An informative image of text marked decorative fails 1.1.1, which is what the claim says. Live HTML matches."
+    },
+    {
+      "fingerprint": "e72aa730383d",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Telefone com DDD' field (label is screen-reader-only, placeholder 'Telefone') of the donor sign-up form; it asks for the user's own phone number. It has type=\"tel\" and a pattern/title but no autocomplete attribute, in the snapshot and the live HTML. type=\"tel\" does not identify the input purpose; without autocomplete=\"tel\" 1.3.5 fails, as claimed."
+    },
+    {
+      "fingerprint": "1d66f968a0a5",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the popup's h2 'Seja um doador mensal e contribua para o hospital.' The live popup CSS sets its color to #EE7900 (Albert Sans 34px, weight 700) on the container background #ECECEC; screenshot pixels confirm #ee7900 on #ececec, 2.41:1. As large bold text it needs 3:1 under 1.4.3, so it fails, exactly as the claim states. The popup opens on page load, so users receive it as captured (in the screenshot the heading is also partly covered by the cookie banner and a reviews widget, which does not change its contrast)."
+    }
+  ]
+}

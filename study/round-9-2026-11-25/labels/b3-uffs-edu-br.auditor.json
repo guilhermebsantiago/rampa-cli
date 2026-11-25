@@ -1,0 +1,28 @@
+{
+  "page": "https://www.uffs.edu.br/uffs/home/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "9f34c5d65455",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The finding is about the page title, \"Portal UFFS - Home\", which is the same in the snapshot and in the live HTML fetched on 2026-11-25 (<title>Portal UFFS - Home</title>). The claim says it tells nothing about the page. It does: the title names the site (the portal of UFFS, the university's own acronym, which is also on its logo) and says this is the home page. For a site's home page, the site's name plus \"Home\" describes its topic and purpose, as Understanding 2.4.2 expects. claimTrue is no. The element meets 2.4.2, so elementFails is no. The capture and the live page have the same title, so captureDiffers is no. The model had the title and judged it wrongly, so this is a false positive with cause model_error."
+    },
+    {
+      "fingerprint": "13b668aa4ce5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the desktop contrast toggle in the top bar, a half-circle icon between the accessibility link and \"Área do Servidor\" (visible in the screenshot at about x 1000, y 12). In the snapshot it is an <i class=\"bi bi-circle-half\"> with role generic, no name, not focusable, and a click listener. The live HTML has <i class=\"bi bi-circle-half\" onclick=\"auto_contraste();\"></i>, and auto_contraste() toggles the page's high-contrast class. So the element works as a control, but nothing exposes a role or a name for it, which is F59's failure of 4.1.2. claimTrue is yes, and elementFails is yes for the reason the claim gives. It is also not keyboard-operable (2.1.1). The mobile menu has a proper link for the same action (a link with aria-label \"Alternar contraste\"), but that link is hidden on desktop, so it does not fix this control. The live markup matches the capture, so captureDiffers is no. This is a true positive."
+    }
+  ]
+}

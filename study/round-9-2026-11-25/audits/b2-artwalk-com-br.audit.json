@@ -1,0 +1,392 @@
+{
+  "page": "https://www.artwalk.com.br/",
+  "labeler": "recall-auditor",
+  "checked": {
+    "1.1.1": "38 images/graphics listed in the packet plus 3 icon controls without an img (wishlist link, mini-cart button, cookie-preferences svg); hidden and off-screen ones skipped. The screenshot also shows product, line and brand carousels and a newsletter form between y=940 and y=5800 that the snapshot holds only as empty lazy-load placeholders, so they have no ref and were not audited",
+    "1.3.5": "1 visible form field (search box, not user data); 2 hidden reCAPTCHA textareas skipped; the newsletter e-mail field appears only in the screenshot, not in the snapshot",
+    "2.4.2": "page title 'Black Friday Artwalk | Tênis, Sneakers e Roupas em Oferta'",
+    "2.4.4": "71 visible links (80 in the snapshot, 9 hidden), with headings, list items, titles and destinations; shared names checked for R1",
+    "2.4.6": "11 visible headings (h1, 9 h4, cookie h3) and 1 form label",
+    "3.1.1": "html lang='pt-BR' on a Portuguese page",
+    "3.1.2": "all visible text, link and button names, group/region names and image alternatives; no lang attribute below html",
+    "3.3.2": "1 visible form field (search box)"
+  },
+  "failures": [
+    {
+      "id": "a1",
+      "criterion": "1.1.1",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > section > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > p > a > img",
+      "description": "Store icon inside the 'Seja um franqueado' link has an alternative that is not an alternative: it says 'Icon Login', which neither describes the store pictogram nor is empty, so the link is announced as 'Icon Login Seja um franqueado'.",
+      "evidence": "img alt=\"Icon Login\" (store pictogram) inside <a href=\"/seja-franqueado\">; link accessible name \"Icon Login Seja um franqueado\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a2",
+      "criterion": "1.1.1",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > section > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > p > a > img",
+      "description": "Location-pin icon inside the 'Nossas lojas' link has the wrong alternative 'Icon Login' instead of an empty alt (the link text already gives its purpose), so it adds a misleading 'Login' to the link.",
+      "evidence": "img alt=\"Icon Login\" (map pin pictogram) inside <a href=\"/nossas-lojas\">; link accessible name \"Icon Login Nossas lojas\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a3",
+      "criterion": "1.1.1",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > a > span > img",
+      "description": "Site logo, the only content of the link to the home page, has the alternative 'Logo': it neither gives the text in the image (ARTWALK) nor the link's function.",
+      "evidence": "img alt=\"Logo\" showing the wordmark \"ARTWALK\", sole content of <a href=\"/\">",
+      "certainty": "clear"
+    },
+    {
+      "id": "a4",
+      "criterion": "1.1.1",
+      "ref": "#menu-item-wish-list",
+      "description": "Wishlist icon link (heart pictogram) has no text alternative at all: the link holds only an empty div and the icon is drawn without any alternative, so the control has no name.",
+      "evidence": "<a href=\"/account/#/wishlist\" id=\"menu-item-wish-list\" title=\"\"><div class=\"...styledLinkContent...\"></div></a>; accessible name empty; heart icon visible in the header",
+      "certainty": "clear"
+    },
+    {
+      "id": "a5",
+      "criterion": "1.1.1",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div:nth-of-type(3) > div > div:nth-of-type(5) > aside > div > div > button",
+      "description": "Mini-cart image button (shopping-bag icon) has no text alternative: the button is focusable (tabindex=0) but sits in an aria-hidden wrapper and its svg is aria-hidden, so it has no name.",
+      "evidence": "<div role=\"presentation\" aria-hidden=\"true\"><button tabindex=\"0\" type=\"button\" style=\"font-size:0\">...<svg aria-hidden=\"true\" class=\"vtex-minicart-2-x-cartIcon\">; no accessible name; bag icon visible at top right",
+      "certainty": "clear"
+    },
+    {
+      "id": "a6",
+      "criterion": "1.1.1",
+      "ref": "#slider-items-2ari0ru > div:nth-of-type(1) > div > div:nth-of-type(2) > div > span > a > img",
+      "description": "Hero banner image is the only content of a link to the Black Friday page but has an empty alternative, so the link has no name and the banner's message is not available as text.",
+      "evidence": "img alt=\"\" title=\"\" (1280x549 promotional banner) sole content of <a href=\"/black-friday?utmi_cp=banner_hero_black_friday_1_11_2026\" title=\"\">",
+      "certainty": "clear"
+    },
+    {
+      "id": "a7",
+      "criterion": "1.1.1",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(1) > section > div > div:nth-of-type(5) > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > a > img",
+      "description": "Facebook logo is the only content of a link to Artwalk's Facebook page but has alt=\"\", so the link has no text alternative.",
+      "evidence": "img alt=\"\" (Facebook \"f\" logo) sole content of <a href=\"https://www.facebook.com/AtitudeArtwalk\" title=\"\">",
+      "certainty": "clear"
+    },
+    {
+      "id": "a8",
+      "criterion": "1.1.1",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(1) > section > div > div:nth-of-type(5) > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > a > img",
+      "description": "Instagram logo is the only content of a link to Artwalk's Instagram profile but has alt=\"\".",
+      "evidence": "img alt=\"\" (Instagram logo) sole content of <a href=\"https://www.instagram.com/atitudeartwalk\" title=\"\">",
+      "certainty": "clear"
+    },
+    {
+      "id": "a9",
+      "criterion": "1.1.1",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(1) > section > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(3) > div > div > div:nth-of-type(1) > a > img",
+      "description": "App Store badge is the only content of a link to the MVP app on the App Store but has alt=\"\".",
+      "evidence": "img alt=\"\" (\"App Store\" badge) sole content of <a href=\"https://apps.apple.com/br/app/mvp/id1561788199\" title=\"\">",
+      "certainty": "clear"
+    },
+    {
+      "id": "a10",
+      "criterion": "1.1.1",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(1) > section > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(3) > div > div > div:nth-of-type(2) > a > img",
+      "description": "Google Play badge is the only content of a link to the MVP app on Google Play but has alt=\"\".",
+      "evidence": "img alt=\"\" (\"Google Play\" badge) sole content of <a href=\"https://play.google.com/store/apps/details?id=br.com.afeet.appsneakers\" title=\"\">",
+      "certainty": "clear"
+    },
+    {
+      "id": "a11",
+      "criterion": "1.1.1",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > img",
+      "description": "Trust seal under 'Compra segura' conveys information (store rating 4,8/5) but is marked decorative with alt=\"\".",
+      "evidence": "img alt=\"\" stamp-0.png: rating seal showing \"4,8/5\" and \"30/04/2020\", under heading \"Compra segura\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a12",
+      "criterion": "1.1.1",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > img",
+      "description": "Security seal under 'Compra segura' conveys information (PCI compliance) but has alt=\"\".",
+      "evidence": "img alt=\"\" stamp-1.png: \"PCI compliant\" seal, under heading \"Compra segura\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a13",
+      "criterion": "1.1.1",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div:nth-of-type(3) > img",
+      "description": "Third security/certification seal under 'Compra segura' conveys information but has alt=\"\".",
+      "evidence": "img alt=\"\" stamp-2.png: circular certification seal, under heading \"Compra segura\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a14",
+      "criterion": "1.1.1",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > img",
+      "description": "Payment-method logo under 'Formas de Pagamento' (Elo) tells users which payment method is accepted, but has alt=\"\", so the list of accepted methods is not available as text.",
+      "evidence": "img alt=\"\" payment-0.svg (Elo logo), under heading \"Formas de Pagamento\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a15",
+      "criterion": "1.1.1",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > img",
+      "description": "Payment-method logo under 'Formas de Pagamento' (American Express) tells users which payment method is accepted, but has alt=\"\", so the list of accepted methods is not available as text.",
+      "evidence": "img alt=\"\" payment-1.svg (American Express logo), under heading \"Formas de Pagamento\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a16",
+      "criterion": "1.1.1",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > div:nth-of-type(3) > img",
+      "description": "Payment-method logo under 'Formas de Pagamento' (Pix) tells users which payment method is accepted, but has alt=\"\", so the list of accepted methods is not available as text.",
+      "evidence": "img alt=\"\" payment-2.svg (Pix logo), under heading \"Formas de Pagamento\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a17",
+      "criterion": "1.1.1",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > div:nth-of-type(4) > img",
+      "description": "Payment-method logo under 'Formas de Pagamento' (Mastercard) tells users which payment method is accepted, but has alt=\"\", so the list of accepted methods is not available as text.",
+      "evidence": "img alt=\"\" payment-3.svg (Mastercard logo), under heading \"Formas de Pagamento\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a18",
+      "criterion": "1.1.1",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > div:nth-of-type(5) > img",
+      "description": "Payment-method logo under 'Formas de Pagamento' (Hipercard) tells users which payment method is accepted, but has alt=\"\", so the list of accepted methods is not available as text.",
+      "evidence": "img alt=\"\" payment-4.svg (Hipercard logo), under heading \"Formas de Pagamento\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a19",
+      "criterion": "1.1.1",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > div:nth-of-type(6) > img",
+      "description": "Payment-method logo under 'Formas de Pagamento' (Visa) tells users which payment method is accepted, but has alt=\"\", so the list of accepted methods is not available as text.",
+      "evidence": "img alt=\"\" payment-5.svg (Visa logo), under heading \"Formas de Pagamento\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a20",
+      "criterion": "1.1.1",
+      "ref": "#adopt-controller-button > svg",
+      "description": "Floating cookie-preferences control (lock icon in an orange circle, bottom left) is an svg exposed as an image with no text alternative; it opens the cookie banner, so its purpose is not given.",
+      "evidence": "#adopt-controller-button (controls #cookie-banner) > <svg> with no title, aria-label or role; accessibility role \"image\", no name",
+      "certainty": "clear"
+    },
+    {
+      "id": "a21",
+      "criterion": "2.4.4",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > section > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > p > a",
+      "description": "Top-bar link's accessible name starts with the wrong image alternative 'Icon Login', so a screen-reader user hears a login link name for a franchise page.",
+      "evidence": "link name \"Icon Login Seja um franqueado\", href /seja-franqueado",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a22",
+      "criterion": "2.4.4",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > section > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > p > a",
+      "description": "Top-bar link's accessible name starts with 'Icon Login', which misstates the purpose of a link to the store locator.",
+      "evidence": "link name \"Icon Login Nossas lojas\", href /nossas-lojas",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a23",
+      "criterion": "2.4.4",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > a",
+      "description": "Home-page link's only text is the image alternative 'Logo', which does not say where the link goes; the heading before it ('Artwalk: Sua Loja de Tênis, Roupas e Acessórios') does not say it either.",
+      "evidence": "link name \"Logo\" (img alt=\"Logo\"), href \"/\"",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a24",
+      "criterion": "2.4.4",
+      "ref": "#menu-item-wish-list",
+      "description": "Wishlist link has no accessible name and no title or other context, so its purpose cannot be determined.",
+      "evidence": "link name empty, title=\"\", href /account/#/wishlist",
+      "certainty": "clear"
+    },
+    {
+      "id": "a25",
+      "criterion": "2.4.4",
+      "ref": "#slider-items-2ari0ru > div:nth-of-type(1) > div > div:nth-of-type(2) > div > span > a",
+      "description": "Hero banner link has no accessible name (its image has alt=\"\" and title is empty), so its purpose cannot be determined.",
+      "evidence": "link name empty, title=\"\", img alt=\"\", href /black-friday?utmi_cp=banner_hero_black_friday_1_11_2026",
+      "certainty": "clear"
+    },
+    {
+      "id": "a26",
+      "criterion": "2.4.4",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(1) > section > div > div:nth-of-type(5) > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > a",
+      "description": "Facebook link has no accessible name (image alt=\"\", empty title); the heading 'Siga a Artwalk' does not tell it apart from the Instagram link.",
+      "evidence": "link name empty, title=\"\", href https://www.facebook.com/AtitudeArtwalk",
+      "certainty": "clear"
+    },
+    {
+      "id": "a27",
+      "criterion": "2.4.4",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(1) > section > div > div:nth-of-type(5) > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > a",
+      "description": "Instagram link has no accessible name (image alt=\"\", empty title).",
+      "evidence": "link name empty, title=\"\", href https://www.instagram.com/atitudeartwalk",
+      "certainty": "clear"
+    },
+    {
+      "id": "a28",
+      "criterion": "2.4.4",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(1) > section > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(3) > div > div > div:nth-of-type(1) > a",
+      "description": "App Store link has no accessible name; the heading 'Baixe agora o App MVP' does not say which store it opens or tell it apart from the Google Play link.",
+      "evidence": "link name empty, title=\"\", href https://apps.apple.com/br/app/mvp/id1561788199",
+      "certainty": "clear"
+    },
+    {
+      "id": "a29",
+      "criterion": "2.4.4",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(1) > section > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(3) > div > div > div:nth-of-type(2) > a",
+      "description": "Google Play link has no accessible name; the heading 'Baixe agora o App MVP' does not tell it apart from the App Store link.",
+      "evidence": "link name empty, title=\"\", href https://play.google.com/store/apps/details?id=br.com.afeet.appsneakers",
+      "certainty": "clear"
+    },
+    {
+      "id": "a30",
+      "criterion": "2.4.4",
+      "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(3) > section > div > div:nth-of-type(2) > div > div:nth-of-type(2) > a",
+      "description": "Footer link to the agency Peak Studio is focusable but has no accessible name (its image has src=\"\" and alt=\"\", title empty); it has no visible size in the capture, so whether users perceive it is uncertain.",
+      "evidence": "link name empty, title=\"\", <img src=\"\" alt=\"\">, href https://peakstudio.com.br/?gclid=...",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a31",
+      "criterion": "3.1.2",
+      "ref": "#cookie-banner-title",
+      "description": "Cookie banner heading is in English on a pt-BR page and is not marked with lang=\"en\".",
+      "evidence": "<h3 id=\"cookie-banner-title\">Control your privacy</h3>; no lang on it or its ancestors other than html lang=\"pt-BR\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a32",
+      "criterion": "3.1.2",
+      "ref": "#cookie-banner-content",
+      "description": "English sentence in the cookie banner without lang=\"en\".",
+      "evidence": "\"Our website uses cookies to improve navigation.\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a33",
+      "criterion": "3.1.2",
+      "ref": "#cookie-banner-comov2",
+      "description": "English passage in the cookie banner without lang=\"en\".",
+      "evidence": "\"We use cookies to share analytics, advertising data, user data, and ad personalization data with Google.\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a34",
+      "criterion": "3.1.2",
+      "ref": "#cookie-banner > div > div:nth-of-type(1) > div:nth-of-type(2) > span > a:nth-of-type(1)",
+      "description": "English link text in the cookie banner without lang=\"en\".",
+      "evidence": "link \"Privacy Policy\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a35",
+      "criterion": "3.1.2",
+      "ref": "#cookie-banner > div > div:nth-of-type(1) > div:nth-of-type(2) > span > a:nth-of-type(2)",
+      "description": "English link text in the cookie banner without lang=\"en\".",
+      "evidence": "link \"Terms of use\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a36",
+      "criterion": "3.1.2",
+      "ref": "#cookie-banner > div > div:nth-of-type(1) > div:nth-of-type(2) > span > a:nth-of-type(3)",
+      "description": "English term used as link text in the cookie banner without lang=\"en\" ('opt-out' is also used as a loanword in Brazilian privacy texts).",
+      "evidence": "link \"Opt-Out\"",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a37",
+      "criterion": "3.1.2",
+      "ref": "#adopt-preferences-button",
+      "description": "English button text in the cookie banner without lang=\"en\".",
+      "evidence": "button \"Customize\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a38",
+      "criterion": "3.1.2",
+      "ref": "#adopt-reject-all-button",
+      "description": "English button text in the cookie banner without lang=\"en\".",
+      "evidence": "button \"Reject\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a39",
+      "criterion": "3.1.2",
+      "ref": "#adopt-accept-all-button",
+      "description": "English button text in the cookie banner without lang=\"en\".",
+      "evidence": "button \"Accept\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a40",
+      "criterion": "3.1.2",
+      "ref": "#slider-items-2ari0ru",
+      "description": "Hero carousel region has the English accessible name 'slider' with no lang, read with Portuguese pronunciation.",
+      "evidence": "<section aria-label=\"slider\">",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a41",
+      "criterion": "3.1.2",
+      "ref": "#slider-items-2ari0ru > button:nth-of-type(1)",
+      "description": "Carousel button's accessible name is English without lang=\"en\" on a pt-BR page.",
+      "evidence": "button aria-label=\"Previous Slide\"",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a42",
+      "criterion": "3.1.2",
+      "ref": "#slider-items-2ari0ru > button:nth-of-type(2)",
+      "description": "Carousel button's accessible name is English without lang=\"en\" on a pt-BR page.",
+      "evidence": "button aria-label=\"Next Slide\"",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a43",
+      "criterion": "3.1.2",
+      "ref": "#slider-items-2ari0ru > div:nth-of-type(2)",
+      "description": "Carousel pagination group's accessible name is English without lang=\"en\".",
+      "evidence": "role=\"group\" aria-label=\"Slider pagination dots\"",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a44",
+      "criterion": "3.1.2",
+      "ref": "#slider-items-2ari0ru > div:nth-of-type(2) > div:nth-of-type(1)",
+      "description": "Carousel pagination button's accessible name is English without lang=\"en\".",
+      "evidence": "role=\"button\" aria-label=\"Dot 1 of 3\"",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a45",
+      "criterion": "3.1.2",
+      "ref": "#slider-items-2ari0ru > div:nth-of-type(2) > div:nth-of-type(2)",
+      "description": "Carousel pagination button's accessible name is English without lang=\"en\".",
+      "evidence": "role=\"button\" aria-label=\"Dot 2 of 3\"",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a46",
+      "criterion": "3.1.2",
+      "ref": "#slider-items-2ari0ru > div:nth-of-type(2) > div:nth-of-type(3)",
+      "description": "Carousel pagination button's accessible name is English without lang=\"en\".",
+      "evidence": "role=\"button\" aria-label=\"Dot 3 of 3\"",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a47",
+      "criterion": "3.3.2",
+      "ref": "#downshift-0-input",
+      "description": "Search field's only visible label is its placeholder, which disappears once the user types; the <label> 'Encontre na Artwalk' is visually hidden (1x1 px). The magnifier icon button beside it may count as a visible cue.",
+      "evidence": "<input id=\"downshift-0-input\" type=\"text\" placeholder=\"Encontre na Artwalk\">; <label for=\"downshift-0-input\"> rendered 1x1 px; adjacent icon button aria-label \"Buscar produtos\"",
+      "certainty": "borderline"
+    }
+  ]
+}

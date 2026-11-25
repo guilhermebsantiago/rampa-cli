@@ -1,0 +1,288 @@
+{
+  "page": "https://portal.rr.gov.br/",
+  "labeler": "recall-auditor",
+  "checked": {
+    "1.1.1": "55 non-text elements not hidden: 11 img (logo, 8 hero-carousel slides incl. 2 loop clones, footer logo, footer colour bar), 41 inline svg (toolbar icons, social icons, menu arrows, slider arrows, service and ouvidoria icons), 2 CSS background news photos, 1 icon-font play button",
+    "1.3.5": "1 form field (search box, type=search); it collects no information about the user",
+    "2.4.2": "1 page title",
+    "2.4.4": "45 links not hidden (plus 9 toolbar anchors exposed as buttons, not counted as links)",
+    "2.4.6": "17 headings not hidden and 1 field label (search box aria-label), plus button labels",
+    "3.1.1": "1 html lang attribute",
+    "3.1.2": "all visible text passages (about 110 distinct strings) and 14 aria-label/title/placeholder values",
+    "3.3.2": "1 form field (search box)"
+  },
+  "failures": [
+    {
+      "id": "a1",
+      "criterion": "1.1.1",
+      "ref": "html > body > header > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > a > img",
+      "description": "The header logo is the only content of the link to the home page but has an empty alt, so the link control has no text alternative describing its purpose (H30/F89).",
+      "evidence": "<a href=\"/home/\"><img src=\".../brasao-logo-1x.png\" alt=\"\"></a>; the image shows the coat of arms and the text \"GOVERNO DE RORAIMA\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a2",
+      "criterion": "1.1.1",
+      "ref": "#Layer_1",
+      "description": "The X/Twitter icon SVG is the only content of the social link and has no text alternative (no title, aria-label or role=img name); the link's sr-only span is empty, so the computed name falls back to the SVG's CSS style text.",
+      "evidence": "<span class=\"elementor-screen-only\"></span><svg id=\"Layer_1\" ...><defs><style>.cls-1 { fill: #69727d; stroke-width: 0px; }</style></defs>...; AX role image with no name",
+      "certainty": "clear"
+    },
+    {
+      "id": "a3",
+      "criterion": "1.1.1",
+      "ref": "#player > button",
+      "description": "The radio play/pause button holds only an aria-hidden Font Awesome play icon and has no accessible name, so the icon control has no text alternative for its purpose.",
+      "evidence": "<button class=\"play-pause\" onclick=\"togglePlayPause()\"><i class=\"fa fa-play\" aria-hidden=\"true\"></i></button>; name: null",
+      "certainty": "clear"
+    },
+    {
+      "id": "a4",
+      "criterion": "1.1.1",
+      "ref": "#swiper-wrapper-75f3b9915356177e > div:nth-of-type(2) > div > div > div > div > img",
+      "description": "Hero carousel banner (slide 1/6) is an image of text announcing the PM recruitment exam, marked decorative with alt=\"\"; the information is not available as text anywhere else.",
+      "evidence": "alt=\"\", src 003_1651x330px.jpg.jpeg; image text: \"CONCURSO DA PMRR +600 policiais\", \"portal.rr.gov.br | @govroraima\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a5",
+      "criterion": "1.1.1",
+      "ref": "#swiper-wrapper-75f3b9915356177e > div:nth-of-type(3) > div > div > div > div > img",
+      "description": "Hero carousel banner (slide 2/6) is an image of text with an announcement, marked decorative with alt=\"\".",
+      "evidence": "alt=\"\", src 001_1651x330px.jpg.jpeg; image text: \"HELICÓPTERO para a população\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a6",
+      "criterion": "1.1.1",
+      "ref": "#swiper-wrapper-75f3b9915356177e > div:nth-of-type(4) > div > div > div > div > img",
+      "description": "Hero carousel banner (slide 3/6) is an image of text with an announcement, marked decorative with alt=\"\".",
+      "evidence": "alt=\"\", src 002_1651x330px.jpg.jpeg; image text: \"SAÚDE COM O DOBRO DE CIRURGIAS e atendimento aos domingos\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a7",
+      "criterion": "1.1.1",
+      "ref": "#swiper-wrapper-75f3b9915356177e > div:nth-of-type(5) > div > div > div > div > img",
+      "description": "Hero carousel banner (slide 4/6) is an image of text announcing the fire brigade exam, marked decorative with alt=\"\".",
+      "evidence": "alt=\"\", src 004_1651x330px.jpg.jpeg; image text: \"CONCURSO para o Corpo de Bombeiros\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a8",
+      "criterion": "1.1.1",
+      "ref": "#swiper-wrapper-75f3b9915356177e > div:nth-of-type(6) > div > div > div > div > img",
+      "description": "Hero carousel banner (slide 5/6) is an image of text with an announcement, marked decorative with alt=\"\".",
+      "evidence": "alt=\"\", src 005_1651x330px.jpg.jpeg; image text: \"ESTUDO PARA O CONCURSO DA SAÚDE\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a9",
+      "criterion": "1.1.1",
+      "ref": "#swiper-wrapper-75f3b9915356177e > div:nth-of-type(7) > div > div > div > div > img",
+      "description": "Hero carousel banner (slide 6/6) is an image of text with the government's slogan and logo, marked decorative with alt=\"\".",
+      "evidence": "alt=\"\", src 006_1651x330px.jpg.jpeg; image text: \"Menos política e mais união e trabalho: UM NOVO GOVERNO QUE CHEGOU PARA RESOLVER.\", \"CUIDAR DAS PESSOAS TODOS OS DIAS\", \"GOVERNO DE RORAIMA\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a10",
+      "criterion": "1.1.1",
+      "ref": "#swiper-wrapper-75f3b9915356177e > div:nth-of-type(8) > div > div > div > div > img",
+      "description": "Swiper loop clone of slide 1/6 at the end of the hero carousel: the same image of text with alt=\"\", shown when the carousel loops; it fails like the original, but as a duplicate element auditors may not count it separately.",
+      "evidence": "alt=\"\", src 003_1651x330px.jpg.jpeg; group aria-label \"1 / 6\"; image text: \"CONCURSO DA PMRR +600 policiais\"",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a11",
+      "criterion": "1.1.1",
+      "ref": "#swiper-wrapper-75f3b9915356177e > div:nth-of-type(1) > div > div > div > div > img",
+      "description": "Swiper loop clone of slide 6/6, positioned before the first slide (offscreen at capture): the same image of text with alt=\"\"; it fails like the original, but as an offscreen duplicate auditors may not count it separately.",
+      "evidence": "alt=\"\", src 006_1651x330px.jpg.jpeg (same as slide 6/6: \"Menos política e mais união e trabalho: UM NOVO GOVERNO QUE CHEGOU PARA RESOLVER.\"); states: offscreen",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a12",
+      "criterion": "1.1.1",
+      "ref": "html > body > footer > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > img",
+      "description": "Footer logo (coat of arms + \"GOVERNO DE RORAIMA\") has alt=\"\"; nearby text \"Governo do Estado de Roraima\" largely repeats it, so whether the logo is redundant (decorative) or needs its own alternative is debatable.",
+      "evidence": "<img src=\".../logo-gov-vaza.png\" alt=\"\">; following paragraphs: \"Secretaria Social de Comunicação – SECOM\", \"Governo do Estado de Roraima\"",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a13",
+      "criterion": "2.4.4",
+      "ref": "html > body > header > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > a",
+      "description": "The header logo link has no accessible name (its only content is an image with alt=\"\"), so its purpose cannot be determined from link text or context.",
+      "evidence": "<a href=\"/home/\"><img ... alt=\"\"></a>; name: none; no title, no preceding heading",
+      "certainty": "clear"
+    },
+    {
+      "id": "a14",
+      "criterion": "2.4.4",
+      "ref": "html > body > header > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div > span:nth-of-type(3) > a",
+      "description": "The X/Twitter social link has an empty screen-reader span and an unnamed SVG; its computed name is the SVG's CSS code, which does not describe the link's purpose (Facebook, Instagram and Youtube siblings are named).",
+      "evidence": "link name \".cls-1 { fill: #69727d; stroke-width: 0px; }\" (CDP name \"\"); href https://twitter.com/govroraima",
+      "certainty": "clear"
+    },
+    {
+      "id": "a15",
+      "criterion": "2.4.4",
+      "ref": "#content > div > div > div:nth-of-type(3) > div > div > div > div > div > div > div:nth-of-type(1) > div > a",
+      "description": "Featured news card overlay link is empty (no text, no aria-label, no title); the headline is in a sibling div, not in the link's sentence, paragraph, list item or cell, and the preceding heading (\"O que você está procurando?\") does not give its purpose.",
+      "evidence": "<a href=\"https://portal.rr.gov.br/seadi-apresenta-projetos-e-dados-para-a-equipe-de-transicao-de-governo/\" class=\"jet-engine-listing-overlay-link\"></a>; visual headline \"Seadi apresenta projetos e dados para a equipe de transição de governo\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a16",
+      "criterion": "2.4.4",
+      "ref": "#content > div > div > div:nth-of-type(3) > div > div > div > div > div > div > div:nth-of-type(2) > div > a",
+      "description": "Featured news card overlay link is empty; nothing in its programmatic context gives its purpose.",
+      "evidence": "<a href=\"https://portal.rr.gov.br/governo-de-roraima-lanca-campanha-para-esclarecer-duvidas-sobre-programas-habitacionais/\" class=\"jet-engine-listing-overlay-link\"></a>; visual headline \"Governo de Roraima lança campanha para esclarecer dúvidas sobre programas habitacionais\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a17",
+      "criterion": "2.4.4",
+      "ref": "#swiper-wrapper-1d0561d313cf2b103 > div:nth-of-type(5) > div > a",
+      "description": "\"Últimas Notícias\" carousel card overlay link is empty; the preceding heading \"Últimas Notícias\" does not tell which story it opens.",
+      "evidence": "<a href=\"https://portal.rr.gov.br/governo-de-roraima-estrutura-adesao-a-financiamento-para-empresas-inovadoras/\" class=\"jet-engine-listing-overlay-link\"></a>; slide \"1 / 6\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a18",
+      "criterion": "2.4.4",
+      "ref": "#swiper-wrapper-1d0561d313cf2b103 > div:nth-of-type(6) > div > a",
+      "description": "\"Últimas Notícias\" carousel card overlay link is empty; no context gives its purpose.",
+      "evidence": "<a href=\"https://portal.rr.gov.br/congresso-aprova-r-115-milhoes-para-roraima-por-gastos-com-crise-migratoria/\" class=\"jet-engine-listing-overlay-link\"></a>; slide \"2 / 6\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a19",
+      "criterion": "2.4.4",
+      "ref": "#swiper-wrapper-1d0561d313cf2b103 > div:nth-of-type(7) > div > a",
+      "description": "\"Últimas Notícias\" carousel card overlay link is empty; no context gives its purpose.",
+      "evidence": "<a href=\"https://portal.rr.gov.br/fumaca-e-ondas-de-calor-agravam-e-aumentam-casos-de-doencas-respiratorias-em-roraima/\" class=\"jet-engine-listing-overlay-link\"></a>; slide \"3 / 6\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a20",
+      "criterion": "2.4.4",
+      "ref": "#swiper-wrapper-1d0561d313cf2b103 > div:nth-of-type(8) > div > a",
+      "description": "\"Últimas Notícias\" carousel card overlay link is empty; no context gives its purpose.",
+      "evidence": "<a href=\"https://portal.rr.gov.br/programa-encerra-edicao-de-2026-com-quase-35-mil-servidores-atendidos/\" class=\"jet-engine-listing-overlay-link\"></a>; slide \"4 / 6\"",
+      "certainty": "clear"
+    },
+    {
+      "id": "a21",
+      "criterion": "2.4.4",
+      "ref": "#swiper-wrapper-1d0561d313cf2b103 > div:nth-of-type(1) > div > a",
+      "description": "Carousel loop-clone card overlay link (offscreen but focusable, not hidden) is empty; no context gives its purpose.",
+      "evidence": "<a href=\"https://portal.rr.gov.br/fumaca-e-ondas-de-calor-agravam-e-aumentam-casos-de-doencas-respiratorias-em-roraima/\" class=\"jet-engine-listing-overlay-link\"></a>; states: offscreen, focusable",
+      "certainty": "clear"
+    },
+    {
+      "id": "a22",
+      "criterion": "2.4.4",
+      "ref": "#swiper-wrapper-1d0561d313cf2b103 > div:nth-of-type(2) > div > a",
+      "description": "Carousel loop-clone card overlay link (offscreen but focusable, not hidden) is empty; no context gives its purpose.",
+      "evidence": "<a href=\"https://portal.rr.gov.br/programa-encerra-edicao-de-2026-com-quase-35-mil-servidores-atendidos/\" class=\"jet-engine-listing-overlay-link\"></a>; states: offscreen, focusable",
+      "certainty": "clear"
+    },
+    {
+      "id": "a23",
+      "criterion": "2.4.4",
+      "ref": "#swiper-wrapper-1d0561d313cf2b103 > div:nth-of-type(11) > div > a",
+      "description": "Carousel loop-clone card overlay link (focusable, not hidden) is empty; no context gives its purpose.",
+      "evidence": "<a href=\"https://portal.rr.gov.br/governo-de-roraima-estrutura-adesao-a-financiamento-para-empresas-inovadoras/\" class=\"jet-engine-listing-overlay-link\"></a>",
+      "certainty": "clear"
+    },
+    {
+      "id": "a24",
+      "criterion": "2.4.4",
+      "ref": "#swiper-wrapper-1d0561d313cf2b103 > div:nth-of-type(12) > div > a",
+      "description": "Carousel loop-clone card overlay link (focusable, not hidden) is empty; no context gives its purpose.",
+      "evidence": "<a href=\"https://portal.rr.gov.br/congresso-aprova-r-115-milhoes-para-roraima-por-gastos-com-crise-migratoria/\" class=\"jet-engine-listing-overlay-link\"></a>",
+      "certainty": "clear"
+    },
+    {
+      "id": "a25",
+      "criterion": "2.4.4",
+      "ref": "#swiper-wrapper-1d0561d313cf2b103 > div:nth-of-type(13) > div > a",
+      "description": "Carousel loop-clone card overlay link (focusable, not hidden) is empty; no context gives its purpose.",
+      "evidence": "<a href=\"https://portal.rr.gov.br/fumaca-e-ondas-de-calor-agravam-e-aumentam-casos-de-doencas-respiratorias-em-roraima/\" class=\"jet-engine-listing-overlay-link\"></a>",
+      "certainty": "clear"
+    },
+    {
+      "id": "a26",
+      "criterion": "2.4.4",
+      "ref": "#swiper-wrapper-1d0561d313cf2b103 > div:nth-of-type(14) > div > a",
+      "description": "Carousel loop-clone card overlay link (focusable, not hidden) is empty; no context gives its purpose.",
+      "evidence": "<a href=\"https://portal.rr.gov.br/programa-encerra-edicao-de-2026-com-quase-35-mil-servidores-atendidos/\" class=\"jet-engine-listing-overlay-link\"></a>",
+      "certainty": "clear"
+    },
+    {
+      "id": "a27",
+      "criterion": "2.4.6",
+      "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > h2",
+      "description": "Body content (the opening hours) is marked up as an h2; as a heading it does not describe the topic of any section (arguably a 1.3.1 misuse rather than a 2.4.6 failure).",
+      "evidence": "<h2>Das 8h às 17h de Segunda a Sexta-feira</h2> (follows the h2 \"Horário de atendimento:\")",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a28",
+      "criterion": "2.4.6",
+      "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(3) > div > div:nth-of-type(2) > div > h2",
+      "description": "The street address is marked up as an h2; it is content, not a heading describing a section's topic.",
+      "evidence": "<h2>Palácio Senador Hélio Campos, Praça do Centro Cívico - Boa Vista - Roraima - 69301-380</h2> (follows the h2 \"Endereço:\")",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a29",
+      "criterion": "2.4.6",
+      "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(4) > div > div:nth-of-type(2) > div > h2",
+      "description": "A telephone number is marked up as an h2; it does not describe the topic or purpose of any section.",
+      "evidence": "<h2>(95) 2121-7930</h2> (follows the h2 \"Casa Civil de Roraima\")",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a30",
+      "criterion": "2.4.6",
+      "ref": "html > body > footer > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div > h2",
+      "description": "The copyright/credit line is marked up as an h2; it does not describe the topic of a section.",
+      "evidence": "<h2>Governo de Roraima 2026 © Desenvolvido por SECOM/RR</h2>",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a31",
+      "criterion": "3.1.2",
+      "ref": "#content > div > div > div:nth-of-type(1) > div > div > div > div:nth-of-type(2)",
+      "description": "The hero carousel's next button has an English accessible name on a pt-BR page with no lang=\"en\", so screen readers speak it with Portuguese rules.",
+      "evidence": "<div role=\"button\" aria-label=\"Next slide\">; html lang=\"pt-BR\"",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a32",
+      "criterion": "3.1.2",
+      "ref": "#content > div > div > div:nth-of-type(1) > div > div > div > div:nth-of-type(3)",
+      "description": "The hero carousel's previous button has an English accessible name with no lang=\"en\" on a pt-BR page.",
+      "evidence": "<div role=\"button\" aria-label=\"Previous slide\">; html lang=\"pt-BR\"",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a33",
+      "criterion": "3.1.2",
+      "ref": "#content > div > div > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div:nth-of-type(2)",
+      "description": "The \"Últimas Notícias\" carousel's next button has an English accessible name with no lang=\"en\" on a pt-BR page.",
+      "evidence": "<div role=\"button\" aria-label=\"Next slide\">; html lang=\"pt-BR\"",
+      "certainty": "borderline"
+    },
+    {
+      "id": "a34",
+      "criterion": "3.1.2",
+      "ref": "#content > div > div > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div:nth-of-type(3)",
+      "description": "The \"Últimas Notícias\" carousel's previous button has an English accessible name with no lang=\"en\" on a pt-BR page.",
+      "evidence": "<div role=\"button\" aria-label=\"Previous slide\">; html lang=\"pt-BR\"",
+      "certainty": "borderline"
+    }
+  ]
+}

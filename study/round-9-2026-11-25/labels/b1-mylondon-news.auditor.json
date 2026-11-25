@@ -1,0 +1,17 @@
+{
+  "page": "https://www.mylondon.news/news/west-london-news/sociable-outgoing-putney-man-25-34958054",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "de8bb48ce48b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is the comment-count link under the 'Mercedes exploded near Heathrow' card in the Mantis 'Similar articles to this' carousel; its aria-label '\"Comments\"' overrides its visible text '1 Comments', so its accessible name is just 'Comments', with no title or aria-describedby. claimTrue: in the snapshot's accessibility tree exactly two links carry that name, this one and the one under the 'Wheezing asthmatic mum' card (5 comments), and they lead to the comment sections of two different articles; the other seven 'Comments' links are display:none (class 'hidden', zero comments) or inside the aria-hidden loop clone (and that clone goes to the same Mercedes page). Neither link sits in a sentence, paragraph, list item or table cell, and the nearest heading before both is the article's h2 ('Joshua Davies was an experienced skiier...'), so by this rubric their context is identical and nothing programmatic tells them apart. elementFails: under R1 the two links go to non-equivalent resources (comments on two different stories), and visual information tells them apart: each sits under its own card headline and photo and shows its own count, as the screenshot's carousel shows. The card headline is a styled paragraph inside another link, not a heading, so it is visual context only; every link of the failing pair fails 2.4.4. captureDiffers: the live page returns 200 with the same article and the same empty mantis-ui-widget placeholder, and the live Mantis recommender script builds the same comments-wrapper links and hides the zero-count ones, so nothing that matters differs; the recommended stories are personalised and may change, but the pattern does not. Label true_positive: the shared-name claim names this failure."
+    }
+  ]
+}

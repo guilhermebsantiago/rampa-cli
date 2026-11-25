@@ -1,0 +1,50 @@
+{
+  "page": "https://prefeitura.poa.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "976808b11ad6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the card image of the 'Revista Mais POA' card in the 'Mais Proteção' section, alt 'Revista Mais POA'. It is not inside a link: a separate overlay link 'Revista Mais POA' covers the card, and the card also has the h3 'Revista Mais POA' and the text 'Nesta 8ª edição, detalhamos o maior plano de resiliência climática da história de Porto Alegre.' The image (crop and the 648x432 file fetched live) shows the words 'PORTO ALEGRE MAIS PROTEGIDA' over an aerial photo of flood-protection earthworks; it shows no masthead, magazine or the name 'Revista Mais POA', so the sentence is literally true of the capture. The destination page shows that 'Porto Alegre mais protegida' is the title of the magazine's 8th edition, so the image is that edition's promo art: the alt names what the image belongs to but leaves out the edition title that the image states as text, and that title appears nowhere in the page's text (searched snapshot and live HTML). My lean is that it fails, since text in an image that conveys information is missing from its alternative, and read in good faith the claim points at that gap. The skeptic reasons that hold up: the alt does identify the image's subject rather than describing something unrelated, the adjacent description already conveys the edition and its theme, and many auditors treat such a card image as illustrative or redundant with the card's heading, where a short identifying alt (or even null alt) passes 1.1.1. Competent auditors would reasonably split, so the label is uncertain. captureDiffers: the live HTML has the same img, src and alt in the same card; no difference."
+    },
+    {
+      "fingerprint": "92f46a55058a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the category label ('cartola') 'Defesa Civil' above the headline of the news card about donations for Tupanciretã. Pixels sampled from the screenshot inside its bounds give text #09afa7 on background #ffffff, 2.73:1; the live stylesheet pmpa.css sets .field--name-field-cartola to color #09afa7, weight 700, 0.875-0.9em (about 15.8px), so it is not large text (bold needs 18.66px) and 4.5:1 applies; even the 3:1 large-text threshold would fail. I looked for reasons it could pass: the text is not incidental, decorative or a logotype; the page loads a contraste.css and a toggleContrast script, but no control on the home page (snapshot or live HTML) invokes it, so G174 does not apply; the overlay link that made axe-core undecided is transparent and does not change the colours. captureDiffers: the live page has the same card and the same CSS colour; no difference. The claim states the measured failure correctly."
+    },
+    {
+      "fingerprint": "9514949792cd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the category label 'Gabinete do Prefeito' on the secondary news card about the new CAPSi (right column, y about 1077). Screenshot pixels in its bounds give #09afa7 text on #ffffff, 2.73:1, matching the live pmpa.css rule for .field--name-field-cartola (#09afa7, bold, about 15.8px): not large text, so 4.5:1 is required, and 2.73:1 fails even 3:1. No exemption applies (informative category text, not incidental or a logo), the site's contrast mode has no toggle on this page so G174 cannot cure it, and the transparent overlay link does not alter the rendering. captureDiffers: the live HTML shows the same card and the stylesheet the same colour; no difference. The claim names this failure."
+    },
+    {
+      "fingerprint": "6a11b054952d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the category label 'Gabinete do Prefeito' on the main news card about the pôlderes 7 and 8 flood-protection works (left, y about 1349), a separate element from the other 'Gabinete do Prefeito' finding. Screenshot pixels in its bounds give #09afa7 on #ffffff (the yellow #ffdf57 stripe above is the image border, not behind the text), 2.73:1; the live CSS confirms #09afa7, bold, about 15.8px, so 4.5:1 applies and it fails, as it would fail 3:1 too. No technique or exception makes it pass: no contrast toggle is offered on the page (G174), the text is informative, and the overlay link is transparent. captureDiffers: the live page has the same card and colour; no difference. The claim names the failure."
+    }
+  ]
+}

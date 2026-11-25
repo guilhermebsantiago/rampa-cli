@@ -1,0 +1,39 @@
+{
+  "page": "https://portal.rr.gov.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "ad8948481d89",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header radio player's play/pause button (button.play-pause, 50x50 circle), whose only content is a Font Awesome play glyph marked aria-hidden. Claim: the snapshot records the icon colour #ffffff from CSS on a #cccccc fill; my own pixel count of the screenshot gives #cccccc and #ffffff as the two dominant colours, 1.606:1, and the button holds no text, so the sentence is true of the capture. Reasons I looked for: (1) the live page's CSS is identical (.play-pause background-color #ccc, .play-pause i color #fff; :hover and :active keep #ccc; only the .paused state, reached after playing and pausing, turns the icon black), so the capture does not differ. (2) Adjacent text: the visible 'Rádio Roraima' is a separate h2 outside the button and names the station, not the action, so it does not convey what the play glyph conveys; Understanding 1.4.11 exempts graphics only when visible text gives the same information. (3) Boundary: the grey disc is itself 1.61:1 on the white header, so no part of the button reaches 3:1; the #8e8e8e pill outline (3.28:1) belongs to the container around the heading and does not show what the button does. (4) G174: the page has the pojo 'Alto Contraste' toolbar, which would restyle buttons, but G174's test requires the switched version to meet all success criteria and the switching control to conform, and this button has no accessible name in any presentation, so G174 does not hold. The play glyph is the only visual information that identifies the control's function and state, at 1.61:1 against the adjacent #cccccc, so it fails 1.4.11 (G207), as the claim says."
+    },
+    {
+      "fingerprint": "88cd198c4f86",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the category badge 'TRANSIÇÃO DE GOVERNO' on the first featured news card (div.jet-listing-dynamic-field__content, 12px, weight 400). Claim: the snapshot gives the CSS colour rgb(245,245,245) and the screenshot pixels behind the text are #0078db (1676 of the sampled pixels); #f5f5f5 on #0078db computes to 4.09:1, so the sentence is true. Reasons I looked for: the live page's CSS sets the badge wrapper background to the global colour #0078DB and the text to #F5F5F5 at 12px (11px at a smaller breakpoint), the same as the capture, and the badge is still on the page, so the capture does not differ. The text is regular weight at 12px, so it is not large-scale text; it is a visible topic label, not decorative, incidental or a logotype. Even pure white text would reach only 4.46:1 on #0078db. The 'pseudo-element' note only explains why axe-core deferred; the background is a plain element background. The 'Alto Contraste' toolbar does not make it pass by G174, whose test requires the switched version to meet all other success criteria, which this page does not (for example, the radio button has no accessible name). It fails 1.4.3 at 4.09:1 against 4.5:1, as claimed."
+    },
+    {
+      "fingerprint": "77f4068a1d40",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the category badge 'CODESAIMA EXPLICA' on the second featured news card, the same JetEngine dynamic field (af037a1) as the other badge, 12px, weight 400. Claim: CSS colour rgb(245,245,245) in the snapshot and #0078db behind it in the screenshot (1430 of the sampled pixels), 4.09:1, so the sentence is true. Reasons I looked for: the live page has the same badge and the same CSS (#0078DB background on the inline wrapper, #F5F5F5 text, 12px), so the capture does not differ; the text is not large-scale, not decorative, not part of a logo or a picture; white text would still be only 4.46:1; the pseudo-element remark concerns axe-core's indecision, not a different background. The 'Alto Contraste' toolbar does not satisfy G174 because the switched version must meet all other success criteria and does not. It fails 1.4.3 as claimed."
+    }
+  ]
+}

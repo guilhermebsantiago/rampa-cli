@@ -1,0 +1,138 @@
+{
+  "page": "https://metodista.br/cursos-presencial/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "ec14dc283742",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header image Grupo-371@2x.png, an image of the words 'ATENDIMENTO ONLINE' with a chat icon, drawn as a pill button. It has alt=\"\" and is not inside a link. An inline script on the page binds a click handler to this img (data-octadesk-vinculado=\"true\" in the capture) that opens the Octadesk chat, so it is a functional image of text. Nothing near it says 'Atendimento Online'; the only such text is a footer link far from it. claimTrue: the capture shows alt=\"\" and the crop shows that text. elementFails: an informative, clickable image of text marked as decorative fails 1.1.1, and the claim names that failure. It also cannot be reached by keyboard and has no role, which touches 2.1.1 and 4.1.2. captureDiffers: the live HTML has the same img with alt=\"\", the same binding script and the same header position in the screenshot."
+    },
+    {
+      "fingerprint": "de114580f360",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Placeholder contrast: the 'Nome' field in the 'Dê o primeiro passo' lead form. The placeholder is its only visible label, because the label element is screen-reader-only. In the screenshot the placeholder renders as #a9a9a9 on the white field (computed rgba(112,112,112,.6) over #fff), which I measured from pixels at 2.35:1, matching the claim. Understanding 1.4.3 says the criterion applies to text 'including placeholder text'. G148 does not apply because the author sets the field's white background and text colour. The text is 15px at weight 500, so 4.5:1 is needed. The live page's CSS sets no placeholder colour, so users get the same default rendering. captureDiffers: no."
+    },
+    {
+      "fingerprint": "a10df4e1905c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the e-mail input of the lead form (type=email, name form_fields[email], placeholder 'E-mail'), which collects the visitor's own address. In the capture its name is 'E-mail E-mail': both screen-only labels with for=form-field-email resolve to it because the id is duplicated. It has no autocomplete attribute, both in the capture and in the live HTML. 1.3.5 requires the purpose of fields collecting user information to be programmatically determinable, and type=email does not identify the field as the user's own e-mail in the 1.3.5 sense; the sufficient technique is H98 autocomplete=\"email\". claimTrue yes, elementFails yes, and the claim names the missing token. captureDiffers: no, the live markup is identical."
+    },
+    {
+      "fingerprint": "b2226b0d82ef",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Placeholder contrast: the 'Telefone' field of the lead form. Its placeholder is the only visible label. The screenshot shows #a9a9a9 on a white field, which I measured at 2.35:1 for 15px/500 text, below 4.5:1. Understanding 1.4.3 explicitly covers placeholder text, and the author sets the field colours, so G148 does not apply. The live CSS has no placeholder override, so users receive the same rendering. captureDiffers: no."
+    },
+    {
+      "fingerprint": "25f76054215f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer newsletter input under 'RECEBA NOSSAS INFORMAÇÕES' (type=email, placeholder 'Digite seu e-mail'). It asks for the visitor's own e-mail and has no autocomplete attribute. Its browser name 'Digite seu e-mail' comes from the placeholder, because its label's for= points to the other field with the same id. The claim is true of the capture. The field fails 1.3.5 for lack of autocomplete=\"email\" (H98); type=email does not identify it as the user's own address. The live HTML is the same, so captureDiffers is no."
+    },
+    {
+      "fingerprint": "6bd7483ae0c7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Telefone' input of the lead form (type=tel, required), which collects the visitor's own phone number. It has no autocomplete attribute in the capture or in the live HTML. 1.3.5 needs its purpose programmatically determined, and the sufficient technique is H98 autocomplete=\"tel\"; type=tel alone does not identify the field as the user's telephone. The claim states exactly this. captureDiffers: no."
+    },
+    {
+      "fingerprint": "b1fbb8e69d7b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer logo Educacao-Metodista-01-1-copiar.png: the Methodist symbol over the words 'EDUCAÇÃO METODISTA'. It has alt=\"\" and is not in a link. The adjacent text reads 'Universidade Metodista de São Paulo / Desenvolvido por Raised Comunicação', a different name. 'Educação Metodista', the network brand, appears in no visible text on the page; the only other occurrence is in a hidden chat widget. A logo conveys the organisation's name, so this image of text is informative, and marking it decorative hides that brand from screen-reader users. That fails 1.1.1, and the claim names it. captureDiffers: the live HTML has the same img with alt=\"\"."
+    },
+    {
+      "fingerprint": "f9400f378003",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Placeholder contrast: the 'E-mail' field of the lead form. Its placeholder is the only visible label, since the label is screen-only. In the screenshot the placeholder is #a9a9a9 on white, measured at 2.35:1 for 15px/500 text, below 4.5:1. Understanding 1.4.3 applies the criterion to placeholder text, and the author sets the field background, so G148 does not apply. The live CSS is unchanged and sets no placeholder colour. captureDiffers: no."
+    },
+    {
+      "fingerprint": "06729dc2ab82",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the screen-only label 'E-mail' (for=form-field-email) of the footer newsletter form. The page has two inputs with id=form-field-email, so this label resolves to the first one in the lead form, whose name becomes 'E-mail E-mail'. The claim is true of the capture, and the live HTML has the same duplicate. But 4.1.2 asks that the control have a programmatically determinable name. The footer field still has one: Chrome computes 'Digite seu e-mail' from its placeholder, and the ACT rule e086e5 (mapped to 4.1.2) accepts a placeholder as the accessible name (Passed Example 5). The lead-form field's doubled name 'E-mail E-mail' is redundant but still accurate. The duplicate id is a 4.1.1 parsing matter, which WCAG 2.1's note treats as always satisfied for HTML. So no control fails 4.1.2 here: the rule treats the broken reference itself as the failure, a stricter rule than the criterion's."
+    },
+    {
+      "fingerprint": "f66d47105547",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer image 167-Umesp.png: the e-MEC seal with the e-MEC logo, a QR code and 'ACESSE JÁ'. It has alt=\"\" and is not a link. The seal shows the institution's registration in the Ministry of Education's e-MEC system, and the QR code leads to that record. 'e-MEC' appears in no text of the page, in the capture or the live HTML. So the image conveys information and an action prompt that screen-reader users lose, and marking it decorative fails 1.1.1; the claim names this. captureDiffers: the live HTML has the same img with alt=\"\" in the same footer column."
+    },
+    {
+      "fingerprint": "c331c8eae740",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Nome' input of the lead form ('Fale conosco, queremos te auxiliar'), which asks for the visitor's own name. It has no autocomplete attribute in the capture or in the live HTML. 'name' is one of the 1.3.5 input purposes, and the sufficient technique is H98 autocomplete=\"name\", so the field's purpose is not programmatically determined and it fails 1.3.5 as the claim says. captureDiffers: no."
+    },
+    {
+      "fingerprint": "c184d0b618e0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Placeholder contrast: the footer newsletter field 'Digite seu e-mail'. Its placeholder is the only visible text inside the field, and its label is screen-only and misassociated. The screenshot shows #a9a9a9 on the white pill field, measured at 2.35:1 for 15px/500 text, below 4.5:1. Understanding 1.4.3 covers placeholder text, and the field background is author-set, so G148 does not apply. The live CSS sets no placeholder colour. captureDiffers: no."
+    }
+  ]
+}

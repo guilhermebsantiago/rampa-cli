@@ -1,0 +1,41 @@
+{
+  "page": "https://www.carmensteffens.com.br/acess%C3%B3rios/acessorios-vertodos",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "2c6c89846995",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter E-mail input in the footer. It has no label, so its placeholder \"E-mail\" is the only visible text that says what to type. In the snapshot the placeholder is #999999 (from CSS) on the strip's #e4e4e4 background at 14px/400. I recomputed the ratio as about 2.24:1, and the screenshot crop shows the same light grey on grey. claimTrue is yes. Understanding 1.4.3 says the criterion \"applies to text in the page, including placeholder text\". The field is active, not disabled, and 2.24:1 is below 4.5:1, so elementFails is yes, for exactly the reason the claim gives. captureDiffers is cannot_tell: the live page refused my fetches (403 to WebFetch, connection reset to curl). The capture shows no sign of being a different version, though: the screenshot is the fully styled page with its web fonts, layout, cookie banner and push prompt."
+    },
+    {
+      "fingerprint": "b1756ba4ded0",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter E-mail field (\"Cadastre seu e-mail e receba nossas novidades\"). It collects the user's own email address, which is the 'email' input purpose in WCAG's list of input purposes. The captured HTML is <input type=\"email\" class=\"NewsletterStrip__Input\" placeholder=\"E-mail\" value=\"\"> with no autocomplete attribute, and its container is a div, not a form carrying autocomplete. claimTrue is yes. type=\"email\" only constrains the format and is not the mechanism Understanding 1.3.5 and H98 use to identify the purpose, so the field's purpose cannot be programmatically determined. elementFails is yes, for the reason the claim names. captureDiffers is cannot_tell: the live page refused my fetches (403, connection reset), and nothing in the snapshot or screenshot suggests a bot version."
+    },
+    {
+      "fingerprint": "b4b790b2ce3c",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter Nome input in the footer. It has no label, so the placeholder \"Nome\" is its only visible label. The snapshot measures #999999 on #e4e4e4 at 14px/400, which gives about 2.24:1, and the screenshot crop of the strip agrees. claimTrue is yes. Understanding 1.4.3 explicitly covers placeholder text, the control is active, and 2.24:1 is below 4.5:1, so elementFails is yes for the claim's reason. captureDiffers is cannot_tell because the live site refused my fetches (403, connection reset). The captured page is fully styled and consistent between the snapshot and the screenshot."
+    },
+    {
+      "fingerprint": "cb02db651e59",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter Nome field, which asks for the subscriber's own name. That is the 'name' input purpose in WCAG's list (information about the user). The captured HTML is <input type=\"text\" class=\"NewsletterStrip__Input\" placeholder=\"Nome\" value=\"\">, with no autocomplete attribute on the input and no enclosing form that supplies one. claimTrue is yes. Nothing programmatically identifies the purpose (H98 is not used), so elementFails is yes, for the reason the claim gives. captureDiffers is cannot_tell: the live page refused my fetches (403, connection reset), and the capture shows no sign of differing."
+    },
+    {
+      "fingerprint": "00d121097091",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the full-width banner image at the top of the Acessórios category (Header_Desktopcs.png, 1280x360). It is not inside a link. The crop shows a woman's feet in beige strappy flat sandals with gold starfish ornaments, on a white rug, with no text or logo. Its alt is \"Carmen Steffens\", the brand name, which is also the alt of the logo link in the header. claimTrue is yes: the brand is not what the picture shows. As an auditor I answer elementFails yes. If the image is informative (it shows a product), \"Carmen Steffens\" does not convey that content. If it is a mood banner, which is how the W3C images tutorial treats such images, 1.1.1 requires that AT can ignore it (alt=\"\", F39), yet AT announces it as \"Carmen Steffens\". The label is uncertain because competent auditors would reasonably disagree on two points. First, many accept a brand-name alt on a generic brand banner as meeting 1.1.1, or treat it as a best-practice note. Second, if it is decorative, the failure is a non-null alt, and 'describes something the image does not show' only partly names that. captureDiffers is cannot_tell: the live page refused my fetches (403, connection reset). The screenshot shows the same banner and is a fully styled render."
+    }
+  ]
+}

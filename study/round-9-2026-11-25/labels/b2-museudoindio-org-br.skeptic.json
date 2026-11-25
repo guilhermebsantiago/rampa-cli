@@ -1,0 +1,28 @@
+{
+  "page": "https://www.museudoindio.org.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "575e306d5126",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the magnifying-glass svg (sprite ic_search_black_24dp, no role, no title, no aria-hidden) inside the Blogger search widget's label, next to a textbox named \"Pesquisar este blog\" by aria-label and placeholder, all within a role=search landmark under a heading \"Pesquisar este blog\". claimTrue: no. The svg does have no name, but the snapshot exposes it as an unnamed image rather than hiding it, and the claim's main point is false: the text around it already says what it conveys, because the adjacent field's name and visible placeholder (\"Pesquisar este blog\") and the search landmark state the search function. The packet itself gives the model that text in the ancestors and the preceding heading. elementFails: no. The icon repeats the field's visible and programmatic label, so it is redundant (decorative) and a text alternative adds nothing. ACT rule 7d6734 asks for a name only on svg elements with an explicit image role, and this svg has none. The label also wraps an input type=submit set to display:none, so the icon works as a mouse click target for submit. That control is not in the accessibility tree, and the search can be submitted with Enter in the named textbox. A reviewer could raise an unnamed-click-target or missing-aria-hidden point under 4.1.2 or best practice, but that is not the informative-image defect this claim states. captureDiffers: no. A live fetch on 2026-11-25 returned the same widget markup (aria-label, placeholder, hidden submit, unnamed svg) and the same CSS, and the screenshot is fully styled. Label: false_positive, because the stated reason (information missing from the surrounding text) does not hold."
+    },
+    {
+      "fingerprint": "d90ee00fea21",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search textbox; its placeholder \"Pesquisar este blog\" is the field's only visible label, since the h3 with the same text is hidden. claimTrue: yes. The live and captured CSS set the placeholder colour with .search .search-input input::placeholder{color:rgba(0,0,0,0.376); font:italic 400 15px Merriweather}. The search section's rgba(0,0,0,0.027) tint over the #f7f7f7 page gives the field background #f0f0f0. In the screenshot, the darkest placeholder glyph pixels are #969696 on #f0f0f0, which is 2.60:1, matching the claim. elementFails: yes. 15px at weight 400 is not large text, and the placeholder is not incidental: it is the visible text that tells sighted users what the field is for, and it fits none of the 1.4.3 exceptions (not an inactive component, not decoration, not a logotype). The W3C WAI Forms tutorial (Instructions, Styling and color contrast) treats placeholder text as subject to the WCAG minimum contrast requirement and shows a fix with #767676 on white. I looked for reasons it could pass (a different background, large text, an exception, a stylesheet the capture lacked) and none holds. captureDiffers: no. The live HTML and CSS fetched on 2026-11-25 match the snapshot, and the styled screenshot gives the same pixel ratio. Label: true_positive, because the claim names the failure."
+    }
+  ]
+}

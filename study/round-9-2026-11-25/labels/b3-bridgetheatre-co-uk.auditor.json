@@ -1,0 +1,28 @@
+{
+  "page": "https://www.bridgetheatre.co.uk/en-GB/contact-us",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "fa557402aefb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the required 'Enquiry Phone Number*' text input in the HubSpot Customer Service Enquiry form, with the visible hint 'Best contact number for this enquiry'. In the snapshot it is <input type=\"text\" inputmode=\"text\" name=\"TICKET.enquiry_phone_number\"> with no autocomplete attribute, while First name, Last name and Email in the same form do carry given-name, family-name and email, so the claim holds of the capture. The field asks for the user's own contact telephone number, a purpose listed in WCAG 2.1 section 7 as 'tel', and nothing else (no autocomplete, no type=tel) makes that purpose programmatically determinable, so it fails 1.3.5 as the claim says (H98 not met). For captureDiffers I fetched the live page (the same Next.js page embedding HubSpot portal 26166057, form 8e7ebab9-...) and HubSpot's live form definition: the field is still the ticket property enquiry_phone_number, fieldType phonenumber, with the same label and description, and the capture is the DOM that HubSpot's script rendered in a real browser, matching the screenshot; I found no difference that touches this claim."
+    },
+    {
+      "fingerprint": "c59839dac99b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Email address' input of the 'Never miss a show' newsletter sign-up form in the page footer area: <input type=\"email\" name=\"email\" placeholder=\"name@example.com\" required> with a label but no autocomplete attribute. The claim holds of the capture: the field asks for the user's own email address and has no autocomplete=\"email\", and the snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError on this very field (an autocomplete token used as the name instead of in autocomplete). type=\"email\" gives the data format, not the purpose (it would equally fit someone else's address), so the purpose 'email' from WCAG 2.1 section 7 is not programmatically determined and the field fails 1.3.5 for the reason the claim names. The live page's server HTML, fetched now, contains the same input with the same attributes and still no autocomplete, so the capture does not differ from what users receive on this point."
+    }
+  ]
+}

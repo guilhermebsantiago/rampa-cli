@@ -1,0 +1,83 @@
+{
+  "page": "https://kidneycareuk.org/news-from-kidney-care-uk/new-research-dialysis-conservative-kidney-management/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "a1fe0fdcf5e1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The newsletter sign-up field \"First name\" (input#id_first_name) has a visible <label> above it, and its placeholder \"First name\" repeats that label. claimTrue: the snapshot records the placeholder colour #9ca3af taken from CSS on a #ffffff field, 20px weight 400, 2.54:1, as stated. elementFails: the live stylesheet main_kcuk.min.493deb9fc9c3.css sets input::placeholder{color:#9ca3af;opacity:1} with no override for the sign-up form, and the visible part of the field in the screenshot is white, so users get 2.54:1, below 4.5:1 (20px regular is not large text, and it would also miss 3:1). I looked for a way out: the visible label makes the placeholder redundant, but redundancy is not one of 1.4.3's exceptions (inactive component, pure decoration, invisible, part of a picture, logotype), and Understanding 1.4.3 says the criterion \"applies to text in the page, including placeholder text\". captureDiffers: the live HTML has the same input and the live CSS has the same placeholder colour. The cookie dialog that covers the form in the stitched full-page screenshot is a screenshot artefact and does not affect this text. True positive."
+    },
+    {
+      "fingerprint": "483fb44ca7c8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The newsletter sign-up field \"Last name\" (input#id_last_name) has a visible <label> above it, and its placeholder \"Last name\" repeats that label. claimTrue: the snapshot records the placeholder colour #9ca3af taken from CSS on a #ffffff field, 20px weight 400, 2.54:1, as stated. elementFails: the live stylesheet main_kcuk.min.493deb9fc9c3.css sets input::placeholder{color:#9ca3af;opacity:1} with no override for the sign-up form, and the visible part of the field in the screenshot is white, so users get 2.54:1, below 4.5:1 (20px regular is not large text, and it would also miss 3:1). I looked for a way out: the visible label makes the placeholder redundant, but redundancy is not one of 1.4.3's exceptions (inactive component, pure decoration, invisible, part of a picture, logotype), and Understanding 1.4.3 says the criterion \"applies to text in the page, including placeholder text\". captureDiffers: the live HTML has the same input and the live CSS has the same placeholder colour. The cookie dialog that covers the form in the stitched full-page screenshot is a screenshot artefact and does not affect this text. True positive."
+    },
+    {
+      "fingerprint": "379c2aeab223",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The newsletter sign-up field \"Email\" (input#id_email) has a visible <label> above it, and its placeholder \"Email\" repeats that label. claimTrue: the snapshot records the placeholder colour #9ca3af taken from CSS on a #ffffff field, 20px weight 400, 2.54:1, as stated. elementFails: the live stylesheet main_kcuk.min.493deb9fc9c3.css sets input::placeholder{color:#9ca3af;opacity:1} with no override for the sign-up form, and the visible part of the field in the screenshot is white, so users get 2.54:1, below 4.5:1 (20px regular is not large text, and it would also miss 3:1). I looked for a way out: the visible label makes the placeholder redundant, but redundancy is not one of 1.4.3's exceptions (inactive component, pure decoration, invisible, part of a picture, logotype), and Understanding 1.4.3 says the criterion \"applies to text in the page, including placeholder text\". captureDiffers: the live HTML has the same input and the live CSS has the same placeholder colour. The cookie dialog that covers the form in the stitched full-page screenshot is a screenshot artefact and does not affect this text. True positive."
+    },
+    {
+      "fingerprint": "639d882c8a1a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The newsletter sign-up field \"First name\" (input#id_first_name, name=\"first_name\", type=\"text\") asks for the visitor's own first name so they can join the mailing list (\"Yes, please add me to the mailing list\"). claimTrue: the captured input has no autocomplete attribute, and the snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError for it, so the remark about Chromium's check is also true. elementFails: given-name is an input purpose listed in WCAG 2.1 section 7, and the field collects information about the user. Without autocomplete (H98) or another mechanism, its purpose cannot be programmatically determined, so it fails 1.3.5. I looked for a way out: no hidden or third-party use of the field applies; it is plainly the user's own name. Chromium also infers the purpose from the name attribute, but that is a heuristic and not programmatic determination. captureDiffers: the live HTML has the identical input, with no autocomplete. True positive."
+    },
+    {
+      "fingerprint": "dc9073d77c8f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The newsletter sign-up field \"Last name\" (input#id_last_name, name=\"last_name\", type=\"text\") asks for the visitor's own last name so they can join the mailing list (\"Yes, please add me to the mailing list\"). claimTrue: the captured input has no autocomplete attribute. elementFails: family-name is an input purpose listed in WCAG 2.1 section 7, and the field collects information about the user. Without autocomplete (H98) or another mechanism, its purpose cannot be programmatically determined, so it fails 1.3.5. I looked for a way out: no hidden or third-party use of the field applies; it is plainly the user's own name. Chromium also infers the purpose from the name attribute, but that is a heuristic and not programmatic determination. captureDiffers: the live HTML has the identical input, with no autocomplete. True positive."
+    },
+    {
+      "fingerprint": "69332e7275f4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The newsletter sign-up field \"Email\" (input#id_email, name=\"email\", type=\"email\") asks for the visitor's own email address so they can join the mailing list (\"Yes, please add me to the mailing list\"). claimTrue: the captured input has no autocomplete attribute, and the snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError for it, so the remark about Chromium's check is also true. elementFails: email is an input purpose listed in WCAG 2.1 section 7, and the field collects information about the user. Without autocomplete (H98) or another mechanism, its purpose cannot be programmatically determined, so it fails 1.3.5. I looked for a way out: type=\"email\" gives the data type but not that this is the user's own address, which is what the input purpose \"email\" means, and Understanding 1.3.5 relies on autocomplete for that. Chromium also infers the purpose from the name attribute, but that is a heuristic and not programmatic determination. captureDiffers: the live HTML has the identical input, with no autocomplete. True positive."
+    },
+    {
+      "fingerprint": "3ea565d0a50f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the Kidney Care UK logo at the top of the Cookiebot consent dialog (#CybotCookiebotDialogPoweredbyImage), with alt=\"logo\". The crop shows the Kidney Care UK logotype. claimTrue: \"logo\" is Cookiebot's generic placeholder alt, not a file name, and in good faith the sentence holds because it is a placeholder. elementFails: the image names the organisation behind the dialog, and the dialog's own text does not. Its alternative should be \"Kidney Care UK\"; \"logo\" says only what kind of image it is, which is F30's failure (text alternatives that are not alternatives, such as placeholder text). I looked for a way out: if the logo were treated as decorative because it repeats the site header, alt=\"logo\" would still fail, as F39 (a non-null alt on an image that should be ignored). The image is not in a link and not aria-hidden, so no other name applies. captureDiffers: the live Cookiebot configuration for this site, loaded through GTM-P835LKL with cbid 013459b1-7c97-45c7-a063-cd4ab9311c4a, sets CookieConsentDialog.logoAltText = 'logo', the same as the capture, and the dialog shows to visitors who have not consented. True positive."
+    }
+  ]
+}

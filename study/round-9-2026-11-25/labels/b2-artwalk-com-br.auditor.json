@@ -1,0 +1,50 @@
+{
+  "page": "https://www.artwalk.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "d0aefa6baccc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header logo, an img with alt=\"Logo\" that is the only content of the link to \"/\" (the link's accessible name is \"Logo\"). The crop shows the orange ARTWALK wordmark. \"Logo\" is a generic placeholder word, so the claim holds of the capture. As the only content of a link the image is a control, and 1.1.1 requires a name that describes its purpose (H30); \"Logo\" names neither the brand nor the home destination and does not convey the image-of-text \"ARTWALK\" (F30: placeholder text as an alternative). The live HTML fetched with curl still has alt=\"Logo\" on the same image in the same link, so nothing in the capture differs for this claim. The claim names the real defect."
+    },
+    {
+      "fingerprint": "6f842892c698",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search input (#downshift-0-input) with the placeholder \"Encontre na Artwalk\". Its <label> is visually hidden, so the placeholder is the only visible text that identifies the field. The live style bundle sets .vtex-styleguide-9-x-input::placeholder to color:#8c8f94, makes the input background transparent, and gives the search bar's .vtex-input-prefix__group background-color:#eceded. That matches the colours Rampa measured: 2.77:1 at 14px and weight 400. On header hover (#f2f2f2) it is 2.90:1, and even on white it would be 3.24:1, all below 4.5:1. Placeholder text is visible text that conveys information, and no 1.4.3 exception (incidental, inactive control, logotype) applies, so it fails. The full-page screenshot shows the header band blank (the sticky header was not painted in that capture), but the measured colours match the live CSS, so that capture artefact does not touch this claim."
+    },
+    {
+      "fingerprint": "02190e59b177",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the small icon (src icon-store.svg) inside the top-bar link \"Seja um franqueado\" (to /seja-franqueado). The crop shows a storefront/awning icon, not a login icon, so alt=\"Icon Login\" describes something the image does not show, and the claim holds. The icon repeats the adjacent link text and should be ignored by assistive technology (alt=\"\"). Instead it has a non-null, wrong alternative, which F39 names as a failure. It also does not serve the purpose of the picture, and it injects a false word \"Login\" into the link's computed name (\"Icon Login Seja um franqueado\"). So the image fails 1.1.1. The live HTML has the same img, src and alt in the same link, so the capture does not differ. The claim names the defect: the alternative is wrong for the picture."
+    },
+    {
+      "fingerprint": "ebcbd455f732",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the small icon (src icon-locate.svg) inside the top-bar link \"Nossas lojas\" (to /nossas-lojas). The crop shows a location pin, not a login icon, so alt=\"Icon Login\" describes something the image does not show, and the claim holds. The icon is redundant with the link text and should have a null alternative. Its non-null, false alternative fails 1.1.1 (F39), and it puts \"Icon Login\" into the link's name (\"Icon Login Nossas lojas\"), misleading screen-reader users about the link. The live HTML has the identical markup, so the capture does not differ. The claim names the real defect."
+    }
+  ]
+}

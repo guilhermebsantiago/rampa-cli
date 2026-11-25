@@ -1,0 +1,83 @@
+{
+  "page": "https://www.osteopathy.org.uk/register-search/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "ff49b472733b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a 256x256 Google Maps base-map tile (maps/vt URL, alt=\"\", role=presentation), one of 12 tiles that compose the register-search map. claimTrue: it is hidden from assistive technology and the tile does show the Norwich label, which the nearby text does not mention, so the sentence holds of the capture. elementFails: no. The map sits in a region named \"Map\" (aria-roledescription \"map\"), its 12 markers are buttons named after the practices, and the results list right below gives the same 12 practices with their addresses in text, so what the map conveys on this page (where the listed practices are) is available as text. A single tile is a fragment of the base map, not a standalone image; its background place names are not content the page needs to convey, and alt=\"\" with role=presentation is the right treatment for it. captureDiffers: the live page (fetched now) has the same html lang, the same Google Maps container (#map-practices) fed with the same 12 locations, and the same 12-result list; the capture is a normal styled render. My fetch cannot render the Google tiles themselves, but nothing suggests they differ for users. The model had the crop and the map ancestors and judged a map fragment as informative content."
+    },
+    {
+      "fingerprint": "dd70f401a149",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a Google Maps base-map tile (maps/vt roadmap URL, alt=\"\", role=presentation). claimTrue: no; the red pins the claim cites are not in this image: the snapshot has them as separate marker elements (div role=button named after each practice, over a gstatic marker image), and the crop shows them only because it was cut from the composite screenshot at the tile's bounds. elementFails: no. The map sits in a region named \"Map\" (aria-roledescription \"map\"), its 12 markers are buttons named after the practices, and the results list right below gives the same 12 practices with their addresses in text, so what the map conveys on this page (where the listed practices are) is available as text. A single tile is a fragment of the base map, not a standalone image; its background place names are not content the page needs to convey, and alt=\"\" with role=presentation is the right treatment for it. captureDiffers: the live page (fetched now) has the same html lang, the same Google Maps container (#map-practices) fed with the same 12 locations, and the same 12-result list; the capture is a normal styled render. My fetch cannot render the Google tiles themselves, but nothing suggests they differ for users."
+    },
+    {
+      "fingerprint": "5d1ac1e90ec2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header link \"Cymraeg\" to the Welsh hub page (/cy/cymraeg/). claimTrue: the snapshot shows no lang on the link, its paragraph or any ancestor; only html lang=\"en-GB\", so it inherits en-GB. elementFails: yes; the link text is the Welsh name of the language, a deliberate change of language, and Understanding 3.1.2's \"Alternative language links\" example (each link's text is the language's name in that language, marked with its own lang) covers exactly this pattern via H58; the proper-name and vernacular exceptions do not fit a language switcher. captureDiffers: no; the live HTML fetched now has the same <a href=\"https://www.osteopathy.org.uk/cy/cymraeg/\">Cymraeg</a> with no lang or hreflang. The claim names this failure and its fix."
+    },
+    {
+      "fingerprint": "caac67d60672",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the Google Maps focus surface: a div role=region, aria-label \"Map\", focusable, with keydown/keyup/keypress listeners (arrow keys pan, +/- zoom). claimTrue: the snapshot confirms focusable, those listeners, and a region role rather than button or link. elementFails: no; the accessibility tree also gives it aria-roledescription \"map\" and an aria-describedby description listing every keystroke, so its name, role and operation are programmatically determined. It is a pannable surface, like a focusable scroll container, not a button or link, and ARIA has no map widget role; F59 targets div/span controls given no role, while this one has a fitting one, and the claim's suggested button or link would misdescribe it. captureDiffers: no; the live page loads the same Google Maps embed into #map-practices. The rule treated focus plus key listeners as requiring a button or link role, stricter than 4.1.2."
+    },
+    {
+      "fingerprint": "fc1501199288",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a Google Maps base-map tile (alt=\"\", role=presentation), partly clipped at the left edge of the map. claimTrue: it is hidden from assistive technology and the tile does show the Wales and Weston-super-Mare labels, which the nearby text does not mention. elementFails: no. The map sits in a region named \"Map\" (aria-roledescription \"map\"), its 12 markers are buttons named after the practices, and the results list right below gives the same 12 practices with their addresses in text, so what the map conveys on this page (where the listed practices are) is available as text. A single tile is a fragment of the base map, not a standalone image; its background place names are not content the page needs to convey, and alt=\"\" with role=presentation is the right treatment for it. captureDiffers: the live page (fetched now) has the same html lang, the same Google Maps container (#map-practices) fed with the same 12 locations, and the same 12-result list; the capture is a normal styled render. My fetch cannot render the Google tiles themselves, but nothing suggests they differ for users."
+    },
+    {
+      "fingerprint": "86c8b0ba638c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the top-left Google Maps base-map tile (alt=\"\", role=presentation), mostly clipped by the map viewport. claimTrue: it is hidden from assistive technology and the tile does show the Liverpool and Eryri National Park labels, which the nearby text does not mention. elementFails: no. The map sits in a region named \"Map\" (aria-roledescription \"map\"), its 12 markers are buttons named after the practices, and the results list right below gives the same 12 practices with their addresses in text, so what the map conveys on this page (where the listed practices are) is available as text. A single tile is a fragment of the base map, not a standalone image; its background place names are not content the page needs to convey, and alt=\"\" with role=presentation is the right treatment for it. captureDiffers: the live page (fetched now) has the same html lang, the same Google Maps container (#map-practices) fed with the same 12 locations, and the same 12-result list; the capture is a normal styled render. My fetch cannot render the Google tiles themselves, but nothing suggests they differ for users."
+    },
+    {
+      "fingerprint": "0f7c1a1f289c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a Google Maps base-map tile (maps/vt roadmap URL, alt=\"\", role=presentation). claimTrue: no; the labels are in the tile but the red pins are not: they are separate marker elements (div role=button named after each practice), visible in the crop only because it was cut from the composite screenshot. elementFails: no. The map sits in a region named \"Map\" (aria-roledescription \"map\"), its 12 markers are buttons named after the practices, and the results list right below gives the same 12 practices with their addresses in text, so what the map conveys on this page (where the listed practices are) is available as text. A single tile is a fragment of the base map, not a standalone image; its background place names are not content the page needs to convey, and alt=\"\" with role=presentation is the right treatment for it. captureDiffers: the live page (fetched now) has the same html lang, the same Google Maps container (#map-practices) fed with the same 12 locations, and the same 12-result list; the capture is a normal styled render. My fetch cannot render the Google tiles themselves, but nothing suggests they differ for users."
+    }
+  ]
+}

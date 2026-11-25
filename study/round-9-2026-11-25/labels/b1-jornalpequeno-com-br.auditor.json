@@ -1,0 +1,17 @@
+{
+  "page": "https://jornalpequeno.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "b7eb0e87fe70",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Início' link of the main navigation, the current page's item (li.current-menu-item). claimTrue: the snapshot's pixel measure records foreground #ffffff from CSS on a uniform #ff0137 background, 18px at weight 700, 3.954:1, with axe-core deferring because of pseudo content, exactly as the message says. elementFails: the live theme CSS (inline critical CSS and style.css) sets .header-navbar color #fff, the menu links to font-size 18px, font-weight 700 and color inherit, and .primary-menu>li.current-menu-item>a background #ff0137, a persistent state on the home page, not hover only; the screenshot's navbar shows white text on (255,1,55), and I compute 3.95:1. 18px bold is 13.5pt, under the 14pt bold (about 18.67px) large-text threshold, so 4.5:1 applies and the text fails 1.4.3 (the other menu items, white on #c81b23, reach 5.77:1). captureDiffers: the full-page screenshot draws the affixed (fixed-position) navbar near y=1836 instead of at its snapshot bounds y=130, a capture artefact of a sticky header that does not touch the colours or size; the live HTML and CSS fetched now match the capture. The claim names the real failure, so true_positive."
+    }
+  ]
+}

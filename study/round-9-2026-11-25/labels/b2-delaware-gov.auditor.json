@@ -1,0 +1,27 @@
+{
+  "page": "https://delaware.gov/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "3d0346bab827",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header nav item <li id=\"header-search-main\"> holding the text \"Search\". The snapshot shows it focusable, role listitem, with click and keydown listeners and an empty browser name, so the claim holds for the capture. The live HTML gives it tabindex=\"0\" and onkeydown=\"return accessibleFunction(event)\" (main.js: Enter toggles #header-search), and portal_ready.js binds a click that slideToggles the search panel. It works as a disclosure button but is exposed only as a list item, with no button role, no name of its own and no expanded state. That is F59, a 4.1.2 failure, and it is the failure the claim names. The live markup and scripts match the capture. The full-page screenshot shows the fixed nav bar blank (white text on white), but that has no bearing on the role."
+    },
+    {
+      "fingerprint": "fe85f1da9b6e",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the card image for \"State Parks To Auction '6' Surf Fishing Plate\" (src spotlight-No-6-Plate-small-surf-fishing.jpg). The crop and the screenshot show a black Delaware Surf Fishing vehicle permit plate numbered 6. Its alt, \"Office of Small Business with logo with a film crew and camera\", was copied from the film tax credit card further down (the same alt appears there in the live HTML). Nothing in the image matches the alt, so the claim is true. Screen reader users get false content: as informative content the alt is no equivalent, and as decoration it should have been null. Either way the image fails 1.1.1 for the reason the claim gives. The live HTML has the same img and alt as the capture."
+    },
+    {
+      "fingerprint": "acde4c1e4593",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the text input #inputAddress, labelled \"My Address\" under \"Find My Legislator\", with the placeholder \"411 Legislative Ave, Dover, DE 19901\" and no autocomplete attribute in either the snapshot or the live HTML. It asks for the user's own address, which portal_ready.js sends to legis.delaware.gov/FindMyLegislator as the search term. That is information about the user, and the address is a purpose on the WCAG Input Purposes list (street-address and its parts). Without an autocomplete token the purpose cannot be programmatically determined, so the field fails 1.3.5 as the claim says. One nuance: a single field for the full address (street, city, state, ZIP) has no exact token, but street-address is the conventional mapping and does not change the outcome. The live markup matches the capture."
+    }
+  ]
+}

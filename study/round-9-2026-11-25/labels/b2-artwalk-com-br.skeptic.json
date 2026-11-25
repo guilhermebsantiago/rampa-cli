@@ -1,0 +1,50 @@
+{
+  "page": "https://www.artwalk.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "d0aefa6baccc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header logo, an SVG wordmark reading ARTWALK, and it is the only content of the home link (href \"/\", no aria-label or title; the browser names the link \"Logo\"). alt=\"Logo\" is not a file name, but it is generic placeholder text of the kind F30 lists (\"image\", \"picture\"): it names the type of image, not the brand text it shows or where the link goes. That fails 1.1.1 under F30 and H30 (an image that is the only content of a link must describe its function, e.g. \"Artwalk\" or \"Artwalk, página inicial\"). I looked for something that would cure it and found nothing: no visible text, no aria-label, no title. The page title is not the control's name. The live HTML fetched today has the same markup and alt=\"Logo\" (only the class is lazyload, before the script runs). The full-page screenshot's header band is blank, but the crop shows the wordmark, so no capture difference touches the claim. The claim's \"placeholder\" names the real defect."
+    },
+    {
+      "fingerprint": "6f842892c698",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field. Its placeholder \"Encontre na Artwalk\" is the only visible text in the field; the label \"Buscar produtos\" is the search button's aria-label and is not visible. The live theme stylesheet (overrides.css) sets .vtex-styleguide-9-x-input::placeholder to color #8c8f94, 14px, weight 400. The input background is transparent over .vtex-input-prefix__group, which is #eceded. That gives 2.77:1 (I recomputed it), below the 4.5:1 that normal-size text needs. In the hover state the group turns #f2f2f2, about 2.97:1, so that fails too. I checked the reasons a skeptic might raise. None of the 1.4.3 exceptions applies: the field is active, the text is not decorative, and it is not a logotype. The ACT rule and axe skip placeholders, but that is a gap in their scope; WCAG grants no exemption, and the placeholder carries the field's only visible cue. The live CSS and HTML match the capture, so the capture does not differ."
+    },
+    {
+      "fingerprint": "02190e59b177",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a 20x21 icon inside the \"Seja um franqueado\" link (href /seja-franqueado). Its file is icon-store.svg, and both the SVG and the crop show a storefront with an awning, not a login or person icon. alt=\"Icon Login\" is announced: the browser names the link \"Icon Login Seja um franqueado\". The skeptic's best counter is that the link text already gives the purpose, so the icon is decorative. That does not save it: 1.1.1 then requires the icon to be ignorable by assistive technology, and a non-null alt on such an image is F39. If the icon is read as meaningful instead, \"Icon Login\" is a wrong alternative that tells users about a login that is not there. Either way the element fails 1.1.1. The claim, that the alt describes something the image does not show, names that mismatch. The live HTML has the same img and alt, so the capture does not differ."
+    },
+    {
+      "fingerprint": "ebcbd455f732",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a 20x21 icon inside the \"Nossas lojas\" link (href /nossas-lojas). Its file is icon-locate.svg, and both the SVG path and the crop show a map location pin, not a login icon. alt=\"Icon Login\", copied from another icon, is announced: the browser names the link \"Icon Login Nossas lojas\". The visible link text gives the purpose, so the icon is redundant. A redundant icon should have a null alt (F39); if it is read as meaningful, the alternative is wrong. Either way it fails 1.1.1, and no technique makes it pass. The claim names the mismatch between the alt and the picture. The live HTML has the same img and alt, so the capture does not differ."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "page": "https://www.alabama.gov/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "64d23cb2b189",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the main search field. Its placeholder text is visible at 30px. I tried to find a reason the finding is wrong. The live style.css sets input::placeholder to color #c3c3c3, font-size 30px, AvenirLTStd-Heavy. The input sets no background, so it is the default white, and the screenshot shows the pale grey placeholder on a white field. #c3c3c3 on #ffffff computes to 1.76:1. That is below even the 3:1 for large text the claim uses (30px is large text), so the claim applies no stricter rule than WCAG. No 1.4.3 exception applies: the text is not decoration, not part of an inactive control and not a logotype. The W3C WAI forms tutorial says placeholder text often falls short of WCAG's minimum contrast and recommends a darker grey (#767676). The search heading and aria-label do not exempt it, because 1.4.3 has no exception for redundant text. The live app-min.js renders the same input with type, name and aria-label as captured. The only difference is the ellipsis character in the placeholder, which does not matter here. So the capture does not differ, and the claim names the real failure."
+    },
+    {
+      "fingerprint": "92b10b67a0b7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is service-mock.png (241x150 natural size, shown whole at 240x149) with alt=\"\". It is a phone mock-up at the bottom of the Online Driver License Renewal promo card. Its screen shows the ALEA seal and the words Alabama Law Enforcement Agency. The claim is true of the capture: the alt is empty, the image shows that logo and name, and the card's text and link (Driver License Online Services, to alabamadl.alea.gov) never name ALEA. The live app-min.js renders the same img with alt=\"\" and the same card text, so the capture does not differ. The reason against the finding is this: the mock-up mainly works as eye candy that illustrates an online or mobile service. The text and link beside it already convey the card's content and purpose fully. The agency branding inside the pictured screen is incidental, and the W3C images tutorial treats images like this as decorative. My own answer leans toward a pass. Still, some competent auditors would hold that the visible agency name and the mobile context are information a screen reader user misses, and would ask for a short alt. Because they could reasonably disagree, the label is uncertain."
+    }
+  ]
+}

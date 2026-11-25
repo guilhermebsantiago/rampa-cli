@@ -1,0 +1,61 @@
+{
+  "page": "https://portal.arkansas.gov/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "1cf981c0aa9d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is an icon-only link (chevron icon, aria-label \"Discover More\", tabindex=-1) to https://www.arkansas.com/, beside an h2 holding a text link \"Discover More\" to the same address, at the end of the \"visit us in / The Natural State\" section. claimTrue no: the link text alone is generic, but the heading just before it in document order is the h2 \"The Natural State\" (after the h2 \"visit us in\"), which this round counts as context (H80), so \"nothing around it does\" is not true of the capture; the tourism paragraph is in a sibling block and is not counted. elementFails no: \"Discover More\" under the heading \"The Natural State\" tells users the link leads to more about visiting Arkansas, and it goes to the state's tourism site arkansas.com; this is the H80 pattern of a generic more link under a heading that names its topic. captureDiffers no: the live HTML fetched on 2026-11-25 has the same markup (the icon link with aria-label and tabindex=-1, the h2 link, the same headings). Label false_positive; cause model_error: the preceding heading was available and the judgment ignored it."
+    },
+    {
+      "fingerprint": "4b18eaa4bd66",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is an offscreen \"Skip to Content\" link (href #content) in a script-injected div beside \"Skip to Navigation\", at the start of the body. Its name matches, ignoring case, the other two skip links: the offscreen \"Skip to Content\" (#content) in the injected div beside \"Skip to Navigation\", the WordPress \"Skip to content\" (#content, class screen-reader-text), and accessiBe's widget link \"Skip to Content\" (#acsbContent; the browser's name drops the aria-hidden \"ENTER\" part). None has a title or aria-describedby, none sits in a paragraph, list item or table cell, and no heading comes before any of them, so the three form one set under R1. claimTrue yes: three links share the name, their hrefs name two targets (#content twice, #acsbContent once), and nothing around this one tells it apart. elementFails no: the two #content links resolve to the same anchor (div#content in main), and the accessiBe link is the widget's own skip-to-main-content link, resolved by its script (the capture has no element with id acsbContent), so all three serve the equivalent purpose of moving past the header to the main content; and nothing visible tells them apart (each shows only on focus, if at all, and all read Skip to Content), so by the expectation of fd3a94 (R1) every pair passes, as equivalent resources or as links ambiguous to users in general. captureDiffers no: the live HTML fetched on 2026-11-25 still has the WordPress skip link, the id=\"content\" anchor and the accessiBe loader that injects the other links; a raw fetch cannot render the injected markup, but nothing suggests users get different skip links. Label false_positive; cause criterion_misapplied: it treated two fragment addresses for the same skip-to-content function as different places, stricter than 2.4.4 and fd3a94, which need non-equivalent resources that something visible tells apart."
+    },
+    {
+      "fingerprint": "6045ccdac992",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the WordPress theme's \"Skip to content\" link (class skip-link screen-reader-text, href #content), a 1x1 screen-reader-text link at the start of the body. Its name matches, ignoring case, the other two skip links: the offscreen \"Skip to Content\" (#content) in the injected div beside \"Skip to Navigation\", the WordPress \"Skip to content\" (#content, class screen-reader-text), and accessiBe's widget link \"Skip to Content\" (#acsbContent; the browser's name drops the aria-hidden \"ENTER\" part). None has a title or aria-describedby, none sits in a paragraph, list item or table cell, and no heading comes before any of them, so the three form one set under R1. claimTrue yes: three links share the name, their hrefs name two targets (#content twice, #acsbContent once), and nothing around this one tells it apart. elementFails no: the two #content links resolve to the same anchor (div#content in main), and the accessiBe link is the widget's own skip-to-main-content link, resolved by its script (the capture has no element with id acsbContent), so all three serve the equivalent purpose of moving past the header to the main content; and nothing visible tells them apart (each shows only on focus, if at all, and all read Skip to Content), so by the expectation of fd3a94 (R1) every pair passes, as equivalent resources or as links ambiguous to users in general. captureDiffers no: the live HTML fetched on 2026-11-25 still has the WordPress skip link, the id=\"content\" anchor and the accessiBe loader that injects the other links; a raw fetch cannot render the injected markup, but nothing suggests users get different skip links. Label false_positive; cause criterion_misapplied: it treated two fragment addresses for the same skip-to-content function as different places, stricter than 2.4.4 and fd3a94, which need non-equivalent resources that something visible tells apart."
+    },
+    {
+      "fingerprint": "cb53d5d07c16",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is accessiBe's \"Skip to Content\" link (href #acsbContent) inside the widget's shadow root, in a region named \"Skip Links\" (a region is not context under this round's list). Its name matches, ignoring case, the other two skip links: the offscreen \"Skip to Content\" (#content) in the injected div beside \"Skip to Navigation\", the WordPress \"Skip to content\" (#content, class screen-reader-text), and accessiBe's widget link \"Skip to Content\" (#acsbContent; the browser's name drops the aria-hidden \"ENTER\" part). None has a title or aria-describedby, none sits in a paragraph, list item or table cell, and no heading comes before any of them, so the three form one set under R1. claimTrue yes: three links share the name, their hrefs name two targets (#content twice, #acsbContent once), and nothing around this one tells it apart. elementFails no: the two #content links resolve to the same anchor (div#content in main), and the accessiBe link is the widget's own skip-to-main-content link, resolved by its script (the capture has no element with id acsbContent), so all three serve the equivalent purpose of moving past the header to the main content; and nothing visible tells them apart (each shows only on focus, if at all, and all read Skip to Content), so by the expectation of fd3a94 (R1) every pair passes, as equivalent resources or as links ambiguous to users in general. captureDiffers no: the live HTML fetched on 2026-11-25 still has the WordPress skip link, the id=\"content\" anchor and the accessiBe loader that injects the other links; a raw fetch cannot render the injected markup, but nothing suggests users get different skip links. Label false_positive; cause criterion_misapplied: it treated two fragment addresses for the same skip-to-content function as different places, stricter than 2.4.4 and fd3a94, which need non-equivalent resources that something visible tells apart."
+    },
+    {
+      "fingerprint": "d15f025263eb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is the \"Find out more\" button link (shown as FIND OUT MORE by text-transform) of the Mobile ID slide in the hero slider, to dfa.arkansas.gov/office/driver-services/mobile-id/. The slider is built as three layers in document order: all eleven slide headings, then all eleven paragraphs, then all eleven buttons; so the heading just before the link is \"AR ABLE\", the last of the eleven, and the link sits alone in its own div, with no title, aria-label, aria-describedby, paragraph or list item. claimTrue yes: the text is generic and nothing in its programmatic context names Mobile ID. elementFails yes: \"Find out more\" with the preceding heading \"AR ABLE\" does not give the purpose and even points at a different service; only the slide's visual layout, which shows the \"Mobile ID\" heading and its description above the button, explains it, and that relation is not context under this round's rule (F63); the destination is not context either. No technique that would make it pass was found. captureDiffers no: the live HTML fetched on 2026-11-25 has the same layered structure (headings, then paragraphs, then buttons) and the same link. Label true_positive."
+    }
+  ]
+}

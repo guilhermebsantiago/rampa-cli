@@ -1,0 +1,83 @@
+{
+  "page": "https://www.fortnumandmason.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "7b4fc87ea7c8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the full-width EU delivery banner, an image that is the only content of a link to https://eu.fortnumandmason.com/. The picture is an image of text ('Shopping For EU Delivery? Send a little festive joy abroad this Christmas', button 'Right This Way'); its alt is 'Content image' and the link's name comes from it. claimTrue: the snapshot shows a > picture > img with nothing else in the link, and 'Content image' says nothing about the EU store. elementFails: under H30 the alternative of an image that is a link's only content must describe the link's function; 'Content image' is placeholder text (F30), so the control has no name that describes its purpose. captureDiffers: the live CMS content (GraphQL cmsPage 'home') has an empty alt for this image, and the site's live RichContent component renders an empty alt as 'Content image' for every visitor, so users get what the snapshot holds. The claim names the failure."
+    },
+    {
+      "fingerprint": "c7d2a6cf8dd4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the photo (a hamper with biscuit tins) on the left of the 'Select Country' dialog that the site shows to visitors outside the UK (the capture was taken from Brazil); its alt is 'Content image'. claimTrue: the alternative is a generic placeholder that says nothing about the picture. elementFails: whether the photo is read as decorative in this dialog (then it must be ignored by assistive technology, and a non-null alt like 'image' is failure F39) or as informative (then placeholder text is failure F30), 'Content image' fails 1.1.1. captureDiffers: the live JS (RichContent) turns an empty CMS alt into 'Content image' for all visitors, and the dialog code (SelectionContent) is live and unchanged in what matters; the dialog depends on the visitor's country, which the capture reflects for a visitor in Brazil. The claim points at the real defect, the placeholder alternative."
+    },
+    {
+      "fingerprint": "d735fcfa1635",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image that is the only content of the first 'Stories from the Journal' card link, href /stories/luke-flunder-at-fortnums; it shows Luke Flunder in front of wine shelves (file fortnums-luke-flunder-favourite-wines-tile.jpg) and its alt is 'EARLY CHRISTMAS GIFT IDEAS', apparently left from an older tile. claimTrue: the link holds only the picture, and the alt does not name the story; the snapshot's href and the card's h4 'LUKE FLUNDER ON WINE' show where it leads. elementFails: the destination, read through the site's GraphQL, is the blog post 'Five Questions & Four Wines with Luke Flunder'; 'Early Christmas gift ideas' names neither the story's subject nor the page, nor what the picture shows, so by H30 and R2 the alternative does not describe the link's function; the h4 and the separate 'Read More' link come after it and do not cure 1.1.1 (R2). captureDiffers: the live CMS content has the same alt on the same link. The claim names the failure."
+    },
+    {
+      "fingerprint": "5f2156125553",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 24x24 'F' icon (membership-circle_1.png, the Friends of Fortnum's mark) in the footer box 'Enjoy a little more Fortnum's whenever you fancy with a Friends of Fortnum's Membership Learn more'; its alt is 'Content image' and it is not inside a link. claimTrue: the alternative is generic placeholder text. elementFails: as a decorative mark next to text that already names the membership it should have a null alt, and a non-null placeholder such as 'image' is failure F39; read as a logo, 'Content image' does not identify it (F30). Either way it fails 1.1.1. captureDiffers: the live JS gives 'Content image' to every CMS image without an alt, the footer is the same for all visitors, and the screenshot shows the icon as captured. The claim points at the real defect."
+    },
+    {
+      "fingerprint": "9a8ef7b57e25",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the section title image 'Stories FROM THE JOURNAL' (stories-from-the-journal.png), an image of text above the three journal cards; its alt is 'Content image' and it is not a link. claimTrue: 'Content image' is a generic placeholder that does not give the image's text. elementFails: the image conveys the section's title; no heading or other text on the page gives 'Stories from the Journal' (not found in the snapshot), so the alternative does not serve the equivalent purpose (F30). captureDiffers: the live CMS content has an empty alt for this image and the live RichContent component renders it as 'Content image', as in the snapshot. The claim names the failure."
+    },
+    {
+      "fingerprint": "c04538c1d6f7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the country dropdown in the international 'Select Country' dialog: a PrimeReact dropdown whose focusable input #country-selector-input has aria-label 'Select Country'. The snapshot shows a label element with for=country-selector-input and the visible text 'Choose your delivery country' just above the field, so that is the field's visible label, and the aria-label replaces it as the accessible name. claimTrue: yes, exactly as stated. elementFails: 2.5.3 requires the name to contain the visible label's text; 'Select Country' does not contain 'Choose your delivery country', which is failure F96, and a speech-input user saying the visible label will not reach the field. captureDiffers: the live JS (CurrencySwitcher and SelectionContent chunks) still renders the label for country-selector-input and the dropdown with aria-label 'Select Country'; the dialog appears for visitors outside the UK, as the capture (from Brazil) shows. The claim names the failure."
+    },
+    {
+      "fingerprint": "a27896b46501",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image that is the only content of the second journal card link, href /stories/christmas-advent-calendars; it shows a stack of Fortnum's advent calendars (file fortnums-advent-calendar-gift-guide-2026-tile_4.jpg) and its alt is 'Biscuitorium Dunkipedia', an unrelated name apparently left from an older biscuit story. claimTrue: the link holds only the picture, and the alt does not say it leads to the advent calendar guide. elementFails: the destination, read through the site's GraphQL, is the blog post 'Advent Calendar Gift Guide'; the alternative names neither it nor what the picture shows, so by H30 and R2 the control's name does not describe its purpose, and the following h4 'ADVENT CALENDAR GIFT GUIDE' and the 'Discover More' link do not cure 1.1.1. captureDiffers: the live CMS content has the same alt on the same link. The claim names the failure."
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "page": "https://imirante.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "d8be9ac1cac8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the round 96px thumbnail in the first '+Colunas' card on the home page, inside a link whose text is the kicker 'Levantamento' and the headline about elderly people abandoned in hospitals. The crop and the screenshot show a head-and-shoulders portrait of a man; the destination article uses the same image file with alt=\"Ronaldo Rocha\" next to 'COLUNA Ronaldo Rocha', so it is the columnist's portrait. Its alt on the home page, 'Idosos estão abandonados em hospitais de São Luís', is the story's topic: it describes nothing the picture shows, and the card names the columnist nowhere in text. The alternative does not serve the image's purpose (identifying the columnist), and if the image were taken as redundant it should be null (F39); either way it fails 1.1.1, which is what the claim says. The live HTML fetched today has the same img and alt, so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "a9a5da1ff8b5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Modo Noturno' dark-mode switch in the off-canvas menu (#mp-menu-v2): <input id=\"switch-button\" type=\"checkbox\"> inside <label for=\"switch-button\" class=\"switch\"> that holds only the input and an empty slider span. The text 'Modo Noturno 🌙' is in a sibling div, not in the label and not referenced by aria-labelledby, so the snapshot's accessibility tree gives the checkbox an empty name while exposing it as a focusable checkbox. A screen reader announces only 'checkbox, not checked' when the menu is open, so it fails 4.1.2 (name), as the claim says. The live HTML has the same markup."
+    },
+    {
+      "fingerprint": "271633bcc418",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the kicker 'SÉRIE C' of the 'Show de gols' item in the green sports box. The screenshot shows light text on yellow-green, and its pixels are #f3f3f3 on #95ba0a. The live capa.css sets .esporteLinks to background rgb(149 186 10) = #95ba0a and color rgb(243 243 243) = #f3f3f3, and .esporteLinks__chapeu to 0.875rem (14px) at normal weight: about 2.03:1, far below the 4.5:1 that 1.4.3 requires for normal-size text (even pure white would give about 2.26:1). The live page still has the same item and styles, so it fails as claimed."
+    },
+    {
+      "fingerprint": "3e2ea56ef691",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the round thumbnail in the 'Estado Maior' card of '+Colunas'. The crop and the screenshot show the column's logo, white text 'ESTADO MAIOR' on a blue circle; the alt is 'Octávio Soeiro tem 35 dias para resolver problemas internos da Câmara Municipal de São Luís', a summary of the linked story that names a person the image does not show and leaves out the text the image does show. As an image of text its alternative should carry 'Estado Maior', or be null because the h3 'Estado Maior' in the same link repeats it (F39); this alt is neither, so it fails 1.1.1 and the claim names that defect. The live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "d33d1e78018b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the first link of the fixed blue nav bar, an <a href=\"/\"> whose only content is a 20px house icon (symbol #icon-home-2, path fill white). The live CSS sets .cabecalho__nav to rgb(3 171 248) = #03abf8 and the link color to white, and the screenshot (where the fixed header was painted near the bottom of the full-page image) shows the white house on that blue: about 2.57:1. The icon is all that identifies the control, so 1.4.11 (G207) asks for 3:1, and it fails as claimed. The link also has no accessible name, a 2.4.4/4.1.2 problem outside this finding. The live page has the same markup and colours."
+    }
+  ]
+}

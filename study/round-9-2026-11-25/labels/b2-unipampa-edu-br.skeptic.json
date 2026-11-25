@@ -1,0 +1,69 @@
+{
+  "page": "https://unipampa.edu.br/portal/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "442b7b36feb8",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The unselected 'Portarias' tab of the Documentos quicktabs. The live stylesheet sets 'ul.quicktabs-tabs.quicktabs-style-zen li a {color:#777; background:#eee}' (only li.active gets white on green), and the screenshot pixels at the element's bounds are #777777 on #eeeeee, 3.86:1. At 16px weight 600 it is not large text (bold needs 18.66px), and an operable tab is not an inactive component, so 4.5:1 applies and fails. Reasons I tested that do not hold: the 'Alto contraste' switcher (G174) would make these tabs white on #2a2a2a, but the switcher link itself is white 11.2px on #009045 (4.14:1), its script compares the id 'is_normal_contrast' against the served 'is-normal-contrast' so the first activation does nothing, and the high-contrast sheet leaves the search placeholder at 2.92:1, so G174's three checks are not met. Live HTML and CSS match the capture."
+    },
+    {
+      "fingerprint": "3f0cff717104",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'English' link of the language switcher in a page with lang='pt-br'. It carries only xml:lang='en'; the page is served as text/html (checked the response header), where the HTML spec says an xml:lang attribute in no namespace has no effect on language processing, and Blink and Gecko only read xml:lang in the XML namespace, so the link inherits pt-br. Understanding 3.1.2 says single words count unless it is not clear a change of language was intended; here the change is plainly intended (the author even wrote xml:lang), 'English' is not the Portuguese word (inglês) and is not a proper name used across languages untranslated. The live HTML is identical to the capture."
+    },
+    {
+      "fingerprint": "6e183e75bad3",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The unselected 'Servidores' tab of the Notícias quicktabs. Same zen-style rule in the live CSS (#777 on #eee), confirmed in the screenshot pixels at its bounds: #777777 on #eeeeee, 3.86:1, 16px weight 600, so normal text needing 4.5:1. It is an operable tab, not an inactive component. The 'Alto contraste' alternative does not satisfy G174 (the switcher link is 4.14:1 itself, needs two activations because of an id mismatch in its script, and the high-contrast view still leaves failing text). Live page matches the capture."
+    },
+    {
+      "fingerprint": "d5860adac6d6",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The unselected 'Estudantes' tab of the Notícias quicktabs. Live CSS gives it #777 on #eee and the screenshot pixels at its bounds are #777777 on #eeeeee, 3.86:1 at 16px weight 600, below the 4.5:1 required for normal text. No exception applies (operable tab, not a logo or decoration), and the 'Alto contraste' switcher does not meet G174 (its own link fails contrast at 4.14:1, its first activation does nothing, and the alternate view still has failing text). Live page matches the capture."
+    },
+    {
+      "fingerprint": "8a964c3ae34e",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Español' link of the language switcher, marked only with xml:lang='es' in a text/html document with lang='pt-br'; in text/html that attribute has no effect, so the link's language is pt-br. Its Portuguese spelling is 'Espanhol', so a pt-BR voice may pronounce it close, but Understanding 3.1.2 applies the pronunciation test only when it is in doubt whether a change of language was intended, and in a language switcher (with the author's own xml:lang) the change is clearly intended. Not a proper name, technical term or vernacular word. Live HTML matches the capture."
+    },
+    {
+      "fingerprint": "b79424dec55f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header search field; the site script adds placeholder='Pesquisar', and the live CSS sets '::-webkit-input-placeholder{color:#888}' and '#edit-search-api-views-fulltext{background-color:#e9e9e9 !important}', giving 2.92:1 in Chrome at 13px. Understanding 1.4.3 states the criterion applies to placeholder text, and here the placeholder is the only visible label (the real label '«nenhum»' is display:none). The field is operable, so no inactive-component exception. The high-contrast sheet does not restyle the field or placeholder, and the switcher fails G174 anyway. The screenshot's top is covered by a splash overlay, but the CSS and served HTML are the same live as in the capture."
+    },
+    {
+      "fingerprint": "2bee78dad2da",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The unselected 'Boletins de Serviço' tab of the Documentos quicktabs. Live CSS #777 on #eee; screenshot pixels at its bounds #777777 on #eeeeee, 3.86:1 at 16px weight 600, so it needs 4.5:1 and fails. It is an operable tab; the 'Alto contraste' switcher does not satisfy G174 (switcher link 4.14:1, first click is a no-op because of an id mismatch, alternate view still has failing text). Live page matches the capture."
+    },
+    {
+      "fingerprint": "d07890862b0a",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The header search textbox. Its associated label holds the junk text '«nenhum»' ('none') and is display:none (.views-exposed-form label), and a script adds placeholder='Pesquisar'. Chrome's tree in the capture gives the name '' with a labelledby relation to that hidden label: the empty label wins and the placeholder is not used, so in Chrome the field has no accessible name (ACT e086e5 fails), which is what the claim says. But a concrete counter-reading holds up: HTML-AAM falls through to the placeholder when the label yields no usable text, ACT e086e5 Passed Example 5 accepts a placeholder as the name, axe-core's label rule passes a non-empty placeholder, accname 1.2 would even take the hidden label's '«nenhum»', and Chrome still exposes the placeholder, which major screen readers announce, so 'announces only textbox' is overstated. Whether this fails 4.1.2 or only 3.3.2/2.4.6 is something competent auditors would split on. The live HTML, CSS and script match the capture."
+    },
+    {
+      "fingerprint": "4b106db83377",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The title 'Unipampa | Universidade Federal do Pampa' is on the university portal's home page (https://unipampa.edu.br/portal/), whose h1 is the Unipampa logo. For a home page the site and organisation name is exactly its topic and purpose, so the title identifies the page and 2.4.2 is met (F25 is not triggered). The claim that it 'says nothing about this page' is false. The model had the URL and the title and judged wrongly. The live title is the same."
+    }
+  ]
+}

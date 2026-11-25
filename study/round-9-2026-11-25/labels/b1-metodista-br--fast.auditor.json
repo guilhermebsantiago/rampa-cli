@@ -1,0 +1,28 @@
+{
+  "page": "https://metodista.br/cursos-presencial/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "7fdf9f2bf085",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer newsletter field under the heading 'RECEBA NOSSAS INFORMAÇÕES': <input type=\"email\" name=\"form_fields[email]\" placeholder=\"Digite seu e-mail\" required>, with no autocomplete attribute (its accessible name comes from the placeholder because the visually hidden label for=\"form-field-email\" points to the first field with the same duplicated id). claimTrue: the capture shows exactly that, a field for the user's own e-mail and no autocomplete. elementFails: the field collects information about the user (their e-mail to receive the university's news), 'email' is one of the WCAG 2.1 Input Purposes, and HTML supports autocomplete, so 1.3.5 requires the purpose to be programmatically determinable; type=\"email\" only states the data format, not that it is the user's e-mail, and no autocomplete token is present, so the sufficient technique H98 is not met. captureDiffers: the live HTML fetched now has the same input with no autocomplete anywhere on the page, and the screenshot shows the styled footer with this field; the screenshot is taller than the snapshot's bounds (the course grid grew), which does not touch this claim. The claim names the real failure."
+    },
+    {
+      "fingerprint": "fce98499149c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the e-mail field of the 'Dê o primeiro passo na conquista do seu sonho / Fale conosco' contact form (Nome, E-mail, Telefone, ENVIAR): <input type=\"email\" name=\"form_fields[email]\" placeholder=\"E-mail\" required>, no autocomplete. Its captured name 'E-mail E-mail' is what the snapshot computed, because two hidden labels for=\"form-field-email\" (this form's and the footer's, a duplicated id) both point at it; that oddity does not change the claim. claimTrue: the field asks for the user's e-mail and has no autocomplete in the capture. elementFails: the form collects the visitor's own contact data, 'email' is a listed Input Purpose, and nothing identifies the purpose programmatically (type=\"email\" gives the format only; H98's autocomplete=\"email\" is absent), so it fails 1.3.5; the neighbouring Nome and Telefone fields lack autocomplete too. captureDiffers: the live HTML fetched now matches (same input, no autocomplete on the page), and the screenshot shows the styled form as captured. The claim names the real failure."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "page": "https://www.pancreaticcancer.org.uk/news-and-blogs/study-launched-to-improve-consistency-in-diagnosis-and-treatment/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "ac77bc532db1",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is an accordion of two collapsible sections (\"Find out more about these delays\", \"Why do scan reports matter?\"). In the server HTML these are plain h3 headers with tabindex=0; the theme's accordion-js script (vendor.min.js, read on the live site) adds role=tablist to the container, role=tab plus aria-expanded=\"false\" to each header, and role=tabpanel to each content div. Its updateARIA function sets aria-expanded to true on the header whose section opens and back to false when it closes, and closeOthers (the default, not overridden) keeps at most one open. claimTrue: the first half holds, since neither tab has aria-selected. The second half does not: the snapshot's accessibility tree exposes expanded: false on both tabs, and in the capture no panel is open at all (both panels are hidden, matching the screenshot). So a screen reader does report the open or closed state, and once a section opens it says which one through aria-expanded. elementFails: 4.1.2 asks that states the user can set be programmatically determinable. The state the user sets here is expanded or collapsed, and it is exposed and kept up to date with aria-expanded, which is technique ARIA5. ARIA 1.2 lists aria-expanded as supported on tab and does not require aria-selected (it is a SHOULD for real tab widgets, and its implicit value is false). With zero or one section open, \"none selected\" matches the actual state, and no documented 4.1.2 failure covers a missing aria-selected. Requiring it applies a stricter ARIA-pattern rule than the criterion. Separate issues the claim does not name: using tab roles for an accordion is the outdated ARIA 1.0-era pattern, and role=tab overrides the h3 heading semantics, which is a 1.3.1 concern rather than this claim. captureDiffers: the live page has the same two sections and the same script, the screenshot is fully styled with both sections collapsed, and nothing I found differs in a way that touches the claim. Label false_positive, cause criterion_misapplied."
+    }
+  ]
+}

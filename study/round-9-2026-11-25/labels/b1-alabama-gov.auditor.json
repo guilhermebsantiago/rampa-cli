@@ -1,0 +1,28 @@
+{
+  "page": "https://www.alabama.gov/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "64d23cb2b189",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the site search field (input.search-box, aria-label \"Search\") with the placeholder \"Type here to search...\". The live style.css sets input::placeholder to color #c3c3c3, font-size 30px, AvenirLTStd-Heavy, and the input has no background rule, so it sits on the default white field, which the screenshot shows. #c3c3c3 on #ffffff computes to 1.76:1. At 30px the text is large-scale (at least 18pt), so the threshold is 3:1, and 1.76:1 is below it. The placeholder is not inactive, decorative, invisible or part of a picture, and Understanding 1.4.3 says the criterion \"applies to text in the page, including placeholder text\". So the claim is true of the capture and names the real failure. The live Vue template and CSS match the capture (same placeholder, attributes, colour and size), so the capture does not differ in a way that matters here."
+    },
+    {
+      "fingerprint": "92b10b67a0b7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is images/service-mock.png with alt=\"\", at the bottom of the \"Online Driver License Renewal\" promo card. The crop and the screenshot show the top of a phone mockup with the ALEA seal and the words \"Alabama Law Enforcement Agency\" on its screen. The sentence holds for the capture: the image is hidden by alt=\"\", it shows the ALEA logo and name, and neither the paragraph nor the link text \"Driver License Online Services\" names ALEA. But the image is an illustrative device mockup (eye-candy). The card's message (renew your licence online) and its link are given fully in text. The agency branding on the mocked screen is incidental, not information the user needs to understand or use the card, so treating it as decorative with a null alt meets 1.1.1. Rampa read the branding inside the picture as required content. The live Vue template renders the same <img src=\"images/service-mock.png\" alt=\"\"> in the same card with the same text, so the capture does not differ."
+    }
+  ]
+}

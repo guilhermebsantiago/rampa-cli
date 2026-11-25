@@ -1,0 +1,83 @@
+{
+  "page": "https://amigosdaarte.org.br/contato/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "a50bd06d2deb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The Newsletter form's 'Nome' text input (#form-field-name_news, labelled 'Nome' by a <label for>) collects the visitor's own name to subscribe them. claimTrue: the captured input has type=text and no autocomplete attribute, so its purpose is not programmatically identified and autocomplete=\"name\" is indeed absent. elementFails: a field collecting information about the user whose purpose ('name') is in the WCAG Input Purposes list, implemented in HTML where autocomplete is supported, must expose it (technique H98); it does not, so it fails 1.3.5. captureDiffers: the live raw HTML fetched on 2026-11-25 has the same input with no autocomplete; the snapshot only adds data-* attributes set by the mask script, which do not touch this claim. The claim names the actual failure, so true_positive."
+    },
+    {
+      "fingerprint": "c331c8eae740",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The contact form's required 'Nome' input (#form-field-name, labelled by <label for>) asks for the visitor's own name so APAA can reply. claimTrue: in the snapshot the input has type=text, no autocomplete attribute; autocomplete=\"name\" is missing as stated. elementFails: it collects information about the user that matches the 'name' input purpose and nothing identifies that purpose programmatically, a 1.3.5 failure (H98 not applied). captureDiffers: the live HTML has the same input without autocomplete; no difference that matters. The claim states the real defect, so true_positive."
+    },
+    {
+      "fingerprint": "c5d6176c9eba",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The Newsletter form's required 'E-mail' input (#form-field-email_news, type=email, labelled by <label for>) collects the subscriber's own email address. claimTrue: the captured input has no autocomplete attribute, so autocomplete=\"email\" is missing as stated. elementFails: type=email declares a data format, not the input purpose; 1.3.5 needs the 'email' purpose identified (H98) for a field about the user, and it is not, so it fails. captureDiffers: the live HTML matches (no autocomplete). The claim names the failure: true_positive."
+    },
+    {
+      "fingerprint": "9e1ca29695b0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The contact form's required 'E-mail' input (#form-field-email, type=email, labelled by <label for>) asks for the visitor's own email for the reply. claimTrue: no autocomplete attribute in the snapshot; autocomplete=\"email\" is missing. elementFails: a user-information field matching the 'email' input purpose with no programmatic purpose (type=email is not the autocomplete purpose), so it fails 1.3.5. captureDiffers: live HTML identical on this point. The claim names the failure: true_positive."
+    },
+    {
+      "fingerprint": "419a8e7e82bf",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The contact form's required 'Telefone' input (#form-field-phone, type=text, inputmode=numeric, Brazilian DDD+9-digit mask) asks for the visitor's own phone number. claimTrue: the captured input has no autocomplete attribute, so no telephone purpose (tel or tel-national) is declared; autocomplete=\"tel\" is missing as stated. elementFails: a user-information field matching a telephone input purpose whose purpose is not programmatically determinable fails 1.3.5; the mask classes and inputmode do not identify the purpose. captureDiffers: the live HTML has the same input without autocomplete. Whether tel or tel-national is the better token does not change that the claim names the failure: true_positive."
+    },
+    {
+      "fingerprint": "49b75e830314",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer search field (#search-input-bd431f5, type=search) shows the placeholder 'Faça sua busca' on a white field; its only label is a screen-reader-only <label> 'Pesquisar ...', so the placeholder is the visible text telling sighted users what the field is for. claimTrue: the page's Elementor CSS sets the field to font-size 18px, weight 400, color var(--e-global-color-9124f33) = #798085 on var(--e-global-color-ca8eddb) = #FFFFFF, and jet-search.css sets ::placeholder {color: inherit}; I computed #798085 on #FFFFFF at 4.008:1, matching the 4.01:1 reported, and the screenshot crop shows the grey placeholder on white. elementFails: 18px normal weight is not large text, so 1.4.3 requires 4.5:1; placeholder text is text, not incidental (not disabled, decorative or invisible), and 4.01:1 falls short. captureDiffers: the live CSS fetched on 2026-11-25 has the same colours and placeholder rule; no difference. The claim names the failure: true_positive."
+    },
+    {
+      "fingerprint": "58a7b0ea0d23",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer image regua-h-gestao-white.svg (alt=\"\") is a credits strip: the text 'Gestão e Produção' over the APAA difusão cultural and 'Tudo vira Cult SP' logos, and 'Realização' over the São Paulo Governo do Estado / Secretaria da Cultura, Economia e Indústria Criativa logo, as the crop and the screenshot show. claimTrue: it is marked decorative with alt=\"\" and the surrounding text (only '© 2024 - Associação Paulista dos Amigos da Arte' below; the Gov SP top bar and its footer bar are hidden in the capture) does not name Tudo Vira Cult SP, the state government as 'realização', or the Secretaria. elementFails: the image conveys information in images of text (who manages and produces, who sponsors) that is not given anywhere in the page's text (I searched the live HTML for 'Realização', 'Tudo Vira' and 'Indústria Criativa': absent), so a null alternative fails 1.1.1; it is not pure decoration. captureDiffers: the live HTML has the same img with alt=\"\" (and a mobile-only vertical variant also with alt=\"\"); no difference. The claim says the image conveys the logos the text does not, which names the failure: true_positive."
+    }
+  ]
+}

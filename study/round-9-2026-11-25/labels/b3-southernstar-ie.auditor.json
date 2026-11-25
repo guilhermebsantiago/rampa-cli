@@ -1,0 +1,27 @@
+{
+  "page": "https://www.southernstar.ie/entertainment/skibbereen-talent-encouraged-to-apply-to-brand-new-tv-show-4382148",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "aa3a9389e018",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the caret button (aria-label \"dropdown button\") next to the \"Services\" text in the sticky main menu. The \"Services\" span toggles the same submenu but sits outside the button, so the caret is the only thing this button shows. claimTrue: the snapshot's pixel measurement gives #9b9b9b on #ffffff, 2.78:1. elementFails: the live arrow-drop.svg hard-codes the path fill as #9B9B9B, which overrides the svg's fill-current. The subnav background is white (bg-white), so users see 2.78:1, below 3:1. Understanding 1.4.11 (Figure 36) says such a down-arrow \"is required to understand that there is drop-down functionality\". That makes it required visual information, and it fails. captureDiffers: the full-page screenshot leaves the sticky subnav strip blank (it also omits the fixed consent dialog), so it looks like a screenshot artefact. The snapshot and the live HTML have the same markup and icon, so nothing differs that touches this claim. The claim names the real failure."
+    },
+    {
+      "fingerprint": "5a1372a3d80e",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the article's lead image, a stock photo (shutterstock file) taken from above: a woman in a yellow bikini lies on a beach beside a pink swim ring, with surf and turquoise water. Its alt, and an identical title, is the CMS default: the headline plus \"Image\". claimTrue: the alt names Skibbereen talent and a TV show, and the image shows neither, so the sentence holds for the capture. elementFails: as alternative text, the headline (already the h1 just above) conveys nothing of the picture, so it does not serve an equivalent purpose. If the photo is read as purely illustrative or decorative, the non-null placeholder alt is failure F39 instead. Either way it fails 1.1.1. The claim points at this defect in the rubric's good-faith sense: the alternative leaves out what the image conveys. captureDiffers: the live page serves the same image (same src) with the same alt and title, and has no caption, so there is no difference."
+    },
+    {
+      "fingerprint": "fce44ee25b82",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the inline \"partners\" link-button in the InMobi/Quantcast consent dialog (\"We value your privacy\"), shown to visitors on first load (GDPR mode, site in Ireland). claimTrue: the snapshot records a pixel measurement after axe gave up (pseudoContent): #b71c1c on #222222, 2.42:1, 15px weight 500. elementFails: the live CMP config for this site (choice.js) sets uxLinkColor #b71c1c and uxBackgroundColor #222222, and its injected CSS colours .qc-cmp-ui links #b71c1c on a #222222 background. Recomputed, that is 2.42:1, below 4.5:1 for normal-size text, and no exception applies. captureDiffers: the full-page screenshot does not draw the fixed dialog, but the snapshot holds it, and the live CMP configuration gives the same colours. Nothing differs that touches the claim."
+    }
+  ]
+}

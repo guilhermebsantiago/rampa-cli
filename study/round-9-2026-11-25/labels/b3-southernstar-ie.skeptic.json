@@ -1,0 +1,39 @@
+{
+  "page": "https://www.southernstar.ie/entertainment/skibbereen-talent-encouraged-to-apply-to-brand-new-tv-show-4382148",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "aa3a9389e018",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the icon-only 'dropdown button' next to 'Services' in the sticky main menu (#subnav). It has no text and no border, so the caret is all the button shows. The live sprite arrow-drop.svg hard-codes the path fill as #9B9B9B, which overrides the button's currentColor, and #subnav is bg-white. #9b9b9b on #ffffff is 2.78:1, below 3:1. The snapshot's pixel measurement and the dimmed nav in the stitched screenshot agree. I looked for reasons it might pass. The adjacent black 'Services' text names the menu, but it does not show that the menu drops down. Understanding 1.4.11 (Figure 36, dropdown indicator) says 'The down-arrow is required to understand that there is drop-down functionality'. The caret also rotates to show the expanded state. claimTrue: yes. captureDiffers: no. The top of the full-page screenshot is blank where the sticky nav belongs (a stitching artefact), but the live HTML and SVG give the same colours. The failure the claim names holds, so this is a true positive."
+    },
+    {
+      "fingerprint": "5a1372a3d80e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the article's lead image, an aerial stock photo of a woman in a yellow bikini lying on sand beside a pink inflatable ring, with waves and turquoise water. Its alt (and title) is the headline plus 'Image', which is a CMS template pattern. It sits right under the identical h1 and has no figcaption. The alt describes the article's subject, not anything the photo shows, so claimTrue: yes. I looked for reasons it might pass. If the photo is informative (it illustrates the 'unforgettable holiday' hook), the alt does not convey its content. If it is treated as decorative, a non-null alt that AT announces fails F38. None of the 1.1.1 exceptions that allow only descriptive identification apply to a stock photo. Either way the element fails 1.1.1, and read in good faith the claim names that mismatch. captureDiffers: no. The live HTML has the same image and the same alt."
+    },
+    {
+      "fingerprint": "fce44ee25b82",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the inline 'partners' link-button in the InMobi Choice consent banner (#qc-cmp2-ui). The text is 15px at weight 500, which is not large text, so 4.5:1 applies. The live choice.js theme for this site sets uxLinkColor #b71c1c and uxBackgroundColor #222222. The screenshot's banner pixels are #222222 with the glyphs peaking at #b71c1c. That is 2.42:1, well under 4.5:1. I looked for reasons it might pass: wrong pixel sampling, an overlay, or different colours on the live banner. None holds, because the CSS values match the pixels. The banner is part of the page that users in Ireland and the EU receive, and no partial-conformance statement excludes it. claimTrue: yes. captureDiffers: no. The failure is as the claim states."
+    }
+  ]
+}

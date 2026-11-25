@@ -1,0 +1,39 @@
+{
+  "page": "https://portal.rr.gov.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "ad8948481d89",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the Radio Roraima play button in the header: a 50x50 circle whose only content is a Font Awesome play glyph (aria-hidden); the 'Radio Roraima' h2 beside it is a separate element, not part of the control. claimTrue: the snapshot records the icon colour #ffffff from CSS and the circle #cccccc, 1.61:1, and the button shows nothing but the icon. elementFails: the live page's inline CSS sets .play-pause background-color #ccc and .play-pause i color #fff, so users get white on #ccc (1.61:1); the circle itself is also #ccc on the white header (1.61:1). The play glyph is the only visual cue of what the control does, so it is required to identify the component, and by G207's test (3:1 against the adjacent colour, the whole glyph is adjacent only to #ccc) it fails 1.4.11. captureDiffers: the screenshot is fully styled and the live HTML has the same markup and CSS for #player. The claim names exactly this failure. (Separately the button has no accessible name, a 4.1.2 issue.)"
+    },
+    {
+      "fingerprint": "88cd198c4f86",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the category tag 'TRANSICAO DE GOVERNO' on the first featured news card, a 12px, weight 400 Roboto label inside a blue pill over the photo. claimTrue: the snapshot gives computed colour rgb(245,245,245), 12px/400, background #0078db measured from pixels, 4.09:1, and records axe's reason as pseudo-content. elementFails: the live page's Elementor CSS sets the tag's inline-wrap background to var(--e-global-color-fc8d094) = #0078DB (opaque) and the text colour to var(--e-global-color-87f488d) = #F5F5F5; I compute 4.09:1 for that pair, under the 4.5:1 that 1.4.3 requires for text that is not large (12px normal weight). The tag is real informative text, not incidental or a logo. captureDiffers: the screenshot is styled and the live page still shows this card and tag with the same CSS. The claim names the failure."
+    },
+    {
+      "fingerprint": "77f4068a1d40",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the category tag 'CODESAIMA EXPLICA' on the second featured news card, a 12px, weight 400 Roboto label in a blue pill over the photo. claimTrue: the snapshot gives computed colour rgb(245,245,245), 12px/400, background #0078db from pixels, 4.09:1, with axe's pseudo-content reason recorded. elementFails: the live CSS for this widget (af037a1) sets the inline-wrap background to #0078DB (opaque, via --e-global-color-fc8d094) and the text to #F5F5F5 (--e-global-color-87f488d): 4.09:1, below the 4.5:1 that 1.4.3 requires for normal-size text. Informative text, no exception applies. captureDiffers: the screenshot is styled and the live page still carries this card with the same tag and colours. The claim names the failure."
+    }
+  ]
+}

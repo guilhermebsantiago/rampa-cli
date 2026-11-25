@@ -1,0 +1,138 @@
+{
+  "page": "https://metodista.br/cursos-presencial/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "ec14dc283742",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image Grupo-371@2x.png in the header (top left, desktop layout) is a pill-shaped image of the text 'ATENDIMENTO ONLINE' with a chat icon, and it has alt=\"\". The page's inline script looks up this img to bind a click handler that opens the Octadesk chat. There is no <a> around the img, so the handler goes on the img itself, which data-octadesk-vinculado=\"true\" in the snapshot confirms. So the image is a mouse-only control as well as an image of text. Looking for a pass: no text near it says 'Atendimento online' (the header holds only the utility links); the footer link of that name is a separate control far away, not adjacent text. With a null alternative, screen reader users get neither the text nor the control's purpose, so it fails 1.1.1, which is what the claim says. Not being keyboard-focusable is a separate 2.1.1 issue. My own fetch of the live page (curl with a browser user agent, itself automated) returns the same markup for this element as the snapshot, so nothing found differs for this claim; the screenshot is taller than the snapshot's layout (the course grid grew after the tree was read), which does not touch it."
+    },
+    {
+      "fingerprint": "de114580f360",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Nome' text field of the 'Dê o primeiro passo na conquista do seu sonho' lead form, white field on a blue band. The placeholder style comes from Elementor's frontend.min.css (.elementor-field-textual::placeholder {color: inherit; opacity: .6}), so the grey text is the field colour #707070 at 60% opacity, about #A9A9A9 on the white field. I measured the screenshot: the darkest glyph pixel of the placeholder is #A9A9A9 on #FFFFFF, 2.35:1, matching the claim. The text is 15px weight 500, so it is not large text and needs 4.5:1. Looking for an exemption: the field is enabled, so the text is not incidental; Understanding 1.4.3 says the criterion applies to placeholder text; and the field's only label is visually hidden (elementor-screen-only), so this placeholder is the only visible label, which makes it informative text. No reason for a pass holds up. My own fetch of the live page (curl with a browser user agent, itself automated) returns the same markup for this element as the snapshot, so nothing found differs for this claim; the screenshot is taller than the snapshot's layout (the course grid grew after the tree was read), which does not touch it."
+    },
+    {
+      "fingerprint": "a10df4e1905c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The e-mail field of the lead form ('Fale conosco, queremos te auxiliar'), whose computed name is 'E-mail E-mail' because both the lead-form label and the footer label point to its duplicated id. It collects the visitor's own e-mail address so the university can contact them, which is the 'email' input purpose. Looking for a way it could pass: the input has no autocomplete attribute in the snapshot or on the live page, and the form sets none either. type=\"email\" only gives the input format; Understanding 1.3.5 presents autocomplete as the finer-grained way to identify purpose beyond the type attribute, and H98 is the sufficient technique. So the purpose of the field cannot be determined programmatically and it fails 1.3.5, as the claim says; the doubled name in the claim is the captured name and does not change that. My own fetch of the live page (curl with a browser user agent, itself automated) returns the same markup for this element as the snapshot, so nothing found differs for this claim; the screenshot is taller than the snapshot's layout (the course grid grew after the tree was read), which does not touch it."
+    },
+    {
+      "fingerprint": "b2226b0d82ef",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Telefone' text field of the lead form. The placeholder style comes from Elementor's frontend.min.css (.elementor-field-textual::placeholder {color: inherit; opacity: .6}), so the grey text is the field colour #707070 at 60% opacity, about #A9A9A9 on the white field. I measured the screenshot: the darkest glyph pixel of the placeholder is #A9A9A9 on #FFFFFF, 2.35:1, matching the claim. The text is 15px weight 500, so it is not large text and needs 4.5:1. Looking for an exemption: the field is enabled, so the text is not incidental; Understanding 1.4.3 says the criterion applies to placeholder text; and the field's only label is visually hidden (elementor-screen-only), so this placeholder is the only visible label, which makes it informative text. No reason for a pass holds up. The title attribute on the field is a tooltip about the allowed characters and does not change the placeholder's rendering. My own fetch of the live page (curl with a browser user agent, itself automated) returns the same markup for this element as the snapshot, so nothing found differs for this claim; the screenshot is taller than the snapshot's layout (the course grid grew after the tree was read), which does not touch it."
+    },
+    {
+      "fingerprint": "25f76054215f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer newsletter field under 'RECEBA NOSSAS INFORMAÇÕES', with the placeholder 'Digite seu e-mail'; its name in the browser comes from that placeholder because its label's for= points at the lead form's field. It collects the visitor's own e-mail address to send them news, which is the 'email' purpose. Looking for a way it could pass: the input has no autocomplete attribute in the snapshot or on the live page, and the form sets none either. type=\"email\" only gives the input format; Understanding 1.3.5 presents autocomplete as the finer-grained way to identify purpose beyond the type attribute, and H98 is the sufficient technique. It fails 1.3.5 as claimed. My own fetch of the live page (curl with a browser user agent, itself automated) returns the same markup for this element as the snapshot, so nothing found differs for this claim; the screenshot is taller than the snapshot's layout (the course grid grew after the tree was read), which does not touch it."
+    },
+    {
+      "fingerprint": "6bd7483ae0c7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Telefone' field (type=tel, required) of the lead form, which collects the visitor's own phone number so the university can contact them, the 'tel' purpose. Looking for a way it could pass: the input has no autocomplete attribute in the snapshot or on the live page, and the form sets none either. type=\"tel\" only gives the input format; Understanding 1.3.5 presents autocomplete as the finer-grained way to identify purpose beyond the type attribute, and H98 is the sufficient technique. The pattern and title attributes only validate the format. It fails 1.3.5 as claimed. My own fetch of the live page (curl with a browser user agent, itself automated) returns the same markup for this element as the snapshot, so nothing found differs for this claim; the screenshot is taller than the snapshot's layout (the course grid grew after the tree was read), which does not touch it."
+    },
+    {
+      "fingerprint": "b1fbb8e69d7b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The small 'EDUCAÇÃO METODISTA' logo at the bottom right of the footer: an image of the network's name with its emblem, not in a link, alt=\"\". Looking for a reason it could be decorative: the text beside it reads 'Universidade Metodista de São Paulo / Desenvolvido por Raised Comunicação'. That names the university, not the 'Educação Metodista' network the logo names. The only other place the words appear in the snapshot is a hidden pop-up. The logo therefore carries information (the brand and the affiliation) that no adjacent text gives, so it is not pure decoration. The null alternative fails 1.1.1, as the claim says. The header logo also has alt=\"\", so nothing else carries the brand to screen reader users. My own fetch of the live page (curl with a browser user agent, itself automated) returns the same markup for this element as the snapshot, so nothing found differs for this claim; the screenshot is taller than the snapshot's layout (the course grid grew after the tree was read), which does not touch it."
+    },
+    {
+      "fingerprint": "f9400f378003",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'E-mail' field of the lead form. The placeholder style comes from Elementor's frontend.min.css (.elementor-field-textual::placeholder {color: inherit; opacity: .6}), so the grey text is the field colour #707070 at 60% opacity, about #A9A9A9 on the white field. I measured the screenshot: the darkest glyph pixel of the placeholder is #A9A9A9 on #FFFFFF, 2.35:1, matching the claim. The text is 15px weight 500, so it is not large text and needs 4.5:1. Looking for an exemption: the field is enabled, so the text is not incidental; Understanding 1.4.3 says the criterion applies to placeholder text; and the field's only label is visually hidden (elementor-screen-only), so this placeholder is the only visible label, which makes it informative text. No reason for a pass holds up. My own fetch of the live page (curl with a browser user agent, itself automated) returns the same markup for this element as the snapshot, so nothing found differs for this claim; the screenshot is taller than the snapshot's layout (the course grid grew after the tree was read), which does not touch it."
+    },
+    {
+      "fingerprint": "06729dc2ab82",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The visually hidden label 'E-mail' of the footer newsletter form has for=\"form-field-email\". That id appears twice, on the lead form's e-mail field and on the footer field, so the label names the first one, as the claim says (that field's name becomes 'E-mail E-mail'). For 4.1.2, though, no component ends up without an accurate name and role. The footer field is still a textbox with the name 'Digite seu e-mail', from its placeholder (the snapshot's browser name), and the lead form's field keeps an accurate, if doubled, name. A label is not a user interface component itself. Duplicate ids as such were a 4.1.1 matter, which the 2023 errata treats as always satisfied for HTML. They fail 4.1.2 only when they leave a component with a missing or wrong name, which is not the case here. Because the label is screen-only, no visible relationship is lost either. The rule flags the broken reference as a failure in itself, which is stricter than the criterion. My own fetch of the live page (curl with a browser user agent, itself automated) returns the same markup for this element as the snapshot, so nothing found differs for this claim; the screenshot is taller than the snapshot's layout (the course grid grew after the tree was read), which does not touch it."
+    },
+    {
+      "fingerprint": "f66d47105547",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The e-MEC panel in the footer under the PUBLICAÇÕES links: an image with the e-MEC logo, a QR code to the institution's record in the federal e-MEC registry, and the words 'ACESSE JÁ'. It has alt=\"\" and is not in a link. Looking for a pass: no text on the page mentions e-MEC (none in the snapshot or the live markup), and the links next to it are unrelated publications. The image is therefore the only carrier of the registry information and the invitation to look it up, and the null alternative hides it. It fails 1.1.1, as the claim says. My own fetch of the live page (curl with a browser user agent, itself automated) returns the same markup for this element as the snapshot, so nothing found differs for this claim; the screenshot is taller than the snapshot's layout (the course grid grew after the tree was read), which does not touch it."
+    },
+    {
+      "fingerprint": "c331c8eae740",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Nome' field of the lead form, which collects the visitor's own name for contact, the 'name' purpose (or 'given-name'; either way a token is needed). Looking for a way it could pass: the input has no autocomplete attribute in the snapshot or on the live page, and the form sets none either. type=\"text\" only gives the input format; Understanding 1.3.5 presents autocomplete as the finer-grained way to identify purpose beyond the type attribute, and H98 is the sufficient technique. Here even the type says nothing about the purpose. It fails 1.3.5 as claimed. My own fetch of the live page (curl with a browser user agent, itself automated) returns the same markup for this element as the snapshot, so nothing found differs for this claim; the screenshot is taller than the snapshot's layout (the course grid grew after the tree was read), which does not touch it."
+    },
+    {
+      "fingerprint": "c184d0b618e0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer newsletter field with the placeholder 'Digite seu e-mail', white field on the blue footer. The placeholder style comes from Elementor's frontend.min.css (.elementor-field-textual::placeholder {color: inherit; opacity: .6}), so the grey text is the field colour #707070 at 60% opacity, about #A9A9A9 on the white field. I measured the screenshot: the darkest glyph pixel of the placeholder is #A9A9A9 on #FFFFFF, 2.35:1, matching the claim. The text is 15px weight 500, so it is not large text and needs 4.5:1. Looking for an exemption: the field is enabled, so the text is not incidental; Understanding 1.4.3 says the criterion applies to placeholder text; and the field's label is visually hidden (elementor-screen-only) and points at another field, so this placeholder is the only visible label, which makes it informative text. No reason for a pass holds up. My own fetch of the live page (curl with a browser user agent, itself automated) returns the same markup for this element as the snapshot, so nothing found differs for this claim; the screenshot is taller than the snapshot's layout (the course grid grew after the tree was read), which does not touch it."
+    }
+  ]
+}

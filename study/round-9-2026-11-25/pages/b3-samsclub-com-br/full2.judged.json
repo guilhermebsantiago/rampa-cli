@@ -1,0 +1,966 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://www.samsclub.com.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "a50c1b9f27e7",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#cookieconsent\\:desc > p > strong > span",
+   "target": "#cookieconsent\\:desc > p > strong > span",
+   "message": "The text \"We use our own and third-party cookies to improve site navi…\" has at most 4.35:1 contrast with what is behind it (#797979 on #ffffff), measured from pixels because axe-core could not decide (it partly covers other elements). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#797979 on #ffffff · 4.35:1 at best, 4.35:1 at worst · 14px, 700",
+   "subject": "We use our own and third-party cookies to improve site navigation, performance, and security, display ads, and obtain statistics. By clicking on “Proceed with all”, you agree to the storage of information for such purposes, and it is possible to adapt the use of cookies according to your preferences in “Personalize",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<span>",
+   "experimental": true
+  },
+  {
+   "fingerprint": "b4aca77928e3",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#cookieconsent\\:desc > p",
+   "message": "This passage has no lang attribute, so it is read as Brazilian Portuguese (pt-BR), but it is in English (en).",
+   "evidence": "We use our own and third-party cookies to improve site navigation, performance, and security, display ads, and obtain statistics.",
+   "subject": "unmarked|pt-BR|We use our own and third-party cookies to improve site navigation, performance, and security, display ads, and obtain statistics. By clicking on “Proceed with all”, you agree to the storage of information for such purposes, and it is possible to adapt the use of cookies according to your preferences in “Personalize",
+   "techniques": [
+    "H58"
+   ],
+   "patch": {
+    "ref": "#cookieconsent\\:desc > p",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "from": "",
+    "to": "en",
+    "before": "<p>",
+    "after": "<p lang=\"en\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 11
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.3.1",
+    "ref": "html > body > header > div > div > div:nth-of-type(1) > div > div:nth-of-type(3) > ul",
+    "ruleId": "list",
+    "confidence": "high",
+    "fingerprint": "e1b9d19257de"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#cookieconsent\\:desc",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "fa40d1c50c23"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(11) > div:nth-of-type(1) > nav > div > ul > li:nth-of-type(1) > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "79980a435d13"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(11) > div:nth-of-type(1) > nav > div > ul > li:nth-of-type(2) > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "fb49b725874a"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(11) > div:nth-of-type(1) > nav > div > ul > li:nth-of-type(3) > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "a258e064e1e2"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(11) > div:nth-of-type(1) > nav > div > ul > li:nth-of-type(4) > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "69400cd9a5eb"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(11) > div:nth-of-type(1) > nav > div > ul > li:nth-of-type(5) > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "58e89c78a25c"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(11) > div:nth-of-type(1) > nav > div > ul > li:nth-of-type(6) > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "f4e6169c3902"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(11) > div:nth-of-type(1) > nav > div > ul > li:nth-of-type(7) > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "0c94417aff91"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "html > body > header > div > div > div:nth-of-type(2) > div > div:nth-of-type(3) > button",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "ecafcab9d624"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "html > body > div:nth-of-type(5) > button",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "6b6b62001018"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 8,
+   "members": [
+    "fa40d1c50c23",
+    "79980a435d13",
+    "fb49b725874a",
+    "a258e064e1e2",
+    "69400cd9a5eb",
+    "58e89c78a25c",
+    "f4e6169c3902",
+    "0c94417aff91"
+   ],
+   "example": "fa40d1c50c23"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(20) > a",
+   "message": "The link text \"campanha cartão CRF (banner 20 de 20) campanha cartão CRF\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Campanha de Cartão CRF - Black Friday\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(5) > div > div:nth-of-type(2) > ul > li:nth-of-type(4) > a",
+   "message": "The link text \"ver todos os produtos de Frios e Laticínios Frios e Laticínios\" does not match where the link leads: a page titled \"Queijos: parmesão, mussarela, requeijão e mais - Sam’s Club – Faça suas compras…\".",
+   "evidence": "The model suggests: \"Ver todos os queijos\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(5) > div > div:nth-of-type(2) > ul > li:nth-of-type(6) > a",
+   "message": "The link text \"ver todos os produtos de Padaria e Rotisserie Padaria e Rotisserie\" does not match where the link leads: a page titled \"Padaria e Confeitaria - Sam’s Club – Faça suas compras online\".",
+   "evidence": "The model suggests: \"Ver todos os produtos de Padaria e Confeitaria\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(17) > h2",
+   "message": "The heading \"🔷 Member's Mark 🔷\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Produtos Member's Mark\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(21) > h2",
+   "message": "The heading \"E muito mais\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Outras Ofertas\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > h3",
+   "message": "The heading \"Sam's Club\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Sobre o Sam's Club\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div > ul > li:nth-of-type(4) > a",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div > ul > li:nth-of-type(5) > a",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div > ul > li:nth-of-type(6) > a",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > div > ul > li:nth-of-type(3) > a",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > div > ul > li:nth-of-type(5) > a",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > div > ul > li:nth-of-type(6) > a",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > ul:nth-of-type(1) > li:nth-of-type(1)",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "html > body > header > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > form > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(10) > div > div > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(2)",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "2.5.3",
+   "ref": "#busca-cabecalho",
+   "source": null,
+   "ruleId": "rampa/field-label-in-name"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#securitiCmpCookiePrefBtn",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(1) > div > div > ul > li:nth-of-type(2) > a > span:nth-of-type(1) > img",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Marca Members",
+    "problem": "wrong_content",
+    "imageShows": "Um logotipo azul estilizado em formato de letra 'M'.",
+    "suggestedAlt": "Logotipo da Marca Members",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(1) > div > div > ul > li:nth-of-type(5) > a > span:nth-of-type(1) > img",
+   "reason": "suggested alternative equals the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Natal",
+    "problem": "wrong_content",
+    "imageShows": "Um ícone azul de uma árvore de Natal.",
+    "suggestedAlt": "Natal",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(1) > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Madruga",
+    "problem": "wrong_content",
+    "imageShows": "Um banner promocional da Sam's Club com o texto 'Madruga', 'Frete Grátis' e o cupom 'MADRUGA'.",
+    "suggestedAlt": "Promoção Madruga Sam's Club: Frete grátis com o cupom MADRUGA para compras acima de R$ 599.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(2) > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Black Friday",
+    "problem": "wrong_content",
+    "imageShows": "Um banner da Black Friday do Sam's Club exibindo ofertas de gin, whisky, licor e vinhos importados.",
+    "suggestedAlt": "Ofertas de Black Friday do Sam's Club com gin, whisky, licor e 70% de desconto na segunda unidade de vinhos.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(3) > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Black Friday",
+    "problem": "wrong_content",
+    "imageShows": "Um banner da Black Friday do Sam's Club exibindo ofertas de papel higiênico, desinfetante e amaciante.",
+    "suggestedAlt": "Ofertas da Black Friday no Sam's Club com papel higiênico, desinfetante e amaciante em promoção.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(4) > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Black Friday",
+    "problem": "wrong_content",
+    "imageShows": "Um banner promocional da Black Friday do Sam's Club exibindo ofertas de toalhas umedecidas, shampoo e condicionador Pantene, kit desodorante Secret e creme dental Colgate.",
+    "suggestedAlt": "Ofertas da Black Friday no Sam's Club com descontos em produtos de higiene e beleza.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(5) > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Black Friday",
+    "problem": "wrong_content",
+    "imageShows": "Um banner promocional da Black Friday do Sam's Club exibindo ofertas de Batata McCain, Filé de Tilápia e Pão de Queijo.",
+    "suggestedAlt": "Ofertas de Black Friday do Sam's Club com descontos em Batata McCain, Filé de Tilápia e Pão de Queijo.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(6) > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Se liga no app",
+    "problem": "wrong_content",
+    "imageShows": "Um banner promocional exibindo papel toalha e papel higiênico com preços e a frase 'se liga no app'.",
+    "suggestedAlt": "Ofertas de papel toalha e papel higiênico com preços promocionais.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(7) > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Esquenta Black",
+    "problem": "wrong_content",
+    "imageShows": "Um banner promocional da Black Friday do Sam's Club exibindo produtos como cabides, lixeira e varal.",
+    "suggestedAlt": "Ofertas da Black Friday Sam's Club com cabides, lixeira e varal em promoção.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(8) > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Black Friday",
+    "problem": "wrong_content",
+    "imageShows": "Um banner da Black Friday do Sam's Club exibindo ofertas de um controle Nintendo Switch Pro, um console Nintendo Switch e uma caixa de som JBL.",
+    "suggestedAlt": "Ofertas de Black Friday do Sam's Club com descontos em produtos Nintendo e JBL.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(9) > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Esquenta Black",
+    "problem": "wrong_content",
+    "imageShows": "Um banner da Black Friday do Sam's Club exibindo uma cadeira de alumínio e uma churrasqueira com descontos.",
+    "suggestedAlt": "Ofertas de Black Friday: Cadeira de Alumínio Sunrise e Churrasqueira Itapuama com descontos e parcelamento.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(10) > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Esquenta Black",
+    "problem": "wrong_content",
+    "imageShows": "Um banner da Black Friday do Sam's Club mostrando uma máquina de lavar Brastemp e um frigobar Igloo com preços promocionais.",
+    "suggestedAlt": "Ofertas de Black Friday: Máquina de Lavar Brastemp por R$ 1.749 e Frigobar Igloo por R$ 1.399.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(11) > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Esquenta Black",
+    "problem": "wrong_content",
+    "imageShows": "Um banner da Black Friday do Sam's Club exibindo produtos como Mini Waffle Maker, Processador de Alimentos, Chaleira Elétrica e Blender com preços promocionais.",
+    "suggestedAlt": "Ofertas de Black Friday do Sam's Club com produtos como Mini Waffle Maker, Processador de Alimentos e eletroportáteis.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(12) > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Esquenta Black",
+    "problem": "wrong_content",
+    "imageShows": "Um banner promocional da Black Friday do Sam's Club exibindo jogos de lençol e panos de copa com descontos.",
+    "suggestedAlt": "Ofertas de Black Friday: Jogos de lençol e panos de copa com descontos especiais.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(13) > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Black Friday",
+    "problem": "wrong_content",
+    "imageShows": "Um banner da Black Friday do Sam's Club exibindo um sofá-cama e uma mesa dobrável com preços e descontos.",
+    "suggestedAlt": "Ofertas de Black Friday do Sam's Club: Sofá Cama Ravena e Mesa Dobrável com descontos especiais.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(15) > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Unilever",
+    "problem": "wrong_content",
+    "imageShows": "Um banner publicitário do sabão em pó OMO Todo Ciclo, destacando o preço de R$ 37,99.",
+    "suggestedAlt": "Oferta de sabão em pó OMO Todo Ciclo por R$ 37,99",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(16) > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Se liga no app",
+    "problem": "wrong_content",
+    "imageShows": "Um banner promocional com latas de Red Bull e Amora, oferecendo um cupom de desconto de R$ 10 para compras acima de R$ 90.",
+    "suggestedAlt": "Ganhe R$ 10 off em packs de Red Bull com o cupom REDBULL10 em compras acima de R$ 90.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(18) > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "CTW Electrolux",
+    "problem": "wrong_content",
+    "imageShows": "Um banner da Electrolux para a Black Friday com uma mulher em uma cozinha e diversos eletrodomésticos.",
+    "suggestedAlt": "Banner Black Friday Electrolux com ofertas em eletrodomésticos e botão Aproveite",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > header > nav > div > ul > li:nth-of-type(1) > div > span > span > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Institucional' suggests a page about the company's corporate information, history, or identity.",
+    "leadsTo": "https://sejasocio.samsclub.com.br/index.php/vantagens/",
+    "verdict": "fail",
+    "evidence": "Institucional",
+    "problem": "mismatch",
+    "suggestedText": "Vantagens de ser sócio",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > header > div > div > div:nth-of-type(2) > div > div:nth-of-type(2) > ul > li:nth-of-type(3) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page for Christmas products/promotions.",
+    "leadsTo": "A general shopping page for Sam's Club.",
+    "verdict": "fail",
+    "evidence": "Natal 🎄",
+    "problem": "mismatch",
+    "suggestedText": "Ofertas de Natal",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > header > div > div > div:nth-of-type(2) > div > div:nth-of-type(2) > ul > li:nth-of-type(5) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page or collection related to 'Member's Mark'.",
+    "leadsTo": "A page titled 'Sam’s Club – Faça suas compras online'.",
+    "verdict": "fail",
+    "evidence": "Member's Mark 💙",
+    "problem": "mismatch",
+    "suggestedText": "Member's Mark - Compras Online",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > header > div > div > div:nth-of-type(2) > div > div:nth-of-type(2) > ul > li:nth-of-type(6) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page for 'Sócio Plus' (a membership or loyalty program).",
+    "leadsTo": "A general shopping page for Sam's Club.",
+    "verdict": "fail",
+    "evidence": "Sócio Plus 💎",
+    "problem": "mismatch",
+    "suggestedText": "Página do Sócio Plus",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(1) > div > div > ul > li:nth-of-type(2) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'Marca Members Member's Mark' and its context in the 'Atalhos promocionais' (Promotional Shortcuts) section suggest it leads to a specific member's collection or brand page.",
+    "leadsTo": "A page titled 'Sam’s Club – Faça suas compras online' (the homepage/main shopping page).",
+    "verdict": "fail",
+    "evidence": "Marca Members Member's Mark",
+    "problem": "mismatch",
+    "suggestedText": "Sam’s Club – Faça suas compras online",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(1) > div > div > ul > li:nth-of-type(3) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'Sócio Plus Sócio Plus' suggests a membership or subscription plan called 'Sócio Plus'.",
+    "leadsTo": "A page titled 'Sam’s Club – Faça suas compras online' which is the main shopping page.",
+    "verdict": "fail",
+    "evidence": "Sócio Plus Sócio Plus",
+    "problem": "mismatch",
+    "suggestedText": "Sócio Plus",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(1) > div > div > ul > li:nth-of-type(5) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'Natal Nossas lojas' suggests it leads to a collection of stores for Christmas.",
+    "leadsTo": "A page titled 'Sam’s Club – Faça suas compras online'",
+    "verdict": "fail",
+    "evidence": "Natal Nossas lojas",
+    "problem": "mismatch",
+    "suggestedText": "Sam’s Club – Faça suas compras online",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(1) > div > div > ul > li:nth-of-type(6) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page or collection of beverages.",
+    "leadsTo": "A page titled 'Sam’s Club – Faça suas compras online'",
+    "verdict": "fail",
+    "evidence": "Bebidas Bebidas",
+    "problem": "mismatch",
+    "suggestedText": "Bebidas",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(6) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'Se liga no app' suggests it leads to a page or action related to downloading or accessing the Sam's Club app.",
+    "leadsTo": "A page titled 'Sam’s Club – Faça suas compras online'",
+    "verdict": "fail",
+    "evidence": "Se liga no app (banner 6 de 20) Se liga no app",
+    "problem": "mismatch",
+    "suggestedText": "Faça suas compras online no Sam's Club",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(7) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A link text 'Esquenta Black' suggests it leads to a specific promotional collection or category named 'Esquenta Black'.",
+    "leadsTo": "A page titled 'Sam’s Club – Faça suas compras online' (the home/shopping page).",
+    "verdict": "fail",
+    "evidence": "Esquenta Black (banner 7 de 20) Esquenta Black",
+    "problem": "mismatch",
+    "suggestedText": "Confira a coleção Esquenta Black",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(15) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'Unilever' and its context in a promotional banner section suggest it leads to a collection of Unilever products or a specific Unilever promotion.",
+    "leadsTo": "A page titled 'Sam’s Club – Faça suas compras online' (the home/shopping page).",
+    "verdict": "fail",
+    "evidence": "Unilever (banner 15 de 20) Unilever",
+    "problem": "mismatch",
+    "suggestedText": "Ver produtos Unilever",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(16) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'Se liga no app' suggests it leads to a mobile application or a page to download/access an app.",
+    "leadsTo": "A page titled 'Sam’s Club – Faça suas compras online' (an online shopping page).",
+    "verdict": "fail",
+    "evidence": "Se liga no app (banner 16 de 20) Se liga no app",
+    "problem": "mismatch",
+    "suggestedText": "Faça suas compras online no Sam’s Club",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(19) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'Sam's para PJ' suggests a transition or offer for 'PJ' (corporate/legal entity) customers, but the context is a promotional banner.",
+    "leadsTo": "A page for online shopping ('Faça suas compras online') with a description of products like appliances, electronics, and groceries.",
+    "verdict": "fail",
+    "evidence": "Sam's para PJ (banner 19 de 20) Sam's para PJ",
+    "problem": "mismatch",
+    "suggestedText": "Faça suas compras online no Sam's Club",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 24,
+   "judged": 24,
+   "failed": 0,
+   "passed": 6,
+   "cannotTell": 0,
+   "discarded": 18,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 105,
+   "judged": 50,
+   "failed": 0,
+   "passed": 34,
+   "cannotTell": 0,
+   "discarded": 13,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 55,
+   "suggested": 3
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 23,
+   "judged": 23,
+   "failed": 0,
+   "passed": 20,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 3
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 of the page's 3 stylesheet(s) had not applied when it was read (https://statics.carrefour.com.br/nav/assets/globals-D_ZTJsNY.css (net::ERR_BLOCKED_BY_RESPONSE.NotSameOrigin)): the page was read with the styles it had, which may differ from what people see.",
+  "42 image(s) were left without a capture, so no judgment looked at them: 42 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 55 of 105 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 100,
+  "cachedCalls": 0,
+  "inputTokens": 96845,
+  "outputTokens": 10051,
+  "latencyMs": 332256
+ },
+ "timings": {
+  "totalMs": 171255,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 31
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 47676,
+    "prepareMs": 0,
+    "candidates": 24,
+    "judged": 24,
+    "calls": 24,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1634,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 89823,
+    "prepareMs": 0,
+    "candidates": 105,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 29381,
+    "prepareMs": 0,
+    "candidates": 23,
+    "judged": 23,
+    "calls": 23,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 1486,
+    "prepareMs": 152,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 1177,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 43
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "stylesheets": {
+   "linked": 3,
+   "applied": 2,
+   "failed": 1
+  },
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 25,
+   "notCaptured": 42,
+   "reasons": {
+    "limit": 42
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 105,
+    "capped": 55
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "stylesheets": {
+    "linked": 3,
+    "applied": 2,
+    "failed": [
+     {
+      "href": "https://statics.carrefour.com.br/nav/assets/globals-D_ZTJsNY.css",
+      "reason": "net::ERR_BLOCKED_BY_RESPONSE.NotSameOrigin"
+     }
+    ]
+   }
+  },
+  "fast": null
+ }
+}

@@ -1,0 +1,34 @@
+{
+  "page": "https://www.tjrr.jus.br/index.php/ouvidoria",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "cf8bbe8e8525",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the 'EN' span inside the GTranslate link a.flag in the sidebar module, 15px at weight 300 (Open Sans Light) on the module's white background (#sp-sidebar-a .sp-module {background:#ffffff}). No rule sets a colour on a.flag or its span, so it inherits a {color:#077499} from presets/preset1.css, which loads after bootstrap's #337ab7. #077499 on #ffffff is 5.29:1, above 4.5:1. The screenshot's darkest pixel in the glyphs is #3a90ae, the value Rampa reported: an anti-aliased blend of a thin font, not the text colour. Every channel of the darkest PT pixel (#2786a6) is at or above #077499's and below #337ab7's blue, which fits #077499. Understanding 1.4.3 says to use the colours from the user agent or the style sheets 'rather than the text as presented on screen', because anti-aliasing makes thin fonts look fainter. So the sentence's ratio and colour are not the text's (claimTrue no), and the element meets 1.4.3 (elementFails no). The capture is styled and matches the live page: same markup, same style sheets, and the screenshot shows the template's layout (captureDiffers no). Measuring rendered pixels instead of the specified colour is a stricter rule than the criterion's."
+    },
+    {
+      "fingerprint": "de28da0a27da",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the current-page item of the breadcrumb, li.active with the text 'Apresentação', 14px at weight 300 on the breadcrumb's #f5f5f5. The only rule on it is bootstrap.min.css .breadcrumb>.active {color:#777}, and legacy.css, template.css and preset1.css do not override it here (template.css only restyles .sp-page-title .breadcrumb). #777 on #f5f5f5 is 4.11:1. The darkest screenshot pixel (#8b858b, subpixel-rendered) fits #777 and rules out a lighter colour such as #999. So the claim's '#a0a1a0, at most 3.19:1' is an anti-aliasing reading and wrong as worded (claimTrue no), but the real ratio is still under 4.5:1 for normal-size text. I looked for an exception: this is plain informative text, not an inactive UI component, decoration, a logotype or large text. So it fails 1.4.3 (elementFails yes). The live page has the same breadcrumb markup and style sheets (captureDiffers no). Read in good faith, the claim names the real failure, contrast under 4.5:1, with numbers that are too low."
+    },
+    {
+      "fingerprint": "b006e12fffa6",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field #mod-search-searchword. Its placeholder 'Pesquisar...' is the only visible text label, next to a magnifier icon. template.css gives the input background:none inside .search {background:#e2e2e2 ...}, and the placeholder colour from legacy.css/template.css is #999. #999 on #e2e2e2 is 2.20:1, not the 1.88:1 (#a7a7a7) Rampa read from anti-aliased pixels, so the sentence's numbers are off (claimTrue no). The darkest pixel, #a3a3a3, fits #999. Understanding 1.4.3 says the criterion 'applies to text in the page, including placeholder text'. The field is active, not an inactive component, and the text is 14px at weight 300, so 4.5:1 applies, and 2.20:1 fails it (elementFails yes). The live page serves the same input and the same .search styles (captureDiffers no). I found no technique or exception that makes the element pass. The claim names the real failure, a placeholder contrast under 4.5:1."
+    },
+    {
+      "fingerprint": "47f945d3f658",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the 'PT' span inside the GTranslate link a.flag (title 'Portuguese') in the sidebar module, 15px at weight 300 on white (#sp-sidebar-a .sp-module {background:#ffffff}). Its colour comes from a {color:#077499} in presets/preset1.css; nothing on a.flag or its span overrides it, and the 0.8 opacity applies only to the flag image. #077499 on #ffffff is 5.29:1, above 4.5:1. Rampa's #509db7 (3.74:1, worst 3.07:1) is a rendered-pixel blend of a thin font. The darkest pixel in the glyphs (#2786a6) fits #077499 and is darker than any colour that would fail. Understanding 1.4.3 says to use the specified colours 'rather than the text as presented on screen', because anti-aliasing makes thin fonts look fainter. So the stated ratio is not the text's (claimTrue no), and the element meets 1.4.3 (elementFails no). The capture is the styled page and matches the live markup and style sheets (captureDiffers no). Measuring rendered pixels instead of the specified colour applies a stricter rule than the criterion's."
+    }
+  ]
+}

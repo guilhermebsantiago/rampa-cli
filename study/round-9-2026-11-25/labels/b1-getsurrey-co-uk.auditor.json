@@ -1,0 +1,61 @@
+{
+  "page": "https://www.getsurrey.co.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "e5a835bb750c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is a news-teaser thumbnail that is not inside a link (live markup: div.Teaser_cover-wrapper > img, then a separate h3 headline link whose aria-label is the same headline); its alt repeats the headline word for word. The crop shows an Aldi store sign; the alt speaks of an opening date being announced ten years after planning, which the picture does not show (only the Aldi brand overlaps), so the claim holds of the capture. The live page (fetched 2026-11-25) has the same teaser, img src and alt, so the capture does not differ. Whether this fails 1.1.1 is a point competent auditors split on: read by G94 the photo is informative and the headline does not present what it shows, and if it is taken as eye-candy it should have a null alt (F38's test); but many auditors treat a headline alt on a teaser photo as an alternative that identifies the story, merely redundant with the adjacent link (a best-practice issue, as in axe's image-redundant-alt). My lean is a failure, but reasonable disagreement makes the label uncertain."
+    },
+    {
+      "fingerprint": "3b19e89344dc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is a news-teaser thumbnail that is not inside a link (live markup: div.Teaser_cover-wrapper > img, then a separate h3 headline link whose aria-label is the same headline); its alt repeats the headline word for word. The crop shows a smiling young man flexing in a life jacket (apparently the teenager who died); the alt says a driver was jailed after a bridge crash, which the photo does not show, and it does not say who is pictured, so the claim holds of the capture. The live page has the same teaser, src and alt. Whether this fails 1.1.1 is a point competent auditors split on: read by G94 the photo is informative and the headline does not present what it shows, and if it is taken as eye-candy it should have a null alt (F38's test); but many auditors treat a headline alt on a teaser photo as an alternative that identifies the story, merely redundant with the adjacent link (a best-practice issue, as in axe's image-redundant-alt). My lean is a failure, but reasonable disagreement makes the label uncertain."
+    },
+    {
+      "fingerprint": "12e465490137",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The account button in the header shows only an SVG person-in-circle outline; its name comes from aria-label and it has no visible text, border or fill of its own (live CSS: .Avatar_avatar-container background transparent, border none). Live token CSS for the 1280px width (xl-v2.css) sets the strokes to --color-com-header-primary-nav-avatar-bg #ffffff and the header (.Header_header-primary) to #22af9e; #ffffff on #22af9e is 2.73:1, which I recomputed. The icon is the only visual information that identifies the control, so 1.4.11 asks for 3:1 against the adjacent teal and it fails. The full-page screenshot does not show the header at that position (no teal rows there), but Rampa's pixel measurement agrees with the live styles, so the difference does not touch this claim. The claim names the failure: true positive."
+    },
+    {
+      "fingerprint": "02b06ddea3bc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is a news-teaser thumbnail that is not inside a link (live markup: div.Teaser_cover-wrapper > img, then a separate h3 headline link whose aria-label is the same headline); its alt repeats the headline word for word. The crop shows police officers in riot gear with shields beside police vans; the alt says a 12-year-old boy was charged after an investigation into the disorder, which the photo does not show, so the claim holds of the capture. The live page has the same teaser, src and alt. Whether this fails 1.1.1 is a point competent auditors split on: read by G94 the photo is informative and the headline does not present what it shows, and if it is taken as eye-candy it should have a null alt (F38's test); but many auditors treat a headline alt on a teaser photo as an alternative that identifies the story, merely redundant with the adjacent link (a best-practice issue, as in axe's image-redundant-alt). My lean is a failure, but reasonable disagreement makes the label uncertain."
+    },
+    {
+      "fingerprint": "d8cf68b68622",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is a news-teaser thumbnail that is not inside a link (live markup: div.Teaser_cover-wrapper > img, then a separate h3 headline link whose aria-label is the same headline); its alt repeats the headline word for word. The crop is a stock photo of a person climbing into a house through a window; the alt speaks of an expected spike in burglaries and area crime rates. The topic overlaps, but the spike and the rates are not in the picture and the alt does not describe the scene, so the claim holds as worded. In my fetch the story is still listed in the page's structured data but its teaser is no longer in the rendered sections. That is routine rotation after capture: the other teasers use the same template, and nothing suggests users got something different when Rampa read the page, so I judge from the capture and see no difference that matters. Whether this fails 1.1.1 is a point competent auditors split on: read by G94 the photo is informative and the headline does not present what it shows, and if it is taken as eye-candy it should have a null alt (F38's test); but many auditors treat a headline alt on a teaser photo as an alternative that identifies the story, merely redundant with the adjacent link (a best-practice issue, as in axe's image-redundant-alt). My lean is a failure, but reasonable disagreement makes the label uncertain."
+    }
+  ]
+}

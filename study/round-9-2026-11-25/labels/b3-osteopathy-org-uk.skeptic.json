@@ -1,0 +1,83 @@
+{
+  "page": "https://www.osteopathy.org.uk/register-search/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "ff49b472733b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is one 256x256 base-map tile that the Google Maps JavaScript API draws inside the map widget (div role=region, aria-label \"Map\", aria-roledescription \"map\") above the practice results; Google marks every tile alt=\"\" role=\"presentation\". A single tile is a fragment of the composite map, not a self-contained image: the map as a whole is named, the information the map carries on this page (where the 12 listed practices are) is given in text in the practice cards below it (name, full address, opening hours), and each pin is its own focusable role=button element named after the practice. The place names printed on the tile are background geography that the page's purpose does not depend on, so hiding the tile from assistive technology is correct and 1.1.1 does not require a text alternative per tile: elementFails no. claimTrue yes: the tile is hidden (role=presentation, alt=\"\") and its imagery does show Norwich and Peterborough, which the surrounding text does not name. The raw live HTML (fetched 2026-11-25) loads the same Google Maps JS API with the same key and the same locations array into #map-practices, so the tiles users get are the same Google output; my fetch could not run scripts, but nothing suggests the capture differs: captureDiffers no. The checker judged one map tile in isolation as if every fragment of an embedded map needed its own description, a stricter reading than 1.1.1; false positive."
+    },
+    {
+      "fingerprint": "dd70f401a149",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is one 256x256 base-map tile that the Google Maps JavaScript API draws inside the map widget (div role=region, aria-label \"Map\", aria-roledescription \"map\") above the practice results; Google marks every tile alt=\"\" role=\"presentation\". A single tile is a fragment of the composite map, not a self-contained image: the map as a whole is named, the information the map carries on this page (where the 12 listed practices are) is given in text in the practice cards below it (name, full address, opening hours), and each pin is its own focusable role=button element named after the practice. The place names printed on the tile are background geography that the page's purpose does not depend on, so hiding the tile from assistive technology is correct and 1.1.1 does not require a text alternative per tile: elementFails no. claimTrue no: the red pins the claim attributes to this image are not in it. They are separate marker elements (spotlight-poi3.png images and role=button divs named \"&Osteo\", \"'Back To Your Feet'\", \". Ben Cohen Osteopathy\" and so on) drawn over the tile; the image crop was cut from the rendered screen at the tile's bounds and so included those overlays. The raw live HTML (fetched 2026-11-25) loads the same Google Maps JS API with the same key and the same locations array into #map-practices, so the tiles users get are the same Google output; my fetch could not run scripts, but nothing suggests the capture differs: captureDiffers no. The pins are the only part of the claim that would carry page information, and they come from a crop that mixes other elements into the image; the tile itself is a map fragment. False positive."
+    },
+    {
+      "fingerprint": "5d1ac1e90ec2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header link \"Cymraeg\" to the site's Welsh hub (/cy/cymraeg/, title \"Cymraeg - General Osteopathic Council\", Welsh content). The page is lang=\"en-GB\" and neither the link nor its p ancestor has a lang attribute in the snapshot, so the Welsh word inherits English: claimTrue yes. I looked for a reason it could pass: the proper-name and vernacular exceptions. Understanding 3.1.2 settles it the other way: its example \"Alternative language links\" (links whose text is the name of the language in that language, e.g. Deutsch, Français) says the language of each link is indicated via a lang attribute; \"Cymraeg\" is not an adopted English word that English speech rules pronounce correctly. elementFails yes. The live HTML fetched on 2026-11-25 has the same markup (<a href=\"https://www.osteopathy.org.uk/cy/cymraeg/\">Cymraeg</a>, no lang) and the rendered snapshot shows no script adding one: captureDiffers no. The claim names exactly this failure: true positive."
+    },
+    {
+      "fingerprint": "caac67d60672",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is Google Maps' focusable map viewport: div role=\"region\" aria-label=\"Map\" with aria-roledescription \"map\" in the accessibility tree and aria-describedby pointing to the keystroke table (arrows move, +/- zoom, Home/End/Page Up/Page Down jump). The snapshot records it as focusable with keydown/keyup/keypress listeners and the region role, so the sentence's facts hold: claimTrue yes. For 4.1.2 the element has a programmatically determined role (region, described as \"map\"), a name (\"Map\") and a description of how to operate it. It is a pannable viewport, operated like a keyboard-scrollable area, for which a focusable named region is the recognised pattern; it is neither a button nor a link, so the roles the claim asks for would misdescribe it. F59 covers a div made into a control with no role at all, which is not the case here: elementFails no. The live raw HTML loads the same Google Maps API into #map-practices, so users get the same widget: captureDiffers no. The rule demanded a button/link role that WCAG does not require for this widget: false positive."
+    },
+    {
+      "fingerprint": "fc1501199288",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is one 256x256 base-map tile that the Google Maps JavaScript API draws inside the map widget (div role=region, aria-label \"Map\", aria-roledescription \"map\") above the practice results; Google marks every tile alt=\"\" role=\"presentation\". A single tile is a fragment of the composite map, not a self-contained image: the map as a whole is named, the information the map carries on this page (where the 12 listed practices are) is given in text in the practice cards below it (name, full address, opening hours), and each pin is its own focusable role=button element named after the practice. The place names printed on the tile are background geography that the page's purpose does not depend on, so hiding the tile from assistive technology is correct and 1.1.1 does not require a text alternative per tile: elementFails no. claimTrue yes: the tile is hidden and its imagery shows the Welsh coast and Weston-super-Mare, which the surrounding text does not name. The raw live HTML (fetched 2026-11-25) loads the same Google Maps JS API with the same key and the same locations array into #map-practices, so the tiles users get are the same Google output; my fetch could not run scripts, but nothing suggests the capture differs: captureDiffers no. The checker treated a map fragment as content needing its own description, stricter than 1.1.1; false positive."
+    },
+    {
+      "fingerprint": "86c8b0ba638c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is one 256x256 base-map tile that the Google Maps JavaScript API draws inside the map widget (div role=region, aria-label \"Map\", aria-roledescription \"map\") above the practice results; Google marks every tile alt=\"\" role=\"presentation\". A single tile is a fragment of the composite map, not a self-contained image: the map as a whole is named, the information the map carries on this page (where the 12 listed practices are) is given in text in the practice cards below it (name, full address, opening hours), and each pin is its own focusable role=button element named after the practice. The place names printed on the tile are background geography that the page's purpose does not depend on, so hiding the tile from assistive technology is correct and 1.1.1 does not require a text alternative per tile: elementFails no. claimTrue yes: the tile is hidden and its imagery shows Eryri National Park and Liverpool (the crop also shows Google's Map/Satellite control, a separate overlay), which the surrounding text does not name. The raw live HTML (fetched 2026-11-25) loads the same Google Maps JS API with the same key and the same locations array into #map-practices, so the tiles users get are the same Google output; my fetch could not run scripts, but nothing suggests the capture differs: captureDiffers no. The checker treated a map fragment as content needing its own description, stricter than 1.1.1; false positive."
+    },
+    {
+      "fingerprint": "0f7c1a1f289c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is one 256x256 base-map tile that the Google Maps JavaScript API draws inside the map widget (div role=region, aria-label \"Map\", aria-roledescription \"map\") above the practice results; Google marks every tile alt=\"\" role=\"presentation\". A single tile is a fragment of the composite map, not a self-contained image: the map as a whole is named, the information the map carries on this page (where the 12 listed practices are) is given in text in the practice cards below it (name, full address, opening hours), and each pin is its own focusable role=button element named after the practice. The place names printed on the tile are background geography that the page's purpose does not depend on, so hiding the tile from assistive technology is correct and 1.1.1 does not require a text alternative per tile: elementFails no. claimTrue no: the tile carries only base-map labels (Cambridge, Ipswich, London and so on); the red pins in the crop are separate marker elements (role=button divs named after the practices) layered over it, captured because the crop was cut from the rendered screen at the tile's bounds. The raw live HTML (fetched 2026-11-25) loads the same Google Maps JS API with the same key and the same locations array into #map-practices, so the tiles users get are the same Google output; my fetch could not run scripts, but nothing suggests the capture differs: captureDiffers no. The claim's page-relevant content (pins) comes from overlays the crop mixed into the image; the tile itself is a map fragment. False positive."
+    }
+  ]
+}

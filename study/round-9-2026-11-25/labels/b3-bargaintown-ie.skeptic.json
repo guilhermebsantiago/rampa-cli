@@ -1,0 +1,34 @@
+{
+  "page": "https://bargaintown.ie/collections/mattresses",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "eda9a2f23337",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the desktop hero banner image (picture.mobile-hide > img, alt=\"\") at the top of the collection page; the crop shows the image of text \"BEDTIME JUST GOT A WHOLE LOT BETTER / Discover our Dream - Worthy Mattress Collection\" beside a photo of a woman hugging a pillow. claimTrue: the snapshot gives alt=\"\" (Chrome ignores it as emptyAlt), the article's title-styling div is empty, the banner is not a link, and that wording appears nowhere else in the page (the h1 is just \"Mattresses\"); the quote drops \"Discover our\" but points at the right text. elementFails: I looked for a reason it passes: no caption, no overlay text, no figcaption, no aria-describedby, no adjacent copy repeating the slogan. Promotional copy is information, not pure decoration, so an image of text that carries it with a null alternative is F39 under 1.1.1. A reading that the slogan is mere decoration does not hold up, since the text is the banner's whole message. captureDiffers: the live HTML fetched on 2026-11-25 has the same two pictures with alt=\"\" and the same empty title div; the newsletter pop-up that covers the screenshot's top also appears for real users and is dismissible, so it does not change this claim."
+    },
+    {
+      "fingerprint": "21058cc1fb38",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the header search field (input type=search #search_main, placeholder \"What are you looking for?\") with <label for=\"search_main\">Search</label> and a legend \"Search\". claimTrue: the snapshot's CDP tree gives the searchbox name \"\" with a labelledby relation to the label, and the label is ignored as notRendered, so Chrome computed no name, as the claim says (Rampa's own name \"Search\" differs from the browser's). captureDiffers: the live HTML has the same markup, and the live screen.css has \"#search label{display:none}\", so users receive the same display:none label. elementFails: in Chromium browsers the field reaches the accessibility API with an empty name, which is F68's failure, so I answer yes for what most users receive. But concrete reasons against hold up enough for competent auditors to split. By HTML-AAM the placeholder is the fallback name when the label yields nothing, and Firefox computes the placeholder (or the hidden label) as the name. Chrome itself exposes the placeholder as the description, so screen readers will likely still announce \"What are you looking for?\", which makes the claim's \"announces only searchbox\" doubtful in practice. Spec- or axe-based testing would likely pass it, while inspection of Chrome's tree would fail it. Hence uncertain."
+    },
+    {
+      "fingerprint": "127d9ac25eaf",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the upper price filter field (input type=number #max, value 1349) with <label for=\"max\">to</label>. The claim says the label's text does not show. The snapshot places the label at x 112.5-162.5, y 1853.7-1903.9, and the capture's own screenshot shows \"to\" in exactly that box, between the \"€ 0\" and \"€ 1349\" fields under the \"Price\" heading. The live screen.css styles \".input-range>span label\" as display:block with normal text (no transparency), so the label is visible to users. claimTrue: no; the label's text shows in the screenshot. elementFails: no. Visually, \"Price\" + \"€ 0\" + \"to\" + \"€ 1349\" makes clear what to enter, which meets 3.3.2 for this field. (The lower field #min has its \"From\" label moved off screen, but that is another element.) captureDiffers: no; the live HTML and CSS match the capture. Cause: the collector's textVisible=false flag on this label is wrong, likely because the fixed newsletter pop-up overlay covered the viewport when the transparency test ran. The finding rests on that wrong data."
+    },
+    {
+      "fingerprint": "45ca7d6b3976",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the first tile image in the \"Mattresses by Size\" list (alt=\"Single Bed Mattress\"). It is not a link; the h5 link \"Single Bed Mattresses (3ft)\" follows it. The crop shows a line icon of a narrow single bed with a pillow and the marking 3'. claimTrue: no; the alternative names exactly what the picture shows, a single bed mattress, so it does not describe something absent. elementFails: no; the alternative conveys the picture's information, and the 3ft size is also in the adjacent heading. At most the alternative is redundant with that heading, which is advisory, not a 1.1.1 failure. captureDiffers: no; the live HTML has the same img with the same alt in the same figure. The checker had the image and the alt and misjudged their match."
+    }
+  ]
+}

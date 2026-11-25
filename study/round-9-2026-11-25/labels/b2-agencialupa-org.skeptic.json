@@ -1,0 +1,50 @@
+{
+  "page": "https://www.agencialupa.org/reportagem/2026/11/24/desinformacao-sobre-mpox-alimenta-ataques-contra-comunidade-lgbtqia-nas-redes/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "687831448b66",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header's breaking-news label, an SVG image of the word 'ÚLTIMAS' (with a bar) in the div.breaking-news-icon, alt=\"\", shown in the screenshot as 'ÚLTIMAS |' before the ticker of latest fact-checks. claimTrue: the crop shows that word and the image is ignored for emptyAlt; nothing around it says 'Últimas' (the ticker items give only category and headline; the 'Últimas' menu and footer links are elsewhere, the menu one hidden). elementFails: an image of text whose words are not given as text anywhere near it is informative, not decorative; it is the only label telling users these links are the latest stories, and no aria-label, visually hidden text or heading supplies it, so it lacks a text alternative (the alternative should be 'Últimas'). I looked for a reason it passes (redundant text, a label on the list, a decorative icon role) and found none. captureDiffers: the live HTML (my own automated fetch) has the same img with alt=\"\" in the same breaking-news block, and the screenshot is a styled render; no difference touches the claim. The claim names this failure."
+    },
+    {
+      "fingerprint": "d6dcd4810aed",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a screenshot of an X post (alt=\"\") in a figure captioned 'Mensagem que circula no X. Foto: Reprodução', right under the h3 '“Mpox é doença gay”'. claimTrue: no; the lines the claim says the text does not give are in the text around it: the heading just before quotes 'Mpox é doença gay', and the paragraph after says the data 'desmente também o post que afirma que o HIV é uma “doença gay”'; a later section heading of the article also quotes the post's first line ('Deve ser por isso que a OMS orientou os viados a pararem com a promiscuidade'). elementFails: I lean yes, because the post's wording is still not available as text near the image ('mas nada falou sobre os héteros', 'Fato: as duas se espalham pelo mundo devido ao comportamento gay. Lide com isso.', its date), and the caption only says it is a message on X. But the claims the article checks are all carried by the heading and the refutation, so competent auditors would reasonably disagree whether the image is redundant with that text, and whether a claim built on the very lines the text does carry names the failure; hence uncertain. captureDiffers: the live HTML has the same img, alt=\"\" and caption; no difference."
+    },
+    {
+      "fingerprint": "d5785322129e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the IFCN signatory seal in the footer (selo-ifcn-2026.png, alt=\"\", not a link): a green badge reading 'IFCN @Poynter', 'SIGNATORY', 'Lupa', 'International Fact-Checking Network'. claimTrue: the crop shows exactly that and the image is ignored for emptyAlt; the text around it says nothing of it (the IFCN logo link beside it also has an img with alt=\"\", the Ajor and Women Owned logo links likewise, and no text on the page mentions IFCN or a signatory). elementFails: a certification seal conveys information (that Lupa is a verified signatory of the IFCN code), and its text is given nowhere else, so with alt=\"\" it has no text alternative; I looked for a redundant caption, neighbouring text or a named parent and found none (the neighbouring logo link has no name either, a separate failure). captureDiffers: the live HTML has the same figure and img with alt=\"\"; the screenshot shows the seal as captured. The claim names the failure."
+    },
+    {
+      "fingerprint": "6f50ed2c98a1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a screenshot of X posts (alt=\"\") in a figure captioned 'Mensagem que circula no X. Foto: Reprodução': a post saying the gay community keeps a 'cultura de hiperpromiscuidade', quoting a post 'SOBRE MPOX' with three photos of mpox lesions, and a reply calling gays 'inconsequentes e depravados'. claimTrue: the crop shows a post with text and lesion photos, and the text around it does not say so (the caption gives only that it is a message on X; the preceding paragraphs speak of posts about 'promiscuidade' in general and quote a different post, the 'Sodoma e Gomorra' one). elementFails: the wording of these posts and the lesion photos are informative content not given as text anywhere near; I checked whether the paragraphs or caption make the image redundant and they only summarise the theme, so alt=\"\" leaves it without a text alternative. captureDiffers: the live HTML has the same img, alt=\"\" and caption; no difference. The claim, read in good faith, names the failure (an informative image hidden with a null alt), though its summary of the image is thin."
+    }
+  ]
+}

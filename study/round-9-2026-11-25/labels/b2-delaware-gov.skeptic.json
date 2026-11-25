@@ -1,0 +1,27 @@
+{
+  "page": "https://delaware.gov/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "3d0346bab827",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Search' item of the main navigation list: <li id=\"header-search-main\" tabindex=\"0\" onkeydown=\"return accessibleFunction(event)\">, and portal_ready.js binds jQuery('#header-search-main').click() to slideToggle the #header-search panel, with main.js's accessibleFunction doing the same on Enter. So it is focusable and does take click and keydown, and it works as a disclosure button. The browser exposes it as listitem (snapshot ax role listitem, browser name empty), with no button role and no aria-expanded, so the role of this user interface component is not programmatically determined; a listitem is not a control role, and this is the situation F59 describes for div/span made into controls by script. I looked for a reason it could pass: no role attribute, no inner native button or link (the inner span has no handler and no role), and the other search field on the page does not exempt this component. The live HTML and scripts fetched now match the snapshot. The claim names the actual failure (control exposed with no control role)."
+    },
+    {
+      "fingerprint": "fe85f1da9b6e",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the second Featured Highlights card picture (img/spotlight-No-6-Plate-small-surf-fishing.jpg). The crop and the full screenshot both show a black Delaware Surf Fishing vehicle permit plate numbered 6, from the Division of Parks and Recreation. Its alt is 'Office of Small Business with logo with a film crew and camera', evidently copied from another card, and it has nothing to do with the plate. I looked for a way it could pass: even if the picture were treated as decorative beside the headline 'State Parks To Auction “6” Surf Fishing Plate', it would need a null alt. A non-empty alt that describes some other image gives screen reader users false information, so the text alternative does not serve the equivalent purpose. The crop matches the element's bounds in the screenshot, and the live HTML still has the same src and alt, so the capture does not differ. The claim names the real defect."
+    },
+    {
+      "fingerprint": "acde4c1e4593",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the single text input labelled 'My Address' in the Find My Legislator form. Its placeholder is '411 Legislative Ave, Dover, DE 19901', and portal_ready.js sends its value as one search string to legis.delaware.gov/FindMyLegislator. The claim holds of the capture: the field asks for the user's own address and has no autocomplete attribute, in the snapshot and in the live HTML alike. But the field takes a whole postal address in one input: street, city, state and ZIP. WCAG's Input Purposes list gives those as separate purposes (street-address, address-level2, address-level1, postal-code), and HTML autocomplete takes one field name per control. Understanding 1.3.5 says: 'If an input field accepts two different types of input purpose ... and the technology used does not allow multiple purpose values to be defined, it is valid to provide either one or the other value or leave out the designation of input purpose altogether.' So leaving out the designation is a valid way to meet 1.3.5 here. Requiring autocomplete=\"street-address\" applies a stricter rule than the criterion; that token would also cover only the street part of what the field asks for. The live page matches the capture."
+    }
+  ]
+}

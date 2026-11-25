@@ -1,0 +1,118 @@
+{
+  "page": "https://www.museuparanaense.pr.gov.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "b346cfe591b6",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The photo in the current main slide of the 'Atendimento à pesquisa' carousel (people examining papers and maps at a table in an archive room) has alt=\"arq-cul-indigenas\", a file-name slug (the file is arq_cult-indigenas_03-edit.jpg). The crop shows nothing that this abbreviation describes, so the sentence holds of the capture. Whether the photo is read as informative (the slug conveys none of what it shows: F30, an alternative that is not an alternative) or decorative (it should then be null: F39), it fails 1.1.1. The claim, read in good faith, points at that defect: the alternative does not match what the image shows. The live HTML has the same img and alt as the snapshot."
+    },
+    {
+      "fingerprint": "0aa09eaa9611",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The first slide of the thumbnail carousel ('Atendimento à pesquisa'). The live data-slick settings give it asNavFor the main slider with focusOnSelect true, so slick binds a click handler on each slide that selects the matching panel below, and slick's initADA sets tabindex=0 on the visible slides; the snapshot records it as focusable with a click listener and role generic, no name and no selected state. It is a custom tab-like control whose role is not programmatically determined: F59, 4.1.2 fails. The claim states exactly that. The live HTML and scripts match the capture."
+    },
+    {
+      "fingerprint": "fdd178895a5b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The news headline link 'MUPA celebra a 24ª Semana Nacional de Museus...' is gold #e8b609 on white at 18.85px, normal weight, which is not large text. The live stylesheet sets '.noticias_horizontal.titulo_abaixo ul li h3 a{color:#e8b609}', the screenshot shows gold on white, and the ratio computes to 1.89:1, below 4.5:1 (and even below 3:1). 1.4.3 fails as the claim says. The live page has the same headline and CSS."
+    },
+    {
+      "fingerprint": "a4b61dddb7b3",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Mais notícias ››' button link is white text on a #e8b609 gold background at 14px, normal weight. The screenshot shows white on gold, the snapshot measured it from the CSS foreground and the background pixels, and the ratio is 1.89:1, far below 4.5:1. 1.4.3 fails as claimed. The live page has the same button."
+    },
+    {
+      "fingerprint": "b1fe581aa340",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The thumbnail photo in the 'Conteúdo Virtual' tab (an animal skull and small dark figurines in a red-lit display case) has alt=\"MUPA Minuto\", the name of a video series, which says nothing about what the photo shows, so the sentence holds of the capture. Read as informative, the alternative does not serve the equivalent purpose. Read as decorative beside the h3 'Conteúdo Virtual', it should be null rather than carry an unrelated label. Either way 1.1.1 fails, and the claim (a label instead of what the image conveys) names it. The live HTML is the same."
+    },
+    {
+      "fingerprint": "1f2214be431f",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The search field #edit-termo. No text 'Buscar' is rendered: that is its title, which is its accessible name. The pixels measured, #999999 on white at 14px and 2.85:1 (axeReason pseudoContent), are those of its placeholder 'Do que você precisa hoje?'. Bootstrap's '.form-control::placeholder{color:#999}' is in the live CSS, and the screenshot shows light grey italic text. So the sentence misnames the text. The field fails 1.4.3 all the same, because the placeholder is its only visible prompt (there is no visible label) and it has 2.85:1. The claim points at that defect, the low-contrast grey text in this field with the right colours and ratio, in imperfect words. It duplicates the placeholder finding on the same input."
+    },
+    {
+      "fingerprint": "d999a8ad2c32",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The second thumbnail slide ('Visitas em grupos') of the asNavFor carousel. With focusOnSelect, slick binds a click handler that selects the matching panel, and initADA gives the visible slides tabindex=0. The snapshot shows it focusable, with a click listener, role generic and no name or state. It is a tab-like custom control with no role: F59, 4.1.2 fails as the claim says. The live markup and settings match."
+    },
+    {
+      "fingerprint": "e4fb066fab39",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The news headline link 'Museu Paranaense lança Rádio MUPA...' is #e8b609 on white at 18.85px, normal weight (not large text), which is 1.89:1. That is confirmed by the live CSS rule for these headline links and by the screenshot. It fails 1.4.3's 4.5:1 as claimed, and the live page is unchanged."
+    },
+    {
+      "fingerprint": "95949e9f8eed",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The thumbnail photo behind the 'Atendimento à pesquisa' tab (students and staff consulting papers) has alt=\"arq-cul-indigenas\", a file-name slug that matches nothing visible in the crop. If the photo is decorative next to the h3 label, it needs a null alt (F39). If it is informative, the slug is not an equivalent (F30). Either way 1.1.1 fails, and the claim that the alternative does not match the image points at that defect. The live HTML is identical."
+    },
+    {
+      "fingerprint": "24b6d99ca012",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The search field's placeholder 'Do que você precisa hoje?' is #999 (Bootstrap's form-control placeholder rule, present in the live CSS) on a white field at 14px, which is 2.85:1, and the screenshot shows light grey text. It is real text and the field's only visible prompt (there is no visible label), and no 1.4.3 exception covers it, so it needs 4.5:1 and fails as claimed. The live input is the same."
+    },
+    {
+      "fingerprint": "9c1c5f612fad",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h2 'Serviços para você!' has tabindex=0, and the site script binds a click on it ('#bloco-governo-digital .header-bloco-governo-digital h2').click(...toggleClass('show-mobile')). The capture holds as claimed: it is focusable, has a click listener and has the role heading. At 1280px the toggled class has no visible effect. At widths up to 575px, which means phones and also a 1280px desktop at 400% zoom, the live CSS hides the category buttons, gives the h2 a pointer cursor and a caret, and the click shows or hides them. There the h2 is a disclosure control exposed as a heading, with no button role and no expanded state: 4.1.2 fails (and it cannot be activated with Enter). The claim names that failure: it works as a control but is exposed as a heading with no control role."
+    },
+    {
+      "fingerprint": "dcee2479e4b9",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The fourth thumbnail slide ('Conteúdo Virtual') of the asNavFor carousel. It is focusable (slick gives the visible slides tabindex=0), has a click handler from focusOnSelect that switches the main panel, and is exposed as generic with no name or selected state. It is a custom control without a role: F59, 4.1.2 fails as claimed. The live page matches the capture."
+    },
+    {
+      "fingerprint": "26984618655b",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The thumbnail behind the 'Visitas em grupos' tab shows an exhibition gallery with framed pictures on the walls, and its alt is 'Esposição' (a misspelling of 'Exposição', exhibition). That does describe what the image shows, so the claim that it describes something not shown is false of the crop. A short, accurate alternative for an illustrative photo meets 1.1.1, and the misspelling is a quality issue, not a failure. An auditor who reads the photo as purely decorative might want a null alt, but the claim does not name that. The model had the crop and judged it wrongly."
+    },
+    {
+      "fingerprint": "86dbc15885e1",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The news headline link 'Museu Paranaense lança catálogo digital...' is gold #e8b609 on white at 18.85px, normal weight, which is 1.89:1 (live CSS rule '.noticias_horizontal.titulo_abaixo ul li h3 a', the screenshot and the snapshot agree). It is not large text, so it needs 4.5:1, and 1.4.3 fails as claimed. The live page is unchanged."
+    },
+    {
+      "fingerprint": "338f3260495b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The news headline link 'Museu Paranaense apresenta retrospectiva...' is #e8b609 on white at 18.85px, normal weight, which is 1.89:1, as the live CSS and the screenshot confirm. It falls far below 1.4.3's 4.5:1 for normal-size text, as the claim says. The live page matches the capture."
+    },
+    {
+      "fingerprint": "5d9862004949",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The third thumbnail slide ('Pesquisa no Acervo online') of the asNavFor carousel. It has tabindex=0 from slick's initADA, a click handler from focusOnSelect that selects the matching main panel, and the role generic with no name or selected state in the snapshot. It works as a tab but its role is not exposed: F59, 4.1.2 fails as claimed. The live HTML and settings are the same."
+    }
+  ]
+}

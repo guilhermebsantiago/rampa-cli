@@ -1,0 +1,17 @@
+{
+  "page": "https://www.auditorioibirapuera.com.br/contato/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "f890d207ecfa",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field (input type=search, no label, placeholder \"Buscar...\"), shown at desktop width in a white form beside the logo. claimTrue: the screenshot pixels in the placeholder glyphs are at darkest rgb(187,187,187) on rgb(255,255,255), 1.92:1, matching the claim, and the live style.css sets input[type=\"search\"]::placeholder { color: #bbb } at font-size 14px, normal weight, inside form { background: #fff }. elementFails: I looked for reasons it could pass and none held. Understanding 1.4.3 (WCAG 2.1) states the criterion \"applies to text in the page, including placeholder text\", and the WAI forms tutorial says default and light placeholders fail and suggests #767676. The text is 14px regular, so not large text, and 4.5:1 applies. It is not inactive, decorative or invisible, so the incidental-text exception does not apply. The placeholder is also the field's only visible text label apart from the magnifier icon. No opacity or background in the CSS raises the contrast; Firefox's default placeholder styling would only make it lighter. captureDiffers: the live HTML and CSS I fetched today match the snapshot and screenshot (same markup, same #bbb placeholder, white form). The field is display:none below the mobile breakpoint, but at the captured desktop width it is visible, and the mobile menu's search field uses the same placeholder rule. Nothing about the capture changes the claim. The claim names the real failure, so the label is true_positive."
+    }
+  ]
+}

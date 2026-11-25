@@ -1,0 +1,34 @@
+{
+  "page": "https://www.atacadao.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "1fe47be38713",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the first of two images that make up all the content of the fixed orange feedback tab (button.emotion-feedback-trigger, no aria-label, no title, no text), so its alt is part of the control's name, which comes out as \"img1 img2\". claimTrue: the snapshot has alt=\"img1\", a placeholder, read by a screen reader in place of the image. elementFails: I looked for a way the button could still get a name that describes its purpose (aria-label, title, aria-labelledby, visually hidden text) and found none. The image is the content of a control, so 1.1.1 needs a name that gives its purpose (H30/G82), and even if it were decorative a non-null placeholder alt would fail (F30, F39). The live tab shows two face emojis that mean 'rate this page', and \"img1\" says nothing about that. captureDiffers: the live GTM container (GTM-TX36W2W7) injects the same button markup, with alt=\"img1\" and alt=\"img2\" and no name on the button. The full-page screenshot draws the fixed tab lower down (around y 2700) instead of at its viewport position, which does not affect this claim. No reason holds up against the finding."
+    },
+    {
+      "fingerprint": "43b01dfe491a",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the second image in the same icon-only feedback button, a smiling face that overlaps the sad face. claimTrue: the snapshot has alt=\"img2\", a placeholder that a screen reader reads out. elementFails: the button has no aria-label, title or text, so its name is \"img1 img2\" and does not give its purpose. Treating this image as decorative alongside the other one does not save it either: a decorative image needs alt=\"\", and a placeholder alt like this one fails 1.1.1 (F30, F39). The claim names both remedies. captureDiffers: the live GTM tag injects the same markup, unchanged. The fixed tab sits at a different position in the full-page screenshot, which is a capture artefact that does not touch this claim."
+    },
+    {
+      "fingerprint": "1fae3bd94958",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the fixed feedback tab at the right edge, a button whose only visible content is two white outline face emojis (PNG images) on an orange background. claimTrue: the live GTM CSS sets background-color:#f63 (#ff6633). The icon PNG is opaque white, and the screenshot pixels of the tab are #ff6633 and #ffffff. That gives about 2.92:1, below 3:1, and the button has no text. elementFails: Understanding 1.4.11 says stand-alone icons with no text (its example is a print icon) are graphical objects that must reach 3:1, and it lists G207 for this case. I looked for something that would pass the button anyway. There is no visible text and no second, higher-contrast indicator of its purpose. The orange tab against white page areas is also only about 2.92:1, though it passes against the dark banner area. Without the faces, the tab does not show what it is for. WCAG does not round the threshold, so 2.92 fails. captureDiffers: the live CSS and image match the capture. The only difference is where the full-page screenshot draws the fixed tab, which does not change the colours."
+    },
+    {
+      "fingerprint": "dd1ba8620f15",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field. It has no visible label (aria-label \"search\" only), and the placeholder \"O que você procura?\" is the only visible text that says what the field is for. claimTrue: the snapshot class placeholder-[#8E8E8E] with placeholder:text-sm gives #8e8e8e at 14px weight 400. The background measured was #ffffff, which gives 3.28:1. elementFails: the live CSS has .placeholder-[#8E8E8E]::placeholder{color:rgb(142 142 142)} and '.SearchInput_searchInput__sWabB form{background-color:#ffffff}', so users get the same 3.28:1 on 14px normal-weight text, short of 4.5:1. Understanding 1.4.3 says its scope covers 'text in the page, including placeholder text'. The field is not inactive and the text is not incidental, so no exception applies. captureDiffers: the packet's full-page screenshot leaves the sticky header blank (all white), so I did not rely on its pixels. The measured colours match the live CSS and the live HTML input, which is unchanged, so the difference does not touch the claim."
+    }
+  ]
+}

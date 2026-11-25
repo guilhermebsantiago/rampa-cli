@@ -1,0 +1,171 @@
+{
+  "page": "https://hjsc.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "cdbdbf6d59ac",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Elementor Slides 'next' arrow (div role=button) of the hero carousel; its only visible content is the chevron icon. The rule's icon colour is Elementor's default arrow colour (hsla(0,0%,93%,.9) = #ededede6), and the live page sets no other arrow colour for this widget. In the screenshot the chevron sits over the pale pink-grey photo area of the active slide; sampled pixels around it are #b1a1a7 to #ebc9c3, which give about 1.5 to 2.4:1 against the near-white chevron, consistent with Rampa's 2.20:1 best case. Under 1.4.11 the icon is the visual information that identifies the control (G207, 3:1); Understanding 1.4.11 says to test the least contrasting area when the background varies, and even the best case is below 3:1. I looked for a pass: no border, background disc or shadow on the button; the slides rotate, but the live slide set (four banners on white or photo backgrounds) is the same kind, so the low-contrast state is one users receive. The live server HTML labels the button 'Próximo slide' before scripts run; that does not touch the contrast claim. The claim names this failure."
+    },
+    {
+      "fingerprint": "74f3e5aaf234",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The phone number '(11) 5080-2000' in the green header bar, 11pt (14.7px) bold. Its inline style sets a colour written with full-width digits, which is invalid CSS and ignored, so the text takes the white set for .ast-header-html-2. The live page (fetched 2026-11-25) styles this bar the same way: .ast-primary-header-bar has linear-gradient(90deg, rgb(50,101,97) 0%, rgb(60,179,113) 48%), so from about x=614 the bar is solid #3cb371, and the header items are set to white (#ffffff). Screenshot pixels behind it are #3cb371; white on #3cb371 is 2.67:1. 14.7px bold is below the large-text threshold (14pt bold = 18.66px), so 4.5:1 applies. No text shadow or other technique raises it. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "82a0d6e4cb75",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Secondary-navigation link 'Pesquisa e Ensino', 16px weight 500, white (.ast-builder-menu-2 .menu-link{color:#ffffff}). The live page (fetched 2026-11-25) styles this bar the same way: .ast-primary-header-bar has linear-gradient(90deg, rgb(50,101,97) 0%, rgb(60,179,113) 48%), so from about x=614 the bar is solid #3cb371, and the header items are set to white (#ffffff). Screenshot pixels behind it are #3cb371, giving 2.67:1, below 4.5:1 for normal-size text. Not large text, not a logo, not inactive; no shadow. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "a2d80e27c6d5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Previous slide' arrow of the lower (COSC) carousel above the Notícias heading; the chevron is its only visible content, in Elementor's default #ededede6. In the screenshot it sits over the beige photo area (sampled #e7d2b5, #dbc7ae, #cfbea2), about 1.5 to 1.8:1 against the light chevron, matching Rampa's 1.70:1 best case. No border, backing shape or shadow; the icon identifies the control, so 1.4.11 asks 3:1 (G207). Nothing found that makes it pass. True positive."
+    },
+    {
+      "fingerprint": "c08d26afa8ef",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Previous slide' arrow of the hero carousel, chevron only, Elementor default #ededede6. The captured slide has a white left side (the live CSS gives the 'contain' slides background-color #FFFFFF), so the chevron is light grey on white, about 1.15:1, barely visible in the screenshot. No border or backing; 1.4.11 asks 3:1 for the icon that identifies the control. Other slides may put it on a darker area, but a state users receive fails. True positive."
+    },
+    {
+      "fingerprint": "b3f69c191e0b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only YouTube link (aria-label 'YouTube') in the green header bar; the 18px SVG glyph is all it shows. The live CSS sets .ast-header-social-1-wrap .ast-social-color-type-custom svg{fill:#ffffff}, and the bar behind is solid #3cb371 at this position; screenshot pixels confirm white on #3cb371, 2.67:1, below the 3:1 that 1.4.11 asks for an icon identifying a control (G207). Skeptic check: this is a brand logo, and Understanding 1.4.11 exempts logos, but it also says a low-contrast presentation that is the author's choice rather than mandated by brand guidelines is not essential and not exempt. Here the author chose a custom white monochrome glyph; the YouTube guidelines also allow a black monochrome version, which would pass on this green. So the exemption does not hold up and the claim names the failure."
+    },
+    {
+      "fingerprint": "cadfef2fb9d0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only Instagram link (aria-label 'Instagram') in the green header bar; the 18px SVG glyph is all it shows. The live CSS sets .ast-header-social-1-wrap .ast-social-color-type-custom svg{fill:#ffffff}, and the bar behind is solid #3cb371 at this position; screenshot pixels confirm white on #3cb371, 2.67:1, below the 3:1 that 1.4.11 asks for an icon identifying a control (G207). Skeptic check: this is a brand logo, and Understanding 1.4.11 exempts logos, but it also says a low-contrast presentation that is the author's choice rather than mandated by brand guidelines is not essential and not exempt. Here the author chose a custom white monochrome glyph; the Instagram guidelines also allow a black monochrome version, which would pass on this green. So the exemption does not hold up and the claim names the failure."
+    },
+    {
+      "fingerprint": "6df70a99e47a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only LinkedIn link (aria-label 'LinkedIn') in the green header bar; the 18px SVG glyph is all it shows. The live CSS sets .ast-header-social-1-wrap .ast-social-color-type-custom svg{fill:#ffffff}, and the bar behind is solid #3cb371 at this position; screenshot pixels confirm white on #3cb371, 2.67:1, below the 3:1 that 1.4.11 asks for an icon identifying a control (G207). Skeptic check: this is a brand logo, and Understanding 1.4.11 exempts logos, but it also says a low-contrast presentation that is the author's choice rather than mandated by brand guidelines is not essential and not exempt. Here the author chose a custom white monochrome glyph; the LinkedIn guidelines also allow a black monochrome version, which would pass on this green. So the exemption does not hold up and the claim names the failure."
+    },
+    {
+      "fingerprint": "1e815234a5fe",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The Oftalmologia card icon (Icone_Oftalmologia_Site.svg, alt=\"\"). The crop shows a green eye chart (rows of the letter E) above a trial frame for eye tests, not a bicycle. It sits directly above the h3 'Oftalmologia' and the text about the eye emergency service, so it only illustrates the topic the heading names and conveys nothing the text does not say. A null alt is correct for such a decorative or redundant image (H67), and the image is not inside a link. The claim is false of the capture: it is not a bicycle, and nothing is lost. The live page has the same markup. The model had the image and the heading and misjudged both."
+    },
+    {
+      "fingerprint": "b891b581941b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only Facebook link (aria-label 'Facebook') in the green header bar; the 18px SVG glyph is all it shows. The live CSS sets .ast-header-social-1-wrap .ast-social-color-type-custom svg{fill:#ffffff}, and the bar behind is solid #3cb371 at this position; screenshot pixels confirm white on #3cb371, 2.67:1, below the 3:1 that 1.4.11 asks for an icon identifying a control (G207). Skeptic check: this is a brand logo, and Understanding 1.4.11 exempts logos, but it also says a low-contrast presentation that is the author's choice rather than mandated by brand guidelines is not essential and not exempt. Here the author chose a custom white monochrome glyph; the Facebook guidelines also allow a black monochrome version, which would pass on this green. So the exemption does not hold up and the claim names the failure."
+    },
+    {
+      "fingerprint": "89e2a466d6c3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Secondary-navigation link '日本語', 16px weight 500, white. It sits at x 514-594, inside the gradient part of the header (dark teal to #3cb371 by 48% of the width), so the background there is #3caf70 to #3aa86e; screenshot pixels give 2.78 to 2.96:1 against white, below 4.5:1. The live CSS has the same gradient and white link colour. No shadow or other technique; not large text. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "eed3dee113a8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Secondary-navigation link 'Notícias', 16px weight 500, white. The live page (fetched 2026-11-25) styles this bar the same way: .ast-primary-header-bar has linear-gradient(90deg, rgb(50,101,97) 0%, rgb(60,179,113) 48%), so from about x=614 the bar is solid #3cb371, and the header items are set to white (#ffffff). Screenshot pixels behind it are #3cb371, 2.67:1, below 4.5:1. Not large text, no shadow. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "08b544327d58",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link '日本語' (to the Japanese-language page) on a page with html lang=\"pt-BR\". The snapshot has no other lang attribute anywhere, and the live HTML has no lang=\"ja\" either, so the Japanese text inherits pt-BR. Skeptic check on the 3.1.2 exceptions: it is a word in Japanese script, not a word of indeterminate language, not part of Portuguese vernacular, and a language's own name is not treated as a proper name here; Understanding 3.1.2's 'alternative language links' example is exactly this case and marks each language name with lang. The language of this phrase cannot be programmatically determined, so it fails 3.1.2 as the claim says."
+    },
+    {
+      "fingerprint": "826639ff618f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Secondary-navigation link 'COVID-19', 16px weight 500, white, at x 594-696 where the gradient has reached #3cb371. The live page (fetched 2026-11-25) styles this bar the same way: .ast-primary-header-bar has linear-gradient(90deg, rgb(50,101,97) 0%, rgb(60,179,113) 48%), so from about x=614 the bar is solid #3cb371, and the header items are set to white (#ffffff). Screenshot pixels behind it are #3cb371 to #3cb171, 2.67 to 2.72:1, below 4.5:1. Not large text, no shadow. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "2d4f84425d59",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Account link (aria-label 'Link do ícone da conta', href=\"#\") at the right of the green header; its only visible content is an 18px person icon. The live CSS fills the account icon #ffffff, and the bar behind is #3cb371; screenshot pixels confirm 2.67:1, below the 3:1 for an icon that identifies a control (1.4.11, G207). It is a generic icon, not a logo, and it is a focusable, visible component, so no exception applies. True positive."
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "page": "https://unipampa.edu.br/portal/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "442b7b36feb8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Portarias' is an unselected quicktabs tab link in the Documentos (Editais / Boletins de Serviço / Portarias) block. The screenshot pixels at its bounds are #777777 text on #eeeeee (3.86:1), and the live style sheet sets exactly that (ul.quicktabs-tabs li a: color #777; background #eee) for unselected tabs; the text is about 16px at weight 600, not large text, so 4.5:1 applies, and an unselected tab is an operable control, not an inactive component. The page offers an 'Alto contraste' switch (G174), and its high-contrast style sheet turns these tabs white on #2a2a2a, but the switch itself is #fff on #009045 at 11.2px (4.14:1), so it does not meet G174's own test and does not rescue the default presentation. The live page has the same markup and CSS; the splash overlay over the top of the capture does not reach this tab, so nothing in the capture changes the claim. True positive."
+    },
+    {
+      "fingerprint": "3f0cff717104",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The language switcher link 'English' carries only xml:lang=\"en\" and no lang attribute; the page is served as text/html, where xml:lang has no effect on language processing, so the link inherits html lang=\"pt-br\". Understanding 3.1.2 gives this exact case as an example ('Alternative language links': the name of each language in that language, identified with a lang attribute, H58), and a language name is not one of the exceptions. The live HTML is unchanged (same xml:lang-only markup); the splash overlay hiding the header in the screenshot does not touch a markup claim. True positive."
+    },
+    {
+      "fingerprint": "6e183e75bad3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Servidores' is an unselected quicktabs tab link in the Notícias (Gerais / Servidores / Estudantes) block. The screenshot pixels at its bounds are #777777 text on #eeeeee (3.86:1), and the live style sheet sets exactly that (ul.quicktabs-tabs li a: color #777; background #eee) for unselected tabs; the text is about 16px at weight 600, not large text, so 4.5:1 applies, and an unselected tab is an operable control, not an inactive component. The page offers an 'Alto contraste' switch (G174), and its high-contrast style sheet turns these tabs white on #2a2a2a, but the switch itself is #fff on #009045 at 11.2px (4.14:1), so it does not meet G174's own test and does not rescue the default presentation. The live page has the same markup and CSS; the splash overlay over the top of the capture does not reach this tab, so nothing in the capture changes the claim. True positive."
+    },
+    {
+      "fingerprint": "d5860adac6d6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Estudantes' is an unselected quicktabs tab link in the Notícias (Gerais / Servidores / Estudantes) block. The screenshot pixels at its bounds are #777777 text on #eeeeee (3.86:1), and the live style sheet sets exactly that (ul.quicktabs-tabs li a: color #777; background #eee) for unselected tabs; the text is about 16px at weight 600, not large text, so 4.5:1 applies, and an unselected tab is an operable control, not an inactive component. The page offers an 'Alto contraste' switch (G174), and its high-contrast style sheet turns these tabs white on #2a2a2a, but the switch itself is #fff on #009045 at 11.2px (4.14:1), so it does not meet G174's own test and does not rescue the default presentation. The live page has the same markup and CSS; the splash overlay over the top of the capture does not reach this tab, so nothing in the capture changes the claim. True positive."
+    },
+    {
+      "fingerprint": "8a964c3ae34e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The language switcher link 'Español' carries only xml:lang=\"es\" and no lang attribute; the page is served as text/html, where xml:lang has no effect on language processing, so the link inherits html lang=\"pt-br\". Understanding 3.1.2 gives this exact case as an example ('Alternative language links': the name of each language in that language, identified with a lang attribute, H58), and a language name is not one of the exceptions. The live HTML is unchanged (same xml:lang-only markup); the splash overlay hiding the header in the screenshot does not touch a markup claim. True positive."
+    },
+    {
+      "fingerprint": "b79424dec55f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header search field gets placeholder=\"Pesquisar\" from the site's own script (attr('placeholder','Pesquisar') on search_api_views_fulltext), and the live CSS sets ::-webkit-input-placeholder color #888 on #edit-search-api-views-fulltext background #e9e9e9 !important: 2.92:1 at 13px, below 4.5:1. The placeholder is visible text and, with the label hidden, the only on-screen text saying what the field is for, so 1.4.3 applies. The 'Alto contraste' switch is itself 4.14:1, so G174 does not apply. The screenshot cannot show the field (the splash overlay covers the header), but the live HTML, script and CSS give the same colours as the capture. True positive."
+    },
+    {
+      "fingerprint": "2bee78dad2da",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Boletins de Serviço' is an unselected quicktabs tab link in the Documentos (Editais / Boletins de Serviço / Portarias) block. The screenshot pixels at its bounds are #777777 text on #eeeeee (3.86:1), and the live style sheet sets exactly that (ul.quicktabs-tabs li a: color #777; background #eee) for unselected tabs; the text is about 16px at weight 600, not large text, so 4.5:1 applies, and an unselected tab is an operable control, not an inactive component. The page offers an 'Alto contraste' switch (G174), and its high-contrast style sheet turns these tabs white on #2a2a2a, but the switch itself is #fff on #009045 at 11.2px (4.14:1), so it does not meet G174's own test and does not rescue the default presentation. The live page has the same markup and CSS; the splash overlay over the top of the capture does not reach this tab, so nothing in the capture changes the claim. True positive."
+    },
+    {
+      "fingerprint": "d07890862b0a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The search textbox's only label is <label for> with the text '«nenhum»' (Drupal's empty-label placeholder), hidden by .views-exposed-form label{display:none}. The browser's accessibility tree in the capture records the label relation and a computed name of \"\" (it did not fall back to the script-added placeholder), so the control has no programmatically determined name in Chrome (F68, ACT 'form field has non-empty accessible name'); and in a browser that did use the hidden label, the name '«nenhum»' ('none') would still not identify the field. The live HTML has the same hidden '«nenhum»' label and the same script, so the capture matches what users receive. True positive."
+    },
+    {
+      "fingerprint": "4b106db83377",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the university portal's home page (https://unipampa.edu.br/portal/), and its title 'Unipampa | Universidade Federal do Pampa' names the institution the whole page is about; for a home page the site or organisation name describes its topic and purpose (G88), so the claim that the title says nothing about the page is false and 2.4.2 is met. The live page has the same title. The model had the title, URL and content and judged wrongly: false positive, model_error."
+    }
+  ]
+}

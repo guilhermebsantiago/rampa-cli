@@ -1,0 +1,28 @@
+{
+  "page": "https://www.aber.ac.uk/en/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "3ea565d0a50f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the img #CybotCookiebotDialogPoweredbyImage in the header of the Cookiebot consent dialog (region 'This website uses cookies'), not inside a link; its image (crop) is the Aberystwyth University logo with the crest, '1872' and the words 'Prifysgol Aberystwyth University', and its alt is 'logo'. claimTrue: 'logo' is a generic placeholder that names the kind of image, not its content, so the sentence holds of the capture. elementFails: I looked for a reason it passes and found none. If the logo is informative, its alternative must identify it (the university's name, which the image shows as text); 'logo' does not, which is F30 (text alternatives that are not alternatives, such as placeholder text). If one argued the logo is decorative in the banner, the non-null alt 'logo' still keeps it from being ignored by assistive technology, which is F39. Either reading fails 1.1.1, and the claim, read in good faith, points at the useless alternative. captureDiffers: the live Cookiebot configuration for this site (consent.cookiebot.com cc.js for its cbid, fetched 2026-11-25) sets CookieConsentDialog.logoAltText = 'logo' and the same PNG as the logo, with showLogo true, and the dialog template renders it as <img id=CybotCookiebotDialogPoweredbyImage alt=[#LOGOALT#]>, so first-time visitors get the same image and alt. The page screenshot does not show the dialog (the collector hid its underlay), but that does not touch this claim. My fetch was automated too, but the configuration is site-wide, not per visitor."
+    },
+    {
+      "fingerprint": "7d7ba2e7b50e",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the span 'Pause' (class slick-pause-text slick-sr-only) inside the carousel's autoplay toggle button, screen-reader text for an icon-only button. The site's CSS (/css2/app-v7.css, fetched live) gives .slick-autoplay-toggle-button overflow:hidden, text-indent:101%, white-space:nowrap, width and height 36px, and the pause icon span inside it is display:block at 100% of that box, so the text line falls below the icon, outside the 36x36 button (the span's bounds start at y 3045.3, the button's box ends at 3047.3), and is clipped. The page screenshot confirms it: inside the span's bounds there are only white and navy (#242753) pixels and antialiased edges, no text ink, and the button shows only the white pause icon. claimTrue: no; the foreground #3b3b3b is the span's CSS colour, but no 'Pause' text is painted, and the area of its box in the capture is mostly white, not #242753, so 'at most 1.26:1 with what is behind it' does not describe anything a user sees. elementFails: no; Understanding 1.4.3 exempts incidental text 'not visible to anyone', and this text is visually hidden by design (its visible counterpart, the pause icon, is a 1.4.11 matter and is white on navy). captureDiffers: no; the live CSS and HTML match the capture (same section, same button styles). Cause: the snapshot presented a clipped, invisible span as visible text and attached a pixel contrast measurement to it, so the rule worked from data about an element that is not what the snapshot says."
+    }
+  ]
+}

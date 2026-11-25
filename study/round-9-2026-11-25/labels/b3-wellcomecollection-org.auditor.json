@@ -1,0 +1,17 @@
+{
+  "page": "https://wellcomecollection.org/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "1886f15cb63e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter sign-up field in the 'Stay in the know' block, labelled 'Your email address' (input#newsletter-input, type=email, name=email, required). claimTrue: in the snapshot the input has no autocomplete attribute, and the snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError on it, so both parts of the sentence hold. elementFails: the field collects the user's own email address (its label says 'Your email address'), and 'email' is one of the listed input purposes. Understanding 1.3.5 says type=email only gives a broad category and does not show whether the address belongs to the user. Its sufficient technique is H98 (the autocomplete attribute), and no other attribute exposes the purpose, so the field fails 1.3.5 for the reason the claim gives. captureDiffers: my curl and WebFetch requests got an AWS WAF challenge (HTTP 202, empty body), so I could not load the live page. I checked the site's public source on GitHub instead (wellcomecollection/wellcomecollection.org: NewsletterPromo renders TextInput with id newsletter-input, type email, name email, and TextInput has no autocomplete prop at all). That matches the capture, and the screenshot shows the form fully styled, so I found no difference that matters for this claim."
+    }
+  ]
+}

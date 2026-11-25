@@ -1,0 +1,149 @@
+{
+  "page": "https://www.energiaesaneamento.org.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "4e1ae7bee093",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The NOME newsletter input has background:none on the #e0e0e0 newsletter band, and Bootstrap 5.2 colours its placeholder #6c757d; I sampled both colours in the screenshot and compute 3.55:1 at 16px normal weight. Understanding 1.4.3 says the criterion applies to placeholder text, and here the placeholder is the field's only visible label, so it is not incidental. The page has a 'contraste' button, but it only applies a CSS grayscale(100%) filter (navigation.js), the button has no accessible name, and in grayscale the yellow tags (about 1.96:1) and grey placeholders (3.55:1) still fail, so G174 does not make the page pass. The live HTML and theme CSS fetched today match the snapshot (same markup, same colours), and the screenshot is fully styled, so the capture does not differ."
+    },
+    {
+      "fingerprint": "01479aeabe9d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Ir para todas as notícias' is white text (CSS #feeds-home a {color:white}) on the #feeds-home::after orange #e24301, confirmed in the screenshot pixels: 4.17:1 at 16px weight 300, which is not large text, so it fails 4.5:1. On narrow viewports #ultimas-noticias itself is #e24301, so no layout rescues it. The page's 'contraste' button only applies a grayscale filter, has no accessible name, and leaves other text on the page failing (yellow tags about 1.96:1, placeholders 3.55:1), so G174 does not make the page pass. The live HTML and theme CSS fetched today match the snapshot (same markup, same colours), and the screenshot is fully styled, so the capture does not differ."
+    },
+    {
+      "fingerprint": "3298069d27a2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h3 headline is white on #e24301 (CSS .content-noticia h3 16px weight 300, 18px from 1400px up, neither of them large text). I confirmed the background in the screenshot, and the ratio is 4.17:1, below 4.5:1. The bold weight that :hover adds does not count as the default presentation. The page has a 'contraste' button, but it only applies a CSS grayscale(100%) filter (navigation.js), the button has no accessible name, and in grayscale the yellow tags (about 1.96:1) and grey placeholders (3.55:1) still fail, so G174 does not make the page pass. The live HTML and theme CSS fetched today match the snapshot (same markup, same colours), and the screenshot is fully styled, so the capture does not differ."
+    },
+    {
+      "fingerprint": "657daac64fa0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The E-MAIL newsletter input has background:none on the #e0e0e0 band, and its Bootstrap 5.2 placeholder colour is #6c757d (both confirmed in the screenshot pixels), which is 3.55:1 at 16px normal weight. Understanding 1.4.3 covers placeholder text, and this placeholder is the only visible label, so it is not incidental. The page has a 'contraste' button, but it only applies a CSS grayscale(100%) filter (navigation.js), the button has no accessible name, and in grayscale the yellow tags (about 1.96:1) and grey placeholders (3.55:1) still fail, so G174 does not make the page pass. The live HTML and theme CSS fetched today match the snapshot (same markup, same colours), and the screenshot is fully styled, so the capture does not differ."
+    },
+    {
+      "fingerprint": "3632db9dd1b8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The NOME input of the newsletter sign-up collects the subscriber's own name, a listed input purpose (name). It has no autocomplete attribute, and name='name' on a type=text field does not identify the purpose programmatically. The snapshot's Chromium formIssues lists FormInputAssignedAutocompleteValueToIdOrNameAttributeError for it, so the whole claim holds. Nothing else sets the purpose. The live HTML fetched today has the same input markup with no autocomplete, so the capture does not differ."
+    },
+    {
+      "fingerprint": "e2d0453c2809",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'LEIA MAIS' is the only link with that name on the page. The heading just before it in document order is the h2 'A Fundação' (snapshot headingsNear and live HTML), followed by a paragraph about the Foundation, all in the same block. Under this round's context rule (H80), 'LEIA MAIS' under 'A Fundação' reads as 'read more about the Foundation', and it leads to 'Quem somos' (about us), so its purpose can be determined. The claim that nothing around it gives the purpose is therefore false. The heading text is in the link's ancestor text, so Rampa had the context and judged it wrongly. The live HTML is unchanged."
+    },
+    {
+      "fingerprint": "a039a351f593",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The date span .data is white 14px weight 300 text (CSS) on #e24301, confirmed in the screenshot: 4.17:1, below 4.5:1. The date is real content, not decoration. The page has a 'contraste' button, but it only applies a CSS grayscale(100%) filter (navigation.js), the button has no accessible name, and in grayscale the yellow tags (about 1.96:1) and grey placeholders (3.55:1) still fail, so G174 does not make the page pass. The live HTML and theme CSS fetched today match the snapshot (same markup, same colours), and the screenshot is fully styled, so the capture does not differ."
+    },
+    {
+      "fingerprint": "39644d3c0e04",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'NOTÍCIAS' category tag is white 16px weight 300 text on its own #ffb700 background (CSS .content-noticia .tag), confirmed in the screenshot: 1.75:1. It is visible category text, not decoration. With the page's grayscale toggle it is still about 1.96:1, and that toggle's button has no accessible name, so G174 does not apply. The live HTML and theme CSS fetched today match the snapshot (same markup, same colours), and the screenshot is fully styled, so the capture does not differ."
+    },
+    {
+      "fingerprint": "2909d3d9f750",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The SISEM h3 headline is white 16px weight 300 text on the #e24301 orange layer. The screenshot confirms the colours, and the ratio is 4.17:1, below 4.5:1 for normal text. Nothing incidental applies. The page has a 'contraste' button, but it only applies a CSS grayscale(100%) filter (navigation.js), the button has no accessible name, and in grayscale the yellow tags (about 1.96:1) and grey placeholders (3.55:1) still fail, so G174 does not make the page pass. The live HTML and theme CSS fetched today match the snapshot (same markup, same colours), and the screenshot is fully styled, so the capture does not differ."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The E-MAIL input of the newsletter form collects the subscriber's own e-mail address, a listed input purpose (email). It is type=text with no autocomplete attribute, so nothing identifies its purpose programmatically. The snapshot's Chromium formIssues lists FormInputAssignedAutocompleteValueToIdOrNameAttributeError for it, as the claim says. The live HTML fetched today has the same input markup with no autocomplete, so the capture does not differ."
+    },
+    {
+      "fingerprint": "97d8726aa9c2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The date span .data of the first news card is white 14px weight 300 text on #e24301, confirmed in the screenshot pixels: 4.17:1, below 4.5:1. The page has a 'contraste' button, but it only applies a CSS grayscale(100%) filter (navigation.js), the button has no accessible name, and in grayscale the yellow tags (about 1.96:1) and grey placeholders (3.55:1) still fail, so G174 does not make the page pass. The live HTML and theme CSS fetched today match the snapshot (same markup, same colours), and the screenshot is fully styled, so the capture does not differ."
+    },
+    {
+      "fingerprint": "8a752a3e2d58",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The #apoio image is a strip of sponsor logos with the labels Patrocínio Master (CTG Brasil), Patrocínio (edp) and Realização (Fundação Energia e Saneamento), plus Lei Rouanet and Ministério da Cultura (crop and screenshot). It has alt='' and no caption. Searching the snapshot text, none of the names CTG, edp, Rouanet or Ministério appears anywhere else on the page. These are informative images, not decoration, so the null alternative hides sponsorship information and the image fails 1.1.1. The claim's description leaves out the Patrocínio/Realização labels but names the real failure. The live HTML still has alt=''."
+    },
+    {
+      "fingerprint": "a89a798988a8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'NOTÍCIAS' tag on the first news card is white text on #ffb700 (CSS .content-noticia .tag, confirmed in the screenshot pixels): 1.75:1 at 16px weight 300, far below 4.5:1. The grayscale 'contraste' toggle leaves it at about 1.96:1, and its button has no accessible name, so G174 does not rescue it. The live HTML and theme CSS fetched today match the snapshot (same markup, same colours), and the screenshot is fully styled, so the capture does not differ."
+    }
+  ]
+}

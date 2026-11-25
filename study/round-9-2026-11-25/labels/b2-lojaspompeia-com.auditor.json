@@ -1,0 +1,248 @@
+{
+  "page": "https://www.lojaspompeia.com/feminino/Convencional?map=category-1,confeccao",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "9bb8763a3a77",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Selling-price span in a product card. Live CSS: .vtex-product-price-1-x-sellingPrice--shelf-selling-price {color:#ec6839; font-weight:700; font-size:18px at >=1024px (14px below)}; screenshot pixels at the element's bounds are #ec6839 on #ffffff = 3.18:1. 18px bold is below the large-text threshold (14pt bold, about 18.5-18.7px), so 4.5:1 applies and the text fails 1.4.3; the claim names that failure. The live page serves the same CSS and the same price markup, so the capture does not differ."
+    },
+    {
+      "fingerprint": "637e2df036a5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Postal-code (CEP) text field in the 'Insira uma localizacao' delivery popover, placeholder 'Codigo postal', no autocomplete attribute. It collects the user's own delivery postal code, a purpose listed in 'Input Purposes' (postal-code), so 1.3.5 requires autocomplete='postal-code' (H98); without it the purpose is not programmatically determinable. The claim names that. The live SSR HTML renders the same input with no autocomplete."
+    },
+    {
+      "fingerprint": "cd5a1e402d05",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Same postal-code input. It is wrapped in an empty <label> (only a div and the input inside), so Chrome takes the label as its name source and computes an empty name instead of falling back to the placeholder: the CDP node has role textbox, labelledby the label, and no name. Users of Chromium browsers get an unnamed edit field, so the name is not programmatically determined and 4.1.2 fails, as claimed (other engines may fall back to the placeholder, which does not cure it in Chrome/Edge). Live SSR markup is identical."
+    },
+    {
+      "fingerprint": "cc350311860a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product-card badge image (75x75) whose crop and source show the purple 'AUTENTIQUE - Exclusividade Pompeia' brand logo; alt is '609', the id of the 'Autentique' product cluster (live page data: flag config collection '609' with this image). The badge is not the only content of the card link. Whether it is informative (then '609' conveys nothing of 'Autentique / Exclusividade Pompeia', F30) or decorative (then it should be alt=''), alt='609' fails 1.1.1. Read in good faith the claim says the alternative does not match what the image shows, which is the defect. Live page config is unchanged."
+    },
+    {
+      "fingerprint": "169ac0b68ea6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Top-level visible menu link text. Live CSS gives .lojaspompeia-menu-0-x-styledLink color #888 at 14px, weight 400 (some spans also carry inline color:#888888); screenshot pixels confirm #888888 on #ffffff = 3.54:1, below the 4.5:1 required for normal-size text. The element fails 1.4.3 as claimed; the live SSR HTML and CSS match the capture."
+    },
+    {
+      "fingerprint": "baee6881c16f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Selling-price span in a product card. Live CSS: .vtex-product-price-1-x-sellingPrice--shelf-selling-price {color:#ec6839; font-weight:700; font-size:18px at >=1024px (14px below)}; screenshot pixels at the element's bounds are #ec6839 on #ffffff = 3.18:1. 18px bold is below the large-text threshold (14pt bold, about 18.5-18.7px), so 4.5:1 applies and the text fails 1.4.3; the claim names that failure. The live page serves the same CSS and the same price markup, so the capture does not differ."
+    },
+    {
+      "fingerprint": "df180d8fa513",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Visually hidden SEO menu (seoMenuNav: font-size 0, height 0) whose links stay in the accessibility tree and are focusable. This 'Ver tudo' sits in a flat sub-list under the parent list item 'CALCADOS' together with three other 'Ver tudo' links (women's adult, men's adult, boys', girls' shoes); the group labels 'Feminino/Masculino/Menino/Menina' are sibling list items, not context under the rubric; no title, no aria-describedby, no heading before it. So the set shares name and context and resolves to non-equivalent pages. The visible hover mega-menu built from the same data shows these destinations under column titles, so the page visually tells them apart while AT users get four identical links: by R1 every link of the pair fails 2.4.4. Claim true of the capture (28 'Ver tudo' links, 28 distinct hrefs); the count is page-wide but it names the failure. Live SSR HTML has the identical SEO menu. This one goes to /calcados/masculino/adulto."
+    },
+    {
+      "fingerprint": "60a455975d9a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Selling-price span in a product card. Live CSS: .vtex-product-price-1-x-sellingPrice--shelf-selling-price {color:#ec6839; font-weight:700; font-size:18px at >=1024px (14px below)}; screenshot pixels at the element's bounds are #ec6839 on #ffffff = 3.18:1. 18px bold is below the large-text threshold (14pt bold, about 18.5-18.7px), so 4.5:1 applies and the text fails 1.4.3; the claim names that failure. The live page serves the same CSS and the same price markup, so the capture does not differ."
+    },
+    {
+      "fingerprint": "a83b8fd1c463",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Selling-price span in a product card. Live CSS: .vtex-product-price-1-x-sellingPrice--shelf-selling-price {color:#ec6839; font-weight:700; font-size:18px at >=1024px (14px below)}; screenshot pixels at the element's bounds are #ec6839 on #ffffff = 3.18:1. 18px bold is below the large-text threshold (14pt bold, about 18.5-18.7px), so 4.5:1 applies and the text fails 1.4.3; the claim names that failure. The live page serves the same CSS and the same price markup, so the capture does not differ."
+    },
+    {
+      "fingerprint": "eb33081685b8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Hidden SEO menu link (font-size 0, height 0, still exposed and focusable) to /feminino/fitness/plus-size. A second 'Moda Fitness' link in the same FEMININO sub-list goes to /moda-fitness-feminino. Both share name and context (parent list item FEMININO; the 'Categorias' and 'Plus Size' group labels are sibling items, not context; no title or heading). The destinations are not equivalent (all women's fitness vs. plus-size fitness only). The visible hover mega-menu puts them under different column titles ('Categorias' vs 'Plus Size'), so sighted users can tell them apart and AT users cannot: the pair fails 2.4.4 under R1, as the claim says. Live SSR HTML has the same menu."
+    },
+    {
+      "fingerprint": "5acb0d780804",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Document title 'Moda Feminina: Vestidos, Calcas e Acessorios! Acesse - Lojas Pompeia' on the women's clothing category page (h1 'Feminino', listing women's garments). It names the topic (women's fashion) and the site, so it describes the page's topic and 2.4.2 is met; the claim that it says nothing about the page is false. The live page serves the same title. The checker had the title and h1 and judged wrongly."
+    },
+    {
+      "fingerprint": "970a4d7cf60a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Visually hidden SEO menu (seoMenuNav: font-size 0, height 0) whose links stay in the accessibility tree and are focusable. This 'Ver tudo' sits in a flat sub-list under the parent list item 'CALCADOS' together with three other 'Ver tudo' links (women's adult, men's adult, boys', girls' shoes); the group labels 'Feminino/Masculino/Menino/Menina' are sibling list items, not context under the rubric; no title, no aria-describedby, no heading before it. So the set shares name and context and resolves to non-equivalent pages. The visible hover mega-menu built from the same data shows these destinations under column titles, so the page visually tells them apart while AT users get four identical links: by R1 every link of the pair fails 2.4.4. Claim true of the capture (28 'Ver tudo' links, 28 distinct hrefs); the count is page-wide but it names the failure. Live SSR HTML has the identical SEO menu. This one goes to /calcados/feminino/adulto."
+    },
+    {
+      "fingerprint": "f6c057cc8c6a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header search input. Live CSS: .autoCompleteOuterContainer--header .vtex-styleguide-9-x-input::placeholder {color:#888; font-size:14px}; screenshot pixels of 'O que esta procurando?' are #888888 on #ffffff = 3.54:1. Understanding 1.4.3 says the criterion applies to placeholder text, and this placeholder is the only visible label of the field, so it fails 4.5:1 as claimed. Live CSS and SSR markup match the capture."
+    },
+    {
+      "fingerprint": "89521f2e9b76",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Pagination 'next' control: <a> with an onClick handler, no href, containing only an untitled 8x12 SVG arrow. CDP shows Chrome exposing it as role link with no name, so a screen reader announces just 'link'; the name is not programmatically determinable, failing 4.1.2 (cf. F89), as claimed. The live Pagination.min.js of the same app version renders the same element without aria-label or text."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter e-mail field (label for=email 'E-mail', type=email, name=email) with no autocomplete attribute. It collects the user's own e-mail, a listed input purpose, so 1.3.5 needs autocomplete='email'; type=email gives the data type, not the purpose. The snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError on it, so the second sentence also holds. The live NewsletterFormSection.min.js renders the input without autocomplete."
+    },
+    {
+      "fingerprint": "16d7706bf60d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product-card badge image (75x75) whose crop and source show the purple 'AUTENTIQUE - Exclusividade Pompeia' brand logo; alt is '609', the id of the 'Autentique' product cluster (live page data: flag config collection '609' with this image). The badge is not the only content of the card link. Whether it is informative (then '609' conveys nothing of 'Autentique / Exclusividade Pompeia', F30) or decorative (then it should be alt=''), alt='609' fails 1.1.1. Read in good faith the claim says the alternative does not match what the image shows, which is the defect. Live page config is unchanged."
+    },
+    {
+      "fingerprint": "f2e9c1024643",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Top-level visible menu link text. Live CSS gives .lojaspompeia-menu-0-x-styledLink color #888 at 14px, weight 400 (some spans also carry inline color:#888888); screenshot pixels confirm #888888 on #ffffff = 3.54:1, below the 4.5:1 required for normal-size text. The element fails 1.4.3 as claimed; the live SSR HTML and CSS match the capture."
+    },
+    {
+      "fingerprint": "40f14d4d693f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Selling-price span in a product card. Live CSS: .vtex-product-price-1-x-sellingPrice--shelf-selling-price {color:#ec6839; font-weight:700; font-size:18px at >=1024px (14px below)}; screenshot pixels at the element's bounds are #ec6839 on #ffffff = 3.18:1. 18px bold is below the large-text threshold (14pt bold, about 18.5-18.7px), so 4.5:1 applies and the text fails 1.4.3; the claim names that failure. The live page serves the same CSS and the same price markup, so the capture does not differ."
+    },
+    {
+      "fingerprint": "fd15f8d73692",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Postal-code input in the delivery popover. Live CSS sets its ::placeholder color to #bdbdbd; screenshot pixels show #bdbdbd on #ffffff = 1.88:1. Placeholder text is in scope of 1.4.3 (Understanding 1.4.3) and here it is the field's only visible label, so it fails 4.5:1 as claimed. The live page serves the same CSS and the popover with the same input."
+    },
+    {
+      "fingerprint": "419dd78abbaf",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Selling-price span in a product card. Live CSS: .vtex-product-price-1-x-sellingPrice--shelf-selling-price {color:#ec6839; font-weight:700; font-size:18px at >=1024px (14px below)}; screenshot pixels at the element's bounds are #ec6839 on #ffffff = 3.18:1. 18px bold is below the large-text threshold (14pt bold, about 18.5-18.7px), so 4.5:1 applies and the text fails 1.4.3; the claim names that failure. The live page serves the same CSS and the same price markup, so the capture does not differ."
+    },
+    {
+      "fingerprint": "67ee25effdea",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product-card badge image (75x75) whose crop and source show the purple 'AUTENTIQUE - Exclusividade Pompeia' brand logo; alt is '609', the id of the 'Autentique' product cluster (live page data: flag config collection '609' with this image). The badge is not the only content of the card link. Whether it is informative (then '609' conveys nothing of 'Autentique / Exclusividade Pompeia', F30) or decorative (then it should be alt=''), alt='609' fails 1.1.1. Read in good faith the claim says the alternative does not match what the image shows, which is the defect. Live page config is unchanged."
+    },
+    {
+      "fingerprint": "324774ae0743",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Top-level visible menu link text. Live CSS gives .lojaspompeia-menu-0-x-styledLink color #888 at 14px, weight 400 (some spans also carry inline color:#888888); screenshot pixels confirm #888888 on #ffffff = 3.54:1, below the 4.5:1 required for normal-size text. The element fails 1.4.3 as claimed; the live SSR HTML and CSS match the capture."
+    }
+  ]
+}

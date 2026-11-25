@@ -1,0 +1,76 @@
+{
+  "page": "https://hospitalbomsamaritano.org.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "373071eb8c99",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image layer of the first Slider Revolution slide (data-key rs-22), 1-CORRIDA SITE.png, with alt=\"\". It is not inside a link and the slide has no text layer. The picture announces an event: 'Corrida Bom Samaritano na luta contra o câncer 2026', the slogan 'um laço que nos une', '15 NOV 2026, Governador Valadares', Outubro Rosa/Novembro Azul and the organiser. None of that text exists anywhere in the page's text (searched the snapshot's reading text for corrida, laço, 15 NOV). I looked for a reason it could pass: the slide background is a transparent image, there is no caption or nearby heading about the race, and the slider is not hidden. With an empty alt the event information is lost, so it fails 1.1.1 and the claim names that failure. The live HTML (fetched with curl) still has the same layer with alt=\"\"."
+    },
+    {
+      "fingerprint": "c1c99bdf3c77",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the close button of the Elementor donation popup (a role=button aria-label=Close holding an eicon-close glyph). The popup's live CSS (post-4697.css) sets '.dialog-close-button{background-color:#FFFFFF}' and '.dialog-close-button i{color:#DB8700}', so the X is #db8700 on white, 2.81:1, as the claim says. The screenshot crop shows an orange X on a white box at the popup's top right. The glyph is the only thing that identifies the control, so 1.4.11 asks for 3:1 against the adjacent colour. Hover or focus states and the Esc key do not exempt the default state, and the component is not user-agent styled. The popup opens on page load (triggers page_load, delay 0), so users receive it. It fails, and the claim names the failure."
+    },
+    {
+      "fingerprint": "9e1ca29695b0",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the E-mail field of the popup's monthly-donor sign-up form ('Seja um doador mensal...': Nome, E-mail, Telefone, QUERO DOAR). It collects the user's own email. The input has type=email and no autocomplete attribute, and neither does the form; the live HTML is identical. I checked whether type=email could be enough. Understanding 1.3.5 says it is not: 'type=\"email\" indicates that the field is for an email address but does not clarify if the purpose is for entering the user's email address or some other person's email.' The only sufficient technique is H98 (autocomplete). The popup opens on page load, so users get the field. It fails 1.3.5, and the claim names it."
+    },
+    {
+      "fingerprint": "337d1f4a13eb",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a full-width Elementor image banner, 548.1_HBS_BANNER-SITE_1200x480PX-02.jpg, with alt=\"\" and no link. Its text reads 'Seja um bom samaritano! Doar faz bem e vai salvar vidas.' and gives practical information: donation by credit card, Cemig or the PIX key doe@bsbs.org.br, the line 0800 117 4226, and 'Já recebeu a nossa ligação?'. None of it is in the page's text (searched the reading text for 0800, doe@, chave), and nearby headings are unrelated (Vagas, footer Hospital). It is not decorative, so the empty alt fails 1.1.1. The claim quotes only the headline but points at the real defect, an informative image hidden from screen readers. Same markup live."
+    },
+    {
+      "fingerprint": "bb6b7a8ded47",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the canvas that Slider Revolution draws the first slide's background into (rs-slide 1 > rs-sbg > canvas). In the live HTML that slide's background image (img.rev-slidebg) lazy-loads plugins/revslider/.../transparent.png, so the canvas paints a transparent background. The race banner is the separate image layer (#slider-1-slide-22-layer-1 > img, z-index 5) that sits over it at the same bounds. That layer is reported on its own in finding 373071eb8c99. The crop Rampa used for the canvas is a screen region, so it shows the layer's pixels; it shows the same picture as that image's crop, one pixel lower. The canvas itself conveys nothing and does not fail 1.1.1. The claim attributes another element's content to it, so the cause is the wrong crop."
+    },
+    {
+      "fingerprint": "c331c8eae740",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the Nome field (type=text, visually hidden label 'Nome', placeholder 'Nome') of the popup's monthly-donor sign-up form. It asks for the donor's own name. It has no autocomplete attribute and neither does the form, in the snapshot and in the live HTML. A person's name is one of the listed input purposes (name). It is collected about the user, in HTML, which supports autocomplete. Nothing else exposes the purpose programmatically, and the popup opens on page load. It fails 1.3.5 as claimed. Whether the field wants a full or a given name does not matter, since no token is present."
+    },
+    {
+      "fingerprint": "d06a581f3044",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the popup's top image (28-1_HBS_BANNER-SITE_1592X777PX), alt=\"\". It shows the text 'Doar mensalmente é um ato de amor ao próximo', a pill reading 'Toda doação faz a diferença', and a patient photo captioned 'Nadir Barbosa, Paciente do hospital'. The reason I tested is that the popup heading 'Seja um doador mensal e contribua para o hospital.' might carry the same message and make the image redundant. It does not hold up: the heading shares the topic but none of the image's sentences, the slogan and the patient's identity are absent from the page text (searched), and W3C's alt decision tree asks that text in an image not present otherwise go in the alt. The image is not pure decoration, so alt=\"\" fails 1.1.1. The popup opens on load, and the live markup is the same."
+    },
+    {
+      "fingerprint": "f471e95eff72",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the campaign graphic BEN-0009-23...CAMPANHA-DE-DOACAO, alt=\"\", not in a link. It reads 'NOSSOS PACIENTES CONTAM COM O SEU APOIO. Faça sua doação para o Hospital Bom Samaritano.' with the site address and the logo. The adjacent column has the heading 'O hospital do câncer de Governador Valadares e região acredita na sua solidariedade.' and a 'Saiba mais' link to the donation page. I tested whether that text makes the image redundant. It is a related appeal, but the image's sentences, including the explicit request to donate to the hospital, are not present as text anywhere on the page (searched). The image is therefore informative, not decorative, and alt=\"\" fails 1.1.1. The claim quotes the missing text. Same markup live."
+    },
+    {
+      "fingerprint": "e72aa730383d",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Telefone com DDD' field (type=tel, pattern, title about allowed characters) of the popup's monthly-donor form. It collects the donor's own phone number with area code (purpose tel). It has no autocomplete attribute, live or captured. Understanding 1.3.5 says the type attribute only gives a broad category and not the purpose, and the title describes the format, not the purpose. H98 is the sufficient technique and it is absent. The popup opens on page load. It fails 1.3.5 as claimed."
+    },
+    {
+      "fingerprint": "1d66f968a0a5",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the popup's h2 'Seja um doador mensal e contribua para o hospital.' The live CSS sets it to 'color:#EE7900' at 34px bold, with tablet and mobile sizes of 45px and 28px, on a container with 'background-color:#ECECEC'. I computed 2.41:1, matching the pixel measure. The text is large at every breakpoint, so the threshold is 3:1, and it falls short. In the screenshot the cookie banner and a review widget overlap part of the heading, which is why axe-core could not decide. Those widgets do not change the heading's own colours, and the uncovered text still sits on #ECECEC. The popup opens on page load. It fails 1.4.3, and the claim names it."
+    }
+  ]
+}

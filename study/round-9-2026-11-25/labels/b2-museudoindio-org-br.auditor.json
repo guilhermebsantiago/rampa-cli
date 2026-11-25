@@ -1,0 +1,28 @@
+{
+  "page": "https://www.museudoindio.org.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "575e306d5126",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the magnifying-glass svg (no role, no title, no aria-label) inside the Blogger search widget's label.search-submit-container, beside a display:none <input type=submit>. The claim is not true of the capture: the text next to it does say what the icon means, since the search field's aria-label and its visible placeholder are both 'Pesquisar este blog' (search this blog), and the widget sits in a role=search region under a heading with the same text. Also, the captured AX tree exposes the svg as an unnamed image that is not ignored, so 'hidden from screen readers' does not strictly hold either. For 1.1.1 the icon is redundant with that text: it identifies the search field that is already named, and the form submits with Enter from the field. It adds no information that a text alternative would need to carry. An unnamed svg with no explicit role is not in scope of the ACT image-name rules, and screen readers generally skip it. Adding aria-hidden='true' would be better practice, but that is not the failure the claim describes, which says the icon carries unique information. Whether the hidden submit input is keyboard-operable is a separate matter, not 1.1.1 on this svg. The live HTML I fetched has identical markup (same label, svg and hidden submit input), and the screenshot is the fully styled page, so the capture does not differ. The model had the field's name and the heading in its context and still judged wrongly."
+    },
+    {
+      "fingerprint": "d90ee00fea21",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the blog search text field. Its placeholder 'Pesquisar este blog' is the only visible label: the h3 with the same text is hidden, and the aria-label is not displayed. The live page's CSS sets '.search .search-input input::placeholder{color:rgba(0,0,0,0.376); font:italic 400 15px Merriweather}' over the search section's background, rgba(0,0,0,0.027) on the #f7f7f7 page, which is about #f0f0f0. Blended, the text is about #969696 on #f0f0f0, which works out to about 2.6:1 and matches the claim's 2.60:1. The screenshot crop shows the same light grey italic text. At 15px normal weight this is not large text. The placeholder is visible text that tells users what the field is for; it is not decorative, not a logo and not part of an inactive component, so 1.4.3's 4.5:1 applies and the field fails. The live markup and CSS match the snapshot, so the capture does not differ, and the claim names the real failure."
+    }
+  ]
+}

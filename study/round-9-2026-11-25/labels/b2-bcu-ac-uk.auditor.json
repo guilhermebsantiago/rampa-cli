@@ -1,0 +1,34 @@
+{
+  "page": "https://www.bcu.ac.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "bfba6098dcd0",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is <a id=\"aMainContent\"></a>, the empty first child of <main> that the visible 'Skip to main content' link (href=\"#aMainContent\") jumps to. claimTrue: the snapshot's CDP record gives it ax role link with no name (Rampa's own role field says generic), so the sentence that the browser exposes it as a link with no name holds of the capture. elementFails: it is a fragment target, not a user interface component. It has no href, no content and no size, is not in the focus order (CDP reports no focusable property; the 'focusable' state is only the tabIndex IDL default of an <a>), and offers no function anyone can operate. HTML-AAM maps an <a> without href to generic, so the link-name checks (ACT rule c487ae, axe link-name) do not apply; Chromium's link role here is a repair heuristic, not a control the author made. 4.1.2 asks for names of user interface components, and this is not one. The skip link that points to it has a name and works. captureDiffers: the live HTML fetched today has the same empty anchor at the start of <main>, and the screenshot is fully styled. I could not recompute the browser's role live, but nothing suggests the capture differs. The rule applied a name requirement to an element outside the criterion's scope, so the cause is criterion_misapplied."
+    },
+    {
+      "fingerprint": "4c6d56de51e2",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Find your course' keyword search field. Its placeholder 'Search courses by name/keyword' is grey on the white field, and its label 'Search keyword or course' is off-screen, so the placeholder is the only visible text in the field. claimTrue: the snapshot measured foreground #909090 (from CSS) on #ffffff, 3.19:1 at 19.2px weight 400, and #909090 on white does compute to 3.19:1. elementFails: 19.2px regular is below large-scale text (24px, or 18.66px bold), so 4.5:1 applies. Understanding 1.4.3 says the criterion 'applies to text in the page, including placeholder text', and no exception covers it, since the field is active. 3.19:1 fails. captureDiffers: the live core CSS still sets ::-webkit-input-placeholder to #909090 and the input to font-size 1.2rem with no background colour (white), and the screenshot and crop show the same light grey text on white. The claim names the real failure."
+    },
+    {
+      "fingerprint": "c2d87632ae62",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is <a id=\"aMainNav\"></a>, an empty anchor placed right after the header, before the navigation. It is the target of the 'Skip to main menu' link (href=\"#aMainNav\"). claimTrue: the snapshot's CDP record gives it ax role link and no name, so the sentence holds of the capture. elementFails: it is a fragment target with no href, no content and no size. It is not in the focus order (no focusable property in the CDP record) and offers no function users can operate, so it is not a user interface component under 4.1.2. HTML-AAM maps an <a> without href to generic, and the link-name checks (ACT c487ae, axe link-name) do not apply to it. The skip link that targets it is named and works. captureDiffers: the live HTML has the same anchor in the same place and the capture is fully styled. The browser role could not be recomputed live, but nothing points to a difference. The rule required a name of an element outside the criterion's scope, so the cause is criterion_misapplied."
+    },
+    {
+      "fingerprint": "7e6b4ba37b89",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is <a id=\"aTop\"></a>, an empty top-of-page anchor at the start of the header's branding block, before the logo link and the skip links. claimTrue: the snapshot's CDP record gives it ax role link and no name, so the claim holds of the capture. elementFails: it is a page-top fragment target with no href, no content and no size. It is not focusable (no focusable property in the CDP record) and has no operable function, so it is not a user interface component under 4.1.2. HTML-AAM maps an <a> without href to generic, and ACT c487ae and axe link-name do not apply. captureDiffers: the live HTML has the same empty anchor in the same place and the capture is fully styled. I could not recompute the browser role live, but nothing suggests a difference. The rule required a name of an element outside the criterion's scope, so the cause is criterion_misapplied."
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "page": "https://www.getsurrey.co.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "e5a835bb750c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser thumbnail for the Epsom Aldi story; the crop shows an Aldi store sign, a generic illustration (file 0_Aldi-plans.jpg). The img sits in the teaser's cover div, outside any link; the h3 headline link with the same text follows it in the same article. So the alt repeats the adjacent headline and does not describe the photo. claimTrue: the alt reports a news event (an opening date announced after 10 years) that the picture does not show, so the sentence holds. elementFails, leaning no: the only information the picture carries in this teaser is 'Aldi', and the alt names Epsom Aldi. The image is illustrative and repeats the headline, so its function is met. If it is read as decorative, the fault would be a redundant, non-empty alt (F39-like), which the claim does not name. A strict G94 reading (the alt must present the same information as the picture) would fail it, so competent auditors would split on whether a headline alt on a news thumbnail fails 1.1.1. Hence uncertain. The live page could not be compared: curl got an AWS WAF challenge (HTTP 202, empty) and WebFetch was redirected to tollbit.getsurrey.co.uk, a version for automated clients that is not what people receive. The capture itself shows no sign of differing (full styling, real photos, the consent dialog, a 10,319 px page)."
+    },
+    {
+      "fingerprint": "3b19e89344dc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser thumbnail in the CRIME section; the crop shows a smiling young man in a life jacket flexing on water, presumably the teen who died. The img sits in the teaser's cover div, outside any link; the h3 headline link with the same text follows it in the same article. So the alt repeats the adjacent headline and does not describe the photo. claimTrue: the alt reports a driver being jailed, which the picture does not show. elementFails: the photo is a specific news picture of a person, and the alt names the story ('teen passenger, 18, died') without saying the picture shows him. Under a strict G94 reading that fails 1.1.1 for the claim's reason. Under the common reading for news teasers, the thumbnail only illustrates the adjacent headline and needs no description of its own (the correct alt would then be empty, a redundancy fault the claim does not name). Neither reading is settled by WCAG's text, so auditors would reasonably disagree. The live page could not be compared: curl got an AWS WAF challenge (HTTP 202, empty) and WebFetch was redirected to tollbit.getsurrey.co.uk, a version for automated clients that is not what people receive. The capture itself shows no sign of differing (full styling, real photos, the consent dialog, a 10,319 px page)."
+    },
+    {
+      "fingerprint": "12e465490137",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only header button (aria-label 'User Avatar - redirects to sign in and sign up'): a white outline avatar SVG with no text and no background of its own. claimTrue: the snapshot's pixel measure gives #ffffff on #22af9e, and I compute 2.729:1. In the full-page screenshot the sticky header was painted near y=4450 under the consent dialog's backdrop. Undoing that backdrop gives a header of about #22aea0 (2.75:1), and the avatar's 40x40 box is mostly header teal with thin white strokes, so there is no contrasting circle behind the icon. Sought reasons to pass: the button has no visible text or border, so the icon is the only visual information that identifies it (1.4.11, G207 test); the button is neither inactive nor styled by the user agent; 2.73 is not near 3 after rounding. None holds. captureDiffers: the live HTML is behind a WAF challenge, but the masthead SVG, fetched live from the build path the snapshot names, still has the #22AF9E background, so the header colour users receive matches the capture. The element fails 1.4.11 for the reason the claim gives."
+    },
+    {
+      "fingerprint": "02b06ddea3bc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser thumbnail in the top group; the crop shows police officers in riot gear with shields beside marked police vans (file 0_Epsom-sexual-assault.jpg). The img sits in the teaser's cover div, outside any link; the h3 headline link with the same text follows it in the same article. So the alt repeats the adjacent headline and does not describe the photo. claimTrue: the alt reports a 12-year-old being charged after an investigation, which the picture does not show. elementFails: the alt names the event the photo depicts ('Epsom violent disorder'), but not what the picture shows (the riot police response). A strict G94 reading fails it for the claim's reason. The teaser reading (an illustration of the adjacent headline, ideally alt='') passes it, or faults only redundancy, which the claim does not name. Competent auditors would disagree. The live page could not be compared: curl got an AWS WAF challenge (HTTP 202, empty) and WebFetch was redirected to tollbit.getsurrey.co.uk, a version for automated clients that is not what people receive. The capture itself shows no sign of differing (full styling, real photos, the consent dialog, a 10,319 px page)."
+    },
+    {
+      "fingerprint": "d8cf68b68622",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser thumbnail for a recurring burglary-rates story; the crop is a stock photo of a person climbing into a house through a window (file 0_Burglar-Entering-House-Through-Window.jpg, old article id). The img sits in the teaser's cover div, outside any link; the h3 headline link with the same text follows it in the same article. So the alt repeats the adjacent headline and does not describe the photo. claimTrue: the alt is about an expected spike and crime rates by area, which the picture does not show; only 'home burglaries' overlaps. elementFails, leaning no: the stock picture conveys only 'a home burglary', and the alt names that, so in the teaser it serves the picture's purpose. Read as decorative, the fault would be a redundant non-empty alt, which the claim does not name. A strict G94 reading would still fail a headline used as alt, so auditors would reasonably disagree. Hence uncertain. The live page could not be compared: curl got an AWS WAF challenge (HTTP 202, empty) and WebFetch was redirected to tollbit.getsurrey.co.uk, a version for automated clients that is not what people receive. The capture itself shows no sign of differing (full styling, real photos, the consent dialog, a 10,319 px page)."
+    }
+  ]
+}

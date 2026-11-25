@@ -1,0 +1,105 @@
+{
+  "page": "https://www.uhb.nhs.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "4efc1a1d2047",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the descriptor 'NHS Foundation Trust' (15px, bold) inside the header logo link, under the NHS lozenge and 'University Hospitals Birmingham'. The claim is true of the capture: white on #5795d0 from the pseudo-element is 3.17:1. Capture: the header is transparent and its ::before lays rgba(0,94,184,0.66) over a fixed full-page photo (.uhb-c-bg-image, page-background-home-2.jpg, a greyscale ward scene) that 'shows through the header'. In Rampa's full-page capture that photo sat at the bottom of the page, not behind the header, so the header read as flat #5795d0 (the screenshot shows #c6dbef, the same colour under the cookie notice's 66% white wash). A live render in Edge at 1280x800 shows the photo behind the header, and its pixels match a model of the photo under the blue overlay. So on the page users receive, the background behind the text is not a flat #5795d0. The cookie notice washes the whole page until it is dismissed; I judged the header after dismissal, since text behind a modal wash is not what is assessed. Live at scroll 0, the letters 'NH' sit on a light part of the photo at about 3.2:1, and the rest of the text is at 5.3:1 or more. This is normal-size text, so 4.5:1 applies, and the 'NH' falls short of it. But the text is the trust's organisational logo (NHS lozenge plus organisation name and descriptor, the link classed uhb-c-header__logo), and the 1.4.3 logotype exception ('text that is part of a logo or brand name') arguably exempts it. My lean is that the exception applies (no failure). Competent auditors would reasonably disagree: some treat live HTML header text as subject to 4.5:1. Hence uncertain."
+    },
+    {
+      "fingerprint": "7f8a47105578",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the header navigation link 'Get involved': 20px, computed font-weight 600. The claim is true of the capture (#ffffff on #5795d0, 3.17:1, background from a pseudo-element). Capture: the header is transparent and its ::before lays rgba(0,94,184,0.66) over a fixed full-page photo (.uhb-c-bg-image, page-background-home-2.jpg, a greyscale ward scene) that 'shows through the header'. In Rampa's full-page capture that photo sat at the bottom of the page, not behind the header, so the header read as flat #5795d0 (the screenshot shows #c6dbef, the same colour under the cookie notice's 66% white wash). A live render in Edge at 1280x800 shows the photo behind the header, and its pixels match a model of the photo under the blue overlay. So on the page users receive, the background behind the text is not a flat #5795d0. The cookie notice washes the whole page until it is dismissed; I judged the header after dismissal, since text behind a modal wash is not what is assessed. Live at scroll 0, rendering the glyphs over the photo puts most of the text at 5.4:1 or more, with a sliver (about 1-5% of glyph pixels) at 4.1-4.5:1. While scrolling, more of it dips to about 4.3:1, and it never drops below 3:1. The site's only Frutiger face at weight 600 or above is FrutigerLTW01-65Bold, so this text renders in the family's Bold face, the same glyphs as font-weight 700. At 20px (15pt) bold it is large-scale text, 3:1 applies, and it passes. Auditors who count only computed weight 700+ as bold would apply 4.5:1 and could fail the light sliver. That is a point of reasonable disagreement, so uncertain (my lean: no failure)."
+    },
+    {
+      "fingerprint": "805bdfb20b13",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the header navigation link 'Patients': 20px, computed weight 600, rendered in Frutiger 65 Bold (the face the site maps to 600). The claim is true of the capture (#ffffff on #5795d0, 3.17:1, pseudo-element). Capture: the header is transparent and its ::before lays rgba(0,94,184,0.66) over a fixed full-page photo (.uhb-c-bg-image, page-background-home-2.jpg, a greyscale ward scene) that 'shows through the header'. In Rampa's full-page capture that photo sat at the bottom of the page, not behind the header, so the header read as flat #5795d0 (the screenshot shows #c6dbef, the same colour under the cookie notice's 66% white wash). A live render in Edge at 1280x800 shows the photo behind the header, and its pixels match a model of the photo under the blue overlay. So on the page users receive, the background behind the text is not a flat #5795d0. The cookie notice washes the whole page until it is dismissed; I judged the header after dismissal, since text behind a modal wash is not what is assessed. Live at scroll 0, the 'P' sits on a light area of the photo at about 3.3:1, and the rest of the word is at 5.6:1 or more. Read as large-scale bold text (15pt, bold face), 3:1 applies and it passes in every scroll position (lowest about 3.3:1). Read as normal text (weight 600 not counted as bold, as axe does), the 'P' fails 4.5:1 and the claim would name that low contrast. Competent auditors split on the 600-weight question, so uncertain (my lean: passes as bold large text)."
+    },
+    {
+      "fingerprint": "61fda9ed8371",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the header navigation link 'Visiting': 20px, weight 600, rendered in Frutiger 65 Bold. The claim is true of the capture (#ffffff on #5795d0, 3.17:1, pseudo-element). Capture: the header is transparent and its ::before lays rgba(0,94,184,0.66) over a fixed full-page photo (.uhb-c-bg-image, page-background-home-2.jpg, a greyscale ward scene) that 'shows through the header'. In Rampa's full-page capture that photo sat at the bottom of the page, not behind the header, so the header read as flat #5795d0 (the screenshot shows #c6dbef, the same colour under the cookie notice's 66% white wash). A live render in Edge at 1280x800 shows the photo behind the header, and its pixels match a model of the photo under the blue overlay. So on the page users receive, the background behind the text is not a flat #5795d0. The cookie notice washes the whole page until it is dismissed; I judged the header after dismissal, since text behind a modal wash is not what is assessed. Live at scroll 0, every glyph of 'Visiting' sits on a darker part of the photo: the lowest point is about 5.7:1, above even 4.5:1. The flat 3.18:1 Rampa measured comes from the capture missing the background photo. (Only at some scroll positions does it dip to about 4.0:1, which still clears the 3:1 that applies to this 15pt bold text.) The element meets 1.4.3, so false positive, caused by the capture."
+    },
+    {
+      "fingerprint": "e15a46b13dab",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the header navigation link 'Home' (current page): 20px, computed weight 600, rendered in Frutiger 65 Bold. The claim is true of the capture (#ffffff on #5795d0, 3.17:1, pseudo-element). Capture: the header is transparent and its ::before lays rgba(0,94,184,0.66) over a fixed full-page photo (.uhb-c-bg-image, page-background-home-2.jpg, a greyscale ward scene) that 'shows through the header'. In Rampa's full-page capture that photo sat at the bottom of the page, not behind the header, so the header read as flat #5795d0 (the screenshot shows #c6dbef, the same colour under the cookie notice's 66% white wash). A live render in Edge at 1280x800 shows the photo behind the header, and its pixels match a model of the photo under the blue overlay. So on the page users receive, the background behind the text is not a flat #5795d0. The cookie notice washes the whole page until it is dismissed; I judged the header after dismissal, since text behind a modal wash is not what is assessed. Live, 'Home' sits over the light patient gown in the photo: at scroll 0 about 60% of its glyph pixels are between 3.2:1 and 4.5:1, with a lowest point of about 3.2:1, and it never drops below 3:1. Treated as large-scale bold text (15pt in the font's Bold face), 3:1 applies and it passes. Treated as normal text (weight 600 under the 700 threshold tools use), it fails 4.5:1 and the claim names that failure. Competent auditors reasonably disagree on the bold point, so uncertain (my lean: passes)."
+    },
+    {
+      "fingerprint": "af19ac34653a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is a news card image: a stock photo of network cables in a server, alt 'Microsoft outage'. It is not inside a link, and the card's h3 link 'Microsoft outage' follows it, with a summary. The claim is true of the capture: the alt is the story title, not a description of the cables. But the photo is a generic illustration that conveys nothing beyond the headline, and an alt naming the subject it illustrates serves its purpose here. 1.1.1 does not require describing a stock illustration's contents. At most the alt is redundant with the heading, and the better markup would be alt=\"\" as decorative (an F38-style point). That is a different reason, and the claim, which asks for what the picture conveys, does not name it. The live page has the same card, image and alt. False positive."
+    },
+    {
+      "fingerprint": "7de16afcf04a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer SVG uhb-c-footer__vision: a swirl mark with the words 'Building healthier lives', visible in the footer. It has aria-hidden=\"true\", focusable=false, and no title or desc. Neither the snapshot nor the live HTML has the text 'healthier lives' anywhere else, so the trust's slogan or vision statement, shown as an image of text, is not available to assistive technology. It conveys text, so it is not pure decoration. It needs a text alternative, and hiding it fails 1.1.1. The claim states exactly this. The live footer markup is identical. True positive."
+    },
+    {
+      "fingerprint": "5b5a1a9f5a98",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the header navigation link 'Services': 20px, weight 600, rendered in Frutiger 65 Bold. The claim is true of the capture (#ffffff on #5795d0, 3.17:1, pseudo-element). Capture: the header is transparent and its ::before lays rgba(0,94,184,0.66) over a fixed full-page photo (.uhb-c-bg-image, page-background-home-2.jpg, a greyscale ward scene) that 'shows through the header'. In Rampa's full-page capture that photo sat at the bottom of the page, not behind the header, so the header read as flat #5795d0 (the screenshot shows #c6dbef, the same colour under the cookie notice's 66% white wash). A live render in Edge at 1280x800 shows the photo behind the header, and its pixels match a model of the photo under the blue overlay. So on the page users receive, the background behind the text is not a flat #5795d0. The cookie notice washes the whole page until it is dismissed; I judged the header after dismissal, since text behind a modal wash is not what is assessed. Live at scroll 0, every glyph of 'Services' sits on the darker, nurse's-tunic part of the photo, with a lowest point of about 5.3:1, so it passes 4.5:1. It passes in every scroll position too (lowest about 4.5:1), well above the 3:1 for this 15pt bold text. The low ratio is an artefact of the capture missing the photo. The element meets 1.4.3: false positive, collector error."
+    },
+    {
+      "fingerprint": "f1b9e18cb9af",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the header navigation link 'About us': 20px, weight 600, rendered in Frutiger 65 Bold. The claim is true of the capture (#ffffff on #5795d0, 3.17:1, pseudo-element). Capture: the header is transparent and its ::before lays rgba(0,94,184,0.66) over a fixed full-page photo (.uhb-c-bg-image, page-background-home-2.jpg, a greyscale ward scene) that 'shows through the header'. In Rampa's full-page capture that photo sat at the bottom of the page, not behind the header, so the header read as flat #5795d0 (the screenshot shows #c6dbef, the same colour under the cookie notice's 66% white wash). A live render in Edge at 1280x800 shows the photo behind the header, and its pixels match a model of the photo under the blue overlay. So on the page users receive, the background behind the text is not a flat #5795d0. The cookie notice washes the whole page until it is dismissed; I judged the header after dismissal, since text behind a modal wash is not what is assessed. Live at scroll 0, every glyph sits on a darker part of the photo, with a lowest point of about 5.2:1, so it passes 4.5:1. Only at some scroll positions does it dip to about 4.3:1, which still clears the 3:1 that applies to this 15pt bold text. The measured 3.18:1 comes from the capture missing the background photo. The element meets 1.4.3: false positive, collector error."
+    }
+  ]
+}

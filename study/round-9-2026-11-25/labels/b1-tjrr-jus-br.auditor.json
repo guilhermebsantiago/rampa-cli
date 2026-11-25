@@ -1,0 +1,34 @@
+{
+  "page": "https://www.tjrr.jus.br/index.php/ouvidoria",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "cf8bbe8e8525",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the 'EN' span inside the GTranslate language link (a.flag) in the sidebar module, 15px Open Sans at weight 300 on the module's white background. The page's stylesheets give it its colour: presets/preset1.css sets 'a { color: #077499 }' (loaded after bootstrap's #337ab7), and no rule for a.flag, the sidebar or its modules overrides it (the inline a.flag span rule sets only margin, font-size and alignment). #077499 on #ffffff is 5.29:1, above 4.5:1. The #3a90ae Rampa reports is the darkest pixel of the anti-aliased thin glyphs in the screenshot (the 'Início' link, with the same CSS colour, also never renders darker than #1687b7), so the stated 3.63:1 is not the text's contrast: claimTrue no. Understanding 1.4.3 says to use the colours from the user agent or the style sheets 'rather than the text as presented on screen', because anti-aliasing makes thin fonts look fainter. The live HTML and CSS fetched on 2026-11-25 match the capture (same markup, same stylesheet colours, styled screenshot), so captureDiffers no. The element meets 1.4.3; the rule measured rendered pixels instead of the specified colour."
+    },
+    {
+      "fingerprint": "de28da0a27da",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the current-page breadcrumb item <li class=\"active\">Apresentação</li>, 14px Open Sans at weight 300 (normal-size text) on the breadcrumb's #f5f5f5 background. bootstrap.min.css sets '.breadcrumb>.active { color: #777 }' and '.breadcrumb { background-color: #f5f5f5 }'; template.css overrides these only under .sp-page-title, which this breadcrumb (in #sp-custom-position-1) is not in. #777777 on #f5f5f5 is 4.11:1, below the 4.5:1 that 1.4.3 requires, so the element fails. The claim's figures (#a0a1a0, at most 3.19:1) come from anti-aliased screenshot pixels, not the specified colour, so as worded it is not true of the element (claimTrue no), but read in good faith it names the real failure: this text's contrast against its background is below 4.5:1. The text is informative (it tells the user the current page), not incidental and not an inactive control. The live HTML and CSS match the capture, so captureDiffers no."
+    },
+    {
+      "fingerprint": "b006e12fffa6",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field #mod-search-searchword (aria-label 'Pesquisar'), whose placeholder 'Pesquisar...' is the only visible text label next to the magnifier icon. template.css and legacy.css set the placeholder colour for input[type=text] to #999; the input's own background is none and it sits on '.search { background: #e2e2e2 }'. #999999 on #e2e2e2 is 2.20:1, far below 4.5:1 for 14px weight-300 text. Understanding 1.4.3 states that the criterion 'applies to text in the page, including placeholder text', so the field fails 1.4.3. The claim's #a7a7a7 and 1.88:1 are anti-aliased pixel values rather than the specified colour (the specified pair gives 2.20:1), so the sentence as worded does not hold exactly (claimTrue no), but it names the actual failure: placeholder text well under 4.5:1 against the field. The live page has the same markup and stylesheets, and the screenshot shows the same grey box, so captureDiffers no."
+    },
+    {
+      "fingerprint": "47f945d3f658",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the 'PT' span inside the GTranslate 'Portuguese' language link (a.flag) in the sidebar module, 15px Open Sans at weight 300 on white. Its colour comes from preset1.css 'a { color: #077499 }', with no more specific rule overriding it; #077499 on #ffffff is 5.29:1, which meets 4.5:1. The reported #509db7 (3.74:1 at best) is taken from the anti-aliased pixels of thin glyphs in the screenshot, so the stated contrast is not the text's contrast (claimTrue no). Understanding 1.4.3 says to evaluate the colours from the user agent or style sheets, not the text as presented on screen. The live HTML and CSS fetched on 2026-11-25 match the capture, so captureDiffers no. The element meets 1.4.3; the rule measured rendered pixels instead of the specified colour."
+    }
+  ]
+}

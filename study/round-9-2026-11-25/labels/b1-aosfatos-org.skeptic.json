@@ -1,0 +1,28 @@
+{
+  "page": "https://www.aosfatos.org/noticias/checagem-de-fatos-pauta-debates-e-mobiliza-reacao-as-mentiras-eleitorais/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "b2ab4a13755e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the article's hero image (aside > figure). It is the generic cover of the newsletter (file digital-disfuncional-fundo-capa4x.png): the words \"O Digital Disfuncional\" over an abstract drawing of heads, eyes and crossed-out documents. Its alt is the article headline, which the h1 right below repeats word for word. claimTrue: yes, the alt names the article's subject (fact-checking in the electoral debates), which the picture does not show, and it leaves out everything the image does convey, including its text. elementFails: by G94 the alt does not carry the image's information (the newsletter name in the image), and if the image is treated as decorative it is not null either, so I lean yes. The skeptic's case against failing partly holds, though: the newsletter name appears as text in the first paragraph a little below (\"publicado originalmente na newsletter O Digital Disfuncional\"), so a screen reader user loses no information, and a headline alt on a featured image is a widespread convention that some auditors would call redundant (repeating the h1) rather than a 1.1.1 failure. Competent auditors would reasonably disagree on whether this fails, so the label is uncertain. If it does fail, the claim read in good faith names the failure. captureDiffers: no. The live HTML fetched on 2026-11-25 has the same img, src and alt, and the screenshot shows the styled page with the image as captured."
+    },
+    {
+      "fingerprint": "76b13c7de61c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the Projor seal in the footer (\"Veículo comprometido com o público\", 12, Projor), the only content of a link to https://atlas.jor.br/vcp/18603, with alt \"Selo Projor\". I opened the destination. It is the Atlas da Notícia card (Atlas da Notícia is Projor's project) for AOS FATOS under the Programa de Indicadores de Compromissos com o Público, which lists the 12 indicators: in other words, the verification page for that same seal. Read as the link's text, \"Selo Projor\" names the seal and its issuer, and the link opens that seal's certification card, so by the G82/H30 test the alternative does say what the link is for (R2: an alternative that names the page or thing the link opens describes its purpose). claimTrue: no. The first half holds (the image is all the link holds), but the alt does identify where the link goes. elementFails: no for 1.1.1. Some would want a longer alt such as \"Selo Projor: veículo comprometido com o público\", but that is a nicety, not a requirement. Rampa never read the destination (\"not read by Rampa\"), which is why it missed this, so the cause is context_missing. captureDiffers: no. The live HTML has the same link, href and alt (the target=\"_blank\" has no bearing on 1.1.1), and the screenshot shows the badge in the styled footer, partly beside a support dialog that does not cover it."
+    }
+  ]
+}

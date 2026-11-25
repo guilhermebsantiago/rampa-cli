@@ -1,0 +1,41 @@
+{
+  "page": "https://imirante.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "d8be9ac1cac8",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img is the round 96px thumbnail of a '+Colunas' card, inside a link that also holds the kicker h3 'Levantamento', the headline h2 and the time. The crop and the screenshot show a head-and-shoulders portrait of a man; its alt 'Idosos estão abandonados em hospitais de São Luís' is the caption of the article's lead photo (the destination page shows that caption under its figure and gives this same image file the alt 'Ronaldo Rocha', the columnist). So the claim is true of the capture. I looked for a way it could pass: the link has its own text, so the image does not need to name the link (H30 applies only to image-only links), and H2 would want a null alt or one that supplements it by describing the picture. This alt does neither. If the portrait conveys who wrote the column, the alt leaves that out, and the columnist's name is not in the card's text. If the portrait is decorative, a non-null alt fails F38. Either way the text alternative is not equivalent, and the claim names exactly that. The live HTML fetched now has the same src and alt, so the capture does not differ."
+    },
+    {
+      "fingerprint": "a9a5da1ff8b5",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The input#switch-button is the night-mode toggle in the off-canvas menu (nav#mp-menu-v2). In the live HTML it sits inside <label for=\"switch-button\" class=\"switch\">, but that label contains only <span class=\"slider round\">. In the live stylesheet, .slider:before has content \"\" and .switch input is 0x0 with opacity 0, so the label provides no text. The visible 'Modo Noturno 🌙' is in a sibling div with no programmatic association (no aria-labelledby). The snapshot's browser AX data shows a checkbox labelled by that empty label and no name, so the claim holds. I found nothing that gives it a name on the page users receive: no aria-label, title or generated text. A screen reader would announce only 'checkbox, not checked' when the menu is opened, which fails 4.1.2's name requirement (it also falls short of 1.3.1/3.3.2 label practice). The live page matches the capture."
+    },
+    {
+      "fingerprint": "271633bcc418",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The p.esporteLinks__chapeu 'SÉRIE C' is the kicker of the 'Show de gols' link in the sports block. In the live stylesheet, .esporteLinks sets color rgb(243 243 243) and background rgb(149 186 10), and .esporteLinks__chapeu sets 0.875rem (14px), normal weight. That gives #f3f3f3 on #95ba0a, which I compute at about 2.03:1, the claimed value. The screenshot crop shows the light text on the green panel, with no image or gradient behind it. The text is 14px and not bold, so it needs 4.5:1. It is not incidental, a logotype or inactive, and no alternate high-contrast version is offered by default, so no exception applies. The live CSS matches the capture."
+    },
+    {
+      "fingerprint": "3e2ea56ef691",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img is the round thumbnail of the 'Estado Maior' card in '+Colunas'. The crop shows the column's logo, the words 'ESTADO MAIOR' on a blue disc, but its alt is 'Octávio Soeiro tem 35 dias para resolver problemas internos da Câmara Municipal de São Luís'. That is the caption of the destination article's lead photo; the article page gives this same image file the alt 'Estado Maior'. So the alt describes something the image does not show, and the claim is true. I looked for a way it could pass. The link has its own text (h3 'Estado Maior' and the headline), so a functional alt is not needed, and H2 would want a null alt or one that describes the image. If the logo is redundant with the h3, it is decorative and its non-null alt fails F38. If it is informative, its alternative should say 'Estado Maior', and this one does not. Either way 1.1.1 fails for the reason the claim names. The live HTML has the same src and alt."
+    },
+    {
+      "fingerprint": "d33d1e78018b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The a.cabecalho__nav-link--home is the first item of the fixed desktop nav bar. It has no text, only an SVG house icon drawn with fill white. The live stylesheet gives .cabecalho__nav the background rgb(3 171 248) and has no rule for --home, so the icon is white on #03abf8, which I compute at about 2.57:1. The full-page screenshot draws the fixed bar near y 8946 rather than at y 80, an artefact of stitching a fixed element. It shows the same white house on the same blue, so the colours the claim states match the page users receive. The icon is the only visual information that identifies the link, so 1.4.11 needs 3:1 against the adjacent colour (G207). The component is active, styled by the author, not the user agent, and no other visible cue identifies it. It fails as claimed."
+    }
+  ]
+}

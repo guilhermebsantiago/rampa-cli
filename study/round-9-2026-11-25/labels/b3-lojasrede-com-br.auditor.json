@@ -1,0 +1,27 @@
+{
+  "page": "https://www.lojasrede.com.br/cabelos",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "f4bde51c4aeb",
+      "answers": { "claimTrue": "cannot_tell", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the name field of the footer newsletter sign-up form ('Cadastre seu e-mail e receba novidades...'): <input type=\"text\" name=\"newsletter\" id=\"newsletter-input-name\">, labelled 'Digite seu nome', with no autocomplete attribute. claimTrue: the part about the missing autocomplete holds in the snapshot. Whether the field wants the first name ('given-name') or the full name ('name') cannot be told from 'Digite seu nome', since 'nome' can mean either. elementFails: the field collects the user's own name, an input purpose listed in WCAG 2.1 section 7, and nothing identifies that purpose programmatically (no autocomplete, so H98 is not met). It fails 1.3.5. captureDiffers: the server-rendered HTML of the live page (fetched 2026-11-25) has identical markup, also without autocomplete, so there is no difference that matters. Label: the claim names the real failure, a missing autocomplete that should identify the name purpose. The token it suggests may be 'name' rather than 'given-name', but that concerns the fix, not the failure."
+    },
+    {
+      "fingerprint": "408d2998ba6e",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the e-mail field of the footer newsletter sign-up form: <input type=\"email\" name=\"newsletter\" id=\"newsletter-input-email\">, labelled 'Digite seu e-mail', with no autocomplete attribute. claimTrue: it asks for the user's own e-mail, and the snapshot shows no autocomplete. elementFails: e-mail is a listed input purpose. type=\"email\" sets the value format but not the input purpose that 1.3.5 and H98 rely on, and the field does not have autocomplete=\"email\". It fails 1.3.5. captureDiffers: the live server-rendered HTML has the same markup without autocomplete. The screenshot shows the form as captured, so there is no relevant difference. Label: the claim names the failure exactly."
+    },
+    {
+      "fingerprint": "240c6488c354",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 24x24 heart (wishlist) icon in the header. It is the only content of <a href=\"/account#/wishlist\">, which has no title or aria-label. Its alt is the full URL of the SVG file (whishlist-icon-lojasrede___....svg), and the snapshot computes the link's accessible name from that URL. claimTrue: the alt is a file URL, so it is a file name. elementFails: this is non-text content acting as a control, and its text alternative does not describe its purpose (wishlist / favourites). This is H30's failure and F30's (a file name used as the alternative), so it fails 1.1.1. captureDiffers: the live server-rendered HTML has the same <img alt=\"https://...whishlist-icon-lojasrede___...svg\"> inside the same link, with no title. The full-page screenshot leaves the fixed header blank, but the crop shows the heart icon, and that blank area does not affect the claim. Label: the claim names the failure."
+    }
+  ]
+}

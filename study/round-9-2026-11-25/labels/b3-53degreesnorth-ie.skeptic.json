@@ -1,0 +1,28 @@
+{
+  "page": "https://www.53degreesnorth.ie/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "a3a9a64cfaa2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the header search field, <input type=search role=combobox id=header-search>, preceded in the same form by <label class=\"label visually-hidden\" for=\"header-search\">Search</label>. claimTrue: in the capture the browser's accessibility tree (CDP) gives the combobox the name \"\" and marks that label ignored as notRendered, even though it lists the label as the labelledby relation, so the sentence is true of the capture. elementFails: the live HTML has the same label, and the live main.css defines .visually-hidden as the standard clip pattern (position:absolute; 1px by 1px; overflow:hidden; clip:rect(0,0,0,0)). No theme or app style sheet sets display:none on it, and no theme script touches it. That label keeps its layout box, so browsers name the field \"Search\" from the explicit label (H44). Rampa's own snapshot also computed \"Search\". The field has a name, so 4.1.2 is met. captureDiffers: across the whole capture, every .visually-hidden element lost its layout box. The skip link has no accessibility node, \"SHOP ALL\" links lost their hidden suffixes, and the search and carousel buttons got empty names. The CSS served today does not produce that state, so the empty name comes from the capture, not from the page users receive. I could not render the page in a browser myself; this rests on the served HTML and CSS. The cause is collector_error because the rule acted on the browser name from that capture."
+    },
+    {
+      "fingerprint": "94c62011317d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the same header search field, and the finding is about the contrast of its placeholder. claimTrue: the snapshot's pixelContrast record gives the placeholder \"Search for waterproof shoes...\" (one of the strings in the field's data-placeholder attributes, which a script cycles through) at #005680 with 50% alpha on #e6eef2, 16px weight 400. Compositing gives about rgb(115,162,185), and I recomputed 2.354:1. elementFails: the live main.css sets .search__input::placeholder to rgba(var(--text-color)/.5), and the header style block sets --text-color: 0 86 127 and --search-bg-color: #e6eef2. That is the same 2.35:1, far below 4.5:1 for 16px normal text. When the search is open, the background turns white, and that still fails. On the 1280px desktop layout the field is visible: it collapses only below 769px, and its captured bounds are 350x44. I looked for reasons it could pass and found none. Placeholder text is text, and it is not inactive, decorative, invisible or part of a picture, so no 1.4.3 exception applies. Because the colour is semi-transparent, the measured background governs, and the live CSS confirms that background. captureDiffers: the full-page screenshot shows the header area blank, probably because of the sticky header. The measurement does not depend on it, though: the foreground came from CSS, and the live CSS has the same colours as the capture. So no difference touches this claim."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "page": "https://www.unip.br/cursos/graduacao/index.aspx",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "c5eb51286086",
+      "answers": { "claimTrue": "yes", "elementFails": "cannot_tell", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the span.select2-selection__rendered that Select2 4.0.6-rc.0 puts inside its combobox for the Modalidade filter (role=textbox, read-only, title=\"Modalidade\", text \"Modalidade\"). claimTrue: the CDP node in the snapshot has role textbox and name \"\" (title not used as name in Chromium, value \"Modalidade\"), so the claim about what the browser computes holds; its gloss overstates a little, since the value is exposed and would be read. elementFails: the span is not focusable or operable; the control users operate is the parent combobox, which is named through aria-labelledby (\"Modalidade\") and has a role and value, and by the accessible name computation the title attribute would name the span in other engines. But it is exposed as an unnamed textbox widget in Chromium, ARIA requires a name for textbox, and Select2 later dropped this role as a defect. Whether this inner span counts as a separate user interface component that fails 4.1.2 is something competent auditors would split on, so uncertain. The widget's more serious problem is elsewhere: the visually hidden <label for=select4> names only the aria-hidden native select, so the combobox is named by its current value. captureDiffers: the live HTML has the same select4 markup and loads the same Select2 4.0.6-rc.0, which builds the same span; no difference found."
+    },
+    {
+      "fingerprint": "dd4038d07fda",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the <small class=\"text-white-50\"> line \"Última atualização: novembro/2026\" under the h1, at 12.8px (0.8em), weight 400, over the hero's background image. claimTrue: in the screenshot the glyph pixels are #80a3c4 (50% white) on a background that is mostly #004689 with darker #003574 patches; I measured 3.56:1 on #004689 and 4.12:1 for 50% white on #003574, which matches the claim's range and its note that a background image is involved. elementFails: this is normal-size informative text (not incidental, not a logo), so 1.4.3 needs 4.5:1, and it reaches at most 4.12:1, so it fails. captureDiffers: the live HTML has the same small element with class text-white-50 and inline font-size 0.8em on the same jumbotron with the bg-inscricoes.png background, and the screenshot is fully styled; no difference."
+    },
+    {
+      "fingerprint": "8cd8e5af720f",
+      "answers": { "claimTrue": "yes", "elementFails": "cannot_tell", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the Select2 rendered span for the Cidade filter (role=textbox, read-only, title=\"Escolha a cidade\", text \"Escolha a cidade\"), inside a combobox that is disabled in the capture. claimTrue: the CDP node has role textbox and name \"\" with value \"Escolha a cidade\", so the claim about the browser's computation holds (the value would still be read, so \"announces only textbox\" overstates). elementFails: the span is not focusable or operable; the user-facing control is the parent combobox, named through aria-labelledby and exposing role and value, and the title would name the span by the accessible name computation in other engines. Chromium still exposes it as an unnamed textbox widget, which ARIA forbids, and Select2 later removed this role as a defect. Competent auditors would disagree on whether this inner span is a separate user interface component failing 4.1.2, so uncertain. Separately, the sr-only <label for=select2> \"Cidade\" names only the aria-hidden native select. captureDiffers: the live page has the same markup and the same Select2 version; no difference found."
+    },
+    {
+      "fingerprint": "72f43d5ca4c6",
+      "answers": { "claimTrue": "yes", "elementFails": "cannot_tell", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the Select2 rendered span for the state filter (role=textbox, read-only, title=\"Escolha o estado\", text \"Escolha o estado\"), inside the focusable combobox. claimTrue: the CDP node has role textbox and name \"\" with value \"Escolha o estado\", so the claim about the browser's computation holds, though its gloss overstates since the value is exposed. elementFails: the span cannot be focused or operated; the control users tab to is the parent combobox, named \"Escolha o estado\" through aria-labelledby and exposing role, value and collapsed state, and the title would name the span by the accessible name computation in other engines. Chromium still exposes an unnamed textbox widget, ARIA requires a name for that role, and Select2 later dropped the role as a defect. Competent auditors would disagree on whether the inner span is a separate user interface component failing 4.1.2, so uncertain. The widget's stronger problem lies elsewhere: the sr-only <label for=select1> \"Localidade\" names only the aria-hidden native select, so the combobox's name is its placeholder and then the chosen state. captureDiffers: the live HTML has the same select1 markup and the same Select2 4.0.6-rc.0; no difference found."
+    },
+    {
+      "fingerprint": "a8a798a63a02",
+      "answers": { "claimTrue": "yes", "elementFails": "cannot_tell", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the Select2 rendered span for the Campus/Polo filter (role=textbox, read-only, title=\"Campus/Polo\", text \"Campus/Polo\"), inside a combobox that is disabled in the capture. claimTrue: the CDP node has role textbox and name \"\" with value \"Campus/Polo\", so the claim about what the browser computes holds (the value would be read, so \"only textbox\" overstates). elementFails: the span is a non-focusable display part of the Select2 control; the combobox users operate is named through aria-labelledby and exposes role and value, and the title would name the span by the accessible name computation in other engines. Chromium still exposes it as an unnamed textbox widget, against ARIA's name requirement, and Select2 later removed this role as a defect. Competent auditors would split on whether it is a separate user interface component failing 4.1.2, so uncertain. Separately, the sr-only <label for=select3> names only the aria-hidden native select. captureDiffers: the live HTML has the same select3 markup and loads the same Select2 version; no difference found."
+    }
+  ]
+}

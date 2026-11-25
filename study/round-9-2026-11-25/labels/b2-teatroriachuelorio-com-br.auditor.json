@@ -1,0 +1,160 @@
+{
+  "page": "https://teatroriachuelorio.com.br/contato/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "9cecc3f20f5d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the fixed floating WhatsApp link (aria-label \"Falar no WhatsApp — (21) 99571-1987\"): a 56px #25D366 circle holding only the white WhatsApp glyph (fill currentColor, color #fff). The snapshot and the live CSS both give #ffffff on #25d366, which is 1.98:1, and the glyph is all the control shows, so the sentence is true of the capture. Whether that fails 1.4.11 is debatable: the glyph is the WhatsApp brand logo in WhatsApp's own brand colours, and Understanding 1.4.11 says logos are exempt as essential and that the exemption \"carries over\" to a user interface component that is a logo, while other auditors treat such a glyph as an icon under G207 and fail it. I lean to a pass under the logo exemption, but competent auditors would disagree, so uncertain. In the screenshot the button sits under the cookie banner, which does not change its colours; the live page has the same CSS."
+    },
+    {
+      "fingerprint": "a6a95efb2f8a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the e-mail input of the footer newsletter form (RD Station, name=\"email\", type=\"email\"). It asks for the user's own e-mail address and has no autocomplete attribute in the snapshot or on the live page (checked in a Chromium browser), so its purpose is not programmatically identified as 1.3.5 requires (H98, autocomplete=\"email\"); type=\"email\" is not the purpose token. Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError is recorded on the node, as the claim says. Fails 1.3.5, and the claim names it."
+    },
+    {
+      "fingerprint": "4e688cf1d314",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Telefone*\" input of the main contact form (name=\"personal_phone\", type=\"tel\", labelled by a visible label). It asks for the user's own phone number and carries no autocomplete attribute in the snapshot or on the live page, so the purpose is not programmatically determinable (autocomplete=\"tel\" missing). That fails 1.3.5, and the claim says exactly that."
+    },
+    {
+      "fingerprint": "5a06d42db2f5",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"OpenStreetMap\" link in the Leaflet map attribution, 11px normal text. Its CSS colour is #0078a8 (live page, same Leaflet control), on the attribution's translucent white laid over the map tiles; in the screenshot the background behind the word is mostly #e7f1e2, where #0078a8 gives about 4.25:1 (best about 4.8:1 on the lightest pixels), below 4.5:1. The claim's \"at most 3.59:1\" comes from anti-aliased pixels (#50a2bc), not the real text colour, so the sentence is not true as worded, but it points at the real defect: the link text is under 4.5:1 against what is behind it. Fails 1.4.3; the attribution is a link, not incidental text."
+    },
+    {
+      "fingerprint": "4a967b587ef9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the name input of the footer newsletter form (name=\"name\", placeholder \"Nome *\"). It collects the user's own name and has no autocomplete attribute in the snapshot or on the live page, so autocomplete=\"name\" is missing and the purpose is not programmatically identified. Chromium's form issue is recorded on the node. Fails 1.3.5, as claimed."
+    },
+    {
+      "fingerprint": "fed837d52cc7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Email*\" input of the main contact form (name=\"email\", type=\"email\", visible label). It asks for the user's own e-mail address and has no autocomplete attribute in the snapshot or on the live page; type=\"email\" does not identify the purpose under 1.3.5. The Chromium form issue named in the claim is recorded on the node. Fails 1.3.5, as claimed."
+    },
+    {
+      "fingerprint": "6360b0f22dc8",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is one 256px OpenStreetMap tile of the Leaflet map (alt=\"\", as Leaflet sets for every tile). The crop shows the theatre's labels and part of Rua do Passeio, but the text right next to the map, in the same container, says \"Onde estamos? Rua do Passeio 38/40, Centro, Rio de Janeiro – RJ\", so the claim that the text around it does not say this is false. A tile is a fragment of a map whose purpose, where the theatre is, is given by that address, so an empty alternative on the tile does not fail 1.1.1. The model had the address in the ancestor text and judged wrongly. The live page loads the same tiles."
+    },
+    {
+      "fingerprint": "ff519f3f0e84",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the name input of the footer newsletter form. Its <label for> (\"Nome*\") is display:none, and Chromium computes an empty accessible name: the snapshot records the browser name \"\", and on the live page, in a Chromium browser (Edge), the CDP name sources show the hidden label giving \"\" and the placeholder \"Nome *\" marked superseded, so the field is exposed as an unnamed textbox. Its name is therefore not programmatically determinable in Chromium browsers, which fails 4.1.2, and the claim states that."
+    },
+    {
+      "fingerprint": "f7d679effdcc",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the \"Leaflet\" link in the map attribution, 11px text in #0078a8 (live CSS) on the attribution's translucent white over the map. Most of the word sits on #effef0, where it reaches about 4.73:1 and passes; its last letters sit over a darker park area (#e7f1e2, about 4.25:1) and a brown map icon (about 3:1), so a per-letter G18 test fails there. The claim's \"at most 4.15:1\" uses anti-aliased pixels (#7bbccd) and is not true as worded, since the best contrast is above 4.5:1. Whether text that mostly passes but has a letter over a darker map detail fails 1.4.3 is a point competent auditors would disagree on, so uncertain."
+    },
+    {
+      "fingerprint": "f54877376766",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is another OpenStreetMap tile of the Leaflet map (alt=\"\"). The crop shows the street map east of the theatre with a \"Ponto Regulador: Linha 247\" bus stop label, a Starbucks and other points of interest; the nearby text does not name them, so the sentence is true of the capture. But a tile is a fragment of a location map whose purpose, showing where the theatre is, is served by the address given beside it, and 1.1.1 asks for an alternative that serves the equivalent purpose, not a list of every label on a map tile; an empty alternative on the tile is fine. Rampa applied a stricter rule than 1.1.1. The live page loads the same tile."
+    },
+    {
+      "fingerprint": "f8980dc60c15",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the name input of the footer newsletter form, whose only visible label is its placeholder \"Nome *\" (the label is display:none). The placeholder is #757575 on the field background #f4f4f4 (live computed styles in a Chromium browser, same as the snapshot), 4.19:1 for 14px normal text, below 4.5:1. Placeholder text is text, and here it is the field's only visible label, so it fails 1.4.3, as claimed."
+    },
+    {
+      "fingerprint": "556d8a9535c3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the e-mail input of the footer newsletter form, whose only visible label is its placeholder \"Email *\" (the label is display:none). The placeholder is #757575 on #f4f4f4, 4.19:1 for 14px normal text, below 4.5:1, in the snapshot and in the live computed styles. Fails 1.4.3, as claimed."
+    },
+    {
+      "fingerprint": "7fe4215af343",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the e-mail input of the footer newsletter form. Its <label for> (\"Email*\") is display:none, and Chromium computes an empty accessible name: the snapshot records the browser name \"\", and on the live page in a Chromium browser (Edge) the hidden label gives \"\" and the placeholder \"Email *\" is marked superseded. The field is exposed as an unnamed textbox in Chromium browsers, so its name is not programmatically determinable there. Fails 4.1.2, as claimed."
+    },
+    {
+      "fingerprint": "2302848cf030",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Nome*\" input of the main contact form (name=\"name\", visible label). It collects the user's own name and has no autocomplete attribute in the snapshot or on the live page, so autocomplete=\"name\" is missing and the purpose is not programmatically identified. Chromium's form issue is recorded on the node, as the claim says. Fails 1.3.5."
+    }
+  ]
+}

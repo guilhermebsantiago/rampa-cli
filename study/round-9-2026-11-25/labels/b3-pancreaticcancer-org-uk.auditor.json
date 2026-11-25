@@ -1,0 +1,17 @@
+{
+  "page": "https://www.pancreaticcancer.org.uk/news-and-blogs/study-launched-to-improve-consistency-in-diagnosis-and-treatment/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "ac77bc532db1",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is an accordion of two items (\"Find out more about these delays\", \"Why do scan reports matter?\") that the site's accordion-js script turns into role=tablist, with each h3 header as role=tab carrying aria-expanded and each panel as role=tabpanel. In the capture both headers have aria-expanded=\"false\", both panels are hidden (height 0), and the screenshot shows both items closed with a \"Show more\" button. claimTrue: no tab has aria-selected, as stated, but the rest of the sentence does not hold: no panel is open, and aria-expanded (a supported state of the tab role in ARIA 1.2) tells a screen reader that each item is collapsed, so it does convey which panel is open (none). elementFails: the state the user changes is open/closed; the script (updateARIA in vendor.min.js, read on the live site) sets aria-expanded to true or false on every toggle, and closes the other item (closeOthers), so the open/closed state can be programmatically determined and changes are exposed (ARIA5). Nothing is visually selected, so having no tab exposed as selected matches what sighted users see. The element meets 4.1.2 on this point. Requiring aria-selected on one tab applies the APG tabs pattern, a stricter rule than 4.1.2. Separately, putting role=tab on the h3 headers removes their heading role, which is a 1.3.1 concern, not this finding. captureDiffers: the live HTML has the same two items and text, and loads the same script that adds these roles. The capture was rendered with its styles, so nothing that differs touches this claim."
+    }
+  ]
+}

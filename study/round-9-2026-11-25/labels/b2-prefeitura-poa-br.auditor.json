@@ -1,0 +1,50 @@
+{
+  "page": "https://prefeitura.poa.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "976808b11ad6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the card image of the 'Revista Mais POA' card in the 'Mais Proteção' block, alt=\"Revista Mais POA\"; it is not inside a link (the card's overlay link is a sibling) and its alt repeats the card's h3 'Revista Mais POA'. The image (crop and screenshot) is a banner whose only text is 'PORTO ALEGRE MAIS PROTEGIDA' over a photo of flood-protection earthworks; it shows no magazine name or magazine, so the claim is true of the capture. The destination page confirms 'Porto Alegre mais protegida' is the title of the 8th edition, and that title appears nowhere else in the card (the description only paraphrases the theme). The alternative therefore does not present the same information as the image (G94 test; W3C's images-of-text guidance asks the alternative to contain the image's words), so the image fails 1.1.1, and the claim, read in good faith, points at that: the alt names something not shown and leaves out what the image conveys. The live HTML has the same img, src and alt as the snapshot and the screenshot matches, so the capture does not differ."
+    },
+    {
+      "fingerprint": "92f46a55058a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the category label 'Defesa Civil' above the third news headline in the 'Notícias' block. The theme's pmpa.css sets .field--name-field-cartola to color #09afa7, uppercase, weight 700, and the .noticia-secundaria card background is #fff; the screenshot shows teal 'DEFESA CIVIL' on white. #09afa7 on #ffffff computes to 2.73:1, and 15.8px bold is below the large-text threshold (14pt bold, about 18.7px), so 4.5:1 applies and the text fails 1.4.3. No high-contrast toggle (G174) appears in the page HTML or snapshot. The overlay link covering the card explains why axe-core could not decide. The live page serves the same markup and stylesheet, so the capture does not differ."
+    },
+    {
+      "fingerprint": "9514949792cd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the category label 'Gabinete do Prefeito' above the second news headline (Novo CAPSi) in the 'Notícias' block. pmpa.css gives .field--name-field-cartola color #09afa7, weight 700, uppercase, on the white (#fff) .noticia-secundaria card; the screenshot shows teal text on white. That pair is 2.73:1, and 15.8px bold is not large text, so it fails the 4.5:1 of 1.4.3. No contrast toggle (G174) exists on the page. The live page has the same markup and CSS, so the capture does not differ."
+    },
+    {
+      "fingerprint": "6a11b054952d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the category label 'Gabinete do Prefeito' under the photo of the lead news item (pôlderes 7 e 8) in the 'Notícias' block. The same pmpa.css rule colors it #09afa7, bold, uppercase, and the .noticia-principal card background is #fff; the screenshot shows teal text on white below the yellow bar. #09afa7 on white is 2.73:1, below 4.5:1 for 15.8px bold (not large text), so it fails 1.4.3. No contrast toggle (G174) exists on the page. The live page has the same markup and stylesheet, so the capture does not differ."
+    }
+  ]
+}

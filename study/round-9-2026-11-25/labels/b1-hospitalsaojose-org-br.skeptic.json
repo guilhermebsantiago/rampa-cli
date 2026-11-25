@@ -1,0 +1,34 @@
+{
+  "page": "https://hospitalsaojose.org.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "97b509e48957",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the white SSVP emblem in the first footer row (not inside a link), alt=\"\", beside the HSJ logo (also alt=\"\") and the footer menus. The crop shows an image of text: 'Sociedade de São Vicente de Paulo', 'SSVP', 'serviens in spe', 'Brasil'. claimTrue: the image is hidden with alt=\"\", and no text in the footer names the Society; it is named only far away, in the contact form's consent label and in one news excerpt. I looked for reasons it could pass: a logo of the institution that runs the hospital gives information (the affiliation), so it is not decorative under WCAG's definition. The header copy of the same emblem is a link with no name, so it does not supply the name either, and no adjacent text makes it redundant. elementFails: yes, an informative image with a null alternative (1.1.1). captureDiffers: the live HTML fetched today has the same img with alt=\"\", and the screenshot shows the emblem as captured, so there is no difference. The claim names this failure."
+    },
+    {
+      "fingerprint": "afeafe5ef366",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the Netuai 'Web Marketing' logo, the only content of a footer link to https://www.netuai.com.br after the h6 '... Desenvolvido por'. Its alt and title are both 'netuaibranca.png', the Elementor file name. claimTrue: yes, it is a file name. I checked for reasons it could pass: the file name does contain 'netuai', but it is the file name with a colour suffix and extension, the case documented by F30 (text alternatives that are not alternatives, such as file names). Under H30 the alternative of a link's only image should identify the link's function, for example 'Netuai Web Marketing'. The title only repeats the file name. elementFails: yes (1.1.1). captureDiffers: in the snapshot the lazy-loaded img has no bounds, but the screenshot shows the logo and the live HTML has the same alt and title, so nothing touches the claim."
+    },
+    {
+      "fingerprint": "fbbacdd8bc14",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the white HSJ logo in the footer, alt=\"\", not a link. The crop reads 'HSJ HOSPITAL SÃO JOSÉ da Sociedade de São Vicente de Paulo'. claimTrue: no, because the claim says the surrounding text does not convey this. The same footer's copyright heading says '© 2025 Hospital São José / Ituiutaba-MG', and the consent label in the contact section just before the footer says 'Hospital São José da Sociedade de São Vicente de Paulo'. The page title and many headings also name the hospital. That is a concrete reason the null alternative could be acceptable: this is a repeated brand mark of the site's own institution, and its words are available as text in the footer and the section before it (the W3C pattern of a redundant image with null alt). Against that, the text is not directly adjacent, and logos are usually treated as informative. My lean is that it fails, but competent auditors would reasonably disagree, so the label is uncertain. captureDiffers: the live HTML has the same img with alt=\"\", and the screenshot matches, so there is no difference."
+    },
+    {
+      "fingerprint": "beee68938b5f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the full-width donation banner (banner-doacao.png) in main content, alt=\"\", not linked. The crop shows 'Doações em dinheiro feitas via depósito', the Banco do Brasil branch 0204-6 and account 51146-3, and the Caixa Econômica Federal branch 0125 and account 2159-2. It also shows the SAE water-bill donation note, the slogans, and the HSJ and SSVP logos. claimTrue: yes, it is hidden, and none of these words exist as text in the snapshot. I searched the snapshot and the live HTML for 'doa', 'banco', '51146' and 'depósito' and found no text equivalent. I looked for reasons it could pass and found none: no adjacent text, no caption or long description, no link to a text version. This is essential information (how to donate) given only as an image of text with a null alternative. elementFails: yes (1.1.1). The claim quotes only part of the content, but in good faith it names the failure. captureDiffers: the live HTML has the same img and alt=\"\", so there is no difference."
+    }
+  ]
+}

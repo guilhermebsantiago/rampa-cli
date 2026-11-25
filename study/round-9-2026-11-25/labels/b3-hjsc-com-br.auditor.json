@@ -1,0 +1,111 @@
+{
+  "page": "https://hjsc.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "cdbdbf6d59ac",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Next slide' control of the hero carousel is a div role=button showing only a chevron icon in Elementor's default rgba(238,238,238,.9). In the screenshot the chevron sits on the light pink/grey photo; sampling its 25x25 box gives #edecec chevron pixels against neighbours from #e8e6e7 (about 1.06:1) up to the darkest image pixel (2.85:1 at most), so the claim's 2.20:1 best case holds and the icon, the only thing identifying the control, is below 3:1. The live HTML has the same autoplay carousel and arrow markup; slides rotate every 5 s, but the captured slide is one users see, so the capture does not differ in a way that matters. Fails 1.4.11 for the stated reason."
+    },
+    {
+      "fingerprint": "74f3e5aaf234",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The phone number '(11) 5080-2000' in the top header bar is white text (about 15px bold, not large text) on the green bar. The live CSS sets .ast-primary-header-bar to linear-gradient(90deg, rgb(50,101,97) 0%, rgb(60,179,113) 48%), so at x=1098 the background is solid #3cb371; white on #3cb371 computes to 2.67:1, and pixel sampling of the screenshot agrees (2.70:1 max). The live HTML and CSS match the capture. Below 4.5:1, so it fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "82a0d6e4cb75",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Pesquisa e Ensino' link in the secondary header menu is 16px weight-500 text, color #ffffff per the live CSS (.ast-builder-menu-2 .menu-link), on the header gradient that is solid #3cb371 from 48% of the width (x=696 here). White on #3cb371 is 2.67:1, as the screenshot pixels confirm. The live page matches the capture. Normal-size text below 4.5:1 fails 1.4.3, the failure the claim names."
+    },
+    {
+      "fingerprint": "a2d80e27c6d5",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Previous slide' button of the second carousel (the COSC banner above 'Notícias') shows only Elementor's default near-white chevron. In the screenshot it sits on the beige left part of the photo; sampling its box gives at most 1.77:1 between the lightest chevron pixel and the darkest background pixel, consistent with the claim's 1.70:1. The chevron is all that identifies the control, so it needs 3:1 under 1.4.11 and fails. The live page has the same autoplay carousel; the captured slide is a state users see."
+    },
+    {
+      "fingerprint": "c08d26afa8ef",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Previous slide' button of the hero carousel is an icon-only div role=button with Elementor's default rgba(238,238,238,.9) chevron. In the captured slide the COSC banner's left side is white, and the screenshot pixels in its box range from #efefef to #ffffff: 1.15:1, as claimed. The chevron is barely visible and is the only visual identification of the control, so it fails 1.4.11. The live page has the same carousel markup; slides rotate, but this slide is one users receive."
+    },
+    {
+      "fingerprint": "b3f69c191e0b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The YouTube link in the header has aria-label 'Youtube' and shows only an SVG logo. The live CSS sets .ast-header-social-1-wrap .ast-social-color-type-custom svg{fill:#ffffff} on the header bar's solid #3cb371 at this position, which is 2.67:1; the screenshot pixels give 2.69:1 at most. The icon is the only visual identification of the link, so it needs 3:1 under 1.4.11 and fails, as the claim says. The live page matches the capture."
+    },
+    {
+      "fingerprint": "cadfef2fb9d0",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The Instagram link in the header (aria-label 'Instagram') shows only a white SVG icon (live CSS fill:#ffffff) on the header bar's #3cb371, 2.67:1, which the screenshot confirms. The icon alone identifies the link, so 1.4.11 asks for 3:1 and it fails. The live markup and CSS match the capture."
+    },
+    {
+      "fingerprint": "6df70a99e47a",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The LinkedIn link in the header (aria-label 'LinkedIn') shows only a white SVG icon (live CSS fill:#ffffff) on the header bar's #3cb371, 2.67:1, as the screenshot shows. The icon is the only visual identification of the link, so it fails the 3:1 that 1.4.11 asks for. The live page matches the capture."
+    },
+    {
+      "fingerprint": "1e815234a5fe",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the green icon of the 'Oftalmologia' card in the 'Destaques' section: an eye chart of tumbling E letters over a trial frame, not a bicycle. It has alt=\"\" in the capture and in the live HTML, and sits directly above the heading 'Oftalmologia' and the text about the ophthalmology emergency service, which already say everything it conveys. It is decorative and alt=\"\" is correct under 1.1.1 (H67), so the element passes. The claim misdescribes the picture and wrongly says it conveys something the text does not; the model had the crop and the surrounding text and judged wrongly."
+    },
+    {
+      "fingerprint": "b891b581941b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The Facebook link in the header (aria-label 'Facebook') shows only a white SVG icon (live CSS fill:#ffffff) on the header bar's #3cb371, 2.67:1, which the screenshot confirms. As the only visual identification of the link, the icon needs 3:1 under 1.4.11 and fails. The live page matches the capture."
+    },
+    {
+      "fingerprint": "89e2a466d6c3",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The '日本語' link in the secondary header menu is white 16px weight-500 text (live CSS .ast-builder-menu-2 .menu-link color #ffffff). At x=514 to 594 it sits near the end of the header gradient (rgb(50,101,97) to rgb(60,179,113) at 48%); sampling the screenshot gives a background of #3aa66e to #3caf70, so white text is about 2.8 to 3.1:1. Normal-size text below 4.5:1 fails 1.4.3, as the claim states. The live CSS matches the capture."
+    },
+    {
+      "fingerprint": "eed3dee113a8",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Notícias' link in the secondary header menu is white 16px weight-500 text on the header bar's solid #3cb371 (past 48% of the gradient), 2.67:1 per the live CSS and the screenshot pixels. Normal-size text below 4.5:1 fails 1.4.3, the failure the claim names. The live page matches the capture."
+    },
+    {
+      "fingerprint": "08b544327d58",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The link text '日本語' (Japanese for 'Japanese language') is a Japanese phrase in a page whose html element is lang=\"pt-BR\". Neither the snapshot's HTML nor the live HTML has a lang attribute on the link or any ancestor: the only lang attribute on the live page is pt-BR on html, and there is no hreflang. The word is not a proper name, a technical term or part of the Portuguese vernacular, so its language cannot be programmatically determined and a screen reader will voice it with the Portuguese voice. Fails 3.1.2 as the claim says (H58 is the remedy)."
+    },
+    {
+      "fingerprint": "826639ff618f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'COVID-19' link in the secondary header menu is white 16px weight-500 text (live CSS color #ffffff) on the header gradient, which is #3cb371 or very close at x=594 to 696; the screenshot pixels give about 2.7:1. Normal-size text below 4.5:1 fails 1.4.3, as claimed. The live CSS matches the capture."
+    },
+    {
+      "fingerprint": "2d4f84425d59",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The account link at the right end of the header (aria-label 'Link do ícone da conta', href '#') shows only a person icon whose paths the live CSS fills #ffffff, on the header bar's #3cb371: 2.67:1, and the screenshot pixels give 2.70:1 at most. The icon is all that identifies this link visually, so it needs 3:1 under 1.4.11 and fails, as the claim says. The live markup and CSS match the capture."
+    }
+  ]
+}

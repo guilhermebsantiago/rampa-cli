@@ -1,0 +1,41 @@
+{
+  "page": "https://www.nuh.nhs.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "4ea38a98d301",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image of the first 'Latest news' card. It is not inside a link and it is not hidden from assistive technology: Chromium's tree in the snapshot gives it role image with its name from alt. Its alt is 'image-Critical Incident (Intranet news) 1600 x 900 px).png', a CMS file name with an extension and pixel size, so the claim holds. The crop shows red artwork with the words 'Critical Incident Ongoing'. I looked for a reason it could pass. If the image is informative, the alt does not give its text ('Ongoing' is missing) and is a file name (F30). If it is treated as decorative because the headline 'Nottingham Hospitals remain in Critical Incident' repeats it, it still needed a null alt; a screen reader reads out the file name (F39). Either way it fails 1.1.1, and the file-name claim names that defect. I could not reach the live page: curl, PowerShell and WebFetch all had the connection closed by the server, so captureDiffers is cannot_tell. The screenshot is a fully styled render with current content (posts dated 23 and 24 Nov 2026), and nothing suggests users get a different alt."
+    },
+    {
+      "fingerprint": "deb71055398f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image of the third 'Latest news' card. It is a standalone img, not inside a link, and Chromium exposes it as an image named from its alt. The alt is 'image-ACJMEDIA1611260064_11zon.jpg', a camera and compression file name, so the claim holds. The crop shows a speaker at a lectern on a dark stage; the alt conveys none of that and is read aloud as noise. No technique saves it: whether the photo is informative (F30, a file name used as the alternative) or decorative next to its headline (it would need alt=\"\"; F39), it fails 1.1.1. The claim names that defect. The live page refused every automated fetch, so I could not compare it (captureDiffers cannot_tell). The capture is a styled, current render, and nothing points to a bot-only version."
+    },
+    {
+      "fingerprint": "5bbe074273c4",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the large photo beside the 'I want to...' menu. In the crop, a smiling clinician in a blue headscarf stands next to anaesthesia monitors, under an HTML call-to-action, 'NHS Friends and Family Test (Share your experience)', that is not part of the image. Its alt, 'Homepage menu Image', is a generic placeholder that names the image's slot on the page. It does not really describe a different subject, so I answer the claim's literal wording 'describes something the image does not show' with no. The image is not in a link and not hidden (Chromium names it from alt). I looked for a way it could pass. As an informative photo, the alt conveys nothing of it (F30, placeholder text). As decoration for the call-to-action, it needed a null alt, but a screen reader announces 'Homepage menu Image' (F39, like alt=\"image\"). It fails 1.1.1 either way. Read in good faith, the claim points at that defect: the alt does not fit what the image shows (the rubric's own example). The live page could not be fetched (connection closed by the server), so captureDiffers is cannot_tell. The screenshot is a normal styled render."
+    },
+    {
+      "fingerprint": "3311e85b1a70",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the visible site-search input under the hero, input#site-search-index-search-2 with type=search, title=\"search\" and placeholder=\"Search\". It also has a <label for> with the text 'Search' that is not rendered (Chromium reports it ignored, notRendered). In the snapshot, Chromium's own accessibility tree gives the searchbox name \"\" with a labelledby relation to that hidden label. The browser does compute no name, so the claim holds in substance. 'Announces only searchbox' is overstated, since the unused title is normally exposed as a description. This looks like real Chromium behaviour: it stops at the empty display:none label and never reaches the title or placeholder. So Chrome and Edge users get an unnamed field, which ACT rule e086e5 counts as a fail. My elementFails answer is yes for those browsers. But there are concrete reasons a competent auditor would pass it. HTML-AAM falls back to the title and then the placeholder when the label yields nothing, which gives the name 'search'. H65 (title) is a sufficient technique for 4.1.2. axe-style name computation finds 'Search', Firefox falls back to placeholder or title, and screen readers in Chrome still voice the title 'search' as a description next to the visible placeholder and the 'Search' button. Auditors would reasonably disagree on whether this is a 4.1.2 failure or a browser quirk, so the label is uncertain. The live page refused every automated fetch, so I could not compare it (captureDiffers cannot_tell). The screenshot is styled, and the hidden label matches what users see."
+    },
+    {
+      "fingerprint": "de452ed453ba",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image of the second 'Latest news' card. Its src is a different file from card one (img94joktmu742045.png), but its alt is the same file name: 'image-Critical Incident (Intranet news) 1600 x 900 px).png'. It is not in a link and not hidden; Chromium names it from alt. The claim that the alt is a file name holds. The crop shows the words 'Critical Incident Declared'. The alt misses 'Declared' and is identical to the alt of the 'Ongoing' image, so a screen-reader user cannot tell the two apart from it. If the image is informative, that is F30. If it is decorative next to the headline 'NUH declare Critical Incident following sharp increase in flu and COVID-19', it needed alt=\"\" and instead reads out a file name (F39). It fails 1.1.1 either way, and the claim names the defect. The live page refused automated fetches, so captureDiffers is cannot_tell. The capture is a styled, current render, and nothing suggests a different alt for users."
+    }
+  ]
+}

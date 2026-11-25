@@ -1,0 +1,90 @@
+{
+  "page": "https://abneuro.org.br/2026/10/22/nota-de-esclarecimento-abn-sem-vinculacao-politico-partidaria/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "28858608f1c1",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The span is the text of the breadcrumb link \"Início\" (13px, weight 600, so not large text) in the page-title band. Its colour #3399e7 is the breadcrumb link colour the live post-31589.css sets (--e-global-color-accent), and the band behind it is the primary-to-secondary linear-gradient background image. Sampling the screenshot gives #3399e7 on about #25689f, 1.92:1, matching the claimed 1.93:1 at best, well below the 4.5:1 that 1.4.3 requires. The live HTML and CSS give the same colours and gradient, and the screenshot is fully styled, so the capture matches what users get. The claim names the real failure."
+    },
+    {
+      "fingerprint": "aa8753eba502",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Notícias\" is a top-level item of the main desktop menu (14px, weight 500, not large text). The live header CSS (post-31325.css) gives the main menu items no colour of their own, so they inherit the7's link colour #2c70ab (--the7-links-color). The header is transparent over the dark blue gradient. Sampling the screenshot gives #2c70ab on #1e5586, about 1.5:1, which agrees with the claimed 1.56:1 at most and is far below 4.5:1. In the screenshot the menu is barely readable. The live stylesheets match the capture, so this is what users receive. True positive."
+    },
+    {
+      "fingerprint": "1f0c3a71718d",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Publicações Científicas\" is a top-level main-menu link (14px, weight 500). Like the other menu items, it is drawn in the inherited theme link colour #2c70ab: the live post-31325.css sets no main-menu text colour. It sits on the dark blue header gradient, about #1e5586 in the screenshot, for roughly 1.5:1 (the claim says at most 1.56:1), below the 4.5:1 that 1.4.3 requires. The live CSS matches the capture. True positive."
+    },
+    {
+      "fingerprint": "9e1ca29695b0",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The input is the email field of the footer newsletter sign-up form (\"Cadastro\"). It asks for the user's own email address, and email is one of the input purposes listed in WCAG 2.1 section 7. In the capture and in the live HTML it has type=\"email\" and a screen-reader label \"Email\", but no autocomplete attribute. type=\"email\" gives the data type, not the input purpose, and the sufficient technique H98 needs autocomplete=\"email\". Without it the purpose is not programmatically determinable, so 1.3.5 fails, as the claim says. The live markup is identical."
+    },
+    {
+      "fingerprint": "bc010869553f",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the ABN seal (owl, the name \"Academia Brasileira de Neurologia\" around the edge, \"MCMLXII\") at the top of the first footer column. It is not a link and has alt=\"\" in both the capture and the live HTML. The claim holds of the capture: the image is hidden, and the text next to it (social links, contact details) does not give the organisation's name or the year. In my reading it does not fail 1.1.1. In this spot the seal is branding: the same footer ends with \"© Academia Brasileira de Neurologia\", and the page title and article name the organisation, so a null alternative loses only the founding year drawn into the seal. Many auditors, though, treat a logo as informative and want its alternative to give the organisation's name, so competent auditors would reasonably disagree. Label uncertain. (Separately, the header logo link wraps an image with alt=\"\" and has no accessible name, a 2.4.4/4.1.2 problem on another element.)"
+    },
+    {
+      "fingerprint": "ce1468747b4b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Educação\" is a top-level main-menu link (14px, weight 500). Its colour is the inherited theme link colour #2c70ab, because the live post-31325.css sets no main-menu text colour. It sits on the dark blue header gradient (about #1e5586 in the screenshot). That is about 1.5:1, consistent with the claim's 1.56:1 at most and below 4.5:1. The live CSS matches the capture. True positive."
+    },
+    {
+      "fingerprint": "31fc94df9cf0",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Editais\" is a top-level main-menu link (14px, weight 500) in the theme link colour #2c70ab, which it inherits because the live header CSS sets no main-menu colour. It sits on the header gradient, about #1e5586 in the screenshot, for roughly 1.5:1 against the 4.5:1 that 1.4.3 requires; the claim says 1.56:1 at most. The live stylesheets match what was captured. True positive."
+    },
+    {
+      "fingerprint": "42329a5a5c5c",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This \"Início\" is the first main-menu link (14px, weight 500), not the breadcrumb one. It is drawn in the inherited theme link colour #2c70ab over the dark blue header gradient (about #1e5586 sampled from the screenshot). That is roughly 1.5:1, in line with the claimed 1.56:1 at most and below 4.5:1. The live post-31325.css gives main-menu items no colour, so users get the same rendering. True positive."
+    },
+    {
+      "fingerprint": "40192d8fed97",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The span is the text of the breadcrumb link \"Notícias\" (13px, weight 600, not large text). The live post-31589.css sets breadcrumb links to the accent colour #3399E7, on the page-title band's primary-to-secondary gradient. The screenshot gives #3399e7 on about #25689f, 1.92:1, matching the claimed 1.93:1 at best and below 4.5:1. The live CSS matches the capture. True positive."
+    },
+    {
+      "fingerprint": "c001413f9552",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Institucional\" is a top-level main-menu link (14px, weight 500) in the inherited theme link colour #2c70ab: the live header CSS sets no main-menu text colour. It sits on the dark blue header gradient (about #1e5586 in the screenshot). The contrast is roughly 1.5:1, consistent with the claim's 1.56:1 at most, against the 4.5:1 required. The capture matches the live stylesheets. True positive."
+    },
+    {
+      "fingerprint": "11a49e5e6b92",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Eventos\" is a top-level main-menu link (14px, weight 500) in the inherited theme link colour #2c70ab, on the dark blue header gradient (about #1e5586 in the screenshot). That gives roughly 1.5:1, in line with the claim's 1.56:1 at most and well below 4.5:1. The live post-31325.css sets no main-menu text colour, so the live page renders it the same way. True positive."
+    },
+    {
+      "fingerprint": "ebef042b2902",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Associe-se\" is the last main-menu link (14px, weight 500), drawn in the inherited theme link colour #2c70ab over the dark blue header gradient (about #1e5586 sampled from the screenshot). That is roughly 1.5:1, consistent with the claimed 1.56:1 at most and below the 4.5:1 that 1.4.3 requires. The live CSS sets no main-menu text colour, so the capture matches what users receive. True positive."
+    }
+  ]
+}

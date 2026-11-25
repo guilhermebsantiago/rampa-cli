@@ -1,0 +1,149 @@
+{
+  "page": "https://www.energiaesaneamento.org.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "4e1ae7bee093",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The NOME input of the newsletter form has no label; its placeholder 'NOME' is the only visible label. Bootstrap 5.2.0-beta1, loaded after form-ll.css, sets .form-control::placeholder to #6c757d, and the field's background is none over #newsletter's #e0e0e0; the screenshot's placeholder pixels are #6c757d on #e0e0e0, 3.55:1 at 16px regular, below 4.5:1. Placeholder text that carries the field's label is text under 1.4.3, so the element fails as claimed. The live page fetched on 2026-11-25 has the same markup, and the screenshot is fully styled (Signika font, the theme's colours), so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "01479aeabe9d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The link 'Ir para todas as notícias' is white (#feeds-home a {color:white}) on the orange #e24301 painted by #feeds-home::after (and by #ultimas-noticias itself below 768px). The screenshot pixels give #ffffff on #e24301, 4.17:1; the text is 16px weight 300, not large, so 4.5:1 applies and the link fails 1.4.3 as claimed. The live page fetched on 2026-11-25 has the same markup, and the screenshot is fully styled (Signika font, the theme's colours), so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "3298069d27a2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h3 headline of the first news card is white (.content-noticia color white) on #e24301; the screenshot gives #ffffff on #e24301, 4.17:1. The theme sets it to 16px weight 300 (18px at 1400px and wider), never large text, so 4.5:1 applies and it fails 1.4.3 as claimed. The live page fetched on 2026-11-25 has the same markup, and the screenshot is fully styled (Signika font, the theme's colours), so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "657daac64fa0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The E-MAIL input has no label; its placeholder is its only visible label. Its placeholder colour is Bootstrap's #6c757d (form-ll.css's #999 would be lower still) on the section's #e0e0e0, confirmed in the screenshot pixels: 3.55:1 at 16px regular, below 4.5:1. Informative placeholder text falls under 1.4.3, so it fails as claimed. The live page fetched on 2026-11-25 has the same markup, and the screenshot is fully styled (Signika font, the theme's colours), so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "3632db9dd1b8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The NOME field of the newsletter sign-up collects the user's own name, a purpose listed in WCAG's Input Purposes (name). The input has no autocomplete attribute (type=text, name/id 'name'), so its purpose is not programmatically determined and it fails 1.3.5. The snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError for this field, so the whole sentence holds. The live page fetched on 2026-11-25 has the same markup, and the screenshot is fully styled (Signika font, the theme's colours), so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "e2d0453c2809",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The 'LEIA MAIS' link (to /fundacao/quem-somos/, 'Quem somos') sits right under the h2 'A Fundação' and its paragraph about the Foundation. By this round's context rule the preceding heading counts, and 'LEIA MAIS' with 'A Fundação' tells users the link leads to more about the Foundation, which is what the destination is; no other link shares the name. So the claim that nothing around it gives the purpose is false of the capture and the link meets 2.4.4. The model had the heading and judged wrongly. Separately, the button's white text on #ffb700 (about 1.75:1) fails 1.4.3. The live page fetched on 2026-11-25 has the same markup, and the screenshot is fully styled (Signika font, the theme's colours), so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "a039a351f593",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The date '24 de novembro de 2026' in the second news card is span.data, white, 14px weight 300, on #e24301; the screenshot pixels give #ffffff on #e24301, 4.17:1, below the 4.5:1 that small text needs, so it fails 1.4.3 as claimed. The live page fetched on 2026-11-25 has the same markup, and the screenshot is fully styled (Signika font, the theme's colours), so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "39644d3c0e04",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Notícias' tag of the second news card is span.tag, white uppercase text on #ffb700 (.content-noticia .tag), 16px, not bold. The screenshot shows white on #ffb700, 1.75:1, far below 4.5:1, so it fails 1.4.3 as claimed. The live page fetched on 2026-11-25 has the same markup, and the screenshot is fully styled (Signika font, the theme's colours), so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "2909d3d9f750",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h3 headline of the second news card ('SISEM promove encontros...') is white, 16px weight 300 at this width, on #e24301; the screenshot gives #ffffff on #e24301, 4.17:1, below 4.5:1, so it fails 1.4.3 as claimed. The live page fetched on 2026-11-25 has the same markup, and the screenshot is fully styled (Signika font, the theme's colours), so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The E-MAIL field of the newsletter sign-up collects the user's own email address, a listed input purpose (email). It is type=text with no autocomplete attribute, so the purpose is not programmatically determined and it fails 1.3.5. The snapshot records Chromium's FormInputAssignedAutocompleteValueToIdOrNameAttributeError for it, so the sentence is true. The live page fetched on 2026-11-25 has the same markup, and the screenshot is fully styled (Signika font, the theme's colours), so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "97d8726aa9c2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The date '24 de novembro de 2026' in the first news card is span.data, white, 14px weight 300, on #e24301; the screenshot gives #ffffff on #e24301, 4.17:1, below 4.5:1, so it fails 1.4.3 as claimed. The live page fetched on 2026-11-25 has the same markup, and the screenshot is fully styled (Signika font, the theme's colours), so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "8a752a3e2d58",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img in section#apoio has alt=\"\" but shows the sponsorship credits: the Lei Rouanet mark, 'Patrocínio master' CTG Brasil, 'Patrocínio' EDP, 'Realização' Fundação Energia e Saneamento, and the Ministério da Cultura with the Brazilian flag. No text on the page names these sponsors, so the image carries information and should not be marked decorative; it fails 1.1.1. The claim's list of logos matches the image; it leaves out the role labels but names the failure. The live page fetched on 2026-11-25 has the same markup, and the screenshot is fully styled (Signika font, the theme's colours), so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "a89a798988a8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Notícias' tag of the first news card is span.tag, white uppercase 16px text on #ffb700; the screenshot gives white on #ffb700, 1.75:1, far below 4.5:1, so it fails 1.4.3 as claimed. The live page fetched on 2026-11-25 has the same markup, and the screenshot is fully styled (Signika font, the theme's colours), so the capture matches what users receive."
+    }
+  ]
+}

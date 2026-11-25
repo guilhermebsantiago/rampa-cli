@@ -1,0 +1,27 @@
+{
+  "page": "https://www.mpac.mp.br/atendimento-ao-cidadao/ouvidoria/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "c8d87715add4",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search form's submit button. It has no text and no accessible name, and it shows only a Font Awesome magnifier icon (fa-search). The button has no background or border of its own: it sits inside the form's #fafafa box, and the form's border goes around both the field and the button. The claim holds in the capture. I checked the screenshot pixels in the button's bounds: the solid icon pixels are #939598 on #fafafa, which is 2.877:1, and nothing else marks the control. On the live site, the theme's Tailwind CSS sets .text-accent-500 to rgb(147 149 152) and .bg-zinc-50 to rgb(250 250 250), and the live markup is the same as the capture, so the capture does not differ. The icon is the only visual information that identifies this control, so under 1.4.11 (G207, icons) it needs 3:1 against its neighbours. At 2.88:1 it fails, and the claim names that failure. The missing accessible name is a separate 4.1.2 problem."
+    },
+    {
+      "fingerprint": "fa5ac1c329b2",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the header search field, input id=\"searchform\" name=\"s\" with the placeholder \"O que você procura?\". The capture has <label for=\"s\" class=\"sr-only\">Busca</label> as its DOM sibling. Because the label's for points to \"s\" while the field's id is \"searchform\", they are not associated, and the field's accessible name comes from the placeholder (nameFrom placeholder in the snapshot). So the claim is true of the capture: the label sits next to the field in the DOM, it is not tied to it, and the field is announced by its placeholder. The live HTML and the theme's .sr-only rule are the same, so the capture does not differ. The element still does not fail 1.3.1. The label is visually hidden: it is 1x1 px, shown: 0, and there is no \"Busca\" in the screenshot. So sighted users see no label-to-field relationship that could be missing from the code. What they do see is the placeholder and the magnifier button, and the placeholder is the field's programmatic name, which states that it is a search field. The text \"Busca\" is also there as text for assistive technology. The rule treated a hidden label that is not associated as a 1.3.1 failure, which is stricter than the criterion. A placeholder used as the only visible label is a matter for 3.3.2, not this claim."
+    },
+    {
+      "fingerprint": "81024d4adee4",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the document's title. The page is the Ouvidoria-Geral (ombudsman) page: its h1 and breadcrumb say \"Ouvidoria-Geral\". The captured title, set after scripts, is only the site name, \"Ministério Público do Estado do Acre\". I fetched the live page and it has the same <title>, so the capture does not differ. The home page, /atendimento-ao-cidadao/ and /transparencia/ return the same title too, so it is the same on every page. A site-wide title on a subpage does not describe this page's topic or purpose, as 2.4.2 and G88 require (see F25). A user with several tabs open, or a screen reader user arriving on the page, cannot tell from the title that this is the ombudsman page. The claim's \"says nothing about this page\" slightly overstates it, since the title does name the institution, but read in good faith it names the real failure."
+    }
+  ]
+}

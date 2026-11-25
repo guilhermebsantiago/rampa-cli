@@ -1,0 +1,28 @@
+{
+  "page": "https://www.uffs.edu.br/uffs/home/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "9f34c5d65455",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the document title \"Portal UFFS - Home\" of the home page at /uffs/home/ of the Universidade Federal da Fronteira Sul portal. claimTrue: no, because the title does say something about this page: it names the site (Portal UFFS, the same name as the logo in the header) and that this is its home page, which is what the page is (header, campus menus, news and course shortcuts). elementFails: no, because by G88 and Understanding 2.4.2 the title identifies the site and the page's role; \"Home\" plus the site name is the ordinary, sufficient title for a site's home page, and the page has no narrower topic it should name. captureDiffers: no, because the live page fetched now (curl) has the same <title>Portal UFFS - Home</title> and the screenshot shows the fully styled home page. The model had the title and the page content and judged wrongly, so the cause is model_error."
+    },
+    {
+      "fingerprint": "13b668aa4ce5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is <i class=\"bi bi-circle-half\"> in the top green bar, the half-circle contrast toggle shown between the accessibility icon and \"Área do Servidor\" in the screenshot. claimTrue: yes, the snapshot shows it with the generic role, no name and a click listener, and nothing in its ancestors (divs and the nav) is a button or link. elementFails: yes; the live HTML has the same markup, <i class=\"bi bi-circle-half\" onclick=\"auto_contraste();\"></i>, with no role, no tabindex and no accessible name, and auto_contraste() toggles the page's high-contrast class, so it is a user interface control exposed with no role or name: the failure F59 describes for a span or div made into a control by script (it is also unreachable by keyboard, a 2.1.1 problem). I looked for a reason it could pass: the page has a correctly made <a aria-label=\"Alternar contraste\" onclick=\"auto_contraste();\">, but it sits in the second nav and is hidden at the 1280-px desktop width captured (the snapshot marks it hidden), so at that width the <i> is the only contrast control; an accessible twin shown at another width does not give this component a role, and the conforming alternate version clause applies to whole pages, not to one component. No script adds a role at run time (the post-script snapshot still has none). captureDiffers: no, the live HTML matches the capture and the screenshot shows the styled icon where the bounds put it."
+    }
+  ]
+}

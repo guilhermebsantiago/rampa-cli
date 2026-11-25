@@ -1,0 +1,17 @@
+{
+  "page": "https://www.westernpeople.ie/news/mayo-womans-london-restaurant-proves-a-hit_arid-20333955.html",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "bb23b5fdd36e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Search' button (button#mh-search) of the MyHome property search widget in the article's right sidebar. claimTrue: the snapshot records pixelContrast with axeReason bgOverlap, foreground #ffffff from CSS, background #009cdb (common, best and worst), 13px, weight 700, ratio 3.098; my own count of the screenshot pixels inside the button bounds gives #009cdb as the background (3693 px) and #ffffff as the glyph colour, so the sentence holds. elementFails: I looked for reasons it could pass and found none. The widget is injected on the live page by media.myhome.ie/cdn/widget/search-widget.js, whose stylesheet (media.myhome.ie/cdn/widget/styles.css) sets #mh-search { background: #009cdb !important; color: #fff !important; font-weight: bold !important }, so these are the colours users get, not a capture artefact; white on #009cdb is 3.10:1 by the WCAG luminance formula. The text is about 13px bold (it would be under the 18.66px bold large-text threshold even at the 16px the widget body sets), so 4.5:1 applies. The button is an active control, not disabled, not a logotype and not decorative, so no 1.4.3 exception applies; being third-party content does not exempt it from the page's conformance. captureDiffers: the live page (fetched today) embeds the same widget script, and its stylesheet's !important rules fix the same colours; the screenshot shows the styled layout, so nothing that differs touches this claim. Label true_positive: the button fails 1.4.3 for the low contrast the claim names."
+    }
+  ]
+}

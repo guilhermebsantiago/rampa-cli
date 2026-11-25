@@ -1,0 +1,76 @@
+{
+  "page": "https://www.amazonas.am.gov.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "23bb489596ba",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The img is real slide 5 of 7 (div.slick-slide nth 6, not a clone) of an Essential Blocks/slick carousel (autoplay 3 s, infinite, one slide shown). In the snapshot slide 1 is current (aria-hidden=\"false\") and this slide carries aria-hidden=\"true\" because it sits off-screen, clipped by slick-list (x=4530 at a 1280 px viewport); the screenshot, taken at another moment, shows the carousel on slide 4, so the hidden state rotates with the visual one. claimTrue: in the capture it is inside aria-hidden and its banner text (Complexo Hospitalar Sul, novos equipamentos e mais medicamentos) is said nowhere around it. Hiding an off-screen slide from assistive technology is not a 1.1.1 failure: when the slide becomes current aria-hidden is removed. The element does fail 1.1.1 for another reason the claim does not name: its alt is the placeholder \"Slider 2\" (the block's title field; data-images has alt \"\"), F30, so when shown a screen reader hears \"Slider 2\" instead of the banner text. captureDiffers: the live HTML serves the same seven images, order and slider settings. False positive for the reason named: the checker took a transient carousel state for hidden content."
+    },
+    {
+      "fingerprint": "5f69770053af",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The img is real slide 4 of 7 (div.slick-slide nth 5, not a clone) of an autoplaying slick carousel showing one slide at a time. In the snapshot it is aria-hidden=\"true\" only because slide 1 is current and this one is off-screen (x=3420, clipped by slick-list); the page screenshot, taken at another moment, shows this very slide coming into view with dot 4 active, when slick sets aria-hidden=\"false\" on it. claimTrue: in the capture it is inside aria-hidden and its text (Pague aquele IPVA antigo, Regulariza Amazonas, até 100% de desconto) is not said around it; the quote paraphrases it closely enough. Hiding an off-screen slide is not a 1.1.1 failure. The element fails 1.1.1 for a reason the claim does not name: when shown, its alt is the placeholder \"Slider 3\" (F30), not the banner's text. captureDiffers: the live HTML has the same slides, order and settings. False positive: the claim blames aria-hidden, which is the carousel's correct state for a slide nobody sees."
+    },
+    {
+      "fingerprint": "8b932d320e9a",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The img is real slide 6 of 7 (div.slick-slide nth 7, not a clone) of an autoplaying slick carousel (one slide shown, 3 s). It is aria-hidden=\"true\" in the snapshot because it is off-screen (x=5640, clipped) while slide 1 is current; slick removes aria-hidden when it becomes current, as the screenshot taken at another moment (slide 4 current) shows the rotation. claimTrue: in the capture it is inside aria-hidden and its text (Auxílio Estadual, 300 mil famílias beneficiadas em todo o estado) is not said around it. That hiding is not a 1.1.1 failure. The element fails 1.1.1 for a reason the claim does not name: its alt is the placeholder \"Slider 1\" (F30), so a screen reader gets no equivalent when the slide is shown. captureDiffers: the live HTML has the same images, order and settings. False positive for the reason named."
+    },
+    {
+      "fingerprint": "123d4efd6725",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The img is real slide 2 of 7 (div.slick-slide nth 3, not a clone) of an autoplaying slick carousel. In the snapshot slide 1 is current and this slide is off-screen to its right (x=1200, clipped by slick-list), hence aria-hidden=\"true\"; slick sets aria-hidden=\"false\" when it becomes current (the screenshot, from another moment, shows the carousel already on slide 4). claimTrue: in the capture it is inside aria-hidden and its words (Antes não tinha água potável, saúde modernizada e prato cheio) are not said around it. Hiding an off-screen slide is not a 1.1.1 failure. The element fails 1.1.1 for a reason the claim does not name: its alt is the placeholder \"Slider 1\" (F30), which is what a screen reader hears when the slide is shown. captureDiffers: the live HTML serves the same slides and settings. False positive."
+    },
+    {
+      "fingerprint": "000b0afeb997",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The img sits in div.slick-slide.slick-cloned nth 11: a slick infinite-mode clone of real slide 3 (Telessaúde), one of the 7 post-clones (1 pre-clone + 7 slides + 7 post-clones = 15). Clones are permanently aria-hidden and, with one slide shown and one scrolled at a time, only the first post-clone is ever on screen (briefly, during the wrap); this one is never displayed to anyone. claimTrue: in the capture it is inside aria-hidden and the banner text (Breve 100% do interior equipado com telessalas, Telessaúde) is not said around it. elementFails no: content that is never presented and duplicates a slide that exists in the carousel is correctly hidden; the alternative that matters is the original slide's (its placeholder alt \"Slider 3\" fails 1.1.1 under F30, but that is another element and another reason). captureDiffers: the live HTML has the same slides and settings. False positive: a carousel clone taken for hidden content."
+    },
+    {
+      "fingerprint": "e7d2d84391e8",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The img sits in div.slick-slide.slick-cloned nth 13: a slick infinite-mode clone of real slide 5 (Complexo Hospitalar Sul). Clones are always aria-hidden, and with slidesToShow 1 this clone is never scrolled into view (only the first post-clone shows, briefly, on the wrap from slide 7). claimTrue: in the capture it is inside aria-hidden and its banner text (Complexo Hospitalar Sul, novos equipamentos e mais medicamentos) is not said around it. elementFails no: a never-displayed duplicate hidden from assistive technology meets 1.1.1; the failing element is the original slide, whose alt is the placeholder \"Slider 2\" (F30), a reason the claim does not name in any case. captureDiffers: the live HTML has the same seven images and settings. False positive."
+    },
+    {
+      "fingerprint": "b3aab7ec5e55",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The img sits in div.slick-slide.slick-cloned nth 12: a slick infinite-mode clone of real slide 4 (Regulariza Amazonas / IPVA). Clones stay aria-hidden, and this one is never shown (one slide at a time; only the first post-clone is seen during the wrap). claimTrue: in the capture it is inside aria-hidden and its text (Pague aquele IPVA antigo, Regulariza Amazonas, até 100% de desconto) is not said around it; the quote is a fair paraphrase. elementFails no: a never-displayed duplicate correctly hidden from assistive technology does not fail 1.1.1; the original slide is the element that fails, through its placeholder alt \"Slider 3\" (F30), which the claim does not name. captureDiffers: the live HTML has the same slides and settings. False positive."
+    },
+    {
+      "fingerprint": "3d080aec2d47",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The img sits in div.slick-slide.slick-cloned nth 10: a slick infinite-mode clone of real slide 2 (Antes não tinha / Agora tem). Clones are permanently aria-hidden and this one is never displayed (slidesToShow 1, slidesToScroll 1; only the first post-clone appears, briefly, on the wrap). claimTrue: in the capture it is inside aria-hidden and its words (Antes não tinha água potável, saúde modernizada e prato cheio) are not said around it. elementFails no: a hidden duplicate nobody sees meets 1.1.1; the failure belongs to the original slide, whose alt is the placeholder \"Slider 1\" (F30), not to this clone's hiding. captureDiffers: the live HTML has the same slides and settings. False positive."
+    },
+    {
+      "fingerprint": "ee0b07fe857e",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The img sits in div.slick-slide.slick-cloned nth 14: a slick infinite-mode clone of real slide 6 (Auxílio Estadual). Clones are always aria-hidden and this one never scrolls into view (one slide shown at a time; only the first post-clone is seen on the wrap). claimTrue: in the capture it is inside aria-hidden and its text (Auxílio Estadual, 300 mil famílias beneficiadas em todo o estado) is not said around it. elementFails no: a never-displayed duplicate hidden from assistive technology does not fail 1.1.1; the original slide fails through its placeholder alt \"Slider 1\" (F30), a reason the claim does not name. captureDiffers: the live HTML has the same images, order and settings. False positive."
+    },
+    {
+      "fingerprint": "136403b09bd4",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The img is real slide 3 of 7 (div.slick-slide nth 4, not a clone) of an autoplaying slick carousel. It is aria-hidden=\"true\" in the snapshot because slide 1 is current and this one is off-screen (x=2310, clipped by slick-list); the screenshot, taken at another moment, shows this slide sliding out as slide 4 comes in, so its visibility and aria-hidden rotate together. claimTrue: in the capture it is inside aria-hidden and its text (Breve 100% do interior equipado com telessalas, Telessaúde) is not said around it. Hiding an off-screen slide is not a 1.1.1 failure. The element fails 1.1.1 for a reason the claim does not name: when current, its alt is the placeholder \"Slider 3\" (F30), not the banner's message. captureDiffers: the live HTML serves the same slides, order and settings. False positive."
+    }
+  ]
+}

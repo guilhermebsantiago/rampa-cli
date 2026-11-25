@@ -1,0 +1,17 @@
+{
+  "page": "https://www.westernpeople.ie/news/mayo-womans-london-restaurant-proves-a-hit_arid-20333955.html",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "bb23b5fdd36e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Search' button of the myhome.ie property-search widget in the sidebar (#mh-search). claimTrue: the snapshot records white text (#ffffff, from CSS) on #009cdb, 13px bold, axe reason bgOverlap, 3.098:1; I sampled the screenshot inside the button's bounds and the dominant background is #009cdb with #ffffff glyphs, which computes to 3.10:1, so the sentence holds. elementFails: the live widget stylesheet (media.myhome.ie/cdn/widget/styles.css, loaded by the widget script the live article still embeds) sets #mh-search to background #009cdb !important, color #fff !important, font-weight bold; the text is 13px (at most 16px if it inherited the widget body size), bold, well under the 14pt (about 18.7px) bold threshold for large text, so 1.4.3 requires 4.5:1 and 3.10:1 fails; there is no image or gradient behind the text that could raise it. captureDiffers: the screenshot shows the styled page and widget as a browser renders it, and the live HTML and the widget's live CSS give the same colours and weight, so nothing in the capture differs in a way that touches this claim. The claim names exactly this failure, so true_positive."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "page": "https://www.aosfatos.org/noticias/checagem-de-fatos-pauta-debates-e-mobiliza-reacao-as-mentiras-eleitorais/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "b2ab4a13755e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the article's lead image, a non-linked figure with no caption, above the h1. The crop and the screenshot show the cover art of the newsletter: the words 'O Digital Disfuncional' in large white type over an abstract illustration of heads, eyes, arrows and documents marked with an X. Its alt is the article headline, which is word for word the h1 just below it. claimTrue: yes. The image does not show the headline or anything about fact-checking setting the agenda of debates. elementFails: yes. The image conveys information: it is an image of text naming the newsletter. Its text alternative does not serve the equivalent purpose (G94/G95), because it leaves out that text and the picture, and screen reader users hear the headline twice instead. The newsletter name does appear in the italic note below the byline, but that does not make the image decorative: it is not marked as such (null alt), and a non-null alt that names something else still fails. The claim, read in good faith, points at this defect: the alternative describes something the image does not show and leaves out what it does show. captureDiffers: no. The live HTML fetched on 2026-11-25 has the same img src and alt, with no figcaption, and the screenshot is a fully styled page."
+    },
+    {
+      "fingerprint": "76b13c7de61c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the Projor seal in the footer, the only content of a link to https://atlas.jor.br/vcp/18603, which opens in a new tab. It sits next to the 'Logo Ajor' and 'Selo IFCN' images, which are not links. The image reads 'Veiculo comprometido com o publico', '12', 'Projor'. claimTrue: no. The first half holds, since the image is all the link holds. The second half does not: the alt names the Projor seal, and the link leads to that seal's credential page. The vcp in the href is the seal's programme ('veiculo comprometido com o publico'). I opened the destination: it is the Atlas da Noticia card for Aos Fatos, showing its 'Selo Indicadores de Compromisso - 12/12' and the 12 transparency indicators of the 'Compromissos com o Publico' programme. That is the seal the image shows. elementFails: no. By G82/H30 and the rubric's R2 first test, the alternative read as the link's text names what the destination is about (the seal, the subject of the credential page). So the control has a name that describes its purpose, and 1.1.1 is met on this point. A longer alt that also gave the seal's printed wording or the Atlas da Noticia name, or a new-tab warning, would be better practice but is not required by 1.1.1. captureDiffers: no. The live HTML has the same link, href, target and alt, and the screenshot shows the seal as captured. Cause: Rampa did not read the destination, which settles that the alt names it."
+    }
+  ]
+}

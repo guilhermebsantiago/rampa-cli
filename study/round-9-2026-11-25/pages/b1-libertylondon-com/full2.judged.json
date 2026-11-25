@@ -1,0 +1,739 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://www.libertylondon.com/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "864b00715982",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#login-form-email",
+   "message": "The field \"Email address\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "Email address",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#login-form-email",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input id=\"login-form-email\" type=\"email\" required=\"\" aria-required=\"true\" class=\"form-control required\" aria-describedby=\"form-email-error\" name=\"loginEmail\" value=\"\" placeholder=\"Please enter your email address\" data-cs-mask=\"\">",
+    "after": "<input id=\"login-form-email\" type=\"email\" required=\"\" aria-required=\"true\" class=\"form-control required\" aria-describedby=\"form-email-error\" name=\"loginEmail\" value=\"\" placeholder=\"Please enter your email address\" data-cs-mask=\"\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "4562b2fd8d32",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#login-form-password",
+   "message": "The field \"Password\" asks for the user's current password but does not identify that purpose: autocomplete=\"current-password\" is missing.",
+   "evidence": "Password",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#login-form-password",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "current-password",
+    "before": "<input id=\"login-form-password\" type=\"password\" required=\"\" aria-required=\"true\" class=\"form-control required\" aria-describedby=\"form-password-error\" name=\"loginPassword\" placeholder=\"Please enter your password\" data-cs-mask=\"\">",
+    "after": "<input id=\"login-form-password\" type=\"password\" required=\"\" aria-required=\"true\" class=\"form-control required\" aria-describedby=\"form-password-error\" name=\"loginPassword\" placeholder=\"Please enter your password\" data-cs-mask=\"\" autocomplete=\"current-password\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 16
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.3.1",
+    "ref": "#sg-navbar-collapse > div > div > ul",
+    "ruleId": "aria-required-children",
+    "confidence": "high",
+    "fingerprint": "ae5cb9d5eb81"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#sg-navbar-collapse > div > div > ul > li:nth-of-type(1)",
+    "ruleId": "listitem",
+    "confidence": "high",
+    "fingerprint": "e9843f57aa3d"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#sg-navbar-collapse > div > div > ul > li:nth-of-type(2)",
+    "ruleId": "listitem",
+    "confidence": "high",
+    "fingerprint": "92cde5b1580c"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#sg-navbar-collapse > div > div > ul > li:nth-of-type(3)",
+    "ruleId": "listitem",
+    "confidence": "high",
+    "fingerprint": "c5992b190d50"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#sg-navbar-collapse > div > div > ul > li:nth-of-type(4)",
+    "ruleId": "listitem",
+    "confidence": "high",
+    "fingerprint": "51cd2767ccfa"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#sg-navbar-collapse > div > div > ul > li:nth-of-type(5)",
+    "ruleId": "listitem",
+    "confidence": "high",
+    "fingerprint": "d7229cd867c7"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#sg-navbar-collapse > div > div > ul > li:nth-of-type(6)",
+    "ruleId": "listitem",
+    "confidence": "high",
+    "fingerprint": "0406b7e0effc"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#sg-navbar-collapse > div > div > ul > li:nth-of-type(8)",
+    "ruleId": "listitem",
+    "confidence": "high",
+    "fingerprint": "bd8575593a39"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#sg-navbar-collapse > div > div > ul > li:nth-of-type(9)",
+    "ruleId": "listitem",
+    "confidence": "high",
+    "fingerprint": "531c66c1b0ad"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#sg-navbar-collapse > div > div > ul > li:nth-of-type(10)",
+    "ruleId": "listitem",
+    "confidence": "high",
+    "fingerprint": "fa20ef6a6279"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#sg-navbar-collapse > div > div > ul > li:nth-of-type(11)",
+    "ruleId": "listitem",
+    "confidence": "high",
+    "fingerprint": "4920d6fb5b73"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#sg-navbar-collapse > div > div > ul > li:nth-of-type(12)",
+    "ruleId": "listitem",
+    "confidence": "high",
+    "fingerprint": "0785939012fe"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#sg-navbar-collapse > div > div > ul > li:nth-of-type(13)",
+    "ruleId": "listitem",
+    "confidence": "high",
+    "fingerprint": "ec6c89cecf81"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#sg-navbar-collapse > div > div > ul > li:nth-of-type(14)",
+    "ruleId": "listitem",
+    "confidence": "high",
+    "fingerprint": "5bce628be360"
+   },
+   {
+    "criterion": "1.4.4",
+    "ref": "html > head > meta:nth-of-type(3)",
+    "ruleId": "meta-viewport",
+    "confidence": "high",
+    "fingerprint": "e3b08abfd7cd"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#maincontent > div:nth-of-type(2) > div:nth-of-type(1) > div > aside > div > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "3e1eb5be5d33"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": [
+  {
+   "id": "g-7cb3a1db08d4",
+   "list": "findings",
+   "criterion": "1.3.1",
+   "level": "A",
+   "source": "engine",
+   "check": "listitem",
+   "count": 13,
+   "members": [
+    "e9843f57aa3d",
+    "92cde5b1580c",
+    "c5992b190d50",
+    "51cd2767ccfa",
+    "d7229cd867c7",
+    "0406b7e0effc",
+    "bd8575593a39",
+    "531c66c1b0ad",
+    "fa20ef6a6279",
+    "4920d6fb5b73",
+    "0785939012fe",
+    "ec6c89cecf81",
+    "5bce628be360"
+   ],
+   "example": "e9843f57aa3d"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#\\30 00885739 > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > h5",
+   "message": "The heading \"OUR PLACE\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"OUR PLACE COLLECTION\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#maincontent > div:nth-of-type(2) > div:nth-of-type(4) > h2",
+   "message": "The heading \"UP TO 30% OFF\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Black Friday Offers\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#\\30 00874558 > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > h5",
+   "message": "The heading \"LIBERTY\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Liberty Products\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#\\30 00798996 > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > h5",
+   "message": "The heading \"LIBERTY\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Liberty Collection\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#\\30 00853977 > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > h5",
+   "message": "The heading \"LIBERTY\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Liberty Products\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#\\30 00854147 > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > h5",
+   "message": "The heading \"LIBERTY\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Liberty Products\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#\\30 00853952 > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > h5",
+   "message": "The heading \"LIBERTY\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Liberty Collection\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#\\30 00882264 > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > h5",
+   "message": "The heading \"LIBERTY\" says nothing about the content under it.",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "#maincontent > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(2) > a > div:nth-of-type(1) > h4",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#maincontent > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > a > div:nth-of-type(1) > h4",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#footercontent > div:nth-of-type(1) > div > div > form > div > div > label",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#footercontent > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div:nth-of-type(1) > div > div > div > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#onetrust-policy-text > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#swiper-wrapper-bda3615638a2b17b > div:nth-of-type(1) > div > a > div",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#swiper-wrapper-bda3615638a2b17b > div:nth-of-type(1) > div > a > div > span",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#swiper-wrapper-bda3615638a2b17b > div:nth-of-type(2) > div > a > div",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#swiper-wrapper-bda3615638a2b17b > div:nth-of-type(2) > div > a > div > span",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#swiper-wrapper-bda3615638a2b17b > div:nth-of-type(3) > div > a > div",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#swiper-wrapper-bda3615638a2b17b > div:nth-of-type(4) > div > a > div",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#swiper-wrapper-bda3615638a2b17b > div:nth-of-type(5) > div > a > div",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#maincontent > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(1) > a > div:nth-of-type(1) > h4",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#login-form-email",
+   "source": null,
+   "ruleId": "rampa/placeholder-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#login-form-password",
+   "source": null,
+   "ruleId": "rampa/placeholder-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#maincontent > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(1) > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#login-form-email",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#login-form-password",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#swiper-wrapper-bda3615638a2b17b > div:nth-of-type(1) > div > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "The Hosting Edit",
+    "problem": "wrong_content",
+    "imageShows": "A festive holiday table spread with plates of cookies, wine, and wrapped gifts.",
+    "suggestedAlt": "A festive holiday table spread with cookies, wine, and gifts for The Hosting Edit Christmas Curators Assemble.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#sg-navbar-collapse > div > div > ul > li:nth-of-type(14) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'INSPIRATION' in a navigation menu of shop categories suggests a section for curated ideas or lifestyle inspiration.",
+    "leadsTo": "/uk/features/",
+    "verdict": "fail",
+    "evidence": "INSPIRATION",
+    "problem": "mismatch",
+    "suggestedText": "Features",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#\\30 00703889 > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1)",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'AUGUSTINUS BADER' and its context suggest it leads to a brand page or a specific product by that brand.",
+    "leadsTo": "/uk/the-discovery-duo-2-x-50ml-000703889.html (The Discovery Duo 2 x 50ml)",
+    "verdict": "fail",
+    "evidence": "AUGUSTINUS BADER",
+    "problem": "mismatch",
+    "suggestedText": "The Discovery Duo 2 x 50ml",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#\\30 00885739 > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1)",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'OUR PLACE' combined with the surrounding text suggests it leads to a specific product page or a brand section, but the context is confusing because it is placed next to a specific product name ('Titanium Pro Cookware Set in Gold').",
+    "leadsTo": "/uk/titanium-pro-cookware-set-in-gold-000885739.html",
+    "verdict": "fail",
+    "evidence": "OUR PLACE",
+    "problem": "mismatch",
+    "suggestedText": "Titanium Pro Cookware Set in Gold",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#\\30 00877190 > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1)",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'CARHARTT WIP' and its context suggest it leads to a brand page or a collection of products by Carhartt WIP.",
+    "leadsTo": "/uk/anglistic-knit-sweater-in-speckled-black-000877190.html (a specific product page for an Anglistic Knit Sweater)",
+    "verdict": "fail",
+    "evidence": "CARHARTT WIP",
+    "problem": "mismatch",
+    "suggestedText": "Anglistic Knit Sweater in Speckled Black",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#maincontent > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(2) > a:nth-of-type(6)",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'LIBERTY' under the heading 'Black Friday: up to 30% off, plus up to 20% off Beauty' suggests it leads to a specific promotion or department page for Liberty.",
+    "leadsTo": "https://www.libertylondon.com/uk/department/featured/promotion-event/liberty-promotion-event/",
+    "verdict": "fail",
+    "evidence": "LIBERTY",
+    "problem": "ambiguous",
+    "suggestedText": "Liberty Promotion Event",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#maincontent > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > a > h2",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Black Friday promotion",
+    "verdict": "fail",
+    "evidence": "B…",
+    "problem": "generic",
+    "suggestedText": "Black Friday Sale",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 7,
+   "judged": 7,
+   "failed": 0,
+   "passed": 6,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 2,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 81,
+   "judged": 50,
+   "failed": 0,
+   "passed": 45,
+   "cannotTell": 0,
+   "discarded": 5,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 31
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 65,
+   "judged": 50,
+   "failed": 0,
+   "passed": 41,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 15,
+   "suggested": 8
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 0,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "The page was cut at 5000 elements, the collector's limit: what comes after them is not in the snapshot, so the checks that read the snapshot (Rampa's rules and judged criteria) did not run past that point. Checked only up to the cut: 1.1.1, 1.3.5, 1.4.4, 2.4.2, 2.4.4, 2.4.6, 3.1.1, 3.1.2, 4.1.2. axe-core read the whole page.",
+  "A layer lay over the viewport when the page was read (div, on top at 89% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "20 image(s) were left without a capture, so no judgment looked at them: 14 covered where it sits by other content, such as a popup or a cookie banner; 6 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 31 of 81 for 2.4.4, 15 of 65 for 2.4.6. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 113,
+  "cachedCalls": 0,
+  "inputTokens": 100904,
+  "outputTokens": 10352,
+  "latencyMs": 325717
+ },
+ "timings": {
+  "totalMs": 167085,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 34
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 11412,
+    "prepareMs": 0,
+    "candidates": 7,
+    "judged": 7,
+    "calls": 7,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2495,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1239,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 86860,
+    "prepareMs": 0,
+    "candidates": 81,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 61958,
+    "prepareMs": 0,
+    "candidates": 65,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 177,
+    "prepareMs": 174,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 2853,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 3,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 4,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 53
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "overlay": {
+   "selector": "div",
+   "coverage": 0.89,
+   "hidden": true
+  },
+  "cut": {
+   "elements": 5000
+  },
+  "images": {
+   "captured": 11,
+   "notCaptured": 20,
+   "reasons": {
+    "covered": 14,
+    "limit": 6
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 81,
+    "capped": 31
+   },
+   {
+    "criterion": "2.4.6",
+    "candidates": 65,
+    "capped": 15
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "overlay": {
+    "selector": "div",
+    "coverage": 0.89,
+    "hidden": true
+   }
+  },
+  "fast": null
+ }
+}

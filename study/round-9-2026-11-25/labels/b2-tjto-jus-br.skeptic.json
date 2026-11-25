@@ -1,0 +1,55 @@
+{
+  "page": "https://www.tjto.jus.br/ouvidoria",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "17c32774d87a",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The image is the only content of the first visible news card's image link, which has no title and leads to the story 'Ouvidor nacional de Justiça reforça atuação proativa e acessível das ouvidorias judiciais'. The first half of the claim holds. The second half does not: the alternative names the national ombudsman, Marcello Terto e Silva, giving a lecture at the IV Encontro de Ouvidores e Ouvidoras Judiciais da Região Norte. I opened the destination article live, and it is the report of exactly that lecture (the keynote he gave at that event). Read as the link's text, the alternative names the story's subject, so by the rubric's R2 first test (G82) it lets users tell where the link goes. H30 does not require the destination's name, and Understanding 2.4.4 says other things may describe the purpose. The extra photo detail (the microphone, the judge seated on stage) is wordy but is not a failure. The live HTML sends the same alt in the same image-only link, so the capture does not differ. The checker required the alternative to state the destination itself rather than name its subject, which is stricter than the criterion."
+    },
+    {
+      "fingerprint": "6144211052c9",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the read-more link of the second visible news card. Its aria-label 'Leia mais...' becomes its name, and it leads to '“Saber ouvir tornou-se uma competência indispensável”, destaca presidente do TJTO na abertura de encontro de ouvidorias da Região Norte'. Chrome's tree exposes exactly three links named 'Leia mais...': the other slides and the slick clones are aria-hidden. The three go to three different, non-equivalent stories, so the claim holds. I looked for context that tells them apart and found none: no link has a title or aria-describedby. The headline is a separate link in a sibling span inside a div, not in the same sentence, paragraph, list item or table cell. The date line is a separate paragraph. The only heading before the links is the shared h3 'NOTÍCIAS'. Each slide carries role=option inside a listbox, and the option's computed name includes the headline, but an option is not one of the context sources the rubric admits. Visually, each card's headline and photo tell the three links apart, so by R1 every link of the set fails 2.4.4. The live HTML has the same aria-label on every read-more link and the same card markup, so the capture does not differ. Only the headline, a visual label outside the link's context, would explain the link."
+    },
+    {
+      "fingerprint": "bb393ebe55ab",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the read-more link of the third visible news card. Its aria-label 'Leia mais...' becomes its name, and it leads to 'TJTO prorroga inscrições para o Conselho de Usuários até 30 de setembro'. Chrome's tree exposes exactly three links named 'Leia mais...' (the other slides and the clones are aria-hidden), and they go to three different, non-equivalent stories, so the claim holds. Nothing in the rubric's context tells them apart: no link has a title or aria-describedby. The headline is a separate link in a sibling span inside a div, not in the same paragraph, list item or cell. The heading before the links is the shared h3 'NOTÍCIAS'. The listbox option's computed name is not an admitted context source. Visually, the headline and photo tell the cards apart, so by R1 the set fails 2.4.4 and so does this link. The live HTML is the same, so the capture does not differ. Only the headline, a visual label outside the link's context, would explain the link."
+    },
+    {
+      "fingerprint": "88c36fef67af",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The page is the introduction page of the Ouvidoria Judiciária do Tocantins, and its title is just 'Apresentação', the same as its h1. Taken literally the claim overstates: the word does say that the page is an introduction. But the title names neither the Ouvidoria nor the court, so it does not identify the page's topic and makes no sense out of context (Understanding 2.4.2). I fetched other section landing pages on the live site. At least seven carry the same title: Ouvidoria da Mulher, COGERSA, LGPD (in capitals), GMF, CEPEMA, NUPEMEC and Infância e Juventude. So the title cannot tell this page from them, the situation of F25's second example. I checked for a reason it passes: WCAG does not require the site's name, but this title lacks the topic itself, not only the site. The live page sends the same title, so the capture does not differ. Read in good faith, the claim names this failure."
+    },
+    {
+      "fingerprint": "45583fe61f2d",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of the second visible card's image link, which has no title and leads to '“Saber ouvir tornou-se uma competência indispensável”, destaca presidente do TJTO na abertura de encontro de ouvidorias da Região Norte'. Its alt is the image's file path with a Joomla fragment, and the link takes it as its name. That text neither describes the picture nor names the story or destination, so the control's name does not describe its purpose. This fails H30, and a filename used as the alternative is F30's failure. I looked for a reason it passes and found none. The link has no title, and the headline beside it is a separate control, which by R2 does not cure 1.1.1. The live HTML sends the same alt, so the capture does not differ."
+    },
+    {
+      "fingerprint": "36c24a74c351",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] This is the read-more link of the first visible news card. Its aria-label 'Leia mais...' becomes its name, and it leads to 'Ouvidor nacional de Justiça reforça atuação proativa e acessível das ouvidorias judiciais'. Chrome's tree exposes exactly three links named 'Leia mais...' (the other slides and the clones are aria-hidden), and they go to three different, non-equivalent stories, so the claim holds. Nothing in the rubric's context tells them apart: no link has a title or aria-describedby. The headline is a separate link in a sibling span inside a div, not in the same paragraph, list item or cell. The heading before the links is the shared h3 'NOTÍCIAS'. The listbox option's computed name is not an admitted context source. Visually, the headline and photo tell the cards apart, so by R1 the set fails 2.4.4 and so does this link. The live HTML is the same, so the capture does not differ. Only the headline, a visual label outside the link's context, would explain the link."
+    },
+    {
+      "fingerprint": "1b28355db87c",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of the third visible card's image link, which has no title and leads to 'TJTO prorroga inscrições para o Conselho de Usuários até 30 de setembro'. Its alt accurately describes a stock photo of the TJTO building's facade. It says nothing about the story (the Conselho de Usuários or the registration deadline), so read as the link's text it does not let users tell where the link goes: a photo of the court building could go with any court news. By R2, the headline link beside it does not cure 1.1.1 for an image that is a link's only content (H30). The live HTML sends the same alt and markup, so the capture does not differ."
+    }
+  ]
+}

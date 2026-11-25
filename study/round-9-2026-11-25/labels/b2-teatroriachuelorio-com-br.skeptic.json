@@ -1,0 +1,160 @@
+{
+  "page": "https://teatroriachuelorio.com.br/contato/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "9cecc3f20f5d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The floating link (a.m2br-wa-float, aria-label \"Falar no WhatsApp — (21) 99571-1987\") is a 56px circle with background #25D366 holding only the white WhatsApp glyph (the standard WhatsApp path); live CSS matches the capture (color #fff, background #25D366), so white on #25D366 is 1.98:1 and the glyph is all the control shows: the claim is true of the capture. Skeptic reason: this is the WhatsApp brand logo in the brand's own colours. Understanding 1.4.11 says brand logos \"presented in the brand's specific colors\" fall under the essential exception and that \"normatively the exemption 'carries over' to the user interface component\"; authors are \"encouraged (but not required)\" to add a contrasting aspect. The author-choice clause does not apply, because this is how the logo is normally presented. By that reading the link meets 1.4.11. Auditors who apply G207 to any icon-only control, or who treat the green circle as the author's button background and not part of the logo, would fail it, so competent auditors would reasonably disagree. In the capture and live, the float sits under the cookie banner until cookies are accepted; after that it shows with the same colours, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "a6a95efb2f8a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter \"Email\" field in the footer (input type=email name=email, placeholder \"Email *\", hidden label \"Email*\"). The capture has no autocomplete attribute, and its formIssues hold Chromium's FormInputAssignedAutocompleteValueToIdOrNameAttributeError, so the whole claim, including the Chromium note, is true. The field collects the user's own email for the newsletter sign-up. I loaded the live page in a real Chromium browser (Edge, 1280x800): the field still has no autocomplete attribute, and neither does its form, so nothing has changed since the capture. 1.3.5 asks that the purpose of a field collecting information about the user be programmatically determinable; the sufficient technique is H98 (autocomplete with the matching token). The input type and the name attribute are not autocomplete tokens and only feed browser heuristics; they do not identify the purpose under the criterion. I found no technique that would make the field pass, so the failure holds and the claim names it."
+    },
+    {
+      "fingerprint": "4e688cf1d314",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Contact form \"Telefone*\" field (input type=tel name=personal_phone, visible label \"Telefone*\"). The capture has no autocomplete attribute, and the claim does not mention a Chromium issue, so it is true as worded. The field asks for the user's own phone number (token tel or tel-national). I loaded the live page in a real Chromium browser (Edge, 1280x800): the field still has no autocomplete attribute, and neither does its form, so nothing has changed since the capture. 1.3.5 asks that the purpose of a field collecting information about the user be programmatically determinable; the sufficient technique is H98 (autocomplete with the matching token). The input type and the name attribute are not autocomplete tokens and only feed browser heuristics; they do not identify the purpose under the criterion. I found no technique that would make the field pass, so the failure holds and the claim names it."
+    },
+    {
+      "fingerprint": "5a06d42db2f5",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"OpenStreetMap\" link in the Leaflet attribution (11px, weight 400) over the map. Skeptic check: the snapshot shows the rule took the foreground from rendered pixels (#50a2bc), an anti-aliased tint. Understanding 1.4.3 says to use the colours from the user agent or stylesheets \"rather than the text as presented on screen\", so the stated 3.59:1 and #50a2bc are wrong, and claimTrue is no. Live (unchanged: same tiles and CSS), the link colour is #0078A8 on the attribution's rgba(255,255,255,0.7) over the tiles. With the text hidden, the background under the word is mostly #e7f1e2, which gives 4.25:1 (some pixels 3.95:1); only the end of the word reaches 4.73 to 4.80:1. Most of the characters are below 4.5:1, so the text fails 1.4.3 with its real colour. The attribution is an active link drawn over the map, not text that is part of the picture, so the incidental exception does not apply. The claim's numbers are off, but it points at the real defect (insufficient text contrast), so it is a true positive."
+    },
+    {
+      "fingerprint": "4a967b587ef9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter \"Nome\" field in the footer (input type=text name=name, placeholder \"Nome *\", hidden label \"Nome*\"). The capture has no autocomplete attribute, and its formIssues hold Chromium's FormInputAssignedAutocompleteValueToIdOrNameAttributeError, so the claim, including the Chromium note, is true. The field asks for the user's own name (token name). I loaded the live page in a real Chromium browser (Edge, 1280x800): the field still has no autocomplete attribute, and neither does its form, so nothing has changed since the capture. 1.3.5 asks that the purpose of a field collecting information about the user be programmatically determinable; the sufficient technique is H98 (autocomplete with the matching token). The input type and the name attribute are not autocomplete tokens and only feed browser heuristics; they do not identify the purpose under the criterion. I found no technique that would make the field pass, so the failure holds and the claim names it."
+    },
+    {
+      "fingerprint": "fed837d52cc7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Contact form \"Email*\" field (input type=email name=email, visible label \"Email*\"). The capture has no autocomplete attribute, and its formIssues hold Chromium's FormInputAssignedAutocompleteValueToIdOrNameAttributeError, so the claim is true. The field asks for the user's own email (token email). I loaded the live page in a real Chromium browser (Edge, 1280x800): the field still has no autocomplete attribute, and neither does its form, so nothing has changed since the capture. 1.3.5 asks that the purpose of a field collecting information about the user be programmatically determinable; the sufficient technique is H98 (autocomplete with the matching token). The input type and the name attribute are not autocomplete tokens and only feed browser heuristics; they do not identify the purpose under the criterion. I found no technique that would make the field pass, so the failure holds and the claim names it."
+    },
+    {
+      "fingerprint": "6360b0f22dc8",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "One 256px OpenStreetMap tile (alt=\"\") among the nine Leaflet tiles of the \"Onde estamos?\" map. The crop shows map labels including \"Teatro Riachuelo\" and part of \"Rua do Passeio\". The claim says the image conveys what the surrounding text does not, but the text next to the map (in the element's own ancestor text) gives \"Onde estamos? Rua do Passeio 38/40, Centro, Rio de Janeiro – RJ\" on the Teatro Riachuelo site, so claimTrue is no. A single tile is a fragment of a composite map; the map's purpose, where the theatre is, is given in adjacent text, so an empty alt on the tile is right, and the tile does not fail 1.1.1. Live, the same tiles load with alt=\"\", so nothing differs. The model had the address text in context and judged wrongly."
+    },
+    {
+      "fingerprint": "ff519f3f0e84",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Newsletter \"Nome\" input: its <label for> \"Nome*\" is display:none, and the only visible label is the placeholder \"Nome *\". The capture's CDP name is \"\", so the claim is true of the capture. Live in a real Chromium browser (Edge), the computed name is again \"\": Chromium takes the hidden label as the name source, giving an empty string, and marks the placeholder \"superseded\". So in Chromium the field has no accessible name, which fails 4.1.2. Skeptic reason that partly holds: HTML-AAM says that if the name \"is still empty\" after the label and title steps, the placeholder is used, which would give \"Nome *\". ACT rule e086e5 (Passed Example 5) accepts a placeholder as the name, axe-core passes a non-empty placeholder, and screen readers often announce a placeholder exposed as a hint. Whether the field fails therefore depends on whether one judges Chromium's exposed name or the spec's computation, and competent auditors would reasonably disagree. (The hidden label also bears on 3.3.2, but that is not this finding.)"
+    },
+    {
+      "fingerprint": "f7d679effdcc",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The \"Leaflet\" attribution link (11px, weight 400, title \"A JavaScript library for interactive maps\") over the map. The rule took its foreground from anti-aliased pixels (#7bbccd, foregroundFrom \"pixels\"); Understanding 1.4.3 says to use the specified colours, not the text as rendered. With the real link colour #0078A8 on the attribution's rgba(255,255,255,0.7) over the tiles (live, unchanged), the background under most of the word is #effef0, which gives 4.73:1 and passes. So \"at most 4.15:1\" is false (claimTrue no), and the claim's worst case comes from the flag icon and map features. However, the last letter or so sits on a #e7f1e2 patch (4.25:1), with a few map-feature pixels lower. With the text mostly passing and a sliver below 4.5:1 on a varied map background (the ACT rule says there is \"no clear method\" when some pixels pass and others do not), whether the link fails cannot be settled, and auditors would disagree."
+    },
+    {
+      "fingerprint": "f54877376766",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Another 256px OpenStreetMap tile (alt=\"\") of the same Leaflet map. Its crop shows a bus-stop label \"Ponto Regulador: Linha 247\" and nearby streets, which the surrounding text indeed does not mention, so the sentence is true as worded. But the tile is one fragment of a composite map whose purpose, locating the theatre, is given in adjacent text (\"Onde estamos? Rua do Passeio 38/40, Centro, Rio de Janeiro – RJ\"). 1.1.1 does not require a text alternative to list every incidental landmark on a base map tile, so the empty alt is right and the tile does not fail. Live, the same tiles load with alt=\"\"."
+    },
+    {
+      "fingerprint": "f8980dc60c15",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter \"Nome\" input: placeholder \"Nome *\" at 14px, weight 400. The snapshot has the foreground from CSS (#757575) on the field background #f4f4f4, and live computed styles match (::placeholder rgb(117,117,117), background rgb(244,244,244)); I computed 4.19:1, below the 4.5:1 needed. Understanding 1.4.3 explicitly includes placeholder text, and here the placeholder is the only visible label because the <label> is display:none, so it is not incidental. Even if #757575 were the browser default, the author set the field background (F24). Nothing makes it pass."
+    },
+    {
+      "fingerprint": "556d8a9535c3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter \"Email\" input: placeholder \"Email *\" at 14px, weight 400, #757575 on #f4f4f4, per the snapshot (CSS foreground) and live computed styles; 4.19:1 against the 4.5:1 required. Understanding 1.4.3 explicitly covers placeholder text, and this placeholder is the only visible label (the <label> is display:none), so it is not incidental; if the colour were a browser default, the author-set background still makes the pair the author's responsibility (F24). The element fails as claimed."
+    },
+    {
+      "fingerprint": "7fe4215af343",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Newsletter \"Email\" input: its <label for> \"Email*\" is display:none, and the visible label is only the placeholder \"Email *\". The capture's CDP name is \"\", and live in Edge (Chromium) it is again \"\", with the placeholder marked \"superseded\" behind the empty hidden label, so the claim is true and Chromium users' assistive technology gets no name. Skeptic reason that partly holds: HTML-AAM says to use the placeholder when the name \"is still empty\" after the label and title, which would make the name \"Email *\". ACT e086e5 (Passed Example 5) treats a placeholder as an accessible name, axe-core passes it, and screen readers often read the placeholder as a hint. Judging by Chromium's exposed name, it fails 4.1.2; judging by the mapping spec, it passes. Competent auditors would reasonably disagree."
+    },
+    {
+      "fingerprint": "2302848cf030",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Contact form \"Nome*\" field (input type=text name=name, visible label \"Nome*\"). The capture has no autocomplete attribute, and its formIssues hold Chromium's FormInputAssignedAutocompleteValueToIdOrNameAttributeError, so the claim is true. The field asks for the user's own name (token name). I loaded the live page in a real Chromium browser (Edge, 1280x800): the field still has no autocomplete attribute, and neither does its form, so nothing has changed since the capture. 1.3.5 asks that the purpose of a field collecting information about the user be programmatically determinable; the sufficient technique is H98 (autocomplete with the matching token). The input type and the name attribute are not autocomplete tokens and only feed browser heuristics; they do not identify the purpose under the criterion. I found no technique that would make the field pass, so the failure holds and the claim names it."
+    }
+  ]
+}

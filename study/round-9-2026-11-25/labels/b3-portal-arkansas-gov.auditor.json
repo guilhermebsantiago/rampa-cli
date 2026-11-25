@@ -1,0 +1,41 @@
+{
+  "page": "https://portal.arkansas.gov/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "1cf981c0aa9d",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the chevron icon link (aria-label \"Discover More\", tabindex=-1) at the end of the \"visit us in / The Natural State\" section, pointing to https://www.arkansas.com/, the state tourism site; a text link \"Discover More\" inside the next h2 goes to the same address. The link text alone is generic, but the heading just before it in document order is the h2 \"The Natural State\" (preceded by the h2 \"visit us in\"), so the link reads as \"discover more about visiting the Natural State\", which is what the tourism site offers; Understanding 2.4.4 does not require naming the site. So the claim's \"nothing around it does\" is false of the capture, and the link meets 2.4.4 with its heading context. No other link in the accessibility tree shares the name with a different destination (the mega-menu \"Discover More\" links are hidden; the visible twin goes to the same URL). The live HTML fetched today has the same section, heading order and markup as the snapshot and the screenshot, so the capture does not differ. Rampa had the heading in its context and judged wrongly."
+    },
+    {
+      "fingerprint": "4b18eaa4bd66",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the theme skip link \"Skip to Content\" (href #content), visually hidden until focus, next to \"Skip to Navigation\". Three links in the accessibility tree share the name ignoring case: this one and the WordPress \"Skip to content\" (both #content) and the accessiBe widget's \"Skip to Content\" (#acsbContent); none has a title, description, heading before it or other listed context, so they form one set, and their hrefs are two different fragments, so the claim is true of the capture. Under R1 (ACT fd3a94) the set passes: all three resolve to the same page and serve the same purpose, skipping to the main content (accessiBe's data-acsb-skip-link=\"content\" link moves to the content it detects), and nothing visible tells them apart, since each shows only \"Skip to Content\" when focused. So the link meets 2.4.4. The live HTML has the same two theme skip links and loads the same accessiBe script, so the capture does not differ. Rampa treated a different in-page fragment with the same purpose as a different place."
+    },
+    {
+      "fingerprint": "6045ccdac992",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the WordPress theme skip link \"Skip to content\" (class skip-link screen-reader-text, href #content), visually hidden until focus. It shares its name, ignoring case, with the theme's \"Skip to Content\" (#content) and accessiBe's \"Skip to Content\" (#acsbContent); no listed context tells them apart and the hrefs are two fragments, so the claim is true of the capture. Under R1 the pair with the other #content link is the same resource, and the pair with accessiBe's link is the same page with an equivalent purpose (skip to the main content); nothing visible distinguishes them either. The link meets 2.4.4. The live HTML has the same skip links and the same accessiBe loader, so the capture does not differ. Rampa read two fragments of the same page with the same purpose as two different places."
+    },
+    {
+      "fingerprint": "cb53d5d07c16",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the accessiBe overlay's skip link \"Skip to Content\" (href #acsbContent, data-acsb-skip-link=\"content\", inside the \"Skip Links\" region in the widget's shadow DOM; the \"ENTER\" hint is aria-hidden, so the browser name is \"Skip to Content\"). It shares its name with the theme's two skip links to #content, with no listed context to tell them apart, and its fragment differs from theirs, so the claim is true of the capture. Under R1 the links still pass: they go to the same page and serve the same purpose, skipping to the main content, and no visual information on the page tells a user they lead to non-equivalent places. The link meets 2.4.4. The live page loads the same accessiBe script (the widget is injected by script, so a raw fetch shows only its loader) and the same theme skip links; no difference touches this claim."
+    },
+    {
+      "fingerprint": "d15f025263eb",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is the \"Find out more\" button link (shown uppercase) of the Mobile ID slide in the hero carousel, pointing to the DFA Mobile ID page. The carousel's markup puts all ten slide headings in one group, all descriptions in a second and all buttons in a third, so in document order the heading just before this link is \"AR ABLE\", and the Mobile ID description is a separate paragraph in another container; the link has no title, aria-label or aria-describedby. Nothing in its counted context says Mobile ID, so \"Find out more\" does not give its purpose, and it fails 2.4.4; the claim names that. Only the visual layout, the \"Mobile ID\" heading shown above the button when that slide is active, would explain it. The live HTML fetched today has the same grouping and order (headings Real ID to AR ABLE, then the buttons, with this link unchanged), so the capture does not differ; the inactive slides are moved offscreen, not hidden, so the link stays in the accessibility tree."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "page": "https://www.carmensteffens.com.br/acess%C3%B3rios/acessorios-vertodos",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "2c6c89846995",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter strip's e-mail input in the footer (input type=email, placeholder \"E-mail\", no label, no aria-label), so the placeholder is its only visible label. The snapshot records the placeholder colour #999999 from CSS on the strip's #e4e4e4 background, 14px weight 400; I measured the screenshot pixels myself (glyph cores #999999 on #e4e4e4) and get 2.24:1, below the 4.5:1 that 1.4.3 asks for normal-size text. Reasons it could be wrong do not hold up: the field is active, so the inactive-component exception does not apply; the text is not incidental or a logo; it is not large text; the colour is the author's, not a browser default. The live page refused my automated fetches (HTTP 403 and connection reset), so I could not compare it; the capture is a fully styled render with web fonts, layout and a consent prompt, with no sign of a bot version, so I judge from it."
+    },
+    {
+      "fingerprint": "b1756ba4ded0",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter sign-up e-mail input (\"Cadastre seu e-mail e receba nossas novidades\"), which collects the visitor's own e-mail address, one of the input purposes listed for 1.3.5. Its captured HTML is <input type=\"email\" class=\"NewsletterStrip__Input\" placeholder=\"E-mail\" value=\"\">, with no autocomplete attribute, and the snapshot was taken after scripts ran. I looked for a technique that makes it pass: type=\"email\" gives the data format, not the purpose (it does not say the address is the user's own), and H98 (autocomplete) is the sufficient technique, which is absent. So the purpose cannot be programmatically determined and the field fails 1.3.5, which is what the claim says. The live page refused automated fetches (HTTP 403, connection reset), so captureDiffers is cannot_tell; nothing in the capture suggests it differs from what users get."
+    },
+    {
+      "fingerprint": "b4b790b2ce3c",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter strip's name input (input type=text, placeholder \"Nome\", no label), so the placeholder is the field's only visible label. The snapshot records placeholder colour #999999 (from CSS) on #e4e4e4, 14px weight 400, and my own pixel reading of the screenshot gives #999999 glyphs on #e4e4e4, 2.24:1, below 4.5:1 for normal text. No exception applies: the field is active, the text conveys the field's purpose, it is not large text, and the colour is the author's. The live page refused automated fetches (HTTP 403, connection reset), so I could not compare it; the capture is a normal styled render with no sign of a bot version, so I judge from it."
+    },
+    {
+      "fingerprint": "cb02db651e59",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter sign-up \"Nome\" input, which collects the subscriber's own name, a listed 1.3.5 input purpose (name, or given-name if it takes only a first name). Captured HTML: <input type=\"text\" class=\"NewsletterStrip__Input\" placeholder=\"Nome\" value=\"\">, with no autocomplete attribute and nothing else that identifies the purpose programmatically. Whether the right token is name or given-name does not change the failure the claim points at, a missing autocomplete. It fails 1.3.5 as claimed. The live page refused automated fetches (HTTP 403, connection reset), so captureDiffers is cannot_tell; the capture shows a real post-script render."
+    },
+    {
+      "fingerprint": "00d121097091",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the category page's hero banner (img Header_Desktopcs.png, alt \"Carmen Steffens\", not inside a link). The crop and the screenshot show a photo of a woman's feet in nude strappy flat sandals with jewelled gold starfish ornaments, with no text or logo in it; the live image file (1440x405, same aspect as the 1280x360 bounds, so nothing is cropped away) confirms there is no text. The alt only names the brand, which the header logo right above already gives, so it says nothing of what the picture shows: the claim is true of the capture. As a skeptic I tested the possible passing readings. If the banner is decorative mood imagery (it shows sandals on the Accessories page), 1.1.1 requires it to be ignorable by assistive technology, and a non-null alt is not (F39). If it is informative, the alt does not describe it. Reading the brand name as the image's equivalent purpose does not hold, because the photo carries no brand mark. So it fails either way, and the claim points at the alternative not matching the image. The live page refused automated fetches (HTTP 403, connection reset), so I could not compare the live alt; the image asset is still served unchanged (Last-Modified 2026-10-27)."
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "page": "https://aborlccf.org.br/publicado-edital-do-exame-de-suficiencia-para-obtencao-do-titulo-do-certificado-de-area-de-atuacao-em-foniatria/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "69e27e6c72e6",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The X share link (aria-label \"X\") holds only an SVG of the X logo, filled with currentColor (#fff) on a 30px circle that the Bricks theme rule .brxe-post-sharing.brand-colors .twitter paints #4cc2ff. The screenshot shows exactly that, and white on #4cc2ff is 2.01:1, so the claim holds. The glyph is the only thing that identifies the control, and the adjacent colour is the circle. The circle is 1.9:1 against the #fbfbfb page, so it does not identify the link either. Understanding 1.4.11 exempts logos shown in their brand's colours but says a logo given a low-contrast presentation by the author's choice is not exempt. The X logo is black or white, and this light blue (not even Twitter's old #1da1f2) is a theme choice, so the icon fails 3:1, as the claim says. The live HTML and the theme CSS (fetched today) match the capture."
+    },
+    {
+      "fingerprint": "046b6688eb6e",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The Email share link (mailto:, aria-label \"Email\") shows only a white envelope icon on a circle painted var(--bricks-text-light) = #9e9e9e. That is 2.68:1, as claimed, and the screenshot matches. The envelope is a generic icon, not a logo, so no exemption applies. It is the only visual information that identifies the control, and the grey circle is only 2.57:1 against the page. The link fails 1.4.11 for the reason the claim gives. The live HTML and CSS are the same as in the capture."
+    },
+    {
+      "fingerprint": "44bb69323b22",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The Telegram share link shows only a white paper-plane glyph on a #54a9eb circle (theme CSS, confirmed live and in the screenshot). I compute 2.54:1, within rounding of the claimed 2.55, so the claim is true of the capture. A white plane on a blue disc is Telegram's own logo. Its official blues give white about 2.6 to 3.0:1, so the logo is low contrast in its brand colours too, not by the author's choice. Understanding 1.4.11 exempts logos under the essential exception and says the exemption normatively carries over to a component whose only content is the logo. That makes me lean towards a pass. The same document calls logos as controls problematic, though, and many auditors fail low-contrast share icons as user interface components. Competent auditors would reasonably disagree, so the label is uncertain. The capture matches the live page."
+    },
+    {
+      "fingerprint": "d03a100a083e",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The WhatsApp share link shows only the white WhatsApp glyph on a #25d366 circle. That is 1.98:1, as claimed, and the theme CSS and screenshot confirm it. #25d366 is WhatsApp's own brand green, and white on that green is the brand's app-icon presentation, so the low contrast comes from the brand, not from the author. Understanding 1.4.11 exempts logos in their brand colours, and that exemption carries over to a control whose only content is the logo. So I lean towards a pass, while noting that the same document recommends a higher-contrast variant for logos used as controls. Many auditors still fail such share icons under 1.4.11, so competent auditors would reasonably disagree, and the label is uncertain. The live page matches the capture."
+    },
+    {
+      "fingerprint": "703a232ea570",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The Bluesky share link shows only a white butterfly glyph on a circle that the theme paints #0af (.brxe-post-sharing.brand-colors .bluesky), as in the screenshot. White on #0af is 2.56:1, so the claim holds. This blue is the Bricks theme's choice, not Bluesky's brand blue (about #1185fe, from general knowledge; I did not check a brand source). White on the brand blue gives 3.6:1. Understanding 1.4.11 says a logo given a low-contrast presentation by the author's choice is not exempt, so the logo exemption does not cover this icon. The icon is the only visual information that identifies the control, and the circle is 2.46:1 against the page. The link fails 3:1 as claimed. The live HTML and CSS match the capture."
+    },
+    {
+      "fingerprint": "174269521e3d",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Início\" is the first breadcrumb link (nav aria-label breadcrumbs, .aborl-breadcrumb). The live CSS sets it to 14px, weight 400, colour rgba(255,255,255,.75) !important, over the hero's linear-gradient(90deg, #0063A4, #00426D). Screenshot pixels behind the word are #0061a1 to #0063a3. Blending the 75% white over those colours gives 4.28 to 4.39:1, below the 4.5:1 that 1.4.3 requires for normal-size text, which matches Rampa's 4.29 to 4.37. The text is a working link, neither incidental nor a logotype, so it fails 1.4.3 for the reason the claim gives. The live page has the same markup and styles as the capture."
+    }
+  ]
+}

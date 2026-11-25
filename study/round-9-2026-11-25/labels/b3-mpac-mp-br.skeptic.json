@@ -1,0 +1,39 @@
+{
+  "page": "https://www.mpac.mp.br/atendimento-ao-cidadao/ouvidoria/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "c8d87715add4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search form's submit button, whose only visible content is a Font Awesome magnifier icon (class text-accent-500); it has no text and no own background or border. The theme's Tailwind CSS on the live site sets .text-accent-500 to rgb(147 149 152) = #939598 and the form's .bg-zinc-50 to rgb(250 250 250) = #fafafa; I recomputed the ratio as 2.88:1, below 3:1, so the claim is true of the capture and of the CSS (not an anti-aliasing artefact). The screenshot crop shows the same light-grey icon inside the near-white search box. Skeptic checks that did not hold up: the button is not inactive and its look is author-styled; the form's zinc-200 border only outlines the whole search box and does not show that a separate button exists, so the icon is the visual information required to identify the control (Understanding 1.4.11, G207); pressing Enter in the field is no exemption; the site's high-contrast toggle (accessibility.js adds a dark class) is not on by default and is not shown to be a fully conforming alternate version (the same pages share a non-descriptive title, for one). The live HTML and CSS match the capture, so captureDiffers is no. The claim names this failure."
+    },
+    {
+      "fingerprint": "fa5ac1c329b2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the header search text field (id=searchform, name=s, placeholder 'O que você procura?'). The 'Busca' label next to it in the DOM is <label for=\"s\" class=\"sr-only\">: its for points at a non-existent id, so it is indeed not tied to the field, and the field's computed name comes from the placeholder; the sentence holds of the capture in DOM terms (claimTrue yes), though 'sits beside' suggests a visible label, which it is not. The snapshot records the label as 1x1 px with shown 0, the Tailwind sr-only class clips it, and the screenshot shows no 'Busca' text. 1.3.1 asks that information and relationships conveyed through presentation be programmatically determinable; a visually hidden label conveys no visual relationship, and the only visible cues (the placeholder text and the magnifier button) are exposed, the placeholder being the field's accessible name. F68, the failure for unassociated labels, is mapped to 4.1.2, not 1.3.1, and the field has a name there. So the field does not fail 1.3.1 for this reason; a placeholder-only visible label is at most a 3.3.2 question, which the claim does not raise. The live HTML matches the capture. The rule had the data showing the label is hidden and still reported it."
+    },
+    {
+      "fingerprint": "81024d4adee4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The page is the Ouvidoria-Geral page (h1 'Ouvidoria-Geral', breadcrumb Início / Atendimento ao Cidadão / Ouvidoria-Geral), but its title is only the organisation's name, 'Ministério Público do Estado do Acre'. Fetching the live page, the home page and the Atendimento ao Cidadão page with curl returns that same <title> on all three, and the page has no script that rewrites document.title; the snapshot, taken in a browser after scripts ran, records the same title, so the capture does not differ. A title that is only the site name, shared by every templated page, does not identify this page's topic or purpose: that is F25 ('the title of a Web page not identifying the contents', whose example is a template site where all pages have the same title). No skeptic reason holds up: there is no other title source, and naming the site alone does not describe a subpage. The claim, read in good faith, names this failure."
+    }
+  ]
+}

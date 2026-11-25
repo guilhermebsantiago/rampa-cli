@@ -127,3 +127,22 @@ pushing only the pre-registration before collection); results stay local.
        prompts (62 packets x auditor and skeptic), 340 items. audit-prompts/index.json: 6 prompts. Every packet and
        audit-packet folder holds its snapshot and screenshot. Index paths and counts sent to the main session, which
        launches the judges and the auditors.
+05:45  T4 (optional, pre-registration section 10): the machine is free while the judges label, so it runs, on the 12-page
+       subset: full2..full5, then fast2..fast5 (run-judged.sh), each from its own empty cache; it touches neither packets/
+       nor labels/. The decision rests on time only (no result of this round had been looked at).
+06:26  The main session reported every label (124 files) and the six recall audits written. T4 was still running (full2
+       done on the 12 pages, full3 on 7, 06:26): its pre-registered window ("while the judges label") had closed, so it
+       was stopped (the job and its node processes; the page under way, b2-delaware-gov, left a partial cache-full3 and no
+       report). t4.py: 0 pages complete in either mode, so T4 is not reported (data/t4.json). The partial runs stay in DATA,
+       are compacted and hashed, and are not used. A deviation from the plan only in that T4 was started and not finished;
+       the decision rested on time alone.
+06:27  check_labels.py: 62 packets, 124 label files, 0 problems; recall audits: 6 files, 110 failures, 0 problems (every ref
+       in its snapshot). compact.py again (the 19 partial T4 reports added; every earlier compact file unchanged).
+       hashes.py: data/captures-manifest.json, 10,385 files, 744.6 MB, combined SHA-256
+       160a82945a8a5071b1816a6f41c2f5ee5ef0c877a62e1be93128bc01c2a1d4b2.
+06:28  analyze.py, as frozen (no change since c284aaa). Numbers in data/summary.json (AI-judged, held-out):
+       primary, test: 33 true, 2 false, 11 uncertain; precision 0.943, Wilson 0.814-0.984, page bootstrap 0.857-1.000:
+       "favourable" by dae1522's rule, on 35 decided findings, under the 70 the article sizes the round for, so reported
+       as it comes (no block added). Dev 43/9/16, 0.827 (0.703-0.906); pooled 76/11/27, 0.874 (0.788-0.928). Fast mode,
+       test: 31/2/5, 0.939 (0.804-0.983), 36 reused labels and 2 own rows. Recall audit: 37 of 110 audited failures
+       reported (0.336, Wilson 0.255-0.429). Uncertain share 0.239 (target 0.15, not met). T4 not completed.

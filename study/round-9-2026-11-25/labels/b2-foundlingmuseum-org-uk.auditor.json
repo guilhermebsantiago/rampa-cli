@@ -1,0 +1,20 @@
+{
+  "page": "https://foundlingmuseum.org.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "0c0281fc9e2e",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the email field (#input_3_1, type=\"email\", placeholder \"Email address*\") of the footer \"Stay connected / Subscribe to our newsletter\" sign-up form, so it collects the user's own email address, a purpose listed in WCAG's Input Purposes (\"email\"). claimTrue: the captured HTML has no autocomplete attribute, as the claim says. elementFails: type=\"email\" only states the data format, not that the field asks for the user's own address; the sufficient technique for 1.3.5 is H98 (autocomplete=\"email\"), which is absent, so the purpose is not programmatically determined. captureDiffers: the live HTML (curl) and the live DOM in Edge 158 show the same input with no autocomplete attribute, and the screenshot matches the live rendering. The claim names exactly this failure, so true positive."
+    },
+    {
+      "fingerprint": "7f21e535bcb4",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the same newsletter email field (#input_3_1). Its label <label for=\"input_3_1\">Email(Required)</label> is hidden by the theme's CSS (main.css: .mailing-block .gfield_label{display:none !important}), and the only visible cue is the placeholder \"Email address*\". claimTrue: the snapshot's browser accessibility node gives role textbox with name \"\" (the label shows as notRendered), so the browser computed no name. elementFails: in Edge 158 (Chromium) on the live page, CDP gives the same empty name: the hidden label is taken as the name source with empty text, and the placeholder is marked superseded, so assistive technology gets no name in Chromium browsers. That is F68 (a control with no programmatically determined name); relying on a display:none label is not accessibility supported there, whatever other engines do. captureDiffers: the live page reproduces the hidden label, the empty computed name and the same visible field, so no difference touches the claim. \"Announces only textbox\" simplifies what is read (required state, maybe the placeholder), but the claim names the real failure, an empty accessible name, so true positive."
+    }
+  ]
+}

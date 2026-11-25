@@ -1,0 +1,83 @@
+{
+  "page": "https://kidneycareuk.org/news-from-kidney-care-uk/new-research-dialysis-conservative-kidney-management/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "a1fe0fdcf5e1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the sign-up form's \"First name\" text input; it has a visible <label for> \"First name\" above it and a placeholder that repeats it. claimTrue: the snapshot measured the placeholder at #9ca3af on #ffffff, 20px, weight 400, and I recompute 2.54:1 from those colours. elementFails: the live stylesheet (main_kcuk.min.493deb9fc9c3.css) sets input::placeholder{color:#9ca3af;opacity:1} and the field is white, so users see the placeholder at 2.54:1, below the 4.5:1 that 1.4.3 requires for text of this size; placeholder text is visible text and falls under none of 1.4.3's exceptions (it is not inactive, decorative, invisible, part of a picture or a logotype), and repeating the visible label does not exempt it. captureDiffers: the live HTML has the same input and placeholder and the live CSS gives the same colour; in the full-page screenshot the fixed Cookiebot dialog is stamped over the form, but that is a screenshot artefact that does not touch the colours. The claim names the failure: true positive."
+    },
+    {
+      "fingerprint": "3ea565d0a50f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the Kidney Care UK logo image in the Cookiebot consent dialog (img#CybotCookiebotDialogPoweredbyImage, alt=\"logo\"); the crop shows the words \"Kidney Care UK\" with the brand mark. claimTrue: \"logo\" is not a file name, but it is a generic placeholder word, which the claim's \"or a placeholder\" covers. elementFails: the alternative \"logo\" does not convey the text in the image (\"Kidney Care UK\") nor whose logo it is, which is F30 (text alternatives that are not alternatives, such as placeholder text); if the image were treated as decorative, the non-null alt would fail under F39 instead, so the image fails 1.1.1 either way. captureDiffers: the dialog is loaded for real visitors through the site's Google Tag Manager container, and the live Cookiebot configuration for this site sets CookieConsentDialog.logoAltText = 'logo' with the same base64 logo image, so the capture matches what users receive. True positive."
+    },
+    {
+      "fingerprint": "dc9073d77c8f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Last name\" input of the newsletter sign-up form (\"Sign up to get CKD support and information by email\"), which collects the visitor's own details. claimTrue: the captured input has no autocomplete attribute, so autocomplete=\"family-name\" is indeed missing. elementFails: 1.3.5 requires the purpose of an input collecting information about the user to be programmatically determinable when the purpose is one of the listed input purposes (here family-name); with no autocomplete token (H98) nothing exposes that purpose, and the live HTML and the rendered snapshot both lack it, so the field fails. captureDiffers: the live page's HTML, fetched today, has the same input with no autocomplete attribute; no difference. True positive."
+    },
+    {
+      "fingerprint": "639d882c8a1a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"First name\" input of the newsletter sign-up form (\"Sign up to get CKD support and information by email\"), which collects the visitor's own details. claimTrue: the captured input has no autocomplete attribute, so autocomplete=\"given-name\" is indeed missing, and the snapshot records Chromium's FormInputAssignedAutocompleteValueToIdOrNameAttributeError issue on this field. elementFails: 1.3.5 requires the purpose of an input collecting information about the user to be programmatically determinable when the purpose is one of the listed input purposes (here given-name); with no autocomplete token (H98) nothing exposes that purpose, and the live HTML and the rendered snapshot both lack it, so the field fails. captureDiffers: the live page's HTML, fetched today, has the same input with no autocomplete attribute; no difference. True positive."
+    },
+    {
+      "fingerprint": "483fb44ca7c8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the sign-up form's \"Last name\" text input; it has a visible <label for> \"Last name\" above it and a placeholder that repeats it. claimTrue: the snapshot measured the placeholder at #9ca3af on #ffffff, 20px, weight 400, and I recompute 2.54:1 from those colours. elementFails: the live stylesheet (main_kcuk.min.493deb9fc9c3.css) sets input::placeholder{color:#9ca3af;opacity:1} and the field is white, so users see the placeholder at 2.54:1, below the 4.5:1 that 1.4.3 requires for text of this size; placeholder text is visible text and falls under none of 1.4.3's exceptions (it is not inactive, decorative, invisible, part of a picture or a logotype), and repeating the visible label does not exempt it. captureDiffers: the live HTML has the same input and placeholder and the live CSS gives the same colour; in the full-page screenshot the fixed Cookiebot dialog is stamped over the form, but that is a screenshot artefact that does not touch the colours. The claim names the failure: true positive."
+    },
+    {
+      "fingerprint": "379c2aeab223",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the sign-up form's \"Email\" text input; it has a visible <label for> \"Email\" above it and a placeholder that repeats it. claimTrue: the snapshot measured the placeholder at #9ca3af on #ffffff, 20px, weight 400, and I recompute 2.54:1 from those colours. elementFails: the live stylesheet (main_kcuk.min.493deb9fc9c3.css) sets input::placeholder{color:#9ca3af;opacity:1} and the field is white, so users see the placeholder at 2.54:1, below the 4.5:1 that 1.4.3 requires for text of this size; placeholder text is visible text and falls under none of 1.4.3's exceptions (it is not inactive, decorative, invisible, part of a picture or a logotype), and repeating the visible label does not exempt it. captureDiffers: the live HTML has the same input and placeholder and the live CSS gives the same colour; in the full-page screenshot the fixed Cookiebot dialog is stamped over the form, but that is a screenshot artefact that does not touch the colours. The claim names the failure: true positive."
+    },
+    {
+      "fingerprint": "69332e7275f4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Email\" input of the newsletter sign-up form (\"Sign up to get CKD support and information by email\"), which collects the visitor's own details. claimTrue: the captured input has no autocomplete attribute, so autocomplete=\"email\" is indeed missing, and the snapshot records Chromium's FormInputAssignedAutocompleteValueToIdOrNameAttributeError issue on this field. elementFails: 1.3.5 requires the purpose of an input collecting information about the user to be programmatically determinable when the purpose is one of the listed input purposes (here email); with no autocomplete token (H98) nothing exposes that purpose, and the live HTML and the rendered snapshot both lack it, so the field fails. captureDiffers: the live page's HTML, fetched today, has the same input with no autocomplete attribute; no difference. True positive."
+    }
+  ]
+}

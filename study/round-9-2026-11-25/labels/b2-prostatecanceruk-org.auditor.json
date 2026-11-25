@@ -1,0 +1,17 @@
+{
+  "page": "https://prostatecanceruk.org/about-us/news-and-views/2026/09/5-million-risk-checks",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "5d32e4d3ace2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the third badge in the footer: the PIF TICK quality mark (image text 'Trusted Information Creator / Patient Information Forum'), the only content of a link to /prostate-information/further-help/our-award-winning-information, with alt 'Trusted Information Creator Logo' and no title. claimTrue: yes. The alt is all the link holds, and it names the badge, not the destination page, so the sentence holds of the capture. elementFails: no. Under H30/G82, the alternative read as the link text has to let users tell the link's purpose, and R2 accepts an alternative that names the destination's subject. The linked page (it now redirects to 'Help review our award-winning information') has a section, 'Our award-winning information', that matches the URL slug and explains that the PIF TICK 'is awarded to organisations who demonstrate they are trusted information creators' and that Prostate Cancer UK holds it. So a link named 'Trusted Information Creator' leads to the organisation's account of that accreditation, and its purpose can be determined from the name. Dropping 'Logo' and adding 'PIF' would be better practice but is not required by 1.1.1. captureDiffers: no. The live page's footer HTML has the same link, href and alt, and the screenshot shows the same three badges as the live page. The claim requires the alt to name the destination page itself, which is stricter than 1.1.1 requires."
+    }
+  ]
+}

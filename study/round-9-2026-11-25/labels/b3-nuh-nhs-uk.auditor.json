@@ -1,0 +1,61 @@
+{
+  "page": "https://www.nuh.nhs.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "4ea38a98d301",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the rendered <img> of the first Latest news card (not inside a link), an image of the text 'Critical Incident Ongoing' on red, above the headline 'Nottingham Hospitals remain in Critical Incident'. Its alt is 'image-Critical Incident (Intranet news) 1600 x 900 px).png', the CMS's 'image-' prefix plus the uploaded file name with pixel dimensions, so the claim is true of the capture. A file-name alternative is F30 (text alternatives that are not alternatives); if the image were treated as decorative because the headline repeats it, the non-null alt would be F39. Either way it fails 1.1.1 and the claim names exactly that defect. The live page could not be loaded for comparison: every HTTPS request from here (curl, Python, Node, WebFetch, a reader proxy) was cut by the server, so captureDiffers is cannot_tell; the screenshot is a fully styled render consistent with the snapshot, and the Wayback copy of 2026-11-02 shows the same server-side markup pattern (CMS alts of the form 'image-<file name>' on news images)."
+    },
+    {
+      "fingerprint": "deb71055398f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the rendered <img> of the third Latest news card, a photo of a speaker at a lectern at a conference, beside the headline about the Nottingham biomedical conference. Its alt is 'image-ACJMEDIA1611260064_11zon.jpg', a camera/compressor file name, so the claim holds in the capture. A file name conveys nothing of the photo: F30 if the photo is informative, F39 if it is decorative; it fails 1.1.1 and the claim names that failure. The live page could not be loaded for comparison: every HTTPS request from here (curl, Python, Node, WebFetch, a reader proxy) was cut by the server, so captureDiffers is cannot_tell; the screenshot is a fully styled render consistent with the snapshot, and the Wayback copy of 2026-11-02 shows the same server-side markup pattern (news images carry 'image-<file name>' alts)."
+    },
+    {
+      "fingerprint": "5bbe074273c4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the large photo in the homepage advert box (a smiling staff member in a blue headscarf beside anaesthesia monitors), not inside a link; the green 'NHS Friends and Family Test (Share your experience)' link is a separate element over it. Its alt 'Homepage menu Image' is a generic CMS label: the Wayback copy of 2026-11-02 shows the same alt on a different image in the same placement. The picture shows no homepage menu, so the sentence is true of the capture. The alt conveys nothing the image shows (F30, placeholder text); if the photo is decorative the non-null alt is F39. It fails 1.1.1. Read in good faith, 'describes something the image does not show' points at an alternative that does not correspond to the picture, which is the real defect (the rubric's own example of an alternative that leaves out what the image conveys). The live page could not be loaded for comparison: every HTTPS request from here (curl, Python, Node, WebFetch, a reader proxy) was cut by the server, so captureDiffers is cannot_tell; the screenshot is a fully styled render consistent with the snapshot, and the Wayback copy of 2026-11-02 shows the same server-side markup pattern."
+    },
+    {
+      "fingerprint": "3311e85b1a70",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the visible site search field under the hero (input type=search, title='search', placeholder='Search'), with an explicit <label for> 'Search' that is display:none (Chrome reports it ignored, notRendered); the h2 'Search the NUH website' is not visible either. In the capture Chrome's own accessibility tree (CDP) gives the searchbox the name '' with the hidden label as its label source, so the claim that the browser computes no name is true. In Chrome, which most screen-reader users use, the name is therefore empty (title and placeholder only as description/placeholder), so I lean to a 4.1.2 failure on the page users receive. But the markup carries an explicit label and a title (H44, H65), accname 1.2 lets a hidden native label still name its control and HTML-AAM falls back to title, other browsers and axe-type checks would give it a name, and F68's test would pass; whether a Chrome-specific empty name fails the author is something competent auditors would reasonably dispute, so the label is uncertain. The live page could not be loaded for comparison: every HTTPS request from here (curl, Python, Node, WebFetch, a reader proxy) was cut by the server, so captureDiffers is cannot_tell; the screenshot is a fully styled render consistent with the snapshot, and the Wayback copy of 2026-11-02 shows the same server-side markup pattern (identical label/input markup for site-search-index-search-2)."
+    },
+    {
+      "fingerprint": "de452ed453ba",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the rendered <img> of the second Latest news card (not inside a link), an image of the text 'Critical Incident Declared' on red, above the headline 'NUH declare Critical Incident following sharp increase in flu and COVID-19'. Its alt is 'image-Critical Incident (Intranet news) 1600 x 900 px).png', a file name (the same one as the first card's different image), so the claim holds. The alt does not give the image's text 'Critical Incident Declared'; as a file name it is F30, and as a non-null alt on an image some would call decorative it is F39. It fails 1.1.1 and the claim names that. The live page could not be loaded for comparison: every HTTPS request from here (curl, Python, Node, WebFetch, a reader proxy) was cut by the server, so captureDiffers is cannot_tell; the screenshot is a fully styled render consistent with the snapshot, and the Wayback copy of 2026-11-02 shows the same server-side markup pattern (news images carry 'image-<file name>' alts)."
+    }
+  ]
+}

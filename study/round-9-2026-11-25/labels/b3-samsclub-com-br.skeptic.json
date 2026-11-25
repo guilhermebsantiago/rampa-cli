@@ -1,0 +1,28 @@
+{
+  "page": "https://www.samsclub.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "b4aca77928e3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the paragraph of the Securiti cookie-consent banner (#cookieconsent:desc > p). claimTrue: in the snapshot the paragraph is English text with no lang attribute on it or any ancestor, inside <html lang=\"pt-BR\">, so the sentence holds for the capture. captureDiffers: the banner is injected by GTM (cookie-consent-sdk-loader.js), which first loads en.json as a default and then, once app.securiti.ai/core/v1/utils/geo/location answers, loads the location's language file. Loading the live page in Edge from the same location (Brazil) with locale pt-BR, and again with en-US, the banner settled in Portuguese both times (pt-br.json: \"Utilizamos cookies próprios e de terceiros...\"), with the same markup. Only when I blocked the geo request did it stay in English, with text identical to the capture (including the \"Personalize / cookies\" split). Rampa's capture also reports the page unsettled after 3000 ms and its main stylesheet failing, so it caught the SDK's interim fallback, not what a visitor receives. elementFails: on the page a person in Brazil receives the passage is Portuguese, the page's own language, so 3.1.2 does not apply and the element passes. Caveat: with a simulated US location the banner stays English and unmarked, which would fail 3.1.2 for visitors outside Brazil, but that is not the variant the capture's context serves. The claim rests on a capture artefact, so false positive, collector_error."
+    },
+    {
+      "fingerprint": "a50c1b9f27e7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the span holding the cookie banner's message text (#cookieconsent:desc > p > strong > span). claimTrue: the snapshot records CSS colour #797979 on a #ffffff background, 14px at weight 700, axe reason elmPartiallyObscuring and a pixel measure of 4.353:1; #797979 on white computes to 4.35:1, as stated. Skeptic checks: 14px bold is not large-scale text (needs 18.66px bold or 24px), so 4.5:1 applies; the banner is real, visible content, not incidental or inactive; there is no gradient or image behind it. captureDiffers: the capture holds the English fallback text while visitors in Brazil get Portuguese, but on the live page (Edge, pt-BR and en-US) the same span has computed colour rgb(121,121,121), 14px, 700, on the banner's rgb(255,255,255) background with opacity 1, and the live screenshot shows grey bold text on white; the language difference does not touch this claim. elementFails: 4.35:1 is below 4.5:1 for normal-size text, so the text fails 1.4.3 on the page users receive, and the claim names exactly that failure."
+    }
+  ]
+}

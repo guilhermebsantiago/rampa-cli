@@ -1,0 +1,116 @@
+{
+  "page": "https://www.ljmu.ac.uk/study/undergraduate-students",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "69f75a9bc732",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the first top-level item of the desktop mega menu, an li with tabindex=\"0\", aria-expanded=\"false\" and aria-live=\"assertive\" holding an h2 \"Study\" with a chevron icon. claimTrue: the snapshot shows it focusable, with click and keydown listeners and the role listitem (the AX tree gives it no control role), as the claim says. elementFails: the site's mando.js binds click on .js-navigation-megamenu-level-1 to open and close its drop panel and keydown (Enter, arrows) to open it and move focus, so it is a script-built disclosure control; 4.1.2 requires the role of such a user interface component to be programmatically determinable, and listitem (plus a heading inside) is not a control role, so a screen reader does not announce a button. This is the F59 pattern (a script-made control with no role) on an li instead of a div or span; the exposed collapsed state does not supply the missing role. captureDiffers: the live HTML fetched on 2026-11-25 has the same li markup (tabindex 0, aria-expanded, no role), and the screenshot is fully styled with the menu row shown as Study/Discover/... with chevrons; no difference that touches the claim. The claim names the real failure, so true_positive."
+    },
+    {
+      "fingerprint": "7b80f7d47c0a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the sixth top-level item of the desktop mega menu, an li with tabindex=\"0\", aria-expanded=\"false\" and aria-live=\"assertive\" holding an h2 \"About us\" with a chevron icon. claimTrue: the snapshot shows it focusable, with click and keydown listeners and the role listitem (the AX tree gives it no control role), as the claim says. elementFails: the site's mando.js binds click on .js-navigation-megamenu-level-1 to open and close its drop panel and keydown (Enter, arrows) to open it and move focus, so it is a script-built disclosure control; 4.1.2 requires the role of such a user interface component to be programmatically determinable, and listitem (plus a heading inside) is not a control role, so a screen reader does not announce a button. This is the F59 pattern (a script-made control with no role) on an li instead of a div or span; the exposed collapsed state does not supply the missing role. captureDiffers: the live HTML fetched on 2026-11-25 has the same li markup (tabindex 0, aria-expanded, no role), and the screenshot is fully styled with the menu row shown as Study/Discover/... with chevrons; no difference that touches the claim. The claim names the real failure, so true_positive."
+    },
+    {
+      "fingerprint": "d0ec7f589f80",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Courses\" span (class filter js-simulate-click-event, data-filter=\"courses\", tabindex=\"0\") in the header search's \"Refine your search\" panel (#searchDiv), which is visually hidden until the search field gets focus but stays focusable and in the accessibility tree. claimTrue: the snapshot shows it focusable, with click and keypress listeners and the role generic, as the claim says. elementFails: mando.js binds click on .filter to switch the search scope (form action and placeholder) and ljmu.js turns Enter on .js-simulate-click-event into a click, so it is a script-built button/option; as a span with no role it exposes no control role (nor its selected state), which is the documented failure F59 of 4.1.2. captureDiffers: the live HTML fetched on 2026-11-25 has the same span markup (tabindex 0, no role) inside the visually-hidden #searchDiv, and the styled screenshot shows the panel hidden as the snapshot records; no difference that touches the claim. The claim names the real failure, so true_positive."
+    },
+    {
+      "fingerprint": "e8ff30b7a905",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the fourth top-level item of the desktop mega menu, an li with tabindex=\"0\", aria-expanded=\"false\" and aria-live=\"assertive\" holding an h2 \"International\" with a chevron icon. claimTrue: the snapshot shows it focusable, with click and keydown listeners and the role listitem (the AX tree gives it no control role), as the claim says. elementFails: the site's mando.js binds click on .js-navigation-megamenu-level-1 to open and close its drop panel and keydown (Enter, arrows) to open it and move focus, so it is a script-built disclosure control; 4.1.2 requires the role of such a user interface component to be programmatically determinable, and listitem (plus a heading inside) is not a control role, so a screen reader does not announce a button. This is the F59 pattern (a script-made control with no role) on an li instead of a div or span; the exposed collapsed state does not supply the missing role. captureDiffers: the live HTML fetched on 2026-11-25 has the same li markup (tabindex 0, aria-expanded, no role), and the screenshot is fully styled with the menu row shown as Study/Discover/... with chevrons; no difference that touches the claim. The claim names the real failure, so true_positive."
+    },
+    {
+      "fingerprint": "222108c27086",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"All pages\" span (class filter js-simulate-click-event, data-filter=\"all\", tabindex=\"0\") in the header search's \"Refine your search\" panel (#searchDiv), which is visually hidden until the search field gets focus but stays focusable and in the accessibility tree. claimTrue: the snapshot shows it focusable, with click and keypress listeners and the role generic, as the claim says. elementFails: mando.js binds click on .filter to switch the search scope (form action and placeholder) and ljmu.js turns Enter on .js-simulate-click-event into a click, so it is a script-built button/option; as a span with no role it exposes no control role (nor its selected state), which is the documented failure F59 of 4.1.2. captureDiffers: the live HTML fetched on 2026-11-25 has the same span markup (tabindex 0, no role) inside the visually-hidden #searchDiv, and the styled screenshot shows the panel hidden as the snapshot records; no difference that touches the claim. The claim names the real failure, so true_positive."
+    },
+    {
+      "fingerprint": "5a8dd2b95ea1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Student pages\" span (class filter js-simulate-click-event, data-filter=\"student\", tabindex=\"0\") in the header search's \"Refine your search\" panel (#searchDiv), which is visually hidden until the search field gets focus but stays focusable and in the accessibility tree. claimTrue: the snapshot shows it focusable, with click and keypress listeners and the role generic, as the claim says. elementFails: mando.js binds click on .filter to switch the search scope (form action and placeholder) and ljmu.js turns Enter on .js-simulate-click-event into a click, so it is a script-built button/option; as a span with no role it exposes no control role (nor its selected state), which is the documented failure F59 of 4.1.2. captureDiffers: the live HTML fetched on 2026-11-25 has the same span markup (tabindex 0, no role) inside the visually-hidden #searchDiv, and the styled screenshot shows the panel hidden as the snapshot records; no difference that touches the claim. The claim names the real failure, so true_positive."
+    },
+    {
+      "fingerprint": "2549776fc1ea",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the fifth top-level item of the desktop mega menu, an li with tabindex=\"0\", aria-expanded=\"false\" and aria-live=\"assertive\" holding an h2 \"Business\" with a chevron icon. claimTrue: the snapshot shows it focusable, with click and keydown listeners and the role listitem (the AX tree gives it no control role), as the claim says. elementFails: the site's mando.js binds click on .js-navigation-megamenu-level-1 to open and close its drop panel and keydown (Enter, arrows) to open it and move focus, so it is a script-built disclosure control; 4.1.2 requires the role of such a user interface component to be programmatically determinable, and listitem (plus a heading inside) is not a control role, so a screen reader does not announce a button. This is the F59 pattern (a script-made control with no role) on an li instead of a div or span; the exposed collapsed state does not supply the missing role. captureDiffers: the live HTML fetched on 2026-11-25 has the same li markup (tabindex 0, aria-expanded, no role), and the screenshot is fully styled with the menu row shown as Study/Discover/... with chevrons; no difference that touches the claim. The claim names the real failure, so true_positive."
+    },
+    {
+      "fingerprint": "d3733ee6cb80",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Staff pages\" span (class filter js-simulate-click-event, data-filter=\"staff\", tabindex=\"0\") in the header search's \"Refine your search\" panel (#searchDiv), which is visually hidden until the search field gets focus but stays focusable and in the accessibility tree. claimTrue: the snapshot shows it focusable, with click and keypress listeners and the role generic, as the claim says. elementFails: mando.js binds click on .filter to switch the search scope (form action and placeholder) and ljmu.js turns Enter on .js-simulate-click-event into a click, so it is a script-built button/option; as a span with no role it exposes no control role (nor its selected state), which is the documented failure F59 of 4.1.2. captureDiffers: the live HTML fetched on 2026-11-25 has the same span markup (tabindex 0, no role) inside the visually-hidden #searchDiv, and the styled screenshot shows the panel hidden as the snapshot records; no difference that touches the claim. The claim names the real failure, so true_positive."
+    },
+    {
+      "fingerprint": "aec6d290834b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the third top-level item of the desktop mega menu, an li with tabindex=\"0\", aria-expanded=\"false\" and aria-live=\"assertive\" holding an h2 \"Research\" with a chevron icon. claimTrue: the snapshot shows it focusable, with click and keydown listeners and the role listitem (the AX tree gives it no control role), as the claim says. elementFails: the site's mando.js binds click on .js-navigation-megamenu-level-1 to open and close its drop panel and keydown (Enter, arrows) to open it and move focus, so it is a script-built disclosure control; 4.1.2 requires the role of such a user interface component to be programmatically determinable, and listitem (plus a heading inside) is not a control role, so a screen reader does not announce a button. This is the F59 pattern (a script-made control with no role) on an li instead of a div or span; the exposed collapsed state does not supply the missing role. captureDiffers: the live HTML fetched on 2026-11-25 has the same li markup (tabindex 0, aria-expanded, no role), and the screenshot is fully styled with the menu row shown as Study/Discover/... with chevrons; no difference that touches the claim. The claim names the real failure, so true_positive."
+    },
+    {
+      "fingerprint": "69208e468e54",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the second top-level item of the desktop mega menu, an li with tabindex=\"0\", aria-expanded=\"false\" and aria-live=\"assertive\" holding an h2 \"Discover\" with a chevron icon. claimTrue: the snapshot shows it focusable, with click and keydown listeners and the role listitem (the AX tree gives it no control role), as the claim says. elementFails: the site's mando.js binds click on .js-navigation-megamenu-level-1 to open and close its drop panel and keydown (Enter, arrows) to open it and move focus, so it is a script-built disclosure control; 4.1.2 requires the role of such a user interface component to be programmatically determinable, and listitem (plus a heading inside) is not a control role, so a screen reader does not announce a button. This is the F59 pattern (a script-made control with no role) on an li instead of a div or span; the exposed collapsed state does not supply the missing role. captureDiffers: the live HTML fetched on 2026-11-25 has the same li markup (tabindex 0, aria-expanded, no role), and the screenshot is fully styled with the menu row shown as Study/Discover/... with chevrons; no difference that touches the claim. The claim names the real failure, so true_positive."
+    }
+  ]
+}

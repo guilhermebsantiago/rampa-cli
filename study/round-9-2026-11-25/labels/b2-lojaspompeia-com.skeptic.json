@@ -1,0 +1,248 @@
+{
+  "page": "https://www.lojaspompeia.com/feminino/Convencional?map=category-1,confeccao",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "9bb8763a3a77",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The price integer '159' (card 2, R$ 159,90). The live theme CSS (lojaspompeiaio overrides) sets .sellingPrice--shelf-selling-price to color #ec6839, font-weight 700 and, at min-width 1024px (the 1280px capture), font-size 18px. The screenshot pixels at the element's bounds are #ec6839 on #ffffff, 3.18:1. 18px bold is below the 14pt (18.67px) bold threshold for large text, so 4.5:1 applies and the text fails 1.4.3. I looked for a way out (large text, incidental text, a different background, a hover-only colour) and found none. The live server HTML has the same price markup and classes, so the capture matches what users get."
+    },
+    {
+      "fingerprint": "637e2df036a5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A text input in the delivery-location popover, placeholder 'Código postal', with no autocomplete attribute in the capture or in the live server HTML. The popover says offers and delivery vary by region, and the link beside it reads 'Não sei meu CEP' ('I don't know my CEP'), so the field asks for the user's own postal code. That is information about the user, and postal-code is one of the listed input purposes. Nothing else identifies the purpose programmatically, so it fails 1.3.5. The popover is hidden in the server HTML and opens client-side (it was open in the capture), but the same input is what users get when it opens."
+    },
+    {
+      "fingerprint": "cd5a1e402d05",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The postal-code input is wrapped in an empty <label> and has only placeholder='Código postal'. The capture's Chrome CDP tree gives it role textbox with no name, so the claim is true of the capture. The skeptic's point: HTML-AAM's input name computation says 'If the accessible name is still empty ... use the value of the control's placeholder attribute', and ACT rule e086e5 (Passed Example 5) treats a placeholder as enough for a non-empty accessible name. By the spec, the field's name is 'Código postal', and Chrome's empty result after the empty label looks like a user-agent quirk. Users of Chrome still get no name exposed. Whether that is an authoring failure of 4.1.2 is something competent auditors would disagree on. The live server HTML has the identical markup."
+    },
+    {
+      "fingerprint": "cc350311860a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A 75px badge over the Chemise Linho card photo. Its src, fetched live, is the 'AUTENTIQUE - Exclusividade Pompéia' brand logo, and its alt is '609', a meaningless code. The badge carries information (brand, store exclusive). '609' is not an alternative for it (F30), and it is not null alt either, even if someone calls the badge redundant with the product name (F39). So it fails 1.1.1 either way. In good faith, the claim that the alt describes something the image does not show names that defect. The badge renders client-side and the screenshot shows it on the card."
+    },
+    {
+      "fingerprint": "169ac0b68ea6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The visible top-menu item 'ESPORTIVO'. The live CSS sets .lojaspompeia-menu-0-x-styledLink to color #888 and font-size 14px, and the span has an inline font-weight:400. The screenshot pixels at the element's bounds are #888888 on #ffffff, 3.54:1 (the message rounds it to 3.55). That is normal-size text below 4.5:1, so it fails 1.4.3. Orange only shows on hover, and the text is not incidental or a logo. The live server HTML has the same top menu markup."
+    },
+    {
+      "fingerprint": "baee6881c16f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The price integer '139' (card 1, R$ 139,90, the same first price as the live server HTML). The live theme CSS (lojaspompeiaio overrides) sets .sellingPrice--shelf-selling-price to color #ec6839, font-weight 700 and, at min-width 1024px (the 1280px capture), font-size 18px. The screenshot pixels at the element's bounds are #ec6839 on #ffffff, 3.18:1. 18px bold is below the 14pt (18.67px) bold threshold for large text, so 4.5:1 applies and the text fails 1.4.3. I looked for a way out (large text, incidental text, a different background, a hover-only colour) and found none. The live server HTML has the same price markup and classes, so the capture matches what users get."
+    },
+    {
+      "fingerprint": "df180d8fa513",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "'Ver tudo' under CALÇADOS > Masculino (/calcados/masculino/adulto). The CALÇADOS list holds four 'Ver tudo' links (women's, men's, boys', girls' shoes) under the same parent item. The snapshot has 28 'Ver tudo' links with 28 distinct hrefs, so the claim holds of the capture. The link is in the 'seoMenuNav' copy of the menu. Live Menu.min.css gives .seoMenuItem/.seoSubMenuItem height:0 and .seoSubMenuLink font-size:0; line-height:0, so sighted users never see it, but it is in the accessibility tree and focusable. That copy is a flat list: the column labels ('Feminino', 'Masculino', 'Plus Size') are sibling list items, not headings, so by this rubric's context list the only context is the parent list item, which these same-name links share, and they lead to non-equivalent listings. Whether that fails 2.4.4 depends on R1's 'visual information' clause, and R1 does not cover links nobody can see. Read literally, nothing visible tells this pair apart, so the pair meets the expectation (no). But the visible mega-menu (hover-rendered; the CSS has SubMenuList/SubMenuBannerImg) very likely shows the same links under visible column titles. If so, the purpose is clear to sighted users and only assistive-technology users get the ambiguous copies, which is not 'ambiguous to users in general'. The capture has no hover state to confirm the visible dropdown. Competent auditors would split on this, so the label is uncertain. The live server HTML has the same 28 links."
+    },
+    {
+      "fingerprint": "60a455975d9a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The price fraction '90' of card 1 (R$ 139,90), in the same span styling as the integer. The live theme CSS (lojaspompeiaio overrides) sets .sellingPrice--shelf-selling-price to color #ec6839, font-weight 700 and, at min-width 1024px (the 1280px capture), font-size 18px. The screenshot pixels at the element's bounds are #ec6839 on #ffffff, 3.18:1. 18px bold is below the 14pt (18.67px) bold threshold for large text, so 4.5:1 applies and the text fails 1.4.3. I looked for a way out (large text, incidental text, a different background, a hover-only colour) and found none. The live server HTML has the same price markup and classes, so the capture matches what users get."
+    },
+    {
+      "fingerprint": "a83b8fd1c463",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The price fraction '90' of card 2 (R$ 159,90). The live theme CSS (lojaspompeiaio overrides) sets .sellingPrice--shelf-selling-price to color #ec6839, font-weight 700 and, at min-width 1024px (the 1280px capture), font-size 18px. The screenshot pixels at the element's bounds are #ec6839 on #ffffff, 3.18:1. 18px bold is below the 14pt (18.67px) bold threshold for large text, so 4.5:1 applies and the text fails 1.4.3. I looked for a way out (large text, incidental text, a different background, a hover-only colour) and found none. The live server HTML has the same price markup and classes, so the capture matches what users get."
+    },
+    {
+      "fingerprint": "eb33081685b8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "'Moda Fitness' under the FEMININO > Plus Size group (/feminino/fitness/plus-size...). It shares its name and parent list item (FEMININO) with the 'Moda Fitness' under Categorias (/moda-fitness-feminino). Those are different listings (all women's fitness wear vs a plus-size filter), so they are not equivalent, and the claim holds of the capture. The link is in the 'seoMenuNav' copy of the menu. Live Menu.min.css gives .seoMenuItem/.seoSubMenuItem height:0 and .seoSubMenuLink font-size:0; line-height:0, so sighted users never see it, but it is in the accessibility tree and focusable. That copy is a flat list: the column labels ('Feminino', 'Masculino', 'Plus Size') are sibling list items, not headings, so by this rubric's context list the only context is the parent list item, which these same-name links share, and they lead to non-equivalent listings. Whether that fails 2.4.4 depends on R1's 'visual information' clause, and R1 does not cover links nobody can see. Read literally, nothing visible tells this pair apart, so the pair meets the expectation (no). But the visible mega-menu (hover-rendered; the CSS has SubMenuList/SubMenuBannerImg) very likely shows the same links under visible column titles. If so, the purpose is clear to sighted users and only assistive-technology users get the ambiguous copies, which is not 'ambiguous to users in general'. The capture has no hover state to confirm the visible dropdown. Competent auditors would split on this, so the label is uncertain."
+    },
+    {
+      "fingerprint": "5acb0d780804",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page is the women's clothing category (h1 'Feminino', a grid of women's garments). Its title, 'Moda Feminina: Vestidos, Calças e Acessórios! Acesse - Lojas Pompéia' ('Women's fashion: dresses, trousers and accessories - Lojas Pompéia'), names that topic and the site, so it describes the page and meets 2.4.2. The claim that it says nothing about the page is false. Another listing reusing the same title does not fail 2.4.2. The live title is identical."
+    },
+    {
+      "fingerprint": "970a4d7cf60a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "'Ver tudo' under CALÇADOS > Feminino (/calcados/feminino/adulto, women's shoes). It shares its name and parent item with the other CALÇADOS 'Ver tudo' links (men's, kids' shoes). The 28-links/28-places count matches the snapshot. The link is in the 'seoMenuNav' copy of the menu. Live Menu.min.css gives .seoMenuItem/.seoSubMenuItem height:0 and .seoSubMenuLink font-size:0; line-height:0, so sighted users never see it, but it is in the accessibility tree and focusable. That copy is a flat list: the column labels ('Feminino', 'Masculino', 'Plus Size') are sibling list items, not headings, so by this rubric's context list the only context is the parent list item, which these same-name links share, and they lead to non-equivalent listings. Whether that fails 2.4.4 depends on R1's 'visual information' clause, and R1 does not cover links nobody can see. Read literally, nothing visible tells this pair apart, so the pair meets the expectation (no). But the visible mega-menu (hover-rendered; the CSS has SubMenuList/SubMenuBannerImg) very likely shows the same links under visible column titles. If so, the purpose is clear to sighted users and only assistive-technology users get the ambiguous copies, which is not 'ambiguous to users in general'. The capture has no hover state to confirm the visible dropdown. Competent auditors would split on this, so the label is uncertain."
+    },
+    {
+      "fingerprint": "f6c057cc8c6a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header search field. Live CSS sets the input and its ::placeholder to color #888 and 14px, and the screenshot shows 'O que está procurando?' in #888888 on #ffffff, 3.54:1. The placeholder is the only visible text that says what the field is for (its label is visually hidden). It is ordinary text, not incidental or disabled, so it needs 4.5:1 and fails 1.4.3. The screenshot shows the sticky header at a shifted y position, which does not affect the colours. The live server HTML has the same input."
+    },
+    {
+      "fingerprint": "89521f2e9b76",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The pagination 'next' control: an <a> with no href, holding only an 8x12 SVG arrow, with no aria-label, title or text. Chrome's CDP tree in the capture exposes it as role link with an empty name, so the claim is true. It is a visible, clickable control (the screenshot shows the arrow after pages 1-5) with no name, so it fails 4.1.2. I found nothing that names it. Pagination renders client-side, so the server HTML cannot be compared, but the screenshot shows a normal styled render."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The newsletter 'E-mail' field: <input id='email' type='email' name='email' placeholder='seuemail@exemplo.com'> with no autocomplete attribute. It asks for the user's own email, which is in scope for 1.3.5 and on the input-purpose list. type='email' gives the data type, and name/id are not a programmatic purpose, so nothing satisfies H98 and the field fails 1.3.5. The snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError on this input, so the second sentence of the claim is true too. The newsletter is client-rendered and shown in the screenshot."
+    },
+    {
+      "fingerprint": "16d7706bf60d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The same badge, here on the Calça Jeans Barrel card. Its src, fetched live, is the 'AUTENTIQUE - Exclusividade Pompéia' brand logo, and its alt is '609', a meaningless code. The badge carries information (brand, store exclusive). '609' is not an alternative for it (F30), and it is not null alt either, even if someone calls the badge redundant with the product name (F39). So it fails 1.1.1 either way. In good faith, the claim that the alt describes something the image does not show names that defect. The badge renders client-side and the screenshot shows it on the card."
+    },
+    {
+      "fingerprint": "f2e9c1024643",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The visible top-menu item 'ACESSÓRIOS'. The live CSS sets .lojaspompeia-menu-0-x-styledLink to color #888 and font-size 14px, and the span has an inline font-weight:400. The screenshot pixels at the element's bounds are #888888 on #ffffff, 3.54:1 (the message rounds it to 3.55). That is normal-size text below 4.5:1, so it fails 1.4.3. Orange only shows on hover, and the text is not incidental or a logo. The live server HTML has the same top menu markup."
+    },
+    {
+      "fingerprint": "40f14d4d693f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The currency code 'R$' of card 2's price, in the same .sellingPrice--shelf-selling-price styling. The live theme CSS (lojaspompeiaio overrides) sets .sellingPrice--shelf-selling-price to color #ec6839, font-weight 700 and, at min-width 1024px (the 1280px capture), font-size 18px. The screenshot pixels at the element's bounds are #ec6839 on #ffffff, 3.18:1. 18px bold is below the 14pt (18.67px) bold threshold for large text, so 4.5:1 applies and the text fails 1.4.3. I looked for a way out (large text, incidental text, a different background, a hover-only colour) and found none. The live server HTML has the same price markup and classes, so the capture matches what users get."
+    },
+    {
+      "fingerprint": "fd15f8d73692",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Código postal' placeholder in the delivery-location popover. The snapshot measured it as #bdbdbd from CSS on a #ffffff field, and screenshot pixels in the open popover confirm #bdbdbd on white, 1.88:1. The placeholder is the only visible text for the field, so it is not incidental, and it fails 1.4.3. The popover is hidden in the server HTML and opens client-side (open in the capture, and on a click on 'Insira uma localização'). Users see the same input and colour."
+    },
+    {
+      "fingerprint": "419dd78abbaf",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The currency code 'R$' of card 1's price (R$ 139,90). The live theme CSS (lojaspompeiaio overrides) sets .sellingPrice--shelf-selling-price to color #ec6839, font-weight 700 and, at min-width 1024px (the 1280px capture), font-size 18px. The screenshot pixels at the element's bounds are #ec6839 on #ffffff, 3.18:1. 18px bold is below the 14pt (18.67px) bold threshold for large text, so 4.5:1 applies and the text fails 1.4.3. I looked for a way out (large text, incidental text, a different background, a hover-only colour) and found none. The live server HTML has the same price markup and classes, so the capture matches what users get."
+    },
+    {
+      "fingerprint": "67ee25effdea",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The same badge, on the Blusa Gola Boba card. Its src, fetched live, is the 'AUTENTIQUE - Exclusividade Pompéia' brand logo, and its alt is '609', a meaningless code. The badge carries information (brand, store exclusive). '609' is not an alternative for it (F30), and it is not null alt either, even if someone calls the badge redundant with the product name (F39). So it fails 1.1.1 either way. In good faith, the claim that the alt describes something the image does not show names that defect. The badge renders client-side and the screenshot shows it on the card."
+    },
+    {
+      "fingerprint": "324774ae0743",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The visible top-menu item 'BELEZA'. The live CSS sets .lojaspompeia-menu-0-x-styledLink to color #888 and font-size 14px, and the span has an inline font-weight:400. The screenshot pixels at the element's bounds are #888888 on #ffffff, 3.54:1 (the message rounds it to 3.55). That is normal-size text below 4.5:1, so it fails 1.4.3. Orange only shows on hover, and the text is not incidental or a logo. The live server HTML has the same top menu markup."
+    }
+  ]
+}
