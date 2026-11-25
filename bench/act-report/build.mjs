@@ -14,12 +14,16 @@
 //   --raw <row>=<file>[+<file>] read a row's records from these files instead (a later file wins for the same page)
 //   --revision <row>=<text>     the version the row's assertor gives
 //   --act-tools <dir>           a built checkout of act-rules/act-tools (docs/act-implementation.md says how)
+//   --cli <row>=<path>/node_modules/rampa-cli/dist/cli.mjs
+//                               the installed release a row's records come from: the row's axe-core version is the one
+//                               that install resolved, which can be a later patch than the repository's lockfile, and
+//                               its rules, tags and actIds must be the repository's (default: the repository's)
 //   --testcases <file>          the ACT test cases (default: the current file, downloaded from W3C)
 //   --axe-earl <url|file|none>  axe-core's own EARL report, for the comparison column (default: the address W3C reads)
 //   --out <dir>                 where the files go (default act-report/)
 //   --docs                      write the summary into ../docs/act-implementation.md, between its act:report markers
 import { createHash } from 'node:crypto'
-import { existsSync } from 'node:fs'
+import { existsSync, realpathSync } from 'node:fs'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import { dirname, join, relative, resolve } from 'node:path'
@@ -123,6 +127,19 @@ const caseId = (testcase) => `act:${testcase.ruleId}:${testcase.testcaseId}`
 const require = createRequire(join(ROOT, 'package.json'))
 const axe = require('axe-core')
 const axeVersion = require(join(dirname(require.resolve('axe-core')), 'package.json')).version
+/** What a mapping reads from axe-core: each rule's tags and actIds. */
+const axeRules = (engine) => JSON.stringify(engine.getRules().map((rule) => [rule.ruleId, [...rule.tags].sort(), [...(rule.actIds ?? [])].sort()]).sort())
+// A release installed from npm resolves axe-core within its range when it is installed, which can be a later patch than
+// the repository's lockfile: the row says the version its run used, and the mapping holds only if that version's rules,
+// tags and actIds are the repository's.
+const cliPaths = pairs('cli')
+const rowAxe = {}
+for (const [id, cli] of Object.entries(cliPaths)) {
+  const own = createRequire(join(dirname(realpathSync(resolve(cli))), '..', 'package.json'))
+  const version = own(join(dirname(own.resolve('axe-core')), 'package.json')).version
+  if (axeRules(own('axe-core')) !== axeRules(axe)) throw new Error(`${id}: axe-core ${version}, which ${cli} resolves, has rules, tags or actIds other than the repository's ${axeVersion}`)
+  rowAxe[id] = version
+}
 const tags = ev.axeTags('2.2')
 const excluded = (axe._audit?.tagExclude ?? ['experimental', 'deprecated']).filter((tag) => !tags.includes(tag))
 const criteriaOfTags = (ruleTags) => [...new Set(ruleTags.flatMap((tag) => ev.criterionFromAxeTag(tag) ?? []))].sort(compareIds)
@@ -221,7 +238,7 @@ for (const id of rowIds) {
   // A label this mapping does not know means Rampa or axe-core changed since the run: the report would be wrong.
   if (unknown.size) throw new Error(`${id}: the records name procedures the mapping does not know: ${[...unknown].join(', ')}`)
   const revision = revisions[id] ?? (usingDefaults ? DEFAULTS[id].revision : `${run.rampaVersion} (commit ${run.rampaCommit})`)
-  rows.push({ id, ...ROWS[id], files, records, withModel, revision })
+  rows.push({ id, ...ROWS[id], files, records, withModel, revision, axeVersion: rowAxe[id] ?? axeVersion })
 }
 
 /** The procedures of a row that implement an ACT rule; none for a rule outside WCAG 2.2 A/AA. */
@@ -256,7 +273,7 @@ function earlFor(row) {
     {
       '@type': 'Assertor',
       name: row.name,
-      description: `${row.label}, at the default confidence threshold. Procedures named "(axe-core)" are axe-core ${axeVersion} rules that Rampa runs and reports; the others are Rampa's own rules${row.withModel ? ' and its model judgments (rampa/judgment/<criterion>)' : ''}.`,
+      description: `${row.label}, at the default confidence threshold. Procedures named "(axe-core)" are axe-core ${row.axeVersion} rules that Rampa runs and reports; the others are Rampa's own rules${row.withModel ? ' and its model judgments (rampa/judgment/<criterion>)' : ''}.`,
       homepage: HOMEPAGE,
       license: 'https://opensource.org/license/mit',
       release: { '@type': 'Version', revision: row.revision },
@@ -471,10 +488,12 @@ function otherRules() {
   return [...groups].map(([reason, list]) => `- **${reason}** (${list.length}): ${list.map((rule) => `${actLink(rule.ruleId)} ${escape(rule.ruleName)}${axeNote(rule)}`).join('; ')}.`).join('\n')
 }
 
+const axeVersions = [...new Set(rows.map((row) => row.axeVersion))]
+const axeInside = axeVersions.length === 1 ? `axe-core ${axeVersions[0]} inside Rampa.` : `axe-core inside Rampa: ${rows.map((row) => `${row.axeVersion} (${row.short})`).join(', ')}.`
 const sources = rows.map((row) => `${row.id}: ${row.files.map((file) => posix(relative(BENCH, file))).join(' + ')}`).join('; ')
 const generatedFrom = `${sources} (results folder ${posix(relative(BENCH, resultsDir))})`
 const summary = [
-  `Test cases: the published ACT file, ${testcasesInfo.testcases} test cases of ${testcasesInfo.rules} rules (SHA-256 \`${testcasesInfo.sha256.slice(0, 12)}\`, read ${testcasesInfo.read}). Consistency computed by act-tools at \`${actToolsCommit.slice(0, 7)}\`, the commit W3C's update job pins. axe-core ${axeVersion} inside Rampa.${axeResult ? ` axe-core's own report read the same day from ${axeResult.from}.` : ''}`,
+  `Test cases: the published ACT file, ${testcasesInfo.testcases} test cases of ${testcasesInfo.rules} rules (SHA-256 \`${testcasesInfo.sha256.slice(0, 12)}\`, read ${testcasesInfo.read}). Consistency computed by act-tools at \`${actToolsCommit.slice(0, 7)}\`, the commit W3C's update job pins. ${axeInside}${axeResult ? ` axe-core's own report read the same day from ${axeResult.from}.` : ''}`,
   '',
   '### Rules by consistency',
   '',
@@ -507,6 +526,7 @@ const summaryJson = {
   testcases: testcasesInfo,
   actTools: actToolsCommit,
   axeCore: axeVersion,
+  ...(axeVersions.length > 1 || axeVersions[0] !== axeVersion ? { axeCoreByRow: Object.fromEntries(rows.map((row) => [row.id, row.axeVersion])) } : {}),
   rows: results.map(({ row, report, assertions }) => ({ id: row.id, name: row.name, revision: row.revision, earl: `${row.id}.earl.json`, assertions, approvedRules: report.approvedRules, proposedRules: report.proposedRules })),
   axe: axeResult && { from: axeResult.from, sha256: axeResult.sha256, version: axeResult.version, approvedRules: axeResult.report.approvedRules, proposedRules: axeResult.report.proposedRules },
   rules: allRules
