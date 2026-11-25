@@ -146,10 +146,10 @@ Caveats: Rampa's prompts were tuned on these test cases, and all of its gain is 
 
 `rampa eval` scores axe-core alone and with the judgment layer on the W3C ACT test cases and corrupted pairs ([docs/evaluation.md](docs/evaluation.md)). The prompts were tuned on those small pages, so real pages are the measure that counts:
 
-- **Held out.** In the eighth pre-registered real-page study, on 60 public pages the code had not seen, with Gemma 4 12B at the default threshold, 0.92 of the judged findings were real failures (120 of 131 decided; Wilson 95% 0.86–0.95, page bootstrap 0.84–0.97), measured on the code before 0.1.3's 1.3.5 fix. The labels are AI judgments by two Claude agents, with no person. The round before read 0.74, a difference the rule fixed in advance does not count as measurable ([rounds 6 to 8](docs/evaluation.md#rounds-6-to-8)).
-- **Beyond axe-core.** None of those 120 true findings is a failure axe-core reports on the same element and criterion, nor any of the 146 of studies 2 to 5 ([notes](docs/studies/notes-added-over-axe.md)).
-- **In-sample only.** The 1.3.5 fix in 0.1.3 was chosen on that study's six false 1.3.5 findings; replayed on its recordings it removes them and no true one. No round has measured 0.1.3 as released.
-- **Labels** come from two Claude agents of one model family. Each study is one run and measures precision, not what Rampa missed.
+- **Held out.** In the ninth pre-registered real-page study, 0.1.3 as published, with Gemma 4 12B at the default threshold, on 36 test pages it had not seen: 0.94 of the judged findings were real failures (33 of 35 decided; Wilson 95% 0.81–0.98, page bootstrap 0.86–1.00), a small sample with a lower bound just above the 0.80 the rule fixed in advance asks for. The eighth study, on the code just before 0.1.3's 1.3.5 fix and 60 other pages, read 0.92 (120 of 131 decided); the difference is not measurable by that rule. The labels are AI judgments by two Claude agents, with no person ([rounds 6 to 9](docs/evaluation.md#rounds-6-to-9)).
+- **Beyond axe-core.** None of the ninth study's 76 true findings, the eighth's 120 or the 146 of studies 2 to 5 is a failure axe-core reports on the same element and criterion ([notes](docs/studies/notes-added-over-axe.md)).
+- **What it misses.** On 6 pages audited by Claude agents who did not see Rampa's output, Rampa reported 37 of 110 failures (0.34): most 2.4.4 ones, few 1.1.1 and no 3.1.2 ones.
+- **Labels** come from two Claude agents of one model family. Each study is one run; only the ninth audited pages for what Rampa missed.
 
 ## Principles
 
