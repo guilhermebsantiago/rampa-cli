@@ -28,3 +28,22 @@ pushing only the pre-registration before collection); results stay local.
        as not to write their sites (they are excluded); one duplicate registrable domain was written by mistake
        (museu-goeldi.br twice in br-culture-h: deal.py drops the second). A stray line written out of order (a 31st
        in-news-h site among the in-health-i lines) was deleted before the commit.
+01:10  Pools committed (b38f741) before any check or load.
+01:11  Exclusions built (scripts/exclusions.py build, data/excluded-domains.json): the eighth study's list (3,180 domains),
+       plus its 60 pages, 485 more sites of its pools, 68 more hosts named by the sixth to eighth studies' files (all merged
+       into main: labels, screens and candidate lists included), 1 new host from lines added since 0bada65 or commit
+       messages, none new from the human-review folder (read for host names only), and 2 new demonstration hosts' domains
+       (the six hosts the author named; www.gov.br and acesso.gov.br were already excluded): 3,796 in all.
+01:12  pools.tsv checked: 43 of 720 sites excluded; every pool kept 24 or more (round 8 wrote a supplementary list for pools
+       under 16), so no supplementary list. Look-alikes (a first label shared with an excluded domain) looked at by hand:
+       currys.ie and newbalance.com are the same companies as excluded sites, dropped; hospitalportugues.org.br dropped as a
+       possible look-alike; the rest are other organisations, kept (listed in scripts/candidates.tsv). Read through the
+       pools for same-organisation pairs the first-label test cannot see, before any load: hospitalsaoluiz.com.br (Rede
+       D'Or São Luiz), hospitaldocoracao.com.br (HCor), hospitalalemao.org.br (Oswaldo Cruz), hcancerbarretos.com.br
+       (Hospital de Amor), museudasminas.org.br (MM Gerdau), boots.ie (boots.com, an earlier candidate) dropped; possible
+       look-alikes dropped too: hospitalsaovicentedepaulo.com.br, museudaimagemedosom.org.br, institutobrennand.org.br.
+01:13  Design and seed fixed (scripts/deal.py; seed 202611259, the date and the round): 72 pages, three blocks of 24, each
+       stratum a home and an inner page per block; the split (a coin per block and stratum, home or inner to dev), the
+       optional T4 subset and the six recall-audit slots (one test slot per category) drawn by slot before any load
+       (data/draws.json, header of scripts/candidates.tsv). Pools dealt: 43 excluded, 1 duplicate (museu-goeldi.br), 12
+       look-alikes; 664 candidates, 7 to 10 per slot.
