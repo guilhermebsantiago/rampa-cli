@@ -1078,11 +1078,16 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
     if (c.unnamedControl) return `unnamed ${c.unnamedControl.control} ${c.src ?? c.role}`
     return c.alt
   },
-  // New: a fail about a hidden image stays below the default threshold until it passes the evaluation gate.
-  confidenceCap: (candidate) => (candidate.context.hidden ? 'low' : undefined),
+  // New: a fail about a hidden image, or an image hidden in a control with no name, stays below the default threshold
+  // until it passes the evaluation gate.
+  confidenceCap: (candidate) => (candidate.context.hidden || candidate.context.unnamedControl ? 'low' : undefined),
   // An image hidden from assistive technology that is all a link or button with no name holds fails whatever it shows:
-  // the control has no name, and axe-core agrees (`unnamedImageControls`). No model is asked.
+  // the control has no name, and axe-core agrees (`unnamedImageControls`). No model is asked. Experimental: it files
+  // axe-core's own link-name and button-name verdicts again under 1.1.1, which WCAG's F89 maps to 2.4.4 and 4.1.2, and
+  // its findings on the real-page studies' pages are unlabelled, so it never counts as a failure axe-core misses.
   decidedBy: 'rampa/unnamed-image-control',
+  decidedMaturity: 'experimental',
+  experimental: (candidate) => candidate.context.unnamedControl !== undefined,
   decide: (candidate) => (candidate.context.unnamedControl ? { ...UNNAMED_FAIL } : undefined),
   // A reading claim on a social network's icon whose alternative names the network is the model's suggestion, asked of
   // no second pass (`groundedImage`); every other verified fail goes on as before.

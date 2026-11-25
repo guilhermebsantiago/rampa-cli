@@ -165,8 +165,10 @@ export function criteriaCoverage(input: CoverageInput): CriterionCoverage[] {
     const selfFailed = selfDecided > 0 ? (summary?.decidedFailed ?? 0) : 0
     if (module && selfDecided > 0) {
       const id = module.decidedBy ?? `rampa/decided/${sc.id}`
-      // What an experimental module decides by itself (1.3.3's sensory words) is as experimental as its judgment.
-      byRule.set(id, { kind: 'rule', id, ran: true, applicable: selfDecided, failures: selfFailed, review: 0, maturity: judgmentMaturity(module), decided: selfDecided })
+      // What an experimental module decides by itself (1.3.3's sensory words) is as experimental as its judgment; a stable
+      // module's own decision can be experimental too (`decidedMaturity`: 1.1.1's rampa/unnamed-image-control).
+      const maturity = module.decidedMaturity ?? judgmentMaturity(module)
+      byRule.set(id, { kind: 'rule', id, ran: true, applicable: selfDecided, failures: selfFailed, review: 0, maturity, decided: selfDecided })
     }
     for (const { decided: _, ...method } of byRule.values()) methods.push(method)
 

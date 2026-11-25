@@ -1341,25 +1341,42 @@ describe('1.1.1 an image hidden from assistive technology that is all a control 
     expect(nonTextContent.actFor?.(link)).toEqual(['e88epe'])
     expect(nonTextContent.patch?.(decided, link, page)).toBeUndefined()
     expect(nonTextContent.confirm?.(decided, link, page)).toBeUndefined()
-    expect(nonTextContent.confidenceCap?.(link)).toBeUndefined()
+    // Experimental, below the default threshold: it files axe-core's own verdict on the control again under 1.1.1.
+    expect(nonTextContent.confidenceCap?.(link)).toBe('low')
+    expect(nonTextContent.experimental?.(link)).toBe(true)
+    expect(nonTextContent.decidedMaturity).toBe('experimental')
+    const withAlt = nonTextContent.candidates(page, axe).find((c) => c.ref === '#named > img')
+    if (!withAlt) throw new Error('no candidate with an alternative')
+    expect(nonTextContent.experimental?.(withAlt)).toBe(false)
+    expect(nonTextContent.confidenceCap?.(withAlt)).toBeUndefined()
     // The image in a control with no name is not asked the hidden-image question too.
     expect(nonTextContent.candidates(page, axe).filter((c) => c.context.hidden).map((c) => c.ref)).not.toContain('#ifcn > img')
   })
 
-  it('reports them at the default threshold with no model, and not with --no-llm', async () => {
-    const run = (llm: boolean) =>
-      checkSnapshot(page, axe, { criteria: [nonTextContent], llm, provider: undefined, runs: 1, cache: memoryCache(), offline: false, locale: 'en', minConfidence: 'medium', concurrency: 1 })
-    const report = await run(true)
-    const findings = report.findings.filter((f) => f.criterion === '1.1.1' && f.source === 'judgment')
-    expect(findings.map((f) => [f.ref, f.confidence])).toEqual([
-      ['#ifcn > img', 'high'],
-      ['#cart > svg', 'high'],
-      ['#banner > img', 'high'],
+  it('reports them below the default threshold, as experimental, with no model, and not with --no-llm', async () => {
+    const run = (llm: boolean, minConfidence: 'low' | 'medium') =>
+      checkSnapshot(page, axe, { criteria: [nonTextContent], llm, provider: undefined, runs: 1, cache: memoryCache(), offline: false, locale: 'en', minConfidence, concurrency: 1 })
+    const ofCheck = (list: Array<{ criterion: string; source: string; ref?: string | undefined }>) => list.filter((f) => f.criterion === '1.1.1' && f.source === 'judgment')
+    // At the default threshold they are listed below it, never as findings.
+    const report = await run(true, 'medium')
+    expect(ofCheck(report.findings)).toEqual([])
+    const below = report.belowThreshold.filter((f) => f.criterion === '1.1.1' && f.source === 'judgment')
+    expect(below.map((f) => [f.ref, f.confidence, f.experimental])).toEqual([
+      ['#ifcn > img', 'low', true],
+      ['#cart > svg', 'low', true],
+      ['#banner > img', 'low', true],
     ])
-    expect(findings[0]?.techniques).toEqual(['H30'])
-    expect(findings[1]?.techniques).toEqual(['H36'])
+    expect(below[0]?.techniques).toEqual(['H30'])
+    expect(below[1]?.techniques).toEqual(['H36'])
     expect(report.criteria.find((c) => c.criterion === '1.1.1')).toMatchObject({ decided: 3, decidedFailed: 3 })
-    const offReport = await run(false)
-    expect(offReport.findings.filter((f) => f.criterion === '1.1.1' && f.source === 'judgment')).toEqual([])
+    // The coverage names the method and its maturity.
+    const method = report.coverage.criteria?.find((c) => c.id === '1.1.1')?.methods.find((m) => m.id === 'rampa/unnamed-image-control')
+    expect(method).toMatchObject({ kind: 'rule', failures: 3, maturity: 'experimental' })
+    // --min-confidence low reports them as findings, still marked experimental.
+    const low = await run(true, 'low')
+    expect(ofCheck(low.findings).map((f) => f.ref)).toEqual(['#ifcn > img', '#cart > svg', '#banner > img'])
+    expect(low.findings.filter((f) => f.criterion === '1.1.1').every((f) => f.experimental === true)).toBe(true)
+    const offReport = await run(false, 'low')
+    expect(ofCheck(offReport.findings)).toEqual([])
   })
 })

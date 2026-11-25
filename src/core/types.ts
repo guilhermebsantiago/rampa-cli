@@ -156,6 +156,17 @@ export interface Criterion<Ctx = unknown, Out extends JudgmentBase = JudgmentBas
   /** The deterministic method behind `decide`, as the coverage names it: a method of kind `rule`, such as `rampa/language-id`. */
   decidedBy?: string
   /**
+   * The maturity of what `decide` settles, where it differs from the module's: 1.1.1 is stable, and its
+   * `rampa/unnamed-image-control` has not passed the evaluation gate. The module's maturity when absent.
+   */
+  decidedMaturity?: Maturity
+  /**
+   * A candidate whose check has not passed the evaluation gate inside a module that has (1.1.1's images hidden in a link
+   * or button with no name): its findings are marked experimental, below the default threshold like any experimental
+   * check's. Absent: the module's maturity decides.
+   */
+  experimental?(candidate: Candidate<Ctx>): boolean
+  /**
    * The verdict that follows from the rest of the model's answer, where the criterion defines it that way: for a
    * passage the identifier nominated, a detected language and no exception make a fail, whatever verdict was written.
    * Applied to every answer before the vote; the answer still goes through `verify`.
