@@ -4,7 +4,7 @@ import { checkSnapshot } from '../src/core/check.ts'
 import { agreement, fitsAsWell, identifierCode, loadLanguageIdentifier, readLanguage } from '../src/core/language-id.ts'
 import type { EngineResults } from '../src/core/types.ts'
 import { languageOfPage } from '../src/criteria/language-of-page.ts'
-import { languageOfParts } from '../src/criteria/language-of-parts.ts'
+import { languageOfParts, listedLanguage } from '../src/criteria/language-of-parts.ts'
 import type { ModelProvider } from '../src/providers/types.ts'
 import type { A11yNode, A11ySnapshot } from '../src/snapshot/schema.ts'
 import { node } from './helpers.ts'
@@ -273,5 +273,171 @@ describe('3.1.2 with the identifier', () => {
     const report = await checkSnapshot(snapshot, NO_ENGINE, { ...options(silent), criteria: [languageOfParts] })
     expect(report.findings.map((f) => [f.criterion, f.ref, f.model])).toEqual([['3.1.2', 'p.wrong', undefined]])
     expect(report.findings[0]?.message).toContain('Marked as lang="es", but the text is in Portuguese (pt).')
+  })
+})
+
+describe('3.1.2 regions and phrases', () => {
+  beforeAll(loadLanguageIdentifier)
+
+  // Texts written for these tests: an English consent banner of divs, a short heading, a link and buttons on a
+  // Portuguese page, none long enough on its own for the identifier.
+  const BANNER_TEXT = 'This site stores small files on your device to remember your settings, to count visits and to show you offers that match what you looked at before.'
+  const banner = () =>
+    node({
+      ref: 'div.wrap',
+      native: { tag: 'div' },
+      children: [
+        node({
+          ref: '#banner',
+          role: 'dialog',
+          name: 'Your privacy choices',
+          native: { tag: 'div', html: '<div id="banner" role="dialog" aria-labelledby="banner-title">' },
+          children: [
+            node({ ref: '#banner-title', role: 'heading', text: 'Your privacy choices', native: { tag: 'h3' } }),
+            node({ ref: '#banner-text', text: BANNER_TEXT, native: { tag: 'small' } }),
+            node({ ref: '#banner a', role: 'link', name: 'Read our policy', text: 'Read our policy', native: { tag: 'a' } }),
+            node({ ref: '#decline', role: 'button', name: 'Decline', text: 'Decline', native: { tag: 'button' } }),
+            node({ ref: '#allow', role: 'button', name: 'Allow', text: 'Allow', native: { tag: 'button' } }),
+          ],
+        }),
+      ],
+    })
+
+  it('nominates a container whose whole text reads as another language, on the element its lang belongs on', () => {
+    const snapshot = page('pt-BR', [paragraph('p', PORTUGUESE), banner()])
+    const candidates = languageOfParts.candidates(snapshot, NO_ENGINE)
+    expect(candidates.map((c) => [c.ref, c.context.kind])).toEqual([['#banner', 'region']])
+    const [region] = candidates
+    if (!region) throw new Error('no candidate')
+    expect(region.context.text).toContain('Your privacy choices')
+    expect(region.context.text).toContain('Allow')
+    // Judged like an unmarked passage, and below the threshold even when the identifier reads it clearly.
+    expect(region.context.reading?.clear).toBe(true)
+    expect(languageOfParts.confidenceCap?.(region)).toBe('low')
+    expect(languageOfParts.prompt(region, snapshot).user).toContain('The passage:')
+    const fail = { verdict: 'fail', detectedLanguage: 'en', evidence: 'stores small files on your device', exception: 'none', confidence: 'high' } as const
+    expect(languageOfParts.verify(fail, region, snapshot)).toEqual({ ok: true })
+    expect(languageOfParts.patch?.(fail, region, snapshot)).toMatchObject({
+      ref: '#banner',
+      attribute: 'lang',
+      to: 'en',
+      after: '<div id="banner" role="dialog" aria-labelledby="banner-title" lang="en">',
+    })
+  })
+
+  it('nominates a region the identifier reads with confidence but not clearly, below the threshold too', () => {
+    const cards = node({
+      ref: 'div.cards',
+      native: { tag: 'div' },
+      children: ['Summer Linen Shirt', 'Classic Denim Jacket'].flatMap((name, i) => [
+        node({ ref: `a.card${i}`, role: 'link', text: name, native: { tag: 'a' } }),
+        node({ ref: `span.card${i}`, text: name, native: { tag: 'span' } }),
+      ]),
+    })
+    const candidates = languageOfParts.candidates(page('pt-BR', [paragraph('p', PORTUGUESE), cards]), NO_ENGINE)
+    expect(candidates.map((c) => [c.ref, c.context.kind, languageOfParts.confidenceCap?.(c)])).toEqual([['div.cards', 'region', 'low']])
+  })
+
+  it('leaves a region to the passages that hold most of it, and the page language to 3.1.1', () => {
+    const note = node({
+      ref: 'div.note',
+      native: { tag: 'div' },
+      children: [paragraph('div.note > p', ENGLISH_LONG), node({ ref: 'div.note > a', role: 'link', text: 'More', native: { tag: 'a' } })],
+    })
+    const candidates = languageOfParts.candidates(page('pt-BR', [paragraph('p', PORTUGUESE), note]), NO_ENGINE)
+    expect(candidates.map((c) => [c.ref, c.context.kind])).toEqual([['div.note > p', 'unmarked']])
+    // A page whose own text is all English under lang="pt-BR" declares the wrong language: no region, no phrase.
+    const english = page('pt-BR', [banner(), paragraph('p', ENGLISH_LONG)])
+    expect(languageOfParts.candidates(english, NO_ENGINE).map((c) => c.context.kind)).toEqual(['unmarked'])
+  })
+
+  it('nominates a short name or control text of two words or more in another language, once per text, below the threshold', () => {
+    const button = (ref: string, label: string) =>
+      node({ ref, role: 'button', name: label, native: { tag: 'button', attributes: { 'aria-label': label }, html: `<button aria-label="${label}">` } })
+    const snapshot = page('pt-BR', [
+      paragraph('p', PORTUGUESE),
+      node({
+        ref: 'section.carousel',
+        role: 'region',
+        name: 'Destaques',
+        native: { tag: 'section', attributes: { 'aria-label': 'Destaques' } },
+        // One word is left alone: "Close" is English, but single words are where the exceptions most often apply.
+        children: [button('#next', 'Next slide'), button('#next2', 'Next slide'), button('#menu', 'Menu'), button('#close', 'Close')],
+      }),
+      // A plain div may not be named, so a screen reader does not read its aria-label.
+      node({ ref: 'div.box', native: { tag: 'div', attributes: { 'aria-label': 'Close this box' } } }),
+      node({ ref: 'li', native: { tag: 'li' }, children: [node({ ref: 'li > a', role: 'link', text: 'Skip to content', native: { tag: 'a' } })] }),
+      node({ ref: 'a.brand', role: 'link', text: 'Instagram', native: { tag: 'a' } }),
+      node({ ref: 'a.contest', role: 'link', text: 'Concursos', native: { tag: 'a' } }),
+      node({
+        ref: 'p.inline',
+        role: 'paragraph',
+        native: { tag: 'p' },
+        children: [node({ ref: 'p.inline > span', text: 'Para saber tudo, consulte a página', native: { tag: 'span' } }), node({ ref: 'p.inline > a', role: 'link', text: 'Read on', native: { tag: 'a' } })],
+      }),
+    ])
+    const candidates = languageOfParts.candidates(snapshot, NO_ENGINE)
+    expect(candidates.map((c) => [c.ref, c.context.kind, c.context.text, c.context.source])).toEqual([
+      ['#next', 'phrase', 'Next slide', 'the aria-label of a button'],
+      ['li > a', 'phrase', 'Skip to content', 'the text of a link'],
+    ])
+    const [next] = candidates
+    if (!next) throw new Error('no candidate')
+    expect(languageOfParts.confidenceCap?.(next)).toBe('low')
+    expect(languageOfParts.prompt(next, snapshot).user).toContain('Where the text comes from: the aria-label of a button')
+    // The verdict follows from the language and the exception, and the whole text is a quote however short.
+    const answer = { verdict: 'pass', detectedLanguage: 'en', evidence: 'Next slide', exception: 'none', confidence: 'high' } as const
+    const settled = languageOfParts.settle?.(answer, next)
+    if (!settled) throw new Error('not settled')
+    expect(settled.verdict).toBe('fail')
+    expect(languageOfParts.verify(settled, next, snapshot)).toEqual({ ok: true })
+    expect(languageOfParts.message(settled, next, 'en')).toBe(
+      'The aria-label "Next slide" has no lang attribute, so it is read as Brazilian Portuguese (pt-BR), but it is in English (en).',
+    )
+    expect(languageOfParts.patch?.(settled, next, snapshot)).toMatchObject({ attribute: 'lang', to: 'en', after: '<button aria-label="Next slide" lang="en">' })
+    // A loanword the model names as vernacular is no finding.
+    expect(languageOfParts.settle?.({ ...answer, exception: 'vernacular' }, next)?.verdict).toBe('pass')
+  })
+
+  it('reads no phrase inside a region, and none on a page whose language has no word list', () => {
+    const inside = languageOfParts.candidates(page('pt-BR', [paragraph('p', PORTUGUESE), banner()]), NO_ENGINE)
+    expect(inside.filter((c) => c.context.kind === 'phrase')).toEqual([])
+    const dutch = page('nl', [node({ ref: '#next', role: 'button', name: 'Next slide', native: { tag: 'button', attributes: { 'aria-label': 'Next slide' } } })])
+    expect(languageOfParts.candidates(dutch, NO_ENGINE)).toEqual([])
+  })
+
+  it('judges a region with the model and reports it below the threshold', async () => {
+    const snapshot = page('pt-BR', [paragraph('p', PORTUGUESE), banner()])
+    const model = answering({ verdict: 'fail', detectedLanguage: 'en', evidence: 'stores small files on your device', exception: 'none', confidence: 'high' })
+    const report = await checkSnapshot(snapshot, NO_ENGINE, { ...options(model), criteria: [languageOfParts] })
+    expect(model.calls).toBe(1)
+    expect(report.findings.map((f) => [f.ref, f.confidence])).toEqual([['#banner', 'low']])
+    const shown = await checkSnapshot(snapshot, NO_ENGINE, { ...options(model), criteria: [languageOfParts], minConfidence: 'medium' as const })
+    expect(shown.findings).toEqual([])
+    expect(shown.belowThreshold.map((f) => f.ref)).toEqual(['#banner'])
+  })
+
+  it('judges a phrase with the model and reports it below the threshold', async () => {
+    const close = node({ ref: '#close', role: 'button', name: 'Close window', native: { tag: 'button', attributes: { 'aria-label': 'Close window' } } })
+    const snapshot = page('pt-BR', [paragraph('p', PORTUGUESE), close])
+    const model = answering({ verdict: 'fail', detectedLanguage: 'en', evidence: 'Close window', exception: 'none', confidence: 'high' })
+    const report = await checkSnapshot(snapshot, NO_ENGINE, { ...options(model), criteria: [languageOfParts] })
+    expect(model.calls).toBe(1)
+    expect(report.findings.map((f) => [f.ref, f.confidence])).toEqual([['#close', 'low']])
+  })
+})
+
+describe('word lists for short texts', () => {
+  it('names another language only when the words leave no doubt', () => {
+    expect(listedLanguage('Next slide', 'pt')).toBe('en')
+    expect(listedLanguage('Skip to content', 'pt')).toBe('en')
+    // A word both lists hold, a name no list holds, too few listed words, Portuguese and Spanish cognates.
+    expect(listedLanguage('Menu', 'pt')).toBeUndefined()
+    expect(listedLanguage('Instagram', 'pt')).toBeUndefined()
+    expect(listedLanguage('Dot 1 of 3', 'pt')).toBeUndefined()
+    expect(listedLanguage('Concursos', 'pt')).toBeUndefined()
+    expect(listedLanguage('Concursos', 'en')).toBe('es')
+    expect(listedLanguage('Fechar janela', 'en')).toBe('pt')
+    expect(listedLanguage('Veja mais', 'pt')).toBeUndefined()
   })
 })
