@@ -341,6 +341,11 @@ const messages = {
     wordingRecommend: 'COGA notes that error messages may be confusing, and recommends giving the person the correction when it is known.',
     wordingLeftToWcag:
       'coga/error-wording: {count} message was left to the WCAG 3.3.1 or 3.3.3 result on the same element.|coga/error-wording: {count} messages were left to the WCAG 3.3.1 or 3.3.3 results on the same elements.',
+    wordingNone:
+      'coga/error-wording: the page shows no error message to read. Many show only after a person types or submits: --probe form types invalid values into the fields and reads what shows.',
+    wordingNoneProbed: 'coga/error-wording: no error message to read, on the page or after --probe form typed into its fields.',
+    wordingNoneUntyped:
+      'coga/error-wording: the page shows no error message to read, and --probe form typed into none of its fields: it types only where the markup states a rule a value can break (required, minlength, pattern, type), and never into a form with a password, payment or file field.',
     'part_literal-language': 'idioms and metaphors in interface text, read by a model',
     'part_long-text-summary': 'a summary at the start of long text, read by a model',
     'part_error-wording': 'whether error messages say how to put the problem right, read by a model',
@@ -677,6 +682,11 @@ const messages = {
     wordingRecommend: 'A COGA observa que mensagens de erro podem confundir, e recomenda dar à pessoa a correção quando ela é conhecida.',
     wordingLeftToWcag:
       'coga/error-wording: {count} mensagem ficou com o resultado WCAG 3.3.1 ou 3.3.3 do mesmo elemento.|coga/error-wording: {count} mensagens ficaram com os resultados WCAG 3.3.1 ou 3.3.3 dos mesmos elementos.',
+    wordingNone:
+      'coga/error-wording: a página não mostra nenhuma mensagem de erro para ler. Muitas só aparecem depois que a pessoa digita ou envia: --probe form digita valores inválidos nos campos e lê o que aparece.',
+    wordingNoneProbed: 'coga/error-wording: nenhuma mensagem de erro para ler, na página nem depois que --probe form digitou nos campos.',
+    wordingNoneUntyped:
+      'coga/error-wording: a página não mostra nenhuma mensagem de erro para ler, e --probe form não digitou em nenhum campo: ele só digita onde a marcação diz uma regra que um valor pode quebrar (required, minlength, pattern, type), e nunca num formulário com campo de senha, pagamento ou arquivo.',
     'part_literal-language': 'expressões idiomáticas e metáforas em textos de interface, lidas por um modelo',
     'part_long-text-summary': 'um resumo no começo de textos longos, lido por um modelo',
     'part_error-wording': 'se mensagens de erro dizem como corrigir o problema, lido por um modelo',

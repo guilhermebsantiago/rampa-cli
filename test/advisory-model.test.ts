@@ -372,6 +372,57 @@ describe('coga/error-wording', () => {
     ])
   })
 
+  it('says when a page with fields shows no error message to read, and what would show them', async () => {
+    const wordingNotes = (section: AdvisorySection) => section.notes.filter((note) => note.startsWith('coga/error-wording'))
+    const snapshot = page({ buttons: ['Search'] })
+    snapshot.root.children[0]?.children[0]?.children[1]?.children.push(el('#zip', 'input', { id: 'zip', name: 'zip' }, { role: 'textbox', name: 'ZIP code' }))
+    const section = await profileOf(snapshot, { llm: true, provider: stubModel(sayNo) })
+    expect(section.checks.find((summary) => summary.check === 'coga/error-wording')).toMatchObject({ ran: true, candidates: 0, results: 0 })
+    expect(wordingNotes(section)).toEqual([
+      'coga/error-wording: the page shows no error message to read. Many show only after a person types or submits: --probe form types invalid values into the fields and reads what shows.',
+    ])
+    const pt = await profileOf(snapshot, { llm: true, provider: stubModel(sayNo), locale: 'pt-BR' })
+    expect(wordingNotes(pt)).toEqual([
+      'coga/error-wording: a página não mostra nenhuma mensagem de erro para ler. Muitas só aparecem depois que a pessoa digita ou envia: --probe form digita valores inválidos nos campos e lê o que aparece.',
+    ])
+    const probed = (tried: number) =>
+      ({
+        probes: [
+          { kind: 'form', version: '1', conditions: { viewport: { width: 1280, height: 800 }, deviceScaleFactor: 1, browser: 'test', variant: 'form' }, status: 'complete', guard: { blocked: [] }, data: { fields: [], tried } },
+        ],
+      }) as unknown as A11ySnapshot['observations']
+    snapshot.observations = probed(1)
+    expect(wordingNotes(await profileOf(snapshot, { llm: true, provider: stubModel(sayNo) }))).toEqual([
+      'coga/error-wording: no error message to read, on the page or after --probe form typed into its fields.',
+    ])
+    // The probe ran but typed into no field: a sign-in field a script checks states no rule in its markup.
+    snapshot.observations = probed(0)
+    expect(wordingNotes(await profileOf(snapshot, { llm: true, provider: stubModel(sayNo) }))).toEqual([
+      'coga/error-wording: the page shows no error message to read, and --probe form typed into none of its fields: it types only where the markup states a rule a value can break (required, minlength, pattern, type), and never into a form with a password, payment or file field.',
+    ])
+    // A page with no field to type into has nothing a probe could show.
+    expect(wordingNotes(await profileOf(page({ paragraphs: ['Bins are collected on Mondays.'] }), { llm: true, provider: stubModel(sayNo) }))).toEqual([])
+    // Nor does a page whose only fields search the site or choose an option: nearly every page has a header search.
+    const notesWith = async (...fields: A11yNode[]) => {
+      const fielded = page({ buttons: ['Go'] })
+      fielded.root.children[0]?.children[0]?.children[1]?.children.push(...fields)
+      return wordingNotes(await profileOf(fielded, { llm: true, provider: stubModel(sayNo) }))
+    }
+    expect(await notesWith(el('#q', 'input', { id: 'q', name: 'q' }, { role: 'textbox', name: 'O que está procurando?' }))).toEqual([])
+    expect(await notesWith(el('#news', 'input', { id: 'news', placeholder: 'Encontre sua notícia' }, { role: 'textbox' }))).toEqual([])
+    expect(
+      await notesWith(el('form.get', 'form', { method: 'get' }, { role: 'form', children: [el('#text', 'input', { id: 'text', name: 'texto' }, { role: 'textbox', name: 'Texto' })] })),
+    ).toEqual([])
+    expect(
+      await notesWith(
+        el('#analytics', 'input', { id: 'analytics', type: 'checkbox' }, { role: 'checkbox', name: 'Analytics cookies' }),
+        el('#language', 'select', { id: 'language' }, { role: 'combobox', name: 'Language' }),
+      ),
+    ).toEqual([])
+    // A newsletter's e-mail field is a form whose messages matter.
+    expect(await notesWith(el('#signup', 'input', { id: 'signup', type: 'email', name: 'email' }, { role: 'textbox', name: 'Your email' }))).toHaveLength(1)
+  })
+
   it('finds a limit the suggestion invents, and lets one the page states through', () => {
     const field = { text: 'Too short', label: 'Password', rules: ['minlength="8"'], hints: [] }
     expect(inventedLimit('Use at least 10 characters', field)).toBe('at least 10')

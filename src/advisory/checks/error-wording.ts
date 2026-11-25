@@ -2,17 +2,18 @@ import { z } from 'zod'
 import type { Judgment } from '../../core/judge.ts'
 import type { Candidate, JudgmentBase, Verification } from '../../core/types.ts'
 import { dataBlock, normalizeForMatch, tagged } from '../../core/util.ts'
-import { errorFields, errorMessageCandidates } from '../../criteria/error-messages.ts'
-import { shown, shownText } from '../../criteria/labels-or-instructions.ts'
-import { verifyQuote } from '../../criteria/shared.ts'
+import { errorFields, errorMessageCandidates, fieldType } from '../../criteria/error-messages.ts'
+import { searchField, shown, shownText } from '../../criteria/labels-or-instructions.ts'
+import { attributesOf, verifyQuote } from '../../criteria/shared.ts'
 import { languageName } from '../../i18n.ts'
 import { FORM_VERSION, type FormData, type FormField, type TrialResult } from '../../probes/form.ts'
 import { matchNode } from '../../probes/identity.ts'
+import type { A11yNode } from '../../snapshot/schema.ts'
 import type { AdvisoryCheck, AdvisoryContext, CheckRun } from '../check.ts'
 import { cogaBasis } from '../coga.ts'
 import { am, amPlural } from '../messages.ts'
 import { askModel, end, finished, modelGate, modelName, notRun } from '../model.ts'
-import { type Page, languageOf } from '../page.ts'
+import { type Page, languageOf, usable } from '../page.ts'
 import type { Basis } from '../types.ts'
 
 /**
@@ -127,6 +128,51 @@ export function wordingCandidates(page: Page): Candidate<WordingContext>[] {
     }
   }
   return [...out.values()]
+}
+
+/**
+ * What the form probe (--probe form) did with the page's fields: typed into some, so the messages that show after typing
+ * were read; typed into none, as no field states a rule in its markup that a value could break; or did not run.
+ */
+function formProbe(page: Page): 'typed' | 'untyped' | undefined {
+  const records = (page.snapshot.observations?.probes ?? []).filter((record) => record.kind === 'form' && record.status !== 'skipped')
+  if (records.length === 0) return undefined
+  return records.some((record) => Number((record.data as Partial<FormData> | undefined)?.tried ?? 0) > 0) ? 'typed' : 'untyped'
+}
+
+/** The fields a person types a value into, where a page shows an error message for what was typed. */
+const TYPED_FIELDS = new Set(['text', 'email', 'tel', 'url', 'password', 'number', 'date', 'datetime-local', 'month', 'time', 'week', 'textarea', 'textbox', 'spinbutton'])
+
+/** Words and field names that mark a search box beyond what 3.3.2 reads as one ("O que está procurando?", name="s"). */
+const SEARCH_WORDS = /search|busca|pesquis|procur|encontr|\bfind\b|looking for/i
+const SEARCH_KEYS = new Set(['q', 's', 'k', 'term', 'terms', 'query', 'keyword', 'keywords', 'termo'])
+
+/** Whether a field searches the site: a search field for 3.3.2, or one its markup, its form or its box names for searching. */
+function searchBox(node: A11yNode, page: Page): boolean {
+  if (searchField(node, page.index)) return true
+  const attributes = attributesOf(node)
+  if (SEARCH_KEYS.has(attributes.name?.trim().toLowerCase() ?? '')) return true
+  if ([node.name, attributes.name, attributes.id, attributes.class, attributes.placeholder].some((text) => text !== undefined && SEARCH_WORDS.test(text))) return true
+  // The box around it, up to its form: a search form sends its query by GET.
+  let ref = page.index.get(node.ref)?.parentRef
+  for (let level = 0; ref !== undefined && level < 6; level++, ref = page.index.get(ref)?.parentRef) {
+    const parent = page.index.get(ref)?.node
+    if (!parent) break
+    const around = attributesOf(parent)
+    if ([around.id, around.class, around.action, around['aria-label']].some((text) => text !== undefined && SEARCH_WORDS.test(text))) return true
+    if (parent.native.tag === 'form') return around.method?.trim().toLowerCase() === 'get'
+  }
+  return false
+}
+
+/**
+ * Whether a field belongs to a form whose error messages matter: one a person types into, other than a search box.
+ * Nearly every page has a header search, and no list of options, switch or checkbox (a language menu, a cookie
+ * preference) shows an error for what was chosen, so the note on missing error messages would follow them everywhere.
+ */
+export function typedField(node: A11yNode, page: Page): boolean {
+  const type = fieldType(node)
+  return type !== undefined && TYPED_FIELDS.has(type) && usable(node) && !searchBox(node, page)
 }
 
 /** Whether a WCAG 3.3.3 result is on the message or its field, or a 3.3.1 judgment on the message: then this is left to it. */
@@ -253,6 +299,11 @@ export const errorWording: AdvisoryCheck = {
       })
     }
     const notes = left > 0 ? [amPlural(context.locale, 'wordingLeftToWcag', left)] : []
+    // Error messages often show only after a person types or submits: say so, rather than let silence read as clear wording.
+    if (all.length === 0 && context.page.ordered.some((node) => typedField(node, context.page))) {
+      const probe = formProbe(context.page)
+      notes.push(am(context.locale, probe === 'typed' ? 'wordingNoneProbed' : probe === 'untyped' ? 'wordingNoneUntyped' : 'wordingNone'))
+    }
     return finished(errorWording.id, context.locale, asked, all.length, hits, notes)
   },
 }

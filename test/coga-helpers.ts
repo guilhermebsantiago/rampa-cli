@@ -9,8 +9,9 @@ import type { A11ySnapshot } from '../src/snapshot/schema.ts'
 
 /**
  * Small Hunspell dictionaries in the real format, so the tests never download the real ones: a few words
- * the fixtures write in capitals, a suffix rule (serviço/S gives SERVIÇOS) and an acronym entry (NASA),
- * which must not make its capitals a word.
+ * the fixtures write in capitals, a suffix rule (serviço/S gives SERVIÇOS), an acronym entry (NASA),
+ * which must not make its capitals a word, and first names as the real ones list them (maria in lower
+ * case, as VERO does; David with a capital, as SCOWL does).
  */
 const PT_AFF = `SET UTF-8
 FLAG UTF-8
@@ -18,7 +19,7 @@ SFX S Y 2
 SFX S 0 s [aeiou]
 SFX S ão ões ão
 `
-const PT_DIC = `10
+const PT_DIC = `12
 entrar
 enviar
 ou
@@ -29,12 +30,14 @@ buscar
 Brasil
 NASA
 sus
+maria
+portal
 `
 const EN_AFF = `SET UTF-8
 SFX S Y 1
 SFX S 0 s .
 `
-const EN_DIC = `7
+const EN_DIC = `8
 submit
 search
 apply
@@ -42,6 +45,7 @@ now
 it
 OK
 NASA
+David
 `
 
 export const testDictionaries: DictionarySource = async (language) => (language === 'pt-BR' ? new Hunspell(PT_AFF, PT_DIC) : new Hunspell(EN_AFF, EN_DIC))

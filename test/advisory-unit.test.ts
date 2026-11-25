@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { Hunspell } from '../src/advisory/abbreviations/hunspell.ts'
 import { bestLongForm, definitionsIn, initialsMatch } from '../src/advisory/abbreviations/long-form.ts'
 import { proposeExpansions } from '../src/advisory/abbreviations/propose.ts'
+import { accentedForms, knownWord, nameLike, wordShaped } from '../src/advisory/abbreviations/word-shape.ts'
 import { costIn } from '../src/advisory/checks/preselected-cost.ts'
 import { compilePattern, examplesIn, purposeOf, regionOf } from '../src/advisory/formats.ts'
 import { readPage } from '../src/advisory/page.ts'
@@ -107,6 +108,78 @@ describe('coga/abbreviations rules', () => {
     const flagged = section.results.filter((advisory) => advisory.check === 'coga/abbreviations').map((advisory) => advisory.subject)
     expect(flagged).toEqual(expect.arrayContaining(['NIS', 'PhD']))
     for (const name of ['TikTok', 'AirTag', 'VaiVem', 'DevCon']) expect(flagged).not.toContain(name)
+  })
+
+  it('tells the shape of a word from the shape of an acronym, from the word lists', () => {
+    for (const word of ['ARAUJO', 'BEZERRA', 'TAVORENO', 'QUELUZA', 'BRESCOVA']) expect(wordShaped(word, 'pt'), word).toBe(true)
+    for (const acronym of ['INSS', 'CNIS', 'CTPS', 'CPF', 'FGTS', 'IBGE', 'LGPD', 'GFIP', 'CEPS']) expect(wordShaped(acronym, 'pt'), acronym).toBe(false)
+    expect(wordShaped('PRESTWICK', 'en')).toBe(true)
+    for (const acronym of ['HMRC', 'DVLA', 'NHS']) expect(wordShaped(acronym, 'en'), acronym).toBe(false)
+    expect(wordShaped('G20', 'pt')).toBe(false)
+    expect([...accentedForms('JOAO')]).toContain('joão')
+    expect([...accentedForms('ACAO')]).toContain('ação')
+    expect([...accentedForms('PAS')]).toEqual([])
+    expect([...accentedForms('JOÃO')]).toEqual([])
+  })
+
+  it('reads a word in capitals without its accents as the word: a listed word, or a dictionary entry as it stands', () => {
+    const dictionary = new Hunspell('SET UTF-8\nFLAG UTF-8\nSFX S Y 1\nSFX S ão ões ão\n', '2\ntavorão/S\nAraújo\n')
+    expect(dictionary.isEntry('TAVORÃO')).toBe(true)
+    expect(dictionary.isEntry('TAVORÕES')).toBe(false)
+    expect(dictionary.isWord('TAVORÕES')).toBe(true)
+    expect(knownWord('ARAUJO', 'pt', dictionary)).toBe(true)
+    expect(knownWord('TAVORAO', 'pt', dictionary)).toBe(true)
+    // An affixed form is not read back without its accents (accents would make too many of them), a listed word is.
+    expect(knownWord('TAVOROES', 'pt', dictionary)).toBe(false)
+    expect(knownWord('CONTEUDO', 'pt', dictionary)).toBe(true)
+    expect(knownWord('CNIS', 'pt', dictionary)).toBe(false)
+    expect(nameLike('ARAUJO', 'pt', dictionary)).toBe(true)
+    // A common word is not a name, even when the dictionary knows it.
+    expect(nameLike('CONTEUDO', 'pt', dictionary)).toBe(false)
+  })
+
+  it('reads names and words in capitals as names and words, and still reports INSS, CNIS, CTPS, CPF, FGTS and ONU', async () => {
+    const paragraph = (ref: string, text: string, tag = 'p') => node({ ref, role: tag === 'button' ? 'button' : 'paragraph', text, native: { tag, html: `<${tag}>` } })
+    const page = (lang: string, children: ReturnType<typeof node>[]): A11ySnapshot => ({
+      schemaVersion: 1,
+      surface: 'web',
+      target: 'https://www.exemplo.gov.br/',
+      title: 'Início',
+      locale: lang,
+      viewport: { width: 1280, height: 800, scale: 1 },
+      collectedAt: '2026-11-25T00:00:00.000Z',
+      collector: { name: 'test', version: '0' },
+      root: node({ ref: 'html', role: 'document', lang, native: { tag: 'html' }, children }),
+    })
+    const flagged = async (snapshot: A11ySnapshot) => {
+      const section = await profileOf(snapshot)
+      return [...section.results, ...section.belowThreshold].filter((advisory) => advisory.check === 'coga/abbreviations').map((advisory) => advisory.subject)
+    }
+
+    const pt = await flagged(
+      page('pt-BR', [
+        paragraph('header > span', 'Olá, MARIA TAVORENO'),
+        paragraph('header > button', 'MARIA QUELUZA', 'button'),
+        paragraph('header > p', 'Bem-vinda(o), ANA QUIRELA!'),
+        paragraph('main > p:nth-child(1)', 'A loja BRESCOVA abriu. Conheça a Brescova pelo site.'),
+        paragraph('main > p:nth-child(2)', 'Veja o CONTEUDO do curso.'),
+        paragraph('main > p:nth-child(3)', 'Consulte o CNIS, a CTPS, o extrato do FGTS e o INSS com o seu CPF. A ONU também. O Cnis mostra suas contribuições.'),
+        paragraph('main > p:nth-child(4)', 'MARIA CNIS'),
+        paragraph('main > h2', 'PORTAL DO SIGEPE', 'h2'),
+      ]),
+    )
+    for (const acronym of ['CNIS', 'CTPS', 'FGTS', 'INSS', 'CPF', 'ONU', 'SIGEPE']) expect(pt, acronym).toContain(acronym)
+    for (const name of ['TAVORENO', 'MARIA', 'QUELUZA', 'ANA', 'QUIRELA', 'BRESCOVA', 'CONTEUDO']) expect(pt, name).not.toContain(name)
+
+    const en = await flagged(
+      page('en', [
+        paragraph('header > span', 'Hello, ANNA QUIMBERLY'),
+        paragraph('main > p:nth-child(1)', 'DAVID PRESTWICK looks back at the year.'),
+        paragraph('main > p:nth-child(2)', 'Tell HMRC and the DVLA. Hello, HMRC.'),
+      ]),
+    )
+    for (const acronym of ['HMRC', 'DVLA']) expect(en, acronym).toContain(acronym)
+    for (const name of ['ANNA', 'QUIMBERLY', 'PRESTWICK']) expect(en, name).not.toContain(name)
   })
 
   it('keeps an expansion only when the initials of its words spell the token', () => {
