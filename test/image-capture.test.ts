@@ -12,7 +12,7 @@ import { providerIdentity } from '../src/providers/ai-sdk.ts'
 import { imageSkipOf, uncapturedImagesNote } from '../src/snapshot/image-skips.ts'
 import type { A11yNode, A11ySnapshot } from '../src/snapshot/schema.ts'
 import { walkTree } from '../src/snapshot/tree.ts'
-import { flatColor } from '../src/surfaces/image-capture.ts'
+import { captureImageNodes, flatColor } from '../src/surfaces/image-capture.ts'
 import { collectWeb, launchBrowser } from '../src/surfaces/web.ts'
 
 // Integration: needs Chrome or Edge (or Playwright's Chromium). Skipped when none is installed.
@@ -143,7 +143,7 @@ popup.id = 'popup'
 popup.style.cssText = 'position:absolute;left:0;width:320px;height:120px;background:rgb(250,200,0);top:' + (first.top + window.scrollY - 10) + 'px'
 popup.textContent = 'Spin the wheel'
 document.body.appendChild(popup)
-// A popup fixed to the window that opens once the page scrolls, after the fixed layers were hidden.
+// A popup fixed to the window that opens once the page scrolls, after the fixed layers were hidden: hidden for the capture too.
 let opened = false
 addEventListener('scroll', () => {
   if (opened || scrollY < 300) return
@@ -153,6 +153,86 @@ addEventListener('scroll', () => {
   document.body.appendChild(late)
 })
 </script></body></html>`
+
+// Layers fixed to the window over the page while consent is pending, as on www.gov.br/pt-br: a backdrop inside the header
+// bar's open shadow root, which the fixed layers marked in the page's document do not take in, and a cookie bar along the
+// bottom of the window, which keeps the backdrop from being the layer on top over most of the viewport, and lies over the
+// last image, which cannot scroll above it. Further down, a popup fixed to the window whose content sets its own
+// visibility, as OneTrust's banner does: hiding the popup alone leaves a box over the image's centre and a mark beside it,
+// away from the points looked at, showing.
+const CONSENT = `<!doctype html><html lang="en"><head>${STYLE}<style>
+header { height: 100px; }
+section { height: 140px; }
+#cookies { position: fixed; left: 0; right: 0; bottom: 0; height: 150px; background: rgb(12,30,63); color: white; z-index: 1000; }
+#popup { position: fixed; inset: 0; z-index: 50; }
+#popup .sdk { visibility: visible; position: absolute; inset: 0; }
+#popup .box { position: absolute; width: 100px; height: 40px; background: rgb(250,200,0); }
+#popup .mark { position: absolute; width: 40px; height: 20px; background: rgb(20,20,20); }
+</style></head><body>
+<header><top-bar id="bar"></top-bar></header>
+<section><img id="first-card" alt="A farmer" src="green.svg"></section>
+<div style="height: 900px"></div>
+<section><img id="lower-card" alt="A tourist" src="blue.svg"></section>
+<footer style="height: 120px"><img id="last-card" alt="A seal" src="red.svg"></footer>
+<div id="cookies">We use cookies. <button id="accept" onclick="window.accepted = true; this.parentElement.remove()">Accept cookies</button></div>
+<script>
+window.accepted = false
+customElements.define('top-bar', class extends HTMLElement {
+  constructor() {
+    super()
+    this.attachShadow({ mode: 'open' }).innerHTML = '<style>.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 998; }</style><a href="#sign-in">Sign in</a><div class="overlay" role="button"></div>'
+  }
+})
+// The popup opens once the page scrolls to the lower image: its box over the image's centre, its mark at the image's
+// left between the centre and the corners.
+addEventListener('scroll', () => {
+  if (document.getElementById('popup') || scrollY < 600) return
+  const image = document.getElementById('lower-card').getBoundingClientRect()
+  const popup = document.createElement('div')
+  popup.id = 'popup'
+  popup.innerHTML = '<div class="sdk"><div class="box"></div><div class="mark"></div></div>'
+  popup.querySelector('.box').style.cssText = 'left:' + (image.left + 100) + 'px;top:' + (image.top + 30) + 'px'
+  popup.querySelector('.mark').style.cssText = 'left:' + (image.left + 45) + 'px;top:' + (image.top + 35) + 'px'
+  document.body.appendChild(popup)
+})
+</script></body></html>`
+
+// A consent dialog opened modally inside the open shadow root of a host fixed to the window, as on www.heals.com: in the
+// top layer, it sets its own visibility, so neither the host's visibility nor its opacity hides it or its backdrop.
+const MODAL = `<!doctype html><html lang="en"><head>${STYLE}</head><body>
+<section><img id="under-modal" alt="A lamp" src="green.svg"></section>
+<consent-notice id="notice" style="position: fixed; z-index: 10"></consent-notice>
+<script>
+customElements.define('consent-notice', class extends HTMLElement {
+  connectedCallback() {
+    const root = this.attachShadow({ mode: 'open' })
+    root.innerHTML = '<style>dialog { visibility: visible; margin: 0; inset: 0; width: 400px; height: 150px; border: 0; background: rgb(246,245,241); } dialog::backdrop { background: rgba(0,0,0,0.5); }</style><dialog><p>We use cookies.</p><button>Accept all</button></dialog>'
+    root.querySelector('dialog').showModal()
+  }
+})
+</script></body></html>`
+
+// An offer shown as a popover, in the top layer, from a container fixed to the window: it sets its own visibility, and
+// the container's opacity does not reach it, so it is hidden itself.
+const POPOVER = `<!doctype html><html lang="en"><head>${STYLE}</head><body>
+<section><img id="under-popover" alt="A chair" src="red.svg"></section>
+<div id="promo" style="position: fixed; z-index: 5"><div id="offer" popover="manual" style="visibility: visible; margin: 0; inset: 0 auto auto 0; width: 400px; height: 150px; border: 0; background: rgb(250,200,0)">Ten percent off</div></div>
+<script>document.getElementById('offer').showPopover()</script>
+</body></html>`
+
+// A consent banner fixed to the window from the start, whose content sets its own visibility as OneTrust's does
+// (www.irishnews.com): its button lies over the top of the photo, away from the points looked at, so only hiding the
+// marked layer keeps it out. A bar fixed to the window, which fades, holds a logo captured after the photo.
+const ONETRUST = `<!doctype html><html lang="en"><head>${STYLE}<style>
+#banner-sdk { position: fixed; inset: 0; z-index: 100; pointer-events: none; }
+#banner-sdk .container { visibility: visible; position: absolute; left: 100px; top: 0; width: 100px; height: 20px; background: rgb(20,20,20); }
+#bar { position: fixed; right: 0; bottom: 0; width: 320px; height: 120px; transition: opacity 1s; }
+</style></head><body>
+<img id="photo" alt="A match" src="green.svg">
+<div style="height: 2000px"></div>
+<div id="banner-sdk"><div class="container"><button>Manage Cookies</button></div></div>
+<div id="bar"><img id="bar-logo" alt="Sponsor" src="blue.svg"></div>
+</body></html>`
 
 // An element with role="img" drawn by an img inside it: one whose lazy source is swapped in, and one never loaded.
 const ROLE_IMG = `<!doctype html><html lang="en"><head>${STYLE}<style>.slide { width: 300px; height: 100px; } .slide img { width: 300px; height: 100px; }</style></head><body>
@@ -175,11 +255,84 @@ describe.skipIf(!browser)('image capture', { timeout: 60_000 }, () => {
   it('leaves out an image with other content laid over it, and captures one whose own card draws over it', async () => {
     const nodes = await collect(COVERED)
     const reasons = Object.fromEntries(['under-popup', 'under-banner', 'captioned', 'under-wrapper', 'scrolled-to'].map((id) => [id, imageSkipOf(nodes.get(id) as A11yNode)]))
-    expect(reasons).toEqual({ 'under-popup': 'covered', 'under-banner': 'covered', captioned: undefined, 'under-wrapper': undefined, 'scrolled-to': 'covered' })
+    expect(reasons).toEqual({ 'under-popup': 'covered', 'under-banner': 'covered', captioned: undefined, 'under-wrapper': undefined, 'scrolled-to': undefined })
     expect(nodes.get('under-popup')?.image).toBeUndefined()
     // A caption and a link stretched over the picture belong to its card; a transparent wrapper over the page paints nothing.
     expect(colorsOf(nodes.get('captioned')?.image)).toContain('0,0,255')
     expect(colorsOf(nodes.get('under-wrapper')?.image)).toEqual(['0,128,128'])
+    // The popup fixed to the window that opened on the scroll is hidden for the capture: the picture's own pixels, undimmed.
+    expect(colorsOf(nodes.get('scrolled-to')?.image)).toEqual(['0,128,128'])
+  })
+
+  it('hides layers fixed to the window over an image for its capture, in a shadow root or opened late, and clicks nothing', async () => {
+    const nodes = await collect(CONSENT)
+    for (const id of ['first-card', 'lower-card', 'last-card']) expect(imageSkipOf(nodes.get(id) as A11yNode), id).toBeUndefined()
+    // The pictures' own colors, not dimmed by the backdrop nor painted over by the popup's content or the cookie bar.
+    expect(colorsOf(nodes.get('first-card')?.image)).toEqual(['0,128,0'])
+    expect(colorsOf(nodes.get('lower-card')?.image)).toEqual(['0,0,255'])
+    expect(colorsOf(nodes.get('last-card')?.image)).toEqual(['255,0,0'])
+  })
+
+  it('makes the marked layers transparent for image captures, so content that sets its own visibility stays out', async () => {
+    const nodes = await collect(ONETRUST)
+    expect(colorsOf(nodes.get('photo')?.image)).toEqual(['0,128,0'])
+    // The bar was made transparent for the photo and holds the logo: back as the page has it, not fading in.
+    expect(colorsOf(nodes.get('bar-logo')?.image)).toEqual(['0,0,255'])
+  })
+
+  it('hides a popover in the top layer over an image for its capture, and leaves out an image under a modal dialog', async () => {
+    // Neither the popover nor its container: the picture's own color.
+    const shown = await collect(POPOVER)
+    expect(imageSkipOf(shown.get('under-popover') as A11yNode)).toBeUndefined()
+    expect(colorsOf(shown.get('under-popover')?.image)).toEqual(['255,0,0'])
+    // Under a modal dialog the page is inert: hit testing no longer sees what else lies over the image, so it is left out.
+    const blocked = await collect(MODAL)
+    expect(imageSkipOf(blocked.get('under-modal') as A11yNode)).toBe('covered')
+    expect(blocked.get('under-modal')?.image).toBeUndefined()
+  })
+
+  it('hides the fixed layers on a test’s own page, which marks none, and puts them back after each capture', async () => {
+    if (!browser) throw new Error('no browser')
+    const page = await browser.newPage({ viewport: { width: 1280, height: 720 } })
+    try {
+      await page.goto(await site(CONSENT))
+      const image = (ref: string): A11yNode => ({
+        ref,
+        role: 'img',
+        name: 'A photo',
+        states: [],
+        bounds: { x: 0, y: 0, width: 300, height: 100 },
+        native: { tag: 'img', attributes: { alt: 'A photo' } },
+        children: [],
+      })
+      const root: A11yNode = { ref: 'html', role: 'document', states: [], native: { tag: 'html' }, children: [image('#first-card'), image('#lower-card'), image('#last-card')] }
+      await captureImageNodes(
+        {
+          // biome-ignore lint/suspicious/noExplicitAny: Playwright's evaluate infers its argument type from a generic it cannot see here
+          evaluate: <Arg, Result>(fn: (arg: Arg) => Result | Promise<Result>, arg: Arg) => page.evaluate(fn as (arg: any) => Result | Promise<Result>, arg),
+          screenshot: (ref) => page.locator(ref).screenshot({ type: 'png', animations: 'disabled', scale: 'css' }),
+        },
+        root,
+      )
+      const [first, lower, last] = root.children
+      expect(colorsOf(first?.image)).toEqual(['0,128,0'])
+      expect(colorsOf(lower?.image)).toEqual(['0,0,255'])
+      expect(colorsOf(last?.image)).toEqual(['255,0,0'])
+      // Every layer shows again as the page had it, and the cookie bar is still waiting for an answer.
+      const after = await page.evaluate(() => ({
+        accepted: (window as unknown as { accepted: boolean }).accepted,
+        cookies: document.getElementById('cookies') ? getComputedStyle(document.getElementById('cookies') as Element).visibility : 'removed',
+        backdrop: getComputedStyle(document.getElementById('bar')?.shadowRoot?.querySelector('.overlay') as Element).visibility,
+        popup: getComputedStyle(document.getElementById('popup') as Element).visibility,
+        content: getComputedStyle(document.querySelector('#popup .box') as Element).visibility,
+        inline: [...document.querySelectorAll<HTMLElement>('#cookies, #popup, #popup .box'), document.getElementById('bar')?.shadowRoot?.querySelector<HTMLElement>('.overlay')].map(
+          (el) => ['visibility', 'opacity', 'transition'].map((prop) => el?.style.getPropertyValue(prop) ?? '').join(''),
+        ),
+      }))
+      expect(after).toEqual({ accepted: false, cookies: 'visible', backdrop: 'visible', popup: 'visible', content: 'visible', inline: ['', '', '', ''] })
+    } finally {
+      await page.close()
+    }
   })
 
   it('waits for the img an element with role="img" draws with, and leaves the element out when it never loads', async () => {

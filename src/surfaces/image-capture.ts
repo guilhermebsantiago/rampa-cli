@@ -14,8 +14,10 @@ import { walkTree } from '../snapshot/tree.ts'
  * so a lazy image (loading="lazy", a data-src swap) is captured, not its placeholder. An image is
  * left without a capture, with the reason on the node (snapshot/image-skips.ts), when the capture
  * would not be its own pixels: outside the page, cut off by its container, transparent, still a
- * placeholder, blank, or stacked with other images in one box (carousel slides) and not told apart
- * from them once the others are hidden.
+ * placeholder, blank, stacked with other images in one box (carousel slides) and not told apart
+ * from them once the others are hidden, or covered by content from another branch of the page or by
+ * an open modal dialog. A layer fixed or sticky to the window that lies over it (a cookie banner, a
+ * backdrop) is hidden for the capture instead, and nothing on the page is clicked.
  *
  * Images the page hides from assistive technology are captured too when 1.1.1 may judge them (ACT
  * e88epe): an img with alt="" is among the images already, and an svg or a canvas with no name is
@@ -419,48 +421,81 @@ export async function prepareImageInPage(arg: { ref: string; waitMs: number }): 
 
   // What is on top where the image sits, at its centre and near its four corners (a tenth of its visible box in): content
   // laid over the image would be captured in its place. Laid over is content in a layer fixed or sticky to the window
-  // that does not hold the image (a popup, a banner or a header that became fixed after the fixed layers were hidden),
-  // or in another branch of the page than the image's (a popup or a cookie banner added to the body); and it must paint
-  // there (a background, a picture, a control or its own text at that point), so a transparent wrapper does not count.
-  // Content of the image's own card, such as a caption, a badge or a link stretched over it, is not laid over.
-  // usereserva.com.br's product photos were captured under a prize-wheel popup, and thewhitecompany.com's candles under
-  // the cookie banner, in the sixth real-page study: such an image is left out, not judged from someone else's pixels.
+  // that does not hold the image (a popup, a banner, a backdrop), or in another branch of the page than the image's (a
+  // popup or a banner added to the body); and it must paint there (a background, a picture, a control or its own text at
+  // that point), so a transparent wrapper does not count. Content of the image's own card, such as a caption, a badge or a
+  // link stretched over it, is not laid over.
+  // A layer fixed or sticky to the window is not the page's content where the image sits: it is hidden for the capture,
+  // as rampa check hides the fixed layers it marks before (surfaces/web.ts), and the points are looked at again. That
+  // takes in the layers the marking does not see: one that opens later, one in a shadow root (the backdrop www.gov.br/pt-br
+  // showed inside its header bar's shadow root on a first visit, with its cookie banner open, which left all 10 of its
+  // images out), and every layer for a test's own page, which marks none. Nothing is clicked or dismissed, so no consent
+  // is given. Content laid over from another branch of the page, in no such layer, still leaves the image out as
+  // `covered`, since it cannot be told from the page's own, and so does an open modal dialog (below): an image is not
+  // judged from someone else's pixels (usereserva.com.br's product photos were captured under a prize-wheel popup in the
+  // sixth real-page study).
   const composedParent = (node: Element): Element | null => node.parentElement ?? ((node.parentNode as ShadowRoot | null)?.host ?? null)
   const holds = (outer: Element, inner: Element): boolean => {
     for (let node: Element | null = inner; node; node = composedParent(node)) if (node === outer) return true
     return false
   }
   const styleOf = (node: Element) => (node.ownerDocument.defaultView ?? view).getComputedStyle(node)
-  const laidOver = (hit: Element, picture: Element): boolean => {
+  const ancestorsOf = (picture: Element): Set<Element> => {
     const around = new Set<Element>()
     for (let node: Element | null = picture; node; node = composedParent(node)) around.add(node)
+    return around
+  }
+  // An element in the top layer (a modal dialog, an open popover) is drawn over the page whatever its ancestors' opacity:
+  // it is a layer of its own. www.heals.com opens its consent dialog modally in a shadow root, with its own visibility.
+  const matches = (node: Element, selector: string): boolean => {
+    try {
+      return node.matches(selector)
+    } catch {
+      // A browser that does not know the selector has no such element.
+      return false
+    }
+  }
+  const topLayer = (node: Element): boolean => matches(node, ':modal') || matches(node, ':popover-open')
+  const laidOver = (hit: Element, picture: Element): boolean => {
+    const around = ancestorsOf(picture)
     for (let node: Element | null = hit; node; node = composedParent(node)) {
       if (around.has(node)) return node === node.ownerDocument.documentElement || node === node.ownerDocument.body
-      if (/^(fixed|sticky)$/.test(styleOf(node).position)) return true
+      if (/^(fixed|sticky)$/.test(styleOf(node).position) || topLayer(node)) return true
     }
     return true
   }
-  const paints = (node: Element, x: number, y: number): boolean => {
+  // The element that paints at the point: the node itself, or what its open shadow root draws there.
+  const painter = (node: Element, x: number, y: number): Element | undefined => {
     let alpha = 1
-    for (let up: Element | null = node; up; up = composedParent(up)) alpha *= Number.parseFloat(styleOf(up).opacity) || 0
-    if (alpha < 0.05) return false
-    if (/^(img|picture|video|canvas|iframe|embed|object|svg|input|select|textarea|button)$/.test(node.localName)) return true
-    const style = styleOf(node)
-    if (style.backgroundImage !== 'none' || (style.backdropFilter || 'none') !== 'none') return true
-    const color = /rgba?\(([^)]*)\)/.exec(style.backgroundColor)?.[1]?.split(/[\s,/]+/).filter(Boolean)
-    if (color && Number.parseFloat(color[3] ?? '1') > 0.1) return true
-    for (const child of Array.from(node.childNodes)) {
-      if (child.nodeType !== Node.TEXT_NODE || !child.textContent?.trim()) continue
-      const range = node.ownerDocument.createRange()
-      range.selectNodeContents(child)
-      if (Array.from(range.getClientRects()).some((box) => x >= box.left && x <= box.right && y >= box.top && y <= box.bottom)) return true
+    for (let up: Element | null = node; up; up = topLayer(up) ? null : composedParent(up)) alpha *= Number.parseFloat(styleOf(up).opacity) || 0
+    if (alpha >= 0.05) {
+      if (/^(img|picture|video|canvas|iframe|embed|object|svg|input|select|textarea|button)$/.test(node.localName)) return node
+      const style = styleOf(node)
+      if (style.backgroundImage !== 'none' || (style.backdropFilter || 'none') !== 'none') return node
+      const color = /rgba?\(([^)]*)\)/.exec(style.backgroundColor)?.[1]?.split(/[\s,/]+/).filter(Boolean)
+      if (color && Number.parseFloat(color[3] ?? '1') > 0.1) return node
+      for (const child of Array.from(node.childNodes)) {
+        if (child.nodeType !== Node.TEXT_NODE || !child.textContent?.trim()) continue
+        const range = node.ownerDocument.createRange()
+        range.selectNodeContents(child)
+        if (Array.from(range.getClientRects()).some((box) => x >= box.left && x <= box.right && y >= box.top && y <= box.bottom)) return node
+      }
     }
-    // An open shadow root draws what its host shows.
+    // An open shadow root draws what its host shows, and an element of it in the top layer even when the host is transparent.
     const inner = node.shadowRoot
-    return inner ? Array.from(inner.elementsFromPoint(x, y)).some((element) => element !== node && element.getRootNode() === inner && paints(element, x, y)) : false
+    if (!inner) return undefined
+    for (const element of Array.from(inner.elementsFromPoint(x, y))) {
+      if (element === node || element.getRootNode() !== inner) continue
+      const found = painter(element, x, y)
+      if (found) return found
+    }
+    return undefined
   }
-  // From the image's own tree up through its shadow hosts and frames, in each tree's coordinates.
-  const coveredAt = (pointX: number, pointY: number): boolean => {
+  // From the image's own tree up through its shadow hosts and frames, in each tree's coordinates: what paints over it, and
+  // the outermost layer fixed or sticky to the window that holds that content and not the image, when there is one; an
+  // element in the top layer that holds it is that layer, as its ancestors do not hide it.
+  type Cover = { paint: Element; layer?: Element | undefined }
+  const coverAt = (pointX: number, pointY: number): Cover | undefined => {
     let picture: Element = target
     let x = pointX
     let y = pointY
@@ -468,21 +503,31 @@ export async function prepareImageInPage(arg: { ref: string; waitMs: number }): 
       const scope = picture.getRootNode() as Document | ShadowRoot
       for (const hit of Array.from(scope.elementsFromPoint(x, y))) {
         if (holds(picture, hit) || holds(hit, picture)) break
-        if (laidOver(hit, picture) && paints(hit, x, y)) return true
+        if (!laidOver(hit, picture)) continue
+        const paint = painter(hit, x, y)
+        if (!paint) continue
+        const around = ancestorsOf(picture)
+        let layer: Element | undefined
+        for (let node: Element | null = paint; node && !around.has(node); node = composedParent(node)) {
+          const top = topLayer(node)
+          if (top || /^(fixed|sticky)$/.test(styleOf(node).position)) layer = node
+          if (top) break
+        }
+        return { paint, layer }
       }
       if ('host' in scope) {
         picture = scope.host
         continue
       }
       const frameElement = scope.defaultView?.frameElement
-      if (!frameElement) return false
+      if (!frameElement) return undefined
       const box = frameElement.getBoundingClientRect()
       const style = styleOf(frameElement)
       x += box.left + frameElement.clientLeft + (Number.parseFloat(style.paddingLeft) || 0)
       y += box.top + frameElement.clientTop + (Number.parseFloat(style.paddingTop) || 0)
       picture = frameElement
     }
-    return false
+    return undefined
   }
   const shownLeft = Math.max(left, 0)
   const shownTop = Math.max(top, 0)
@@ -498,7 +543,29 @@ export async function prepareImageInPage(arg: { ref: string; waitMs: number }): 
       [shownLeft + insetX, shownBottom - insetY],
       [shownRight - insetX, shownBottom - insetY],
     ]
-    if (points.some(([x, y]) => coveredAt(x, y))) return result('covered', source)
+    const hidden = new Set<Element>()
+    for (let round = 0; ; round++) {
+      let cover: Cover | undefined
+      for (const [x, y] of points) {
+        cover = coverAt(x, y)
+        if (cover) break
+      }
+      if (!cover) break
+      // The layer, or, when it is hidden already and still paints there, what paints.
+      const next = cover.layer === undefined ? undefined : hidden.has(cover.layer) ? cover.paint : cover.layer
+      // Content of another branch of the page, or more layers than a page stacks: left out. So is an image under a modal
+      // dialog: the page under it is inert, so hit testing no longer sees what else lies over the image, and the crop could
+      // not be checked (on www.heals.com a newsletter popup that opened while its consent dialog was hidden went unseen).
+      if (!next || hidden.has(next) || round >= 8 || matches(next, ':modal')) return result('covered', source)
+      hidden.add(next)
+      // Transparent, which no descendant outside the top layer can undo, and out of the hit test. With visibility alone, a
+      // layer still shows the children that set their own: the OneTrust banner on www.libertylondon.com does so with its
+      // content, whose text then lay over the product photos away from the points looked at. With no transition, the
+      // change shows at once.
+      force(next, 'transition', 'none')
+      force(next, 'opacity', '0')
+      force(next, 'visibility', 'hidden')
+    }
   }
 
   const stackedWith = others.flatMap((other) => {
@@ -567,6 +634,8 @@ export function restoreImageInPage(): void {
   const undo = page.__rampaImageUndo ?? []
   for (let entry = undo.pop(); entry; entry = undo.pop()) {
     if ('prop' in entry) {
+      // The opacity put back before transitions are, so that a layer hidden for the capture does not fade back in.
+      if (entry.prop === 'transition') void (entry.el.ownerDocument.defaultView ?? window).getComputedStyle(entry.el).opacity
       if (entry.value) entry.el.style.setProperty(entry.prop, entry.value, entry.priority)
       else entry.el.style.removeProperty(entry.prop)
     } else {
