@@ -1,0 +1,1591 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://www.lojaspompeia.com/feminino/Convencional?map=category-1,confeccao",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "02df3fb04572",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#id-jsccae > form > div > label > div > input",
+   "message": "The field \"Código postal\" asks for the user's postal code but does not identify that purpose: autocomplete=\"postal-code\" is missing.",
+   "evidence": "Código postal",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#id-jsccae > form > div > label > div > input",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "postal-code",
+    "before": "<input type=\"text\" class=\"vtex-styleguide-9-x-input ma0 border-box vtex-styleguide-9-x-hideDecorators vtex-styleguide-9-x-noAppearance br2   w-100 bn outline-0 bg-base c-on-base b--muted-4 hover-b--muted-3 t-body ph5 \" placeholder=\"Código postal\" value=\"\">",
+    "after": "<input type=\"text\" class=\"vtex-styleguide-9-x-input ma0 border-box vtex-styleguide-9-x-hideDecorators vtex-styleguide-9-x-noAppearance br2   w-100 bn outline-0 bg-base c-on-base b--muted-4 hover-b--muted-3 t-body ph5 \" placeholder=\"Código postal\" value=\"\" autocomplete=\"postal-code\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "97ca068d4800",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#id-jsccae > form > div > label > div > input",
+   "target": "#id-jsccae > form > div > label > div > input",
+   "message": "The browser exposes this element as a textbox but computes no name for it: a screen reader announces only \"textbox\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role textbox · name \"\"",
+   "subject": "textbox",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<input type=\"text\" class=\"vtex-styleguide-9-x-input ma0 border-box vtex-styleguide-9-x-hideDecorators vtex-styleguide-9-x-noAppearance br2   w-100 bn outline-0 bg-base c-on-base b--muted-4 hover-b--muted-3 t-body ph5 \" placeholder=\"Código postal\" value=\"\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "bb16d968d491",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div:nth-of-type(9) > section > div:nth-of-type(2) > div > nav > a:nth-of-type(6)",
+   "target": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div:nth-of-type(9) > section > div:nth-of-type(2) > div > nav > a:nth-of-type(6)",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a class=\"lojaspompeia-lojaspompeiaio-2-x-PaginationLink lojaspompeia-lojaspompeiaio-2-x-PaginationLinkNext\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 53
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.1.1",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(9) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(1) > div > a > div > svg",
+    "ruleId": "svg-img-alt",
+    "confidence": "high",
+    "fingerprint": "b16a3666eb19"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(9) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(2) > div > a > div > svg",
+    "ruleId": "svg-img-alt",
+    "confidence": "high",
+    "fingerprint": "1955ceae235c"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(9) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(3) > div > a > div > svg",
+    "ruleId": "svg-img-alt",
+    "confidence": "high",
+    "fingerprint": "1e88c4e8d86d"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(9) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(4) > div > a > div > svg",
+    "ruleId": "svg-img-alt",
+    "confidence": "high",
+    "fingerprint": "9f3dedde2f5e"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(9) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(5) > div > a > div > svg",
+    "ruleId": "svg-img-alt",
+    "confidence": "high",
+    "fingerprint": "94492c233183"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(9) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(1) > nav > ul",
+    "ruleId": "list",
+    "confidence": "high",
+    "fingerprint": "a988ffe2f2b5"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(9) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(2) > nav > ul",
+    "ruleId": "list",
+    "confidence": "high",
+    "fingerprint": "fa7941fccebb"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(9) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(3) > nav > ul",
+    "ruleId": "list",
+    "confidence": "high",
+    "fingerprint": "12e7823dcf9f"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#slider-items-5mgpvp6 > div > div > div:nth-of-type(2) > div > div > div > div > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "289429f43944"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#slider-items-xpjrhjw > div > div > div:nth-of-type(1) > div > div > div > p > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "31736152293f"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#slider-items-xpjrhjw > div > div > div:nth-of-type(2) > div > div > div > p > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "ff85c0d7998f"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#slider-items-xpjrhjw > div > div > div:nth-of-type(3) > div > div > div > p > span > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "3af7deb2aa94"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#slider-items-xpjrhjw > div > div > div:nth-of-type(4) > div > div > div > p > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "5b944e252c22"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#slider-items-xpjrhjw > div > div > div:nth-of-type(5) > div > div > div > p > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "e813787096c2"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#slider-items-xpjrhjw > div > div > div:nth-of-type(6) > div > div > div > p > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "be1d6a05760d"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#slider-items-xpjrhjw > div > div > div:nth-of-type(7) > div > div > div > p > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "e7f19547f086"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#slider-items-xpjrhjw > div > div > div:nth-of-type(8) > div > div > div > p > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "e7761b2a81c6"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#id-jsccae > form > button > div",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "c4b285099b14"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#id-jsccae > div:nth-of-type(1) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "f6fbb8102bfc"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div > section > div > div:nth-of-type(2) > div > div > section > div > div:nth-of-type(2) > div > button > div > span > div:nth-of-type(2) > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "ab02ef603b44"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div > div > ul > li:nth-of-type(1) > a > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "7ef40db1f28a"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div > div > ul > li:nth-of-type(2) > a > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "f10d8cf1ccf4"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div > div > ul > li:nth-of-type(3) > a > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "0c57dd3c7e3f"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div > div > ul > li:nth-of-type(4) > a > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "5a542d2b1fb1"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div > div > ul > li:nth-of-type(5) > a > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "f49c333f42e2"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div > div > ul > li:nth-of-type(6) > a > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "a7370e78121c"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div > div > ul > li:nth-of-type(10) > a > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "bea00c243248"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div > div > ul > li:nth-of-type(11) > a > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "66f046369bfe"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#breadcrumb-item-feminino > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "d55790651c23"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a > article > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "83054753c5c7"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a > article > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div > span > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "dda9fe468179"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(9) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(4) > div > div:nth-of-type(2) > div > div > div > div > div:nth-of-type(2) > div > div > p:nth-of-type(1)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "75ad64f4f57e"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(9) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(4) > div > div:nth-of-type(2) > div > div > div > div > div:nth-of-type(2) > div > div > p:nth-of-type(2)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "4900cc725212"
+   },
+   {
+    "criterion": "1.4.4",
+    "ref": "html > head > meta:nth-of-type(16)",
+    "ruleId": "meta-viewport",
+    "confidence": "high",
+    "fingerprint": "07f54962bdf3"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(9) > div > div:nth-of-type(2) > div:nth-of-type(3) > section > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "9278ec805554"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > div:nth-of-type(8) > div:nth-of-type(1) > div > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "71813998d5e4"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#gallery-layout-container > div:nth-of-type(1) > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "16e21b3f2c8f"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#gallery-layout-container > div:nth-of-type(2) > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "d98728947a98"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#gallery-layout-container > div:nth-of-type(3) > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "3d2da8303c7c"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#gallery-layout-container > div:nth-of-type(4) > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "b0a4c9977073"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#gallery-layout-container > div:nth-of-type(5) > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "860fa406c3cc"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#gallery-layout-container > div:nth-of-type(6) > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "2c62d6e8b0a3"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "5641e67e76df"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#gallery-layout-container > div:nth-of-type(8) > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "77d3ac8ffe74"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#gallery-layout-container > div:nth-of-type(1) > section > a > article > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div > div > button",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "0394e1ea5b92"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#gallery-layout-container > div:nth-of-type(2) > section > a > article > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div > div > button",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "4997586b80d4"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#gallery-layout-container > div:nth-of-type(3) > section > a > article > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div > div > button",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "b95b7be66d31"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#gallery-layout-container > div:nth-of-type(4) > section > a > article > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div > div > button",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "50f5bedea79c"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#gallery-layout-container > div:nth-of-type(5) > section > a > article > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div > div > button",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "f8e4aeb140e8"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#gallery-layout-container > div:nth-of-type(6) > section > a > article > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div > div > button",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "b7ebbc4934d0"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a > article > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div > div > button",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "fba7b4369cda"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#gallery-layout-container > div:nth-of-type(8) > section > a > article > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div > div > button",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "266d297f918b"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "html > body > div:nth-of-type(8) > div:nth-of-type(1) > div > div > button",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "6ecc28c540e2"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 25,
+   "members": [
+    "289429f43944",
+    "31736152293f",
+    "ff85c0d7998f",
+    "3af7deb2aa94",
+    "5b944e252c22",
+    "e813787096c2",
+    "be1d6a05760d",
+    "e7f19547f086",
+    "e7761b2a81c6",
+    "c4b285099b14",
+    "f6fbb8102bfc",
+    "ab02ef603b44",
+    "7ef40db1f28a",
+    "f10d8cf1ccf4",
+    "0c57dd3c7e3f",
+    "5a542d2b1fb1",
+    "f49c333f42e2",
+    "a7370e78121c",
+    "bea00c243248",
+    "66f046369bfe",
+    "d55790651c23",
+    "83054753c5c7",
+    "dda9fe468179",
+    "75ad64f4f57e",
+    "4900cc725212"
+   ],
+   "example": "289429f43944"
+  },
+  {
+   "id": "g-caa6eccc5028",
+   "list": "findings",
+   "criterion": "2.5.3",
+   "level": "A",
+   "source": "engine",
+   "check": "label-content-name-mismatch",
+   "count": 8,
+   "members": [
+    "16e21b3f2c8f",
+    "d98728947a98",
+    "3d2da8303c7c",
+    "b0a4c9977073",
+    "860fa406c3cc",
+    "2c62d6e8b0a3",
+    "5641e67e76df",
+    "77d3ac8ffe74"
+   ],
+   "example": "16e21b3f2c8f"
+  },
+  {
+   "id": "g-212d385fc478",
+   "list": "findings",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "engine",
+   "check": "button-name",
+   "count": 9,
+   "members": [
+    "0394e1ea5b92",
+    "4997586b80d4",
+    "b95b7be66d31",
+    "50f5bedea79c",
+    "f8e4aeb140e8",
+    "b7ebbc4934d0",
+    "fba7b4369cda",
+    "266d297f918b",
+    "6ecc28c540e2"
+   ],
+   "example": "0394e1ea5b92"
+  }
+ ],
+ "needsReview": [],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "#downshift-0-input",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#id-jsccae > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div > section > div > div:nth-of-type(2) > div > div > section > div > aside > div > div > button > div > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div > div > ul > li:nth-of-type(7) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div > div > ul > li:nth-of-type(8) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div > div > ul > li:nth-of-type(9) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(1) > section > a > article > div:nth-of-type(4) > div:nth-of-type(1) > div > h2 > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(1) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(1) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(1) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(1) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(3) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(1) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(1) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(1) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(5)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(1) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(1) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(1) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(1) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(1) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(5)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(2) > section > a > article > div:nth-of-type(4) > div:nth-of-type(1) > div > h2 > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(2) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(1) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(2) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(2) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(3) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(2) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(2) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(2) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(5)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(2) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(2) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(2) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(2) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(2) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(5)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(3) > section > a > article > div:nth-of-type(4) > div:nth-of-type(1) > div > h2 > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(3) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(1) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(3) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(3) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(3) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(3) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(4) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(3) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(3) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(3) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(5)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(3) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(3) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(3) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(3) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(3) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(5)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(4) > section > a > article > div:nth-of-type(4) > div:nth-of-type(1) > div > h2 > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(4) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(1) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(4) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(4) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(3) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(4) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(4) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(4) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(5)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(4) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(4) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(4) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(4) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(4) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(5)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(5) > section > a > article > div:nth-of-type(4) > div:nth-of-type(1) > div > h2 > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(5) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(1) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(5) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(5) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(3) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(5) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(4) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(5) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(5) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(5) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(5)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(5) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(5) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(5) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(5) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(5) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(5)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(6) > section > a > article > div:nth-of-type(4) > div:nth-of-type(1) > div > h2 > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(6) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(1) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(6) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(6) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(3) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(6) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(4) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(6) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(5) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(6) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(6) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(6) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(6) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(6) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(5)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(6) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(6) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(6) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(6) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(6) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(5)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a > article > div:nth-of-type(4) > div:nth-of-type(1) > div > h2 > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(1) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(3) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(4) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(1) > span > span > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(1) > span > span > span > span:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(1) > span > span > span > span:nth-of-type(5)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(5)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(5)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(8) > section > a > article > div:nth-of-type(4) > div:nth-of-type(1) > div > h2 > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(8) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(1) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(8) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(8) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(3) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(8) > section > a > article > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > div > ul > li:nth-of-type(4) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(8) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(8) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(8) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > span > span > span > span:nth-of-type(5)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(8) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(8) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(8) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(8) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#gallery-layout-container > div:nth-of-type(8) > section > a > article > div:nth-of-type(4) > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2) > span > span:nth-of-type(2) > span > span:nth-of-type(5)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div:nth-of-type(9) > section > div:nth-of-type(2) > div > nav > a:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div:nth-of-type(9) > section > div:nth-of-type(2) > div > nav > a:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div:nth-of-type(9) > section > div:nth-of-type(2) > div > nav > a:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div:nth-of-type(9) > section > div:nth-of-type(2) > div > nav > a:nth-of-type(4)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div:nth-of-type(9) > section > div:nth-of-type(2) > div > nav > a:nth-of-type(5)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "3.3.2",
+   "ref": "#downshift-0-input",
+   "source": null,
+   "ruleId": "form-field-multiple-labels"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div > section > div > div:nth-of-type(2) > div > div > section > div > aside > div > div",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div:nth-of-type(9) > section > div:nth-of-type(2) > div > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(2)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div:nth-of-type(9) > section > div:nth-of-type(2) > div > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div > div > div > div > div > div:nth-of-type(3) > div:nth-of-type(2)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > div:nth-of-type(9) > section > div:nth-of-type(2) > div > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div > div > div > div > div > div:nth-of-type(4) > div:nth-of-type(2)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(9)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#gallery-layout-container > div:nth-of-type(7) > section > a > article > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div > span",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(9) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(1) > div > a > div > svg",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(9) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(2) > div > a > div > svg",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(9) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(3) > div > a > div > svg",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(9) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(4) > div > a > div > svg",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(9) > div > div:nth-of-type(2) > div:nth-of-type(2) > section > div > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(5) > div > a > div > svg",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#slider-items-xpjrhjw > div > div > div:nth-of-type(2) > div > div > div > p > a > img",
+   "reason": "suggested alternative equals the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Cartão Pompéia",
+    "problem": "wrong_content",
+    "imageShows": "Um ícone de um cartão de crédito estilizado.",
+    "suggestedAlt": "Cartão Pompéia",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#slider-items-xpjrhjw > div > div > div:nth-of-type(4) > div > div > div > p > a > img",
+   "reason": "suggested alternative equals the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Cartão Pompéia",
+    "problem": "wrong_content",
+    "imageShows": "Um ícone de um cartão de crédito com um pequeno logotipo circular.",
+    "suggestedAlt": "Cartão Pompéia",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#downshift-0-input",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "O que está procurando?",
+    "verdict": "fail",
+    "evidence": "O…",
+    "problem": "generic",
+    "suggestedText": "Buscar produtos",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 13,
+   "judged": 10,
+   "failed": 0,
+   "passed": 8,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 3
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 1,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 398,
+   "judged": 10,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 388
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 10,
+   "judged": 10,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "batched": {
+    "candidates": 10,
+    "calls": 2
+   }
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "19 image(s) were left without a capture, so no judgment looked at them: 1 covered where it sits by other content, such as a popup or a cookie banner; 18 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 3 of 13 for 1.1.1, 388 of 398 for 2.4.4. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (10 in 2 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 25,
+  "cachedCalls": 0,
+  "inputTokens": 23418,
+  "outputTokens": 3204,
+  "latencyMs": 81478
+ },
+ "timings": {
+  "totalMs": 46988,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 39
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 14149,
+    "prepareMs": 0,
+    "candidates": 13,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2592,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1356,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 17602,
+    "prepareMs": 0,
+    "candidates": 398,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 11014,
+    "prepareMs": 0,
+    "candidates": 10,
+    "judged": 10,
+    "calls": 2,
+    "cachedCalls": 0,
+    "batches": 2
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 168,
+    "prepareMs": 166,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 19,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 46
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 1000,
+  "images": {
+   "captured": 14,
+   "notCaptured": 19,
+   "reasons": {
+    "covered": 1,
+    "limit": 18
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "1.1.1",
+    "candidates": 13,
+    "capped": 3
+   },
+   {
+    "criterion": "2.4.4",
+    "candidates": 398,
+    "capped": 388
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null,
+  "fast": {
+   "skipped": [
+    "probes",
+    "link-following",
+    "ocr"
+   ],
+   "maxCandidates": 10
+  }
+ }
+}

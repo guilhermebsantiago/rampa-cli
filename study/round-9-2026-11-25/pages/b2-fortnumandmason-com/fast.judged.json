@@ -1,0 +1,442 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://www.fortnumandmason.com/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "7b4fc87ea7c8",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main-content > div > div > article > div:nth-of-type(8) > div > div > div > div > div > div > figure > a > picture > img",
+   "message": "The text alternative \"Content image\" is all its link holds, and does not say where the link leads.",
+   "evidence": "Content image",
+   "subject": "Content image",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "#main-content > div > div > article > div:nth-of-type(8) > div > div > div > div > div > div > figure > a > picture > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Content image",
+    "to": "Shopping For EU Delivery? Send a little festive joy abroad this Christmas. Right This Way.",
+    "before": "<img class=\"image-img-b79\" width=\"1440\" height=\"350\" title=\"\" alt=\"Content image\" loading=\"lazy\" fetchpriority=\"low\" srcset=\"/media/wysiwyg/EU-delivery-banner-2026-desktop_2.jpg?auto=webp&amp;format=pjpg&amp;quality=10 1x\" src=\"/media/wysiwyg/EU-delivery-banner-2026-desktop_2.jpg?auto=webp&amp;format=pjpg&amp;quality=10\" style=\"opacity: 1; transition: opacity 300ms;\">",
+    "after": "<img class=\"image-img-b79\" width=\"1440\" height=\"350\" title=\"\" alt=\"Shopping For EU Delivery? Send a little festive joy abroad this Christmas. Right This Way.\" loading=\"lazy\" fetchpriority=\"low\" srcset=\"/media/wysiwyg/EU-delivery-banner-2026-desktop_2.jpg?auto=webp&amp;format=pjpg&amp;quality=10 1x\" src=\"/media/wysiwyg/EU-delivery-banner-2026-desktop_2.jpg?auto=webp&amp;format=pjpg&amp;quality=10\" style=\"opacity: 1; transition: opacity 300ms;\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999919405396263
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "c04538c1d6f7",
+   "criterion": "2.5.3",
+   "level": "A",
+   "source": "rule",
+   "ref": "#country-selector-input",
+   "target": "#country-selector-input",
+   "message": "The visible label \"Choose your delivery country\" is not in the field's accessible name, \"Select Country\", which comes from aria-label: people using speech input say what they see, and the field does not answer to it.",
+   "evidence": "\"Choose your delivery country\" / \"Select Country\"",
+   "subject": "Choose your delivery country / Select Country",
+   "patch": {
+    "ref": "#country-selector-input",
+    "kind": "replace-element",
+    "to": "Choose your delivery country",
+    "before": "<input id=\"country-selector-input\" readonly=\"\" aria-haspopup=\"listbox\" tabindex=\"0\" aria-label=\"Select Country\" data-pc-section=\"input\" type=\"text\" value=\"Brazil\">",
+    "after": "<input id=\"country-selector-input\" readonly=\"\" aria-haspopup=\"listbox\" tabindex=\"0\" data-pc-section=\"input\" type=\"text\" value=\"Brazil\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/field-label-in-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html",
+   "html": "<input id=\"country-selector-input\" readonly=\"\" aria-haspopup=\"listbox\" tabindex=\"0\" aria-label=\"Select Country\" data-pc-section=\"input\" type=\"text\" value=\"Brazil\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 3
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "2.5.3",
+    "ref": "#menu > div:nth-of-type(1) > div > div:nth-of-type(1) > button",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "78c1f39ee23d"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#footer-nav > div:nth-of-type(3) > div > div > button",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "1fa0dabde81a"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#adbox",
+    "ruleId": "aria-prohibited-attr",
+    "confidence": "high",
+    "fingerprint": "7af35fb56334"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#pr_id_3_content > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > div > div:nth-of-type(2) > select",
+   "message": "The label \"Select Country List\" does not say what to enter.",
+   "evidence": "The model suggests: \"Select your country\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "#main-content > div > div > article > div:nth-of-type(10) > div > div > div > div > div > div > div > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#main-content > div > div > article > div:nth-of-type(10) > div > div > div > div > div > div > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#main-content > div > div > article > div:nth-of-type(10) > div > div > div > div > div > div > div > div > div:nth-of-type(1) > div > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#menu > div:nth-of-type(1) > div > div:nth-of-type(2) > a > div > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Royal Warrants",
+    "problem": "missing_information",
+    "imageShows": "Two Royal Warrants for King Charles III and Queen Camilla.",
+    "suggestedAlt": "Fortnum & Mason Royal Warrants",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#menu > div:nth-of-type(1) > div > div:nth-of-type(3) > a > img",
+   "reason": "the alternative is a logo that leads to the site's home page",
+   "output": {
+    "verdict": "fail",
+    "evidence": "F&M Logo",
+    "problem": "missing_information",
+    "imageShows": "The Fortnum & Mason logo with the text 'FORTNUM & MASON' and 'EST 1707'.",
+    "suggestedAlt": "Fortnum & Mason home",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#main-content > div > div > article > div:nth-of-type(4) > div > div > div > div > div > div > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > a > div > div > div > img",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Image of The Fortnum's Classic Christmas Hamper",
+    "problem": "wrong_content",
+    "imageShows": "A festive Christmas hamper filled with various food items, champagne, and gift boxes.",
+    "suggestedAlt": "The Fortnum's Classic Christmas Hamper featuring champagne, biscuits, and festive treats.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#main-content > div > div > article > div:nth-of-type(5) > div > div > div > div > div > div > div > div > div > div > div > div > figure > a > picture > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Christmas Tree Decorations at Fortnum & Mason",
+    "problem": "missing_information",
+    "imageShows": "A banner featuring various Christmas tree ornaments and a button that says 'Shop Tree Decorations'.",
+    "suggestedAlt": "Shop Tree Decorations",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 11,
+   "judged": 10,
+   "failed": 1,
+   "passed": 5,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 1,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 98,
+   "judged": 10,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 88
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 10,
+   "judged": 10,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "batched": {
+    "candidates": 10,
+    "calls": 2
+   },
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "A layer lay over the viewport when the page was read (div, on top at 89% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "8 image(s) were left without a capture, so no judgment looked at them: 1 covered where it sits by other content, such as a popup or a cookie banner; 7 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 1 of 11 for 1.1.1, 88 of 98 for 2.4.4. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (10 in 2 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 29,
+  "cachedCalls": 0,
+  "inputTokens": 26232,
+  "outputTokens": 2919,
+  "latencyMs": 82234
+ },
+ "timings": {
+  "totalMs": 48136,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 19
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 19561,
+    "prepareMs": 0,
+    "candidates": 11,
+    "judged": 10,
+    "calls": 13,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2631,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1158,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 14424,
+    "prepareMs": 0,
+    "candidates": 98,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 9201,
+    "prepareMs": 0,
+    "candidates": 10,
+    "judged": 10,
+    "calls": 2,
+    "cachedCalls": 0,
+    "batches": 2
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 168,
+    "prepareMs": 165,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 940,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 32
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "overlay": {
+   "selector": "div",
+   "coverage": 0.89,
+   "hidden": true
+  },
+  "unsettledAfterMs": 1000,
+  "images": {
+   "captured": 14,
+   "notCaptured": 8,
+   "reasons": {
+    "covered": 1,
+    "limit": 7
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "1.1.1",
+    "candidates": 11,
+    "capped": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "candidates": 98,
+    "capped": 88
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "overlay": {
+    "ref": "html > body > div:nth-of-type(6)",
+    "selector": "div",
+    "coverage": 0.89,
+    "hidden": true
+   }
+  },
+  "fast": {
+   "skipped": [
+    "probes",
+    "link-following",
+    "ocr"
+   ],
+   "maxCandidates": 10
+  }
+ }
+}

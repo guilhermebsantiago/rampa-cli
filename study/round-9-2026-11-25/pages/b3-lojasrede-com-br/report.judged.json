@@ -1,0 +1,912 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://www.lojasrede.com.br/cabelos",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "240c6488c354",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#headerContainer > section > div > div > header > div:nth-of-type(2) > div:nth-of-type(2) > a > img",
+   "message": "The text alternative \"https://lojasrede.vtexassets.com/assets/vtex/assets-builder/lojasrede.builderio/3.0.213/whishlist-icon-lojasrede___53704b35db00cd6b7b0279a12afcca6f.svg\" is a file name or a placeholder.",
+   "evidence": "https://lojasrede.vtexassets.com/assets/vtex/assets-builder/lojasrede.builderio/3.0.213/whishlist-icon-lojasrede___53704b35db00cd6b7b0279a12afcca6f.svg",
+   "subject": "https://lojasrede.vtexassets.com/assets/vtex/assets-builder/lojasrede.builderio/3.0.213/whishlist-icon-lojasrede___53704b35db00cd6b7b0279a12afcca6f.svg",
+   "claim": "missing_information",
+   "techniques": [
+    "F30"
+   ],
+   "patch": {
+    "ref": "#headerContainer > section > div > div > header > div:nth-of-type(2) > div:nth-of-type(2) > a > img",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "https://lojasrede.vtexassets.com/assets/vtex/assets-builder/lojasrede.builderio/3.0.213/whishlist-icon-lojasrede___53704b35db00cd6b7b0279a12afcca6f.svg",
+    "to": "Lista de desejos"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "f4bde51c4aeb",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#newsletter-input-name",
+   "message": "The field \"Digite seu nome\" asks for the user's first name but does not identify that purpose: autocomplete=\"given-name\" is missing.",
+   "evidence": "Digite seu nome",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#newsletter-input-name",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "given-name",
+    "before": "<input type=\"text\" class=\"vtex-styleguide-9-x-input ma0 border-box vtex-styleguide-9-x-hideDecorators vtex-styleguide-9-x-noAppearance br2   w-100 bn outline-0 bg-base c-on-base b--muted-4 hover-b--muted-3 t-body ph5 \" name=\"newsletter\" placeholder=\"Digite seu nome\" id=\"newsletter-input-name\">",
+    "after": "<input type=\"text\" class=\"vtex-styleguide-9-x-input ma0 border-box vtex-styleguide-9-x-hideDecorators vtex-styleguide-9-x-noAppearance br2   w-100 bn outline-0 bg-base c-on-base b--muted-4 hover-b--muted-3 t-body ph5 \" name=\"newsletter\" placeholder=\"Digite seu nome\" id=\"newsletter-input-name\" autocomplete=\"given-name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "408d2998ba6e",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#newsletter-input-email",
+   "message": "The field \"Digite seu e-mail\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "Digite seu e-mail",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#newsletter-input-email",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input type=\"email\" class=\"vtex-styleguide-9-x-input ma0 border-box vtex-styleguide-9-x-hideDecorators vtex-styleguide-9-x-noAppearance br2   w-100 bn outline-0 bg-base c-on-base b--muted-4 hover-b--muted-3 t-body ph5 \" name=\"newsletter\" placeholder=\"Digite seu e-mail\" id=\"newsletter-input-email\">",
+    "after": "<input type=\"email\" class=\"vtex-styleguide-9-x-input ma0 border-box vtex-styleguide-9-x-hideDecorators vtex-styleguide-9-x-noAppearance br2   w-100 bn outline-0 bg-base c-on-base b--muted-4 hover-b--muted-3 t-body ph5 \" name=\"newsletter\" placeholder=\"Digite seu e-mail\" id=\"newsletter-input-email\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 33
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.3.1",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(8) > div > div:nth-of-type(2) > div:nth-of-type(3) > section > div > div:nth-of-type(1) > nav > ul",
+    "ruleId": "list",
+    "confidence": "high",
+    "fingerprint": "77ff09c686f6"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(8) > div > div:nth-of-type(2) > div:nth-of-type(3) > section > div > div:nth-of-type(2) > nav > ul",
+    "ruleId": "list",
+    "confidence": "high",
+    "fingerprint": "257d40a9666d"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#slider-items-420fyek > div > div > div:nth-of-type(1) > div > li",
+    "ruleId": "listitem",
+    "confidence": "high",
+    "fingerprint": "8b6506ee3c94"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#slider-items-420fyek > div > div > div:nth-of-type(2) > div > li",
+    "ruleId": "listitem",
+    "confidence": "high",
+    "fingerprint": "64f08670b375"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#slider-items-420fyek > div > div > div:nth-of-type(3) > div > li",
+    "ruleId": "listitem",
+    "confidence": "high",
+    "fingerprint": "55adcb6b9c4d"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > button",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "4f86e495b9cc"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#headerContainer > section > div > div > header > div:nth-of-type(3) > ul > li:nth-of-type(11) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "3d8cfc1e2740"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div > span > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "2231ac60aa8f"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#slider-items-hngsuf2 > div > div > div:nth-of-type(8) > div > section > a > article > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > div:nth-of-type(3) > div > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "6a62a70252ea"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#slider-items-hngsuf2 > div > div > div:nth-of-type(9) > div > section > a > article > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > div:nth-of-type(3) > div > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "04a0be964786"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#slider-items-hngsuf2 > div > div > div:nth-of-type(10) > div > section > a > article > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > div:nth-of-type(3) > div > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "effac4e0b3c7"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(8) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div > div > form > div:nth-of-type(3) > button > div",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "6e6adf8b06be"
+   },
+   {
+    "criterion": "1.4.4",
+    "ref": "html > head > meta:nth-of-type(18)",
+    "ruleId": "meta-viewport",
+    "confidence": "high",
+    "fingerprint": "efb1c3fc3807"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#headerContainer > section > div > div > header > div:nth-of-type(2) > div:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "384af2fb6642"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(5) > div > div > div > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "cf8b803efb99"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(6) > div > div > div > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "19af5d22d399"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(7) > div > div > div > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "0b8ebb08a1f1"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(8) > div > div > div > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "19546d908f80"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-p4n6ci7 > div > div > div:nth-of-type(6) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "cd079f563de4"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-p4n6ci7 > div > div > div:nth-of-type(7) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "e1c216fa5112"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-p4n6ci7 > div > div > div:nth-of-type(8) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "16ae211d32a0"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-p4n6ci7 > div > div > div:nth-of-type(9) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "787e5174f3fd"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-p4n6ci7 > div > div > div:nth-of-type(10) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "ab8db708e0ea"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-drvoxdh > div > div > div:nth-of-type(6) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "bc15dd1ff650"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-drvoxdh > div > div > div:nth-of-type(7) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "72eb691854cb"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-drvoxdh > div > div > div:nth-of-type(8) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "fbbce996e011"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-drvoxdh > div > div > div:nth-of-type(9) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "c9e53b72ea66"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-drvoxdh > div > div > div:nth-of-type(10) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "4e5f49bedf33"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-hngsuf2 > div > div > div:nth-of-type(6) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "7a1c93ca2a59"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-hngsuf2 > div > div > div:nth-of-type(7) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "7af7f069d9cc"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-hngsuf2 > div > div > div:nth-of-type(8) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "a1b6bb0bc194"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-hngsuf2 > div > div > div:nth-of-type(9) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "5c282c3b0ee0"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-hngsuf2 > div > div > div:nth-of-type(10) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "cdfe5274993d"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 7,
+   "members": [
+    "4f86e495b9cc",
+    "3d8cfc1e2740",
+    "2231ac60aa8f",
+    "6a62a70252ea",
+    "04a0be964786",
+    "effac4e0b3c7",
+    "6e6adf8b06be"
+   ],
+   "example": "4f86e495b9cc"
+  },
+  {
+   "id": "g-caa6eccc5028",
+   "list": "findings",
+   "criterion": "2.5.3",
+   "level": "A",
+   "source": "engine",
+   "check": "label-content-name-mismatch",
+   "count": 15,
+   "members": [
+    "cd079f563de4",
+    "e1c216fa5112",
+    "16ae211d32a0",
+    "787e5174f3fd",
+    "ab8db708e0ea",
+    "bc15dd1ff650",
+    "72eb691854cb",
+    "fbbce996e011",
+    "c9e53b72ea66",
+    "4e5f49bedf33",
+    "7a1c93ca2a59",
+    "7af7f069d9cc",
+    "a1b6bb0bc194",
+    "5c282c3b0ee0",
+    "cdfe5274993d"
+   ],
+   "example": "cd079f563de4"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#headerContainer > section > div > div > header > div:nth-of-type(3) > ul > li:nth-of-type(1) > img",
+   "message": "The text alternative \"Drawer Lojas Rede\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Abrir menu\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.00), claim: yes (0.92), reversed: yes (0.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#headerContainer > section > div > div > header > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > a",
+   "message": "The link text \"Salão Salão\" does not match where the link leads: a page titled \"REDE | Agendamento online\".",
+   "evidence": "The model suggests: \"Agendamento online do Salão Salão\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(7) > div > div > div > div > div > a",
+   "message": "The link text \"VER MAIS VER MAIS\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Ler sobre Cronograma capilar\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "#newsletter-input-name",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#newsletter-input-email",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#slider-items-drvoxdh > div > div > div:nth-of-type(6) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(1) > div > span",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#slider-items-hngsuf2 > div > div > div:nth-of-type(6) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(1) > div > span",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#headerContainer > section > div > div > header > div:nth-of-type(2) > div:nth-of-type(2) > aside > div > div",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(1)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(2)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(3)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(4)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(9)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(10)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(11)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(12)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(13)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(14)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(15)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(16)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(17)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(18)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(19)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(20)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(21)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(22)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(23)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(24)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(25)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(26)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(27)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(28)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(9)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#headerContainer > section > div > div > header > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > form > label",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-p4n6ci7 > div > div > div:nth-of-type(6) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-p4n6ci7 > div > div > div:nth-of-type(7) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-p4n6ci7 > div > div > div:nth-of-type(8) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-p4n6ci7 > div > div > div:nth-of-type(9) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-p4n6ci7 > div > div > div:nth-of-type(10) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-drvoxdh > div > div > div:nth-of-type(6) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-drvoxdh > div > div > div:nth-of-type(7) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-drvoxdh > div > div > div:nth-of-type(8) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-drvoxdh > div > div > div:nth-of-type(9) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-drvoxdh > div > div > div:nth-of-type(10) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-hngsuf2 > div > div > div:nth-of-type(6) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-hngsuf2 > div > div > div:nth-of-type(7) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-hngsuf2 > div > div > div:nth-of-type(8) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-hngsuf2 > div > div > div:nth-of-type(9) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-hngsuf2 > div > div > div:nth-of-type(10) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  }
+ ],
+ "discarded": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 25,
+   "judged": 25,
+   "failed": 1,
+   "passed": 23,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 2,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 66,
+   "judged": 50,
+   "failed": 0,
+   "passed": 48,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 16,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 39,
+   "judged": 39,
+   "failed": 0,
+   "passed": 39,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "58 image(s) were left without a capture, so no judgment looked at them: 58 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 16 of 66 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 121,
+  "cachedCalls": 0,
+  "inputTokens": 113225,
+  "outputTokens": 11691,
+  "latencyMs": 365853
+ },
+ "timings": {
+  "totalMs": 188135,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 43
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 43221,
+    "prepareMs": 0,
+    "candidates": 25,
+    "judged": 25,
+    "calls": 28,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2620,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1418,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 87415,
+    "prepareMs": 0,
+    "candidates": 66,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 52053,
+    "prepareMs": 0,
+    "candidates": 39,
+    "judged": 39,
+    "calls": 39,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 176,
+    "prepareMs": 173,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 1133,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 5,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 51
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 25,
+   "notCaptured": 58,
+   "reasons": {
+    "limit": 58
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 66,
+    "capped": 16
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null,
+  "fast": null
+ }
+}

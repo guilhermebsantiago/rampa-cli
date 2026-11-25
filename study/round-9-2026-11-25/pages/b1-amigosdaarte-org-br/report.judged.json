@@ -1,0 +1,731 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://amigosdaarte.org.br/contato/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "58a7b0ea0d23",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > footer > div > div:nth-of-type(3) > div > div > div:nth-of-type(1) > div > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Logos for APAA, Tudo Vira Cult SP, and Governo de SP\".",
+   "evidence": "Logos for APAA, Tudo Vira Cult SP, and Governo de SP",
+   "subject": "hidden regua-h-gestao-white.svg",
+   "patch": {
+    "ref": "html > body > footer > div > div:nth-of-type(3) > div > div > div:nth-of-type(1) > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Logotipos da APAA, Tudo Vira Cult SP e Governo do Estado de São Paulo.",
+    "before": "<img width=\"749\" height=\"230\" src=\"https://amigosdaarte.org.br/wp-content/uploads/2024/09/regua-h-gestao-white.svg\" class=\"attachment-full size-full wp-image-23169\" alt=\"\">",
+    "after": "<img width=\"749\" height=\"230\" src=\"https://amigosdaarte.org.br/wp-content/uploads/2024/09/regua-h-gestao-white.svg\" class=\"attachment-full size-full wp-image-23169\" alt=\"Logotipos da APAA, Tudo Vira Cult SP e Governo do Estado de São Paulo.\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "c331c8eae740",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#form-field-name",
+   "message": "The field \"Nome\" asks for the user's full name but does not identify that purpose: autocomplete=\"name\" is missing.",
+   "evidence": "Nome",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#form-field-name",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "name",
+    "before": "<input size=\"1\" type=\"text\" name=\"form_fields[name]\" id=\"form-field-name\" class=\"elementor-field elementor-size-sm  elementor-field-textual\" required=\"required\" data-mask=\"\" data-moneymask-format=\"dot\" data-moneymask-prefix=\"\" data-decimal-places=\"2\" data-timemask-format=\"one\" data-phone-format=\"phone_usa\" data-creditcard-options=\"hyphen\" data-auto-placeholder=\"\" data-brazilian-formats=\"\">",
+    "after": "<input size=\"1\" type=\"text\" name=\"form_fields[name]\" id=\"form-field-name\" class=\"elementor-field elementor-size-sm  elementor-field-textual\" required=\"required\" data-mask=\"\" data-moneymask-format=\"dot\" data-moneymask-prefix=\"\" data-decimal-places=\"2\" data-timemask-format=\"one\" data-phone-format=\"phone_usa\" data-creditcard-options=\"hyphen\" data-auto-placeholder=\"\" data-brazilian-formats=\"\" autocomplete=\"name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "419a8e7e82bf",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#form-field-phone",
+   "message": "The field \"Telefone\" asks for the user's telephone number but does not identify that purpose: autocomplete=\"tel\" is missing.",
+   "evidence": "Telefone",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#form-field-phone",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "tel",
+    "before": "<input id=\"form-field-phone\" class=\"elementor-field elementor-size-sm fme-mask-input mask_control_@ev-tel-ddd9 money_mask_format_@ mask_prefix_@ mask_decimal_places_@ mask_time_mask_format_@ fme_phone_format_@ credit_card_options_@ mask\" type=\"text\" name=\"form_fields[phone]\" inputmode=\"numeric\" required=\"required\">",
+    "after": "<input id=\"form-field-phone\" class=\"elementor-field elementor-size-sm fme-mask-input mask_control_@ev-tel-ddd9 money_mask_format_@ mask_prefix_@ mask_decimal_places_@ mask_time_mask_format_@ fme_phone_format_@ credit_card_options_@ mask\" type=\"text\" name=\"form_fields[phone]\" inputmode=\"numeric\" required=\"required\" autocomplete=\"tel\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "9e1ca29695b0",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#form-field-email",
+   "message": "The field \"E-mail\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "E-mail",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#form-field-email",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input size=\"1\" type=\"email\" name=\"form_fields[email]\" id=\"form-field-email\" class=\"elementor-field elementor-size-sm  elementor-field-textual\" required=\"required\">",
+    "after": "<input size=\"1\" type=\"email\" name=\"form_fields[email]\" id=\"form-field-email\" class=\"elementor-field elementor-size-sm  elementor-field-textual\" required=\"required\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "a50bd06d2deb",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#form-field-name_news",
+   "message": "The field \"Nome\" asks for the user's full name but does not identify that purpose: autocomplete=\"name\" is missing.",
+   "evidence": "Nome",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#form-field-name_news",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "name",
+    "before": "<input size=\"1\" type=\"text\" name=\"form_fields[name_news]\" id=\"form-field-name_news\" class=\"elementor-field elementor-size-sm  elementor-field-textual\" data-mask=\"\" data-moneymask-format=\"dot\" data-moneymask-prefix=\"\" data-decimal-places=\"2\" data-timemask-format=\"one\" data-phone-format=\"phone_usa\" data-creditcard-options=\"hyphen\" data-auto-placeholder=\"\" data-brazilian-formats=\"\">",
+    "after": "<input size=\"1\" type=\"text\" name=\"form_fields[name_news]\" id=\"form-field-name_news\" class=\"elementor-field elementor-size-sm  elementor-field-textual\" data-mask=\"\" data-moneymask-format=\"dot\" data-moneymask-prefix=\"\" data-decimal-places=\"2\" data-timemask-format=\"one\" data-phone-format=\"phone_usa\" data-creditcard-options=\"hyphen\" data-auto-placeholder=\"\" data-brazilian-formats=\"\" autocomplete=\"name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "c5d6176c9eba",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#form-field-email_news",
+   "message": "The field \"E-mail\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "E-mail",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#form-field-email_news",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input size=\"1\" type=\"email\" name=\"form_fields[email_news]\" id=\"form-field-email_news\" class=\"elementor-field elementor-size-sm  elementor-field-textual\" required=\"required\">",
+    "after": "<input size=\"1\" type=\"email\" name=\"form_fields[email_news]\" id=\"form-field-email_news\" class=\"elementor-field elementor-size-sm  elementor-field-textual\" required=\"required\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "49b75e830314",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#search-input-bd431f5",
+   "target": "#search-input-bd431f5",
+   "message": "The placeholder \"Faça sua busca\" has a contrast of 4.01:1 with the field (#798085 on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#798085 on #ffffff · 4.01:1 at best, 4.01:1 at worst · 18px, 400",
+   "subject": "Faça sua busca",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input id=\"search-input-bd431f5\" class=\"jet-ajax-search__field\" type=\"search\" placeholder=\"Faça sua busca\" value=\"\" name=\"s\" autocomplete=\"off\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 12
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.4.3",
+    "ref": "#content > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > form > div > div:nth-of-type(2) > label",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "4d3f966527b2"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#content > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > form > div > div:nth-of-type(3) > label",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "217a42ed8b97"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#content > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > form > div > div:nth-of-type(4) > label",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "aecb57533d17"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#content > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > form > div > div:nth-of-type(6) > label",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "893a89cf0e2b"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#content > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > form > div > div:nth-of-type(7) > label",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "64b8ef0e3396"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#Newsletter_contato > div > div:nth-of-type(1) > label",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "671d2603fed7"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#Newsletter_contato > div > div:nth-of-type(2) > label",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "b81e49789229"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > header > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "1d8114ebfced"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > header > div > div:nth-of-type(2) > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "8e9fdf11bbeb"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > header > div > div:nth-of-type(2) > div > div > div:nth-of-type(3) > div:nth-of-type(4) > div > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "44956f27303e"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > footer > div > div:nth-of-type(5) > div:nth-of-type(1) > div > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "f537a60135bb"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#form-field-departamento",
+    "ruleId": "select-name",
+    "confidence": "high",
+    "fingerprint": "391d51ec6ba0"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 7,
+   "members": [
+    "4d3f966527b2",
+    "217a42ed8b97",
+    "aecb57533d17",
+    "893a89cf0e2b",
+    "64b8ef0e3396",
+    "671d2603fed7",
+    "b81e49789229"
+   ],
+   "example": "4d3f966527b2"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-1-f87d278 > li:nth-of-type(6) > a",
+   "message": "The link text \"Outros\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Outros Documentos\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#search-input-bd431f5",
+   "message": "The label \"Pesquisar ...\" does not say what to enter.",
+   "evidence": "The model suggests: \"Pesquisar no site\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > footer > div > div:nth-of-type(4) > div > div > h2",
+   "message": "The heading \"© 2024 - Associação Paulista dos Amigos da Arte\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Informações de direitos autorais\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "#search-input-bd431f5",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#content > div > div > div:nth-of-type(3) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div > div:nth-of-type(1) > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#content > div > div > div:nth-of-type(3) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div > div:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#content > div > div > div:nth-of-type(3) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#content > div > div > div:nth-of-type(3) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div > div:nth-of-type(4) > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#content > div > div > div:nth-of-type(3) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div > div:nth-of-type(6) > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#content > div > div > div:nth-of-type(3) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div > div:nth-of-type(8) > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#gt-wrapper-80339169 > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > header > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > nav > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > header > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > nav > div > ul > li:nth-of-type(2) > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > header > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > nav > div > ul > li:nth-of-type(3) > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > header > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > nav > div > ul > li:nth-of-type(4) > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > header > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > nav > div > ul > li:nth-of-type(5) > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > header > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > nav > button",
+   "source": null,
+   "ruleId": "duplicate-id-aria"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > header > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > nav > div",
+   "source": null,
+   "ruleId": "duplicate-id-aria"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > header > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > nav > div > ul > li:nth-of-type(2) > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "duplicate-id-aria"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > header > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > nav > div > ul > li:nth-of-type(2) > div:nth-of-type(2) > div",
+   "source": null,
+   "ruleId": "duplicate-id-aria"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > header > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > nav > div > ul > li:nth-of-type(3) > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "duplicate-id-aria"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > header > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > nav > div > ul > li:nth-of-type(3) > div:nth-of-type(2) > div",
+   "source": null,
+   "ruleId": "duplicate-id-aria"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > header > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > nav > div > ul > li:nth-of-type(4) > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "duplicate-id-aria"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > header > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > nav > div > ul > li:nth-of-type(4) > div:nth-of-type(2) > div",
+   "source": null,
+   "ruleId": "duplicate-id-aria"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > header > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > nav > div > ul > li:nth-of-type(5) > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "duplicate-id-aria"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > header > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > nav > div > ul > li:nth-of-type(5) > div:nth-of-type(2) > div",
+   "source": null,
+   "ruleId": "duplicate-id-aria"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#gt-wrapper-80339169 > a > img",
+   "reason": "the alternative names the language of the language link it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "pt",
+    "problem": "missing_information",
+    "imageShows": "A bandeira do Brasil em formato de losango.",
+    "suggestedAlt": "Português (Brasil)",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > header > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div > nav > div > ul > li:nth-of-type(2) > div:nth-of-type(1) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A link text 'Apaa' in a navigation menu, accompanied by the text 'Abrir Apaa', suggests it leads to a section or page related to 'Apaa'.",
+    "leadsTo": "A page titled 'Apaa – APAA' which describes the organization's cultural promotion and artistic projects.",
+    "verdict": "fail",
+    "evidence": "Apaa",
+    "problem": "ambiguous",
+    "suggestedText": "Sobre a APAA",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-1-5542c9b > li:nth-of-type(1) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'APAA' under the heading 'Perguntas Frequentes' (FAQ) in a navigation menu suggests it leads to the FAQ section of the APAA organization.",
+    "leadsTo": "A page titled 'FAQ – APAA' containing answers to frequently asked questions about projects, calls, and hiring.",
+    "verdict": "fail",
+    "evidence": "APAA",
+    "problem": "ambiguous",
+    "suggestedText": "FAQ da APAA",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 13,
+   "judged": 13,
+   "failed": 1,
+   "passed": 11,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 7,
+   "judged": 7,
+   "failed": 5,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 41,
+   "judged": 41,
+   "failed": 0,
+   "passed": 38,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 23,
+   "judged": 23,
+   "failed": 0,
+   "passed": 21,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #content > div > div > div:nth-of-type(5) > div:nth-of-type(2) > div > div > div > div > iframe (https://maps.google.com/maps?q=Rua%20Conselheiro%20Ramalho%2C%20538%20-%20Bela%20Vista%20S%C3%A3o%20Paulo%20-%20SP%20%7C%20CEP%2001325-000&t=m&z=14&output=embed&iwloc=near).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 86,
+  "cachedCalls": 0,
+  "inputTokens": 79147,
+  "outputTokens": 7753,
+  "latencyMs": 271921
+ },
+ "timings": {
+  "totalMs": 142455,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 22
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 22897,
+    "prepareMs": 0,
+    "candidates": 13,
+    "judged": 13,
+    "calls": 13,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 9011,
+    "prepareMs": 0,
+    "candidates": 7,
+    "judged": 7,
+    "calls": 7,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1455,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 76990,
+    "prepareMs": 0,
+    "candidates": 41,
+    "judged": 41,
+    "calls": 41,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 30503,
+    "prepareMs": 0,
+    "candidates": 23,
+    "judged": 23,
+    "calls": 23,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 1548,
+    "prepareMs": 178,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 4,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 23
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 14,
+   "notCaptured": 0,
+   "reasons": {}
+  }
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#content > div > div > div:nth-of-type(5) > div:nth-of-type(2) > div > div > div > div > iframe",
+     "url": "https://maps.google.com/maps?q=Rua%20Conselheiro%20Ramalho%2C%20538%20-%20Bela%20Vista%20S%C3%A3o%20Paulo%20-%20SP%20%7C%20CEP%2001325-000&t=m&z=14&output=embed&iwloc=near",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  },
+  "fast": null
+ }
+}

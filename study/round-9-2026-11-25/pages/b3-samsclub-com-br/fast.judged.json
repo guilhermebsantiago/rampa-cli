@@ -1,0 +1,575 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://www.samsclub.com.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "b4aca77928e3",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#cookieconsent\\:desc > p",
+   "message": "This passage has no lang attribute, so it is read as Brazilian Portuguese (pt-BR), but it is in English (en).",
+   "evidence": "We use our own and third-party cookies to improve site navigation, performance, and security, display ads, and obtain statistics.",
+   "subject": "unmarked|pt-BR|We use our own and third-party cookies to improve site navigation, performance, and security, display ads, and obtain statistics. By clicking on “Proceed with all”, you agree to the storage of information for such purposes, and it is possible to adapt the use of cookies according to your preferences in “Personalize",
+   "techniques": [
+    "H58"
+   ],
+   "patch": {
+    "ref": "#cookieconsent\\:desc > p",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "from": "",
+    "to": "en",
+    "before": "<p>",
+    "after": "<p lang=\"en\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 11
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.3.1",
+    "ref": "html > body > header > div > div > div:nth-of-type(1) > div > div:nth-of-type(3) > ul",
+    "ruleId": "list",
+    "confidence": "high",
+    "fingerprint": "e1b9d19257de"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#cookieconsent\\:desc",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "fa40d1c50c23"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(11) > div:nth-of-type(1) > nav > div > ul > li:nth-of-type(1) > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "79980a435d13"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(11) > div:nth-of-type(1) > nav > div > ul > li:nth-of-type(2) > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "fb49b725874a"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(11) > div:nth-of-type(1) > nav > div > ul > li:nth-of-type(3) > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "a258e064e1e2"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(11) > div:nth-of-type(1) > nav > div > ul > li:nth-of-type(4) > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "69400cd9a5eb"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(11) > div:nth-of-type(1) > nav > div > ul > li:nth-of-type(5) > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "58e89c78a25c"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(11) > div:nth-of-type(1) > nav > div > ul > li:nth-of-type(6) > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "f4e6169c3902"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(11) > div:nth-of-type(1) > nav > div > ul > li:nth-of-type(7) > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "0c94417aff91"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "html > body > header > div > div > div:nth-of-type(2) > div > div:nth-of-type(3) > button",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "ecafcab9d624"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "html > body > div:nth-of-type(5) > button",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "6b6b62001018"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 8,
+   "members": [
+    "fa40d1c50c23",
+    "79980a435d13",
+    "fb49b725874a",
+    "a258e064e1e2",
+    "69400cd9a5eb",
+    "58e89c78a25c",
+    "f4e6169c3902",
+    "0c94417aff91"
+   ],
+   "example": "fa40d1c50c23"
+  }
+ ],
+ "needsReview": [],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "#cookieconsent\\:desc > p > strong > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div > ul > li:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div > ul > li:nth-of-type(4) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div > ul > li:nth-of-type(5) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div > ul > li:nth-of-type(6) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div > ul > li:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > div > ul > li:nth-of-type(3) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > div > ul > li:nth-of-type(5) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > div > ul > li:nth-of-type(6) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > ul:nth-of-type(1) > li:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "2.5.3",
+   "ref": "#busca-cabecalho",
+   "source": null,
+   "ruleId": "rampa/field-label-in-name"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > footer > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#securitiCmpCookiePrefBtn",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(1) > div > div > ul > li:nth-of-type(5) > a > span:nth-of-type(1) > img",
+   "reason": "suggested alternative equals the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Natal",
+    "problem": "wrong_content",
+    "imageShows": "Um ícone azul de uma árvore de Natal.",
+    "suggestedAlt": "Natal",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(1) > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Madruga",
+    "problem": "wrong_content",
+    "imageShows": "Um banner promocional da Sam's Club com o texto 'Madruga', 'Frete Grátis' e o cupom 'MADRUGA'.",
+    "suggestedAlt": "Banner Madruga Sam's Club com frete grátis usando o cupom MADRUGA para compras acima de R$ 599.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(2) > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Black Friday",
+    "problem": "wrong_content",
+    "imageShows": "Um banner da Black Friday do Sam's Club exibindo ofertas de bebidas alcoólicas e um desconto de 70% em vinhos importados.",
+    "suggestedAlt": "Ofertas de Black Friday do Sam's Club com Gin, Whisky, Licor e 70% de desconto na segunda unidade de vinhos.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(3) > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Black Friday",
+    "problem": "wrong_content",
+    "imageShows": "Um banner da Black Friday do Sam's Club exibindo ofertas de papel higiênico, desinfetante e amaciante.",
+    "suggestedAlt": "Ofertas da Black Friday no Sam's Club: Papel Higiênico Neve, Personal Vip, Desinfetante Pinho Sol e Amaciante Downy.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conteudo-principal > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(4) > a > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Black Friday",
+    "problem": "wrong_content",
+    "imageShows": "Um banner promocional da Black Friday do Sam's Club exibindo ofertas de toalhas umedecidas, shampoo, desodorante e creme dental.",
+    "suggestedAlt": "Ofertas da Black Friday Sam's Club: Toalhas umedecidas, Shampoo Pantene, Kit Secret e Colgate Total.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > header > nav > div > ul > li:nth-of-type(1) > div > span > span > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Institucional' suggests a page about the company's corporate information, history, or identity.",
+    "leadsTo": "https://sejasocio.samsclub.com.br/index.php/vantagens/",
+    "verdict": "fail",
+    "evidence": "Institucional",
+    "problem": "mismatch",
+    "suggestedText": "Vantagens de ser sócio",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 14,
+   "judged": 10,
+   "failed": 0,
+   "passed": 5,
+   "cannotTell": 0,
+   "discarded": 5,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 4
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 105,
+   "judged": 10,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 95
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 23,
+   "judged": 10,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 13,
+   "batched": {
+    "candidates": 10,
+    "calls": 2
+   }
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 of the page's 3 stylesheet(s) had not applied when it was read (https://statics.carrefour.com.br/nav/assets/globals-D_ZTJsNY.css (net::ERR_BLOCKED_BY_RESPONSE.NotSameOrigin)): the page was read with the styles it had, which may differ from what people see.",
+  "52 image(s) were left without a capture, so no judgment looked at them: 52 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 4 of 14 for 1.1.1, 95 of 105 for 2.4.4, 13 of 23 for 2.4.6. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (10 in 2 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 25,
+  "cachedCalls": 0,
+  "inputTokens": 24465,
+  "outputTokens": 3111,
+  "latencyMs": 82093
+ },
+ "timings": {
+  "totalMs": 47759,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 28
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 16405,
+    "prepareMs": 0,
+    "candidates": 14,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1589,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 16799,
+    "prepareMs": 0,
+    "candidates": 105,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 10215,
+    "prepareMs": 0,
+    "candidates": 23,
+    "judged": 10,
+    "calls": 2,
+    "cachedCalls": 0,
+    "batches": 2
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 1528,
+    "prepareMs": 171,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 1150,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 41
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "stylesheets": {
+   "linked": 3,
+   "applied": 2,
+   "failed": 1
+  },
+  "unsettledAfterMs": 1000,
+  "images": {
+   "captured": 15,
+   "notCaptured": 52,
+   "reasons": {
+    "limit": 52
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "1.1.1",
+    "candidates": 14,
+    "capped": 4
+   },
+   {
+    "criterion": "2.4.4",
+    "candidates": 105,
+    "capped": 95
+   },
+   {
+    "criterion": "2.4.6",
+    "candidates": 23,
+    "capped": 13
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "stylesheets": {
+    "linked": 3,
+    "applied": 2,
+    "failed": [
+     {
+      "href": "https://statics.carrefour.com.br/nav/assets/globals-D_ZTJsNY.css",
+      "reason": "net::ERR_BLOCKED_BY_RESPONSE.NotSameOrigin"
+     }
+    ]
+   }
+  },
+  "fast": {
+   "skipped": [
+    "probes",
+    "link-following",
+    "ocr"
+   ],
+   "maxCandidates": 10
+  }
+ }
+}

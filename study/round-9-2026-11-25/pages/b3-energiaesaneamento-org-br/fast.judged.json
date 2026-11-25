@@ -1,0 +1,664 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://www.energiaesaneamento.org.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "3632db9dd1b8",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#name",
+   "message": "The field \"NOME\" asks for the user's full name but does not identify that purpose: autocomplete=\"name\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "NOME",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#name",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "name",
+    "before": "<input class=\"form-control form-ll me-5\" id=\"name\" style=\"border:none;border-radius:0px;border-bottom:1px solid black;padding:5px;background:none\" name=\"name\" placeholder=\"NOME\" type=\"text\">",
+    "after": "<input class=\"form-control form-ll me-5\" id=\"name\" style=\"border:none;border-radius:0px;border-bottom:1px solid black;padding:5px;background:none\" name=\"name\" placeholder=\"NOME\" type=\"text\" autocomplete=\"name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "c00946fa036b",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#email",
+   "message": "The field \"E-MAIL\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "E-MAIL",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#email",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input class=\"form-control form-ll\" id=\"email\" style=\"border:none;border-radius:0px;border-bottom:1px solid black;padding:5px;background:none\" name=\"email\" placeholder=\"E-MAIL\" type=\"text\">",
+    "after": "<input class=\"form-control form-ll\" id=\"email\" style=\"border:none;border-radius:0px;border-bottom:1px solid black;padding:5px;background:none\" name=\"email\" placeholder=\"E-MAIL\" type=\"text\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "e2d0453c2809",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#intro > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > a",
+   "message": "The link text \"LEIA MAIS\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "LEIA MAIS",
+   "subject": "LEIA MAIS",
+   "claim": "generic",
+   "techniques": [
+    "G91"
+   ],
+   "patch": {
+    "ref": "#intro > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > a",
+    "kind": "set-text",
+    "from": "LEIA MAIS",
+    "to": "Saiba mais sobre a Fundação",
+    "before": "<a class=\"wp-block-button__link wp-element-button\" href=\"https://www.energiaesaneamento.org.br/fundacao/quem-somos/\">LEIA MAIS</a>",
+    "after": "<a class=\"wp-block-button__link wp-element-button\" href=\"https://www.energiaesaneamento.org.br/fundacao/quem-somos/\">Saiba mais sobre a Fundação</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 25
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.3.1",
+    "ref": "#masthead > div > div > div:nth-of-type(3) > div > ul",
+    "ruleId": "list",
+    "confidence": "high",
+    "fingerprint": "e0f6926b3515"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#page > footer > div:nth-of-type(1) > div > div:nth-of-type(4) > ul",
+    "ruleId": "list",
+    "confidence": "high",
+    "fingerprint": "cb8b22562627"
+   },
+   {
+    "criterion": "1.4.1",
+    "ref": "#newsletter > div > div > div:nth-of-type(2) > form > div:nth-of-type(2) > div > label > a",
+    "ruleId": "link-in-text-block",
+    "confidence": "high",
+    "fingerprint": "9f5469863bc0"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#intro > div > div > div:nth-of-type(2) > p:nth-of-type(1)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "51917ddc2a8f"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#intro > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "b26543035320"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#intro > div > div > div:nth-of-type(3) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "73d7803ccb64"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#intro > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "3a271b1e9c31"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#intro > div > div > div:nth-of-type(4) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "808fb931f7d5"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#intro > div > div > div:nth-of-type(4) > div:nth-of-type(1) > div > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "54a9647024b7"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > footer > div:nth-of-type(2) > nav > div > div > div > ul > li:nth-of-type(1) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "7429c26c3f5d"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > footer > div:nth-of-type(2) > nav > div > div > div > ul > li:nth-of-type(2) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "25de58f59c62"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > footer > div:nth-of-type(2) > nav > div > div > div > ul > li:nth-of-type(3) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "3102850d78ad"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > footer > div:nth-of-type(2) > nav > div > div > div > ul > li:nth-of-type(4) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "593a68cfb12e"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > footer > div:nth-of-type(2) > nav > div > div > div > ul > li:nth-of-type(5) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "b05da05ddce8"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > footer > div:nth-of-type(2) > nav > div > div > div > ul > li:nth-of-type(6) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "5ebba6fc8b77"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#masthead > div > div > div:nth-of-type(3) > div > ul > div > div > div > div:nth-of-type(1) > figure > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "ada543145436"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#masthead > div > div > div:nth-of-type(3) > div > ul > div > div > div > div:nth-of-type(2) > figure > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "33b584f517ab"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#masthead > div > div > div:nth-of-type(3) > div > ul > div > div > div > div:nth-of-type(3) > figure > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "6127eb39b824"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#masthead > div > div > div:nth-of-type(3) > div > ul > div > div > div > div:nth-of-type(4) > figure > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "88b541ce1689"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#page > footer > div:nth-of-type(1) > div > div:nth-of-type(4) > ul > div > div > div > div:nth-of-type(1) > figure > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "16b318b20232"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#page > footer > div:nth-of-type(1) > div > div:nth-of-type(4) > ul > div > div > div > div:nth-of-type(2) > figure > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "a2b46aa1fbca"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#page > footer > div:nth-of-type(1) > div > div:nth-of-type(4) > ul > div > div > div > div:nth-of-type(3) > figure > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "828a08b8f014"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#page > footer > div:nth-of-type(1) > div > div:nth-of-type(4) > ul > div > div > div > div:nth-of-type(4) > figure > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "ccb92a14a719"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#masthead > div > div > div:nth-of-type(3) > aside > div:nth-of-type(1) > button",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "7d4cbff991c6"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#contraste",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "c372d84014ec"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 12,
+   "members": [
+    "51917ddc2a8f",
+    "b26543035320",
+    "73d7803ccb64",
+    "3a271b1e9c31",
+    "808fb931f7d5",
+    "54a9647024b7",
+    "7429c26c3f5d",
+    "25de58f59c62",
+    "3102850d78ad",
+    "593a68cfb12e",
+    "b05da05ddce8",
+    "5ebba6fc8b77"
+   ],
+   "example": "51917ddc2a8f"
+  },
+  {
+   "id": "g-b3cc505a410d",
+   "list": "findings",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "engine",
+   "check": "link-name",
+   "count": 8,
+   "members": [
+    "ada543145436",
+    "33b584f517ab",
+    "6127eb39b824",
+    "88b541ce1689",
+    "16b318b20232",
+    "a2b46aa1fbca",
+    "828a08b8f014",
+    "ccb92a14a719"
+   ],
+   "example": "ada543145436"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#swiper-wrapper-e7545b29ebe59090 > div:nth-of-type(3) > a > img:nth-of-type(1)",
+   "message": "The text alternative \"Consulta Pública Prorrogação\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"Consulta pública para construção do Plano Estadual Setorial de Museus de São Paulo prorrogada até 20 de dezembro\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (0.97), claim: no (0.03), reversed: yes (0.37))",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "#ultimas-noticias > div:nth-of-type(1) > h2",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#ultimas-noticias > div:nth-of-type(2) > div:nth-of-type(1) > a > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#ultimas-noticias > div:nth-of-type(2) > div:nth-of-type(1) > a > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#ultimas-noticias > div:nth-of-type(2) > div:nth-of-type(1) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#ultimas-noticias > div:nth-of-type(2) > div:nth-of-type(2) > a > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#ultimas-noticias > div:nth-of-type(2) > div:nth-of-type(2) > a > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#ultimas-noticias > div:nth-of-type(2) > div:nth-of-type(2) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#ultimas-noticias > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#boletins > div > h2",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#boletins > a:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#boletins > a:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#boletins > a:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#name",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#email",
+   "source": null,
+   "ruleId": "color-contrast"
+  }
+ ],
+ "discarded": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 4,
+   "judged": 4,
+   "failed": 0,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 2,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 64,
+   "judged": 10,
+   "failed": 1,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 54
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 25,
+   "judged": 10,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 15,
+   "batched": {
+    "candidates": 10,
+    "calls": 2
+   }
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "16 image(s) were left without a capture, so no judgment looked at them: 1 cut off by the box that holds it; 15 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 54 of 64 for 2.4.4, 15 of 25 for 2.4.6. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (10 in 2 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 22,
+  "cachedCalls": 0,
+  "inputTokens": 22215,
+  "outputTokens": 2697,
+  "latencyMs": 71074
+ },
+ "timings": {
+  "totalMs": 42195,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 17
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 10293,
+    "prepareMs": 0,
+    "candidates": 4,
+    "judged": 4,
+    "calls": 7,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2568,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1211,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 17971,
+    "prepareMs": 0,
+    "candidates": 64,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 9911,
+    "prepareMs": 0,
+    "candidates": 25,
+    "judged": 10,
+    "calls": 2,
+    "cachedCalls": 0,
+    "batches": 2
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 188,
+    "prepareMs": 184,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 7,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 28
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 14,
+   "notCaptured": 16,
+   "reasons": {
+    "clipped": 1,
+    "limit": 15
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 64,
+    "capped": 54
+   },
+   {
+    "criterion": "2.4.6",
+    "candidates": 25,
+    "capped": 15
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null,
+  "fast": {
+   "skipped": [
+    "probes",
+    "link-following",
+    "ocr"
+   ],
+   "maxCandidates": 10
+  }
+ }
+}

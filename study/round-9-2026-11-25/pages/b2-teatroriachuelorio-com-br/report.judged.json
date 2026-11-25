@@ -1,0 +1,993 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://teatroriachuelorio.com.br/contato/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "6360b0f22dc8",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#map_6b0669b637dda > div:nth-of-type(1) > div:nth-of-type(1) > div > div > img:nth-of-type(1)",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"map showing Teatro Riachuelo and Rua do Passeio\".",
+   "evidence": "map showing Teatro Riachuelo and Rua do Passeio",
+   "subject": "hidden 148219.png",
+   "patch": {
+    "ref": "#map_6b0669b637dda > div:nth-of-type(1) > div:nth-of-type(1) > div > div > img:nth-of-type(1)",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Mapa mostrando a localização do Teatro Riachuelo e Rua do Passeio no Rio de Janeiro.",
+    "before": "<img alt=\"\" src=\"https://c.tile.openstreetmap.org/18/99631/148219.png\" class=\"leaflet-tile leaflet-tile-loaded\" style=\"width: 256px; height: 256px; transform: translate3d(77px, 117px, 0px); opacity: 1;\">",
+    "after": "<img alt=\"Mapa mostrando a localização do Teatro Riachuelo e Rua do Passeio no Rio de Janeiro.\" src=\"https://c.tile.openstreetmap.org/18/99631/148219.png\" class=\"leaflet-tile leaflet-tile-loaded\" style=\"width: 256px; height: 256px; transform: translate3d(77px, 117px, 0px); opacity: 1;\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "f54877376766",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#map_6b0669b637dda > div:nth-of-type(1) > div:nth-of-type(1) > div > div > img:nth-of-type(4)",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Map showing 'Ponto Regulador: Linha 247' and local landmarks.\".",
+   "evidence": "Map showing 'Ponto Regulador: Linha 247' and local landmarks.",
+   "subject": "hidden 148219.png",
+   "patch": {
+    "ref": "#map_6b0669b637dda > div:nth-of-type(1) > div:nth-of-type(1) > div > div > img:nth-of-type(4)",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Mapa de localização mostrando o Teatro Riachuelo e o Ponto Regulador da Linha 247.",
+    "before": "<img alt=\"\" src=\"https://a.tile.openstreetmap.org/18/99632/148219.png\" class=\"leaflet-tile leaflet-tile-loaded\" style=\"width: 256px; height: 256px; transform: translate3d(333px, 117px, 0px); opacity: 1;\">",
+    "after": "<img alt=\"Mapa de localização mostrando o Teatro Riachuelo e o Ponto Regulador da Linha 247.\" src=\"https://a.tile.openstreetmap.org/18/99632/148219.png\" class=\"leaflet-tile leaflet-tile-loaded\" style=\"width: 256px; height: 256px; transform: translate3d(333px, 117px, 0px); opacity: 1;\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "2302848cf030",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#rd-text_field-me2wvrwz",
+   "message": "The field \"Nome*\" asks for the user's full name but does not identify that purpose: autocomplete=\"name\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "Nome*",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#rd-text_field-me2wvrwz",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "name",
+    "before": "<input id=\"rd-text_field-me2wvrwz\" class=\"bricks-form__input required js-text js-field-name\" name=\"name\" type=\"text\" data-use-type=\"STRING\" placeholder=\"Nome *\" required=\"required\">",
+    "after": "<input id=\"rd-text_field-me2wvrwz\" class=\"bricks-form__input required js-text js-field-name\" name=\"name\" type=\"text\" data-use-type=\"STRING\" placeholder=\"Nome *\" required=\"required\" autocomplete=\"name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "fed837d52cc7",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#rd-email_field-me2wvrx0",
+   "message": "The field \"Email*\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "Email*",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#rd-email_field-me2wvrx0",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input id=\"rd-email_field-me2wvrx0\" class=\"bricks-form__input required js-email js-field-email\" name=\"email\" type=\"email\" data-use-type=\"STRING\" data-always-visible=\"true\" data-input-mask=\"\" placeholder=\"Email *\" required=\"required\">",
+    "after": "<input id=\"rd-email_field-me2wvrx0\" class=\"bricks-form__input required js-email js-field-email\" name=\"email\" type=\"email\" data-use-type=\"STRING\" data-always-visible=\"true\" data-input-mask=\"\" placeholder=\"Email *\" required=\"required\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "4e688cf1d314",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#rd-phone_field-me2wvrx1",
+   "message": "The field \"Telefone*\" asks for the user's telephone number but does not identify that purpose: autocomplete=\"tel\" is missing.",
+   "evidence": "Telefone*",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#rd-phone_field-me2wvrx1",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "tel",
+    "before": "<input id=\"rd-phone_field-me2wvrx1\" class=\"bricks-form__input required phone js-phone js-field-personal_phone\" name=\"personal_phone\" data-input-mask=\"INTERNATIONAL_MASK\" data-use-type=\"STRING\" type=\"tel\" placeholder=\"Telefone *\" required=\"required\" data-country=\"BR\">",
+    "after": "<input id=\"rd-phone_field-me2wvrx1\" class=\"bricks-form__input required phone js-phone js-field-personal_phone\" name=\"personal_phone\" data-input-mask=\"INTERNATIONAL_MASK\" data-use-type=\"STRING\" type=\"tel\" placeholder=\"Telefone *\" required=\"required\" data-country=\"BR\" autocomplete=\"tel\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "4a967b587ef9",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#rd-text_field-mf2n6xpu",
+   "message": "The field \"Nome*\" asks for the user's full name but does not identify that purpose: autocomplete=\"name\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "Nome*",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#rd-text_field-mf2n6xpu",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "name",
+    "before": "<input id=\"rd-text_field-mf2n6xpu\" class=\"bricks-form__input required js-text js-field-name\" name=\"name\" type=\"text\" data-use-type=\"STRING\" placeholder=\"Nome *\" required=\"required\">",
+    "after": "<input id=\"rd-text_field-mf2n6xpu\" class=\"bricks-form__input required js-text js-field-name\" name=\"name\" type=\"text\" data-use-type=\"STRING\" placeholder=\"Nome *\" required=\"required\" autocomplete=\"name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "a6a95efb2f8a",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#rd-email_field-mf2n6xpv",
+   "message": "The field \"Email*\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "Email*",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#rd-email_field-mf2n6xpv",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input id=\"rd-email_field-mf2n6xpv\" class=\"bricks-form__input required js-email js-field-email\" name=\"email\" type=\"email\" data-use-type=\"STRING\" data-always-visible=\"true\" data-input-mask=\"\" placeholder=\"Email *\" required=\"required\">",
+    "after": "<input id=\"rd-email_field-mf2n6xpv\" class=\"bricks-form__input required js-email js-field-email\" name=\"email\" type=\"email\" data-use-type=\"STRING\" data-always-visible=\"true\" data-input-mask=\"\" placeholder=\"Email *\" required=\"required\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "f7d679effdcc",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#map_6b0669b637dda > div:nth-of-type(2) > div:nth-of-type(4) > div > a:nth-of-type(1)",
+   "target": "#map_6b0669b637dda > div:nth-of-type(2) > div:nth-of-type(4) > div > a:nth-of-type(1)",
+   "message": "The text \"Leaflet\" has at most 4.15:1 contrast with what is behind it (#7bbccd on #d9cfbd…#f8fef8), measured from pixels because axe-core could not decide (an image in the element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#7bbccd on #effef0; #d9cfbd…#f8fef8 · 4.15:1 at best, 1.37:1 at worst · 11px, 400",
+   "subject": "Leaflet",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://leafletjs.com\" title=\"A JavaScript library for interactive maps\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "5a06d42db2f5",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#map_6b0669b637dda > div:nth-of-type(2) > div:nth-of-type(4) > div > a:nth-of-type(2)",
+   "target": "#map_6b0669b637dda > div:nth-of-type(2) > div:nth-of-type(4) > div > a:nth-of-type(2)",
+   "message": "The text \"OpenStreetMap\" has at most 3.59:1 contrast with what is behind it (#50a2bc on #dfe9db…#f5fef6), measured from pixels because axe-core could not decide (an image in the element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#50a2bc on #e7f1e2; #dfe9db…#f5fef6 · 3.59:1 at best, 2.32:1 at worst · 11px, 400",
+   "subject": "OpenStreetMap",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://www.openstreetmap.org/copyright\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "f8980dc60c15",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#rd-text_field-mf2n6xpu",
+   "target": "#rd-text_field-mf2n6xpu",
+   "message": "The placeholder \"Nome *\" has a contrast of 4.19:1 with the field (#757575 on #f4f4f4). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#757575 on #f4f4f4 · 4.19:1 at best, 4.19:1 at worst · 14px, 400",
+   "subject": "Nome *",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input id=\"rd-text_field-mf2n6xpu\" class=\"bricks-form__input required js-text js-field-name\" name=\"name\" type=\"text\" data-use-type=\"STRING\" placeholder=\"Nome *\" required=\"required\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "556d8a9535c3",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#rd-email_field-mf2n6xpv",
+   "target": "#rd-email_field-mf2n6xpv",
+   "message": "The placeholder \"Email *\" has a contrast of 4.19:1 with the field (#757575 on #f4f4f4). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#757575 on #f4f4f4 · 4.19:1 at best, 4.19:1 at worst · 14px, 400",
+   "subject": "Email *",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input id=\"rd-email_field-mf2n6xpv\" class=\"bricks-form__input required js-email js-field-email\" name=\"email\" type=\"email\" data-use-type=\"STRING\" data-always-visible=\"true\" data-input-mask=\"\" placeholder=\"Email *\" required=\"required\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "9cecc3f20f5d",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > a:nth-of-type(2)",
+   "target": "html > body > a:nth-of-type(2)",
+   "message": "The icon of this link (\"Falar no WhatsApp — (21) 99571-1987\") has at most 1.98:1 contrast with the pixels next to it (#ffffff on #25d366). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#ffffff on #25d366 · 1.98:1 at best, 1.98:1 at worst",
+   "subject": "Falar no WhatsApp — (21) 99571-1987",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<a class=\"m2br-wa-float\" href=\"https://wa.me/5521995711987?text=Ol%C3%A1%2C%20vim%20pelo%20site%20do%20Teatro%20Riachuelo\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Falar no WhatsApp — (21) 99571-1987\" role=\"link\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "ff519f3f0e84",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#rd-text_field-mf2n6xpu",
+   "target": "#rd-text_field-mf2n6xpu",
+   "message": "The browser exposes this element as a textbox but computes no name for it: a screen reader announces only \"textbox\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role textbox · name \"\"",
+   "subject": "textbox",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<input id=\"rd-text_field-mf2n6xpu\" class=\"bricks-form__input required js-text js-field-name\" name=\"name\" type=\"text\" data-use-type=\"STRING\" placeholder=\"Nome *\" required=\"required\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "7fe4215af343",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#rd-email_field-mf2n6xpv",
+   "target": "#rd-email_field-mf2n6xpv",
+   "message": "The browser exposes this element as a textbox but computes no name for it: a screen reader announces only \"textbox\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role textbox · name \"\"",
+   "subject": "textbox",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<input id=\"rd-email_field-mf2n6xpv\" class=\"bricks-form__input required js-email js-field-email\" name=\"email\" type=\"email\" data-use-type=\"STRING\" data-always-visible=\"true\" data-input-mask=\"\" placeholder=\"Email *\" required=\"required\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 31
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.4.3",
+    "ref": "#menu-item-8868 > a > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "7dd5967eeda8"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#menu-item-9112 > a > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "1e3497c54e7e"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#conversion-form-riachuelo-contato > div:nth-of-type(1) > div:nth-of-type(1) > label",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "a680ea790b6c"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#conversion-form-riachuelo-contato > div:nth-of-type(1) > div:nth-of-type(2) > label",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "806a533a937d"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#conversion-form-riachuelo-contato > div:nth-of-type(1) > div:nth-of-type(3) > label",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "fa9f2bacf49b"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#conversion-form-riachuelo-contato > div:nth-of-type(1) > div:nth-of-type(4) > label",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "3464ec553926"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#conversion-form-riachuelo-contato > div:nth-of-type(1) > div:nth-of-type(5) > label",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "56e63b494b06"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#conversion-form-riachuelo-contato > div:nth-of-type(1) > div:nth-of-type(6) > div > label",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "b3c84ab029e8"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#rd-static_text-me2wvrx6 > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "0257aa5b0130"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#rd-static_text-me2wvrx6 > span > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "2d9d1d0fb99a"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#rd-button-luifrxus",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "e88ba1d0b3e0"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#rd-text-luifrxut > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "5cffbb20820b"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#ajax-content-wrap > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div:nth-of-type(2) > h3",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "37ce405b2c83"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#ajax-content-wrap > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div:nth-of-type(3) > h3",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "31a54d589606"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#ajax-content-wrap > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div:nth-of-type(4) > h3",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "22b1ed537857"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#ajax-content-wrap > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div:nth-of-type(5) > h3",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "b83ff05c4ef2"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#ajax-content-wrap > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div:nth-of-type(6) > h3",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "b75104e3a0e1"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#ajax-content-wrap > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div:nth-of-type(7) > h3",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "f82df9b9c2e9"
+   },
+   {
+    "criterion": "1.4.4",
+    "ref": "html > head > meta:nth-of-type(2)",
+    "ruleId": "meta-viewport",
+    "confidence": "high",
+    "fingerprint": "ae3f35e36212"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#fws_6b0669b637661 > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div:nth-of-type(3) > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "0ca08e3488be"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#fws_6b0669b637661 > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div:nth-of-type(4) > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "c3c6e70a985f"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#fws_6b0669b637661 > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div:nth-of-type(5) > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "407894e5daa9"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#custom_html-7 > div > div:nth-of-type(1) > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "21e0e2425867"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#custom_html-7 > div > div:nth-of-type(2) > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "62ee3f774e2e"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#text-3 > div > p:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "e884b7658513"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#text-3 > div > p:nth-of-type(2) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "f57093c20eec"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#map_6b0669b637dda > div:nth-of-type(1) > div:nth-of-type(4) > div",
+    "ruleId": "aria-command-name",
+    "confidence": "high",
+    "fingerprint": "9ccfbc352170"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#conversion-form-riachuelo-contato > div:nth-of-type(3) > input:nth-of-type(1)",
+    "ruleId": "label",
+    "confidence": "high",
+    "fingerprint": "47ee8ce0bb6f"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#conversion-form-riachuelo-contato > div:nth-of-type(3) > input:nth-of-type(2)",
+    "ruleId": "label",
+    "confidence": "high",
+    "fingerprint": "5d469739d790"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#conversion-form-newsletter-riachuelo > div:nth-of-type(3) > input:nth-of-type(1)",
+    "ruleId": "label",
+    "confidence": "high",
+    "fingerprint": "ecf4df7e71f5"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#conversion-form-newsletter-riachuelo > div:nth-of-type(3) > input:nth-of-type(2)",
+    "ruleId": "label",
+    "confidence": "high",
+    "fingerprint": "63446e3dc9db"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 18,
+   "members": [
+    "7dd5967eeda8",
+    "1e3497c54e7e",
+    "a680ea790b6c",
+    "806a533a937d",
+    "fa9f2bacf49b",
+    "3464ec553926",
+    "56e63b494b06",
+    "b3c84ab029e8",
+    "0257aa5b0130",
+    "2d9d1d0fb99a",
+    "e88ba1d0b3e0",
+    "5cffbb20820b",
+    "37ce405b2c83",
+    "31a54d589606",
+    "22b1ed537857",
+    "b83ff05c4ef2",
+    "b75104e3a0e1",
+    "f82df9b9c2e9"
+   ],
+   "example": "7dd5967eeda8"
+  },
+  {
+   "id": "g-b3cc505a410d",
+   "list": "findings",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "engine",
+   "check": "link-name",
+   "count": 7,
+   "members": [
+    "0ca08e3488be",
+    "c3c6e70a985f",
+    "407894e5daa9",
+    "21e0e2425867",
+    "62ee3f774e2e",
+    "e884b7658513",
+    "f57093c20eec"
+   ],
+   "example": "0ca08e3488be"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#text-2 > div > p:nth-of-type(2) > a",
+   "message": "The link text \"www.netpark.com.br\" is an address, not a purpose.",
+   "evidence": "The model suggests: \"Site da Netpark\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#text-4 > div > h2",
+   "message": "The heading \"O TEATRO\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"Informações sobre o Teatro e Estacionamento\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "#rd-text_area_field-me2wvrx3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#map_6b0669b637dda > div:nth-of-type(2) > div:nth-of-type(1) > div > a:nth-of-type(2) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#map_6b0669b637dda > div:nth-of-type(2) > div:nth-of-type(4) > div",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#cookie-law-info-bar > span",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#rd-text_field-me2wvrwz",
+   "source": null,
+   "ruleId": "rampa/placeholder-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#rd-email_field-me2wvrx0",
+   "source": null,
+   "ruleId": "rampa/placeholder-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#rd-phone_field-me2wvrx1",
+   "source": null,
+   "ruleId": "rampa/placeholder-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#rd-text_area_field-me2wvrx3",
+   "source": null,
+   "ruleId": "rampa/placeholder-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#ajax-content-wrap > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div:nth-of-type(3) > div > div:nth-of-type(1) > span:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#ajax-content-wrap > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div:nth-of-type(3) > div > div:nth-of-type(4) > span:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#ajax-content-wrap > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div:nth-of-type(4) > div > div:nth-of-type(1) > span:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#ajax-content-wrap > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div:nth-of-type(4) > div > div:nth-of-type(2) > span:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#ajax-content-wrap > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div:nth-of-type(4) > div > div:nth-of-type(4) > span:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#to-top",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "2.5.3",
+   "ref": "#map_6b0669b637dda > div:nth-of-type(2) > div:nth-of-type(1) > div > a:nth-of-type(1)",
+   "source": null,
+   "ruleId": "label-content-name-mismatch"
+  },
+  {
+   "criterion": "2.5.3",
+   "ref": "#map_6b0669b637dda > div:nth-of-type(2) > div:nth-of-type(1) > div > a:nth-of-type(2)",
+   "source": null,
+   "ruleId": "label-content-name-mismatch"
+  },
+  {
+   "criterion": "2.5.4",
+   "ref": "html",
+   "source": null,
+   "ruleId": "rampa/motion-actuation-scope"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#logo > img:nth-of-type(1)",
+   "reason": "the alternative is a logo that leads to the site's home page",
+   "output": {
+    "verdict": "fail",
+    "evidence": "TEATRO",
+    "problem": "missing_information",
+    "imageShows": "O logotipo do Teatro Riachuelo Rio em branco sobre fundo preto.",
+    "suggestedAlt": "Teatro Riachuelo Rio",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#pojo-a11y-toolbar > div:nth-of-type(2) > div > ul > li:nth-of-type(2) > a",
+   "reason": "evidence is not the link text",
+   "output": {
+    "promises": "The link text 'Diminuir texto' (Decrease text) and its context within an accessibility toolbar suggest that clicking the link will decrease the font size of the page.",
+    "leadsTo": "A function to decrease the text size (indicated by the data-action='resize-minus').",
+    "verdict": "pass",
+    "evidence": "Diminuir texto",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#pojo-a11y-toolbar > div:nth-of-type(2) > div > ul > li:nth-of-type(7) > a",
+   "reason": "evidence is not the link text",
+   "output": {
+    "promises": "The link text 'Links sublinhados' and its context within an accessibility toolbar suggest that clicking it will toggle an underline style for links on the page.",
+    "leadsTo": "#",
+    "verdict": "pass",
+    "evidence": "Links sublinhados",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-item-60 > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'PROGRAMAÇÃO' in a navigation menu suggests it leads to a page showing the theater's schedule or programming.",
+    "leadsTo": "The homepage of Teatro Riachuelo, which contains general information about the theater and its shows.",
+    "verdict": "fail",
+    "evidence": "PROGRAMAÇÃO",
+    "problem": "mismatch",
+    "suggestedText": "Página Inicial",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-item-1577 > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'PROGRAMAÇÃO' (Programming/Schedule) suggests it leads to a schedule of events or performances.",
+    "leadsTo": "The homepage of Teatro Riachuelo, which describes the theater and its shows.",
+    "verdict": "fail",
+    "evidence": "PROGRAMAÇÃO",
+    "problem": "mismatch",
+    "suggestedText": "Página Inicial do Teatro Riachuelo",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 18,
+   "judged": 18,
+   "failed": 2,
+   "passed": 15,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 7,
+   "judged": 7,
+   "failed": 5,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 41,
+   "judged": 41,
+   "failed": 0,
+   "passed": 36,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 22,
+   "judged": 22,
+   "failed": 0,
+   "passed": 21,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "13 image(s) were left without a capture, so no judgment looked at them: 7 cut off by the box that holds it; 6 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 89,
+  "cachedCalls": 0,
+  "inputTokens": 81022,
+  "outputTokens": 7969,
+  "latencyMs": 264730
+ },
+ "timings": {
+  "totalMs": 136678,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 21
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 30635,
+    "prepareMs": 0,
+    "candidates": 18,
+    "judged": 18,
+    "calls": 18,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 8334,
+    "prepareMs": 0,
+    "candidates": 7,
+    "judged": 7,
+    "calls": 7,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1280,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 68491,
+    "prepareMs": 0,
+    "candidates": 41,
+    "judged": 41,
+    "calls": 41,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 27710,
+    "prepareMs": 0,
+    "candidates": 22,
+    "judged": 22,
+    "calls": 22,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 171,
+    "prepareMs": 168,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 13,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 22
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 18,
+   "notCaptured": 13,
+   "reasons": {
+    "clipped": 7,
+    "limit": 6
+   }
+  }
+ },
+ "coverage": {
+  "reach": null,
+  "fast": null
+ }
+}

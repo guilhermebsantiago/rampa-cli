@@ -1,0 +1,623 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://www.mpac.mp.br/atendimento-ao-cidadao/ouvidoria/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "fa5ac1c329b2",
+   "criterion": "1.3.1",
+   "level": "A",
+   "source": "rule",
+   "ref": "#the_header > div:nth-of-type(2) > div:nth-of-type(2) > form > input",
+   "target": "#the_header > div:nth-of-type(2) > div:nth-of-type(2) > form > input",
+   "message": "The label \"Busca\" sits beside this field but is not tied to it: a screen reader announces the field only by its placeholder (\"O que você procura?\"), without the label.",
+   "evidence": "<label>Busca</label>",
+   "subject": "Busca",
+   "patch": {
+    "ref": "#the_header > div:nth-of-type(2) > div:nth-of-type(2) > form > label",
+    "kind": "set-attribute",
+    "attribute": "for",
+    "to": "searchform",
+    "before": "<label for=\"s\" class=\"sr-only\">",
+    "after": "<label for=\"searchform\" class=\"sr-only\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/orphan-label",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html",
+   "html": "<input id=\"searchform\" style=\"background: none;\" class=\"py-3 px-4 block w-full rounded-l border-none\n            focus:z-10 focus:ring-0 dark:text-black\" type=\"text\" name=\"s\" placeholder=\"O que você procura?\" value=\"\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "c8d87715add4",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#the_header > div:nth-of-type(2) > div:nth-of-type(2) > form > button",
+   "target": "#the_header > div:nth-of-type(2) > div:nth-of-type(2) > form > button",
+   "message": "The icon of this button has at most 2.88:1 contrast with the pixels next to it (#939598 on #fafafa). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#939598 on #fafafa · 2.88:1 at best, 2.88:1 at worst",
+   "subject": "#the_header > div:nth-of-type(2) > div:nth-of-type(2) > form > button",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<button type=\"submit\" class=\"inline-flex justify-center items-center h-auto w-16\n        rounded-r font-semibold text-accent-500\n        hover:bg-primary-500 hover:text-zinc-50 transition-all\n        focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500\n    \">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "81024d4adee4",
+   "criterion": "2.4.2",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html",
+   "message": "The page title \"Ministério Público do Estado do Acre\" says nothing about this page.",
+   "evidence": "Ministério Público do Estado do Acre",
+   "subject": "Ministério Público do Estado do Acre",
+   "claim": "generic",
+   "techniques": [
+    "F25",
+    "G88"
+   ],
+   "patch": {
+    "ref": "html",
+    "kind": "set-text",
+    "from": "Ministério Público do Estado do Acre",
+    "to": "Ouvidoria-Geral | Ministério Público do Estado do Acre",
+    "before": "<title>Ministério Público do Estado do Acre</title>",
+    "after": "<title>Ouvidoria-Geral | Ministério Público do Estado do Acre</title>"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 22
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.1.1",
+    "ref": "#the_body > main > header > div:nth-of-type(2) > div > img",
+    "ruleId": "image-alt",
+    "confidence": "high",
+    "fingerprint": "8ef5018e07df"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#the_body > main > header > div:nth-of-type(1) > div > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "effe28aab93f"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#the_body > main > header > div:nth-of-type(1) > div > div > a > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "c7c4899063fd"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#the_body > main > header > div:nth-of-type(1) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "481809781a61"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#menu-item-99581 > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "b88123730c10"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#menu-item-99582 > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "24003b0610c6"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#menu-item-99583 > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "0d42a40a113c"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#menu-item-99584 > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "40c31d0b3f89"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#menu-item-100921 > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "cdfbe9a9e354"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#topbar_section > div:nth-of-type(2) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "4a1a07079edb"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#page-3685 > article > p:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "ed38da3be146"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#menu-redes-sociais-1 > li:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "61399f334628"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#menu-redes-sociais-1 > li:nth-of-type(2) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "fa1e39344557"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#menu-redes-sociais-1 > li:nth-of-type(3) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "439bb19ae1d9"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#menu-redes-sociais-1 > li:nth-of-type(4) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "8bfa9b082ab4"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#menu-redes-sociais-1 > li:nth-of-type(5) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "0055fa19c35f"
+   },
+   {
+    "criterion": "3.1.1",
+    "ref": "html",
+    "ruleId": "html-lang-valid",
+    "confidence": "high",
+    "fingerprint": "1b3256c6b496"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#topbar_section > div:nth-of-type(2) > button:nth-of-type(1)",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "f00d8cca4084"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#topbar_section > div:nth-of-type(2) > button:nth-of-type(2)",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "8c00928db6dd"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#topbar_section > div:nth-of-type(2) > button:nth-of-type(3)",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "9d2462ee1be1"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#main-menu-button",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "aeb73f79c358"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#the_header > div:nth-of-type(2) > div:nth-of-type(2) > form > button",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "5ea25c8ae853"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": [
+  {
+   "id": "g-b3cc505a410d",
+   "list": "findings",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "engine",
+   "check": "link-name",
+   "count": 12,
+   "members": [
+    "b88123730c10",
+    "24003b0610c6",
+    "0d42a40a113c",
+    "40c31d0b3f89",
+    "cdfbe9a9e354",
+    "4a1a07079edb",
+    "ed38da3be146",
+    "61399f334628",
+    "fa1e39344557",
+    "439bb19ae1d9",
+    "8bfa9b082ab4",
+    "0055fa19c35f"
+   ],
+   "example": "b88123730c10"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#the_body > main > div > div > aside > ul > li:nth-of-type(5) > a",
+   "message": "The link text \"Links\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Links do Ministério Público do Acre\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#the_body > main > div > div > aside > ul > li:nth-of-type(8) > a",
+   "message": "The link text \"SIC\" does not match where the link leads: a page titled \"Portal da Transparência do MPAC\".",
+   "evidence": "The model suggests: \"Portal da Transparência\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.11",
+   "ref": "#menu-item-99583 > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#menu-item-99584 > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#menu-item-100921 > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#topbar_section > div:nth-of-type(2) > button:nth-of-type(1)",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#topbar_section > div:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#back_to_top",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#back_to_top",
+   "source": null,
+   "ruleId": "rampa/widget-name"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#the_header > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a:nth-of-type(2) > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Selo",
+    "problem": "missing_information",
+    "imageShows": "Um selo circular de transparência com o texto 'Diamante 2024' e o logotipo do Ministério Público do Acre.",
+    "suggestedAlt": "Selo Diamante 2024",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#page-3685 > article > div:nth-of-type(1) > figure > img",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "A logo featuring a stylized ear icon and the text 'OUVIDORIA-GERAL Ministério Público do Estado do Acre'.",
+    "textInImage": "OUVIDORIA-GERAL Ministério Público do Estado do Acre",
+    "verdict": "fail",
+    "evidence": "Logo with words 'OUVIDORIA-GERAL Ministério Público do Estado do Acre'",
+    "suggestedAlt": "Logotipo da Ouvidoria-Geral do Ministério Público do Estado do Acre",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-item-123789 > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'LEGISLAÇÃO' in a navigation menu suggests it leads to a section or page containing legislation.",
+    "leadsTo": "https://legislacao.mpac.mp.br/",
+    "verdict": "fail",
+    "evidence": "LEGISLAÇÃO",
+    "problem": "ambiguous",
+    "suggestedText": "Legislação do MPAC",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#the_body > main > div > div > aside > ul > li:nth-of-type(4) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page containing the legislation of the Ouvidoria-Geral.",
+    "leadsTo": "A page titled 'Legislação' on the official site of the Ministério Público do Acre.",
+    "verdict": "fail",
+    "evidence": "Legislação",
+    "problem": "ambiguous",
+    "suggestedText": "Legislação da Ouvidoria-Geral",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-acesso-rapido-1 > li:nth-of-type(5) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Legislação' under the heading 'Outros formulários' suggests it leads to a page containing legislation or legal documents.",
+    "leadsTo": "https://legislacao.mpac.mp.br/",
+    "verdict": "fail",
+    "evidence": "Legislação",
+    "problem": "ambiguous",
+    "suggestedText": "Legislação do MPAC",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 5,
+   "failed": 0,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 108,
+   "judged": 50,
+   "failed": 0,
+   "passed": 45,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 58,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 0,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 58 of 108 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 60,
+  "cachedCalls": 0,
+  "inputTokens": 56755,
+  "outputTokens": 6315,
+  "latencyMs": 186513
+ },
+ "timings": {
+  "totalMs": 97608,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 18
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 8473,
+    "prepareMs": 0,
+    "candidates": 5,
+    "judged": 5,
+    "calls": 5,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1531,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1356,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 81863,
+    "prepareMs": 0,
+    "candidates": 108,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 4171,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 3,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 169,
+    "prepareMs": 169,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 25
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 8,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 108,
+    "capped": 58
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null,
+  "fast": null
+ }
+}

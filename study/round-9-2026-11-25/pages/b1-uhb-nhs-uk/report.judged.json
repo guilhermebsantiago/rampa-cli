@@ -1,0 +1,646 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://www.uhb.nhs.uk/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "af19ac34653a",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#news > div > div > div:nth-of-type(6) > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Microsoft outage\" names a label, not what the image conveys here.",
+   "evidence": "Microsoft outage",
+   "subject": "Microsoft outage",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#news > div > div > div:nth-of-type(6) > div > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Microsoft outage",
+    "to": "Network infrastructure and ethernet cables",
+    "before": "<img src=\"/media/2vebeek5/news-microsoft-outage.jpg\" alt=\"Microsoft outage\">",
+    "after": "<img src=\"/media/2vebeek5/news-microsoft-outage.jpg\" alt=\"Network infrastructure and ethernet cables\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9998792524763784
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "7de16afcf04a",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > footer > div > div > div:nth-of-type(1) > svg",
+   "message": "This image is hidden from screen readers (aria-hidden=\"true\"), but it conveys what the text around it does not say: \"The slogan 'Building healthier lives'\".",
+   "evidence": "The slogan 'Building healthier lives'",
+   "subject": "hidden svg",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "4efc1a1d2047",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > header > div > div:nth-of-type(1) > a > span:nth-of-type(2)",
+   "target": "html > body > header > div > div:nth-of-type(1) > a > span:nth-of-type(2)",
+   "message": "The text \"NHS Foundation Trust\" has at most 3.18:1 contrast with what is behind it (#ffffff on #5795d0), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #5795d0 · 3.18:1 at best, 3.18:1 at worst · 15px, 700",
+   "subject": "NHS Foundation Trust",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<span class=\"uhb-c-header__logo-organisation-descriptor\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "e15a46b13dab",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > header > div > nav > div > ul:nth-of-type(2) > li:nth-of-type(1) > a",
+   "target": "html > body > header > div > nav > div > ul:nth-of-type(2) > li:nth-of-type(1) > a",
+   "message": "The text \"Home\" has at most 3.18:1 contrast with what is behind it (#ffffff on #5795d0), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #5795d0 · 3.18:1 at best, 3.18:1 at worst · 20px, 600",
+   "subject": "Home",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a class=\"uhb-c-header__navigation-link uhb-u-font-weight-bold \" href=\"/\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "805bdfb20b13",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > header > div > nav > div > ul:nth-of-type(2) > li:nth-of-type(2) > a",
+   "target": "html > body > header > div > nav > div > ul:nth-of-type(2) > li:nth-of-type(2) > a",
+   "message": "The text \"Patients\" has at most 3.18:1 contrast with what is behind it (#ffffff on #5795d0), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #5795d0 · 3.18:1 at best, 3.18:1 at worst · 20px, 600",
+   "subject": "Patients",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"/patients/\" class=\"uhb-c-header__navigation-link uhb-u-font-weight-bold  \">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "61fda9ed8371",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > header > div > nav > div > ul:nth-of-type(2) > li:nth-of-type(3) > a",
+   "target": "html > body > header > div > nav > div > ul:nth-of-type(2) > li:nth-of-type(3) > a",
+   "message": "The text \"Visiting\" has at most 3.18:1 contrast with what is behind it (#ffffff on #5795d0), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #5795d0 · 3.18:1 at best, 3.18:1 at worst · 20px, 600",
+   "subject": "Visiting",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"/visiting/\" class=\"uhb-c-header__navigation-link uhb-u-font-weight-bold  \">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "5b5a1a9f5a98",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > header > div > nav > div > ul:nth-of-type(2) > li:nth-of-type(4) > a",
+   "target": "html > body > header > div > nav > div > ul:nth-of-type(2) > li:nth-of-type(4) > a",
+   "message": "The text \"Services\" has at most 3.18:1 contrast with what is behind it (#ffffff on #5795d0), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #5795d0 · 3.18:1 at best, 3.18:1 at worst · 20px, 600",
+   "subject": "Services",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"/services/\" class=\"uhb-c-header__navigation-link uhb-u-font-weight-bold  \">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "f1b9e18cb9af",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > header > div > nav > div > ul:nth-of-type(2) > li:nth-of-type(5) > a",
+   "target": "html > body > header > div > nav > div > ul:nth-of-type(2) > li:nth-of-type(5) > a",
+   "message": "The text \"About us\" has at most 3.18:1 contrast with what is behind it (#ffffff on #5795d0), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #5795d0 · 3.18:1 at best, 3.18:1 at worst · 20px, 600",
+   "subject": "About us",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"/about/\" class=\"uhb-c-header__navigation-link uhb-u-font-weight-bold  \">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "7f8a47105578",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > header > div > nav > div > ul:nth-of-type(2) > li:nth-of-type(6) > a",
+   "target": "html > body > header > div > nav > div > ul:nth-of-type(2) > li:nth-of-type(6) > a",
+   "message": "The text \"Get involved\" has at most 3.18:1 contrast with what is behind it (#ffffff on #5795d0), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #5795d0 · 3.18:1 at best, 3.18:1 at worst · 20px, 600",
+   "subject": "Get involved",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"/get-involved/\" class=\"uhb-c-header__navigation-link uhb-u-font-weight-bold  \">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {},
+ "engine": {
+  "findings": [],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": [
+  {
+   "id": "g-6ed0ab07ef69",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "check": "rampa/pixel-contrast",
+   "count": 7,
+   "members": [
+    "4efc1a1d2047",
+    "e15a46b13dab",
+    "805bdfb20b13",
+    "61fda9ed8371",
+    "5b5a1a9f5a98",
+    "f1b9e18cb9af",
+    "7f8a47105578"
+   ],
+   "example": "4efc1a1d2047"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#news > div > div > div:nth-of-type(5) > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"New energy centre powers a greener future for Solihull Hospital\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Matt Wood and Martin Richardson shaking hands in front of the new energy centre at Solihull Hospital\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.00), claim: yes (0.99), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > header > div > nav > div > ul:nth-of-type(2) > li:nth-of-type(3) > a",
+   "message": "The link text \"Visiting\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Visiting a patient\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > header > div > nav > div > ul:nth-of-type(2) > li:nth-of-type(7) > a",
+   "message": "The link text \"GPs\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Information for GPs\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#SKSearchBox",
+   "message": "The label \"Search\" does not say what to enter.",
+   "evidence": "The model suggests: \"Search site content\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > header > div > nav > div > ul:nth-of-type(2) > li:nth-of-type(7) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > header > div > nav > div > ul:nth-of-type(2) > li:nth-of-type(8) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > header > div > div:nth-of-type(2) > h1",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > header > div > div:nth-of-type(2) > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > header > div > div:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(4) > main > div > main > section:nth-of-type(1) > div > ul > li:nth-of-type(1) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(4) > main > div > main > section:nth-of-type(1) > div > ul > li:nth-of-type(2) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(4) > main > div > main > section:nth-of-type(1) > div > ul > li:nth-of-type(3) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(4) > main > div > main > section:nth-of-type(1) > div > ul > li:nth-of-type(4) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(4) > main > div > main > section:nth-of-type(1) > div > ul > li:nth-of-type(5) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(4) > main > div > main > section:nth-of-type(1) > div > ul > li:nth-of-type(6) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#SKSearchBox",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#CQCWidget-RRK-1 > div > div > div > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "CQC logo",
+    "problem": "missing_information",
+    "imageShows": "The Care Quality Commission logo featuring a stylized purple 'Q' and the words 'Care Quality Commission'.",
+    "suggestedAlt": "Care Quality Commission homepage",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(4) > main > div > main > section:nth-of-type(4) > div > div > div:nth-of-type(3) > div > div > svg",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "The TikTok logo.",
+    "textInImage": "",
+    "verdict": "fail",
+    "evidence": "TikTok logo",
+    "suggestedAlt": "TikTok logo icon",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > div:nth-of-type(2) > div > ul:nth-of-type(1) > li:nth-of-type(2) > a",
+   "reason": "mismatch on a destination that is a not-found page (a broken link, never a finding)",
+   "output": {
+    "promises": "A page about the website's cookie policy.",
+    "leadsTo": "A 404 error page (page not found).",
+    "verdict": "fail",
+    "evidence": "Our cookies",
+    "problem": "mismatch",
+    "suggestedText": "Cookie policy",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#events > div > div > div:nth-of-type(1) > div > table > tbody > tr:nth-of-type(4) > td:nth-of-type(3) > a",
+   "reason": "mismatch on a destination that is a not-found page (a broken link, never a finding)",
+   "output": {
+    "promises": "A specific date (the 18th) in a calendar for November 2026.",
+    "leadsTo": "A 404 error page (redirecting to a general 404 page).",
+    "verdict": "fail",
+    "evidence": "18",
+    "problem": "mismatch",
+    "suggestedText": "View event details for November 18, 2026",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#events > div > div > div:nth-of-type(1) > div > table > tbody > tr:nth-of-type(5) > td:nth-of-type(4) > a",
+   "reason": "mismatch on a destination that is a not-found page (a broken link, never a finding)",
+   "output": {
+    "promises": "A specific date (the 26th) in the November 2026 events calendar.",
+    "leadsTo": "A 404 error page (redirecting to a general 404 page).",
+    "verdict": "fail",
+    "evidence": "26",
+    "problem": "mismatch",
+    "suggestedText": "View event details for November 26, 2026",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "html > body > div:nth-of-type(4) > main > div > main > section:nth-of-type(1) > h2",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Quick links",
+    "verdict": "fail",
+    "evidence": "Q…",
+    "problem": "generic",
+    "suggestedText": "Quick links",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "html > body > div:nth-of-type(4) > main > div > main > section:nth-of-type(4) > div > h2",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Social media",
+    "verdict": "fail",
+    "evidence": "S…",
+    "problem": "generic",
+    "suggestedText": "Social media",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 12,
+   "judged": 12,
+   "failed": 2,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 58,
+   "judged": 50,
+   "failed": 0,
+   "passed": 45,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 8,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 21,
+   "judged": 21,
+   "failed": 0,
+   "passed": 18,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "A layer lay over the viewport when the page was read (div, on top at 89% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 8 of 58 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 89,
+  "cachedCalls": 0,
+  "inputTokens": 78746,
+  "outputTokens": 7200,
+  "latencyMs": 236218
+ },
+ "timings": {
+  "totalMs": 121839,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 15
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 20847,
+    "prepareMs": 0,
+    "candidates": 12,
+    "judged": 12,
+    "calls": 18,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 73911,
+    "prepareMs": 0,
+    "candidates": 58,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 26852,
+    "prepareMs": 0,
+    "candidates": 21,
+    "judged": 21,
+    "calls": 21,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 175,
+    "prepareMs": 172,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 15,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 23
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "overlay": {
+   "selector": "div",
+   "coverage": 0.89,
+   "hidden": true
+  },
+  "images": {
+   "captured": 18,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 58,
+    "capped": 8
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "overlay": {
+    "ref": "html > body > div:nth-of-type(2)",
+    "selector": "div",
+    "coverage": 0.89,
+    "hidden": true
+   }
+  },
+  "fast": null
+ }
+}

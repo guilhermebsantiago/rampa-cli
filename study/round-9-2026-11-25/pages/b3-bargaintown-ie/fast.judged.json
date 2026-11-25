@@ -1,0 +1,1261 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://bargaintown.ie/collections/mattresses",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "45ca7d6b3976",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#shopify-section-template--33381603803461__section_collection_list_qE489T > ul > li:nth-of-type(1) > figure > picture > img",
+   "message": "The text alternative \"Single Bed Mattress\" describes something the image does not show.",
+   "evidence": "Single Bed Mattress",
+   "subject": "Single Bed Mattress",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#shopify-section-template--33381603803461__section_collection_list_qE489T > ul > li:nth-of-type(1) > figure > picture > img",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "Single Bed Mattress",
+    "to": "3 foot mattress"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9995999159887595
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "127d9ac25eaf",
+   "criterion": "3.3.2",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#max",
+   "message": "Nothing on screen tells what to enter in the field \"to\": its label is on the page, but its text does not show: the label looks the same with its text made transparent.",
+   "evidence": "to",
+   "claim": "no_visible_label",
+   "techniques": [
+    "H44"
+   ],
+   "patch": {
+    "ref": "#max",
+    "kind": "replace-element",
+    "to": "to",
+    "before": "<input type=\"number\" id=\"max\" name=\"filter.v.price.lte\" value=\"1349\" max=\"1349\">",
+    "after": "<label for=\"max\">to</label> <input type=\"number\" id=\"max\" name=\"filter.v.price.lte\" value=\"1349\" max=\"1349\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "21058cc1fb38",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#search_main",
+   "target": "#search_main",
+   "message": "The browser exposes this element as a searchbox but computes no name for it: a screen reader announces only \"searchbox\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role searchbox · name \"\"",
+   "subject": "searchbox",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<input type=\"search\" id=\"search_main\" name=\"q\" placeholder=\"What are you looking for?\" autocomplete=\"off\" required=\"\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 61
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(1) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "a116e3ee3401"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(2) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "6fefa0280fa9"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(3) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "233311a9411c"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(4) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "f9c8cebde953"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(5) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "00fa2f9ddd3f"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(6) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "7bc519d5f0d4"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(7) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "c6a09cb6c647"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(8) > div:nth-of-type(1) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "f32a42a1ab59"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(8) > div:nth-of-type(2) > p:nth-of-type(2) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "a689e4e24d0c"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(9) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "175f85567ba7"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(10) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "dc23b1478258"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(11) > div:nth-of-type(1) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "7e742224071a"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(11) > div:nth-of-type(2) > p:nth-of-type(2) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "f7c7befb15d1"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(12) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "fe3072c2ff9b"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(13) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "0dd53b0448e4"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(14) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "df279876c71a"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(15) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "c8bf1173b350"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(16) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "53365bb64bce"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(17) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "76940f7ee9a4"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(18) > div:nth-of-type(1) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "edc46ee22e56"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(18) > div:nth-of-type(2) > p:nth-of-type(2) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "e7430d07210b"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(19) > div:nth-of-type(1) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "cc243e5ce6a1"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(19) > div:nth-of-type(2) > p:nth-of-type(2) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "cf12ff2b9128"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(20) > div:nth-of-type(1) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "d658c645eed4"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(20) > div:nth-of-type(2) > p:nth-of-type(2) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "9d8c7ebfcfaf"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(21) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "88108983ac71"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(22) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "f95bbcb09145"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(23) > div:nth-of-type(1) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "ea76419f25e0"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(23) > div:nth-of-type(2) > p:nth-of-type(2) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "82835a53c5ce"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(24) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "86e0eee5c2fb"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(25) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "9d57519a1d0e"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(26) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "1c9c6b66dd36"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(27) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "50cfe1ad814e"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(28) > div:nth-of-type(1) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "37aa07625790"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(28) > div:nth-of-type(2) > p:nth-of-type(2) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "b8b476971568"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(29) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "cc57cb5f9438"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(30) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "86ae1e600644"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(31) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "8177ae5b64f4"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(32) > div:nth-of-type(1) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "3b0497dc8315"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(32) > div:nth-of-type(2) > p:nth-of-type(2) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "783ad29621d7"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(33) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "e0bc23a8d443"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(34) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "84706a0d393c"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(35) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "41726e87e1d1"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(36) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "61c36e2b8888"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(37) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "0458457628d1"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(38) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "803785a1a324"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(39) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "2cb1cc63a036"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(40) > div:nth-of-type(1) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "14dec22918d3"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(40) > div:nth-of-type(2) > p:nth-of-type(2) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "3fab4d7ef47b"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(41) > div:nth-of-type(1) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "303245c702c0"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(41) > div:nth-of-type(2) > p:nth-of-type(2) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "2dd053dc68f1"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(42) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "75ba61c1f164"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(43) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "87349b6557db"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(44) > div:nth-of-type(1) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "0f3df1ced20c"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(44) > div:nth-of-type(2) > p:nth-of-type(2) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "66b3e1282aa4"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(45) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "fb6b89dc9085"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(46) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "6edf0dbd1b90"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(47) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "b058eb59d674"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#collection > li:nth-of-type(48) > div:nth-of-type(2) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "40817487fabf"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#merchantwidgetiframe",
+    "ruleId": "frame-title",
+    "confidence": "high",
+    "fingerprint": "1a969a0afc85"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#sort_by",
+    "ruleId": "select-name",
+    "confidence": "high",
+    "fingerprint": "9b6b9c72c5c9"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 59,
+   "members": [
+    "a116e3ee3401",
+    "6fefa0280fa9",
+    "233311a9411c",
+    "f9c8cebde953",
+    "00fa2f9ddd3f",
+    "7bc519d5f0d4",
+    "c6a09cb6c647",
+    "f32a42a1ab59",
+    "a689e4e24d0c",
+    "175f85567ba7",
+    "dc23b1478258",
+    "7e742224071a",
+    "f7c7befb15d1",
+    "fe3072c2ff9b",
+    "0dd53b0448e4",
+    "df279876c71a",
+    "c8bf1173b350",
+    "53365bb64bce",
+    "76940f7ee9a4",
+    "edc46ee22e56",
+    "e7430d07210b",
+    "cc243e5ce6a1",
+    "cf12ff2b9128",
+    "d658c645eed4",
+    "9d8c7ebfcfaf",
+    "88108983ac71",
+    "f95bbcb09145",
+    "ea76419f25e0",
+    "82835a53c5ce",
+    "86e0eee5c2fb",
+    "9d57519a1d0e",
+    "1c9c6b66dd36",
+    "50cfe1ad814e",
+    "37aa07625790",
+    "b8b476971568",
+    "cc57cb5f9438",
+    "86ae1e600644",
+    "8177ae5b64f4",
+    "3b0497dc8315",
+    "783ad29621d7",
+    "e0bc23a8d443",
+    "84706a0d393c",
+    "41726e87e1d1",
+    "61c36e2b8888",
+    "0458457628d1",
+    "803785a1a324",
+    "2cb1cc63a036",
+    "14dec22918d3",
+    "3fab4d7ef47b",
+    "303245c702c0",
+    "2dd053dc68f1",
+    "75ba61c1f164",
+    "87349b6557db",
+    "0f3df1ced20c",
+    "66b3e1282aa4",
+    "fb6b89dc9085",
+    "6edf0dbd1b90",
+    "b058eb59d674",
+    "40817487fabf"
+   ],
+   "example": "a116e3ee3401"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#shopify-section-template--33381603803461__section_collection_list_qE489T > ul > li:nth-of-type(3) > figure > picture > img",
+   "message": "The text alternative \"Double Bed Mattress\" describes something the image does not show.",
+   "evidence": "The model suggests: \"4'6\" Double Bed size icon\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: yes (0.93), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "3.3.2",
+   "level": "A",
+   "ruleId": "judgment/3.3.2",
+   "ref": "#min",
+   "message": "Nothing on screen tells what to enter in the field \"From\": its label is hidden from view.",
+   "evidence": "The model suggests: \"From\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.1",
+   "ref": "#shopify-section-sections--33381599084869__footer > div > p > a",
+   "source": null,
+   "ruleId": "link-in-text-block"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#nav-top > ul:nth-of-type(1) > li:nth-of-type(1) > span > span:nth-of-type(1) > span > span > strong",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#nav-top > ul:nth-of-type(1) > li:nth-of-type(2) > span > span:nth-of-type(1) > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#nav-top > ul:nth-of-type(1) > li:nth-of-type(3) > span > span:nth-of-type(1) > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#nav-top > ul:nth-of-type(3) > li > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#search_main",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#cart-count",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#nav > ul:nth-of-type(1) > li:nth-of-type(2) > a:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#nav > ul:nth-of-type(1) > li:nth-of-type(3) > a:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#nav > ul:nth-of-type(1) > li:nth-of-type(4) > a:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#nav > ul:nth-of-type(1) > li:nth-of-type(5) > a:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#nav > ul:nth-of-type(1) > li:nth-of-type(6) > a:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#nav > ul:nth-of-type(1) > li:nth-of-type(7) > a:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-template--33381603803461__section_collection_list_qE489T > header > div > div > h2",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#main_1010 > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#load-more-button",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#filter > fieldset > ul:nth-of-type(1) > li > label > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#filter > fieldset > ul:nth-of-type(2) > li:nth-of-type(1) > label > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#filter > fieldset > ul:nth-of-type(2) > li:nth-of-type(2) > label > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#filter > fieldset > ul:nth-of-type(2) > li:nth-of-type(3) > label > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#filter > fieldset > ul:nth-of-type(2) > li:nth-of-type(4) > label > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#filter > fieldset > ul:nth-of-type(2) > li:nth-of-type(5) > label > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#filter > fieldset > ul:nth-of-type(3) > li:nth-of-type(1) > label > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#filter > fieldset > ul:nth-of-type(3) > li:nth-of-type(2) > label > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#filter > fieldset > ul:nth-of-type(3) > li:nth-of-type(3) > label > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#filter > fieldset > ul:nth-of-type(3) > li:nth-of-type(4) > label > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#filter > fieldset > ul:nth-of-type(3) > li:nth-of-type(5) > label > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#filter > fieldset > ul:nth-of-type(3) > li:nth-of-type(6) > label > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#filter > fieldset > ul:nth-of-type(4) > li:nth-of-type(1) > label > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#filter > fieldset > ul:nth-of-type(4) > li:nth-of-type(2) > label > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#filter > fieldset > ul:nth-of-type(4) > li:nth-of-type(3) > label > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#filter > fieldset > ul:nth-of-type(4) > li:nth-of-type(4) > label > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(1) > div > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(1) > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(1) > p > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(1) > h4 > strong",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(1) > ul:nth-of-type(1) > li:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(1) > ul:nth-of-type(2) > li:nth-of-type(1) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(1) > ul:nth-of-type(2) > li:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(2) > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(2) > ul > li > a:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(2) > ul > li > a:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(2) > ul > li > a:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(2) > ul > li > a:nth-of-type(4)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(2) > ul > li > a:nth-of-type(5)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(3) > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(3) > ul > li:nth-of-type(1) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(3) > ul > li:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(3) > ul > li:nth-of-type(3) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(3) > ul > li:nth-of-type(4) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(3) > ul > li:nth-of-type(5) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(3) > ul > li:nth-of-type(6) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(4) > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(4) > ul > li:nth-of-type(1) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-footer > div:nth-of-type(4) > ul > li:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-sections--33381599084869__footer > div > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#shopify-section-sections--33381599084869__footer > div > p > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#nav-user > ul > li:nth-of-type(4) > a",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#shopify-section-template--33381603803461__section_collection_list_qE489T > ul > li:nth-of-type(5) > figure > picture > img",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Super King Mattress",
+    "problem": "wrong_content",
+    "imageShows": "A blue line drawing of a bed with two pillows and the text '6\f'' on the duvet.",
+    "suggestedAlt": "6ft Super King Mattress",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#nav-top > ul:nth-of-type(3) > li > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Customer Service' suggests it leads to a page for customer support or service inquiries.",
+    "leadsTo": "/pages/about-us",
+    "verdict": "fail",
+    "evidence": "Customer Service",
+    "problem": "mismatch",
+    "suggestedText": "About Us",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 15,
+   "judged": 10,
+   "failed": 1,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 5,
+   "confirmed": 1,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 143,
+   "judged": 10,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 133
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 85,
+   "judged": 10,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 75,
+   "batched": {
+    "candidates": 10,
+    "calls": 2
+   }
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "batched": {
+    "candidates": 2,
+    "calls": 1
+   },
+   "suggested": 1
+  }
+ ],
+ "notes": [
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #merchantwidgetiframe (https://www.google.com/shopping/merchantverse/?screenWidth=1280&screenHeight=800&origin=https%3A%2F%2Fbargaintown.ie&position=LEFT_BOTTOM&merchant_id=5348965648).",
+  "71 image(s) were left without a capture, so no judgment looked at them: 71 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 5 of 15 for 1.1.1, 133 of 143 for 2.4.4, 75 of 85 for 2.4.6. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (10 in 2 calls), 3.3.2 (2 in 1 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 32,
+  "cachedCalls": 0,
+  "inputTokens": 27941,
+  "outputTokens": 3129,
+  "latencyMs": 86978
+ },
+ "timings": {
+  "totalMs": 51947,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 49
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 19597,
+    "prepareMs": 0,
+    "candidates": 15,
+    "judged": 10,
+    "calls": 16,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2640,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1041,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 15863,
+    "prepareMs": 0,
+    "candidates": 143,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 10084,
+    "prepareMs": 0,
+    "candidates": 85,
+    "judged": 10,
+    "calls": 2,
+    "cachedCalls": 0,
+    "batches": 2
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 170,
+    "prepareMs": 167,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 12,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2440,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 1,
+    "cachedCalls": 0,
+    "batches": 1
+   }
+  ],
+  "otherMs": 51
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 1000,
+  "images": {
+   "captured": 15,
+   "notCaptured": 71,
+   "reasons": {
+    "limit": 71
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "1.1.1",
+    "candidates": 15,
+    "capped": 5
+   },
+   {
+    "criterion": "2.4.4",
+    "candidates": 143,
+    "capped": 133
+   },
+   {
+    "criterion": "2.4.6",
+    "candidates": 85,
+    "capped": 75
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#merchantwidgetiframe",
+     "url": "https://www.google.com/shopping/merchantverse/?screenWidth=1280&screenHeight=800&origin=https%3A%2F%2Fbargaintown.ie&position=LEFT_BOTTOM&merchant_id=5348965648",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  },
+  "fast": {
+   "skipped": [
+    "probes",
+    "link-following",
+    "ocr"
+   ],
+   "maxCandidates": 10
+  }
+ }
+}

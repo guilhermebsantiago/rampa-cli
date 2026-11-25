@@ -1,0 +1,530 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://www.agencialupa.org/reportagem/2026/11/24/desinformacao-sobre-mpox-alimenta-ataques-contra-comunidade-lgbtqia-nas-redes/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "687831448b66",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > header > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"The word 'ÚLTIMAS' in the image.\".",
+   "evidence": "The word 'ÚLTIMAS' in the image.",
+   "subject": "hidden WO0c83As-ULTIMAS-_.svg",
+   "patch": {
+    "ref": "html > body > header > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Últimas",
+    "before": "<img height=\"20\" width=\"auto\" style=\"aspect-ratio: 62/17\" src=\"https://www.agencialupa.org/wp-content/uploads/2025/09/WO0c83As-ULTIMAS-_.svg\" alt=\"\">",
+    "after": "<img height=\"20\" width=\"auto\" style=\"aspect-ratio: 62/17\" src=\"https://www.agencialupa.org/wp-content/uploads/2025/09/WO0c83As-ULTIMAS-_.svg\" alt=\"Últimas\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "6f50ed2c98a1",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#content > div:nth-of-type(3) > div > div:nth-of-type(1) > figure > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"A tweet with text and photos of mpox lesions.\".",
+   "evidence": "A tweet with text and photos of mpox lesions.",
+   "subject": "hidden image-4.png",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "d6dcd4810aed",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#content > div:nth-of-type(3) > div > div:nth-of-type(2) > figure > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Texto dizendo 'Fato. HIV é doença gay. Fato. Mpox é doença gay.'\".",
+   "evidence": "Texto dizendo 'Fato. HIV é doença gay. Fato. Mpox é doença gay.'",
+   "subject": "hidden image-3.png",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "d5785322129e",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#block-42 > div > div > div > div:nth-of-type(2) > figure > figure > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Selo de signatário da IFCN com o nome Lupa\".",
+   "evidence": "Selo de signatário da IFCN com o nome Lupa",
+   "subject": "hidden selo-ifcn-2026.png",
+   "patch": {
+    "ref": "#block-42 > div > div > div > div:nth-of-type(2) > figure > figure > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Selo de signatário da International Fact-Checking Network (IFCN) da Lupa",
+    "before": "<img loading=\"lazy\" decoding=\"async\" width=\"414\" height=\"512\" data-id=\"424124\" src=\"https://uploads.agencialupa.org/2026/11/selo-ifcn-2026.png\" alt=\"\" class=\"wp-image-424124\" style=\"width:74px;height:auto\">",
+    "after": "<img loading=\"lazy\" decoding=\"async\" width=\"414\" height=\"512\" data-id=\"424124\" src=\"https://uploads.agencialupa.org/2026/11/selo-ifcn-2026.png\" alt=\"Selo de signatário da International Fact-Checking Network (IFCN) da Lupa\" class=\"wp-image-424124\" style=\"width:74px;height:auto\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 7
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.1.1",
+    "ref": "#instagram-embed-0 |> .HoverCardPhotos > img:nth-child(1)",
+    "ruleId": "image-alt",
+    "confidence": "high",
+    "fingerprint": "6588ce5ecc7e"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "#instagram-embed-0 |> img:nth-child(2)",
+    "ruleId": "image-alt",
+    "confidence": "high",
+    "fingerprint": "a7d5bb507d51"
+   },
+   {
+    "criterion": "1.4.1",
+    "ref": "#instagram-embed-0 |> a[href$=\"saude\"]",
+    "ruleId": "link-in-text-block",
+    "confidence": "high",
+    "fingerprint": "ef944e35bc1e"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#block-42 > div > div > div > div:nth-of-type(1) > figure > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "b9c89e9748d0"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#block-42 > div > figure:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "85446ebdd03d"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#block-42 > div > figure:nth-of-type(2) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "07c4eb5b670d"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#instagram-embed-0",
+    "ruleId": "frame-title",
+    "confidence": "high",
+    "fingerprint": "397556e411b8"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#content > div:nth-of-type(3) > div > p:nth-of-type(14) > a:nth-of-type(2)",
+   "message": "The link text \"diz o Ministério da Saúde\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Informações do Ministério da Saúde sobre a transmissão da mpox\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#h-mpox-e-doenca-gay",
+   "message": "The heading \"“Mpox é doença gay”\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"Desinformação sobre a transmissão da mpox\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#h-deve-ser-por-isso-que-a-oms-orientou-os-viados-a-pararem-com-a-promiscuidade",
+   "message": "The heading \"“Deve ser por isso que a OMS orientou os viados a pararem com a promiscuidade”\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"A orientação da OMS sobre redução de parceiros sexuais\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.2.2",
+   "ref": "#twitter-widget-0 |> video",
+   "source": null,
+   "ruleId": "video-caption"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#twitter-widget-0 |> span:nth-child(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#twitter-widget-0 |> .r-jwli3a.r-16y2uox.r-q4m81j > .r-n6v787.r-fxxt2n.css-1hf3ou5 > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > header > div > div:nth-of-type(1) > div > div > div:nth-of-type(1) > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Lupa",
+    "problem": "missing_information",
+    "imageShows": "O logotipo da Agência Lupa em letras pretas sobre um fundo amarelo.",
+    "suggestedAlt": "Agência Lupa",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > footer > div > div:nth-of-type(1) > div:nth-of-type(1) > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Lupa",
+    "problem": "missing_information",
+    "imageShows": "O logotipo da Agência Lupa em letras brancas sobre um fundo preto.",
+    "suggestedAlt": "Página inicial da Agência Lupa",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(7) > a > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Garanta sua vaga no curso IA Descomplicada com 58% OFF até 30 de Novembro. 4 módulos por R$ 49,90!",
+    "problem": "wrong_content",
+    "imageShows": "O logotipo da Academia Lupa, apresentando um ícone de rosto com chapéu de formatura e o nome da instituição.",
+    "suggestedAlt": "Logotipo da Academia Lupa",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#content > div:nth-of-type(1) > div > div > span > svg",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "The Google 'G' logo in its signature colors.",
+    "textInImage": "G",
+    "verdict": "fail",
+    "evidence": "The logo for Google.",
+    "suggestedAlt": "Google",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#h-educacao > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Jornalismo' under the heading 'Jornalismo' suggests a section or category related to journalism.",
+    "leadsTo": "A page titled 'Últimas • Lupa' (Latest news).",
+    "verdict": "fail",
+    "evidence": "Jornalismo",
+    "problem": "ambiguous",
+    "suggestedText": "Últimas notícias de Jornalismo",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#content > div:nth-of-type(3) > div > p:nth-of-type(9) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text and its context suggest it leads to information or a source from the Pan American Health Organization (PAHO) regarding mpox transmission.",
+    "leadsTo": "https://www.paho.org/pt/mpox-perguntas-e-respostas",
+    "verdict": "fail",
+    "evidence": "Segundo a Organização Pan-Americana da Saúde (Opas),",
+    "problem": "mismatch",
+    "suggestedText": "Perguntas e respostas sobre mpox da Organização Pan-Americana da Saúde (Opas)",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 20,
+   "judged": 19,
+   "failed": 4,
+   "passed": 11,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 1,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 91,
+   "judged": 50,
+   "failed": 0,
+   "passed": 47,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 41,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 10,
+   "judged": 10,
+   "failed": 0,
+   "passed": 8,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "2 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #instagram-embed-0 (https://www.instagram.com/p/Df4yW_7FiPA/embed/captioned/?cr=1&v=14&wp=540&rd=https%3A%2F%2Fwww.agencialupa.org&rp=%2Freportagem%2F2026%2F11%2F24%2Fdesinformacao-sobre-mpox-alimenta-ataques-contra-comunidade-lgbtqia-nas-redes%2F#%7B%22ci%22%3A0%2C%22os%22%3A7545.799999982119%2C%22ls%22%3A7334.1999999), #twitter-widget-0 (https://platform.twitter.com/embed/Tweet.html?creatorScreenName=agencialupa&dnt=false&embedId=twitter-widget-0&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 41 of 91 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [
+  "No object generated: could not parse the response."
+ ],
+ "usage": {
+  "calls": 76,
+  "cachedCalls": 4,
+  "inputTokens": 81558,
+  "outputTokens": 9352,
+  "latencyMs": 293843
+ },
+ "timings": {
+  "totalMs": 163599,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 18
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 62621,
+    "prepareMs": 0,
+    "candidates": 20,
+    "judged": 20,
+    "calls": 19,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1494,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 83586,
+    "prepareMs": 0,
+    "candidates": 91,
+    "judged": 50,
+    "calls": 46,
+    "cachedCalls": 4
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 15621,
+    "prepareMs": 0,
+    "candidates": 10,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 180,
+    "prepareMs": 176,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 40,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 37
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 23,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "1.1.1",
+    "candidates": 20,
+    "errors": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "candidates": 91,
+    "capped": 41
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#instagram-embed-0",
+     "url": "https://www.instagram.com/p/Df4yW_7FiPA/embed/captioned/?cr=1&v=14&wp=540&rd=https%3A%2F%2Fwww.agencialupa.org&rp=%2Freportagem%2F2026%2F11%2F24%2Fdesinformacao-sobre-mpox-alimenta-ataques-contra-comunidade-lgbtqia-nas-redes%2F#%7B%22ci%22%3A0%2C%22os%22%3A7545.799999982119%2C%22ls%22%3A7334.1999999",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "#twitter-widget-0",
+     "url": "https://platform.twitter.com/embed/Tweet.html?creatorScreenName=agencialupa&dnt=false&embedId=twitter-widget-0&features=eyJ0ZndfdGltZWxpbmVfbGlzdCI6eyJidWNrZXQiOltdLCJ2ZXJzaW9uIjpudWxsfSwidGZ3X2ZvbGxvd2VyX2NvdW50X3N1bnNldCI6eyJidWNrZXQiOnRydWUsInZlcnNpb24iOm51bGx9LCJ0ZndfdHdlZXRfZWRpdF9iYWNrZW5kIjp7",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  },
+  "fast": null
+ }
+}

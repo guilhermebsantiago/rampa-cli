@@ -1,0 +1,871 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://abneuro.org.br/2026/10/22/nota-de-esclarecimento-abn-sem-vinculacao-politico-partidaria/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "bc010869553f",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > div > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Logo of Academia Brasileira de Neurologia with 'MCMLXII'\".",
+   "evidence": "Logo of Academia Brasileira de Neurologia with 'MCMLXII'",
+   "subject": "hidden ABN_Emblema_Positivo.svg",
+   "patch": {
+    "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Emblema da Academia Brasileira de Neurologia com uma coruja e o ano MCMLXII.",
+    "before": "<img loading=\"lazy\" width=\"567\" height=\"567\" src=\"https://media.abneuro.org.br/media/2020/11/ABN_Emblema_Positivo.svg\" class=\"attachment-full size-full wp-image-40609\" alt=\"\">",
+    "after": "<img loading=\"lazy\" width=\"567\" height=\"567\" src=\"https://media.abneuro.org.br/media/2020/11/ABN_Emblema_Positivo.svg\" class=\"attachment-full size-full wp-image-40609\" alt=\"Emblema da Academia Brasileira de Neurologia com uma coruja e o ano MCMLXII.\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "9e1ca29695b0",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#form-field-email",
+   "message": "The field \"Email\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "Email",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#form-field-email",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input size=\"1\" type=\"email\" name=\"form_fields[email]\" id=\"form-field-email\" class=\"elementor-field elementor-size-xs  elementor-field-textual\" placeholder=\"Seu email..\" required=\"required\">",
+    "after": "<input size=\"1\" type=\"email\" name=\"form_fields[email]\" id=\"form-field-email\" class=\"elementor-field elementor-size-xs  elementor-field-textual\" placeholder=\"Seu email..\" required=\"required\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 22
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > header > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(1) > a > span:nth-of-type(2)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "ad7de1c11122"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > header > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(2) > a > span:nth-of-type(2)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "8e91d33fa961"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > header > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(3) > a > span:nth-of-type(2)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "a5f6db0802c5"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > header > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(4) > a > span:nth-of-type(2)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "9d926a6abc2c"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > header > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(5) > a > span:nth-of-type(2)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "a366f88d83e4"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > header > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(6) > a > span:nth-of-type(2)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "e08e3b404085"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div > div > article:nth-of-type(1) > div > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "544376eed309"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div > div > article:nth-of-type(2) > div > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "9eb14cac942e"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div > div > article:nth-of-type(3) > div > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "4360bb9550c3"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div > div > article:nth-of-type(4) > div > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "e24b4f769624"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div > div > article:nth-of-type(5) > div > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "30b9d5ca3b76"
+   },
+   {
+    "criterion": "1.4.4",
+    "ref": "html > head > meta:nth-of-type(7)",
+    "ruleId": "meta-viewport",
+    "confidence": "high",
+    "fingerprint": "1bbcc60f5741"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#page > header > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "1bad2b833d8d"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div > div > article:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "47f4e92efeee"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div > div > article:nth-of-type(3) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "392142f4cc3f"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div > div > article:nth-of-type(4) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "5889193702dc"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div > div > article:nth-of-type(5) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "cba31460f89e"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(1) > div:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "2ce877861413"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(2) > div:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "ebfd3449aa29"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(3) > div:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "3f640f00cc21"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(4) > div:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "20a127225ef5"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(5) > div:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "89cc45f31e2c"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 11,
+   "members": [
+    "ad7de1c11122",
+    "8e91d33fa961",
+    "a5f6db0802c5",
+    "9d926a6abc2c",
+    "a366f88d83e4",
+    "e08e3b404085",
+    "544376eed309",
+    "9eb14cac942e",
+    "4360bb9550c3",
+    "e24b4f769624",
+    "30b9d5ca3b76"
+   ],
+   "example": "ad7de1c11122"
+  },
+  {
+   "id": "g-b3cc505a410d",
+   "list": "findings",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "engine",
+   "check": "link-name",
+   "count": 10,
+   "members": [
+    "1bad2b833d8d",
+    "47f4e92efeee",
+    "392142f4cc3f",
+    "5889193702dc",
+    "cba31460f89e",
+    "2ce877861413",
+    "ebfd3449aa29",
+    "3f640f00cc21",
+    "20a127225ef5",
+    "89cc45f31e2c"
+   ],
+   "example": "1bad2b833d8d"
+  }
+ ],
+ "needsReview": [],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "#menu-1-a6ecce9 > li:nth-of-type(1) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#sm-1795583833365676-1",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#sm-1795583833365676-3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#sm-1795583833365676-19",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#sm-1795583833365676-23",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#sm-1795583833365676-25",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#sm-1795583833365676-27",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#menu-1-a6ecce9 > li:nth-of-type(8) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(1) > div > div > div > h1",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > ol > li:nth-of-type(1) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > ol > li:nth-of-type(2) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > ol > li:nth-of-type(3) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(2) > div > ul > li > a > span:nth-of-type(2) > time",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(3) > div > p:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(3) > div > p:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(3) > div > p:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(1) > div > h5",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(4) > div > h5",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(7) > div > h5",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(1) > div:nth-of-type(2) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(1) > h4 > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(2) > div:nth-of-type(2) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(2) > h4 > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(3) > div:nth-of-type(2) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(3) > h4 > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(4) > div:nth-of-type(2) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(4) > h4 > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(5) > div:nth-of-type(2) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(5) > h4 > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(1) > div > h5",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > ul > li:nth-of-type(1) > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > ul > li:nth-of-type(2) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > ul > li:nth-of-type(3) > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(3) > div > h5",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(4) > div > ul > li > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div > ul > li > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div > div:nth-of-type(1) > div > h5",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div > div:nth-of-type(2) > div > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div > div:nth-of-type(4) > div > form > div > div:nth-of-type(2) > div > span > label",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div > div:nth-of-type(5) > div > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div > div:nth-of-type(5) > div > p > a:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div > div:nth-of-type(5) > div > p > a:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div > div",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#menu-1-db37c20 > li:nth-of-type(1) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#menu-1-db37c20 > li:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#menu-1-db37c20 > li:nth-of-type(3) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "2.5.4",
+   "ref": "html",
+   "source": null,
+   "ruleId": "rampa/motion-actuation-scope"
+  },
+  {
+   "criterion": "3.3.2",
+   "ref": "#form-field-optin",
+   "source": null,
+   "ruleId": "form-field-multiple-labels"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#sm-1795583833365676-1",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#sm-1795583833365676-3",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#sm-1795583833365676-19",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#sm-1795583833365676-23",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#sm-1795583833365676-25",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#sm-1795583833365676-27",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#content > div > section:nth-of-type(1) > div:nth-of-type(3) > svg",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "The logo of the Academia Brasileira de Neurologia featuring a stylized figure and text.",
+    "textInImage": "ACADEMIA BRASILEIRA DE NEUROLOGIA",
+    "verdict": "fail",
+    "evidence": "Logo naming the organization: Academia Brasileira de Neurologia",
+    "suggestedAlt": "Logotipo da Academia Brasileira de Neurologia (ABN)",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 49,
+   "judged": 10,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 39
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 13,
+   "judged": 10,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 3,
+   "batched": {
+    "candidates": 10,
+    "calls": 2
+   }
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 of the page's 67 stylesheet(s) had not applied when it was read (https://abneuro.org.br/core/modules/89661bcb1e/frontend/css/spam-protect-for-contact-form7.css?=1770418055 (no rules)): the page was read with the styles it had, which may differ from what people see.",
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 39 of 49 for 2.4.4, 3 of 13 for 2.4.6. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (10 in 2 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 16,
+  "cachedCalls": 0,
+  "inputTokens": 16462,
+  "outputTokens": 2308,
+  "latencyMs": 55235
+ },
+ "timings": {
+  "totalMs": 33476,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 21
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 4297,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1454,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1316,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 16486,
+    "prepareMs": 0,
+    "candidates": 49,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 9668,
+    "prepareMs": 0,
+    "candidates": 13,
+    "judged": 10,
+    "calls": 2,
+    "cachedCalls": 0,
+    "batches": 2
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 190,
+    "prepareMs": 187,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 6,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 37
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "stylesheets": {
+   "linked": 67,
+   "applied": 66,
+   "failed": 1
+  },
+  "unsettledAfterMs": 1000,
+  "images": {
+   "captured": 14,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 49,
+    "capped": 39
+   },
+   {
+    "criterion": "2.4.6",
+    "candidates": 13,
+    "capped": 3
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "stylesheets": {
+    "linked": 67,
+    "applied": 66,
+    "failed": [
+     {
+      "href": "https://abneuro.org.br/core/modules/89661bcb1e/frontend/css/spam-protect-for-contact-form7.css?=1770418055",
+      "reason": "no rules"
+     }
+    ]
+   }
+  },
+  "fast": {
+   "skipped": [
+    "probes",
+    "link-following",
+    "ocr"
+   ],
+   "maxCandidates": 10
+  }
+ }
+}

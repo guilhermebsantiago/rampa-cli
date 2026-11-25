@@ -1,0 +1,1527 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://portal.arkansas.gov/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "cb53d5d07c16",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > access-widget-ui:nth-of-type(2) >>> div > div > div > a",
+   "message": "The link text \"Skip to Content\" is shared by 3 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "Skip to Content",
+   "subject": "Skip to Content",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "html > body > access-widget-ui:nth-of-type(2) >>> div > div > div > a",
+    "kind": "set-text",
+    "from": "Skip to Content",
+    "to": "Skip to main content",
+    "before": "<a href=\"#acsbContent\" data-acsb-skip-link=\"content\" class=\"skip-link\">Skip to Content</a>",
+    "after": "<a href=\"#acsbContent\" data-acsb-skip-link=\"content\" class=\"skip-link\">Skip to main content</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "4b18eaa4bd66",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(1) > a:nth-of-type(1)",
+   "message": "The link text \"Skip to Content\" is shared by 3 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "Skip to Content",
+   "subject": "Skip to Content",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "html > body > div:nth-of-type(1) > a:nth-of-type(1)",
+    "kind": "set-text",
+    "from": "Skip to Content",
+    "to": "Skip to main content",
+    "before": "<a href=\"#content\">Skip to Content</a>",
+    "after": "<a href=\"#content\">Skip to main content</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "6045ccdac992",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > a:nth-of-type(2)",
+   "message": "The link text \"Skip to content\" is shared by 3 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "Skip to content",
+   "subject": "Skip to content",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "html > body > a:nth-of-type(2)",
+    "kind": "set-text",
+    "from": "Skip to content",
+    "to": "Skip to main content",
+    "before": "<a class=\"skip-link screen-reader-text\" href=\"#content\">Skip to content</a>",
+    "after": "<a class=\"skip-link screen-reader-text\" href=\"#content\">Skip to main content</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "d15f025263eb",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(3) > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(4) > div > div > a",
+   "message": "The link text \"FIND OUT MORE\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "FIND OUT MORE",
+   "subject": "FIND OUT MORE",
+   "claim": "generic",
+   "techniques": [
+    "G91"
+   ],
+   "patch": {
+    "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(3) > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(4) > div > div > a",
+    "kind": "set-text",
+    "from": "FIND OUT MORE",
+    "to": "Find out more about Mobile ID",
+    "before": "<a class=\"elementor-button elementor-button-link elementor-size-xs\" href=\"https://www.dfa.arkansas.gov/office/driver-services/mobile-id/\">FIND OUT MORE</a>",
+    "after": "<a class=\"elementor-button elementor-button-link elementor-size-xs\" href=\"https://www.dfa.arkansas.gov/office/driver-services/mobile-id/\">Find out more about Mobile ID</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "1cf981c0aa9d",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#visitar > div > div:nth-of-type(4) > div:nth-of-type(4) > div > div > div:nth-of-type(1) > a",
+   "message": "The link text \"Discover More\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "Discover More",
+   "subject": "Discover More",
+   "claim": "generic",
+   "techniques": [
+    "G91"
+   ],
+   "patch": {
+    "ref": "#visitar > div > div:nth-of-type(4) > div:nth-of-type(4) > div > div > div:nth-of-type(1) > a",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "Discover More",
+    "to": "Discover more about Arkansas",
+    "before": "<a href=\"https://www.arkansas.com/\" target=\"_blank\" class=\"elementor-icon\" tabindex=\"-1\" aria-label=\"Discover More\">",
+    "after": "<a href=\"https://www.arkansas.com/\" target=\"_blank\" class=\"elementor-icon\" tabindex=\"-1\" aria-label=\"Discover more about Arkansas\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 2
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.1.1",
+    "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(3) > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > h2 > img",
+    "ruleId": "image-alt",
+    "confidence": "high",
+    "fingerprint": "1b99ee1d593c"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(4) > div > div > div > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(2) > div > div > a > span > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "8b6e6893673c"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#swiper-wrapper-26abb102bdd565064 > div:nth-of-type(11) > div > div > div > img",
+   "message": "The text alternative \"Woman behind the wheel of her car\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Woman driving a car with the text 'CAR TAG RENEWAL'\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: no (0.00), reversed: yes (0.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(3) > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > a",
+   "message": "The link text \"LEARN MORE\" is shared by 3 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "The model suggests: \"Learn more about AR ABLE\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(3) > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(2) > div > div > a",
+   "message": "The link text \"LEARN MORE\" is shared by 3 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "The model suggests: \"Learn more about AR ABLE\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(3) > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(5) > div > div > a",
+   "message": "The link text \"EXPLORE NOW\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Explore the AR ABLE job seeker portal\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(3) > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(11) > div > h2",
+   "message": "The heading \"AR ABLE\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Accessible Services\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > h2",
+   "message": "The heading \"SARAH HUCKABEE SANDERS\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"Governor Sarah Huckabee Sanders\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div > h3",
+   "message": "The heading \"YOUR ARKANSAS.GOV\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Arkansas State Government Services\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "3.3.2",
+   "level": "A",
+   "ruleId": "judgment/3.3.2",
+   "ref": "#elementor-search-form-47e1d186",
+   "message": "Nothing on screen tells what to enter in the field \"Search\": its label is hidden from view.",
+   "evidence": "The model suggests: \"Search\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "#e-n-tab-content-19717279841 > div > div > div > div > div > div:nth-of-type(1) > div > ul > li:nth-of-type(1) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#e-n-tab-content-19717279841 > div > div > div > div > div > div:nth-of-type(1) > div > ul > li:nth-of-type(2) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#e-n-tab-content-19717279841 > div > div > div > div > div > div:nth-of-type(1) > div > ul > li:nth-of-type(3) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#e-n-tab-content-19717279841 > div > div > div > div > div > div:nth-of-type(1) > div > ul > li:nth-of-type(4) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#e-n-tab-content-19717279841 > div > div > div > div > div > div:nth-of-type(1) > div > ul > li:nth-of-type(5) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#e-n-tab-content-19717279841 > div > div > div > div > div > div:nth-of-type(1) > div > ul > li:nth-of-type(6) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#e-n-tab-content-19717279841 > div > div > div > div > div > div:nth-of-type(1) > div > ul > li:nth-of-type(7) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#e-n-tab-content-19717279841 > div > div > div > div > div > div:nth-of-type(1) > div > ul > li:nth-of-type(8) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#e-n-tab-content-19717279841 > div > div > div > div > div > div:nth-of-type(1) > div > ul > li:nth-of-type(9) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#e-n-tab-content-19717279841 > div > div > div > div > div > div:nth-of-type(1) > div > ul > li:nth-of-type(10) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#e-n-tab-content-19717279841 > div > div > div > div > div > div:nth-of-type(2) > div > ul > li:nth-of-type(1) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#e-n-tab-content-19717279841 > div > div > div > div > div > div:nth-of-type(2) > div > ul > li:nth-of-type(2) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#e-n-tab-content-19717279841 > div > div > div > div > div > div:nth-of-type(2) > div > ul > li:nth-of-type(3) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#e-n-tab-content-19717279841 > div > div > div > div > div > div:nth-of-type(2) > div > ul > li:nth-of-type(4) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#e-n-tab-content-19717279841 > div > div > div > div > div > div:nth-of-type(2) > div > ul > li:nth-of-type(5) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#e-n-tab-content-19717279841 > div > div > div > div > div > div:nth-of-type(2) > div > ul > li:nth-of-type(6) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#e-n-tab-content-19717279841 > div > div > div > div > div > div:nth-of-type(2) > div > ul > li:nth-of-type(7) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#e-n-tab-content-19717279841 > div > div > div > div > div > div:nth-of-type(2) > div > ul > li:nth-of-type(8) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#e-n-tab-content-19717279841 > div > div > div > div > div > div:nth-of-type(3) > div > div > a > span > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div:nth-of-type(1) > div:nth-of-type(1) > div > h2",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(1) > div > p > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > h2 > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(4) > div > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div > article:nth-of-type(1) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > span > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div > article:nth-of-type(1) > div > div > div:nth-of-type(1) > div:nth-of-type(3) > div > span > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div > article:nth-of-type(2) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > span > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div > article:nth-of-type(2) > div > div > div:nth-of-type(1) > div:nth-of-type(3) > div > span > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div > article:nth-of-type(3) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > span > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div > article:nth-of-type(3) > div > div > div:nth-of-type(1) > div:nth-of-type(3) > div > span > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div > article:nth-of-type(4) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > span > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div > article:nth-of-type(4) > div > div > div:nth-of-type(1) > div:nth-of-type(3) > div > span > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div > article:nth-of-type(5) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > span > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div > article:nth-of-type(5) > div > div > div:nth-of-type(1) > div:nth-of-type(3) > div > span > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div > article:nth-of-type(6) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > span > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div > article:nth-of-type(6) > div > div > div:nth-of-type(1) > div:nth-of-type(3) > div > span > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(3) > div > div > a > span > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(5) > div > div:nth-of-type(2) > div > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(1) > div > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(2) > div > h2",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(1) > div > div > div > div:nth-of-type(1) > div > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(1) > div > div > div > div:nth-of-type(3) > div > p > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(1) > div > div > div > div:nth-of-type(4) > div > div > div:nth-of-type(2) > p > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(2) > div > div > div > div:nth-of-type(1) > div > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(2) > div > div > div > div:nth-of-type(2) > div > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > p > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(2) > div > div > div > div:nth-of-type(4) > div > div > div:nth-of-type(2) > p > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(3) > div > div > div > div:nth-of-type(1) > div > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(3) > div > div > div > div:nth-of-type(2) > div > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(3) > div > div > div > div:nth-of-type(3) > div > p > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(3) > div > div > div > div:nth-of-type(4) > div > div > div:nth-of-type(2) > p > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(4) > div > div > div > div:nth-of-type(1) > div > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(4) > div > div > div > div:nth-of-type(2) > div > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(4) > div > div > div > div:nth-of-type(3) > div > p > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(4) > div > div > div > div:nth-of-type(4) > div > div > div:nth-of-type(2) > p > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(5) > div > div > div > div:nth-of-type(1) > div > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(5) > div > div > div > div:nth-of-type(2) > div > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(5) > div > div > div > div:nth-of-type(3) > div > p > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(5) > div > div > div > div:nth-of-type(4) > div > div > div:nth-of-type(2) > p > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(6) > div > div > div > div:nth-of-type(1) > div > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(6) > div > div > div > div:nth-of-type(2) > div > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(6) > div > div > div > div:nth-of-type(3) > div > p > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(6) > div > div > div > div:nth-of-type(4) > div > div > div:nth-of-type(2) > p > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(4) > div > div > a > span > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(5) > div > h2",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(1) > div > div > div > div:nth-of-type(1) > div:nth-of-type(1) > div > div",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(1) > div > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > h3 > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > p > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(2) > div > div > div > div:nth-of-type(1) > div:nth-of-type(1) > div > div",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(2) > div > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(2) > div > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > h3 > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(2) > div > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > p > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(3) > div > div > div > div:nth-of-type(1) > div:nth-of-type(1) > div > div",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(3) > div > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(3) > div > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > h3 > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(3) > div > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > p > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(4) > div > div > div > div:nth-of-type(1) > div:nth-of-type(1) > div > div",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(4) > div > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(4) > div > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > h3 > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(4) > div > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > p > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(5) > div > div > div > div:nth-of-type(1) > div:nth-of-type(1) > div > div",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(5) > div > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(5) > div > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > h3 > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(5) > div > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > p > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(6) > div > div > div > div:nth-of-type(1) > div:nth-of-type(1) > div > div",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(6) > div > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(6) > div > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > h3 > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(6) > div > div > div > article:nth-of-type(6) > div > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > p > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(7) > div > div > a > span > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#visitar > div > div:nth-of-type(3) > div:nth-of-type(1) > div > div > a > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#visitar > div > div:nth-of-type(3) > div:nth-of-type(2) > div > div > a > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#visitar > div > div:nth-of-type(3) > div:nth-of-type(3) > div > div > a > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#visitar > div > div:nth-of-type(3) > div:nth-of-type(4) > div > div > a > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#visitar > div > div:nth-of-type(3) > div:nth-of-type(5) > div > div > a > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#visitar > div > div:nth-of-type(3) > div:nth-of-type(6) > div > div > a > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#visitar > div > div:nth-of-type(3) > div:nth-of-type(7) > div > div > a > span > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#visitar > div > div:nth-of-type(4) > div:nth-of-type(1) > div > h2",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#visitar > div > div:nth-of-type(4) > div:nth-of-type(2) > div > h2",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#visitar > div > div:nth-of-type(4) > div:nth-of-type(3) > div > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#visitar > div > div:nth-of-type(4) > div:nth-of-type(4) > div > div > div:nth-of-type(2) > h2 > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div > ul > li:nth-of-type(1) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div > ul > li:nth-of-type(2) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div > ul > li:nth-of-type(3) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div > ul > li:nth-of-type(4) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div > ul > li:nth-of-type(5) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(3) > div > ul > li:nth-of-type(1) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(3) > div > ul > li:nth-of-type(2) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(3) > div > ul > li:nth-of-type(3) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(3) > div > ul > li:nth-of-type(4) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(1) > div > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(3) > div > ul > li:nth-of-type(1) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(3) > div > ul > li:nth-of-type(2) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(3) > div > ul > li:nth-of-type(3) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(3) > div > ul > li:nth-of-type(4) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > ul > li:nth-of-type(1) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > ul > li:nth-of-type(2) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > ul > li:nth-of-type(3) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > ul > li:nth-of-type(4) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > ul > li:nth-of-type(5) > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > h2",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#ar-status-container > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#ar-status",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#us-status-container > span:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#us-status",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(3) > div > div > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(3) > div:nth-of-type(1) > button:nth-of-type(1) > span",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(3) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(3) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > strong",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(3) > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > a > span > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#swiper-wrapper-26abb102bdd565064 > div:nth-of-type(4) > div > div > cite > span",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#swiper-wrapper-a3997a95125136bf > article:nth-of-type(1) > div > div > p > a",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#e-n-tab-title-19717279841 > span",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(4) > nav > div > div:nth-of-type(1) > div > div > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(7) > div > div:nth-of-type(3) > div > div > div > article:nth-of-type(1) > div > div > div > div:nth-of-type(4) > div > div > div:nth-of-type(1) > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#menubar-223",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > section > div > div:nth-of-type(3) > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#e-n-menu-dropdown-icon-2231",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#e-n-menu-dropdown-icon-2232",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#e-n-menu-dropdown-icon-2233",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#e-n-menu-dropdown-icon-2234",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > header > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > a > img",
+   "reason": "suggested alternative only rewords the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "arkansas.gov logo",
+    "problem": "wrong_content",
+    "imageShows": "The Arkansas.gov logo featuring a blue silhouette of the state of Arkansas and the text 'AR.gov'.",
+    "suggestedAlt": "Arkansas.gov",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(2) > img:nth-of-type(2)",
+   "reason": "the suggested alternative repeats the text around the image",
+   "output": {
+    "imageShows": "A promotional banner for the State of Arkansas website featuring a person holding a driver's license and a 'MyArkansas' service section.",
+    "textInImage": "What can we help you find? View frequently searched terms MyArkansas MyArkansas connects you with the services that matter most—save favorites, see relevant resources, and send reminders so you're always one step ahead. LEARN MORE Popular Services MYARKANSAS REAL ID BROWSE OUR ONLINE SERVICE DIRECTORY",
+    "verdict": "fail",
+    "evidence": "Banner with text 'MyArkansas' and 'Popular Services' and 'REAL ID'",
+    "suggestedAlt": "Promotional banner for MyArkansas services and Real ID information.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(2) > img:nth-of-type(3)",
+   "reason": "the suggested alternative repeats the text around the image",
+   "output": {
+    "imageShows": "A hero image for the Arkansas government website featuring a 'Popular Services' section with a photo of a park and a 'Real ID' card.",
+    "textInImage": "What can we help you find? View frequently searched terms Popular Services MyArkansas MYARKANSAS REAL ID BROWSE OUR ONLINE SERVICE DIRECTORY",
+    "verdict": "fail",
+    "evidence": "The image contains the text 'Popular Services' and 'MYARKANSAS'",
+    "suggestedAlt": "A hero section showcasing popular Arkansas government services including MyArkansas and Real ID.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(2) > img:nth-of-type(4)",
+   "reason": "the suggested alternative repeats the text around the image",
+   "output": {
+    "imageShows": "A webpage banner for the State of Arkansas featuring a 'MyArkansas' section and a 'Popular Services' gallery.",
+    "textInImage": "What can we help you find? View frequently searched terms Popular Services MyArkansas LEARN MORE MYARKANSAS BROWSE OUR ONLINE SERVICE DIRECTORY REAL ID",
+    "verdict": "fail",
+    "evidence": "The image contains the text 'Popular Services' and 'MyArkansas'.",
+    "suggestedAlt": "Banner featuring MyArkansas and Popular Services including a park scene and a Real ID card.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(2) > img:nth-of-type(5)",
+   "reason": "the suggested alternative repeats the text around the image",
+   "output": {
+    "imageShows": "A screenshot of the Arkansas government website homepage featuring a 'Popular Services' section with a 'MyArkansas' card and a 'Real ID' card.",
+    "textInImage": "What can we help you find? View frequently searched terms Popular Services MyArkansas MyArkansas connects you with the services that matter most—save favorites, see relevant resources, and send reminders so you're always one step ahead. LEARN MORE MYARKANSAS BROWSE OUR ONLINE SERVICE DIRECTORY REAL ID",
+    "verdict": "fail",
+    "evidence": "The image contains the text 'Browse our online service directory'",
+    "suggestedAlt": "A screenshot of the Arkansas government homepage showing popular services like MyArkansas and Real ID.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(2) > img:nth-of-type(6)",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "A man and a child are smiling together in a blurred background, with a 'MyArkansas' service card and a 'Real ID' card displayed in the foreground.",
+    "textInImage": "What can we help you find? View frequently searched terms Popular Services MyArkansas MyArkansas connects you with the services that matter most—save favorites, see relevant resources, and send reminders so you're always one step ahead. LEARN MORE MYARKANSAS BROWSE OUR ONLINE SERVICE DIRECTORY REAL ID",
+    "verdict": "fail",
+    "evidence": "The image contains the text 'MyArkansas' and 'Real ID'.",
+    "suggestedAlt": "A man and child smiling, with a MyArkansas service card and a Real ID card displayed.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(2) > img:nth-of-type(7)",
+   "reason": "the suggested alternative repeats the text around the image",
+   "output": {
+    "imageShows": "A composite image showing a girl in a school setting, a park scene, and a hand holding a Real ID card.",
+    "textInImage": "MyArkansas, MYARKANSAS, REAL ID, BROWSE OUR ONLINE SERVICE DIRECTORY",
+    "verdict": "fail",
+    "evidence": "Words 'MyArkansas', 'MYARKANSAS', 'REAL ID', and 'BROWSE OUR ONLINE SERVICE DIRECTORY'",
+    "suggestedAlt": "A collage featuring a student, a park scene, and a Real ID card with the text 'MyArkansas' and 'Real ID'.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(2) > img:nth-of-type(8)",
+   "reason": "the suggested alternative repeats the text around the image",
+   "output": {
+    "imageShows": "A screenshot of the Arkansas government website homepage featuring a 'MyArkansas' section and 'Popular Services' including a park scene and a Real ID card.",
+    "textInImage": "What can we help you find? View frequently searched terms MyArkansas MyArkansas connects you with the services that matter most—save favorites, see relevant resources, and send reminders so you're always one step ahead. LEARN MORE Popular Services MYARKANSAS REAL ID BROWSE OUR ONLINE SERVICE DIRECTORY",
+    "verdict": "fail",
+    "evidence": "The image contains the site's main navigation and services.",
+    "suggestedAlt": "Homepage of the Arkansas government website showing MyArkansas and popular services like Real ID.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(2) > img:nth-of-type(10)",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "A large hero image featuring a truck and a 'Popular Services' section with a card showing a person holding a REAL ID.",
+    "textInImage": "What can we help you find? View frequently searched terms REAL ID You now need a REAL ID-compliant license or ID to board domestic flights or enter certain federal facilities. Don't wait—check your eligibility and upgrade your license today. LEARN MORE Popular Services REAL ID FILING YOUR TAXES BROWSE OUR ONLINE SERVICE DIRECTORY",
+    "verdict": "fail",
+    "evidence": "REAL ID, Popular Services, FILING YOUR TAXES",
+    "suggestedAlt": "Hero image featuring a truck and a 'Popular Services' section highlighting REAL ID and tax filing.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(2) > img:nth-of-type(11)",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "A hero image of a man with a prosthetic leg working in a garden, overlaid with a 'Popular Services' section featuring a REAL ID card.",
+    "textInImage": "What can we help you find? View frequently searched terms Popular Services REAL ID You now need a REAL ID-compliant license or ID to board domestic flights or enter certain federal facilities. Don't wait—check your eligibility and upgrade your license today. LEARN MORE REAL ID FILING YOUR TAXES BROWSE OUR ONLINE SERVICE DIRECTORY",
+    "verdict": "fail",
+    "evidence": "Popular Services, REAL ID, FILING YOUR TAXES",
+    "suggestedAlt": "A man with a prosthetic leg gardening, with an overlay showing popular government services like REAL ID and tax filing.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > div:nth-of-type(2) > main > div:nth-of-type(3) > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(6) > div > div > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'VISIT OCSE' and the heading 'AR ABLE' suggest a link to an organization or service called OCSE.",
+    "leadsTo": "https://www.dfa.arkansas.gov/child-support",
+    "verdict": "fail",
+    "evidence": "VISIT OCSE",
+    "problem": "mismatch",
+    "suggestedText": "Visit Child Support Services",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#e-n-tab-content-19717279841 > div > div > div > div > div > div:nth-of-type(1) > div > ul > li:nth-of-type(4) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page to renew a car tag.",
+    "leadsTo": "A page titled 'Car/Vehicle tag Renewals - Arkansas.gov' to renew Arkansas vehicle registration.",
+    "verdict": "fail",
+    "evidence": "Car Tag Renewal",
+    "problem": "ambiguous",
+    "suggestedText": "Renew Arkansas Car Tag",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 19,
+   "judged": 19,
+   "failed": 0,
+   "passed": 8,
+   "cannotTell": 0,
+   "discarded": 10,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 128,
+   "judged": 50,
+   "failed": 5,
+   "passed": 40,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 78,
+   "suggested": 3
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 29,
+   "judged": 29,
+   "failed": 0,
+   "passed": 26,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 3
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  }
+ ],
+ "notes": [
+  "1 of the page's 78 stylesheet(s) had not applied when it was read (https://portal.arkansas.gov/wp-content/themes/hello-theme-child-master/style.css?ver=2.0.0 (no rules)): the page was read with the styles it had, which may differ from what people see.",
+  "21 image(s) were left without a capture, so no judgment looked at them: 3 outside the page (an off-canvas menu); 2 cut off by the box that holds it; 16 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 78 of 128 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 102,
+  "cachedCalls": 0,
+  "inputTokens": 93883,
+  "outputTokens": 9804,
+  "latencyMs": 318348
+ },
+ "timings": {
+  "totalMs": 163795,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 30
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 42933,
+    "prepareMs": 0,
+    "candidates": 19,
+    "judged": 19,
+    "calls": 22,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 81840,
+    "prepareMs": 0,
+    "candidates": 128,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 37268,
+    "prepareMs": 0,
+    "candidates": 29,
+    "judged": 29,
+    "calls": 29,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 165,
+    "prepareMs": 159,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 18,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1443,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 94
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "stylesheets": {
+   "linked": 78,
+   "applied": 77,
+   "failed": 1
+  },
+  "images": {
+   "captured": 20,
+   "notCaptured": 21,
+   "reasons": {
+    "outside-page": 3,
+    "clipped": 2,
+    "limit": 16
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 128,
+    "capped": 78
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "stylesheets": {
+    "linked": 78,
+    "applied": 77,
+    "failed": [
+     {
+      "href": "https://portal.arkansas.gov/wp-content/themes/hello-theme-child-master/style.css?ver=2.0.0",
+      "reason": "no rules"
+     }
+    ]
+   }
+  },
+  "fast": null
+ }
+}

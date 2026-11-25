@@ -1,0 +1,400 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://prostatecanceruk.org/about-us/news-and-views/2026/09/5-million-risk-checks",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "5d32e4d3ace2",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > footer > div > div:nth-of-type(1) > div:nth-of-type(3) > a:nth-of-type(3) > img",
+   "message": "The text alternative \"Trusted Information Creator Logo\" is all its link holds, and does not say where the link leads.",
+   "evidence": "Trusted Information Creator Logo",
+   "subject": "Trusted Information Creator Logo",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "html > body > footer > div > div:nth-of-type(1) > div:nth-of-type(3) > a:nth-of-type(3) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Trusted Information Creator Logo",
+    "to": "Award-winning information from the Patient Information Forum",
+    "before": "<img src=\"/images/piftick.svg\" class=\"m-main-footer__logo\" alt=\"Trusted Information Creator Logo\" width=\"138\" height=\"75\">",
+    "after": "<img src=\"/images/piftick.svg\" class=\"m-main-footer__logo\" alt=\"Award-winning information from the Patient Information Forum\" width=\"138\" height=\"75\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.999739683919168
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 9
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > header > nav > button > small",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "c5d449c23ef8"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "c8e8c209d40d"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(1) > ul > li:nth-of-type(3) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "eedf72c162f9"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > main > div > div > div > div:nth-of-type(1) > h5 > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "6aa162715e81"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > main > div > div > div > div:nth-of-type(3) > ul > li > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "5f3e38f55f33"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > main > div > div > div > div:nth-of-type(4) > div > div > div > div > div > p:nth-of-type(2) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "f52d1c4ed411"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > main > div > div > div > div:nth-of-type(7) > div > div > div > div > div > p:nth-of-type(3) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "aea2886f45a0"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > main > div > div > div > div:nth-of-type(10) > div > div > div > div > div > p:nth-of-type(5) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "7062638527bc"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > main > div > div > div > div:nth-of-type(13) > ul > li > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "5bf58523d613"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 9,
+   "members": [
+    "c5d449c23ef8",
+    "c8e8c209d40d",
+    "eedf72c162f9",
+    "6aa162715e81",
+    "5f3e38f55f33",
+    "f52d1c4ed411",
+    "aea2886f45a0",
+    "7062638527bc",
+    "5bf58523d613"
+   ],
+   "example": "c5d449c23ef8"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > main > div > div > div > div:nth-of-type(6) > div > div > div > figure > picture > img",
+   "message": "The text alternative \"202304 Risk Check Mobile Phone\" describes something the image does not show.",
+   "evidence": "The model suggests: \"A person using a mobile app to check their risk status.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.07), claim: no (0.00), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > main > div > div > div > div:nth-of-type(2) > div > div:nth-of-type(3) > a",
+   "message": "The link text \" Social link\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Visit our social media profile\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > main > div > div > div > div:nth-of-type(12) > div > div:nth-of-type(3) > a",
+   "message": "The link text \" Social link\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Follow us on social media\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > header > a > img",
+   "reason": "the alternative is a logo that leads to the site's home page",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Site Logo",
+    "problem": "missing_information",
+    "imageShows": "The Prostate Cancer UK logo featuring a stylized human figure and the organization's name.",
+    "suggestedAlt": "Prostate Cancer UK",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 8,
+   "judged": 8,
+   "failed": 1,
+   "passed": 5,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 49,
+   "judged": 49,
+   "failed": 0,
+   "passed": 47,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 7,
+   "judged": 7,
+   "failed": 0,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 71,
+  "cachedCalls": 0,
+  "inputTokens": 65249,
+  "outputTokens": 6319,
+  "latencyMs": 199994
+ },
+ "timings": {
+  "totalMs": 104737,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 17
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 16000,
+    "prepareMs": 0,
+    "candidates": 8,
+    "judged": 8,
+    "calls": 14,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1335,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 77556,
+    "prepareMs": 0,
+    "candidates": 49,
+    "judged": 49,
+    "calls": 49,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 9602,
+    "prepareMs": 0,
+    "candidates": 7,
+    "judged": 7,
+    "calls": 7,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 168,
+    "prepareMs": 166,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 24,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 34
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 8,
+   "notCaptured": 0,
+   "reasons": {}
+  }
+ },
+ "coverage": {
+  "reach": null,
+  "fast": null
+ }
+}

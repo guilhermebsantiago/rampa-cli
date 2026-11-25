@@ -1,0 +1,1021 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://abneuro.org.br/2026/10/22/nota-de-esclarecimento-abn-sem-vinculacao-politico-partidaria/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "bc010869553f",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > div > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Emblem for Academia Brasileira de Neurologia with text MCMLXII\".",
+   "evidence": "Emblem for Academia Brasileira de Neurologia with text MCMLXII",
+   "subject": "hidden ABN_Emblema_Positivo.svg",
+   "patch": {
+    "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Emblema da Academia Brasileira de Neurologia com uma coruja e o ano MCMLXII.",
+    "before": "<img loading=\"lazy\" width=\"567\" height=\"567\" src=\"https://media.abneuro.org.br/media/2020/11/ABN_Emblema_Positivo.svg\" class=\"attachment-full size-full wp-image-40609\" alt=\"\">",
+    "after": "<img loading=\"lazy\" width=\"567\" height=\"567\" src=\"https://media.abneuro.org.br/media/2020/11/ABN_Emblema_Positivo.svg\" class=\"attachment-full size-full wp-image-40609\" alt=\"Emblema da Academia Brasileira de Neurologia com uma coruja e o ano MCMLXII.\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "9e1ca29695b0",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#form-field-email",
+   "message": "The field \"Email\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "Email",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#form-field-email",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input size=\"1\" type=\"email\" name=\"form_fields[email]\" id=\"form-field-email\" class=\"elementor-field elementor-size-xs  elementor-field-textual\" placeholder=\"Seu email..\" required=\"required\">",
+    "after": "<input size=\"1\" type=\"email\" name=\"form_fields[email]\" id=\"form-field-email\" class=\"elementor-field elementor-size-xs  elementor-field-textual\" placeholder=\"Seu email..\" required=\"required\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "42329a5a5c5c",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#menu-1-a6ecce9 > li:nth-of-type(1) > a",
+   "target": "#menu-1-a6ecce9 > li:nth-of-type(1) > a",
+   "message": "The text \"Início\" has at most 1.56:1 contrast with what is behind it (#2c70ab on #1d5484…#1c5282), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#2c70ab on #1d5383; #1d5484…#1c5282 · 1.56:1 at best, 1.51:1 at worst · 14px, 500",
+   "subject": "Início",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://abneuro.org.br/\" class=\"elementor-item\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "c001413f9552",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#sm-1795581970013713-1",
+   "target": "#sm-1795581970013713-1",
+   "message": "The text \"Institucional\" has at most 1.56:1 contrast with what is behind it (#2c70ab on #1d5484…#1c5282), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#2c70ab on #1d5383; #1d5484…#1c5282 · 1.56:1 at best, 1.51:1 at worst · 14px, 500",
+   "subject": "Institucional",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://abneuro.org.br/institucional/\" class=\"elementor-item has-submenu\" id=\"sm-1795581970013713-1\" aria-haspopup=\"true\" aria-controls=\"sm-1795581970013713-2\" aria-expanded=\"false\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "31fc94df9cf0",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#sm-1795581970013713-3",
+   "target": "#sm-1795581970013713-3",
+   "message": "The text \"Editais\" has at most 1.56:1 contrast with what is behind it (#2c70ab on #1d5484…#1c5282), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#2c70ab on #1d5383; #1d5484…#1c5282 · 1.56:1 at best, 1.51:1 at worst · 14px, 500",
+   "subject": "Editais",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://abneuro.org.br/editais/editais/\" class=\"elementor-item has-submenu\" id=\"sm-1795581970013713-3\" aria-haspopup=\"true\" aria-controls=\"sm-1795581970013713-4\" aria-expanded=\"false\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "ce1468747b4b",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#sm-1795581970013713-19",
+   "target": "#sm-1795581970013713-19",
+   "message": "The text \"Educação\" has at most 1.56:1 contrast with what is behind it (#2c70ab on #1e5484…#1c5282), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#2c70ab on #1d5383; #1e5484…#1c5282 · 1.56:1 at best, 1.51:1 at worst · 14px, 500",
+   "subject": "Educação",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://abneuro.org.br/educacao-pesquisa-cientifica/\" class=\"elementor-item has-submenu\" id=\"sm-1795581970013713-19\" aria-haspopup=\"true\" aria-controls=\"sm-1795581970013713-20\" aria-expanded=\"false\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "1f0c3a71718d",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#sm-1795581970013713-23",
+   "target": "#sm-1795581970013713-23",
+   "message": "The text \"Publicações Científicas\" has at most 1.56:1 contrast with what is behind it (#2c70ab on #1d5484…#1c5282), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#2c70ab on #1d5383; #1d5484…#1c5282 · 1.56:1 at best, 1.51:1 at worst · 14px, 500",
+   "subject": "Publicações Científicas",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://abneuro.org.br/divulgacao-cientifica/\" class=\"elementor-item has-submenu\" id=\"sm-1795581970013713-23\" aria-haspopup=\"true\" aria-controls=\"sm-1795581970013713-24\" aria-expanded=\"false\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "11a49e5e6b92",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#sm-1795581970013713-25",
+   "target": "#sm-1795581970013713-25",
+   "message": "The text \"Eventos\" has at most 1.56:1 contrast with what is behind it (#2c70ab on #1d5484…#1c5282), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#2c70ab on #1d5383; #1d5484…#1c5282 · 1.56:1 at best, 1.51:1 at worst · 14px, 500",
+   "subject": "Eventos",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://abneuro.org.br/eventos/relacionamento-institucional-eventos-e-projetos/\" class=\"elementor-item has-submenu\" id=\"sm-1795581970013713-25\" aria-haspopup=\"true\" aria-controls=\"sm-1795581970013713-26\" aria-expanded=\"false\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "aa8753eba502",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#sm-1795581970013713-27",
+   "target": "#sm-1795581970013713-27",
+   "message": "The text \"Notícias\" has at most 1.56:1 contrast with what is behind it (#2c70ab on #1d5484…#1c5282), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#2c70ab on #1d5383; #1d5484…#1c5282 · 1.56:1 at best, 1.51:1 at worst · 14px, 500",
+   "subject": "Notícias",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://abneuro.org.br/noticias/\" class=\"elementor-item has-submenu\" id=\"sm-1795581970013713-27\" aria-haspopup=\"true\" aria-controls=\"sm-1795581970013713-28\" aria-expanded=\"false\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "ebef042b2902",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#menu-1-a6ecce9 > li:nth-of-type(8) > a",
+   "target": "#menu-1-a6ecce9 > li:nth-of-type(8) > a",
+   "message": "The text \"Associe-se\" has at most 1.56:1 contrast with what is behind it (#2c70ab on #1e5484…#1c5282), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#2c70ab on #1d5383; #1e5484…#1c5282 · 1.56:1 at best, 1.51:1 at worst · 14px, 500",
+   "subject": "Associe-se",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://abneuro.org.br/associe-se/\" class=\"elementor-item\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "28858608f1c1",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#content > div > section:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > ol > li:nth-of-type(1) > a > span",
+   "target": "#content > div > section:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > ol > li:nth-of-type(1) > a > span",
+   "message": "The text \"Início\" has at most 1.93:1 contrast with what is behind it (#3399e7 on #266aa1…#24689e), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#3399e7 on #2569a0; #266aa1…#24689e · 1.93:1 at best, 1.87:1 at worst · 13px, 600",
+   "subject": "Início",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<span>",
+   "experimental": true
+  },
+  {
+   "fingerprint": "40192d8fed97",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#content > div > section:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > ol > li:nth-of-type(2) > a > span",
+   "target": "#content > div > section:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div > ol > li:nth-of-type(2) > a > span",
+   "message": "The text \"Notícias\" has at most 1.93:1 contrast with what is behind it (#3399e7 on #266aa1…#24689f), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#3399e7 on #2569a0; #266aa1…#24689f · 1.93:1 at best, 1.87:1 at worst · 13px, 600",
+   "subject": "Notícias",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<span>",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 22
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > header > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(1) > a > span:nth-of-type(2)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "ad7de1c11122"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > header > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(2) > a > span:nth-of-type(2)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "8e91d33fa961"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > header > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(3) > a > span:nth-of-type(2)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "a5f6db0802c5"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > header > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(4) > a > span:nth-of-type(2)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "9d926a6abc2c"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > header > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(5) > a > span:nth-of-type(2)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "a366f88d83e4"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > header > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(6) > a > span:nth-of-type(2)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "e08e3b404085"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div > div > article:nth-of-type(1) > div > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "544376eed309"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div > div > article:nth-of-type(2) > div > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "9eb14cac942e"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div > div > article:nth-of-type(3) > div > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "4360bb9550c3"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div > div > article:nth-of-type(4) > div > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "e24b4f769624"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div > div > article:nth-of-type(5) > div > div > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "30b9d5ca3b76"
+   },
+   {
+    "criterion": "1.4.4",
+    "ref": "html > head > meta:nth-of-type(7)",
+    "ruleId": "meta-viewport",
+    "confidence": "high",
+    "fingerprint": "1bbcc60f5741"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#page > header > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "1bad2b833d8d"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div > div > article:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "47f4e92efeee"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div > div > article:nth-of-type(3) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "392142f4cc3f"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div > div > article:nth-of-type(4) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "5889193702dc"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div > div > article:nth-of-type(5) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "cba31460f89e"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(1) > div:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "2ce877861413"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(2) > div:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "ebfd3449aa29"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(3) > div:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "3f640f00cc21"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(4) > div:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "20a127225ef5"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(5) > div:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "89cc45f31e2c"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 11,
+   "members": [
+    "ad7de1c11122",
+    "8e91d33fa961",
+    "a5f6db0802c5",
+    "9d926a6abc2c",
+    "a366f88d83e4",
+    "e08e3b404085",
+    "544376eed309",
+    "9eb14cac942e",
+    "4360bb9550c3",
+    "e24b4f769624",
+    "30b9d5ca3b76"
+   ],
+   "example": "ad7de1c11122"
+  },
+  {
+   "id": "g-6ed0ab07ef69",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "check": "rampa/pixel-contrast",
+   "count": 10,
+   "members": [
+    "42329a5a5c5c",
+    "c001413f9552",
+    "31fc94df9cf0",
+    "ce1468747b4b",
+    "1f0c3a71718d",
+    "11a49e5e6b92",
+    "aa8753eba502",
+    "ebef042b2902",
+    "28858608f1c1",
+    "40192d8fed97"
+   ],
+   "example": "42329a5a5c5c"
+  },
+  {
+   "id": "g-b3cc505a410d",
+   "list": "findings",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "engine",
+   "check": "link-name",
+   "count": 10,
+   "members": [
+    "1bad2b833d8d",
+    "47f4e92efeee",
+    "392142f4cc3f",
+    "5889193702dc",
+    "cba31460f89e",
+    "2ce877861413",
+    "ebfd3449aa29",
+    "3f640f00cc21",
+    "20a127225ef5",
+    "89cc45f31e2c"
+   ],
+   "example": "1bad2b833d8d"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#page > header > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(1) > a",
+   "message": "The link text \"REDONE.BR\" does not match where the link leads: a page titled \"Apresentação – ABN – Academia Brasileira de Neurologia\".",
+   "evidence": "The model suggests: \"Apresentação – Academia Brasileira de Neurologia\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#content > div > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(2) > div > ul > li > a",
+   "message": "The link text \"22/10/2026\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Nota de Esclarecimento de 22/10/2026\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#form-field-optin",
+   "message": "The label \"Optin Concordo em receber mensagens da ABN e parceiros\" does not say what to enter.",
+   "evidence": "The model suggests: \"Concordo em receber mensagens da ABN e parceiros\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(1) > h4 > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(2) > div:nth-of-type(2) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(2) > h4 > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(3) > div:nth-of-type(2) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(3) > h4 > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(4) > div:nth-of-type(2) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(4) > h4 > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(5) > div:nth-of-type(2) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#mec_skin_events_31830 > div > div > article:nth-of-type(5) > h4 > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(1) > div > h5",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > ul > li:nth-of-type(1) > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > ul > li:nth-of-type(2) > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > ul > li:nth-of-type(3) > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(3) > div > h5",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(4) > div > ul > li > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(5) > div > ul > li > a > span:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div > div:nth-of-type(1) > div > h5",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div > div:nth-of-type(2) > div > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div > div:nth-of-type(4) > div > form > div > div:nth-of-type(2) > div > span > label",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div > div:nth-of-type(5) > div > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div > div:nth-of-type(5) > div > p > a:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div > div:nth-of-type(5) > div > p > a:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div > div",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#menu-1-db37c20 > li:nth-of-type(1) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#menu-1-db37c20 > li:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#menu-1-db37c20 > li:nth-of-type(3) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#form-field-email",
+   "source": null,
+   "ruleId": "rampa/placeholder-contrast"
+  },
+  {
+   "criterion": "2.5.4",
+   "ref": "html",
+   "source": null,
+   "ruleId": "rampa/motion-actuation-scope"
+  },
+  {
+   "criterion": "3.3.2",
+   "ref": "#form-field-optin",
+   "source": null,
+   "ruleId": "form-field-multiple-labels"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#sm-1795581970013713-1",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#sm-1795581970013713-3",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#sm-1795581970013713-19",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#sm-1795581970013713-23",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#sm-1795581970013713-25",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#sm-1795581970013713-27",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#content > div > section:nth-of-type(1) > div:nth-of-type(3) > svg",
+   "reason": "the suggested alternative repeats the text around the image",
+   "output": {
+    "imageShows": "A logo for Academia Brasileira de Neurologia featuring a stylized figure and text.",
+    "textInImage": "ACADEMIA BRASILEIRA DE NEUROLOGIA",
+    "verdict": "fail",
+    "evidence": "Logo naming the organization: \"ACADEMIA BRASILEIRA DE NEUROLOGIA\"",
+    "suggestedAlt": "Logotipo da Academia Brasileira de Neurologia (ABN)",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.2",
+   "ref": "html",
+   "reason": "suggested title equals the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Nota de Esclarecimento – ABN – Academia Brasileira de Neurologia",
+    "problem": "generic",
+    "suggestedTitle": "Nota de Esclarecimento – ABN – Academia Brasileira de Neurologia",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#sm-1795581970013713-25",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A link labeled 'Eventos' (Events) in a navigation menu suggests it leads to a general events page or a list of events.",
+    "leadsTo": "A specific page titled 'Relacionamento Institucional – Eventos e Projetos – ABN – Academia Brasileira de Neurologia' (Institutional Relations – Events and Projects).",
+    "verdict": "fail",
+    "evidence": "Eventos",
+    "problem": "ambiguous",
+    "suggestedText": "Relacionamento Institucional – Eventos e Projetos",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#sm-1795581970013713-27",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page containing news from the Academia Brasileira de Neurologia.",
+    "leadsTo": "A page titled 'Notícias – ABN – Academia Brasileira de Neurologia'",
+    "verdict": "fail",
+    "evidence": "Notícias",
+    "problem": "ambiguous",
+    "suggestedText": "Notícias da Academia Brasileira de Neurologia",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > div > div > div > div > div > footer > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > span:nth-of-type(2) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Instagram' combined with its context (a social icon in a region of a page about the 'III Simpósio de Neurooncologia') suggests it leads to the Instagram profile or tag related to this specific symposium.",
+    "leadsTo": "https://www.instagram.com/explore/tags/academiabrasileiradeneurologia/",
+    "verdict": "fail",
+    "evidence": "Instagram",
+    "problem": "ambiguous",
+    "suggestedText": "Instagram da Academia Brasileira de Neurologia",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-1-db37c20 > li:nth-of-type(1) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Segurança de dados' (Data Security) suggests it leads to a page or section about data security policies.",
+    "leadsTo": "mailto:juridico@abneuro.org",
+    "verdict": "fail",
+    "evidence": "Segurança de dados",
+    "problem": "mismatch",
+    "suggestedText": "Contato jurídico",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#moove_gdpr_cookie_info_bar_title",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "GDPR Cookie Banner",
+    "verdict": "fail",
+    "evidence": "G…",
+    "problem": "generic",
+    "suggestedText": "Configurações de Cookies",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 49,
+   "judged": 49,
+   "failed": 0,
+   "passed": 43,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 14,
+   "judged": 14,
+   "failed": 0,
+   "passed": 12,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 of the page's 68 stylesheet(s) had not applied when it was read (https://abneuro.org.br/core/modules/89661bcb1e/frontend/css/spam-protect-for-contact-form7.css?=1770418055 (no rules)): the page was read with the styles it had, which may differ from what people see.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 67,
+  "cachedCalls": 0,
+  "inputTokens": 64328,
+  "outputTokens": 6958,
+  "latencyMs": 202953
+ },
+ "timings": {
+  "totalMs": 105859,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 21
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 4271,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1417,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1674,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 80323,
+    "prepareMs": 0,
+    "candidates": 49,
+    "judged": 49,
+    "calls": 49,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 17943,
+    "prepareMs": 0,
+    "candidates": 14,
+    "judged": 14,
+    "calls": 14,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 176,
+    "prepareMs": 173,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 9,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 24
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "stylesheets": {
+   "linked": 68,
+   "applied": 67,
+   "failed": 1
+  },
+  "images": {
+   "captured": 14,
+   "notCaptured": 0,
+   "reasons": {}
+  }
+ },
+ "coverage": {
+  "reach": {
+   "stylesheets": {
+    "linked": 68,
+    "applied": 67,
+    "failed": [
+     {
+      "href": "https://abneuro.org.br/core/modules/89661bcb1e/frontend/css/spam-protect-for-contact-form7.css?=1770418055",
+      "reason": "no rules"
+     }
+    ]
+   }
+  },
+  "fast": null
+ }
+}

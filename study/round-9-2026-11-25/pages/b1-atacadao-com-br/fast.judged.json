@@ -1,0 +1,376 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://www.atacadao.com.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "84e79044e383",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(2) > button > img:nth-of-type(1)",
+   "target": "html > body > div:nth-of-type(2) > button > img:nth-of-type(1)",
+   "message": "The text alternative \"img1\" is a placeholder, not a description: a screen reader reads it in place of the image. Describe what the image conveys, or use alt=\"\" if it is decorative.",
+   "evidence": "alt=\"img1\"",
+   "subject": "img1",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-alt",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F30",
+   "html": "<img class=\"emotion-feedback-trigger-img\" src=\"https://atacadaobr.vtexassets.com/assets/vtex.file-manager-graphql/images/d5118216-2f8e-49d4-a02b-7f672b770dd0___9d3f4d806b29bd13ae1361ef94f7b2e6.png\" alt=\"img1\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "fa6e0c79d020",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(2) > button > img:nth-of-type(2)",
+   "target": "html > body > div:nth-of-type(2) > button > img:nth-of-type(2)",
+   "message": "The text alternative \"img2\" is a placeholder, not a description: a screen reader reads it in place of the image. Describe what the image conveys, or use alt=\"\" if it is decorative.",
+   "evidence": "alt=\"img2\"",
+   "subject": "img2",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-alt",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F30",
+   "html": "<img class=\"emotion-feedback-trigger-img\" src=\"https://atacadaobr.vtexassets.com/assets/vtex.file-manager-graphql/images/48ee0982-0c0b-48fe-93a3-77180a571dca___a68435f49169d3f9909753d207d0971b.png\" alt=\"img2\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 4
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.4.3",
+    "ref": "#__next > header > div:nth-of-type(2) > nav:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div:nth-of-type(2) > div:nth-of-type(2) > button",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "c340010c6b2d"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#__next > footer > div:nth-of-type(3) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "914d69988b3c"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#__next > footer > div:nth-of-type(3) > p > u",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "08cb17b3da4e"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#__next > header > div:nth-of-type(2) > nav:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(3) > button",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "d80ca1ee97e1"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": null,
+ "needsReview": [],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "#__next > header > div:nth-of-type(2) > nav:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div:nth-of-type(2) > div:nth-of-type(2) > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#__next > header > div:nth-of-type(2) > nav:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(3) > button > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#__next > div:nth-of-type(2) > nav > div > ul > li:nth-of-type(6) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#__next > div:nth-of-type(2) > nav > div > ul > li:nth-of-type(7) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "2.5.3",
+   "ref": "#__next > header > div:nth-of-type(2) > nav:nth-of-type(2) > div:nth-of-type(1) > div > div > div > form > input",
+   "source": null,
+   "ruleId": "rampa/field-label-in-name"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#__next > main > div > section:nth-of-type(2) > div > div > div > div:nth-of-type(3) > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "bebes",
+    "problem": "missing_information",
+    "imageShows": "Uma composição de fraldas de marcas conhecidas com o texto 'FRALDAS' e um botão 'EU QUERO'.",
+    "suggestedAlt": "Ofertas de fraldas",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#__next > header > div:nth-of-type(1) > div > ul > li:nth-of-type(3) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Folhetos' (Brochures) suggests a link to promotional materials or brochures, but the destination is the 'nossas-lojas' (our stores) page.",
+    "leadsTo": "/institucional/nossas-lojas",
+    "verdict": "fail",
+    "evidence": "Folhetos",
+    "problem": "mismatch",
+    "suggestedText": "Nossas lojas",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 40,
+   "judged": 10,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 30
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "30 image(s) were left without a capture, so no judgment looked at them: 9 covered where it sits by other content, such as a popup or a cookie banner; 21 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 30 of 40 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 13,
+  "cachedCalls": 0,
+  "inputTokens": 12028,
+  "outputTokens": 1288,
+  "latencyMs": 34797
+ },
+ "timings": {
+  "totalMs": 20848,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 15
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 1943,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1489,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 15603,
+    "prepareMs": 0,
+    "candidates": 40,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 1590,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 181,
+    "prepareMs": 179,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 21
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 1000,
+  "images": {
+   "captured": 6,
+   "notCaptured": 30,
+   "reasons": {
+    "covered": 9,
+    "limit": 21
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 40,
+    "capped": 30
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null,
+  "fast": {
+   "skipped": [
+    "probes",
+    "link-following",
+    "ocr"
+   ],
+   "maxCandidates": 10
+  }
+ }
+}

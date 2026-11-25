@@ -1,0 +1,465 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://www.mylondon.news/news/west-london-news/sociable-outgoing-putney-man-25-34958054",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "de8bb48ce48b",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#mantis-ui-widget-1 >>> div > main > div:nth-of-type(2) > div > div:nth-of-type(1) > div:nth-of-type(1) > a:nth-of-type(2)",
+   "message": "The link text \"\"Comments\"\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "\"Comments\"",
+   "subject": "\"Comments\"",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#mantis-ui-widget-1 >>> div > main > div:nth-of-type(2) > div > div:nth-of-type(1) > div:nth-of-type(1) > a:nth-of-type(2)",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "\"Comments\"",
+    "to": "Comments for Mercedes exploded near Heathrow article",
+    "before": "<a class=\"comments-wrapper\" href=\"https://www.mylondon.news/news/west-london-news/mercedes-exploded-near-heathrow-after-34954128#comments-wrapper\" aria-label=\"&quot;Comments&quot;\" data-viafoura-id=\"getwestlondon-prod-34954128\">",
+    "after": "<a class=\"comments-wrapper\" href=\"https://www.mylondon.news/news/west-london-news/mercedes-exploded-near-heathrow-after-34954128#comments-wrapper\" aria-label=\"Comments for Mercedes exploded near Heathrow article\" data-viafoura-id=\"getwestlondon-prod-34954128\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 5
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.3.1",
+    "ref": "#dedicated-primary-header-nav > li",
+    "ruleId": "listitem",
+    "confidence": "high",
+    "fingerprint": "540871cbfc47"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#more-options-btn > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "5d9d0c62f5f4"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#article-body > div:nth-of-type(1) > div > div:nth-of-type(2) > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "c695df5fb077"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#article-body > button",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "a460919d3703"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#main-content > div > div > section:nth-of-type(2) > div > div > div > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "d40daac62ae3"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#qc-cmp2-ui > div:nth-of-type(1) > div > div > div:nth-of-type(1) > figure > div > img",
+   "message": "The text alternative \"Publisher Logo\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Reach\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: yes (0.73), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#article-body > p:nth-of-type(3) > a",
+   "message": "The link text \"Westminster\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Westminster area news and information\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#article-body > p:nth-of-type(13) > strong > a",
+   "message": "The link text \"here\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Update your source preferences\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.1",
+   "ref": "#article-body > div:nth-of-type(1) > span > div > div:nth-of-type(1) > div:nth-of-type(2) > span > span > a",
+   "source": null,
+   "ruleId": "link-in-text-block"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#mobile-nav > ul > li:nth-of-type(1) > div > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#mobile-nav > ul > li:nth-of-type(2) > div > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#mobile-nav > ul > li:nth-of-type(7) > div > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#main-content > div > div > nav > ul > li:nth-of-type(1) > span > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#article-body > div:nth-of-type(1) > div > div:nth-of-type(1) > ul > li:nth-of-type(1) > span > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#article-body > div:nth-of-type(1) > div > div:nth-of-type(1) > ul > li:nth-of-type(2) > span > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#article-body > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > span > div > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "html > body > footer > div:nth-of-type(1) > section > div > ul > li:nth-of-type(1) > span > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "html > body > footer > div:nth-of-type(1) > section > div > ul > li:nth-of-type(2) > span > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "html > body > footer > div:nth-of-type(1) > section > div > ul > li:nth-of-type(3) > span > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#mantis-ui-widget-1 >>> div > main > div:nth-of-type(2) > div > div:nth-of-type(13)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#mantis-ui-widget-1 >>> div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#dedicated-primary-header-nav > li > button",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#article-body > button",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "2.4.4",
+   "ref": "#mantis-ui-widget-1 >>> div > main > div:nth-of-type(2) > div > div:nth-of-type(10) > div:nth-of-type(1) > a:nth-of-type(2)",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'Comments' suggests it leads to a comments section for the article 'Joshua Davies was an 'experienced skiier', an inquest heard'.",
+    "leadsTo": "The comments section of the article 'Wheezing asthmatic mum's 10-year battle with Notting Hill Genesis over mouldy flat - My London'.",
+    "verdict": "fail",
+    "evidence": "\"Comments\"",
+    "problem": "mismatch",
+    "suggestedText": "Comments for 'Wheezing asthmatic mum's 10-year battle with Notting Hill Genesis over mouldy flat'",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 93,
+   "judged": 50,
+   "failed": 1,
+   "passed": 46,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 43,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 4,
+   "judged": 4,
+   "failed": 0,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "A layer lay over the viewport when the page was read (div, on top at 89% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "25 image(s) were left without a capture, so no judgment looked at them: 1 outside the page (an off-canvas menu); 1 cut off by the box that holds it; 21 covered where it sits by other content, such as a popup or a cookie banner; 2 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 43 of 93 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 60,
+  "cachedCalls": 0,
+  "inputTokens": 60177,
+  "outputTokens": 5439,
+  "latencyMs": 169825
+ },
+ "timings": {
+  "totalMs": 88747,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 22
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 4064,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 5,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1399,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 77323,
+    "prepareMs": 0,
+    "candidates": 93,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 5699,
+    "prepareMs": 0,
+    "candidates": 4,
+    "judged": 4,
+    "calls": 4,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 193,
+    "prepareMs": 191,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 17,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 28
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "overlay": {
+   "selector": "div",
+   "coverage": 0.89,
+   "hidden": true
+  },
+  "images": {
+   "captured": 2,
+   "notCaptured": 25,
+   "reasons": {
+    "outside-page": 1,
+    "clipped": 1,
+    "covered": 21,
+    "limit": 2
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 93,
+    "capped": 43
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "overlay": {
+    "ref": "#qc-cmp2-main > div",
+    "selector": "div",
+    "coverage": 0.89,
+    "hidden": true
+   }
+  },
+  "fast": null
+ }
+}

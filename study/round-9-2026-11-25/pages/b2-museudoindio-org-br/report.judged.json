@@ -1,0 +1,469 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://www.museudoindio.org.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "575e306d5126",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#BlogSearch1 > div > form > label > svg",
+   "message": "This image is hidden from screen readers (an svg with no name), but it conveys what the text around it does not say: \"A magnifying glass icon representing a search function.\".",
+   "evidence": "A magnifying glass icon representing a search function.",
+   "subject": "hidden svg",
+   "patch": {
+    "ref": "#BlogSearch1 > div > form > label > svg",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "",
+    "to": "Pesquisar",
+    "before": "<svg class=\"svg-icon-24 touch-icon search-icon\">",
+    "after": "<svg class=\"svg-icon-24 touch-icon search-icon\" aria-label=\"Pesquisar\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "d90ee00fea21",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#BlogSearch1 > div > form > div > input",
+   "target": "#BlogSearch1 > div > form > div > input",
+   "message": "The placeholder \"Pesquisar este blog\" has a contrast of 2.60:1 with the field (#00000060 on #f0f0f0). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#00000060 on #f0f0f0 · 2.60:1 at best, 2.60:1 at worst · 15px, 400",
+   "subject": "Pesquisar este blog",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input aria-label=\"Pesquisar este blog\" autocomplete=\"off\" name=\"q\" placeholder=\"Pesquisar este blog\" value=\"\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 1
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "2.4.4",
+    "ref": "#Image1 > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "c55e36571cf6"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#FeaturedPost1 > div > div > article > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > span > a",
+   "message": "The link text \"novembro 18, 2026\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Conheça diferentes formas de arte indígena\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#FeaturedPost1 > div > div > article > div > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(1) > span > a",
+   "message": "The link text \"0\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Comentários\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#Blog1 > div:nth-of-type(1) > article:nth-of-type(1) > div > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > span > a",
+   "message": "The link text \"novembro 13, 2026\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Arte indígena: muito além do artesanato\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#Blog1 > div:nth-of-type(1) > article:nth-of-type(1) > div > div > div:nth-of-type(2) > div > div:nth-of-type(4) > div:nth-of-type(1) > span > a",
+   "message": "The link text \"0\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"0 comentários\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#Blog1 > div:nth-of-type(1) > article:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > span > a",
+   "message": "The link text \"novembro 12, 2026\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Povos indígenas têm papel estratégico na conservação da biodiversidade\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#Blog1 > div:nth-of-type(1) > article:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div:nth-of-type(4) > div:nth-of-type(1) > span > a",
+   "message": "The link text \"0\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"0 comentários\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#Blog1 > div:nth-of-type(1) > article:nth-of-type(3) > div > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > span > a",
+   "message": "The link text \"novembro 05, 2026\" does not match where the link leads: a page titled \"Mudanças climáticas e povos indígenas: quando a crise ambiental ameaça territór…\".",
+   "evidence": "The model suggests: \"Mudanças climáticas e povos indígenas\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#Blog1 > div:nth-of-type(1) > article:nth-of-type(3) > div > div > div:nth-of-type(2) > div > div:nth-of-type(4) > div:nth-of-type(1) > span > a",
+   "message": "The link text \"0\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"0 comentários\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#Blog1 > div:nth-of-type(1) > article:nth-of-type(4) > div > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > span > a",
+   "message": "The link text \"novembro 04, 2026\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"A importância dos rios para os povos indígenas\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#Blog1 > div:nth-of-type(1) > article:nth-of-type(4) > div > div > div:nth-of-type(2) > div > div:nth-of-type(4) > div:nth-of-type(1) > span > a",
+   "message": "The link text \"0\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Ver comentários\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#Blog1 > div:nth-of-type(1) > article:nth-of-type(5) > div > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > span > a",
+   "message": "The link text \"novembro 02, 2026\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Território, identidade e cultura indígena: a relação entre povos originários, memória e pertencimento\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#Blog1 > div:nth-of-type(1) > article:nth-of-type(5) > div > div > div:nth-of-type(2) > div > div:nth-of-type(4) > div:nth-of-type(1) > span > a",
+   "message": "The link text \"0\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Ver comentários\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#Blog1 > div:nth-of-type(1) > article:nth-of-type(6) > div > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > span > a",
+   "message": "The link text \"novembro 01, 2026\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Como os povos indígenas cuidam de seus territórios?\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#Blog1 > div:nth-of-type(1) > article:nth-of-type(6) > div > div > div:nth-of-type(2) > div > div:nth-of-type(4) > div:nth-of-type(1) > span > a",
+   "message": "The link text \"0\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"0 comentários\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "4.1.2",
+   "ref": "#sharing-button-FeaturedPost1-byline-7421774601973724541",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#sharing-button-Blog1-byline-6301217354130168674",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#sharing-button-Blog1-byline-6615581634452820418",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#sharing-button-Blog1-byline-2302774291423969229",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#sharing-button-Blog1-byline-6446826986103576111",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#sharing-button-Blog1-byline-4158058815542162134",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#sharing-button-Blog1-byline-2517673165987121083",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "2.4.6",
+   "ref": "#main > h2",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Postagens",
+    "verdict": "fail",
+    "evidence": "P…",
+    "problem": "generic",
+    "suggestedText": "Postagens",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 32,
+   "judged": 32,
+   "failed": 0,
+   "passed": 18,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 14
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 10,
+   "judged": 10,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 44,
+  "cachedCalls": 0,
+  "inputTokens": 43802,
+  "outputTokens": 4369,
+  "latencyMs": 132315
+ },
+ "timings": {
+  "totalMs": 69135,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 15
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 1695,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1379,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 52858,
+    "prepareMs": 0,
+    "candidates": 32,
+    "judged": 32,
+    "calls": 32,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 12982,
+    "prepareMs": 0,
+    "candidates": 10,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 179,
+    "prepareMs": 177,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 23
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 2,
+   "notCaptured": 0,
+   "reasons": {}
+  }
+ },
+ "coverage": {
+  "reach": null,
+  "fast": null
+ }
+}

@@ -1,0 +1,640 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://www.carmensteffens.com.br/acess%C3%B3rios/acessorios-vertodos",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "00d121097091",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#root > main > section > div:nth-of-type(1) > section > section > div > picture > img",
+   "message": "The text alternative \"Carmen Steffens\" describes something the image does not show.",
+   "evidence": "Carmen Steffens",
+   "subject": "Carmen Steffens",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#root > main > section > div:nth-of-type(1) > section > section > div > picture > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Carmen Steffens",
+    "to": "Sandálias de tiras bege com detalhes de estrelas cravejadas",
+    "before": "<img src=\"/file/v7508973267726861506/general/Header_Desktopcs.png\" alt=\"Carmen Steffens\" loading=\"eager\">",
+    "after": "<img src=\"/file/v7508973267726861506/general/Header_Desktopcs.png\" alt=\"Sandálias de tiras bege com detalhes de estrelas cravejadas\" loading=\"eager\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9977020253529012
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "cb02db651e59",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#root > footer > section:nth-of-type(1) > div > div > div:nth-of-type(2) > input:nth-of-type(1)",
+   "message": "The field \"Nome\" asks for the user's full name but does not identify that purpose: autocomplete=\"name\" is missing.",
+   "evidence": "Nome",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#root > footer > section:nth-of-type(1) > div > div > div:nth-of-type(2) > input:nth-of-type(1)",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "name",
+    "before": "<input type=\"text\" class=\"NewsletterStrip__Input\" placeholder=\"Nome\" value=\"\">",
+    "after": "<input type=\"text\" class=\"NewsletterStrip__Input\" placeholder=\"Nome\" value=\"\" autocomplete=\"name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "b1756ba4ded0",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#root > footer > section:nth-of-type(1) > div > div > div:nth-of-type(2) > input:nth-of-type(2)",
+   "message": "The field \"E-mail\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "E-mail",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#root > footer > section:nth-of-type(1) > div > div > div:nth-of-type(2) > input:nth-of-type(2)",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input type=\"email\" class=\"NewsletterStrip__Input\" placeholder=\"E-mail\" value=\"\">",
+    "after": "<input type=\"email\" class=\"NewsletterStrip__Input\" placeholder=\"E-mail\" value=\"\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "b4b790b2ce3c",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#root > footer > section:nth-of-type(1) > div > div > div:nth-of-type(2) > input:nth-of-type(1)",
+   "target": "#root > footer > section:nth-of-type(1) > div > div > div:nth-of-type(2) > input:nth-of-type(1)",
+   "message": "The placeholder \"Nome\" has a contrast of 2.24:1 with the field (#999999 on #e4e4e4). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#999999 on #e4e4e4 · 2.24:1 at best, 2.24:1 at worst · 14px, 400",
+   "subject": "Nome",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input type=\"text\" class=\"NewsletterStrip__Input\" placeholder=\"Nome\" value=\"\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "2c6c89846995",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#root > footer > section:nth-of-type(1) > div > div > div:nth-of-type(2) > input:nth-of-type(2)",
+   "target": "#root > footer > section:nth-of-type(1) > div > div > div:nth-of-type(2) > input:nth-of-type(2)",
+   "message": "The placeholder \"E-mail\" has a contrast of 2.24:1 with the field (#999999 on #e4e4e4). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#999999 on #e4e4e4 · 2.24:1 at best, 2.24:1 at worst · 14px, 400",
+   "subject": "E-mail",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input type=\"email\" class=\"NewsletterStrip__Input\" placeholder=\"E-mail\" value=\"\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 7
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.4.3",
+    "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(1) > div:nth-of-type(2) > nav > span:nth-of-type(1) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "82d13e72318a"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#root > footer > section:nth-of-type(1) > div > div > div:nth-of-type(3) > button",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "cded7c70764e"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#root > footer > section:nth-of-type(5) > footer > div:nth-of-type(1) > div > div:nth-of-type(5) > div > a:nth-of-type(1) > span > span:nth-of-type(2)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "ca05b3e4d6ae"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#root > footer > section:nth-of-type(5) > footer > div:nth-of-type(1) > div > div:nth-of-type(5) > div > a:nth-of-type(2) > span > span:nth-of-type(2)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "3ba4dc55e8fe"
+   },
+   {
+    "criterion": "1.4.4",
+    "ref": "#oracle-cc > head > meta:nth-of-type(9)",
+    "ruleId": "meta-viewport",
+    "confidence": "high",
+    "fingerprint": "0bc8b75bd992"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#root > header > section > header > div:nth-of-type(3) > a:nth-of-type(1)",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "765ba45a088d"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#root > header > section > header > div:nth-of-type(3) > a:nth-of-type(2)",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "8480ed0be53c"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#root > header > section > header > nav > div:nth-of-type(10) > a",
+   "message": "The link text \"Para Ele\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Página do Raphael\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#root > footer > section:nth-of-type(5) > footer > div:nth-of-type(1) > div > div:nth-of-type(5) > h4",
+   "message": "The heading \"App CS\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Atendimento ao Cliente\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(3) > div:nth-of-type(3) > button",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#root > header > section > aside > div:nth-of-type(1) > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(2) > div > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(3) > div > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(4) > div > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(5) > div > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(6) > div > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(7) > div > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(8) > div > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(9) > div > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(10) > div > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(11) > div > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(12) > div > div:nth-of-type(1) > button",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "2.4.4",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(2) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Ver Todos' (See All) in the context of 'Filtros ativos' (Active filters) suggests it will clear the filters or show all products in the current category.",
+    "leadsTo": "A page titled 'Carmen Steffens' (likely the brand's main page or a filtered list of their products).",
+    "verdict": "fail",
+    "evidence": "Ver Todos",
+    "problem": "ambiguous",
+    "suggestedText": "Ver todos os produtos da Carmen Steffens",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(2) > div > div:nth-of-type(4) > div:nth-of-type(2) > div > a:nth-of-type(2)",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A link labeled 'NATURAL' within a list of color filters under the heading 'FILTROS' (Filters).",
+    "leadsTo": "A search results page for the brand 'Carmen Steffens' with specific availability filters.",
+    "verdict": "fail",
+    "evidence": "NATURAL",
+    "problem": "mismatch",
+    "suggestedText": "Cor Natural",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(2) > div > div:nth-of-type(4) > div:nth-of-type(2) > div > a:nth-of-type(3)",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'CAFE' within a list of color filters suggests it will filter the products by the color 'CAFE' (Coffee/Brown).",
+    "leadsTo": "A search results page for the brand 'Carmen Steffens'.",
+    "verdict": "fail",
+    "evidence": "CAFE",
+    "problem": "mismatch",
+    "suggestedText": "Filtrar por cor CAFE",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(2) > div > div:nth-of-type(4) > div:nth-of-type(2) > div > a:nth-of-type(5)",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'DIVERSOS' is part of a list of color filters under the heading 'FILTROS'. It suggests filtering the products by the 'DIVERSOS' (Miscellaneous/Various) category or color.",
+    "leadsTo": "A search results page for the brand 'Carmen Steffens' with specific availability filters.",
+    "verdict": "fail",
+    "evidence": "DIVERSOS",
+    "problem": "mismatch",
+    "suggestedText": "Filtrar por DIVERSOS",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(2) > div > div:nth-of-type(4) > div:nth-of-type(2) > div > a:nth-of-type(11)",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'HOLOGRAFICO' within a list of colors under the heading 'FILTROS' (Filters) suggests it will filter the products to show only those with a holographic finish.",
+    "leadsTo": "A search results page for the brand 'Carmen Steffens' with specific availability filters.",
+    "verdict": "fail",
+    "evidence": "HOLOGRAFICO",
+    "problem": "mismatch",
+    "suggestedText": "Filtrar por HOLOGRAFICO",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(2) > div > div:nth-of-type(4) > div:nth-of-type(2) > div > a:nth-of-type(15)",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'ROSA' within a list of colors under the heading 'FILTROS' (Filters) suggests it will filter the products to show only those in the color pink.",
+    "leadsTo": "A search results page for the brand 'Carmen Steffens'.",
+    "verdict": "fail",
+    "evidence": "ROSA",
+    "problem": "mismatch",
+    "suggestedText": "Filtrar por Rosa",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(2) > div > div:nth-of-type(4) > div:nth-of-type(3) > div > div:nth-of-type(1) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'PR' within the context 'Tamanho PR 17 19 UN' under the 'FILTROS' (Filters) heading suggests it is a filter for the size 'PR'.",
+    "leadsTo": "A search results page for the brand 'Carmen Steffens'.",
+    "verdict": "fail",
+    "evidence": "PR",
+    "problem": "mismatch",
+    "suggestedText": "Filtrar por tamanho PR",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#root > main > section > div:nth-of-type(2) > section > section:nth-of-type(2) > div > div:nth-of-type(4) > div:nth-of-type(3) > div > div:nth-of-type(3) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'UN' in the context of 'Tamanho PR 17 19 UN' under a 'FILTROS' (Filters) heading suggests it is a size filter for 'UN' (Universal/One Size).",
+    "leadsTo": "A search results page for the brand 'Carmen Steffens' with specific filters applied.",
+    "verdict": "fail",
+    "evidence": "UN",
+    "problem": "mismatch",
+    "suggestedText": "Tamanho Único",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 24,
+   "judged": 24,
+   "failed": 1,
+   "passed": 23,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 2,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 117,
+   "judged": 50,
+   "failed": 0,
+   "passed": 41,
+   "cannotTell": 0,
+   "discarded": 8,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 67,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 10,
+   "judged": 10,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "2 image(s) were left without a capture, so no judgment looked at them: 1 outside the page (an off-canvas menu); 1 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 67 of 117 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 91,
+  "cachedCalls": 0,
+  "inputTokens": 85673,
+  "outputTokens": 8775,
+  "latencyMs": 284569
+ },
+ "timings": {
+  "totalMs": 146995,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 19
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 44012,
+    "prepareMs": 0,
+    "candidates": 24,
+    "judged": 24,
+    "calls": 27,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 3562,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 3,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1473,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 85499,
+    "prepareMs": 0,
+    "candidates": 117,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 12223,
+    "prepareMs": 0,
+    "candidates": 10,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 173,
+    "prepareMs": 171,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 28
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 24,
+   "notCaptured": 2,
+   "reasons": {
+    "outside-page": 1,
+    "limit": 1
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 117,
+    "capped": 67
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null,
+  "fast": null
+ }
+}

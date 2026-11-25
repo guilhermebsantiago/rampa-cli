@@ -1,0 +1,425 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://designmuseum.org/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 4
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > div:nth-of-type(3) > div > footer > div > div:nth-of-type(3) > a:nth-of-type(1)",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "61470d57ce06"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > div:nth-of-type(3) > div > footer > div > div:nth-of-type(3) > a:nth-of-type(2)",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "52d6812eeb01"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > div:nth-of-type(3) > div > footer > div > div:nth-of-type(3) > a:nth-of-type(3)",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "d01f49508fe9"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > div:nth-of-type(3) > div > footer > div > div:nth-of-type(3) > a:nth-of-type(4)",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "ff61d085471e"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > div:nth-of-type(3) > div > div > article:nth-of-type(1) > div > div > div > div > h1 > p > span > a",
+   "message": "The link text \"Welcome to the Design Museum\" does not match where the link leads: a page titled \"Plan your visit - Design Museum\".",
+   "evidence": "The model suggests: \"Plan your visit to the Design Museum\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > div:nth-of-type(3) > div > div > article:nth-of-type(1) > div > div > div > div > a",
+   "message": "The link text \">PLAN YOUR VISIT, BECOME A MEMBER, DONATE OR VISIT THE ONLINE SHOP.\" does not match where the link leads: a page titled \"Plan your visit - Design Museum\".",
+   "evidence": "The model suggests: \"Plan your visit\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > div:nth-of-type(3) > div > div > article:nth-of-type(8) > div > div > div > div > p:nth-of-type(1) > a",
+   "message": "The link text \"LEVEL 2\" does not match where the link leads: a page titled \"Designer Maker User - Design Museum\".",
+   "evidence": "The model suggests: \"Designer Maker User exhibition\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#CybotCookiebotDialogBodyLevelButtonNecessary",
+   "message": "The label \"Necessary\" does not say what to enter.",
+   "evidence": "The model suggests: \"Necessary cookies\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div > div > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > div:nth-of-type(3) > div > div > article:nth-of-type(2) > div > div > div > div > p:nth-of-type(1) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A booking page for the 'Es Devlin: Other Worlds' exhibition.",
+    "leadsTo": "a page titled 'Es Devlin: Other Worlds - Design Museum'",
+    "verdict": "fail",
+    "evidence": "BOOK NOW",
+    "problem": "ambiguous",
+    "suggestedText": "Book tickets for Es Devlin: Other Worlds",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > div:nth-of-type(3) > div > div > article:nth-of-type(3) > div > div > div > div > p:nth-of-type(1) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page to book tickets for the 'LAIKA presents Wildwood' exhibition.",
+    "leadsTo": "a page titled 'LAIKA presents Wildwood: The Exhibition - Design Museum'",
+    "verdict": "fail",
+    "evidence": "BOOK NOW",
+    "problem": "ambiguous",
+    "suggestedText": "Book tickets for LAIKA presents Wildwood",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > div:nth-of-type(3) > div > div > article:nth-of-type(4) > div > div > div > div > p:nth-of-type(1) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A booking page for 'The Nue Black Aesthetic' exhibition.",
+    "leadsTo": "The Nue Black Aesthetic - Design Museum exhibition page",
+    "verdict": "fail",
+    "evidence": "BOOK NOW",
+    "problem": "ambiguous",
+    "suggestedText": "Book tickets for The Nue Black Aesthetic",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > div:nth-of-type(3) > div > div > article:nth-of-type(5) > div > div > div > div > a",
+   "reason": "evidence is not the link text",
+   "output": {
+    "promises": "The link text 'BECOME A MEMBER' combined with the heading 'Get closer with membership' indicates that the link leads to a page where a user can sign up for a membership.",
+    "leadsTo": "a page titled 'Become a Member - Design Museum' where users can join the community and get benefits.",
+    "verdict": "pass",
+    "evidence": ">BECOME A MEMBER</link>",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > div:nth-of-type(3) > div > div > article:nth-of-type(12) > div > div > div > div > a",
+   "reason": "evidence is not the link text",
+   "output": {
+    "promises": "The link text 'PLAN YOUR NEXT EVENT WITH US' combined with the heading 'Venue Hire' indicates that the link leads to a page for booking or planning an event at the venue.",
+    "leadsTo": "A page titled 'Venue Hire - Design Museum' for corporate and private events.",
+    "verdict": "pass",
+    "evidence": ">PLAN YOUR NEXT EVENT WITH US</link>",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > ul > li > a",
+   "reason": "evidence is not the link text",
+   "output": {
+    "promises": "The link text 'GETTING HERE' under the heading 'Location' promises a page with directions or information on how to reach the museum.",
+    "leadsTo": "A page titled 'Getting here - Design Museum' providing information on address and directions by foot, public transport, or car.",
+    "verdict": "pass",
+    "evidence": ">GETTING HERE</link>",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(3) > div > ul > li > a",
+   "reason": "evidence is not the link text",
+   "output": {
+    "promises": "The link text 'OPENING TIMES' and its surrounding context (which lists specific hours) indicate that the link leads to a page with more detailed opening hours.",
+    "leadsTo": "A page titled 'Opening hours - Design Museum' containing detailed opening hours and holiday information.",
+    "verdict": "pass",
+    "evidence": ">OPENING TIMES</link>",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 59,
+   "judged": 50,
+   "failed": 0,
+   "passed": 40,
+   "cannotTell": 0,
+   "discarded": 7,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 9,
+   "suggested": 3
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 25,
+   "judged": 25,
+   "failed": 0,
+   "passed": 24,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 10,
+   "judged": 10,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were not checked at all, so whatever they hold was missed: html > body > iframe:nth-of-type(2) (cross-origin; skipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 9 of 59 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 84,
+  "cachedCalls": 0,
+  "inputTokens": 74052,
+  "outputTokens": 7342,
+  "latencyMs": 231705
+ },
+ "timings": {
+  "totalMs": 117872,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 24
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 79583,
+    "prepareMs": 0,
+    "candidates": 59,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 30827,
+    "prepareMs": 0,
+    "candidates": 25,
+    "judged": 25,
+    "calls": 25,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 162,
+    "prepareMs": 157,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 7225,
+    "prepareMs": 0,
+    "candidates": 10,
+    "judged": 10,
+    "calls": 9,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 44
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 59,
+    "capped": 9
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > iframe:nth-of-type(2)",
+     "url": "https://consentcdn.cookiebot.com/sdk/bc-v5.min.html",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": false,
+     "engineReason": "skipped"
+    }
+   ]
+  },
+  "fast": null
+ }
+}

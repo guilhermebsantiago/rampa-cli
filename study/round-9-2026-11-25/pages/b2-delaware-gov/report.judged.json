@@ -1,0 +1,481 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://delaware.gov/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "fe85f1da9b6e",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#featured-cards > div > div > div:nth-of-type(2) > div > div > img",
+   "message": "The text alternative \"Office of Small Business with logo with a film crew and camera\" describes something the image does not show.",
+   "evidence": "Office of Small Business with logo with a film crew and camera",
+   "subject": "Office of Small Business with logo with a film crew and camera",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#featured-cards > div > div > div:nth-of-type(2) > div > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Office of Small Business with logo with a film crew and camera",
+    "to": "Delaware surf fishing vehicle permit license plate number 6",
+    "before": "<img src=\"img/spotlight-No-6-Plate-small-surf-fishing.jpg\" alt=\"Office of Small Business with logo with a film crew and camera\" class=\"card-img-top\">",
+    "after": "<img src=\"img/spotlight-No-6-Plate-small-surf-fishing.jpg\" alt=\"Delaware surf fishing vehicle permit license plate number 6\" class=\"card-img-top\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999995910974204
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "acde4c1e4593",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#inputAddress",
+   "message": "The field \"My Address\" asks for the user's street address but does not identify that purpose: autocomplete=\"street-address\" is missing.",
+   "evidence": "My Address",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#inputAddress",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "street-address",
+    "before": "<input type=\"text\" class=\"form-control\" id=\"inputAddress\" name=\"inputAddress\" placeholder=\"411 Legislative Ave, Dover, DE 19901\">",
+    "after": "<input type=\"text\" class=\"form-control\" id=\"inputAddress\" name=\"inputAddress\" placeholder=\"411 Legislative Ave, Dover, DE 19901\" autocomplete=\"street-address\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "3d0346bab827",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#header-search-main",
+   "target": "#header-search-main",
+   "message": "This element (\"Search\") takes keyboard focus and listens to click, keydown, so it works as a control, but the browser exposes it as listitem, with no control role: a screen reader does not announce it as a button or a link (F59). Use the native element (button, a) or give it the role of the control it is.",
+   "evidence": "role listitem · click, keydown · \"Search\"",
+   "subject": "listitem click,keydown",
+   "confidence": "low",
+   "ruleId": "rampa/custom-control",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F59",
+   "html": "<li id=\"header-search-main\" class=\"nav-item header-search-main\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {},
+ "engine": {
+  "findings": [],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#featured-cards > div > div > div:nth-of-type(3) > div > div > img",
+   "message": "The text alternative \"2026 - 2027 Sober Rides logo.\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Promotional graphic for Sober Rides offering a free ride with a QR code and Lyft and Uber logos.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: no (0.11), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#de-alerts > div:nth-of-type(2) > p > a",
+   "message": "The link text \"OPEN\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"State Agencies Closings\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#de-alerts > div:nth-of-type(3) > p > a",
+   "message": "The link text \"NO WARNINGS\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"View Delaware Air Quality Status\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#go-de-banner-inner > div > div:nth-of-type(2) > h4",
+   "message": "The heading \"Let's get things done.\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Get Started with Go DE\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.2.2",
+   "ref": "#videos > div:nth-of-type(2) > a > div > video",
+   "source": null,
+   "ruleId": "video-caption"
+  },
+  {
+   "criterion": "1.2.2",
+   "ref": "#videos > div:nth-of-type(4) > a > div > video",
+   "source": null,
+   "ruleId": "video-caption"
+  },
+  {
+   "criterion": "1.2.2",
+   "ref": "#videos > div:nth-of-type(6) > a > div > video",
+   "source": null,
+   "ruleId": "video-caption"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#portalSearch > div > span > input:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#jobs-search-field",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#fsForm3938983 > input:nth-of-type(14)",
+   "source": null,
+   "ruleId": "duplicate-id-aria"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#data-section > div > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Open Data Logo",
+    "problem": "missing_information",
+    "imageShows": "A blue logo featuring a stylized network icon and the text 'Delaware Open Data'.",
+    "suggestedAlt": "Delaware Open Data",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#navbarNav > ul > li:nth-of-type(3) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page containing guides to various state services (working, moving, driver's services, etc.)",
+    "leadsTo": "A page titled 'Guides - Guides to Services - State of Delaware' containing guides for various state services.",
+    "verdict": "fail",
+    "evidence": "Guides",
+    "problem": "ambiguous",
+    "suggestedText": "State Service Guides",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#de-alerts > div:nth-of-type(4) > p > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'FULL STAFF' and its context 'Flag Status FULL STAFF' suggest the link leads to information regarding a 'Full Staff' status or a related staff list.",
+    "leadsTo": "//news.delaware.gov/flag-status/",
+    "verdict": "fail",
+    "evidence": "FULL STAFF",
+    "problem": "mismatch",
+    "suggestedText": "Flag Status",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#videos > div:nth-of-type(4) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Public Meetings People taking notes while watching a lecture' and the heading 'Subscribe updates on various platforms' suggest the link leads to a platform for public meeting updates or information.",
+    "leadsTo": "https://publicmeetings.delaware.gov/",
+    "verdict": "fail",
+    "evidence": "Public Meetings People taking notes while watching a lecture",
+    "problem": "mismatch",
+    "suggestedText": "Public Meetings Delaware",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#your-government > div > div:nth-of-type(1) > div:nth-of-type(2) > a",
+   "reason": "evidence is not the link text",
+   "output": {
+    "promises": "The link text 'Legislative' combined with the context 'The Delaware General Assembly is comprised of 21 members of the Senate and 41 members of the House of Representatives' suggests it leads to the Delaware General Assembly's legislative website.",
+    "leadsTo": "http://legis.delaware.gov/",
+    "verdict": "pass",
+    "evidence": "Legislative",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 7,
+   "judged": 7,
+   "failed": 1,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 1,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 1,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 97,
+   "judged": 50,
+   "failed": 0,
+   "passed": 44,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 47,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 33,
+   "judged": 33,
+   "failed": 0,
+   "passed": 32,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were not checked at all, so whatever they hold was missed: html > body > div:nth-of-type(8) > div > div > div > div:nth-of-type(1) > iframe (cross-origin; skipped).",
+  "6 image(s) were left without a capture, so no judgment looked at them: 6 transparent where it sits. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 47 of 97 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 99,
+  "cachedCalls": 0,
+  "inputTokens": 84562,
+  "outputTokens": 7993,
+  "latencyMs": 263583
+ },
+ "timings": {
+  "totalMs": 135939,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 20
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 13337,
+    "prepareMs": 0,
+    "candidates": 7,
+    "judged": 7,
+    "calls": 13,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 3610,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 3,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 78831,
+    "prepareMs": 0,
+    "candidates": 97,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 39914,
+    "prepareMs": 0,
+    "candidates": 33,
+    "judged": 33,
+    "calls": 33,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 170,
+    "prepareMs": 167,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 17,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 36
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 7,
+   "notCaptured": 6,
+   "reasons": {
+    "not-shown": 6
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 97,
+    "capped": 47
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > div:nth-of-type(8) > div > div > div > div:nth-of-type(1) > iframe",
+     "url": "https://www.google.com/recaptcha/api2/anchor?ar=1&k=6LeINU0bAAAAAFIQNz4Bc_d7mbDzeBMENU3LBZN_&co=aHR0cHM6Ly9kZWxhd2FyZS5nb3Y6NDQz&hl=en&type=image&v=DqDoLJqJmjhqr0vRwNZ2MCHA&theme=light&size=invisible&badge=bottomright&anchor-ms=20000&execute-ms=30000&ovv=CADq00gF&cb=sc13b3qg6u3y",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": false,
+     "engineReason": "skipped"
+    }
+   ]
+  },
+  "fast": null
+ }
+}

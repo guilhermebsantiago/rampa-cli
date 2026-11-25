@@ -1,0 +1,626 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://prefeitura.poa.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "976808b11ad6",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#block-views-block-cards-capa-portal-block-3 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Revista Mais POA\" describes something the image does not show.",
+   "evidence": "Revista Mais POA",
+   "subject": "Revista Mais POA",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#block-views-block-cards-capa-portal-block-3 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > div > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Revista Mais POA",
+    "to": "Porto Alegre Mais Protegida",
+    "before": "<img src=\"/sites/default/files/styles/card_mobile_full_size/public/usu_img/cards/revista-mais-poa/Card%20Home%20Revista%20-%20702x464.jpg?itok=OWA0pmoz\" width=\"648\" height=\"432\" alt=\"Revista Mais POA\" typeof=\"Image\" class=\"img-responsive\">",
+    "after": "<img src=\"/sites/default/files/styles/card_mobile_full_size/public/usu_img/cards/revista-mais-poa/Card%20Home%20Revista%20-%20702x464.jpg?itok=OWA0pmoz\" width=\"648\" height=\"432\" alt=\"Porto Alegre Mais Protegida\" typeof=\"Image\" class=\"img-responsive\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9998637310424675
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "6a11b054952d",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(1) > div > div > div:nth-of-type(3) > section > div > section:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(2) > div",
+   "target": "html > body > div:nth-of-type(1) > div > div > div:nth-of-type(3) > section > div > section:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(2) > div",
+   "message": "The text \"Gabinete do Prefeito\" has at most 2.73:1 contrast with what is behind it (#09afa7 on #ffffff), measured from pixels because axe-core could not decide (an element over or under it). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#09afa7 on #ffffff · 2.73:1 at best, 2.73:1 at worst · 15.8px, 700",
+   "subject": "Gabinete do Prefeito",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<div class=\"field--name-field-cartola cartola\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "9514949792cd",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(1) > div > div > div:nth-of-type(3) > section > div > section:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div",
+   "target": "html > body > div:nth-of-type(1) > div > div > div:nth-of-type(3) > section > div > section:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div",
+   "message": "The text \"Gabinete do Prefeito\" has at most 2.73:1 contrast with what is behind it (#09afa7 on #ffffff), measured from pixels because axe-core could not decide (an element over or under it). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#09afa7 on #ffffff · 2.73:1 at best, 2.73:1 at worst · 15.8px, 700",
+   "subject": "Gabinete do Prefeito",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<div class=\"cartola field field--name-field-cartola\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "92f46a55058a",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(1) > div > div > div:nth-of-type(3) > section > div > section:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div",
+   "target": "html > body > div:nth-of-type(1) > div > div > div:nth-of-type(3) > section > div > section:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div",
+   "message": "The text \"Defesa Civil\" has at most 2.73:1 contrast with what is behind it (#09afa7 on #ffffff), measured from pixels because axe-core could not decide (an element over or under it). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#09afa7 on #ffffff · 2.73:1 at best, 2.73:1 at worst · 15.8px, 700",
+   "subject": "Defesa Civil",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<div class=\"cartola field field--name-field-cartola\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 5
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.4.3",
+    "ref": "#block-views-block-servicos-block-1 > div > div > div > div:nth-of-type(4) > div > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "154b01bf8124"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(1) > div > div > div:nth-of-type(3) > section > div > section:nth-of-type(1) > div > div:nth-of-type(1) > div > a > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "85464d094148"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(1) > div > div > div:nth-of-type(3) > section > div > section:nth-of-type(1) > div > div:nth-of-type(3) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "109c1ccbebe1"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#block-botaoflutuantewhatsappsol > div > div > p > a > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "18c78cece1f6"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "html > body > div:nth-of-type(1) > div > div > div:nth-of-type(1)",
+    "ruleId": "aria-required-attr",
+    "confidence": "high",
+    "fingerprint": "ef9660fb8d2f"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#block-redessociaiscabecalho-2 > div > div > ul > li:nth-of-type(5) > a > img",
+   "message": "The text alternative \"Ilustração fofinha de sol com olhinhos pretos e bracinhos magrelos, dando um abraço em si mesma\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Sol abraçando a si mesmo\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.47), claim: no (0.00), reversed: yes (0.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#block-views-block-cards-capa-portal-block-1 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > span > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Regularize o ISS\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Acerte as contas com o ISS: até 95% de desconto em multas e juros.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: yes (0.87), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#block-redessociaiscabecalho-2 > div > div > ul > li:nth-of-type(5) > a",
+   "message": "The link text \"Ilustração fofinha de sol com olhinhos pretos e bracinhos magrelos, dando um abraço em si mesma Sol\" does not match where the link leads: a page titled \"Sol · A inteligência artificial da Central do Cidadão 156\".",
+   "evidence": "The model suggests: \"Sol - Inteligência Artificial\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#edit-field-link-servico-publico-alvo-value-cidadao",
+   "message": "The label \"Cidadão\" does not say what to enter.",
+   "evidence": "The model suggests: \"Tipo de cidadão\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#edit-field-link-servico-publico-alvo-value-empresas",
+   "message": "The label \"Empresas\" does not say what to enter.",
+   "evidence": "The model suggests: \"Selecione o tipo de empresa\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-views-block-cards-capa-portal-block-1 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > div > div:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-views-block-cards-capa-portal-block-1 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > div > div:nth-of-type(2) > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-views-block-cards-capa-portal-block-1 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > span > div > div:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-views-block-cards-capa-portal-block-1 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > span > div > div:nth-of-type(2) > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-views-block-cards-capa-portal-block-1 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(3) > div > span > div > div:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-views-block-cards-capa-portal-block-1 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(3) > div > span > div > div:nth-of-type(2) > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-views-block-cards-capa-portal-block-2 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > div > div:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-views-block-cards-capa-portal-block-2 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > div > div:nth-of-type(2) > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-views-block-cards-capa-portal-block-2 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > span > div > div:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-views-block-cards-capa-portal-block-2 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > span > div > div:nth-of-type(2) > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-views-block-cards-capa-portal-block-2 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(3) > div > span > div > div:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-views-block-cards-capa-portal-block-2 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(3) > div > span > div > div:nth-of-type(2) > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-views-block-cards-capa-portal-block-3 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > div > div:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-views-block-cards-capa-portal-block-3 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > div > div:nth-of-type(2) > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-views-block-cards-capa-portal-block-3 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > span > div > div:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-views-block-cards-capa-portal-block-3 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > span > div > div:nth-of-type(2) > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-views-block-cards-capa-portal-block-3 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(3) > div > span > div > div:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-views-block-cards-capa-portal-block-3 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(3) > div > span > div > div:nth-of-type(2) > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-rodapedosite > div > div > div:nth-of-type(2) > div:nth-of-type(1) > ul > li:nth-of-type(1) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-rodapedosite > div > div > div:nth-of-type(2) > div:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#block-rodapedosite > div > div > div:nth-of-type(2) > div:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#block-redessociaiscabecalho-2 > div > div > ul > li:nth-of-type(3) > a > img",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "156 Web",
+    "problem": "wrong_content",
+    "imageShows": "O logotipo do serviço 156 Web, apresentando o número 156 e dois balões de fala com um ponto de interrogação e um check.",
+    "suggestedAlt": "Logotipo 156 Web",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#block-views-block-servicos-block-1 > div > div > div > div:nth-of-type(3) > div > div > div:nth-of-type(6) > a > img",
+   "reason": "the alternative's words are all in the text next to the image",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Ícone do Procon",
+    "problem": "wrong_content",
+    "imageShows": "Um ícone circular contendo o desenho de dois braços se cumprimentando.",
+    "suggestedAlt": "Símbolo de aperto de mãos",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#block-views-block-servicos-block-1 > div > div > div > div:nth-of-type(3) > div > div > div:nth-of-type(8) > a > img",
+   "reason": "the alternative's words are all in the text next to the image",
+   "output": {
+    "verdict": "fail",
+    "evidence": "ícone de Turismo e Eventos",
+    "problem": "wrong_content",
+    "imageShows": "Um ícone de um avião azul em um círculo branco.",
+    "suggestedAlt": "Turismo e Eventos",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#block-views-block-cards-capa-portal-block-2 > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(3) > div > span > div > div:nth-of-type(1) > img",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Calçadas de Porto Alegre",
+    "problem": "wrong_content",
+    "imageShows": "Um banner com o texto 'Manual de CALÇADAS DE PORTO ALEGRE' sobre um fundo azul-petróleo com ilustrações.",
+    "suggestedAlt": "Manual de Calçadas de Porto Alegre",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#block-views-block-banner-capa-portal-block-1 > div > div > div > div > div > div > picture > img",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "A cartoon sun character holding a bowl of chimarrão against a blue background with text.",
+    "textInImage": "Conheça a Sol, a inteligência artificial da Central do Cidadão 156! Atendimento mais ágil e prático para os porto-alegrenses.",
+    "verdict": "fail",
+    "evidence": "Conheça a Sol, a inteligência artificial da Central do Cidadão 156!",
+    "suggestedAlt": "Conheça a Sol, a inteligência artificial da Central do Cidadão 156! Atendimento mais ágil e prático para os porto-alegrenses.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#block-mainnavigation > ul > li:nth-of-type(3) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Órgãos' (Organs/Bodies) in a main navigation menu suggests a page listing government bodies or departments.",
+    "leadsTo": "/secretarias (Secretariats)",
+    "verdict": "fail",
+    "evidence": "Órgãos",
+    "problem": "mismatch",
+    "suggestedText": "Secretarias",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#block-mainnavigation-menu",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Main navigation",
+    "verdict": "fail",
+    "evidence": "M…",
+    "problem": "generic",
+    "suggestedText": "Navegação principal",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 15,
+   "judged": 15,
+   "failed": 1,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 5,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2,
+   "unconfirmed": 2,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 49,
+   "judged": 49,
+   "failed": 0,
+   "passed": 47,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 20,
+   "judged": 20,
+   "failed": 0,
+   "passed": 17,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "6 image(s) were left without a capture, so no judgment looked at them: 6 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 93,
+  "cachedCalls": 0,
+  "inputTokens": 79176,
+  "outputTokens": 8689,
+  "latencyMs": 266428
+ },
+ "timings": {
+  "totalMs": 137477,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 15
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 27994,
+    "prepareMs": 0,
+    "candidates": 15,
+    "judged": 15,
+    "calls": 24,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 83380,
+    "prepareMs": 0,
+    "candidates": 49,
+    "judged": 49,
+    "calls": 49,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 25886,
+    "prepareMs": 0,
+    "candidates": 20,
+    "judged": 20,
+    "calls": 20,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 171,
+    "prepareMs": 168,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 6,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 22
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 25,
+   "notCaptured": 6,
+   "reasons": {
+    "limit": 6
+   }
+  }
+ },
+ "coverage": {
+  "reach": null,
+  "fast": null
+ }
+}

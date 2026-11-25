@@ -1,0 +1,970 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://neofeed.com.br/economia/fatura-da-revolucao-das-baterias-pode-chegar-pela-conta-de-luz/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "79d9d2725e41",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(2) > session > div > article > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > ul > li:nth-of-type(5) > a > img",
+   "message": "The text alternative \"mail icone\" is all its link holds, and does not say where the link leads.",
+   "evidence": "mail icone",
+   "subject": "mail icone",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "html > body > div:nth-of-type(2) > session > div > article > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > ul > li:nth-of-type(5) > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "mail icone",
+    "to": "Enviar por e-mail",
+    "before": "<img width=\"31\" height=\"31\" src=\"https://neofeed.com.br/wp-content/themes/wp_neofeed/assets/img/single/mail.svg\" alt=\"mail icone\">",
+    "after": "<img width=\"31\" height=\"31\" src=\"https://neofeed.com.br/wp-content/themes/wp_neofeed/assets/img/single/mail.svg\" alt=\"Enviar por e-mail\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999537076993652
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "55a00dea3044",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#mc4wp-form-1 > div:nth-of-type(1) > div > div:nth-of-type(1) > p:nth-of-type(2) > input",
+   "message": "The field \"Seu melhor e-mail\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "Seu melhor e-mail",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#mc4wp-form-1 > div:nth-of-type(1) > div > div:nth-of-type(1) > p:nth-of-type(2) > input",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input type=\"email\" name=\"EMAIL\" placeholder=\"Seu melhor e-mail\" class=\"email-news\" required=\"\">",
+    "after": "<input type=\"email\" name=\"EMAIL\" placeholder=\"Seu melhor e-mail\" class=\"email-news\" required=\"\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 47
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > article > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > p > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "d26b5f1b6dea"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > article > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > p > span > m",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "abdf3ce7626b"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(2) > p:nth-of-type(1) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "8fb60b85a1fd"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(2) > p:nth-of-type(3) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "f48f9aa2307e"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(2) > p:nth-of-type(7) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "08782f9f07af"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(2) > p:nth-of-type(10) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "389626e5a454"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(2) > p:nth-of-type(16) > a > em",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "c5d602e02fa1"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(2) > p:nth-of-type(17) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "920d8f07b9f9"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(2) > p:nth-of-type(19) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "7c0378c3b6e4"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(3) > ul > li:nth-of-type(2) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "e1087950ca19"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(3) > ul > li:nth-of-type(3) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "df71c25791c3"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(3) > ul > li:nth-of-type(4) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "e8610817019e"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(3) > ul > li:nth-of-type(5) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "ea769ef5437e"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(3) > ul > li:nth-of-type(6) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "fbb57ab9e89e"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#mc4wp-form-1 > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > label",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "f4c7a77ed386"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#mc4wp-form-1 > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > label > a:nth-of-type(1)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "50c914b6f072"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#mc4wp-form-1 > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > label > a:nth-of-type(2)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "1ac7860703eb"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(6) > div:nth-of-type(1) > article:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "67a846785d2e"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(6) > div:nth-of-type(1) > article:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "e8735f9700d8"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(6) > div:nth-of-type(1) > article:nth-of-type(3) > div > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "177af65bc22e"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(6) > div:nth-of-type(1) > article:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "052da5a438ab"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(6) > div:nth-of-type(1) > article:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "230df63a8353"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(6) > div:nth-of-type(2) > article:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "56a164d47379"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(6) > div:nth-of-type(2) > article:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "499a7856f66f"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(6) > div:nth-of-type(2) > article:nth-of-type(3) > div > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "62f0c828f8c9"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(6) > div:nth-of-type(2) > article:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "3cd3959739ce"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(6) > div:nth-of-type(2) > article:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "31ac17c5704e"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(8) > div > article:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "20eae127ff2f"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(8) > div > article:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "47f812556cef"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(8) > div > article:nth-of-type(3) > div > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "dae7ff1ddcd4"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(8) > div > article:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "5cfe804de66a"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(8) > div > article:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(1) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "806ea38f2c08"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#cookie-banner-title",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "0823403d804f"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#cookie-banner > div > div:nth-of-type(1) > div:nth-of-type(1) > div > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "f61c0cb7d042"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#cookie-banner > div > div:nth-of-type(1) > div:nth-of-type(2) > span > a:nth-of-type(1)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "02012586b841"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#cookie-banner > div > div:nth-of-type(1) > div:nth-of-type(2) > span > a:nth-of-type(2)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "e9f1eda9b2fb"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#cookie-banner > div > div:nth-of-type(1) > div:nth-of-type(2) > span > a:nth-of-type(3)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "276b47cbdcab"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#adopt-accept-all-button",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "17df29ba0ce6"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#google_ads_iframe_\\/21833549674\\/economia_superbanner_topo_0 |> #aw0",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "0163bd50d16b"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "b45e4f7a5f0f"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(2) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "df7b13e14836"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(3) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "fc92444d76fb"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(4) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "5fafc093fd9c"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(5) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "fa82dbef8808"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(8) > div > article:nth-of-type(1) > div > div:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "7c92fac291f9"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#google_ads_iframe_\\/21833549674\\/economia_superbanner_footer_0 |> #aw0",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "420d4975b328"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#mc4wp-form-1 > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > input",
+    "ruleId": "label",
+    "confidence": "high",
+    "fingerprint": "b1553f4776df"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 38,
+   "members": [
+    "d26b5f1b6dea",
+    "abdf3ce7626b",
+    "8fb60b85a1fd",
+    "f48f9aa2307e",
+    "08782f9f07af",
+    "389626e5a454",
+    "c5d602e02fa1",
+    "920d8f07b9f9",
+    "7c0378c3b6e4",
+    "e1087950ca19",
+    "df71c25791c3",
+    "e8610817019e",
+    "ea769ef5437e",
+    "fbb57ab9e89e",
+    "f4c7a77ed386",
+    "50c914b6f072",
+    "1ac7860703eb",
+    "67a846785d2e",
+    "e8735f9700d8",
+    "177af65bc22e",
+    "052da5a438ab",
+    "230df63a8353",
+    "56a164d47379",
+    "499a7856f66f",
+    "62f0c828f8c9",
+    "3cd3959739ce",
+    "31ac17c5704e",
+    "20eae127ff2f",
+    "47f812556cef",
+    "dae7ff1ddcd4",
+    "5cfe804de66a",
+    "806ea38f2c08",
+    "0823403d804f",
+    "f61c0cb7d042",
+    "02012586b841",
+    "e9f1eda9b2fb",
+    "276b47cbdcab",
+    "17df29ba0ce6"
+   ],
+   "example": "d26b5f1b6dea"
+  },
+  {
+   "id": "g-b3cc505a410d",
+   "list": "findings",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "engine",
+   "check": "link-name",
+   "count": 8,
+   "members": [
+    "0163bd50d16b",
+    "b45e4f7a5f0f",
+    "df7b13e14836",
+    "fc92444d76fb",
+    "5fafc093fd9c",
+    "fa82dbef8808",
+    "7c92fac291f9",
+    "420d4975b328"
+   ],
+   "example": "0163bd50d16b"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#btnOpenNav",
+   "message": "The text alternative \"icon toggle\" names a label, not what the image conveys here.",
+   "evidence": "The model suggests: \"Abrir menu\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: yes (0.76), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#toggleSearch",
+   "message": "The text alternative \"icon search\" names a label, not what the image conveys here.",
+   "evidence": "The model suggests: \"Pesquisar\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.01), claim: no (0.00), reversed: yes (0.01))",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.2.2",
+   "ref": "#dm-player-script > div > iframe |> #video",
+   "source": null,
+   "ruleId": "video-caption"
+  },
+  {
+   "criterion": "1.2.2",
+   "ref": "#dm-player-script > div > iframe |> .ima_slot_video",
+   "source": null,
+   "ruleId": "video-caption"
+  },
+  {
+   "criterion": "1.4.1",
+   "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(2) > p:nth-of-type(16) > a",
+   "source": null,
+   "ruleId": "link-in-text-block"
+  },
+  {
+   "criterion": "1.4.1",
+   "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(6) > div:nth-of-type(2) > p > span > a",
+   "source": null,
+   "ruleId": "link-in-text-block"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(2) > p:nth-of-type(16) > div > h2 > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(2) > p:nth-of-type(16) > div > article:nth-of-type(1) > div > a > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(2) > p:nth-of-type(16) > div > article:nth-of-type(2) > div > a > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(2) > p:nth-of-type(16) > div > article:nth-of-type(3) > div > a > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(3) > ul > li:nth-of-type(1) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#mc4wp-form-1 > div:nth-of-type(1) > div > div:nth-of-type(1) > p:nth-of-type(2) > input",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(8) > div > article:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > a > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(8) > div > article:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(2) > a > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(8) > div > article:nth-of-type(3) > div > div:nth-of-type(2) > div:nth-of-type(2) > a > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(8) > div > article:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(2) > a > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > session > div > div:nth-of-type(8) > div > article:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(2) > a > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#\\:0\\.targetLanguage > span > a > span:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#dm-player-script > div > iframe |> #goog_1622425862 |> .videoAdUiPreSkipText",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#dm-player-script > div > iframe |> .ad_timer",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#dm-player-script > div > iframe |> .ad_label",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > footer > div > div > div:nth-of-type(1) > div:nth-of-type(1) > div > a > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#cookie-banner-comov2",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#google_ads_iframe_\\/21833549674\\/economia_superbanner_topo_0",
+   "source": null,
+   "ruleId": "frame-title-unique"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#google_ads_iframe_\\/21833549674\\/economia_superbanner_footer_0",
+   "source": null,
+   "ruleId": "frame-title-unique"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > session > div > article > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > ul > li:nth-of-type(1) > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "whatsapp icone",
+    "problem": "missing_information",
+    "imageShows": "O ícone do WhatsApp em tons de cinza.",
+    "suggestedAlt": "Compartilhar no WhatsApp",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > session > div > article > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > ul > li:nth-of-type(2) > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "linkedin icone",
+    "problem": "missing_information",
+    "imageShows": "O logotipo do LinkedIn dentro de um círculo.",
+    "suggestedAlt": "Compartilhar no LinkedIn",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > session > div > article > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > ul > li:nth-of-type(3) > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Facebook icone",
+    "problem": "missing_information",
+    "imageShows": "O logotipo do Facebook dentro de um círculo.",
+    "suggestedAlt": "Compartilhar no Facebook",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > session > div > article > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > ul > li:nth-of-type(4) > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "X icone",
+    "problem": "missing_information",
+    "imageShows": "O logotipo da rede social X (antigo Twitter) dentro de um círculo.",
+    "suggestedAlt": "Compartilhar no X",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#gt-wrapper-50649514 > div > div > div:nth-of-type(1) > div > img",
+   "reason": "the alternative names the language of the language link it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "pt",
+    "problem": "wrong_content",
+    "imageShows": "A bandeira do Brasil em formato de botão.",
+    "suggestedAlt": "Português (Brasil)",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 14,
+   "judged": 10,
+   "failed": 1,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 5,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 4,
+   "suggested": 2,
+   "unconfirmed": 2,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 1,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 96,
+   "judged": 10,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 86
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 8,
+   "judged": 8,
+   "failed": 0,
+   "passed": 8,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "batched": {
+    "candidates": 8,
+    "calls": 2
+   }
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "2 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #dm-player-script > div > iframe (https://geo.dailymotion.com/player/x1kmy6.html?video=xbz9r8m&autoplay=true&mute=true&width=100%25&height=100%25), #dm-player-script > div > iframe |> html > body > main:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > div > iframe:nth-child(3).",
+  "19 image(s) were left without a capture, so no judgment looked at them: 19 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 4 of 14 for 1.1.1, 86 of 96 for 2.4.4. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (8 in 2 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 35,
+  "cachedCalls": 0,
+  "inputTokens": 28371,
+  "outputTokens": 2933,
+  "latencyMs": 84435
+ },
+ "timings": {
+  "totalMs": 49474,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 20
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 18407,
+    "prepareMs": 0,
+    "candidates": 14,
+    "judged": 10,
+    "calls": 19,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 3908,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 3,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1389,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 16810,
+    "prepareMs": 0,
+    "candidates": 96,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 8688,
+    "prepareMs": 0,
+    "candidates": 8,
+    "judged": 8,
+    "calls": 2,
+    "cachedCalls": 0,
+    "batches": 2
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 184,
+    "prepareMs": 181,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 32,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 35
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 1000,
+  "images": {
+   "captured": 16,
+   "notCaptured": 19,
+   "reasons": {
+    "limit": 19
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "1.1.1",
+    "candidates": 14,
+    "capped": 4
+   },
+   {
+    "criterion": "2.4.4",
+    "candidates": 96,
+    "capped": 86
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#dm-player-script > div > iframe",
+     "url": "https://geo.dailymotion.com/player/x1kmy6.html?video=xbz9r8m&autoplay=true&mute=true&width=100%25&height=100%25",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "#dm-player-script > div > iframe |> html > body > main:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > div > iframe:nth-child(3)",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  },
+  "fast": {
+   "skipped": [
+    "probes",
+    "link-following",
+    "ocr"
+   ],
+   "maxCandidates": 10
+  }
+ }
+}

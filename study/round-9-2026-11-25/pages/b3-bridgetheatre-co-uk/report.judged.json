@@ -1,0 +1,378 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://www.bridgetheatre.co.uk/en-GB/contact-us",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "fa557402aefb",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#TICKET\\.enquiry_phone_number-8e7ebab9-97b5-4042-aed8-e70cc293da5f",
+   "message": "The field \"Enquiry Phone Number*\" asks for the user's telephone number but does not identify that purpose: autocomplete=\"tel\" is missing.",
+   "evidence": "Enquiry Phone Number*",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#TICKET\\.enquiry_phone_number-8e7ebab9-97b5-4042-aed8-e70cc293da5f",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "tel",
+    "before": "<input id=\"TICKET.enquiry_phone_number-8e7ebab9-97b5-4042-aed8-e70cc293da5f\" name=\"TICKET.enquiry_phone_number\" required=\"\" placeholder=\"\" type=\"text\" class=\"hs-input\" inputmode=\"text\" value=\"\">",
+    "after": "<input id=\"TICKET.enquiry_phone_number-8e7ebab9-97b5-4042-aed8-e70cc293da5f\" name=\"TICKET.enquiry_phone_number\" required=\"\" placeholder=\"\" type=\"text\" class=\"hs-input\" inputmode=\"text\" value=\"\" autocomplete=\"tel\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "c59839dac99b",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#radix-_R_d9eqbtb_",
+   "message": "The field \"Email address\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "Email address",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#radix-_R_d9eqbtb_",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input type=\"email\" placeholder=\"name@example.com\" class=\"flex w-full bg-white disabled:cursor-not-allowed disabled:bg-gray-50 disabled:opacity-50 placeholder:text-gray-500 py-2 font-metropolis text-md text-gray-900 font-normal px-sm border-emerald-green-500/25 rounded-sm border shadow-xs focus:border-midnight-blue-200 focus:ring-midnight-blue-200 focus:text-gray-900 focus:ring-1 focus:outline-none focus:shadow-input-focus\" title=\"\" required=\"\" id=\"radix-_R_d9eqbtb_\" name=\"email\" value=\"\">",
+    "after": "<input type=\"email\" placeholder=\"name@example.com\" class=\"flex w-full bg-white disabled:cursor-not-allowed disabled:bg-gray-50 disabled:opacity-50 placeholder:text-gray-500 py-2 font-metropolis text-md text-gray-900 font-normal px-sm border-emerald-green-500/25 rounded-sm border shadow-xs focus:border-midnight-blue-200 focus:ring-midnight-blue-200 focus:text-gray-900 focus:ring-1 focus:outline-none focus:shadow-input-focus\" title=\"\" required=\"\" id=\"radix-_R_d9eqbtb_\" name=\"email\" value=\"\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 1
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.4.3",
+    "ref": "#onetrust-reject-all-handler",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "c82c7ef451a3"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": null,
+ "needsReview": [],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > footer > div > div:nth-of-type(2) > nav > a:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > footer > div > div:nth-of-type(2) > nav > a:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > footer > div > div:nth-of-type(2) > nav > a:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > footer > div > div:nth-of-type(2) > nav > a:nth-of-type(4)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > footer > div > div:nth-of-type(3) > div:nth-of-type(1) > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#onetrust-pc-btn-handler",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#onetrust-banner-sdk",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#header-navigation > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > a > img",
+   "reason": "suggested alternative only rewords the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Logo: Bridge Theatre - black",
+    "problem": "wrong_content",
+    "imageShows": "The Bridge Theatre logo in black text on a grey background.",
+    "suggestedAlt": "Bridge Theatre",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > div:nth-of-type(2) > footer > div > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(4) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Our Venues' suggests it leads to a page listing the venues available for booking or events.",
+    "leadsTo": "https://trafalgartickets.com/ (The homepage)",
+    "verdict": "fail",
+    "evidence": "Our Venues",
+    "problem": "mismatch",
+    "suggestedText": "Trafalgar Tickets Homepage",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 9,
+   "judged": 9,
+   "failed": 2,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 30,
+   "judged": 30,
+   "failed": 0,
+   "passed": 29,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 18,
+   "judged": 18,
+   "failed": 0,
+   "passed": 18,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "A layer lay over the viewport when the page was read (div, on top at 89% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 60,
+  "cachedCalls": 0,
+  "inputTokens": 55272,
+  "outputTokens": 4459,
+  "latencyMs": 150774
+ },
+ "timings": {
+  "totalMs": 78729,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 16
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 2789,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 10200,
+    "prepareMs": 0,
+    "candidates": 9,
+    "judged": 9,
+    "calls": 9,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1217,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 44009,
+    "prepareMs": 0,
+    "candidates": 30,
+    "judged": 30,
+    "calls": 30,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 20287,
+    "prepareMs": 0,
+    "candidates": 18,
+    "judged": 18,
+    "calls": 18,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 179,
+    "prepareMs": 177,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 5,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 26
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "overlay": {
+   "selector": "div",
+   "coverage": 0.89,
+   "hidden": true
+  },
+  "images": {
+   "captured": 6,
+   "notCaptured": 0,
+   "reasons": {}
+  }
+ },
+ "coverage": {
+  "reach": {
+   "overlay": {
+    "ref": "#onetrust-consent-sdk > div:nth-of-type(1)",
+    "selector": "div",
+    "coverage": 0.89,
+    "hidden": true
+   }
+  },
+  "fast": null
+ }
+}

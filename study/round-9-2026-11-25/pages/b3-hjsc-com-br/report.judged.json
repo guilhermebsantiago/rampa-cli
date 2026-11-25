@@ -1,0 +1,1295 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://hjsc.com.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "1e815234a5fe",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#post-6 > div > div > section:nth-of-type(11) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > figure > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"A bicycle icon with the letter 'E' repeated.\".",
+   "evidence": "A bicycle icon with the letter 'E' repeated.",
+   "subject": "hidden Icone_Oftalmologia_Site.svg",
+   "patch": {
+    "ref": "#post-6 > div > div > section:nth-of-type(11) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > figure > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Ícone de bicicleta com a letra E repetida.",
+    "before": "<img loading=\"lazy\" decoding=\"async\" width=\"81\" height=\"96\" src=\"https://hjsc.com.br/wp-content/uploads/2022/01/Icone_Oftalmologia_Site.svg\" class=\"attachment-full size-full wp-image-10184\" alt=\"\">",
+    "after": "<img loading=\"lazy\" decoding=\"async\" width=\"81\" height=\"96\" src=\"https://hjsc.com.br/wp-content/uploads/2022/01/Icone_Oftalmologia_Site.svg\" class=\"attachment-full size-full wp-image-10184\" alt=\"Ícone de bicicleta com a letra E repetida.\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "89e2a466d6c3",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#menu-item-3809 > a",
+   "target": "#menu-item-3809 > a",
+   "message": "The text \"日本語\" has at most 2.99:1 contrast with what is behind it (#ffffff on #3caf70…#3aa86e), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #3baa6f; #3caf70…#3aa86e · 2.99:1 at best, 2.78:1 at worst · 16px, 500",
+   "subject": "日本語",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://hjsc.com.br/japones/\" class=\"menu-link\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "826639ff618f",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#menu-item-1657 > a",
+   "target": "#menu-item-1657 > a",
+   "message": "The text \"COVID-19\" has at most 2.70:1 contrast with what is behind it (#ffffff on #3cb371…#3bb270), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #3cb371; #3cb371…#3bb270 · 2.70:1 at best, 2.67:1 at worst · 16px, 500",
+   "subject": "COVID-19",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://hjsc.com.br/covid-19/\" class=\"menu-link\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "82a0d6e4cb75",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#menu-item-1658 > a",
+   "target": "#menu-item-1658 > a",
+   "message": "The text \"Pesquisa e Ensino\" has at most 2.70:1 contrast with what is behind it (#ffffff on #3cb371…#3bb270), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #3cb371; #3cb371…#3bb270 · 2.70:1 at best, 2.67:1 at worst · 16px, 500",
+   "subject": "Pesquisa e Ensino",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://hjsc.com.br/pesquisa-e-ensino/\" class=\"menu-link\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "eed3dee113a8",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#menu-item-4854 > a",
+   "target": "#menu-item-4854 > a",
+   "message": "The text \"Notícias\" has at most 2.70:1 contrast with what is behind it (#ffffff on #3cb371…#3bb270), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #3cb371; #3cb371…#3bb270 · 2.70:1 at best, 2.67:1 at worst · 16px, 500",
+   "subject": "Notícias",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://hjsc.com.br/noticias/\" class=\"menu-link\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "74f3e5aaf234",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#ast-desktop-header > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > div > div > p > span > b > span",
+   "target": "#ast-desktop-header > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > div > div > p > span > b > span",
+   "message": "The text \"(11) 5080-2000\" has at most 2.70:1 contrast with what is behind it (#ffffff on #3cb371…#3bb270), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #3cb371; #3cb371…#3bb270 · 2.70:1 at best, 2.67:1 at worst · 14.7px, 700",
+   "subject": "(11) 5080-2000",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<span>",
+   "experimental": true
+  },
+  {
+   "fingerprint": "b891b581941b",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#ast-desktop-header > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > a:nth-of-type(1)",
+   "target": "#ast-desktop-header > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > a:nth-of-type(1)",
+   "message": "The icon of this link (\"Facebook\") has at most 2.70:1 contrast with the pixels next to it (#ffffff on #3cb371…#3bb270). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#ffffff on #3cb371; #3cb371…#3bb270 · 2.70:1 at best, 2.67:1 at worst",
+   "subject": "Facebook",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<a href=\"https://www.facebook.com/hospitaljsc/\" aria-label=\"Facebook\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"--color: #557dbc; --background-color: transparent;\" class=\"ast-builder-social-element ast-inline-flex ast-facebook header-social-item\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "cadfef2fb9d0",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#ast-desktop-header > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > a:nth-of-type(2)",
+   "target": "#ast-desktop-header > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > a:nth-of-type(2)",
+   "message": "The icon of this link (\"Instagram\") has at most 2.70:1 contrast with the pixels next to it (#ffffff on #3cb371…#3bb270). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#ffffff on #3cb371; #3cb371…#3bb270 · 2.70:1 at best, 2.67:1 at worst",
+   "subject": "Instagram",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<a href=\"https://www.instagram.com/hospitaljsc/\" aria-label=\"Instagram\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"--color: #8a3ab9; --background-color: transparent;\" class=\"ast-builder-social-element ast-inline-flex ast-instagram header-social-item\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "6df70a99e47a",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#ast-desktop-header > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > a:nth-of-type(3)",
+   "target": "#ast-desktop-header > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > a:nth-of-type(3)",
+   "message": "The icon of this link (\"LinkedIn\") has at most 2.70:1 contrast with the pixels next to it (#ffffff on #3cb371…#3bb270). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#ffffff on #3cb371; #3cb371…#3bb270 · 2.70:1 at best, 2.67:1 at worst",
+   "subject": "LinkedIn",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<a href=\"https://br.linkedin.com/company/hospital-japones-santa-cruz\" aria-label=\"LinkedIn\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"--color: #d77ea6; --background-color: transparent;\" class=\"ast-builder-social-element ast-inline-flex ast-dribbble header-social-item\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "b3f69c191e0b",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#ast-desktop-header > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > a:nth-of-type(4)",
+   "target": "#ast-desktop-header > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > a:nth-of-type(4)",
+   "message": "The icon of this link (\"Youtube\") has at most 2.70:1 contrast with the pixels next to it (#ffffff on #3cb371…#3bb270). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#ffffff on #3cb371; #3cb371…#3bb270 · 2.70:1 at best, 2.67:1 at worst",
+   "subject": "Youtube",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<a href=\"https://www.youtube.com/channel/UCdL2rw-s60gLb5nxkuqdjBQ\" aria-label=\"Youtube\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"--color: #1B64F6; --background-color: transparent;\" class=\"ast-builder-social-element ast-inline-flex ast-behance header-social-item\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "2d4f84425d59",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#ast-desktop-header > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(4) > div > a",
+   "target": "#ast-desktop-header > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(4) > div > a",
+   "message": "The icon of this link (\"Link do ícone da conta\") has at most 2.69:1 contrast with the pixels next to it (#ffffff on #3cb371…#3cb270). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#ffffff on #3cb371; #3cb371…#3cb270 · 2.69:1 at best, 2.67:1 at worst",
+   "subject": "Link do ícone da conta",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<a class=\"ast-header-account-link ast-account-action-link ast-header-account-type-icon\" aria-label=\"Link do ícone da conta\" href=\"#\" target=\"_self\" rel=\"# nofollow\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "c08d26afa8ef",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#post-6 > div > div > section:nth-of-type(1) > div > div > div > div > div > div > div > div:nth-of-type(2)",
+   "target": "#post-6 > div > div > section:nth-of-type(1) > div > div > div > div > div > div > div > div:nth-of-type(2)",
+   "message": "The icon of this button (\"Previous slide\") has at most 1.15:1 contrast with the pixels next to it (#ededede6 on #ffffff). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#ededede6 on #ffffff · 1.15:1 at best, 1.15:1 at worst",
+   "subject": "Previous slide",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<div class=\"elementor-swiper-button elementor-swiper-button-prev\" role=\"button\" aria-label=\"Previous slide\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "cdbdbf6d59ac",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#post-6 > div > div > section:nth-of-type(1) > div > div > div > div > div > div > div > div:nth-of-type(3)",
+   "target": "#post-6 > div > div > section:nth-of-type(1) > div > div > div > div > div > div > div > div:nth-of-type(3)",
+   "message": "The icon of this button (\"Next slide\") has at most 2.20:1 contrast with the pixels next to it (#ededede6 on #ece4e2…#a89896). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#ededede6 on #beabaf; #ece4e2…#a89896 · 2.20:1 at best, 1.06:1 at worst",
+   "subject": "Next slide",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<div class=\"elementor-swiper-button elementor-swiper-button-next\" role=\"button\" aria-label=\"Next slide\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "a2d80e27c6d5",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#post-6 > div > div > section:nth-of-type(12) > div > div > div > div:nth-of-type(1) > div > div > div > div:nth-of-type(2)",
+   "target": "#post-6 > div > div > section:nth-of-type(12) > div > div > div > div:nth-of-type(1) > div > div > div > div:nth-of-type(2)",
+   "message": "The icon of this button (\"Previous slide\") has at most 1.70:1 contrast with the pixels next to it (#ededede6 on #e7d2b5…#c2b195). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#ededede6 on #e7d2b5; #e7d2b5…#c2b195 · 1.70:1 at best, 1.23:1 at worst",
+   "subject": "Previous slide",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<div class=\"elementor-swiper-button elementor-swiper-button-prev\" role=\"button\" aria-label=\"Previous slide\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "08b544327d58",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#menu-item-3809 > a",
+   "target": "#menu-item-3809 > a",
+   "message": "\"日本語\" is in Japanese, but it inherits the page's language (pt-BR): a screen reader mispronounces the language's name. Add lang=\"ja\" to the link.",
+   "evidence": "日本語",
+   "subject": "日本語",
+   "patch": {
+    "ref": "#menu-item-3809 > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "ja",
+    "before": "<a href=\"https://hjsc.com.br/japones/\" class=\"menu-link\">",
+    "after": "<a href=\"https://hjsc.com.br/japones/\" class=\"menu-link\" lang=\"ja\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"https://hjsc.com.br/japones/\" class=\"menu-link\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 70
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.1.1",
+    "ref": "#swiper-wrapper-7767dcbc437eb1bd > div:nth-of-type(1) > div:nth-of-type(1)",
+    "ruleId": "role-img-alt",
+    "confidence": "high",
+    "fingerprint": "f9d87a12ec63"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "#swiper-wrapper-7767dcbc437eb1bd > div:nth-of-type(2) > div:nth-of-type(1)",
+    "ruleId": "role-img-alt",
+    "confidence": "high",
+    "fingerprint": "95ec0a20a933"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "#swiper-wrapper-7767dcbc437eb1bd > div:nth-of-type(3) > div:nth-of-type(1)",
+    "ruleId": "role-img-alt",
+    "confidence": "high",
+    "fingerprint": "3c1795c2d93c"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "#swiper-wrapper-7767dcbc437eb1bd > div:nth-of-type(4) > div:nth-of-type(1)",
+    "ruleId": "role-img-alt",
+    "confidence": "high",
+    "fingerprint": "c2f54d26619d"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "#swiper-wrapper-7767dcbc437eb1bd > div:nth-of-type(5) > div:nth-of-type(1)",
+    "ruleId": "role-img-alt",
+    "confidence": "high",
+    "fingerprint": "6e316d388e4c"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "#swiper-wrapper-7767dcbc437eb1bd > div:nth-of-type(6) > div:nth-of-type(1)",
+    "ruleId": "role-img-alt",
+    "confidence": "high",
+    "fingerprint": "5a78a81d1f87"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "#swiper-wrapper-7767dcbc437eb1bd > div:nth-of-type(7) > div:nth-of-type(1)",
+    "ruleId": "role-img-alt",
+    "confidence": "high",
+    "fingerprint": "3a1562b378ff"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "#swiper-wrapper-7767dcbc437eb1bd > div:nth-of-type(8) > div:nth-of-type(1)",
+    "ruleId": "role-img-alt",
+    "confidence": "high",
+    "fingerprint": "15706ed9b267"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "#swiper-wrapper-7767dcbc437eb1bd > div:nth-of-type(9) > div:nth-of-type(1)",
+    "ruleId": "role-img-alt",
+    "confidence": "high",
+    "fingerprint": "0eb9071cb4f3"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "#swiper-wrapper-7767dcbc437eb1bd > div:nth-of-type(10) > div:nth-of-type(1)",
+    "ruleId": "role-img-alt",
+    "confidence": "high",
+    "fingerprint": "f6e9c6c17d9c"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "#swiper-wrapper-7767dcbc437eb1bd > div:nth-of-type(11) > div:nth-of-type(1)",
+    "ruleId": "role-img-alt",
+    "confidence": "high",
+    "fingerprint": "f6e332e4d983"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "#swiper-wrapper-7767dcbc437eb1bd > div:nth-of-type(12) > div:nth-of-type(1)",
+    "ruleId": "role-img-alt",
+    "confidence": "high",
+    "fingerprint": "9af0f9eb7841"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "#swiper-wrapper-80d1067ffc159f334 > div:nth-of-type(1) > div",
+    "ruleId": "role-img-alt",
+    "confidence": "high",
+    "fingerprint": "5df43458a809"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "#swiper-wrapper-80d1067ffc159f334 > div:nth-of-type(2) > div",
+    "ruleId": "role-img-alt",
+    "confidence": "high",
+    "fingerprint": "747396383875"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "#swiper-wrapper-80d1067ffc159f334 > div:nth-of-type(3) > div",
+    "ruleId": "role-img-alt",
+    "confidence": "high",
+    "fingerprint": "10ab9e6e91b1"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "#swiper-wrapper-80d1067ffc159f334 > div:nth-of-type(4) > div",
+    "ruleId": "role-img-alt",
+    "confidence": "high",
+    "fingerprint": "0d344b977a4c"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "#swiper-wrapper-80d1067ffc159f334 > div:nth-of-type(5) > div",
+    "ruleId": "role-img-alt",
+    "confidence": "high",
+    "fingerprint": "73d15e48ded2"
+   },
+   {
+    "criterion": "1.1.1",
+    "ref": "#swiper-wrapper-80d1067ffc159f334 > div:nth-of-type(6) > div",
+    "ruleId": "role-img-alt",
+    "confidence": "high",
+    "fingerprint": "37b6718c18d0"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(4) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > h3",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "73483a5c40ad"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(4) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "b3963514a30a"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(6) > div > div > div > div > div > h2",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "2f098ee77a3b"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > h4 > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "d57454ccf3c1"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "8aae1183d0cf"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > a > span > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "38f1e6a53df0"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(7) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > h4 > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "395988ca2d43"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(7) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "b725a9cd92f0"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(7) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > a > span > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "0cdfb075da92"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(7) > div > div:nth-of-type(3) > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > h4 > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "6d31118fe8f9"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(7) > div > div:nth-of-type(3) > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "ac3592ed6e28"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(7) > div > div:nth-of-type(3) > div > div:nth-of-type(2) > div > div > a > span > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "54a6d50f0052"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#input-res > div",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "413d9d9f8a09"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(10) > div > div > div > div > div > h2",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "bd4d16b15f60"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(11) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div > div > h3",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "d61584adf23f"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(11) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div > div > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "f26e09bca288"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(11) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > a > span > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "364641e73fb7"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(11) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div > h3",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "0818b7824ecf"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(11) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "c7f7efdc4ca3"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(11) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > a > span > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "59b7fabda90b"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(11) > div > div:nth-of-type(3) > div > div:nth-of-type(1) > div > div > div > h3",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "891e5b8e33ce"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(11) > div > div:nth-of-type(3) > div > div:nth-of-type(1) > div > div > div > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "5e3ddea27ebe"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(11) > div > div:nth-of-type(3) > div > div:nth-of-type(2) > div > div > a > span > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "50eb5bec17ed"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(11) > div > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div > div > h3",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "0e0fcd42975b"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(11) > div > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div > div > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "46d17086d6a5"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(11) > div > div:nth-of-type(4) > div > div:nth-of-type(2) > div > div > a > span > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "f9dbf324f6c6"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(12) > div > div > div > div:nth-of-type(2) > div > h2 > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "662881da4cb6"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(13) > div > div > div > div > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "6a52589ad42e"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(13) > div > div > div > div > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(2) > a:nth-of-type(1)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "115c6dba72d8"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(13) > div > div > div > div > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(2) > a:nth-of-type(2)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "c41ee6ad8a3b"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(13) > div > div > div > div > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "bbcc69b21c05"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(13) > div > div > div > div > div > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "997f26754032"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(13) > div > div > div > div > div > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(2) > a:nth-of-type(1)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "8901c70afd77"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(13) > div > div > div > div > div > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(2) > a:nth-of-type(2)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "186be0410ad2"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(13) > div > div > div > div > div > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(2) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "cb513130fef0"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(13) > div > div > div > div > div > div > div:nth-of-type(3) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(1) > span",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "e9e5a764e6bc"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(13) > div > div > div > div > div > div > div:nth-of-type(3) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div:nth-of-type(2) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "4576c9485232"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#post-6 > div > div > section:nth-of-type(13) > div > div > div > div > div > div > div:nth-of-type(3) > div > div:nth-of-type(2) > div:nth-of-type(2) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "deea1b1c8e63"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > div:nth-of-type(2) > section:nth-of-type(4) > div > div:nth-of-type(1) > div > div > div > h2",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "94767b919bc7"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > div:nth-of-type(2) > section:nth-of-type(4) > div > div:nth-of-type(3) > div > div > div > h2",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "9ab5453f455a"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#cookie-law-info-bar > span > div",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "7d33a73853ef"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#CONSTANT_OPEN_URL",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "3b595d45da06"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#wt-cli-accept-all-btn",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "29ca4dbca563"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#swiper-wrapper-80d1067ffc159f334 > div:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "5a31489c9c4e"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#swiper-wrapper-80d1067ffc159f334 > div:nth-of-type(2) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "aaf1cda738a9"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#swiper-wrapper-80d1067ffc159f334 > div:nth-of-type(3) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "5188ec3bdb83"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#swiper-wrapper-80d1067ffc159f334 > div:nth-of-type(4) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "802517f3384a"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#swiper-wrapper-80d1067ffc159f334 > div:nth-of-type(5) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "f260ab027e62"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#swiper-wrapper-80d1067ffc159f334 > div:nth-of-type(6) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "8b025377af69"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#menu-item-2254 > a",
+    "ruleId": "aria-allowed-attr",
+    "confidence": "high",
+    "fingerprint": "a4cb145eedac"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#widget2 |> .ytmVideoInfoVideoTitle",
+    "ruleId": "aria-allowed-attr",
+    "confidence": "high",
+    "fingerprint": "ce5749180611"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#widget2 |> #movie_player",
+    "ruleId": "aria-prohibited-attr",
+    "confidence": "high",
+    "fingerprint": "495f020386dd"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": [
+  {
+   "id": "g-a7da8d24b59b",
+   "list": "findings",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "engine",
+   "check": "role-img-alt",
+   "count": 18,
+   "members": [
+    "f9d87a12ec63",
+    "95ec0a20a933",
+    "3c1795c2d93c",
+    "c2f54d26619d",
+    "6e316d388e4c",
+    "5a78a81d1f87",
+    "3a1562b378ff",
+    "15706ed9b267",
+    "0eb9071cb4f3",
+    "f6e9c6c17d9c",
+    "f6e332e4d983",
+    "9af0f9eb7841",
+    "5df43458a809",
+    "747396383875",
+    "10ab9e6e91b1",
+    "0d344b977a4c",
+    "73d15e48ded2",
+    "37b6718c18d0"
+   ],
+   "example": "f9d87a12ec63"
+  },
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 43,
+   "members": [
+    "73483a5c40ad",
+    "b3963514a30a",
+    "2f098ee77a3b",
+    "d57454ccf3c1",
+    "8aae1183d0cf",
+    "38f1e6a53df0",
+    "395988ca2d43",
+    "b725a9cd92f0",
+    "0cdfb075da92",
+    "6d31118fe8f9",
+    "ac3592ed6e28",
+    "54a6d50f0052",
+    "413d9d9f8a09",
+    "bd4d16b15f60",
+    "d61584adf23f",
+    "f26e09bca288",
+    "364641e73fb7",
+    "0818b7824ecf",
+    "c7f7efdc4ca3",
+    "59b7fabda90b",
+    "891e5b8e33ce",
+    "5e3ddea27ebe",
+    "50eb5bec17ed",
+    "0e0fcd42975b",
+    "46d17086d6a5",
+    "f9dbf324f6c6",
+    "662881da4cb6",
+    "6a52589ad42e",
+    "115c6dba72d8",
+    "c41ee6ad8a3b",
+    "bbcc69b21c05",
+    "997f26754032",
+    "8901c70afd77",
+    "186be0410ad2",
+    "cb513130fef0",
+    "e9e5a764e6bc",
+    "4576c9485232",
+    "deea1b1c8e63",
+    "94767b919bc7",
+    "9ab5453f455a",
+    "7d33a73853ef",
+    "3b595d45da06",
+    "29ca4dbca563"
+   ],
+   "example": "73483a5c40ad"
+  },
+  {
+   "id": "g-4399caec13cf",
+   "list": "findings",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "check": "rampa/icon-contrast",
+   "count": 8,
+   "members": [
+    "b891b581941b",
+    "cadfef2fb9d0",
+    "6df70a99e47a",
+    "b3f69c191e0b",
+    "2d4f84425d59",
+    "c08d26afa8ef",
+    "cdbdbf6d59ac",
+    "a2d80e27c6d5"
+   ],
+   "example": "b891b581941b"
+  },
+  {
+   "id": "g-b3cc505a410d",
+   "list": "findings",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "engine",
+   "check": "link-name",
+   "count": 6,
+   "members": [
+    "5a31489c9c4e",
+    "aaf1cda738a9",
+    "5188ec3bdb83",
+    "802517f3384a",
+    "f260ab027e62",
+    "8b025377af69"
+   ],
+   "example": "5a31489c9c4e"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#ast-desktop-header > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(4) > div > a",
+   "message": "The link text \"Link do ícone da conta\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Minha Conta\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#post-6 > div > div > section:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > a",
+   "message": "The link text \"Clique aqui\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Consultar resultados de exames\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#post-6 > div > div > section:nth-of-type(7) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > a",
+   "message": "The link text \"Clique aqui\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Acesse o Pronto Atendimento\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#post-6 > div > div > section:nth-of-type(7) > div > div:nth-of-type(3) > div > div:nth-of-type(2) > div > div > a",
+   "message": "The link text \"Clique aqui\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Saiba mais sobre Internações\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#post-6 > div > div > section:nth-of-type(11) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > a",
+   "message": "The link text \"Clique aqui\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Saiba mais sobre o Centro de Hemodiálise do HJSC\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#post-6 > div > div > section:nth-of-type(11) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > a",
+   "message": "The link text \"Clique aqui\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Confira os horários de Oftalmologia\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#post-6 > div > div > section:nth-of-type(11) > div > div:nth-of-type(4) > div > div:nth-of-type(2) > div > div > a",
+   "message": "The link text \"Clique aqui\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Conheça o setor de Otorrinolaringologia do HJSC\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#post-6 > div > div > section:nth-of-type(13) > div > div > div > div > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > h2",
+   "message": "The heading \"A importância do diagnóstico precoce da Esclerose Múltipla\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"Esclerose Múltipla\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.11",
+   "ref": "#post-6 > div > div > section:nth-of-type(12) > div > div > div > div:nth-of-type(1) > div > div > div > div:nth-of-type(3)",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#ast-desktop-header > div:nth-of-type(1) > div > div > div > div:nth-of-type(1) > div > div > form > label > input",
+   "source": null,
+   "ruleId": "duplicate-id-aria"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#post-6 > div > div > section:nth-of-type(8) > div > div > div > section > div > div > div > div:nth-of-type(3) > div > img",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "A banner showing two healthcare professionals and the text 'PA - Geral Previsão Atendimento' with a timer.",
+    "textInImage": "PA - Geral Previsão Atendimento 00:00",
+    "verdict": "fail",
+    "evidence": "PA - Geral Previsão Atendimento 00:00",
+    "suggestedAlt": "PA - Geral: Previsão de Atendimento 00:00",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#post-6 > div > div > section:nth-of-type(11) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div > figure > img",
+   "reason": "the suggested alternative repeats the text around the image",
+   "output": {
+    "imageShows": "A green icon representing a hemodialysis machine or bag.",
+    "textInImage": "",
+    "verdict": "fail",
+    "evidence": "Icon representing Hemodiálise",
+    "suggestedAlt": "Ícone de Hemodiálise",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-item-2249 > a",
+   "reason": "evidence is not the link text",
+   "output": {
+    "promises": "The link text 'Hospital' in a navigation menu suggests it leads to a section or page about the hospital, or acts as a toggle for a submenu related to the hospital.",
+    "leadsTo": "#",
+    "verdict": "pass",
+    "evidence": "Hospital",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-item-2250 > a",
+   "reason": "evidence is not the link text",
+   "output": {
+    "promises": "The link text 'Pacientes' in a navigation menu suggests it leads to a section or page related to patients.",
+    "leadsTo": "#",
+    "verdict": "pass",
+    "evidence": "Pacientes",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#post-6 > div > div > section:nth-of-type(11) > div > div:nth-of-type(3) > div > div:nth-of-type(2) > div > div > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Clique aqui' (Click here) is generic. While the surrounding text mentions 'Ortopedia' and 'Pronto Atendimento Ortopédico', the link text itself does not describe the destination. Furthermore, there are 7 other links on the page with the same text leading to different places, making it ambiguous for screen reader users navigating by links.",
+    "leadsTo": "A page titled 'Ortopedia - Hospital Japonês Santa Cruz'",
+    "verdict": "fail",
+    "evidence": "Clique aqui",
+    "problem": "ambiguous",
+    "suggestedText": "Ortopedia - Hospital Japonês Santa Cruz",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 7,
+   "judged": 7,
+   "failed": 1,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 65,
+   "judged": 50,
+   "failed": 0,
+   "passed": 40,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 15,
+   "suggested": 7
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 19,
+   "judged": 19,
+   "failed": 0,
+   "passed": 18,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "2 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #widget2 (https://www.youtube.com/embed/_eQ51lqOKDw?controls=1&rel=0&playsinline=0&cc_load_policy=0&autoplay=0&enablejsapi=1&origin=https%3A%2F%2Fhjsc.com.br&widgetid=1&forigin=https%3A%2F%2Fhjsc.com.br%2F&aoriginsup=1&vf=1), html > body > div:nth-of-type(7) > div > div:nth-of-type(1) > iframe (https://www.google.com/recaptcha/api2/anchor?ar=1&k=6LekmiIqAAAAACOzZY6H-3CoR58dNGo-JnuJtCKt&co=aHR0cHM6Ly9oanNjLmNvbS5icjo0NDM.&hl=en&v=DqDoLJqJmjhqr0vRwNZ2MCHA&size=invisible&anchor-ms=20000&execute-ms=30000&ovv=CADq00gF&cb=mcttgeuhdzyf).",
+  "10 image(s) were left without a capture, so no judgment looked at them: 6 outside the page (an off-canvas menu); 4 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 15 of 65 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 76,
+  "cachedCalls": 0,
+  "inputTokens": 74750,
+  "outputTokens": 7430,
+  "latencyMs": 234434
+ },
+ "timings": {
+  "totalMs": 119709,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 24
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 11838,
+    "prepareMs": 0,
+    "candidates": 7,
+    "judged": 7,
+    "calls": 7,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 84027,
+    "prepareMs": 0,
+    "candidates": 65,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 23568,
+    "prepareMs": 0,
+    "candidates": 19,
+    "judged": 19,
+    "calls": 19,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 182,
+    "prepareMs": 179,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 11,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 54
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 19,
+   "notCaptured": 10,
+   "reasons": {
+    "outside-page": 6,
+    "limit": 4
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 65,
+    "capped": 15
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#widget2",
+     "url": "https://www.youtube.com/embed/_eQ51lqOKDw?controls=1&rel=0&playsinline=0&cc_load_policy=0&autoplay=0&enablejsapi=1&origin=https%3A%2F%2Fhjsc.com.br&widgetid=1&forigin=https%3A%2F%2Fhjsc.com.br%2F&aoriginsup=1&vf=1",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "html > body > div:nth-of-type(7) > div > div:nth-of-type(1) > iframe",
+     "url": "https://www.google.com/recaptcha/api2/anchor?ar=1&k=6LekmiIqAAAAACOzZY6H-3CoR58dNGo-JnuJtCKt&co=aHR0cHM6Ly9oanNjLmNvbS5icjo0NDM.&hl=en&v=DqDoLJqJmjhqr0vRwNZ2MCHA&size=invisible&anchor-ms=20000&execute-ms=30000&ovv=CADq00gF&cb=mcttgeuhdzyf",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  },
+  "fast": null
+ }
+}

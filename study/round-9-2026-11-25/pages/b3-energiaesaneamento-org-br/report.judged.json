@@ -1,0 +1,829 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://www.energiaesaneamento.org.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "8a752a3e2d58",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#apoio > div > div > div > div > figure > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Logos for Lei Rouanet, CTG Brasil, edp, Fundação Energia e Saneamento, and Ministério da Cultura.\".",
+   "evidence": "Logos for Lei Rouanet, CTG Brasil, edp, Fundação Energia e Saneamento, and Ministério da Cultura.",
+   "subject": "hidden reguas_01_2026-19-scaled.png",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "3632db9dd1b8",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#name",
+   "message": "The field \"NOME\" asks for the user's full name but does not identify that purpose: autocomplete=\"name\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "NOME",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#name",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "name",
+    "before": "<input class=\"form-control form-ll me-5\" id=\"name\" style=\"border:none;border-radius:0px;border-bottom:1px solid black;padding:5px;background:none\" name=\"name\" placeholder=\"NOME\" type=\"text\">",
+    "after": "<input class=\"form-control form-ll me-5\" id=\"name\" style=\"border:none;border-radius:0px;border-bottom:1px solid black;padding:5px;background:none\" name=\"name\" placeholder=\"NOME\" type=\"text\" autocomplete=\"name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "c00946fa036b",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#email",
+   "message": "The field \"E-MAIL\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "E-MAIL",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#email",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input class=\"form-control form-ll\" id=\"email\" style=\"border:none;border-radius:0px;border-bottom:1px solid black;padding:5px;background:none\" name=\"email\" placeholder=\"E-MAIL\" type=\"text\">",
+    "after": "<input class=\"form-control form-ll\" id=\"email\" style=\"border:none;border-radius:0px;border-bottom:1px solid black;padding:5px;background:none\" name=\"email\" placeholder=\"E-MAIL\" type=\"text\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "a89a798988a8",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#ultimas-noticias > div:nth-of-type(2) > div:nth-of-type(1) > a > span:nth-of-type(1)",
+   "target": "#ultimas-noticias > div:nth-of-type(2) > div:nth-of-type(1) > a > span:nth-of-type(1)",
+   "message": "The text \"Notícias\" has at most 1.75:1 contrast with what is behind it (#ffffff on #ffb700), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #ffb700 · 1.75:1 at best, 1.75:1 at worst · 16px, 300",
+   "subject": "Notícias",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<span class=\"tag\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "3298069d27a2",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#ultimas-noticias > div:nth-of-type(2) > div:nth-of-type(1) > a > h3",
+   "target": "#ultimas-noticias > div:nth-of-type(2) > div:nth-of-type(1) > a > h3",
+   "message": "The text \"Museu da Energia de São Paulo estará temporariamente fechad…\" has at most 4.17:1 contrast with what is behind it (#ffffff on #e24301), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #e24301 · 4.17:1 at best, 4.17:1 at worst · 16px, 300",
+   "subject": "Museu da Energia de São Paulo estará temporariamente fechado de 24/11 a 09/12",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<h3>",
+   "experimental": true
+  },
+  {
+   "fingerprint": "97d8726aa9c2",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#ultimas-noticias > div:nth-of-type(2) > div:nth-of-type(1) > a > span:nth-of-type(2)",
+   "target": "#ultimas-noticias > div:nth-of-type(2) > div:nth-of-type(1) > a > span:nth-of-type(2)",
+   "message": "The text \"24 de novembro de 2026\" has at most 4.17:1 contrast with what is behind it (#ffffff on #e24301), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #e24301 · 4.17:1 at best, 4.17:1 at worst · 14px, 300",
+   "subject": "24 de novembro de 2026",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<span class=\"data\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "39644d3c0e04",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#ultimas-noticias > div:nth-of-type(2) > div:nth-of-type(2) > a > span:nth-of-type(1)",
+   "target": "#ultimas-noticias > div:nth-of-type(2) > div:nth-of-type(2) > a > span:nth-of-type(1)",
+   "message": "The text \"Notícias\" has at most 1.75:1 contrast with what is behind it (#ffffff on #ffb700), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #ffb700 · 1.75:1 at best, 1.75:1 at worst · 16px, 300",
+   "subject": "Notícias",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<span class=\"tag\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "2909d3d9f750",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#ultimas-noticias > div:nth-of-type(2) > div:nth-of-type(2) > a > h3",
+   "target": "#ultimas-noticias > div:nth-of-type(2) > div:nth-of-type(2) > a > h3",
+   "message": "The text \"SISEM promove encontros em Campinas para discutir o Plano E…\" has at most 4.17:1 contrast with what is behind it (#ffffff on #e24301), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #e24301 · 4.17:1 at best, 4.17:1 at worst · 16px, 300",
+   "subject": "SISEM promove encontros em Campinas para discutir o Plano Estadual Setorial de Museus de São Paulo",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<h3>",
+   "experimental": true
+  },
+  {
+   "fingerprint": "a039a351f593",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#ultimas-noticias > div:nth-of-type(2) > div:nth-of-type(2) > a > span:nth-of-type(2)",
+   "target": "#ultimas-noticias > div:nth-of-type(2) > div:nth-of-type(2) > a > span:nth-of-type(2)",
+   "message": "The text \"24 de novembro de 2026\" has at most 4.17:1 contrast with what is behind it (#ffffff on #e24301), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #e24301 · 4.17:1 at best, 4.17:1 at worst · 14px, 300",
+   "subject": "24 de novembro de 2026",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<span class=\"data\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "01479aeabe9d",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#ultimas-noticias > a",
+   "target": "#ultimas-noticias > a",
+   "message": "The text \"Ir para todas as notícias\" has at most 4.17:1 contrast with what is behind it (#ffffff on #e24301), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #e24301 · 4.17:1 at best, 4.17:1 at worst · 16px, 300",
+   "subject": "Ir para todas as notícias",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://www.energiaesaneamento.org.br/categoria/noticias/\" class=\"text-uppercase\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "4e1ae7bee093",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#name",
+   "target": "#name",
+   "message": "The placeholder \"NOME\" has a contrast of 3.55:1 with the field (#6c757d on #e0e0e0). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#6c757d on #e0e0e0 · 3.55:1 at best, 3.55:1 at worst · 16px, 400",
+   "subject": "NOME",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input class=\"form-control form-ll me-5\" id=\"name\" style=\"border:none;border-radius:0px;border-bottom:1px solid black;padding:5px;background:none\" name=\"name\" placeholder=\"NOME\" type=\"text\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "657daac64fa0",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#email",
+   "target": "#email",
+   "message": "The placeholder \"E-MAIL\" has a contrast of 3.55:1 with the field (#6c757d on #e0e0e0). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#6c757d on #e0e0e0 · 3.55:1 at best, 3.55:1 at worst · 16px, 400",
+   "subject": "E-MAIL",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input class=\"form-control form-ll\" id=\"email\" style=\"border:none;border-radius:0px;border-bottom:1px solid black;padding:5px;background:none\" name=\"email\" placeholder=\"E-MAIL\" type=\"text\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "e2d0453c2809",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#intro > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > a",
+   "message": "The link text \"LEIA MAIS\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "LEIA MAIS",
+   "subject": "LEIA MAIS",
+   "claim": "generic",
+   "techniques": [
+    "G91"
+   ],
+   "patch": {
+    "ref": "#intro > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > a",
+    "kind": "set-text",
+    "from": "LEIA MAIS",
+    "to": "Saiba mais sobre a Fundação",
+    "before": "<a class=\"wp-block-button__link wp-element-button\" href=\"https://www.energiaesaneamento.org.br/fundacao/quem-somos/\">LEIA MAIS</a>",
+    "after": "<a class=\"wp-block-button__link wp-element-button\" href=\"https://www.energiaesaneamento.org.br/fundacao/quem-somos/\">Saiba mais sobre a Fundação</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 25
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.3.1",
+    "ref": "#masthead > div > div > div:nth-of-type(3) > div > ul",
+    "ruleId": "list",
+    "confidence": "high",
+    "fingerprint": "e0f6926b3515"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#page > footer > div:nth-of-type(1) > div > div:nth-of-type(4) > ul",
+    "ruleId": "list",
+    "confidence": "high",
+    "fingerprint": "cb8b22562627"
+   },
+   {
+    "criterion": "1.4.1",
+    "ref": "#newsletter > div > div > div:nth-of-type(2) > form > div:nth-of-type(2) > div > label > a",
+    "ruleId": "link-in-text-block",
+    "confidence": "high",
+    "fingerprint": "9f5469863bc0"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#intro > div > div > div:nth-of-type(2) > p:nth-of-type(1)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "51917ddc2a8f"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#intro > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "b26543035320"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#intro > div > div > div:nth-of-type(3) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "73d7803ccb64"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#intro > div > div > div:nth-of-type(3) > div:nth-of-type(1) > div > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "3a271b1e9c31"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#intro > div > div > div:nth-of-type(4) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "808fb931f7d5"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#intro > div > div > div:nth-of-type(4) > div:nth-of-type(1) > div > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "54a9647024b7"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > footer > div:nth-of-type(2) > nav > div > div > div > ul > li:nth-of-type(1) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "7429c26c3f5d"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > footer > div:nth-of-type(2) > nav > div > div > div > ul > li:nth-of-type(2) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "25de58f59c62"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > footer > div:nth-of-type(2) > nav > div > div > div > ul > li:nth-of-type(3) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "3102850d78ad"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > footer > div:nth-of-type(2) > nav > div > div > div > ul > li:nth-of-type(4) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "593a68cfb12e"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > footer > div:nth-of-type(2) > nav > div > div > div > ul > li:nth-of-type(5) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "b05da05ddce8"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#page > footer > div:nth-of-type(2) > nav > div > div > div > ul > li:nth-of-type(6) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "5ebba6fc8b77"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#masthead > div > div > div:nth-of-type(3) > div > ul > div > div > div > div:nth-of-type(1) > figure > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "ada543145436"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#masthead > div > div > div:nth-of-type(3) > div > ul > div > div > div > div:nth-of-type(2) > figure > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "33b584f517ab"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#masthead > div > div > div:nth-of-type(3) > div > ul > div > div > div > div:nth-of-type(3) > figure > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "6127eb39b824"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#masthead > div > div > div:nth-of-type(3) > div > ul > div > div > div > div:nth-of-type(4) > figure > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "88b541ce1689"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#page > footer > div:nth-of-type(1) > div > div:nth-of-type(4) > ul > div > div > div > div:nth-of-type(1) > figure > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "16b318b20232"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#page > footer > div:nth-of-type(1) > div > div:nth-of-type(4) > ul > div > div > div > div:nth-of-type(2) > figure > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "a2b46aa1fbca"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#page > footer > div:nth-of-type(1) > div > div:nth-of-type(4) > ul > div > div > div > div:nth-of-type(3) > figure > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "828a08b8f014"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#page > footer > div:nth-of-type(1) > div > div:nth-of-type(4) > ul > div > div > div > div:nth-of-type(4) > figure > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "ccb92a14a719"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#masthead > div > div > div:nth-of-type(3) > aside > div:nth-of-type(1) > button",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "7d4cbff991c6"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#contraste",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "c372d84014ec"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 12,
+   "members": [
+    "51917ddc2a8f",
+    "b26543035320",
+    "73d7803ccb64",
+    "3a271b1e9c31",
+    "808fb931f7d5",
+    "54a9647024b7",
+    "7429c26c3f5d",
+    "25de58f59c62",
+    "3102850d78ad",
+    "593a68cfb12e",
+    "b05da05ddce8",
+    "5ebba6fc8b77"
+   ],
+   "example": "51917ddc2a8f"
+  },
+  {
+   "id": "g-6ed0ab07ef69",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "check": "rampa/pixel-contrast",
+   "count": 7,
+   "members": [
+    "a89a798988a8",
+    "3298069d27a2",
+    "97d8726aa9c2",
+    "39644d3c0e04",
+    "2909d3d9f750",
+    "a039a351f593",
+    "01479aeabe9d"
+   ],
+   "example": "a89a798988a8"
+  },
+  {
+   "id": "g-b3cc505a410d",
+   "list": "findings",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "engine",
+   "check": "link-name",
+   "count": 8,
+   "members": [
+    "ada543145436",
+    "33b584f517ab",
+    "6127eb39b824",
+    "88b541ce1689",
+    "16b318b20232",
+    "a2b46aa1fbca",
+    "828a08b8f014",
+    "ccb92a14a719"
+   ],
+   "example": "ada543145436"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#museus > div > div > div > div:nth-of-type(4) > a > img",
+   "message": "The text alternative \"Foto da fachada do museu da energia de São Paulo\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Fachada do edifício histórico na rua Cleveland\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.09), claim: no (0.00), reversed: yes (0.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-item-114 > a",
+   "message": "The link text \"ITU\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Museu da Energia de Itu\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-item-113 > a",
+   "message": "The link text \"SALESÓPOLIS\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Museu da Energia de Salesópolis\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-item-3870 > a",
+   "message": "The link text \"BROTAS\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Usina Parque do Jacaré – Brotas, SP\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-item-39 > a",
+   "message": "The link text \"APOIE\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Apoie a Fundação Energia e Saneamento\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#page > footer > div:nth-of-type(1) > div > div:nth-of-type(2) > h2",
+   "message": "The heading \"+55 11 3224-1477\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Telefone de contato\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "#name",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#email",
+   "source": null,
+   "ruleId": "color-contrast"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-item-112 > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'SÃO PAULO' under the heading 'Fundação Energia e Saneamento' in a navigation menu suggests it leads to a section or page related to São Paulo within that foundation's scope.",
+    "leadsTo": "A page titled 'Museu da Energia de São Paulo – Fundação Energia e Saneamento'",
+    "verdict": "fail",
+    "evidence": "SÃO PAULO",
+    "problem": "ambiguous",
+    "suggestedText": "Museu da Energia de São Paulo",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#museus > div > div > div > div:nth-of-type(4) > a",
+   "reason": "evidence is not the link text",
+   "output": {
+    "promises": "A link text 'Conheça a Unidade' (Know the Unit) combined with the surrounding text 'Museu da Energia de São Paulo' suggests it leads to a page about that specific museum unit.",
+    "leadsTo": "A page titled 'Museu da Energia de São Paulo – Fundação Energia e Saneamento'",
+    "verdict": "pass",
+    "evidence": "Conheça a Unidade",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 5,
+   "failed": 1,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 2,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 64,
+   "judged": 50,
+   "failed": 1,
+   "passed": 43,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 14,
+   "suggested": 4
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 25,
+   "judged": 25,
+   "failed": 0,
+   "passed": 24,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "7 image(s) were left without a capture, so no judgment looked at them: 1 outside the page (an off-canvas menu); 1 cut off by the box that holds it; 5 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 14 of 64 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 86,
+  "cachedCalls": 0,
+  "inputTokens": 79449,
+  "outputTokens": 8536,
+  "latencyMs": 261536
+ },
+ "timings": {
+  "totalMs": 135955,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 17
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 11944,
+    "prepareMs": 0,
+    "candidates": 5,
+    "judged": 5,
+    "calls": 8,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2554,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1257,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 87199,
+    "prepareMs": 0,
+    "candidates": 64,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 32768,
+    "prepareMs": 0,
+    "candidates": 25,
+    "judged": 25,
+    "calls": 25,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 175,
+    "prepareMs": 173,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 9,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 31
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 23,
+   "notCaptured": 7,
+   "reasons": {
+    "outside-page": 1,
+    "clipped": 1,
+    "limit": 5
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 64,
+    "capped": 14
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null,
+  "fast": null
+ }
+}

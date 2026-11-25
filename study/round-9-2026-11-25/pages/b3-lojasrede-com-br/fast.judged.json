@@ -1,0 +1,958 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://www.lojasrede.com.br/cabelos",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "240c6488c354",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#headerContainer > section > div > div > header > div:nth-of-type(2) > div:nth-of-type(2) > a > img",
+   "message": "The text alternative \"https://lojasrede.vtexassets.com/assets/vtex/assets-builder/lojasrede.builderio/3.0.213/whishlist-icon-lojasrede___53704b35db00cd6b7b0279a12afcca6f.svg\" is a file name or a placeholder.",
+   "evidence": "https://lojasrede.vtexassets.com/assets/vtex/assets-builder/lojasrede.builderio/3.0.213/whishlist-icon-lojasrede___53704b35db00cd6b7b0279a12afcca6f.svg",
+   "subject": "https://lojasrede.vtexassets.com/assets/vtex/assets-builder/lojasrede.builderio/3.0.213/whishlist-icon-lojasrede___53704b35db00cd6b7b0279a12afcca6f.svg",
+   "claim": "missing_information",
+   "techniques": [
+    "F30"
+   ],
+   "patch": {
+    "ref": "#headerContainer > section > div > div > header > div:nth-of-type(2) > div:nth-of-type(2) > a > img",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "https://lojasrede.vtexassets.com/assets/vtex/assets-builder/lojasrede.builderio/3.0.213/whishlist-icon-lojasrede___53704b35db00cd6b7b0279a12afcca6f.svg",
+    "to": "Lista de desejos"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "f4bde51c4aeb",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#newsletter-input-name",
+   "message": "The field \"Digite seu nome\" asks for the user's first name but does not identify that purpose: autocomplete=\"given-name\" is missing.",
+   "evidence": "Digite seu nome",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#newsletter-input-name",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "given-name",
+    "before": "<input type=\"text\" class=\"vtex-styleguide-9-x-input ma0 border-box vtex-styleguide-9-x-hideDecorators vtex-styleguide-9-x-noAppearance br2   w-100 bn outline-0 bg-base c-on-base b--muted-4 hover-b--muted-3 t-body ph5 \" name=\"newsletter\" placeholder=\"Digite seu nome\" id=\"newsletter-input-name\">",
+    "after": "<input type=\"text\" class=\"vtex-styleguide-9-x-input ma0 border-box vtex-styleguide-9-x-hideDecorators vtex-styleguide-9-x-noAppearance br2   w-100 bn outline-0 bg-base c-on-base b--muted-4 hover-b--muted-3 t-body ph5 \" name=\"newsletter\" placeholder=\"Digite seu nome\" id=\"newsletter-input-name\" autocomplete=\"given-name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "408d2998ba6e",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#newsletter-input-email",
+   "message": "The field \"Digite seu e-mail\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "Digite seu e-mail",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#newsletter-input-email",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input type=\"email\" class=\"vtex-styleguide-9-x-input ma0 border-box vtex-styleguide-9-x-hideDecorators vtex-styleguide-9-x-noAppearance br2   w-100 bn outline-0 bg-base c-on-base b--muted-4 hover-b--muted-3 t-body ph5 \" name=\"newsletter\" placeholder=\"Digite seu e-mail\" id=\"newsletter-input-email\">",
+    "after": "<input type=\"email\" class=\"vtex-styleguide-9-x-input ma0 border-box vtex-styleguide-9-x-hideDecorators vtex-styleguide-9-x-noAppearance br2   w-100 bn outline-0 bg-base c-on-base b--muted-4 hover-b--muted-3 t-body ph5 \" name=\"newsletter\" placeholder=\"Digite seu e-mail\" id=\"newsletter-input-email\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 33
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.3.1",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(8) > div > div:nth-of-type(2) > div:nth-of-type(3) > section > div > div:nth-of-type(1) > nav > ul",
+    "ruleId": "list",
+    "confidence": "high",
+    "fingerprint": "77ff09c686f6"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(8) > div > div:nth-of-type(2) > div:nth-of-type(3) > section > div > div:nth-of-type(2) > nav > ul",
+    "ruleId": "list",
+    "confidence": "high",
+    "fingerprint": "257d40a9666d"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#slider-items-3rln8m4 > div > div > div:nth-of-type(1) > div > li",
+    "ruleId": "listitem",
+    "confidence": "high",
+    "fingerprint": "790bf8b5c7b6"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#slider-items-3rln8m4 > div > div > div:nth-of-type(2) > div > li",
+    "ruleId": "listitem",
+    "confidence": "high",
+    "fingerprint": "378b5ef3dccf"
+   },
+   {
+    "criterion": "1.3.1",
+    "ref": "#slider-items-3rln8m4 > div > div > div:nth-of-type(3) > div > li",
+    "ruleId": "listitem",
+    "confidence": "high",
+    "fingerprint": "d7d200b71218"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > button",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "4f86e495b9cc"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#headerContainer > section > div > div > header > div:nth-of-type(3) > ul > li:nth-of-type(11) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "3d8cfc1e2740"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div > span > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "2231ac60aa8f"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#slider-items-86m5cnq > div > div > div:nth-of-type(8) > div > section > a > article > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > div:nth-of-type(3) > div > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "2bbb6f9b0724"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#slider-items-86m5cnq > div > div > div:nth-of-type(9) > div > section > a > article > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > div:nth-of-type(3) > div > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "fc8dd6c1810b"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#slider-items-86m5cnq > div > div > div:nth-of-type(10) > div > section > a > article > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > div:nth-of-type(3) > div > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "064463969b19"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(8) > div > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div > div > form > div:nth-of-type(3) > button > div",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "6e6adf8b06be"
+   },
+   {
+    "criterion": "1.4.4",
+    "ref": "html > head > meta:nth-of-type(18)",
+    "ruleId": "meta-viewport",
+    "confidence": "high",
+    "fingerprint": "efb1c3fc3807"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "#headerContainer > section > div > div > header > div:nth-of-type(2) > div:nth-of-type(1) > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "384af2fb6642"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(5) > div > div > div > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "cf8b803efb99"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(6) > div > div > div > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "19af5d22d399"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(7) > div > div > div > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "0b8ebb08a1f1"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(8) > div > div > div > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "19546d908f80"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-hnj5zgb > div > div > div:nth-of-type(6) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "ec89413ae7cc"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-hnj5zgb > div > div > div:nth-of-type(7) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "0643a5ff7199"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-hnj5zgb > div > div > div:nth-of-type(8) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "a7162c7b3c86"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-hnj5zgb > div > div > div:nth-of-type(9) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "9359232dc554"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-hnj5zgb > div > div > div:nth-of-type(10) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "cbdf3a5b76be"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-kt73bkc > div > div > div:nth-of-type(6) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "629083341808"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-kt73bkc > div > div > div:nth-of-type(7) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "e6402c0803ec"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-kt73bkc > div > div > div:nth-of-type(8) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "3dd631b72c6a"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-kt73bkc > div > div > div:nth-of-type(9) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "14241bab9aa0"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-kt73bkc > div > div > div:nth-of-type(10) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "057d83e84b55"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-86m5cnq > div > div > div:nth-of-type(6) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "3638560a8a69"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-86m5cnq > div > div > div:nth-of-type(7) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "b92a671d3458"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-86m5cnq > div > div > div:nth-of-type(8) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "09d136642121"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-86m5cnq > div > div > div:nth-of-type(9) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "920f191616a5"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#slider-items-86m5cnq > div > div > div:nth-of-type(10) > div > section > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "e53c8316e28a"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 7,
+   "members": [
+    "4f86e495b9cc",
+    "3d8cfc1e2740",
+    "2231ac60aa8f",
+    "2bbb6f9b0724",
+    "fc8dd6c1810b",
+    "064463969b19",
+    "6e6adf8b06be"
+   ],
+   "example": "4f86e495b9cc"
+  },
+  {
+   "id": "g-caa6eccc5028",
+   "list": "findings",
+   "criterion": "2.5.3",
+   "level": "A",
+   "source": "engine",
+   "check": "label-content-name-mismatch",
+   "count": 15,
+   "members": [
+    "ec89413ae7cc",
+    "0643a5ff7199",
+    "a7162c7b3c86",
+    "9359232dc554",
+    "cbdf3a5b76be",
+    "629083341808",
+    "e6402c0803ec",
+    "3dd631b72c6a",
+    "14241bab9aa0",
+    "057d83e84b55",
+    "3638560a8a69",
+    "b92a671d3458",
+    "09d136642121",
+    "920f191616a5",
+    "e53c8316e28a"
+   ],
+   "example": "ec89413ae7cc"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#headerContainer > section > div > div > header > div:nth-of-type(3) > ul > li:nth-of-type(1) > img",
+   "message": "The text alternative \"Drawer Lojas Rede\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Abrir menu\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.01), claim: yes (0.92), reversed: yes (0.00))",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div > div:nth-of-type(1) > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#slider-items-hnj5zgb > div > div > div:nth-of-type(6) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(1) > div > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#slider-items-kt73bkc > div > div > div:nth-of-type(6) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(1) > div > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#slider-items-kt73bkc > div > div > div:nth-of-type(9) > div > section > a > article > div:nth-of-type(1) > div:nth-of-type(3) > div > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#slider-items-kt73bkc > div > div > div:nth-of-type(10) > div > section > a > article > div:nth-of-type(1) > div:nth-of-type(3) > div > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#slider-items-86m5cnq > div > div > div:nth-of-type(6) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(1) > div > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#newsletter-input-name",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#newsletter-input-email",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#headerContainer > section > div > div > header > div:nth-of-type(2) > div:nth-of-type(2) > aside > div > div",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(1)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(2)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(3)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(4)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(9)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(10)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(11)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(12)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(13)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(14)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(15)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(16)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(17)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(18)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(19)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(20)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(21)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(22)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(23)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(24)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(25)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(26)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(27)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > div > section > div:nth-of-type(2) > div > div:nth-of-type(9) > div > div > div > div:nth-of-type(28)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "html > body > div:nth-of-type(6)",
+   "source": null,
+   "ruleId": "aria-hidden-focus"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#headerContainer > section > div > div > header > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > form > label",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-hnj5zgb > div > div > div:nth-of-type(6) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-hnj5zgb > div > div > div:nth-of-type(7) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-hnj5zgb > div > div > div:nth-of-type(8) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-hnj5zgb > div > div > div:nth-of-type(9) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-hnj5zgb > div > div > div:nth-of-type(10) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-kt73bkc > div > div > div:nth-of-type(6) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-kt73bkc > div > div > div:nth-of-type(7) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-kt73bkc > div > div > div:nth-of-type(8) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-kt73bkc > div > div > div:nth-of-type(9) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-kt73bkc > div > div > div:nth-of-type(10) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-86m5cnq > div > div > div:nth-of-type(6) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-86m5cnq > div > div > div:nth-of-type(7) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-86m5cnq > div > div > div:nth-of-type(8) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-86m5cnq > div > div > div:nth-of-type(9) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#slider-items-86m5cnq > div > div > div:nth-of-type(10) > div > section > a > article > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > div > div > div > div",
+   "source": null,
+   "ruleId": "aria-prohibited-attr"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "2.4.4",
+   "ref": "#headerContainer > section > div > div > header > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Salão Salão' combined with the context suggests it leads to a page related to the salon or a booking page.",
+    "leadsTo": "/agendamento-online",
+    "verdict": "fail",
+    "evidence": "Salão Salão",
+    "problem": "mismatch",
+    "suggestedText": "Agendamento Online Salão Salão",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 15,
+   "judged": 10,
+   "failed": 1,
+   "passed": 8,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 5,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 2,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 66,
+   "judged": 10,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 56
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 39,
+   "judged": 10,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 29,
+   "batched": {
+    "candidates": 10,
+    "calls": 2
+   }
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "68 image(s) were left without a capture, so no judgment looked at them: 68 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 5 of 15 for 1.1.1, 56 of 66 for 2.4.4, 29 of 39 for 2.4.6. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (10 in 2 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 29,
+  "cachedCalls": 0,
+  "inputTokens": 28374,
+  "outputTokens": 3160,
+  "latencyMs": 88429
+ },
+ "timings": {
+  "totalMs": 51744,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 41
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 18790,
+    "prepareMs": 0,
+    "candidates": 15,
+    "judged": 10,
+    "calls": 13,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2515,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1292,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 16482,
+    "prepareMs": 0,
+    "candidates": 66,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 11305,
+    "prepareMs": 0,
+    "candidates": 39,
+    "judged": 10,
+    "calls": 2,
+    "cachedCalls": 0,
+    "batches": 2
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 183,
+    "prepareMs": 181,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 1083,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 50
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 1000,
+  "images": {
+   "captured": 15,
+   "notCaptured": 68,
+   "reasons": {
+    "limit": 68
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "1.1.1",
+    "candidates": 15,
+    "capped": 5
+   },
+   {
+    "criterion": "2.4.4",
+    "candidates": 66,
+    "capped": 56
+   },
+   {
+    "criterion": "2.4.6",
+    "candidates": 39,
+    "capped": 29
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null,
+  "fast": {
+   "skipped": [
+    "probes",
+    "link-following",
+    "ocr"
+   ],
+   "maxCandidates": 10
+  }
+ }
+}

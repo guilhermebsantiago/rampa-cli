@@ -1,0 +1,388 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://hospitalsaojose.org.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "afeafe5ef366",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > footer > section:nth-of-type(3) > div > div:nth-of-type(2) > div > div > div > a > img",
+   "message": "The text alternative \"netuaibranca.png\" is a file name or a placeholder.",
+   "evidence": "netuaibranca.png",
+   "subject": "netuaibranca.png",
+   "claim": "missing_information",
+   "techniques": [
+    "F30"
+   ],
+   "patch": {
+    "ref": "html > body > footer > section:nth-of-type(3) > div > div:nth-of-type(2) > div > div > div > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "netuaibranca.png",
+    "to": "Netuai Web Marketing",
+    "before": "<img src=\"https://hospitalsaojose.org.br/wp-content/uploads/elementor/thumbs/netuaibranca-rb4ao3ply1qg85m4ktpywxajh0dhsds57ul3gjhd6o.png\" title=\"netuaibranca.png\" alt=\"netuaibranca.png\" loading=\"lazy\">",
+    "after": "<img src=\"https://hospitalsaojose.org.br/wp-content/uploads/elementor/thumbs/netuaibranca-rb4ao3ply1qg85m4ktpywxajh0dhsds57ul3gjhd6o.png\" title=\"netuaibranca.png\" alt=\"Netuai Web Marketing\" loading=\"lazy\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "beee68938b5f",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#content > div > div > section:nth-of-type(5) > div > div > div > div > div > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Doações em dinheiro feitas via depósito, Banco do Brasil, Conta: 51146-3\".",
+   "evidence": "Doações em dinheiro feitas via depósito, Banco do Brasil, Conta: 51146-3",
+   "subject": "hidden banner-doacao.png",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "fbbacdd8bc14",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > footer > section:nth-of-type(1) > div > div:nth-of-type(1) > div > div > div > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Logo naming 'HSJ HOSPITAL SÃO JOSÉ da Sociedade de São Vicente de Paulo'\".",
+   "evidence": "Logo naming 'HSJ HOSPITAL SÃO JOSÉ da Sociedade de São Vicente de Paulo'",
+   "subject": "hidden daee4755-fae5-4e7a-a40b-bb7aad82ecfb-e1746195397927.png",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "97b509e48957",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > footer > section:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Logo for Sociedade de São Vicente de Paulo with 'SSVP'\".",
+   "evidence": "Logo for Sociedade de São Vicente de Paulo with 'SSVP'",
+   "subject": "hidden logo-ssvp-branca-e1746195090681.png",
+   "patch": {
+    "ref": "html > body > footer > section:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Logotipo da Sociedade de São Vicente de Paulo (SSVP) Brasil.",
+    "before": "<img width=\"411\" height=\"421\" src=\"https://hospitalsaojose.org.br/wp-content/uploads/2025/02/logo-ssvp-branca-e1746195090681.png\" class=\"attachment-large size-large wp-image-1026\" alt=\"\" srcset=\"https://hospitalsaojose.org.br/wp-content/uploads/2025/02/logo-ssvp-branca-e1746195090681.png 411w, https://hospitalsaojose.org.br/wp-content/uploads/2025/02/logo-ssvp-branca-e1746195090681-293x300.png 293w\" sizes=\"(max-width: 411px) 100vw, 411px\">",
+    "after": "<img width=\"411\" height=\"421\" src=\"https://hospitalsaojose.org.br/wp-content/uploads/2025/02/logo-ssvp-branca-e1746195090681.png\" class=\"attachment-large size-large wp-image-1026\" alt=\"Logotipo da Sociedade de São Vicente de Paulo (SSVP) Brasil.\" srcset=\"https://hospitalsaojose.org.br/wp-content/uploads/2025/02/logo-ssvp-branca-e1746195090681.png 411w, https://hospitalsaojose.org.br/wp-content/uploads/2025/02/logo-ssvp-branca-e1746195090681-293x300.png 293w\" sizes=\"(max-width: 411px) 100vw, 411px\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 6
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.4.3",
+    "ref": "#menu-1-1b8bf15 > li:nth-of-type(1) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "7febba7eb123"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#menu-1-1b8bf15 > li:nth-of-type(2) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "78dc30cb2b58"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#menu-1-1b8bf15 > li:nth-of-type(3) > a",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "8e6dbe781b85"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#content > div > div > section:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > h4",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "d3b3c101000c"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > header > section:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "0ab707041734"
+   },
+   {
+    "criterion": "2.4.4",
+    "ref": "html > body > header > section:nth-of-type(2) > div > div:nth-of-type(2) > div > div > div > a",
+    "ruleId": "link-name",
+    "confidence": "high",
+    "fingerprint": "2ad51de9d468"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#content > div > div > section:nth-of-type(1) > div > div > div > div > div > div > div > div > div > div:nth-of-type(1)",
+   "message": "The text alternative \"hospital-ajustes-2\" names a label, not what the image conveys here.",
+   "evidence": "The model suggests: \"Fachada externa do Hospital São José da SSVP com entradas de recepção e emergência.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: no (0.23), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#cookie-banner > div > div:nth-of-type(1) > div:nth-of-type(1) > div > a",
+   "message": "The link text \"AdOpt\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Configurações de privacidade AdOpt\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [],
+ "discarded": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 5,
+   "failed": 4,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 23,
+   "judged": 23,
+   "failed": 0,
+   "passed": 22,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 image(s) were left without a capture, so no judgment looked at them: 1 covered where it sits by other content, such as a popup or a cookie banner. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 34,
+  "cachedCalls": 0,
+  "inputTokens": 32110,
+  "outputTokens": 3562,
+  "latencyMs": 104430
+ },
+ "timings": {
+  "totalMs": 56675,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 18
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 13794,
+    "prepareMs": 0,
+    "candidates": 5,
+    "judged": 5,
+    "calls": 8,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 38455,
+    "prepareMs": 0,
+    "candidates": 23,
+    "judged": 23,
+    "calls": 23,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 2849,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 1530,
+    "prepareMs": 182,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 23
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 7,
+   "notCaptured": 1,
+   "reasons": {
+    "covered": 1
+   }
+  }
+ },
+ "coverage": {
+  "reach": null,
+  "fast": null
+ }
+}

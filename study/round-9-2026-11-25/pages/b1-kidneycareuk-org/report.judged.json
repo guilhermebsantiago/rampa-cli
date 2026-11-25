@@ -1,0 +1,571 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://kidneycareuk.org/news-from-kidney-care-uk/new-research-dialysis-conservative-kidney-management/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "3ea565d0a50f",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#CybotCookiebotDialogPoweredbyImage",
+   "message": "The text alternative \"logo\" is a file name or a placeholder.",
+   "evidence": "logo",
+   "subject": "logo",
+   "claim": "wrong_content",
+   "techniques": [
+    "F30"
+   ],
+   "patch": {
+    "ref": "#CybotCookiebotDialogPoweredbyImage",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "logo",
+    "to": "Kidney Care UK"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "639d882c8a1a",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#id_first_name",
+   "message": "The field \"First name\" asks for the user's first name but does not identify that purpose: autocomplete=\"given-name\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "First name",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#id_first_name",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "given-name",
+    "before": "<input type=\"text\" name=\"first_name\" placeholder=\"First name\" required=\"\" id=\"id_first_name\">",
+    "after": "<input type=\"text\" name=\"first_name\" placeholder=\"First name\" required=\"\" id=\"id_first_name\" autocomplete=\"given-name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "dc9073d77c8f",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#id_last_name",
+   "message": "The field \"Last name\" asks for the user's last name but does not identify that purpose: autocomplete=\"family-name\" is missing.",
+   "evidence": "Last name",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#id_last_name",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "family-name",
+    "before": "<input type=\"text\" name=\"last_name\" placeholder=\"Last name\" required=\"\" id=\"id_last_name\">",
+    "after": "<input type=\"text\" name=\"last_name\" placeholder=\"Last name\" required=\"\" id=\"id_last_name\" autocomplete=\"family-name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "69332e7275f4",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#id_email",
+   "message": "The field \"Email\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "Email",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#id_email",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input type=\"email\" name=\"email\" placeholder=\"Email\" maxlength=\"320\" required=\"\" id=\"id_email\">",
+    "after": "<input type=\"email\" name=\"email\" placeholder=\"Email\" maxlength=\"320\" required=\"\" id=\"id_email\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "a1fe0fdcf5e1",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#id_first_name",
+   "target": "#id_first_name",
+   "message": "The placeholder \"First name\" has a contrast of 2.54:1 with the field (#9ca3af on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#9ca3af on #ffffff · 2.54:1 at best, 2.54:1 at worst · 20px, 400",
+   "subject": "First name",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input type=\"text\" name=\"first_name\" placeholder=\"First name\" required=\"\" id=\"id_first_name\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "483fb44ca7c8",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#id_last_name",
+   "target": "#id_last_name",
+   "message": "The placeholder \"Last name\" has a contrast of 2.54:1 with the field (#9ca3af on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#9ca3af on #ffffff · 2.54:1 at best, 2.54:1 at worst · 20px, 400",
+   "subject": "Last name",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input type=\"text\" name=\"last_name\" placeholder=\"Last name\" required=\"\" id=\"id_last_name\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "379c2aeab223",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#id_email",
+   "target": "#id_email",
+   "message": "The placeholder \"Email\" has a contrast of 2.54:1 with the field (#9ca3af on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#9ca3af on #ffffff · 2.54:1 at best, 2.54:1 at worst · 20px, 400",
+   "subject": "Email",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input type=\"email\" name=\"email\" placeholder=\"Email\" maxlength=\"320\" required=\"\" id=\"id_email\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 5
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.4.3",
+    "ref": "#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "dcf7587bca96"
+   },
+   {
+    "criterion": "2.1.1",
+    "ref": "#CybotCookiebotDialogBodyContent",
+    "ruleId": "scrollable-region-focusable",
+    "confidence": "high",
+    "fingerprint": "6da66fecd14d"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#\\37 70721194 |> .ytmVideoInfoVideoTitle",
+    "ruleId": "aria-allowed-attr",
+    "confidence": "high",
+    "fingerprint": "c16ea5252df7"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#\\37 70721194 |> #movie_player",
+    "ruleId": "aria-prohibited-attr",
+    "confidence": "high",
+    "fingerprint": "186099a847f2"
+   },
+   {
+    "criterion": "4.1.2",
+    "ref": "#\\37 70721194 |> .ytmVideoInfoChannelAvatar",
+    "ruleId": "button-name",
+    "confidence": "high",
+    "fingerprint": "cc6da00f4a0f"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > footer > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > a:nth-of-type(3) > img",
+   "message": "The text alternative \"Cyber Essentials certified\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"Verify our Cyber Essentials certification\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.19), claim: yes (0.68), reversed: yes (0.01))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#CybotCookiebotDialogBodyContentTitle",
+   "message": "The heading \"This website uses cookies. Some of these cookies are essential, while others help us to improve your experience by providing insights into how the site is being used.\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Cookie Policy and Consent\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#CybotCookiebotDialogBodyLevelButtonNecessary",
+   "message": "The label \"Strictly necessary\" does not say what to enter.",
+   "evidence": "The model suggests: \"Accept strictly necessary cookies\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > main > div > div > article > blockquote:nth-of-type(2) > div:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > main > div > div > article > blockquote:nth-of-type(3) > div:nth-of-type(2)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > main > div > div > article > blockquote:nth-of-type(3) > cite",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > main > section > div > div > h2",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(5) > section > div > div > header > h2",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(5) > section > div > div > form > div:nth-of-type(1) > div:nth-of-type(1) > div > label",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(5) > section > div > div > form > div:nth-of-type(1) > div:nth-of-type(2) > div > label",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(5) > section > div > div > form > div:nth-of-type(1) > div:nth-of-type(3) > div > label",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(5) > section > div > div > form > div:nth-of-type(1) > div:nth-of-type(5) > div:nth-of-type(2) > label",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(5) > section > div > div > form > button > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > div:nth-of-type(5) > section > div > div > form > div:nth-of-type(2) > p",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#CybotCookiebotDialogBodyContentText > p:nth-of-type(4)",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > footer > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > a:nth-of-type(4) > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Helplines Partnership Member 2024-2025",
+    "problem": "missing_information",
+    "imageShows": "A logo for the Helplines Partnership with a checkmark and the text 'Member 2024-25'.",
+    "suggestedAlt": "Helplines Partnership website",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 6,
+   "judged": 6,
+   "failed": 1,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 3,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 26,
+   "judged": 26,
+   "failed": 0,
+   "passed": 26,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 12,
+   "judged": 12,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 10,
+   "judged": 10,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 2
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #\\37 70721194 (https://www.youtube-nocookie.com/embed/esAOI1GyT8E?feature=oembed&enablejsapi=1&rel=0).",
+  "1 frame(s) were not checked at all, so whatever they hold was missed: html > body > iframe:nth-of-type(2) (cross-origin; skipped).",
+  "1 closed shadow root(s) cannot be read by any script, so nothing inside them was checked (hosts: #id_turnstile > div > div).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 59,
+  "cachedCalls": 0,
+  "inputTokens": 49754,
+  "outputTokens": 4634,
+  "latencyMs": 149766
+ },
+ "timings": {
+  "totalMs": 79963,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 23
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 11777,
+    "prepareMs": 0,
+    "candidates": 6,
+    "judged": 6,
+    "calls": 9,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 3620,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 3,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1484,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 40293,
+    "prepareMs": 0,
+    "candidates": 26,
+    "judged": 26,
+    "calls": 26,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 15912,
+    "prepareMs": 0,
+    "candidates": 12,
+    "judged": 12,
+    "calls": 12,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 179,
+    "prepareMs": 177,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 6646,
+    "prepareMs": 0,
+    "candidates": 10,
+    "judged": 10,
+    "calls": 8,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 27
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 6,
+   "notCaptured": 0,
+   "reasons": {}
+  }
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#\\37 70721194",
+     "url": "https://www.youtube-nocookie.com/embed/esAOI1GyT8E?feature=oembed&enablejsapi=1&rel=0",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "html > body > iframe:nth-of-type(2)",
+     "url": "https://consentcdn.cookiebot.com/sdk/bc-v5.min.html",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": false,
+     "engineReason": "skipped"
+    }
+   ],
+   "shadowRoots": {
+    "open": 0,
+    "closed": 1,
+    "closedHosts": [
+     "#id_turnstile > div > div"
+    ]
+   }
+  },
+  "fast": null
+ }
+}

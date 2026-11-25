@@ -1,0 +1,509 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://www.atacadao.com.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "1fe47be38713",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(5) > button > img:nth-of-type(1)",
+   "target": "html > body > div:nth-of-type(5) > button > img:nth-of-type(1)",
+   "message": "The text alternative \"img1\" is a placeholder, not a description: a screen reader reads it in place of the image. Describe what the image conveys, or use alt=\"\" if it is decorative.",
+   "evidence": "alt=\"img1\"",
+   "subject": "img1",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-alt",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F30",
+   "html": "<img class=\"emotion-feedback-trigger-img\" src=\"https://atacadaobr.vtexassets.com/assets/vtex.file-manager-graphql/images/d5118216-2f8e-49d4-a02b-7f672b770dd0___9d3f4d806b29bd13ae1361ef94f7b2e6.png\" alt=\"img1\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "43b01dfe491a",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(5) > button > img:nth-of-type(2)",
+   "target": "html > body > div:nth-of-type(5) > button > img:nth-of-type(2)",
+   "message": "The text alternative \"img2\" is a placeholder, not a description: a screen reader reads it in place of the image. Describe what the image conveys, or use alt=\"\" if it is decorative.",
+   "evidence": "alt=\"img2\"",
+   "subject": "img2",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-alt",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F30",
+   "html": "<img class=\"emotion-feedback-trigger-img\" src=\"https://atacadaobr.vtexassets.com/assets/vtex.file-manager-graphql/images/48ee0982-0c0b-48fe-93a3-77180a571dca___a68435f49169d3f9909753d207d0971b.png\" alt=\"img2\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "dd1ba8620f15",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#__next > header > div:nth-of-type(2) > nav:nth-of-type(2) > div:nth-of-type(1) > div > div > div > form > input",
+   "target": "#__next > header > div:nth-of-type(2) > nav:nth-of-type(2) > div:nth-of-type(1) > div > div > div > form > input",
+   "message": "The placeholder \"O que você procura?\" has a contrast of 3.28:1 with the field (#8e8e8e on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#8e8e8e on #ffffff · 3.28:1 at best, 3.28:1 at worst · 14px, 400",
+   "subject": "O que você procura?",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input data-fs-input=\"true\" data-testid=\"store-input\" aria-label=\"search\" data-fs-search-input=\"true\" class=\"placeholder-[#8E8E8E] placeholder:text-sm text-base px-1 md:px-3 box-content outline-none min-h-[46px] w-[90%]\" placeholder=\"O que você procura?\" value=\"\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "1fae3bd94958",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > div:nth-of-type(5) > button",
+   "target": "html > body > div:nth-of-type(5) > button",
+   "message": "The icon of this button has at most 2.92:1 contrast with the pixels next to it (#ffffff on #ff6633). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#ffffff on #ff6633 · 2.92:1 at best, 2.92:1 at worst",
+   "subject": "html > body > div:nth-of-type(5) > button",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<button class=\"emotion-feedback-trigger\" style=\"cursor: pointer;\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 5
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "1.4.3",
+    "ref": "html > body > div:nth-of-type(2) > div:nth-of-type(2) > a:nth-of-type(1)",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "7c5a311cc371"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#__next > header > div:nth-of-type(2) > nav:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div:nth-of-type(2) > div:nth-of-type(2) > button",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "c340010c6b2d"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#__next > footer > div:nth-of-type(3) > p",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "914d69988b3c"
+   },
+   {
+    "criterion": "1.4.3",
+    "ref": "#__next > footer > div:nth-of-type(3) > p > u",
+    "ruleId": "color-contrast",
+    "confidence": "high",
+    "fingerprint": "08cb17b3da4e"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "#__next > header > div:nth-of-type(2) > nav:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(3) > button",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "d80ca1ee97e1"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#__next > header > div:nth-of-type(1) > div > ul > li:nth-of-type(3) > a",
+   "message": "The link text \"Folhetos\" does not match where the link leads: a page titled \"Nossas lojas | Atacadão\".",
+   "evidence": "The model suggests: \"Nossas lojas\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#__next > div:nth-of-type(2) > nav > div > ul > li:nth-of-type(10) > a",
+   "message": "The link text \"Super Ofertas\" does not match where the link leads: a page titled \"Catalogo | Atacadão\".",
+   "evidence": "The model suggests: \"Catálogo de Ofertas\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#__next > footer > div:nth-of-type(1) > div > div > nav:nth-of-type(2) > div > ul:nth-of-type(1) > li:nth-of-type(3) > a",
+   "message": "The link text \"Folhetos\" does not match where the link leads: a page titled \"Nossas lojas | Atacadão\".",
+   "evidence": "The model suggests: \"Nossas lojas e ofertas\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "#__next > header > div:nth-of-type(2) > nav:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(3) > button > span",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#__next > div:nth-of-type(2) > nav > div > ul > li:nth-of-type(6) > a",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#__next > div:nth-of-type(2) > nav > div > ul > li:nth-of-type(7) > a",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#__next > footer > div:nth-of-type(2) > div > section:nth-of-type(3) > ul > li:nth-of-type(1) > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#__next > footer > div:nth-of-type(2) > div > section:nth-of-type(3) > ul > li:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#__next > footer > div:nth-of-type(2) > div > section:nth-of-type(3) > ul > li:nth-of-type(3) > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#__next > footer > div:nth-of-type(2) > div > section:nth-of-type(3) > ul > li:nth-of-type(4) > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "1.4.11",
+   "ref": "#__next > footer > div:nth-of-type(2) > div > section:nth-of-type(3) > ul > li:nth-of-type(5) > a",
+   "source": null,
+   "ruleId": "rampa/icon-contrast"
+  },
+  {
+   "criterion": "2.5.3",
+   "ref": "#__next > header > div:nth-of-type(2) > nav:nth-of-type(2) > div:nth-of-type(1) > div > div > div > form > input",
+   "source": null,
+   "ruleId": "rampa/field-label-in-name"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#securitiCmpCookiePrefBtn",
+   "source": null,
+   "ruleId": "aria-valid-attr-value"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#__next > main > div > section:nth-of-type(2) > div > div > div > div:nth-of-type(2) > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "panetones-e-chocotones",
+    "problem": "missing_information",
+    "imageShows": "Uma imagem promocional de panetones da marca Visconti e Bauducco com o texto 'PANETONES' e um botão 'EU QUERO'.",
+    "suggestedAlt": "Panetones e chocotones",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#__next > main > div > section:nth-of-type(2) > div > div > div > div:nth-of-type(3) > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "bebes",
+    "problem": "missing_information",
+    "imageShows": "Uma composição de fraldas de marcas conhecidas com o texto 'FRALDAS' e um botão 'EU QUERO'.",
+    "suggestedAlt": "Ofertas de fraldas para bebês",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#__next > main > div > section:nth-of-type(2) > div > div > div > div:nth-of-type(4) > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "bulnez",
+    "problem": "missing_information",
+    "imageShows": "Uma composição de produtos da marca Bulnez, incluindo café, bebidas e suplementos, com um botão laranja escrito 'EU QUERO'.",
+    "suggestedAlt": "Bulnez | Atacadão",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#__next > main > div > section:nth-of-type(2) > div > div > div > div:nth-of-type(5) > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "eletronicos-e-eletroportateis",
+    "problem": "missing_information",
+    "imageShows": "Uma torradeira e um ventilador com o texto 'ELETROPORTÁTEIS' e um botão 'EU QUERO'.",
+    "suggestedAlt": "Eletrônicos e Eletroportáteis",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#__next > footer > div:nth-of-type(2) > div > section:nth-of-type(1) > div > ul > li:nth-of-type(6) > img",
+   "reason": "evidence is not the current text alternative",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Diners",
+    "problem": "wrong_content",
+    "imageShows": "Um ícone de interruptor de energia estilizado em branco sobre um fundo azul.",
+    "suggestedAlt": "Pagamento via Diners",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#__next > div:nth-of-type(2) > nav > div > ul > li:nth-of-type(2) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A link text 'Cervejas' in a navigation menu of categories suggests it leads to a page featuring beer products.",
+    "leadsTo": "a page titled 'Cervejas | Atacadão'",
+    "verdict": "fail",
+    "evidence": "Cervejas",
+    "problem": "ambiguous",
+    "suggestedText": "Categoria Cervejas",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 15,
+   "judged": 15,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 5,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 41,
+   "judged": 41,
+   "failed": 0,
+   "passed": 37,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 3
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "10 image(s) were left without a capture, so no judgment looked at them: 10 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 58,
+  "cachedCalls": 0,
+  "inputTokens": 56692,
+  "outputTokens": 6001,
+  "latencyMs": 189881
+ },
+ "timings": {
+  "totalMs": 98289,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 17
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 26182,
+    "prepareMs": 0,
+    "candidates": 15,
+    "judged": 15,
+    "calls": 15,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1522,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 68894,
+    "prepareMs": 0,
+    "candidates": 41,
+    "judged": 41,
+    "calls": 41,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 1468,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 177,
+    "prepareMs": 174,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 4,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 22
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 25,
+   "notCaptured": 10,
+   "reasons": {
+    "limit": 10
+   }
+  }
+ },
+ "coverage": {
+  "reach": null,
+  "fast": null
+ }
+}

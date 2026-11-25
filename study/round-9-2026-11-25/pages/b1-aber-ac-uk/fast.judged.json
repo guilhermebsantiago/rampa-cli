@@ -1,0 +1,403 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://www.aber.ac.uk/en/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "3ea565d0a50f",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#CybotCookiebotDialogPoweredbyImage",
+   "message": "The text alternative \"logo\" is a file name or a placeholder.",
+   "evidence": "logo",
+   "subject": "logo",
+   "claim": "wrong_content",
+   "techniques": [
+    "F30"
+   ],
+   "patch": {
+    "ref": "#CybotCookiebotDialogPoweredbyImage",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "logo",
+    "to": "Aberystwyth University logo"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {},
+ "engine": {
+  "findings": [],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#content-start > section:nth-of-type(1) > div > div > div:nth-of-type(2) > div > div > a > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Aberystwyth student\" leaves out what the image conveys here.",
+   "evidence": "The model suggests: \"Students in Aberystwyth University ambassador t-shirts on campus\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: no (0.00), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#content-start > section:nth-of-type(7) > div:nth-of-type(1) > div > h2",
+   "message": "The heading \"Not just any University\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Awards and Rankings\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "#content-start > section:nth-of-type(1) > button > span:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#hp-course-search",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#content-start > section:nth-of-type(7) > div:nth-of-type(2) > button > span:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#page-start > footer > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > div:nth-of-type(2) > div > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "QAA Quality Mark thumbnail",
+    "problem": "missing_information",
+    "imageShows": "The QAA Cymru logo with the text 'UK Quality Assured' and its Welsh translation.",
+    "suggestedAlt": "QAA Quality Assurance report for Aberystwyth University",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#content-start > section:nth-of-type(1) > div > div > div:nth-of-type(2) > div > div > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Aberystwyth student Discovery Day 5 December 2026 Come and experience Aberystwyth in person Register Now' promises to register the user for a specific student Discovery Day event in Aberystwyth.",
+    "leadsTo": "/en/study-with-us/open-days/",
+    "verdict": "fail",
+    "evidence": "Aberystwyth student Discovery Day 5 December 2026 Come and experience Aberystwyth in person Register Now",
+    "problem": "mismatch",
+    "suggestedText": "Register for Aberystwyth student Discovery Day",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#content-start > h1",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "University name",
+    "verdict": "fail",
+    "evidence": "A…",
+    "problem": "generic",
+    "suggestedText": "Aberystwyth University",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 7,
+   "judged": 7,
+   "failed": 1,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 83,
+   "judged": 10,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 73
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 18,
+   "judged": 10,
+   "failed": 0,
+   "passed": 8,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 8,
+   "batched": {
+    "candidates": 10,
+    "calls": 2
+   },
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 11,
+   "judged": 11,
+   "failed": 0,
+   "passed": 11,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "batched": {
+    "candidates": 10,
+    "calls": 2
+   },
+   "decided": 1
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "A layer lay over the viewport when the page was read (div#CybotCookiebotDialogBodyUnderlay, on top at 89% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "1 frame(s) were not checked at all, so whatever they hold was missed: html > body > iframe:nth-of-type(2) (cross-origin; skipped).",
+  "2 image(s) were left without a capture, so no judgment looked at them: 1 outside the page (an off-canvas menu); 1 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 73 of 83 for 2.4.4, 8 of 18 for 2.4.6. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (10 in 2 calls), 3.1.2 (10 in 2 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 26,
+  "cachedCalls": 0,
+  "inputTokens": 24255,
+  "outputTokens": 3276,
+  "latencyMs": 81309
+ },
+ "timings": {
+  "totalMs": 48469,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 29
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 13721,
+    "prepareMs": 0,
+    "candidates": 7,
+    "judged": 7,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1533,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1023,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 15715,
+    "prepareMs": 0,
+    "candidates": 83,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 9469,
+    "prepareMs": 0,
+    "candidates": 18,
+    "judged": 10,
+    "calls": 2,
+    "cachedCalls": 0,
+    "batches": 2
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 165,
+    "prepareMs": 160,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 6759,
+    "prepareMs": 0,
+    "candidates": 11,
+    "judged": 11,
+    "calls": 2,
+    "cachedCalls": 0,
+    "batches": 2
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 53
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "overlay": {
+   "selector": "div#CybotCookiebotDialogBodyUnderlay",
+   "coverage": 0.89,
+   "hidden": true
+  },
+  "images": {
+   "captured": 14,
+   "notCaptured": 2,
+   "reasons": {
+    "outside-page": 1,
+    "limit": 1
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 83,
+    "capped": 73
+   },
+   {
+    "criterion": "2.4.6",
+    "candidates": 18,
+    "capped": 8
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > iframe:nth-of-type(2)",
+     "url": "https://consentcdn.cookiebot.com/sdk/bc-v5.min.html",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": false,
+     "engineReason": "skipped"
+    }
+   ],
+   "overlay": {
+    "ref": "#CybotCookiebotDialogBodyUnderlay",
+    "selector": "div#CybotCookiebotDialogBodyUnderlay",
+    "coverage": 0.89,
+    "hidden": true
+   }
+  },
+  "fast": {
+   "skipped": [
+    "probes",
+    "link-following",
+    "ocr"
+   ],
+   "maxCandidates": 10
+  }
+ }
+}

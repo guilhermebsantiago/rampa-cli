@@ -1,0 +1,380 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://wellcomecollection.org/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "1886f15cb63e",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#newsletter-input",
+   "message": "The field \"Your email address\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "Your email address",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#newsletter-input",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input id=\"newsletter-input\" required=\"\" aria-invalid=\"false\" aria-errormessage=\"newsletter-input-errormessage\" type=\"email\" class=\"sc-333a3265-3 gHAWfM\" name=\"email\" value=\"\">",
+    "after": "<input id=\"newsletter-input\" required=\"\" aria-invalid=\"false\" aria-errormessage=\"newsletter-input-errormessage\" type=\"email\" class=\"sc-333a3265-3 gHAWfM\" name=\"email\" value=\"\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 1
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "2.5.3",
+    "ref": "#root > footer > div > div:nth-of-type(1) > div:nth-of-type(1) > div > p:nth-of-type(2) > a:nth-of-type(1)",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "5cb1c0b10184"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#header-nav > ul > li:nth-of-type(1) > a",
+   "message": "The link text \"Visit us\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Visit our website\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#main > div:nth-of-type(4) > div:nth-of-type(2) > div > div > div:nth-of-type(1) > a",
+   "message": "The link text \"Bag searches From 5 October 2026, all bags will be searched upon arrival, to help keep everyone safe and secure. Please allow extra time for security checks.\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Visiting Wellcome Collection: When you arrive\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#footer-nav-1",
+   "message": "The link text \"Visit us\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Visit our building\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#main > div:nth-of-type(4) > div:nth-of-type(1) > div > div > div > div > div > h2",
+   "message": "The heading \"In focus\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Featured content\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "#ccc-notify > div:nth-of-type(1) > p",
+   "source": null,
+   "ruleId": "rampa/pixel-contrast"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#root > footer > div > h3 > svg",
+   "reason": "suggested alternative equals the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Wellcome Collection",
+    "problem": "wrong_content",
+    "imageShows": "The logo for Wellcome Collection in a stylized, stacked white font on a dark background.",
+    "suggestedAlt": "Wellcome Collection",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#main > div:nth-of-type(3) > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(8) > a",
+   "reason": "mismatch without a title or heading read at the destination",
+   "output": {
+    "promises": "The link text describes an event called 'Session World AIDS Day: Connected Threads' occurring on Tuesday 1 December 2026, and the context (heading) describes a 'BSL Tour of ‘Audrey Amiss: The Surviving Exhibitions’ with Alison Claire France.",
+    "leadsTo": "/events/world-aids-day-connecting-threads",
+    "verdict": "fail",
+    "evidence": "Session World AIDS Day: Connected Threads In our building Tuesday 1 December 2026 10:00 –12:00 Relaxed British Sign Language interpreted",
+    "problem": "mismatch",
+    "suggestedText": "Session World AIDS Day: Connected Threads",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#main > div:nth-of-type(5) > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(4) > a",
+   "reason": "evidence is not the link text",
+   "output": {
+    "promises": "The link text 'Article Representing women's experiences of infertility' clearly describes the content of the destination page.",
+    "leadsTo": "/stories/representing-womens-experiences-of-infertility",
+    "verdict": "pass",
+    "evidence": "Article Representing women's experiences of infertility",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#root > footer > div > div:nth-of-type(3) > div:nth-of-type(1) > nav > ul > li:nth-of-type(6) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Manage cookies' suggests that clicking it will open a menu or page to adjust cookie preferences.",
+    "leadsTo": "/",
+    "verdict": "fail",
+    "evidence": "Manage cookies",
+    "problem": "mismatch",
+    "suggestedText": "Manage cookie preferences",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 56,
+   "judged": 50,
+   "failed": 0,
+   "passed": 44,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 6,
+   "suggested": 3
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 29,
+   "judged": 29,
+   "failed": 0,
+   "passed": 28,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 6 of 56 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 82,
+  "cachedCalls": 0,
+  "inputTokens": 75206,
+  "outputTokens": 7563,
+  "latencyMs": 233293
+ },
+ "timings": {
+  "totalMs": 119512,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 19
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 2754,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1279,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 79611,
+    "prepareMs": 0,
+    "candidates": 56,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 35619,
+    "prepareMs": 0,
+    "candidates": 29,
+    "judged": 29,
+    "calls": 29,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 180,
+    "prepareMs": 177,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 12,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 37
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 20,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 56,
+    "capped": 6
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null,
+  "fast": null
+ }
+}

@@ -115,3 +115,15 @@ pushing only the pre-registration before collection); results stay local.
        read in fast mode (link following is one of the stages fast mode leaves out), as documented.
 02:28  Main judgment started (run-judged.sh main, then run-judged.sh fast, one background job; DATA/judged-main.out and
        judged-fast.out). Ollama 0.40.3 answering, GPU at 47 °C.
+04:52  Main judgment done (02:28-04:52): 72 of 72 reports, each run exit 0 or 1 (1 = findings at the fail-on level, as in
+       the eighth study), median 118 s a page, longest 204 s; no page reached the 900 s time limit, no pause for heat or
+       memory. Two reports carry one model error each ("No object generated: could not parse the response", one
+       candidate each; b2-agencialupa-org and b3-osteopathy-org-uk): recorded as they are, not run again (rule "Once").
+05:40  Fast judgment done (04:52-05:40): 72 of 72 reports, median 40 s a page, longest 57 s, no error.
+05:41  compact.py (288 files), packets.py, judge_prompt.py --all, audit.py packets. Counts only: 61 main packets (11 pages
+       have no judgment or rule finding at any confidence, so no packet), 338 items (157 test, 181 dev); fast mode: 38
+       primary-population findings on the test half, 36 reuse a main-run label by the fingerprint-and-claim rule, 2 get
+       their own rows in 1 fast packet; 44 dev-half fast findings counted, not labelled. judge-prompts/index.json: 124
+       prompts (62 packets x auditor and skeptic), 340 items. audit-prompts/index.json: 6 prompts. Every packet and
+       audit-packet folder holds its snapshot and screenshot. Index paths and counts sent to the main session, which
+       launches the judges and the auditors.

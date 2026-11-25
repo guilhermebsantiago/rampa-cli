@@ -1,0 +1,510 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://delaware.gov/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "fe85f1da9b6e",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#featured-cards > div > div > div:nth-of-type(2) > div > div > img",
+   "message": "The text alternative \"Office of Small Business with logo with a film crew and camera\" describes something the image does not show.",
+   "evidence": "Office of Small Business with logo with a film crew and camera",
+   "subject": "Office of Small Business with logo with a film crew and camera",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#featured-cards > div > div > div:nth-of-type(2) > div > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Office of Small Business with logo with a film crew and camera",
+    "to": "Delaware surf fishing vehicle permit license plate number 6",
+    "before": "<img src=\"img/spotlight-No-6-Plate-small-surf-fishing.jpg\" alt=\"Office of Small Business with logo with a film crew and camera\" class=\"card-img-top\">",
+    "after": "<img src=\"img/spotlight-No-6-Plate-small-surf-fishing.jpg\" alt=\"Delaware surf fishing vehicle permit license plate number 6\" class=\"card-img-top\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999995910974204
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "acde4c1e4593",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#inputAddress",
+   "message": "The field \"My Address\" asks for the user's street address but does not identify that purpose: autocomplete=\"street-address\" is missing.",
+   "evidence": "My Address",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#inputAddress",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "street-address",
+    "before": "<input type=\"text\" class=\"form-control\" id=\"inputAddress\" name=\"inputAddress\" placeholder=\"411 Legislative Ave, Dover, DE 19901\">",
+    "after": "<input type=\"text\" class=\"form-control\" id=\"inputAddress\" name=\"inputAddress\" placeholder=\"411 Legislative Ave, Dover, DE 19901\" autocomplete=\"street-address\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "3d0346bab827",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#header-search-main",
+   "target": "#header-search-main",
+   "message": "This element (\"Search\") takes keyboard focus and listens to click, keydown, so it works as a control, but the browser exposes it as listitem, with no control role: a screen reader does not announce it as a button or a link (F59). Use the native element (button, a) or give it the role of the control it is.",
+   "evidence": "role listitem · click, keydown · \"Search\"",
+   "subject": "listitem click,keydown",
+   "confidence": "low",
+   "ruleId": "rampa/custom-control",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F59",
+   "html": "<li id=\"header-search-main\" class=\"nav-item header-search-main\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {},
+ "engine": {
+  "findings": [],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#featured-cards > div > div > div:nth-of-type(3) > div > div > img",
+   "message": "The text alternative \"2026 - 2027 Sober Rides logo.\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Promotional graphic for Sober Rides offering a discount on Lyft or Uber rides with a QR code.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: no (0.11), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#cd-vertical-nav > ul > li:nth-of-type(1) > a",
+   "message": "The link text \"Welcome\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Welcome section\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.2.2",
+   "ref": "#videos > div:nth-of-type(2) > a > div > video",
+   "source": null,
+   "ruleId": "video-caption"
+  },
+  {
+   "criterion": "1.2.2",
+   "ref": "#videos > div:nth-of-type(4) > a > div > video",
+   "source": null,
+   "ruleId": "video-caption"
+  },
+  {
+   "criterion": "1.2.2",
+   "ref": "#videos > div:nth-of-type(6) > a > div > video",
+   "source": null,
+   "ruleId": "video-caption"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#portalSearch > div > span > input:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#state-jobs-inner > div > h2",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#state-jobs-inner > div > h3",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#state-jobs-inner > div > h4 > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#jobs-search-field",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#jobs-search-button",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#popular-topics > h4",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#popular-topics > ul > li:nth-of-type(1) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#popular-topics > ul > li:nth-of-type(2) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#popular-topics > ul > li:nth-of-type(3) > a",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#data-section > div > h2",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#data-section > div > p:nth-of-type(1)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#data-section > div > p:nth-of-type(1) > a > strong",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#data-section > div > p:nth-of-type(2) > strong",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#data-section > div > p:nth-of-type(3)",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "#data-section > div > p:nth-of-type(3) > a > strong",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "4.1.2",
+   "ref": "#fsForm3938983 > input:nth-of-type(14)",
+   "source": null,
+   "ruleId": "duplicate-id-aria"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#data-section > div > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Open Data Logo",
+    "problem": "missing_information",
+    "imageShows": "A blue logo featuring a stylized network icon and the text 'Delaware Open Data'.",
+    "suggestedAlt": "Delaware Open Data",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 7,
+   "judged": 7,
+   "failed": 1,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 1,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 1,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 97,
+   "judged": 10,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 87,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 33,
+   "judged": 10,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 23,
+   "batched": {
+    "candidates": 10,
+    "calls": 2
+   }
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were not checked at all, so whatever they hold was missed: html > body > div:nth-of-type(8) > div > div > div > div:nth-of-type(1) > iframe (cross-origin; skipped).",
+  "6 image(s) were left without a capture, so no judgment looked at them: 6 transparent where it sits. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 87 of 97 for 2.4.4, 23 of 33 for 2.4.6. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (10 in 2 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 28,
+  "cachedCalls": 0,
+  "inputTokens": 22593,
+  "outputTokens": 2673,
+  "latencyMs": 71080
+ },
+ "timings": {
+  "totalMs": 41416,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 19
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 13315,
+    "prepareMs": 0,
+    "candidates": 7,
+    "judged": 7,
+    "calls": 13,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 3672,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 3,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 14593,
+    "prepareMs": 0,
+    "candidates": 97,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 9582,
+    "prepareMs": 0,
+    "candidates": 33,
+    "judged": 10,
+    "calls": 2,
+    "cachedCalls": 0,
+    "batches": 2
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 178,
+    "prepareMs": 175,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 19,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 35
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 1000,
+  "images": {
+   "captured": 7,
+   "notCaptured": 6,
+   "reasons": {
+    "not-shown": 6
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 97,
+    "capped": 87
+   },
+   {
+    "criterion": "2.4.6",
+    "candidates": 33,
+    "capped": 23
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > div:nth-of-type(8) > div > div > div > div:nth-of-type(1) > iframe",
+     "url": "https://www.google.com/recaptcha/api2/anchor?ar=1&k=6LeINU0bAAAAAFIQNz4Bc_d7mbDzeBMENU3LBZN_&co=aHR0cHM6Ly9kZWxhd2FyZS5nb3Y6NDQz&hl=en&type=image&v=DqDoLJqJmjhqr0vRwNZ2MCHA&theme=light&size=invisible&badge=bottomright&anchor-ms=20000&execute-ms=30000&ovv=CADq00gF&cb=2an510n0gp0",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": false,
+     "engineReason": "skipped"
+    }
+   ]
+  },
+  "fast": {
+   "skipped": [
+    "probes",
+    "link-following",
+    "ocr"
+   ],
+   "maxCandidates": 10
+  }
+ }
+}

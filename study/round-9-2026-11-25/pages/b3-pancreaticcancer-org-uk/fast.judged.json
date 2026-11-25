@@ -1,0 +1,477 @@
+{
+ "rampaVersion": "0.1.3",
+ "target": "https://www.pancreaticcancer.org.uk/news-and-blogs/study-launched-to-improve-consistency-in-diagnosis-and-treatment/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "ac77bc532db1",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#accordion0",
+   "target": "#accordion0",
+   "message": "None of the 2 tabs in this list is exposed as selected: a screen reader does not say which panel is open. Mark the current tab with aria-selected=\"true\" (and the others with \"false\").",
+   "evidence": "2 tabs, none selected: Find out more about these del…, Why do scan reports matter? S…",
+   "subject": "Find out more about these del… | Why do scan reports matter? S…",
+   "confidence": "low",
+   "ruleId": "rampa/tab-state",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<div id=\"accordion0\" class=\"c-accordion js-accordion\" role=\"tablist\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 5
+ },
+ "engine": {
+  "findings": [
+   {
+    "criterion": "2.5.3",
+    "ref": "html > body > header > div:nth-of-type(1) > div:nth-of-type(1) > div > div > div > nav > ul > li:nth-of-type(2) > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "d2719f587ebc"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "html > body > header > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div > div:nth-of-type(1) > nav > ul > li:nth-of-type(1) > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "71f89c36e1f8"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "html > body > header > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div > div:nth-of-type(1) > nav > ul > li:nth-of-type(2) > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "9558f14d3559"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "html > body > header > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div > div:nth-of-type(1) > nav > ul > li:nth-of-type(3) > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "05abc7c6addd"
+   },
+   {
+    "criterion": "2.5.3",
+    "ref": "html > body > header > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div > div:nth-of-type(1) > nav > ul > li:nth-of-type(4) > a",
+    "ruleId": "label-content-name-mismatch",
+    "confidence": "high",
+    "fingerprint": "3e2077bf6552"
+   }
+  ],
+  "belowThreshold": [],
+  "beyondTarget": []
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > main > section:nth-of-type(9) > div > a:nth-of-type(3) > div > img",
+   "message": "The text alternative \"A support line nurse taking a phone call\" describes something the image does not show.",
+   "evidence": "The model suggests: \"A support line nurse talking on the phone\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.00), claim: no (0.00), reversed: yes (0.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > header > div:nth-of-type(1) > div:nth-of-type(4) > div > div:nth-of-type(1) > a:nth-of-type(1)",
+   "message": "The link text \"I want to know the symptoms Arrow\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Signs and symptoms of pancreatic cancer\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "otherReview": [
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > main > section:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > h1",
+   "source": null,
+   "ruleId": "color-contrast"
+  },
+  {
+   "criterion": "1.4.3",
+   "ref": "html > body > main > section:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > h2",
+   "source": null,
+   "ruleId": "color-contrast"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > header > div:nth-of-type(1) > div:nth-of-type(4) > div > div:nth-of-type(1) > a:nth-of-type(1) > img",
+   "reason": "suggested alternative is a label, not a description",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Arrow",
+    "problem": "wrong_content",
+    "imageShows": "A white right-pointing arrow on a purple background.",
+    "suggestedAlt": "decorative",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > header > div:nth-of-type(1) > div:nth-of-type(4) > div > div:nth-of-type(1) > a:nth-of-type(2) > img",
+   "reason": "suggested alternative is a label, not a description",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Arrow",
+    "problem": "wrong_content",
+    "imageShows": "A white right-pointing arrow on a purple background.",
+    "suggestedAlt": "decorative",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > header > div:nth-of-type(1) > div:nth-of-type(4) > div > div:nth-of-type(1) > a:nth-of-type(3) > img",
+   "reason": "suggested alternative is a label, not a description",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Arrow",
+    "problem": "wrong_content",
+    "imageShows": "A white right-pointing arrow on a purple background.",
+    "suggestedAlt": "decorative",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > main > section:nth-of-type(9) > div > a:nth-of-type(2) > div > img",
+   "reason": "the model's description of the image keeps every word of the current alternative",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Researcher working in the lab",
+    "problem": "wrong_content",
+    "imageShows": "A researcher in a white lab coat and purple gloves is working with equipment in a laboratory.",
+    "suggestedAlt": "A researcher working in a laboratory",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#footer > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > svg",
+   "reason": "the suggested alternative repeats the text around the image",
+   "output": {
+    "imageShows": "The logo for Pancreatic Cancer UK, featuring a white 'P' inside a circle next to the organisation's name.",
+    "textInImage": "Pancreatic CANCER UK",
+    "verdict": "fail",
+    "evidence": "The logo names the organisation: \"Pancreatic CANCER UK\"",
+    "suggestedAlt": "Pancreatic Cancer UK logo",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "html > body > main > section:nth-of-type(9) > div > a:nth-of-type(1) > h3",
+   "reason": "suggested text equals the current one",
+   "output": {
+    "named": "Campaign with us",
+    "verdict": "fail",
+    "evidence": "Campaign with us",
+    "problem": "mismatch",
+    "suggestedText": "Campaign with us",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "html > body > main > section:nth-of-type(9) > div > a:nth-of-type(2) > h3",
+   "reason": "suggested text equals the current one",
+   "output": {
+    "named": "Our research",
+    "verdict": "fail",
+    "evidence": "Our research",
+    "problem": "mismatch",
+    "suggestedText": "Our research",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 9,
+   "judged": 9,
+   "failed": 0,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 5,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 47,
+   "judged": 10,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 37,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 9,
+   "judged": 9,
+   "failed": 0,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "batched": {
+    "candidates": 8,
+    "calls": 2
+   }
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "2 of the page's 18 stylesheet(s) had not applied when it was read (https://www.pancreaticcancer.org.uk/wp-content/plugins/wallsio/block/dist/blocks.style.build.css?ver=3.0.14 (no rules), https://www.pancreaticcancer.org.uk/wp-content/themes/pcuk/style.css?ver=7.1.5 (no rules)): the page was read with the styles it had, which may differ from what people see.",
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: html > body > div:nth-of-type(1) > div > div:nth-of-type(1) > iframe (https://www.google.com/recaptcha/api2/anchor?ar=1&k=6LdziLEaAAAAADDhjA1ED0jlhsl1s7wEUCbaIGvq&co=aHR0cHM6Ly93d3cucGFuY3JlYXRpY2NhbmNlci5vcmcudWs6NDQz&hl=en&v=DqDoLJqJmjhqr0vRwNZ2MCHA&size=invisible&anchor-ms=20000&execute-ms=30000&ovv=CADq00gF&cb=ymyny1gsg2e6).",
+  "1 closed shadow root(s) cannot be read by any script, so nothing inside them was checked (hosts: html > cs-native-frame-holder).",
+  "1 image(s) were left without a capture, so no judgment looked at them: 1 covered where it sits by other content, such as a popup or a cookie banner. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 37 of 47 for 2.4.4. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (8 in 2 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 24,
+  "cachedCalls": 2,
+  "inputTokens": 22856,
+  "outputTokens": 2617,
+  "latencyMs": 65531
+ },
+ "timings": {
+  "totalMs": 39108,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 18
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 15256,
+    "prepareMs": 0,
+    "candidates": 9,
+    "judged": 9,
+    "calls": 12,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1169,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 12264,
+    "prepareMs": 0,
+    "candidates": 47,
+    "judged": 10,
+    "calls": 8,
+    "cachedCalls": 2
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 10168,
+    "prepareMs": 0,
+    "candidates": 9,
+    "judged": 9,
+    "calls": 3,
+    "cachedCalls": 0,
+    "batches": 2
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 185,
+    "prepareMs": 182,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 20,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 26
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "stylesheets": {
+   "linked": 18,
+   "applied": 16,
+   "failed": 2
+  },
+  "images": {
+   "captured": 9,
+   "notCaptured": 1,
+   "reasons": {
+    "covered": 1
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 47,
+    "capped": 37
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > div:nth-of-type(1) > div > div:nth-of-type(1) > iframe",
+     "url": "https://www.google.com/recaptcha/api2/anchor?ar=1&k=6LdziLEaAAAAADDhjA1ED0jlhsl1s7wEUCbaIGvq&co=aHR0cHM6Ly93d3cucGFuY3JlYXRpY2NhbmNlci5vcmcudWs6NDQz&hl=en&v=DqDoLJqJmjhqr0vRwNZ2MCHA&size=invisible&anchor-ms=20000&execute-ms=30000&ovv=CADq00gF&cb=ymyny1gsg2e6",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ],
+   "shadowRoots": {
+    "open": 0,
+    "closed": 1,
+    "closedHosts": [
+     "html > cs-native-frame-holder"
+    ]
+   },
+   "stylesheets": {
+    "linked": 18,
+    "applied": 16,
+    "failed": [
+     {
+      "href": "https://www.pancreaticcancer.org.uk/wp-content/plugins/wallsio/block/dist/blocks.style.build.css?ver=3.0.14",
+      "reason": "no rules"
+     },
+     {
+      "href": "https://www.pancreaticcancer.org.uk/wp-content/themes/pcuk/style.css?ver=7.1.5",
+      "reason": "no rules"
+     }
+    ]
+   }
+  },
+  "fast": {
+   "skipped": [
+    "probes",
+    "link-following",
+    "ocr"
+   ],
+   "maxCandidates": 10
+  }
+ }
+}
