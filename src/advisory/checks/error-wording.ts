@@ -2,7 +2,7 @@ import { z } from 'zod'
 import type { Judgment } from '../../core/judge.ts'
 import type { Candidate, JudgmentBase, Verification } from '../../core/types.ts'
 import { dataBlock, normalizeForMatch, tagged } from '../../core/util.ts'
-import { errorFields, errorMessageCandidates } from '../../criteria/error-messages.ts'
+import { errorFields, errorMessageCandidates, fieldType } from '../../criteria/error-messages.ts'
 import { shown, shownText } from '../../criteria/labels-or-instructions.ts'
 import { verifyQuote } from '../../criteria/shared.ts'
 import { languageName } from '../../i18n.ts'
@@ -12,7 +12,7 @@ import type { AdvisoryCheck, AdvisoryContext, CheckRun } from '../check.ts'
 import { cogaBasis } from '../coga.ts'
 import { am, amPlural } from '../messages.ts'
 import { askModel, end, finished, modelGate, modelName, notRun } from '../model.ts'
-import { type Page, languageOf } from '../page.ts'
+import { type Page, languageOf, usable } from '../page.ts'
 import type { Basis } from '../types.ts'
 
 /**
@@ -127,6 +127,16 @@ export function wordingCandidates(page: Page): Candidate<WordingContext>[] {
     }
   }
   return [...out.values()]
+}
+
+/**
+ * What the form probe (--probe form) did with the page's fields: typed into some, so the messages that show after typing
+ * were read; typed into none, as no field states a rule in its markup that a value could break; or did not run.
+ */
+function formProbe(page: Page): 'typed' | 'untyped' | undefined {
+  const records = (page.snapshot.observations?.probes ?? []).filter((record) => record.kind === 'form' && record.status !== 'skipped')
+  if (records.length === 0) return undefined
+  return records.some((record) => Number((record.data as Partial<FormData> | undefined)?.tried ?? 0) > 0) ? 'typed' : 'untyped'
 }
 
 /** Whether a WCAG 3.3.3 result is on the message or its field, or a 3.3.1 judgment on the message: then this is left to it. */
@@ -253,6 +263,11 @@ export const errorWording: AdvisoryCheck = {
       })
     }
     const notes = left > 0 ? [amPlural(context.locale, 'wordingLeftToWcag', left)] : []
+    // Error messages often show only after a person types or submits: say so, rather than let silence read as clear wording.
+    if (all.length === 0 && context.page.ordered.some((node) => fieldType(node) !== undefined && usable(node))) {
+      const probe = formProbe(context.page)
+      notes.push(am(context.locale, probe === 'typed' ? 'wordingNoneProbed' : probe === 'untyped' ? 'wordingNoneUntyped' : 'wordingNone'))
+    }
     return finished(errorWording.id, context.locale, asked, all.length, hits, notes)
   },
 }

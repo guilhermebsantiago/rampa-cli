@@ -17,6 +17,7 @@ import {
 } from '../abbreviations/lists.ts'
 import { definitionsIn, plain } from '../abbreviations/long-form.ts'
 import { proposeExpansions } from '../abbreviations/propose.ts'
+import { type Family, knownWord, nameLike, wordShaped } from '../abbreviations/word-shape.ts'
 import type { AdvisoryCheck, AdvisoryHit, CheckRun } from '../check.ts'
 import { cogaBasis } from '../coga.ts'
 import { am, ordinal, times } from '../messages.ts'
@@ -31,9 +32,13 @@ import type { Basis, Reference } from '../types.ts'
  * Rules decide, in four steps:
  * 1. Candidates: tokens of 2–8 characters with at least two capitals and no run of three lowercase
  *    letters (CPF, NIS, CNPJs), and the curated names that break that shape (CadÚnico). Left out: words
- *    written in capitals (ENTRAR, which the dictionary knows), names in camel case (TikTok, AirTag), Roman
- *    numerals, state codes, currencies and units next to a number, file formats, text in code or addresses,
- *    and the project's own list.
+ *    written in capitals (ENTRAR, which the dictionary or the word list knows, also without its accents:
+ *    SERVICOS, JOAO), names in camel case (TikTok, AirTag), Roman numerals, state codes, currencies and units
+ *    next to a number, file formats, text in code or addresses, and the project's own list. A token shaped
+ *    like a word (word-shape.ts) is also left out as a name or a word when the page writes it elsewhere in
+ *    lower case or with only an initial capital, when it follows a greeting ("Olá, MARIA TAVORENO"), or when it
+ *    stands in a short run of capitals next to a name the dictionary knows (MARIA). INSS, CNIS or CPF never
+ *    have that shape, and the curated list wins over all of these.
  * 2. Explained when an occurrence has <abbr title>, a <dfn>, a glossary link, or its full term next to it
  *    (Schwartz and Hearst, 2003), in brackets or after a dash, in either order. Explained only later on
  *    the page is reported as "not at first use".
@@ -45,8 +50,9 @@ import type { Basis, Reference } from '../types.ts'
  * Only Portuguese and English are read: the languages with a dictionary and a curated list.
  */
 
-const VERSION = `2+lists-${LISTS_VERSION}`
-const TOKEN = /[\p{L}\p{N}]+/gu
+const VERSION = `3+lists-${LISTS_VERSION}`
+// Combining marks too: a page may write DIDÁTICOS with a separate accent (NFD), one word and not DID and TICOS.
+const TOKEN = /[\p{L}\p{M}\p{N}]+/gu
 /** Addresses, e-mail addresses and domain names, blanked before tokens are read. */
 const ADDRESSES = /\b(?:https?:\/\/|www\.)\S+|\S+@\S+\.\S+|\b[\w-]+(?:\.[\w-]+)*\.(?:gov|com|org|net|edu|br|uk|io|mil|int)(?:\.[a-z]{2})?\b\S*/giu
 const LEI_15263: Reference = {
@@ -66,7 +72,6 @@ const WCAG_314: Basis = {
   url: 'https://www.w3.org/WAI/WCAG22/Understanding/abbreviations.html',
 }
 
-type Family = 'pt' | 'en'
 const DICTIONARY: Record<Family, DictionaryLanguage> = { pt: 'pt-BR', en: 'en' }
 
 interface Occurrence {
@@ -291,26 +296,130 @@ function isPublicSector(target: string): boolean {
 /** Every occurrence of each candidate, in reading order, keyed as looked up (CNPJs under CNPJ). */
 function findOccurrences(runs: readonly TextRun[], dictionaries: Map<Family, WordList>, known: ReadonlySet<string>): Map<string, Occurrence[]> {
   const occurrences = new Map<string, Occurrence[]>()
+  const texts = runs.map((run) => run.text.replace(ADDRESSES, (match) => ' '.repeat(match.length)))
+  // A word in capitals, looked up once per page: the dictionary and the word list, also without the word's accents.
+  const words = new Map<string, boolean>()
+  const isWord = (key: string, family: Family, dictionary: WordList) => {
+    const id = `${family}|${key}`
+    let found = words.get(id)
+    if (found === undefined) {
+      found = knownWord(key, family, dictionary)
+      words.set(id, found)
+    }
+    return found
+  }
   for (const [runIndex, run] of runs.entries()) {
     const family = primaryOf(run.language)
     if (family !== 'pt' && family !== 'en') continue
     const dictionary = dictionaries.get(family)
     if (!dictionary) continue
-    const text = run.text.replace(ADDRESSES, (match) => ' '.repeat(match.length))
+    const text = texts[runIndex] as string
     for (const match of text.matchAll(TOKEN)) {
       const token = match[0]
-      const key = candidateKey(token, family)
+      const key = candidateKey(token.normalize('NFC'), family)
       if (!key || known.has(key) || known.has(token)) continue
       if (inFileName(text, match.index, token.length)) continue
       const before = text.slice(Math.max(0, match.index - 24), match.index)
       const after = text.slice(match.index + token.length, match.index + token.length + 8)
-      if (excluded(key, family, before, after, dictionary)) continue
+      if (excluded(key, family, before, after, (word) => isWord(word, family, dictionary))) continue
       const list = occurrences.get(key) ?? []
       list.push({ token, key, family, runIndex, offset: match.index })
       occurrences.set(key, list)
     }
   }
+  // Names and words in capitals that the page shows to be names or words: no dictionary knows every surname.
+  const lower = lowerCaseForms(texts)
+  const tokens = new Map<number, Token[]>()
+  const tokensOf = (runIndex: number) => {
+    let found = tokens.get(runIndex)
+    if (!found) {
+      found = tokenize(texts[runIndex] as string)
+      tokens.set(runIndex, found)
+    }
+    return found
+  }
+  for (const [key, list] of occurrences) {
+    const first = list[0] as Occurrence
+    if (curated(key, first.family) || [...key].length < MIN_GREETED || !wordShaped(key, first.family)) continue
+    const dictionary = dictionaries.get(first.family)
+    const elsewhere = [...key].length >= MIN_LETTERS && lower.has(folded(key))
+    if (elsewhere || list.some((occurrence) => inName(texts[occurrence.runIndex] as string, tokensOf(occurrence.runIndex), occurrence, dictionary))) {
+      occurrences.delete(key)
+    }
+  }
   return occurrences
+}
+
+interface Token {
+  /** As compared: in NFC. */
+  word: string
+  start: number
+  end: number
+}
+
+function tokenize(text: string): Token[] {
+  return [...text.matchAll(TOKEN)].map((match) => ({ word: match[0].normalize('NFC'), start: match.index, end: match.index + match[0].length }))
+}
+
+function curated(key: string, family: Family): boolean {
+  return LISTS[family].expansions.has(key) || LISTS[family].common.has(key)
+}
+
+/** A word as compared across cases and accents: Araújo, ARAUJO and araujo are one. */
+function folded(word: string): string {
+  return word.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase()
+}
+
+/** The words a page writes in lower case or with only an initial capital (Tavoreno, tavoreno), folded. */
+function lowerCaseForms(texts: readonly string[]): Set<string> {
+  const out = new Set<string>()
+  for (const text of texts) {
+    for (const { word } of tokenize(text)) {
+      if (/^\p{Lu}?\p{Ll}+$/u.test(word)) out.add(folded(word))
+    }
+  }
+  return out
+}
+
+/** Greetings a name in capitals follows: "Olá, MARIA TAVORENO", "Bem-vinda, ANA", "Hello, JOHN". */
+const GREETING = /(?:^|[^\p{L}])(?:ol[áa]|oi|bem[- ]?vind[oa](?:\([ao]\)|s)?|boa tarde|boa noite|bom dia|hello|hi|hey|welcome(?: back)?|good (?:morning|afternoon|evening))[\s,!:]*$/iu
+/** Particles inside a name, skipped to find the word next to a token: JOSÉ DA SILVA. */
+const PARTICLE = /^(?:D[AEIO]S?|E|VAN|VON|DEL)$/u
+/** A name is a few words; a longer run of capitals is a sentence or a title, where a name next to a token proves less. */
+const MAX_NAME_WORDS = 6
+/**
+ * The context counts only for a token of four letters or more, three after a greeting: shorter ones are too often a code
+ * (EN, DE, ET) or an acronym some alt text or slug writes in lower case (GAA, ATU, EJA).
+ */
+const MIN_LETTERS = 4
+const MIN_GREETED = 3
+
+/**
+ * Whether an occurrence stands in a name written in capitals: a short run of words in capitals, with nothing but spaces
+ * between them (or a hyphen or an apostrophe inside a name: JEAN-PIERRE, D'ÁVILA), that follows a greeting ("Olá, MARIA
+ * TAVORENO"), or whose words all have a word's shape (not COMISSÕES CEUA CEP CIPA) and in which the word next to the token
+ * is a name or a rare word the dictionary knows (MARIA, ARAUJO), not a common word of the list (PORTAL).
+ */
+function inName(text: string, tokens: readonly Token[], occurrence: Occurrence, dictionary: WordList | undefined): boolean {
+  const at = tokens.findIndex((token) => token.start === occurrence.offset)
+  if (at < 0) return false
+  const capitals = (index: number) => /^[\p{Lu}\p{M}]+$/u.test(tokens[index]?.word ?? '')
+  const joined = (left: number) => /^(?:\s+|['’-])$/u.test(text.slice(tokens[left]?.end ?? 0, tokens[left + 1]?.start ?? 0))
+  let first = at
+  let last = at
+  while (first > 0 && capitals(first - 1) && joined(first - 1)) first--
+  while (last < tokens.length - 1 && capitals(last + 1) && joined(last)) last++
+  if (last - first + 1 > MAX_NAME_WORDS) return false
+  const start = tokens[first]?.start ?? 0
+  if (GREETING.test(text.slice(Math.max(0, start - 40), start))) return true
+
+  const family = occurrence.family
+  const words = tokens.slice(first, last + 1).map((token) => token.word)
+  if (!dictionary || [...occurrence.key].length < MIN_LETTERS || !words.every((word) => PARTICLE.test(word) || (!curated(word, family) && wordShaped(word, family)))) return false
+  // The words next to the token, past the particles of a name (DA, DE, DOS, E).
+  const before = words.slice(0, at - first).filter((word) => !PARTICLE.test(word)).at(-1)
+  const after = words.slice(at - first + 1).find((word) => !PARTICLE.test(word))
+  return [before, after].some((word) => word !== undefined && [...word].length >= MIN_LETTERS && nameLike(word, family, dictionary))
 }
 
 /**
@@ -337,7 +446,7 @@ function candidateKey(token: string, family: Family): string | undefined {
   return /^(\p{Lu}[\p{Lu}\p{N}]+)s$/u.exec(token)?.[1] ?? token
 }
 
-function excluded(key: string, family: Family, before: string, after: string, dictionary: WordList): boolean {
+function excluded(key: string, family: Family, before: string, after: string, isWord: (word: string) => boolean): boolean {
   // A file format, or the extension of a file name written out; a ZIP code is a postal code, not an archive.
   if ((FILE_FORMATS.has(key) && !(key === 'ZIP' && /^\s*cod/i.test(after))) || /\.$/.test(before)) return true
   if (isRomanNumeral(key, before)) return true
@@ -349,7 +458,7 @@ function excluded(key: string, family: Family, before: string, after: string, di
   const list = LISTS[family]
   // The curated list wins over the dictionary: SUS, NIS and DETRAN collide with words or names in it.
   if (list.expansions.has(key) || list.common.has(key)) return false
-  return dictionary.isWord(key)
+  return isWord(key)
 }
 
 /** Where each abbreviation is explained: abbr with a title, dfn, a glossary link, or its full term written next to it. */

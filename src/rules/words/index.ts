@@ -47,6 +47,11 @@ export function isListedWord(word: string, language: WordLanguage): boolean {
   return lists(language).long.has(word.normalize('NFC').toLowerCase())
 }
 
+/** The language's list of words of four letters or more, in lower case. */
+export function listedWords(language: WordLanguage): ReadonlySet<string> {
+  return lists(language).long
+}
+
 /**
  * Splits letters into words of the language: one listed word of four letters or more ("welcome"), or a phrase of
  * them with short words between ("welcome", "to", "our", "site"). Undefined when the letters do not split that way,

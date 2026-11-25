@@ -9,6 +9,8 @@
 export interface WordList {
   /** Whether the lowercase form of `word` is a word of the language (not an entry written in capitals). */
   isWord(word: string): boolean
+  /** Whether the lowercase form of `word` is an entry of the dictionary as it stands, with no affix (capitão, Antônio). */
+  isEntry?(word: string): boolean
 }
 
 type FlagMode = 'char' | 'long' | 'num'
@@ -106,6 +108,11 @@ export class Hunspell implements WordList {
       }
     }
     return false
+  }
+
+  isEntry(word: string): boolean {
+    const own = this.words.get(word.toLowerCase())
+    return own !== undefined && this.standalone(own)
   }
 
   private withSuffix(word: string, alsoFlag?: string): boolean {
