@@ -127,6 +127,14 @@ export const CLAIM_TECHNIQUES: Readonly<Record<string, readonly TechniqueId[]>> 
   // is about input type="image"; it is the reading the module applies to any image that is all its button holds.
   '1.1.1 functional_link': ['H30'],
   '1.1.1 functional_button': ['H36'],
+  // The same readings for an image hidden from assistive technology that is all a link or button with no name holds:
+  // H30's test asks the link's only image for a text alternative that "describes the purpose of the link", and H36 the
+  // button's for one that "describes the button's function"; an image hidden from them gives none.
+  '1.1.1 unnamed_link': ['H30'],
+  '1.1.1 unnamed_button': ['H36'],
+  // An alternative that repeats the link next to it: G94's test ("Check that nothing is lost") if the image conveys more
+  // than the link, H67 (null alt text) if it only illustrates it. The claim names both readings and decides neither.
+  '1.1.1 repeats_link': ['G94', 'H67'],
   // F39 is the failure the claim names; H67 is how such an image is marked.
   '1.1.1 decorative': ['F39', 'H67'],
   // None of the failures Understanding 1.1.1 lists describes an image that conveys something and is hidden with

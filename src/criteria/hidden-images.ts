@@ -87,6 +87,11 @@ const HOW: Record<HiddenBy, (facts: HiddenImageFacts) => { en: string; 'pt-BR': 
   'unnamed-canvas': () => ({ en: 'a canvas with no name', 'pt-BR': 'um canvas sem nome', prompt: 'a canvas with no name and no role' }),
 }
 
+/** How the page hides an image, in the report's words: `alt=""`, `inside aria-hidden="true"`, `an svg with no name`. */
+export function hiddenHow(facts: Pick<HiddenImageFacts, 'by' | 'own' | 'role'>, locale: Locale): string {
+  return HOW[facts.by](facts as HiddenImageFacts)[locale]
+}
+
 const DRAWN_AS: Record<HiddenImageFacts['drawnAs'], string> = { img: 'an img element', svg: 'an inline svg', canvas: 'a canvas' }
 
 export function hiddenPrompt(facts: HiddenImageFacts, context: { html: string; src: string | undefined; language: string; image: PromptImage | undefined }, snapshot: A11ySnapshot): Prompt {
