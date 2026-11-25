@@ -137,8 +137,14 @@ def check():
             print(f"{slug:40} not JSON ({error})")
             problems += 1
             continue
-        snap = read_json(os.path.join(HERE, "audit-packets", slug, "snapshot.json")) if os.path.exists(os.path.join(HERE, "audit-packets", slug, "snapshot.json")) \
-            else read_json(snapshot_file(os.path.join(page_dir(slug), "recording")))
+        snap_path = os.path.join(HERE, "audit-packets", slug, "snapshot.json")
+        if not os.path.exists(snap_path):
+            snap_path = snapshot_file(os.path.join(page_dir(slug), "recording"))
+        if not snap_path:
+            print(f"{slug:40} no snapshot to check the refs against")
+            problems += 1
+            continue
+        snap = read_json(snap_path)
         refs = {n["ref"] for n in walk(snap["root"])}
         bad = []
         if d.get("page") != meta["url"]:

@@ -83,3 +83,25 @@ pushing only the pre-registration before collection); results stay local.
        eighth study's finished pages (outside the repository; counts only). estimate.py: about 4.4 h of machine time.
        The pre-registration quotes the sixth study's section 4 from dae1522; the quote was checked line by line against
        `git show dae1522:study/round-6-2026-10-29/preregistration.md` (identical).
+01:42  FREEZE: commit 1c6b508635bee0e3947094d34b8f20b941d20429 ("Round 9 pre-registration: frozen before collection");
+       SHA-256 of preregistration.md d126737404ad6128115c88fc6d8335c4a3537cd08cf4e99a880270e6012539df, of judge-rubric.md
+       c0de491aea33ba72b1e69c5b229c8cb37ff518a6623e7231e77e0a49eaa306ef. A fast-forward of origin/main (af1c105), 5 commits.
+01:42  PUSHED by the main session (not by this agent): 1c6b508 is origin/main since 2026-11-25 01:42:45 -0300, after its
+       check (only study/round-9-2026-11-25/ files, the pre-registration's SHA-256 as above, no personal data). Checked here
+       with git ls-remote. No page had been collected before the push. Everything from here on stays local (no push).
+01:43  Main collection started (scripts/collect.sh main, then collect.sh fast, one background job; output in
+       DATA/collect-main.out and collect-fast.out). Every collection exits 2, as in the eighth study: an offline run with an
+       empty cache judges nothing; the snapshot is saved.
+01:50  Analysis scripts adapted (step 4 of the plan), before any label of this round exists: scripts/analyze.py (sections 4
+       to 10: the primary by dae1522's rule with random.Random(20261029) for every bootstrap, the dev half and the pooled 72
+       beside it, fast mode by data/fast-reuse.json, the recall audit's matching, time, model use and the hosted estimate
+       from docs/models.md, the co-registered measures, the comparison with the eighth study) and scripts/check_labels.py
+       (the eighth study's, which now also runs scripts/audit.py check). Tested on a scratch copy of the eighth study's
+       folder with its labels (outside the repository): primary 120 TP / 11 FP / 25 uncertain, 0.916, Wilson 0.856-0.952,
+       "favourable" (the eighth study's published numbers; its page bootstrap 0.842-0.968 here with this round's generator,
+       0.842-0.969 there), the same per-criterion counts and same-name sets, judge kappa 0.88, check_labels 0 problems on
+       its 60 packets; with block 2 marked dev the dev and pooled views add up; the fast-mode and recall code paths run on
+       synthetic inputs (labels reused through data/fast-reuse.json; an invented audit file with a matching ref, a child
+       ref, an unmatched ref, a page-level failure and a ref missing from the snapshot gave the expected 2 of 5). Fixes
+       made during the test: the eighth study's rows say "default" for the main run, and the split is read from
+       data/pages-input.json.
