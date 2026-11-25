@@ -105,3 +105,13 @@ pushing only the pre-registration before collection); results stay local.
        ref, an unmatched ref, a page-level failure and a ref missing from the snapshot gave the expected 2 of 5). Fixes
        made during the test: the eighth study's rows say "default" for the main run, and the split is read from
        data/pages-input.json.
+02:14  Main collection done (01:43-02:14): 72 of 72 pages saved a snapshot on the first attempt; no refusal, no network
+       drop, no unstyled capture (check_collect.py: capture notes and counts only). Three snapshots were cut at Rampa's
+       5,000-element limit (b1-libertylondon-com and b3-53degreesnorth-ie, test; b1-hobbs-com, dev): a property of the
+       frozen collector, reported, nothing changed. b1-barstandardsboard-org-uk and b3-mpac-mp-br have no 3.1.1 candidate
+       (no lang attribute on the page). Fast collection started at once.
+02:27  Fast collection done (02:14-02:27): 72 of 72 pages saved a fast snapshot and a screenshot on the first attempt; no
+       refusal, no network drop, no unstyled capture. The same three pages are cut at 5,000 elements. No destination is
+       read in fast mode (link following is one of the stages fast mode leaves out), as documented.
+02:28  Main judgment started (run-judged.sh main, then run-judged.sh fast, one background job; DATA/judged-main.out and
+       judged-fast.out). Ollama 0.40.3 answering, GPU at 47 °C.
