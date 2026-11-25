@@ -1,7 +1,9 @@
 """Deal the ninth study's new candidate pools to its 72 slots and draw its split, before the screen.
 
 The ninth study wrote 24 pools (12 strata x home or inner) before anything loaded: scripts/pools.tsv (30 sites each; every
-pool kept 24 or more after the exclusions, so no supplementary list was written). This takes each pool in its written
+pool kept 24 or more after the exclusions, so no supplementary pool list was written). Two slots whose every candidate
+failed the screen got a supplementary list each, written before any of its sites loaded (scripts/pools-2.tsv, "slot<TAB>url"):
+its sites are checked like the pools' and appended, in order, to that slot's backups only, so no other slot changes. This takes each pool in its written
 order, drops every site whose registrable domain is excluded (data/excluded-domains.json, scripts/exclusions.py), every
 site whose registrable domain an earlier site of the pools already holds, and the look-alikes below, and deals the rest
 of the pool, in order, to the pool's three slots, one per block, round robin: survivor 1 to block 1, 2 to block 2, 3 to
@@ -40,6 +42,7 @@ from exclusions import PSL, excluded_set  # noqa: E402
 SEED = 202611259
 BLOCKS = (1, 2, 3)
 POOLS = [os.path.join(HERE, "scripts", "pools.tsv")]
+SLOT_LISTS = os.path.join(HERE, "scripts", "pools-2.tsv")
 CATEGORIES = ("culture", "edu", "gov", "health", "news", "shop")
 # Looked at by hand before any load: the same organisation as an excluded site or as another candidate, so dropped. Every
 # other look-alike exclusions.py flagged is a different organisation (HEADER).
@@ -63,7 +66,9 @@ HEADER = """# slot	url
 # international x government, education, news, e-commerce, health, culture or public services) has a home slot (h) and
 # an inner slot (i), filled from two different sites.
 # Written by scripts/deal.py on 2026-11-25 from the ninth study's new pools (scripts/pools.tsv, written before any of them
-# was checked or loaded), in their written order, before any candidate was loaded. Dropped before dealing: {excluded}
+# was checked or loaded), in their written order, before any candidate was loaded; rewritten after the first screens with
+# the supplementary lists of two exhausted slots (scripts/pools-2.tsv, written before any of their sites loaded) appended
+# to those slots' backups, every other line unchanged. Dropped before dealing: {excluded}
 # excluded sites (data/excluded-domains.json), {dupes} sites whose registrable domain an earlier site holds, and {looked}
 # look-alikes of the same organisation as an excluded site or an earlier candidate ({looked_names}). The first URL of a
 # slot is its primary; the next ones (.b1, .b2, ...) are its backups, used in order when the one before fails the screen.
@@ -173,6 +178,26 @@ def main():
             for i, url in enumerate(alive[j::len(BLOCKS)]):
                 slot = f"b{block}-{stratum}-{kind}" + ("" if i == 0 else f".b{i}")
                 slots.append((block, strata.index(stratum), kind, i, slot, url))
+    # Supplementary lists for exhausted slots: appended to that slot's backups, after the same checks.
+    extra = 0
+    if os.path.exists(SLOT_LISTS):
+        for line in open(SLOT_LISTS, encoding="utf-8"):
+            if not line.strip() or line.startswith("#"):
+                continue
+            base, url = line.rstrip("\n").split("\t")
+            reg = psl.registrable(urlsplit(url).hostname)
+            if reg in excluded:
+                dropped += 1
+            elif reg in held:
+                dupes += 1
+            elif reg in LOOKED_DROP:
+                looked += 1
+            else:
+                block, stratum, kind = int(base[1]), base.split("-", 1)[1].rsplit("-", 1)[0], base.rsplit("-", 1)[1]
+                n = sum(1 for s in slots if s[4].split(".")[0] == base)
+                slots.append((block, strata.index(stratum), kind, n, f"{base}.b{n}", url))
+                extra += 1
+            held.add(reg)
     slots.sort()
     split_text = "\n# ".join(
         f"block {b}: " + ", ".join(f"{s} home {'dev' if drawn['split'][f'b{b}-{s}-h'] == 'dev' else 'test'}" for s in strata)
@@ -193,6 +218,7 @@ def main():
     per = {}
     for s in slots:
         per[s[4].split(".")[0]] = per.get(s[4].split(".")[0], 0) + 1
+    print(f"supplementary candidates appended: {extra}")
     print(f"{dropped} excluded, {dupes} duplicates, {looked} look-alikes dropped; {len(slots)} candidates in {len(per)} slots, "
           f"{min(per.values())} to {max(per.values())} each")
     print("survivors per pool:", per_pool)
