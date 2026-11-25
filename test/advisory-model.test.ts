@@ -402,6 +402,25 @@ describe('coga/error-wording', () => {
     ])
     // A page with no field to type into has nothing a probe could show.
     expect(wordingNotes(await profileOf(page({ paragraphs: ['Bins are collected on Mondays.'] }), { llm: true, provider: stubModel(sayNo) }))).toEqual([])
+    // Nor does a page whose only fields search the site or choose an option: nearly every page has a header search.
+    const notesWith = async (...fields: A11yNode[]) => {
+      const fielded = page({ buttons: ['Go'] })
+      fielded.root.children[0]?.children[0]?.children[1]?.children.push(...fields)
+      return wordingNotes(await profileOf(fielded, { llm: true, provider: stubModel(sayNo) }))
+    }
+    expect(await notesWith(el('#q', 'input', { id: 'q', name: 'q' }, { role: 'textbox', name: 'O que está procurando?' }))).toEqual([])
+    expect(await notesWith(el('#news', 'input', { id: 'news', placeholder: 'Encontre sua notícia' }, { role: 'textbox' }))).toEqual([])
+    expect(
+      await notesWith(el('form.get', 'form', { method: 'get' }, { role: 'form', children: [el('#text', 'input', { id: 'text', name: 'texto' }, { role: 'textbox', name: 'Texto' })] })),
+    ).toEqual([])
+    expect(
+      await notesWith(
+        el('#analytics', 'input', { id: 'analytics', type: 'checkbox' }, { role: 'checkbox', name: 'Analytics cookies' }),
+        el('#language', 'select', { id: 'language' }, { role: 'combobox', name: 'Language' }),
+      ),
+    ).toEqual([])
+    // A newsletter's e-mail field is a form whose messages matter.
+    expect(await notesWith(el('#signup', 'input', { id: 'signup', type: 'email', name: 'email' }, { role: 'textbox', name: 'Your email' }))).toHaveLength(1)
   })
 
   it('finds a limit the suggestion invents, and lets one the page states through', () => {

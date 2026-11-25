@@ -134,7 +134,12 @@ function collapsedField(node: A11yNode, index: ReturnType<typeof indexTree>, sna
 }
 
 /** Whether a field is a search field (`LabelsOrInstructionsContext.search`). */
-function searchField(node: A11yNode, index: ReturnType<typeof indexTree>, name: string, placeholder: string | undefined): boolean {
+export function searchField(
+  node: A11yNode,
+  index: TreeIndex,
+  name = node.name?.trim() ?? '',
+  placeholder: string | undefined = attributesOf(node).placeholder?.trim() || undefined,
+): boolean {
   if (node.role === 'searchbox' || attributesOf(node).type?.toLowerCase() === 'search') return true
   if (SEARCH_NAMES.test(name) || (placeholder !== undefined && SEARCH_NAMES.test(placeholder))) return true
   for (let ref = index.get(node.ref)?.parentRef; ref !== undefined; ref = index.get(ref)?.parentRef) {
