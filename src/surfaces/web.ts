@@ -615,11 +615,11 @@ async function captureImages(page: Page, root: A11yNode, limits: WebCollectOptio
         screenshot: (ref) => shoot(ref).catch(() => undefined),
       },
       root,
-      { beforeEach: layers > 0 ? (node) => showLayersAround(page, node.ref) : undefined, limit: limits.limit, budgetMs: limits.budgetMs },
+      { beforeEach: layers > 0 ? (node) => showLayersAround(page, node.ref, true) : undefined, limit: limits.limit, budgetMs: limits.budgetMs },
     )
     for (const node of backgrounds) {
       try {
-        if (layers > 0) await showLayersAround(page, node.ref)
+        if (layers > 0) await showLayersAround(page, node.ref, true)
         // A background is captured alone: the element's own text and children are hidden while the screenshot is taken,
         // by a style sheet for a CSS selector, inline for an element in a frame or a shadow root.
         const qualified = isQualifiedRef(node.ref)
@@ -698,7 +698,8 @@ async function measureContrast(page: Page, root: A11yNode, engine: EngineResults
 
 /**
  * Fixed and sticky layers (cookie banners, chat buttons, sticky headers) paint over whatever
- * sits under them in an element screenshot. They are marked once, keeping their own visibility.
+ * sits under them in an element screenshot. They are marked once, keeping their own visibility,
+ * opacity and transition.
  */
 async function markLayers(page: Page): Promise<number> {
   return page.evaluate(() => {
@@ -709,15 +710,21 @@ async function markLayers(page: Page): Promise<number> {
       // backdrop is fixed inside the root, where this query cannot see it, and its host is what can be hidden.
       if (position !== 'fixed' && position !== 'sticky' && !el.hasAttribute('data-rampa-overlay')) continue
       el.setAttribute('data-rampa-layer', el.style.getPropertyValue('visibility'))
+      const own = (prop: string) => [el.style.getPropertyValue(prop), el.style.getPropertyPriority(prop)]
+      el.setAttribute('data-rampa-layer-look', JSON.stringify({ opacity: own('opacity'), transition: own('transition') }))
       count++
     }
     return count
   })
 }
 
-/** Hides every marked layer except those that hold the target or sit inside it. */
-async function showLayersAround(page: Page, ref: string): Promise<void> {
-  await page.evaluate((selector) => {
+/**
+ * Hides every marked layer except those that hold the target or sit inside it. For an image's capture (`solid`) a hidden
+ * layer is made transparent too: hidden alone, a layer still shows the children that set their own visibility, as the
+ * OneTrust banner does with its content (www.irishnews.com's "Manage Cookies" button lay over a photo's capture).
+ */
+async function showLayersAround(page: Page, ref: string, solid = false): Promise<void> {
+  await page.evaluate(({ selector, solid }) => {
     const nodes = (window as unknown as { __rampaNodes?: Map<string, Element> }).__rampaNodes
     let target: Element | null = nodes?.get(selector) ?? null
     try {
@@ -730,16 +737,42 @@ async function showLayersAround(page: Page, ref: string): Promise<void> {
       const root = target.getRootNode() as Document | ShadowRoot
       target = 'host' in root ? root.host : (root.defaultView?.frameElement ?? null)
     }
+    // A layer made transparent gets its own opacity and transition back as the page had them: its opacity first, while
+    // transitions are off, so that it does not fade in while the next capture is taken.
+    const unsolid = (el: HTMLElement) => {
+      if (!el.hasAttribute('data-rampa-layer-solid')) return
+      let saved: Record<string, string[]> = {}
+      try {
+        saved = JSON.parse(el.getAttribute('data-rampa-layer-look') ?? '{}')
+      } catch {
+        saved = {}
+      }
+      for (const prop of ['opacity', 'transition']) {
+        if (prop === 'transition') void getComputedStyle(el).opacity
+        const [value, priority] = saved[prop] ?? []
+        if (value) el.style.setProperty(prop, value, priority ?? '')
+        else el.style.removeProperty(prop)
+      }
+      el.removeAttribute('data-rampa-layer-solid')
+    }
     for (const el of Array.from(document.querySelectorAll<HTMLElement>('[data-rampa-layer]'))) {
       if (target && (el.contains(target) || target.contains(el))) {
         const saved = el.getAttribute('data-rampa-layer')
         if (saved) el.style.setProperty('visibility', saved)
         else el.style.removeProperty('visibility')
+        unsolid(el)
       } else {
+        if (solid && !el.hasAttribute('data-rampa-layer-solid')) {
+          el.setAttribute('data-rampa-layer-solid', '')
+          el.style.setProperty('transition', 'none', 'important')
+          el.style.setProperty('opacity', '0', 'important')
+        } else if (!solid) {
+          unsolid(el)
+        }
         el.style.setProperty('visibility', 'hidden', 'important')
       }
     }
-  }, ref)
+  }, { selector: ref, solid })
 }
 
 async function restoreLayers(page: Page): Promise<void> {
@@ -748,7 +781,24 @@ async function restoreLayers(page: Page): Promise<void> {
       const saved = el.getAttribute('data-rampa-layer')
       if (saved) el.style.setProperty('visibility', saved)
       else el.style.removeProperty('visibility')
+      if (el.hasAttribute('data-rampa-layer-solid')) {
+        let look: Record<string, string[]> = {}
+        try {
+          look = JSON.parse(el.getAttribute('data-rampa-layer-look') ?? '{}')
+        } catch {
+          look = {}
+        }
+        // Its opacity first, while transitions are off, so that it does not fade in.
+        for (const prop of ['opacity', 'transition']) {
+          if (prop === 'transition') void getComputedStyle(el).opacity
+          const [value, priority] = look[prop] ?? []
+          if (value) el.style.setProperty(prop, value, priority ?? '')
+          else el.style.removeProperty(prop)
+        }
+      }
       el.removeAttribute('data-rampa-layer')
+      el.removeAttribute('data-rampa-layer-look')
+      el.removeAttribute('data-rampa-layer-solid')
     }
   })
 }
