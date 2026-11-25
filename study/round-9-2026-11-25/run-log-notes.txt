@@ -47,3 +47,39 @@ pushing only the pre-registration before collection); results stay local.
        optional T4 subset and the six recall-audit slots (one test slot per category) drawn by slot before any load
        (data/draws.json, header of scripts/candidates.tsv). Pools dealt: 43 excluded, 1 duplicate (museu-goeldi.br), 12
        look-alikes; 664 candidates, 7 to 10 per slot.
+01:11  Screen wave 1 (scripts/screen.mjs, headless Edge, 3 at a time): the first two candidates of every slot, 144 rows
+       (01:11-01:17). Wave 2 (01:18-01:20): every network failure of wave 1 again (ufcspa.edu.br passed the second time;
+       alaska.gov, waitrose.com, tjac.jus.br, masc.sc.gov.br and the unresolved museum and theatre addresses failed again)
+       and the next three to five candidates of the 9 slots with no pass. Wave 3 (01:21): the wave-2 network failures again
+       and further backups. Two slots exhausted every candidate: b1-br-culture-h (nine museum addresses that do not resolve:
+       wrong guesses in the pool) and b1-in-news-i (ten UK and Irish regional papers and US nonprofit newsrooms, all HTTP
+       403 or a bot check). Supplementary lists for those two slots only were written before any of their sites loaded
+       (scripts/pools-2.tsv, committed in 28aa63f; deal.py appends them to those slots' backups, 1683587; every other line
+       of candidates.tsv and the draws unchanged). Wave 4 (01:22): Museu Paranaense and MyLondon passed.
+01:24  Inner pages (scripts/pick_inner.sh: links.mjs listing in DATA/links/<slot>.txt, then pick.py's proposals), 33 inner
+       sites (the three international government slots name their forms). Readings applied, before any Rampa run (each in
+       scripts/selection.tsv): two sites redirect to another domain of the same organisation or of the body that runs them
+       (teatrosergiocardoso.org.br to amigosdaarte.org.br, lupa.news to agencialupa.org), so their listings were taken at
+       the redirect's target; a post in a news feed counts as an article whatever its subject (ABN's statement, ABORL's
+       exam notice, SBH's membership-fee post), while a document viewer (SBH's bulletin, which redirects to a page viewer),
+       reference pages (Kidney Care UK's disease stages, Pancreatic Cancer UK's symptoms page), a stories section page, a
+       podcast episode (Southern Star) and a mailing-list sign-up (Prostate Cancer UK) do not; "New In", "Black November"
+       and Black Friday listings are not product categories (Carmen Steffens, GO Outdoors), nor a returns policy (Hobbs),
+       a help centre (Reiss) or a salon booking page (Lojas Rede); an open-day event page (Westminster) and a second-degree
+       programme (UNIP's "Segunda Graduação") are not the undergraduate page.
+       Slots whose site gave no page by the rule went to their next backups (waves 5, 7, 8, 10): Royal Holloway and
+       Sunderland (no undergraduate link by text) -> Westminster; SBAN and SOBED (no story in the content) -> ABORL-CCF.
+01:31  Inner pages screened (wave 6, data/screen-6.json, 33 rows): 31 passed. GO Outdoors' category answered a bot check
+       (403): the slot went to its next backups (The Fragrance Shop, a bot check on its home page; Bargaintown, passed,
+       category "Mattresses"). Jovem Pan's first article timed out, and again two minutes later (data/screen-9.json): the
+       slot went to its next backup, NeoFeed (home and article passed, data/screen-10.json and screen-11.json).
+01:34  Selection fixed: 72 pages, 28 slots on a backup (scripts/selection.tsv, scripts/pages.tsv, data/pages-input.json by
+       scripts/design.py, which draws the split again and checks it against data/draws.json). 36 test, 36 dev; 36
+       Brazilian and 36 international pages (UK 29, Ireland 4, US 3). Raw screen files
+       and link listings stay in DATA/screen/ and DATA/links/ (out of git); kept screen files redacted.
+01:40  Run scripts adapted from the eighth study (collect.sh and run-judged.sh with fast mode on every page, compact.py,
+       packets.py with the fast-mode reuse rule, judge_prompt.py, audit.py and audit-prompt.txt for the recall audit,
+       hashes.py for the captures manifest, check_collect.py, estimate.py, t4.py), tested on a scratch copy of two of the
+       eighth study's finished pages (outside the repository; counts only). estimate.py: about 4.4 h of machine time.
+       The pre-registration quotes the sixth study's section 4 from dae1522; the quote was checked line by line against
+       `git show dae1522:study/round-6-2026-10-29/preregistration.md` (identical).
