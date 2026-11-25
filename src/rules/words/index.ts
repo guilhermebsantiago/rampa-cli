@@ -47,6 +47,11 @@ export function isListedWord(word: string, language: WordLanguage): boolean {
   return lists(language).long.has(word.normalize('NFC').toLowerCase())
 }
 
+/** Whether a lower-case word of one to three letters is one of the language's short words above. */
+export function isShortWord(word: string, language: WordLanguage): boolean {
+  return lists(language).short.has(word.normalize('NFC').toLowerCase())
+}
+
 /**
  * Splits letters into words of the language: one listed word of four letters or more ("welcome"), or a phrase of
  * them with short words between ("welcome", "to", "our", "site"). Undefined when the letters do not split that way,
